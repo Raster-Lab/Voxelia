@@ -379,13 +379,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Recorded the unresolved ownership, acquisition, bit-allocation, unknown-bit,
   wire-shape, implication, digest-availability and residency-coverage questions
   instead of silently choosing behavior.
+- Audited every live, generated and historical reference affected by the
+  duplicate `ADR-0001` assignment and added proposed `ADR-0024` as a one-time
+  decision-register reconciliation.
+- Preserved the MTA's `ADR-0001` through `ADR-0020` register, the existing
+  proposals and historical v0.1.1 evidence; no platform record or live link was
+  renamed, and `ADR-0025` is only an allocator hold while the proposal awaits
+  governance approval.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 357-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 362-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -708,6 +715,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   referenced source or controlled-document paths.
 - `Tools/Scripts/validate-docs.sh` passed again with text hygiene for all 50
   Markdown files; no Swift test ran for the value-transform proposal.
+- Two independent read-only reviews agreed on the collision-free `ADR-0024`
+  migration boundary, classified every active and historical reference, and
+  found no remaining blocking omission after the proposal was corrected.
+- `Tools/Scripts/validate-docs.sh` passed for all seven controlled documents and
+  text hygiene for all 51 Markdown files; no Swift test ran for the
+  decision-register proposal.
+- Release-integrity regeneration and verification passed with 362 manifest
+  paths, 361 inventory records and 362 checksums.
 
 ## Known blockers and risks
 
@@ -971,8 +986,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   residency-manager state or memory-pressure behavior.
 - MTA Appendix A already assigns `ADR-0001` through `ADR-0020`, while the
   scaffold contains a different accepted platform `ADR-0001`. New proposals
-  start at `ADR-0021`; the existing identifier collision still requires
-  governance reconciliation.
+  start at `ADR-0021`; proposed `ADR-0024` recommends re-identifying only the
+  platform record as `ADR-0025`, but the collision remains until that proposal
+  is accepted and its atomic migration is completed.
+- `ADR-0025` is not an existing or accepted decision. While `ADR-0024` remains
+  Proposed, the current platform filename, identifier, links and policy-script
+  paths must not change.
 - Proposed `ADR-0021` is review material only. Until its status becomes
   Accepted and subordinate documents are corrected, the axis-model public API
   remains blocked and no implementation may rely on its recommendation.
@@ -990,15 +1009,16 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Audit every repository reference affected by the conflicting local and MTA
-`ADR-0001` identifiers, then prepare proposed `ADR-0024` for decision-register
-reconciliation. Do not renumber the accepted platform decision unless that
-governance proposal is approved.
+Audit current ADR validation coverage against the Repository and Package
+Scaffold Specification. Add a focused file-backed ADR validator only if its
+required fields, identifier consistency and uniqueness rules can be enforced
+without encoding or prematurely applying proposed `ADR-0024`.
 
 ## Test policy for the next action
 
-- Run only front-matter, controlled-document and integrity checks relevant to
-  the proposed ADR files; do not run Swift tests for documentation-only work.
+- Run only the focused repository-script tests, ADR fixtures, documentation
+  checks and integrity checks affected by an ADR validator; do not run Swift
+  tests for repository-tooling-only work.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

@@ -1430,9 +1430,14 @@
       "sha256": "7abb6f09d5f42cf3f0db9e96517c05df61a74e2aa4eaff1e8490701cce529f8c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0024-decision-register-reconciliation.md",
+      "size": 9365,
+      "sha256": "e86f9cdd586364e6ba419852ebf41be417263bb1a0756823f32cc19efea9967b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 806,
-      "sha256": "004c31f8b6c8e99f907e8cd282016fe70bebf90d84a5b7b4767d277e4c37aed0"
+      "size": 1111,
+      "sha256": "bc716878b95e1187635c978f67fe49abcbd1c8f52ca00f7aee4afb15d295160c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1516,8 +1521,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 69654,
-      "sha256": "986dff31795e7e68e2a865558a503a5f341bc739388861ac7134d71b02ac8e98"
+      "size": 70983,
+      "sha256": "0caa770a52dbadd43da986cab124f984fcc6ed6f7b885fbac8b807ab0d9d3f18"
     },
     {
       "path": "docs/project/README.md",
@@ -1801,8 +1806,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 15830,
-      "sha256": "7a4f07d4b0da289dd7ced30add6d85bc46b57cf484b55335d0e795b33b4ff885"
+      "size": 15903,
+      "sha256": "d2b4ee456ccad654c14132e27848dd2ab16552f0676e9868841f2ee4287ac785"
     }
   ]
 }
