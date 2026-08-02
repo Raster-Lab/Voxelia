@@ -9,6 +9,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
+- M1 implementation status: the first core-data slice, `ImageShape` and
+  `ShapeError`, is implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -78,13 +80,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   cloud placeholder or failed validator cannot stall an autonomous run.
 - Pinned the repository metadata and top-level project contents for local
   storage so autonomous runs remain reliable in the iCloud-backed workspace.
+- Implemented the canonical immutable, dynamic-rank `ImageShape` and exact
+  `ShapeError` model for `VOX-DAT-002` through `VOX-DAT-005`, including
+  positive-extent validation, checked element-count multiplication, no small
+  fixed rank limit and invariant-preserving Codable conformance.
+- Placed the new public API under the scaffold's required `Public/` source
+  layout and replaced the now-obsolete directory placeholder.
+- Documented the M1 shape API in the VoxeliaCore DocC catalog.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 296-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 297-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -94,7 +103,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 295-record inventory and 296-entry SHA-256 ledger pass the
+- The regenerated 296-record inventory and 297-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -127,6 +136,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - The live integrity writer and checker completed while macOS retained
   dataless placeholders, proving that this host state no longer stalls the
   release gate.
+- `swift build --target VoxeliaCore` passed with the new M1 shape API.
+- `swift format lint --strict` passed for the two changed Swift files.
+- `swift test --filter ImageShape` executed only the eight `ImageShape` unit
+  tests; dynamic rank, invalid extents, the maximum valid count, true overflow,
+  high rank and Codable invariant cases all passed.
 
 ## Known blockers and risks
 
@@ -139,16 +153,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Xcode reports the visionOS 26.5 platform component as not installed, so both
   generic and simulator visionOS evidence remain open. Installing the component
   is a large external toolchain change and was not attempted silently.
+- The Master Technical Architecture section 9.2 sketches element count as an
+  optional property, while the more detailed Core Data Model Specification
+  section 11.1 defines a throwing method and the exact overflow error. The M1
+  implementation follows the detailed throwing contract; the older sketch
+  remains a controlled-document correction for later governance review.
 
 ## Exact next action
 
-Commit the host-local M0 evidence, then implement the first M1 criterion:
-`ImageShape` and `ShapeError` in VoxeliaCore for requirements `VOX-DAT-002`
-through `VOX-DAT-005`.
+Implement the next isolated M1 core-data value type: `ImageIndex` in
+VoxeliaCore `Public/`, following Core Data Model Specification section 12's
+dynamic-rank, zero-based integer-coordinate convention. Keep bounds and linear
+offset operations separate until their shape/stride validation contracts are
+implemented.
 
 ## Test policy for the next action
 
-- Run `swift build --target VoxeliaCore` and only the `ImageShape`-filtered
+- Run `swift build --target VoxeliaCore` and only the `ImageIndex`-filtered
   VoxeliaCore tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.

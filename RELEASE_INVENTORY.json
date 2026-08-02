@@ -355,9 +355,9 @@
       "sha256": "3844605a41dbdb1b0836c1a122e25af452a84e12f2a63f7b3454b463473ea15b"
     },
     {
-      "path": "Sources/VoxeliaCore/Public/.gitkeep",
-      "size": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "path": "Sources/VoxeliaCore/Public/ImageShape.swift",
+      "size": 3694,
+      "sha256": "16a319983b0b2244d1082c3027e6c12cbd379a9ed9d7da1571246672dd9459c3"
     },
     {
       "path": "Sources/VoxeliaCore/VoxeliaCore.docc/Architecture.md",
@@ -371,8 +371,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md",
-      "size": 371,
-      "sha256": "89fda8d76e79de1f464397a44090e45aef4be2d0d49ed6ded923d7f843764d70"
+      "size": 456,
+      "sha256": "17848939539d92bd8c84d2e60a2d898e5d567ad77670fb97a99d8f07742fb3e1"
     },
     {
       "path": "Sources/VoxeliaExecution/ApplePlatformGate.swift",
@@ -758,6 +758,11 @@
       "path": "Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift",
       "size": 296,
       "sha256": "7ce7d44865a5e7f678614586cdcc16bc832f65011a7aa649b25e59af15e99377"
+    },
+    {
+      "path": "Tests/VoxeliaCoreTests/ImageShapeTests.swift",
+      "size": 2541,
+      "sha256": "6784d5508631d525c7a99ef89a07dcecf51cbf6d74f0ecf582b5fad42ecb9c99"
     },
     {
       "path": "Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift",
@@ -1191,8 +1196,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 11412,
-      "sha256": "28eea8bf58a01d0d1d7ebf7b1ac82e5e58a1cf83d4b0ffffe160bcf569bed085"
+      "size": 12894,
+      "sha256": "09cf3849b65c17d048135e8b016efd70451bc8aba152173c923043800ebdd78f"
     },
     {
       "path": "docs/project/README.md",
@@ -1476,8 +1481,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 12374,
-      "sha256": "0c5ad35fc8c9afe1712cb6ce2c6d5ec8b909e155dc6dbd7a6adc48d170e4d1c1"
+      "size": 12427,
+      "sha256": "6f4657afd9d6a1ce87462e19f3408abba365668c7310617934b2a3c25081dd00"
     }
   ]
 }
