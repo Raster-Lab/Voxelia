@@ -20,6 +20,25 @@ public enum ComponentInterpretation: Sendable, Hashable, Codable {
         case name
     }
 
+    private struct ArbitraryCodingKey: CodingKey {
+        let stringValue: String
+        let intValue: Int?
+
+        init(_ stringValue: String) {
+            self.stringValue = stringValue
+            self.intValue = nil
+        }
+
+        init?(stringValue: String) {
+            self.init(stringValue)
+        }
+
+        init?(intValue: Int) {
+            self.stringValue = String(intValue)
+            self.intValue = intValue
+        }
+    }
+
     /// Decodes simple interpretations from their stable string representation
     /// and namespaced generic interpretations from a structured object.
     public init(from decoder: any Decoder) throws {
@@ -43,8 +62,11 @@ public enum ComponentInterpretation: Sendable, Hashable, Codable {
             return
         }
 
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.allKeys == [.generic] else {
+        let genericKey = ArbitraryCodingKey("generic")
+        let namespaceKey = ArbitraryCodingKey("namespace")
+        let nameKey = ArbitraryCodingKey("name")
+        let container = try decoder.container(keyedBy: ArbitraryCodingKey.self)
+        guard container.allKeys.map(\.stringValue) == [genericKey.stringValue] else {
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
                     codingPath: container.codingPath,
@@ -53,14 +75,11 @@ public enum ComponentInterpretation: Sendable, Hashable, Codable {
             )
         }
         let generic = try container.nestedContainer(
-            keyedBy: GenericCodingKeys.self,
-            forKey: .generic
+            keyedBy: ArbitraryCodingKey.self,
+            forKey: genericKey
         )
-        guard
-            generic.allKeys.count == 2,
-            generic.contains(.namespace),
-            generic.contains(.name)
-        else {
+        let genericKeys = Set(generic.allKeys.map(\.stringValue))
+        guard genericKeys == Set([namespaceKey.stringValue, nameKey.stringValue]) else {
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
                     codingPath: generic.codingPath,
@@ -69,8 +88,8 @@ public enum ComponentInterpretation: Sendable, Hashable, Codable {
             )
         }
         self = try .generic(
-            namespace: generic.decode(String.self, forKey: .namespace),
-            name: generic.decode(String.self, forKey: .name)
+            namespace: generic.decode(String.self, forKey: namespaceKey),
+            name: generic.decode(String.self, forKey: nameKey)
         )
     }
 

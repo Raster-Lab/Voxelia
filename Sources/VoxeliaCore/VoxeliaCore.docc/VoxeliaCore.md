@@ -38,6 +38,10 @@ storage semantics.
 - ``ComponentLayout``
 - ``ComponentDescriptor``
 
+### Image semantics
+
+- ``ImageSemantic``
+
 ### Common errors
 
 - ``DataModelError``

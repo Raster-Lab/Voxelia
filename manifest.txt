@@ -73,6 +73,7 @@ Sources/VoxeliaCore/Public/ComponentDescriptor.swift
 Sources/VoxeliaCore/Public/DataModelError.swift
 Sources/VoxeliaCore/Public/ImageIndex.swift
 Sources/VoxeliaCore/Public/ImageRegion.swift
+Sources/VoxeliaCore/Public/ImageSemantic.swift
 Sources/VoxeliaCore/Public/ImageShape.swift
 Sources/VoxeliaCore/Public/ScalarFormat.swift
 Sources/VoxeliaCore/VoxeliaCore.docc/Architecture.md
@@ -158,6 +159,7 @@ Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
 Tests/VoxeliaCoreTests/ComponentDescriptorTests.swift
 Tests/VoxeliaCoreTests/ImageIndexTests.swift
 Tests/VoxeliaCoreTests/ImageRegionTests.swift
+Tests/VoxeliaCoreTests/ImageSemanticTests.swift
 Tests/VoxeliaCoreTests/ImageShapeTests.swift
 Tests/VoxeliaCoreTests/ScalarFormatTests.swift
 Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift

@@ -147,6 +147,16 @@ struct ComponentDescriptorTests {
             genericObject == [
                 "generic": ["namespace": "org.voxelia", "name": "custom"]
             ])
+
+        let malformedGeneric = Data(
+            #"{"generic":{"namespace":"org.voxelia","name":"custom","extra":"value"}}"#.utf8
+        )
+        #expect(throws: DecodingError.self) {
+            try JSONDecoder().decode(
+                ComponentInterpretation.self,
+                from: malformedGeneric
+            )
+        }
     }
 
     @Test("[Unit][VOX-API-004] descriptor round trip preserves metadata")
