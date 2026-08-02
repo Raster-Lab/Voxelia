@@ -417,6 +417,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   no ownership-safe public slice: the documents disagree on profile and
   backend-policy shapes while leaving priority, determinism, identifiers and
   generation representations incomplete.
+- Audited three exact later-milestone taxonomies and declined to place them in
+  current modules or activate optional targets early: `SegmentAlgorithmType`
+  and `ConvergenceStatus` belong to M7 modules, while
+  `PhotorealisticQuality` belongs to the M8 optional rendering module.
 
 ## Verification evidence
 
@@ -791,6 +795,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Two independent read-only Execution audits covered policy/profile types and
   identifiers respectively. Both reported no-go conclusions, so no Execution
   source or Swift tests were added for incomplete contracts.
+- Three independent read-only ownership audits confirmed the M7/M8 activation
+  gates for the later taxonomies. No Swift tests were run because no source,
+  package graph or optional-module artifact was changed.
 
 ## Known blockers and risks
 
@@ -1039,6 +1046,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   policy and canonical digest JSON remain undefined, and `MeshDescriptor` stays
   deferred with the blocked coordinate-space descriptor and unspecified
   topology/index-buffer binding validation.
+- `SegmentAlgorithmType` and `ConvergenceStatus` have exact case vocabularies,
+  but their owning `VoxeliaSegmentation` and `VoxeliaRegistration` products may
+  be introduced only when M7 begins and the complete optional-module activation
+  review is supplied. The controlled model also leaves open which segmentation
+  and registration types may become public before M7, so neither enum may be
+  relocated into an active module for convenience.
+- `PhotorealisticQuality` has an exact three-case declaration without raw-value
+  or `Hashable` commitments, but it belongs to `VoxeliaPhotorealisticRendering`.
+  That optional product cannot be activated before M8, and its stable wire
+  encoding remains unspecified; placing the type in conventional Rendering or
+  adding String raw values would change the documented boundary or API shape.
 - `GeometryAttributeDescriptor` validates only invariants knowable from one
   attribute. Element-domain agreement, normal/position compatibility and
   required position presence remain binding-level rules and are not inferred.
@@ -1107,17 +1125,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Audit the exact standalone declarations for `SegmentAlgorithmType`,
-`ConvergenceStatus` and `PhotorealisticQuality` across ownership, requirements,
-case vocabulary and serialization rules. Implement only the smallest
-independently useful declaration that is fully specified despite its later
-milestone; otherwise record the remaining contract gap.
+Draft proposed `ADR-0026` to define one exact ray-to-`AxisAlignedBounds3D`
+intersection API: ownership, half-ray parameter domain, result shape,
+coordinate-space rule, inclusive boundary and degenerate-bound behavior,
+parallel-axis handling, numerical failure policy and focused analytic evidence.
+Do not implement the operation while the decision remains Proposed.
 
 ## Test policy for the next action
 
-- For an implemented declaration slice, run strict formatting, the owning and
-  direct-consumer builds, and only that type's exact focused tests plus integrity
-  checks. Do not run the full Swift suite.
+- For the proposed ADR slice, run the focused ADR checker, documentation gate,
+  manifest check and release-integrity checks. Do not run Swift tests for a
+  documentation-only proposal.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
