@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first thirty-nine foundational slices, `ImageShape` /
+- M1 implementation status: the first forty foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -24,8 +24,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   region containment validation, checked region translation and deterministic
   shape clipping plus exact axis-aligned point-containment and bounds-
   intersection queries, exact shape/index and half-open region/index
-  containment, and explicit region emptiness are implemented and locally
-  verified.
+  containment, explicit region emptiness and checked region element counts are
+  implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -333,6 +333,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Kept the query nonthrowing, allocation-free and independent of storage read
   policy; the established zero-rank region has no collapsed axis and reports
   false.
+- Added `ImageRegion.elementCount()` with a zero result for any collapsed axis
+  and checked exact extent and product arithmetic for every nonempty axis.
+- Returned the established empty product of one for zero rank, avoided routing
+  empty regions through positive-rank `ImageShape`, and kept storage read policy
+  outside the operation.
 
 ## Verification evidence
 
@@ -633,6 +638,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   49 region tests; ordinary nonempty bounds, every independently collapsed
   axis, negative and exact `Int` anchors, one collapsed axis at rank 1,024 and
   explicit zero-rank behavior passed alongside all prior region cases.
+- `swift build --target VoxeliaCore` and directly affected builds for
+  `VoxeliaStorage`, `VoxeliaGeometry` and `Voxelia` passed with strict format
+  lint for checked region element counts.
+- `swift test --filter 'VoxeliaCoreTests.ImageRegionTests'` executed exactly the
+  55 region tests; negative-origin multiplication, collapsed-axis zero before a
+  would-be overflow, exact `Int.max`, checked product overflow, zero-rank empty
+  product and 1,024-axis counts passed alongside all prior region cases.
 
 ## Known blockers and risks
 
@@ -882,6 +894,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `ImageRegion.isEmpty` identifies the transient empty values permitted by
   `CDMS-13.3`; it does not decide whether a storage operation accepts a no-op
   read or must throw `RegionError.emptyRead`.
+- Region element count follows `CDMS-13.4` and is safe for allocation planning,
+  but it neither authorizes an empty storage read nor establishes byte length,
+  which still depends on component and storage layout.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
   planes, rays, oriented bounds and rendering or interaction intersections that
@@ -889,9 +904,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Add checked `ImageRegion.elementCount()` using zero for any collapsed axis,
-the established empty product of one for zero rank, and overflow-safe exact
-subtraction and multiplication without routing through `ImageShape`.
+Audit the next smallest unimplemented foundational operation and proceed only
+when its signature and edge behavior are controlled without resolving a
+documented architecture conflict by assumption.
 
 ## Test policy for the next action
 

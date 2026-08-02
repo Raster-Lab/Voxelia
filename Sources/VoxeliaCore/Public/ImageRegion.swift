@@ -148,6 +148,37 @@ public struct ImageRegion: Sendable, Hashable, Codable {
         return try ImageShape(extents: regionExtents)
     }
 
+    /// Returns the number of integer indices represented by this region.
+    ///
+    /// A region with any collapsed axis has zero elements. A zero-rank region
+    /// has no collapsed axis and returns the empty product, one.
+    ///
+    /// - Throws: ``RegionError/arithmeticOverflow`` when an extent or the
+    ///   accumulated product cannot be represented by `Int`.
+    public func elementCount() throws -> Int {
+        guard !isEmpty else {
+            return 0
+        }
+
+        var count = 1
+        for axis in lowerBounds.indices {
+            let extent = upperBounds[axis].subtractingReportingOverflow(
+                lowerBounds[axis]
+            )
+            guard !extent.overflow else {
+                throw RegionError.arithmeticOverflow
+            }
+            let product = count.multipliedReportingOverflow(
+                by: extent.partialValue
+            )
+            guard !product.overflow else {
+                throw RegionError.arithmeticOverflow
+            }
+            count = product.partialValue
+        }
+        return count
+    }
+
     /// Returns whether `index` lies in this half-open region.
     ///
     /// Negative bounds and components compare normally because this query does

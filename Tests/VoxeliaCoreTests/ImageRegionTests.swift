@@ -80,6 +80,68 @@ struct ImageRegionTests {
         #expect(!region.isEmpty)
     }
 
+    @Test("[Unit][CDMS-13.4] element count multiplies exact extents")
+    func elementCountUsesExactExtents() throws {
+        let region = try ImageRegion(
+            lowerBounds: [-5, 2, 10],
+            upperBounds: [0, 5, 14]
+        )
+
+        #expect(try region.elementCount() == 60)
+    }
+
+    @Test("[Unit][CDMS-13.4] collapsed axes have zero elements")
+    func emptyRegionHasZeroElements() throws {
+        let region = try ImageRegion(
+            lowerBounds: [0, 0, 4],
+            upperBounds: [Int.max, 2, 4]
+        )
+
+        #expect(try region.elementCount() == 0)
+    }
+
+    @Test("[Unit][CDMS-13.4] exact maximum element count succeeds")
+    func elementCountAcceptsIntegerMaximum() throws {
+        let region = try ImageRegion(
+            lowerBounds: [0, -1],
+            upperBounds: [Int.max, 0]
+        )
+
+        #expect(try region.elementCount() == Int.max)
+    }
+
+    @Test("[Unit][CDMS-13.4] element count detects overflow")
+    func elementCountRejectsOverflow() throws {
+        let region = try ImageRegion(
+            lowerBounds: [0, 0],
+            upperBounds: [Int.max, 2]
+        )
+
+        #expect(throws: RegionError.arithmeticOverflow) {
+            try region.elementCount()
+        }
+    }
+
+    @Test("[Unit][CDMS-13.4] zero-rank element count is the empty product")
+    func zeroRankRegionHasOneElement() throws {
+        let region = try ImageRegion(
+            lowerBounds: [Int](),
+            upperBounds: [Int]()
+        )
+
+        #expect(try region.elementCount() == 1)
+    }
+
+    @Test("[Unit][VOX-DAT-005][CDMS-13.4] element count supports high rank")
+    func elementCountSupportsHighRank() throws {
+        let region = try ImageRegion(
+            lowerBounds: repeatElement(-1, count: 1_024),
+            upperBounds: repeatElement(0, count: 1_024)
+        )
+
+        #expect(try region.elementCount() == 1)
+    }
+
     @Test("[Unit][VOX-RGN-001] converts half-open bounds to extents")
     func calculatesHalfOpenExtents() throws {
         let region = try ImageRegion(lowerBounds: [2, 5], upperBounds: [5, 11])
