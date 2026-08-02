@@ -13,6 +13,11 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Topics
 
+### Storage descriptors
+
+- ``StorageKind``
+- ``StoragePersistence``
+
 ### Project documents
 
 - <doc:Architecture>
