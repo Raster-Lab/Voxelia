@@ -29,6 +29,8 @@ None.
 
 - ``CoordinateSpaceID``
 - ``CoordinateHandedness``
+- ``ExternalFrameReference``
+- ``ExternalFrameReferenceError``
 
 ### Matrices
 

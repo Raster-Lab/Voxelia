@@ -9,13 +9,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first sixteen foundational slices, `ImageShape` /
+- M1 implementation status: the first seventeen foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
   representation, spatial-axis mapping, points, vectors, planes, rays,
-  axis-aligned bounds, transform-kind taxonomy and coordinate handedness are
-  implemented and locally verified.
+  axis-aligned bounds, transform-kind taxonomy, coordinate handedness and
+  external frame references are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -206,13 +206,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   without adding compatibility, conversion or descriptor-validation behavior.
 - Preserved the specified case-sensitive JSON vocabulary and kept
   `.unspecified` as a declaration value rather than treating it as a wildcard.
+- Implemented validated `ExternalFrameReference` pair identity with typed
+  Unicode-blank namespace and identifier diagnostics.
+- Preserved every other supplied byte, spelling, case and surrounding nonblank
+  whitespace with UTF-8-exact equality and hashing, without imposing DICOM or
+  other namespace-specific syntax.
+- Added strict two-field keyed serialization with constructor revalidation and
+  field-specific decoding context for each blank component.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 326-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 328-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -223,7 +230,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 325-record inventory and 326-entry SHA-256 ledger pass the
+- The regenerated 327-record inventory and 328-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -358,6 +365,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `swift test --filter CoordinateHandedness` executed only three taxonomy
   tests; all three exact raw values, raw-string Codable round trips and unknown
   or wrong-shaped decoding rejection passed.
+- `swift build --target VoxeliaSpatial`, the direct-dependent
+  `swift build --target VoxeliaCore`, and strict format lint passed for the
+  external-frame-reference slice.
+- `swift test --filter ExternalFrameReference` executed only six reference
+  tests; opaque Unicode preservation, blank rejection, UTF-8-exact pair
+  identity including composed/decomposed spellings, strict keyed round trips
+  and field-specific decoding diagnostics all passed.
 
 ## Known blockers and risks
 
@@ -522,18 +536,27 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `CoordinateHandedness` is only the stable declaration vocabulary. Consistency
   with a built-in convention remains a future descriptor invariant, and
   `.unspecified` does not imply compatibility with another handedness.
+- External-frame namespace-specific syntax and equivalence remain adapter or
+  host policy. Pair uniqueness is a future coordinate-space descriptor
+  collection invariant and is not enforceable by one standalone reference.
+- The MTA and CDMS disagree on `ValueTransform` cases and composition storage;
+  `PiecewiseLinearDescriptor` is referenced but never defined, and raw enum
+  payloads cannot enforce the required finite/non-empty invariants. Those public
+  APIs require a correction or ADR before implementation.
+- `LookupTableDescriptor` is independently unblocked. Its standalone contract
+  requires finite ordered values but does not specify non-empty tables, lookup
+  application, extrapolation or derived-domain overflow behavior.
 
 ## Exact next action
 
-Audit and implement the next unblocked Core value-transformation model from
-CDMS section 18, preserving exact finite-value and serialization invariants
-without advancing into the descriptor until its dependencies are verified.
+Implement the standalone Core `LookupTableDescriptor`, preserving finite values,
+explicit null unit serialization and empty-table validity without adding the
+blocked `ValueTransform` enum or lookup-application behavior.
 
 ## Test policy for the next action
 
-- Run only the directly affected Core build, strict format lint and
-  value-transform-filtered tests for the next slice, plus dependent builds only
-  if the public surface requires them.
+- Run only the Core build, strict format lint and
+  `LookupTableDescriptor`-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
