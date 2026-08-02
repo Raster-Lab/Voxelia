@@ -1,0 +1,47 @@
+# Swift Package Manager
+.build/
+.swiftpm/xcode/package.xcworkspace/xcuserdata/
+.swiftpm/configuration/registries.json
+Package.pins
+
+# Xcode
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# macOS
+.DS_Store
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Validation and benchmark working data
+Validation/Results/*
+!Validation/Results/.gitkeep
+Validation/Datasets/Cache/
+Benchmarks/Results/*
+!Benchmarks/Results/.gitkeep
+
+# Generated reports and profiling output
+*.profraw
+*.profdata
+*.trace
+*.xcresult
+coverage/
+.local/
+.tmp/
+
+# Editors
+.vscode/
+.idea/
+*~
+
+# Python repository tooling
+__pycache__/
+*.py[cod]

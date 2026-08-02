@@ -1,0 +1,26 @@
+name: Platform Builds
+
+on:
+  pull_request:
+    paths:
+      - 'Package.swift'
+      - 'Sources/**'
+      - 'Tests/**'
+      - '.github/workflows/platform-builds.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apple-platforms:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, macOS, ARM64, voxelia]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Assert Apple Silicon environment
+        run: Tools/Scripts/assert-apple-platform.sh
+      - name: Generate Xcode package project and build platforms
+        run: Tools/Scripts/test-platforms.sh

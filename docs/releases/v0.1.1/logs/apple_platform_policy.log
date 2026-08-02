@@ -1,0 +1,2 @@
+$ python3 Tools/Scripts/check_apple_platform_policy.py
+Apple platform policy check passed.

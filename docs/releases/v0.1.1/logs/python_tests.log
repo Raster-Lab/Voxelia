@@ -1,0 +1,12 @@
+$ python3 -m unittest discover -s Tools/Tests/Python -p test_\*.py -v
+test_all_shell_scripts_parse (test_repository_scripts.RepositoryScriptTests.test_all_shell_scripts_parse) ... ok
+test_document_python_checks_pass (test_repository_scripts.RepositoryScriptTests.test_document_python_checks_pass) ... Front-matter check passed for 7 documents.
+Documentation text check passed for 46 Markdown files.
+ok
+test_validate_docs_wrapper_contains_no_inline_python (test_repository_scripts.RepositoryScriptTests.test_validate_docs_wrapper_contains_no_inline_python) ... ok
+test_validate_docs_wrapper_executes_on_supported_host (test_repository_scripts.RepositoryScriptTests.test_validate_docs_wrapper_executes_on_supported_host) ... skipped 'Apple Silicon macOS execution required'
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.097s
+
+OK (skipped=1)

@@ -1,0 +1,25 @@
+name: Security
+
+on:
+  schedule:
+    - cron: '31 19 * * 1'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  security-scaffold:
+    runs-on: [self-hosted, macOS, ARM64, voxelia]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Assert Apple Silicon environment
+        run: Tools/Scripts/assert-apple-platform.sh
+      - name: Reject obvious credential files
+        run: |
+          ! find . -type f \( -name '*.pem' -o -name '*.key' -o -name '.env' \) | grep .
+      - name: Unsafe-code inventory placeholder
+        run: grep -R "@unchecked Sendable\|UnsafeMutableRaw\|UnsafeRaw" Sources Tests || true

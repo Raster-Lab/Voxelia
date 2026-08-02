@@ -1,0 +1,5 @@
+schema_version: "0.1"
+tolerance_profile_id: "voxelia.scaffold"
+version: "0.1.0"
+quantities: []
+status: "draft"

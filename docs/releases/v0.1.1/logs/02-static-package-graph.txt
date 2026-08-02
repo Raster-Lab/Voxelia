@@ -1,0 +1,2 @@
+$ python3 Tools/Scripts/check_package_graph_static.py
+Static package graph check passed.

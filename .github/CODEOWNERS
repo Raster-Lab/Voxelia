@@ -1,0 +1,23 @@
+# Replace placeholder teams when repository teams are created.
+
+/Package.swift                         @Raster-Lab/voxelia-architecture @Raster-Lab/voxelia-release
+/Sources/VoxeliaSpatial/               @Raster-Lab/voxelia-spatial
+/Sources/VoxeliaCore/                  @Raster-Lab/voxelia-core
+/Sources/VoxeliaStorage/               @Raster-Lab/voxelia-storage
+/Sources/VoxeliaExecution/             @Raster-Lab/voxelia-execution
+/Sources/VoxeliaImaging/               @Raster-Lab/voxelia-imaging
+/Sources/VoxeliaGeometry/              @Raster-Lab/voxelia-geometry
+/Sources/VoxeliaRendering/             @Raster-Lab/voxelia-rendering
+/Sources/VoxeliaInteraction/           @Raster-Lab/voxelia-interaction
+/Sources/VoxeliaCPU/                   @Raster-Lab/voxelia-cpu
+/Sources/VoxeliaMetal/                 @Raster-Lab/voxelia-metal
+/Sources/VoxeliaValidation/            @Raster-Lab/voxelia-validation
+/Validation/                           @Raster-Lab/voxelia-validation
+/Benchmarks/Baselines/                 @Raster-Lab/voxelia-benchmark
+/docs/project/                         @Raster-Lab/voxelia-project
+/docs/architecture/decisions/          @Raster-Lab/voxelia-architecture
+/docs/shaders/                         @Raster-Lab/voxelia-metal @Raster-Lab/voxelia-validation
+/SECURITY.md                           @Raster-Lab/voxelia-security
+/LICENSE                               @Raster-Lab/voxelia-project
+/THIRD_PARTY_NOTICES.md                @Raster-Lab/voxelia-release
+/.github/workflows/                    @Raster-Lab/voxelia-release @Raster-Lab/voxelia-security

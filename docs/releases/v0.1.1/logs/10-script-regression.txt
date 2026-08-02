@@ -1,0 +1,7 @@
+.Front-matter check passed for 7 documents.
+Documentation text check passed for 44 Markdown files.
+..s
+----------------------------------------------------------------------
+Ran 4 tests in 1.116s
+
+OK (skipped=1)

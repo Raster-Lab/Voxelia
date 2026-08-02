@@ -1,0 +1,3407 @@
+{
+  "schemaVersion": "0.1.1",
+  "requirements": [
+    {
+      "id": "VOX-GOV-001",
+      "text": "Voxelia shall be maintained as a standalone open-source scientific image processing, spatial computing and visualisation toolkit.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-GOV-002",
+      "text": "The DICOM Workstation shall be treated as the first demanding reference application without making Voxelia dependent on that application.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-GOV-003",
+      "text": "The project shall preserve an explicit boundary between reusable toolkit capabilities and host-application policy, workflow and deployment responsibilities.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-GOV-004",
+      "text": "Material changes to project mission, licence, platform policy, diagnostic-grade commitments or scope shall require an approved revision of the Project Foundation.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-GOV-005",
+      "text": "Material architectural changes shall be recorded through an Architecture Decision Record before implementation is merged.",
+      "priority": "P1",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-GOV-006",
+      "text": "Significant public API, data-model, execution-model, storage-contract or diagnostic-behaviour changes shall use the project request-for-comments process.",
+      "priority": "P1",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-GOV-007",
+      "text": "Voxelia shall not implement PACS, VNA, reporting, hanging protocols, user authentication, browser user interfaces or hospital workflow as core toolkit functions.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-GOV-008",
+      "text": "Voxelia shall not claim to be a drop-in class-for-class or binary replacement for VTK or ITK.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-GOV-009",
+      "text": "The project shall maintain a documented register of deferred, excluded and application-owned capabilities.",
+      "priority": "P1",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-GOV-010",
+      "text": "Every release shall identify experimental, preview, validated, diagnostic-ready and deprecated capabilities without ambiguous status terminology.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-LIC-001",
+      "text": "Voxelia source code shall be distributed under the MIT Licence.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-LIC-002",
+      "text": "The repository shall contain the complete MIT licence text in a root-level `LICENSE` file.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-LIC-003",
+      "text": "Source files should carry `SPDX-License-Identifier: MIT` where technically appropriate.",
+      "priority": "P1",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-LIC-004",
+      "text": "The repository shall maintain `THIRD_PARTY_NOTICES.md` for bundled and optional dependencies.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-LIC-005",
+      "text": "Each release shall include a machine-readable software bill of materials or an equivalent dependency inventory.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-LIC-006",
+      "text": "Contributors shall certify contribution provenance using the Developer Certificate of Origin or an approved equivalent.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-LIC-007",
+      "text": "Core distribution targets shall not depend on strong-copyleft libraries.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-LIC-008",
+      "text": "Weak-copyleft or otherwise restrictive dependencies shall be isolated in optional modules and shall require documented legal and architectural review.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-LIC-009",
+      "text": "Dependency licences shall be checked for compatibility with static linking, proprietary integration and Apple platform distribution.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-PLT-001",
+      "text": "Voxelia shall support macOS 15 or later.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-PLT-002",
+      "text": "Voxelia shall support iOS 18 or later.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-PLT-003",
+      "text": "Voxelia shall support iPadOS 18 or later through the iOS platform declaration and platform-specific validation.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-PLT-004",
+      "text": "Voxelia shall support visionOS 2 or later.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-PLT-005",
+      "text": "Voxelia shall support tvOS 18 or later.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-PLT-006",
+      "text": "Apple Silicon macOS shall be the required development, continuous-integration, benchmark, diagnostic-workstation, headless-rendering, distributed-worker and release-preparation platform.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-PLT-007",
+      "text": "Voxelia shall target Apple Silicon ARM64 exclusively; Intel, x86/x64, non-Apple operating systems and non-Apple-hosted Swift toolchains shall be unsupported and excluded from build, validation, benchmark, release and compatibility claims.",
+      "priority": "P0",
+      "verification": "I,T,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-PLT-008",
+      "text": "The Swift tools version shall be 6.2 or later.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-PLT-009",
+      "text": "All Swift targets shall compile in Swift 6 language mode with strict concurrency checking enabled.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-PLT-010",
+      "text": "Swift Package Manager shall be the primary package and distribution mechanism.",
+      "priority": "P0",
+      "verification": "I,D",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-PLT-011",
+      "text": "Metal Shading Language shall be used for Voxelia-owned GPU kernels and render shaders.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-PLT-012",
+      "text": "The codebase shall use Swift Testing as the default test framework while permitting XCTest where required by platform tooling or integrations.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-PLT-013",
+      "text": "The public API shall not require callers to select a named Metal generation or commercial device model.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-PLT-014",
+      "text": "Device-specific behaviour shall be selected through capability detection rather than device-name checks.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-REP-001",
+      "text": "Voxelia shall initially use a single public monorepo for core modules, optional modules, documentation, tests, benchmarks, validation assets, examples and tools.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-REP-002",
+      "text": "The root repository shall contain `README.md`, `LICENSE`, `CHANGELOG.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `CODEOWNERS` and `THIRD_PARTY_NOTICES.md`.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-REP-003",
+      "text": "The repository shall contain dedicated `Sources`, `Tests`, `Benchmarks`, `Validation`, `Examples`, `Tools` and `docs` directories.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-REP-004",
+      "text": "Architecture decisions shall be stored under `docs/architecture/decisions/` with stable identifiers.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-REP-005",
+      "text": "Requirements, algorithms, shaders, validation and benchmark documentation shall have dedicated version-controlled locations.",
+      "priority": "P1",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-REP-006",
+      "text": "The Swift package shall expose focused products so adopters are not required to import every optional integration.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-REP-007",
+      "text": "An umbrella `Voxelia` product shall re-export stable general-purpose modules but shall not automatically re-export all optional integrations.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-REP-008",
+      "text": "Shader resources shall be owned by the module that compiles and executes them.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-REP-009",
+      "text": "External package dependencies shall be attached only to targets that require them.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-REP-010",
+      "text": "The package graph shall be automatically checked for prohibited cycles.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-ARC-001",
+      "text": "Dependencies shall flow from specialised modules towards stable foundational modules and shall not form cycles.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-ARC-002",
+      "text": "`VoxeliaSpatial` shall own coordinate spaces, units, transforms, planes, rays, bounds and spatial geometry.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-ARC-003",
+      "text": "`VoxeliaCore` shall own canonical descriptors, scalar formats, data handles, regions, metadata, provenance, identities and common errors.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-ARC-004",
+      "text": "`VoxeliaStorage` shall own concrete contiguous, mapped, tiled, bricked, compressed, callback-backed and cached storage implementations.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-ARC-005",
+      "text": "`VoxeliaExecution` shall own operations, execution sessions, scheduling, cancellation, progress, generation tracking, backend selection and result caching.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-ARC-006",
+      "text": "`VoxeliaImaging` shall define image-processing semantics without owning the Metal command lifecycle.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-ARC-007",
+      "text": "`VoxeliaGeometry` shall own point, line, curve, mesh, acceleration and geometry-operation abstractions.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-ARC-008",
+      "text": "`VoxeliaRendering` shall own backend-neutral scene, camera, viewport, layer, transfer-function, quality, request and result models.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-ARC-009",
+      "text": "`VoxeliaInteraction` shall own UI-framework-neutral interaction state and commands.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-ARC-010",
+      "text": "`VoxeliaCPU` shall own deterministic reference kernels and CPU backend registration.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-ARC-011",
+      "text": "`VoxeliaMetal` shall own Metal contexts, kernels, residency, render-graph execution, shader libraries, pipeline caches and GPU telemetry.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-ARC-012",
+      "text": "DICOMKit, codec, RealityKit, Model I/O, Core Image, headless, distributed and interoperability support shall be isolated in optional modules.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-API-001",
+      "text": "Public APIs shall describe required behaviour and semantics rather than expose backend command lifecycles.",
+      "priority": "P0",
+      "verification": "I,R,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-API-002",
+      "text": "Canonical public data types shall not expose `MTLTexture`, `MTLBuffer`, RealityKit entity types, Model I/O objects, Core Image objects, DICOMKit dataset types, VTK types or ITK types.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-API-003",
+      "text": "Public value types shall conform to `Sendable` where their semantics permit safe cross-concurrency transfer.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-API-004",
+      "text": "Public immutable descriptor types should conform to `Hashable` and `Codable` where stable serialisation is intended.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-API-005",
+      "text": "Public API names shall use domain terminology rather than internal GPU terminology unless the API is explicitly Metal-specific.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-API-006",
+      "text": "Operations shall use strongly typed inputs and outputs before type erasure is introduced for graph storage.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-API-007",
+      "text": "Type erasure shall preserve runtime type safety and shall fail with a typed error on incompatible inputs or outputs.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-API-008",
+      "text": "Public APIs shall not require an interactive window, SwiftUI view or AppKit view.",
+      "priority": "P0",
+      "verification": "I,T,D",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-API-009",
+      "text": "Public APIs shall permit off-screen and headless use.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-API-010",
+      "text": "API documentation shall state thread-safety, actor isolation, mutability, ownership, error and performance semantics for public types.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-API-011",
+      "text": "Pre-1.0 breaking API changes shall be documented in the changelog.",
+      "priority": "P1",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-API-012",
+      "text": "After 1.0, incompatible public API changes shall require a major semantic version.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-DAT-001",
+      "text": "Voxelia shall provide a dynamic-rank canonical image model.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-002",
+      "text": "The canonical shape type shall represent extents using a variable-length collection of positive integers.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-003",
+      "text": "Shape construction shall reject zero and negative extents.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-004",
+      "text": "Element-count calculation shall detect integer overflow and shall not wrap silently.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-005",
+      "text": "Core data types shall not impose a small fixed maximum image rank.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-006",
+      "text": "Each operation shall declare supported rank and axis semantics.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-DAT-007",
+      "text": "Optimised initial paths shall support rank-two and rank-three spatial data.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-DAT-008",
+      "text": "The data model shall permit additional time, phase, channel or component axes.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-DAT-009",
+      "text": "Scalar formats shall explicitly represent signed integers, unsigned integers and floating-point values required by supported operations.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-010",
+      "text": "Scalar format metadata shall include byte width, signedness and floating-point classification.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-011",
+      "text": "Component count and component semantics shall be represented independently from scalar format.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-012",
+      "text": "Image semantics shall distinguish scalar images, colour images, label maps, masks, vector fields and other supported domain meanings.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-013",
+      "text": "Image descriptors shall bind shape, scalar format, component information, spatial geometry and units without binding storage.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-014",
+      "text": "Image data handles shall bind a descriptor to storage, identity, metadata and provenance.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-DAT-015",
+      "text": "Authoritative quantitative data shall remain distinct from presentation buffers and reduced-quality render intermediates.",
+      "priority": "P0",
+      "verification": "I,T,R",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-SPA-001",
+      "text": "Voxelia shall represent spatial coordinate systems explicitly.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SPA-002",
+      "text": "The spatial model shall support index-to-physical affine geometry for regular images and volumes.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SPA-003",
+      "text": "Authoritative spatial transforms and measurements shall use double precision.",
+      "priority": "P0",
+      "verification": "I,T,A",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SPA-004",
+      "text": "Voxelia shall permit rendering-specific float transforms only after the associated error bounds are verified.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-SPA-005",
+      "text": "Coordinate-space identifiers shall distinguish index, voxel, image, patient, world, display and application-defined spaces where applicable.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SPA-006",
+      "text": "DICOM patient coordinates shall be supported as a canonical clinical spatial convention through the DICOMKit adapter.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-SPA-007",
+      "text": "Coordinate-convention conversion shall be explicit and shall not rely on undocumented axis flipping.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SPA-008",
+      "text": "Affine transforms shall support composition, inversion and point, vector and normal transformation.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SPA-009",
+      "text": "Singular or non-invertible transforms shall produce typed errors.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SPA-010",
+      "text": "Spatial bounds shall be computable in index and physical coordinates.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SPA-011",
+      "text": "The spatial model shall represent planes, rays, oriented bounds and intersections required by rendering and interaction.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SPA-012",
+      "text": "The architecture shall permit rectilinear geometry and irregular frame-set geometry without forcing them into a false regular affine volume.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SPA-013",
+      "text": "Frame-of-reference identities shall be preserved through transformations and derived data.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-SPA-014",
+      "text": "Distance, angle, area and volume measurements shall be evaluated in the appropriate physical coordinate space.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-RGN-001",
+      "text": "Voxelia shall represent N-dimensional regions using origins and extents.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-RGN-002",
+      "text": "Region construction shall validate rank compatibility, bounds and overflow.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-RGN-003",
+      "text": "Storage implementations shall support region reads where their capabilities permit.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-RGN-004",
+      "text": "Voxelia shall support zero-copy or copy-avoiding views when the source storage layout permits them.",
+      "priority": "P1",
+      "verification": "T,A",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-RGN-005",
+      "text": "A view shall preserve or derive correct spatial geometry for the selected region, slice, component or temporal frame.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-RGN-006",
+      "text": "Views shall not mutate their source data unless the storage contract explicitly permits controlled mutable access.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-RGN-007",
+      "text": "Every immutable data object shall have a stable content or derivation identity suitable for caching and provenance.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-RGN-008",
+      "text": "Content identity generation shall include data bytes or trusted source identity, descriptor semantics and relevant transform metadata.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-RGN-009",
+      "text": "Identity algorithms shall detect accidental mismatch through checksums or equivalent integrity mechanisms.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-META-001",
+      "text": "Voxelia shall distinguish structured core metadata from format-specific metadata.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-META-002",
+      "text": "Format-specific metadata shall be preserved through adapters without contaminating the core type system.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-META-003",
+      "text": "Derived data shall carry provenance linking it to source identities.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-META-004",
+      "text": "Operation provenance shall record operation identifier, semantic version, implementation identifier and implementation version.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-META-005",
+      "text": "Operation provenance shall record parameters that affect output.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-META-006",
+      "text": "Operation provenance shall record backend, quality profile and precision policy.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-META-007",
+      "text": "Metal-derived output provenance shall record shader or compiled-library identity where applicable.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-META-008",
+      "text": "Render provenance shall record scene identity, camera, viewport, transfer functions, quality settings and renderer version.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-META-009",
+      "text": "Photorealistic Rendering provenance shall record random seed, sample budget or convergence criterion, accumulation state and denoising use.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-META-010",
+      "text": "Provenance records shall be serialisable for validation, audit and distributed execution.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-META-011",
+      "text": "Provenance generation shall not include patient-identifying metadata unless the host application explicitly supplies and permits it.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-GEO-001",
+      "text": "Voxelia shall provide canonical point-set, line, polyline, curve, triangle-mesh and polygon-mesh representations.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-GEO-002",
+      "text": "Geometry positions shall declare their coordinate space.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-GEO-003",
+      "text": "Mesh topology and vertex attributes shall be represented independently.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-GEO-004",
+      "text": "Geometry attributes shall support normals, colours, scalar fields, labels and texture coordinates where applicable.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-GEO-005",
+      "text": "Index buffers shall validate bounds before use.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-GEO-006",
+      "text": "Geometry operations shall preserve or explicitly update coordinate-space and provenance information.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-GEO-007",
+      "text": "Voxelia shall define surface extraction operations for labelled and scalar volume data.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-GEO-008",
+      "text": "The initial surface extraction capability shall include a validated marching-cubes-class algorithm.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-GEO-009",
+      "text": "Surface normal generation shall provide deterministic reference behaviour.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-GEO-010",
+      "text": "Geometry measurement shall use authoritative geometry rather than rasterised presentation output.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-GEO-011",
+      "text": "The geometry architecture shall permit acceleration structures without making a particular Metal or RealityKit structure canonical.",
+      "priority": "P1",
+      "verification": "I,R",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-SEG-001",
+      "text": "Voxelia shall represent binary masks and multi-segment datasets.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SEG-002",
+      "text": "The segmentation model shall support overlapping segments without forcing all segments into one mutually exclusive label value.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SEG-003",
+      "text": "Segment descriptors shall support stable segment identifiers, labels, colours and algorithm provenance.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SEG-004",
+      "text": "Segmentation geometry shall declare its relationship to source image geometry and frame of reference.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SEG-005",
+      "text": "Binary and multi-label resampling shall default to nearest-neighbour interpolation unless explicitly overridden by a validated operation.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SEG-006",
+      "text": "Voxelia shall provide thresholding, masking, connected-component and morphology foundations.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SEG-007",
+      "text": "Region-growing operations shall record seeds, thresholds, connectivity and implementation version.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SEG-008",
+      "text": "Segmentation editing operations shall be explicit, undoable by the host where operation history is retained, and provenance-producing.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SEG-009",
+      "text": "Segmentation statistics shall be computed from authoritative image and segment data.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-SEG-010",
+      "text": "AI inference shall be integrated through optional adapters and shall not be embedded into the foundational segmentation model.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-001",
+      "text": "Voxelia shall represent rigid, affine and deformable transforms as distinct transform categories.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-002",
+      "text": "Registration results shall identify fixed data, moving data, metric, optimiser, multi-resolution schedule and convergence status.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-003",
+      "text": "Registration transforms shall identify their source and destination coordinate spaces.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-004",
+      "text": "Transform composition shall validate coordinate-space compatibility.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-005",
+      "text": "The initial registration portfolio shall include landmark, rigid and affine registration.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-006",
+      "text": "The registration architecture shall support multi-resolution image pyramids.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-007",
+      "text": "The architecture shall support mean-square and mutual-information-class metrics.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-008",
+      "text": "Registration failure or non-convergence shall be reported explicitly and shall not be presented as a successful transform.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-009",
+      "text": "Registration quality metrics shall be available to the host application.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-REG-010",
+      "text": "Reference registration implementations shall be available before Metal acceleration is accepted into a diagnostic profile.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-STO-001",
+      "text": "The canonical image model shall be independent of physical storage representation.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-STO-002",
+      "text": "Voxelia shall define a storage capability contract covering readable regions, mutability, mapping, locality, compression and residency characteristics.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-STO-003",
+      "text": "The initial storage implementations shall include contiguous in-memory storage.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-STO-004",
+      "text": "The initial storage implementations shall include memory-mapped storage.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-STO-005",
+      "text": "Voxelia shall support tiled or bricked storage for large images and volumes.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-STO-006",
+      "text": "Voxelia shall support callback-backed or remote-backed storage through an asynchronous region or brick provider.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-STO-007",
+      "text": "Storage reads shall validate requested regions against descriptor bounds.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-STO-008",
+      "text": "Storage allocations shall detect integer overflow and unreasonable size requests before allocation.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-STO-009",
+      "text": "Storage implementations shall expose integrity checks where source checksums are available.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-STO-010",
+      "text": "Mutable storage, where provided, shall define exclusivity and concurrency semantics explicitly.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-STO-011",
+      "text": "Storage views shall preserve lifetime ownership of their backing storage.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-STO-012",
+      "text": "The storage layer shall allow independent eviction of compressed data, decoded bricks and GPU-resident resources.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-001",
+      "text": "Large volumes shall be processable without requiring one complete three-dimensional texture to be resident.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-002",
+      "text": "A bricked volume shall identify brick coordinates, voxel regions, overlap or halo, resolution level and data identity.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-003",
+      "text": "Brick dimensions shall be selected through capability and workload policy rather than hard-coded into the public data model.",
+      "priority": "P0",
+      "verification": "I,A,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-004",
+      "text": "The storage system shall support boundary bricks whose extents differ from nominal brick size.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-005",
+      "text": "Multi-resolution representations shall preserve the spatial relationship between levels.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-006",
+      "text": "Brick requests shall be cancellable.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-007",
+      "text": "Concurrent requests for the same brick and representation shall be deduplicated where safe.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-008",
+      "text": "Brick-cache eviction shall consider recency, cost, size, visibility and active operation references.",
+      "priority": "P1",
+      "verification": "A,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-009",
+      "text": "Interactive rendering shall be able to use a lower-resolution level while higher-resolution bricks are loading.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-BRK-010",
+      "text": "Refinement shall not publish a brick belonging to an obsolete render or operation generation.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-BRK-011",
+      "text": "Per-brick statistics or occupancy metadata shall be supported for empty-space skipping and prioritisation.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-CMP-001",
+      "text": "Voxelia shall reuse approved Raster-Lab codec libraries rather than reimplement their codecs internally.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-002",
+      "text": "Codec integration shall be isolated in `VoxeliaCompression` and format adapters.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-003",
+      "text": "Voxelia shall support original compressed sources, compressed slices, compressed slabs and compressed three-dimensional bricks.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-004",
+      "text": "Lossless JPEG 2000 Part 10 three-dimensional compression shall be evaluated as an internal volume-cache representation.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-005",
+      "text": "HTJ2K shall be evaluated for high-throughput lossless decoding and encoding.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-006",
+      "text": "JP3D and HTJ2K combinations shall be used only when the actual Raster-Lab codec output and interoperability status are documented.",
+      "priority": "P0",
+      "verification": "I,T,R",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-007",
+      "text": "Compressed data shall not be treated as directly sampleable Metal texture data.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-008",
+      "text": "The decode path shall support caller-provided or reusable destination storage where the codec API permits it.",
+      "priority": "P1",
+      "verification": "T,A",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-009",
+      "text": "Codec adapters shall support cancellation and shall not publish partial data as complete output.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-010",
+      "text": "Codec adapters shall validate dimensions, component formats and decoded byte counts.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-011",
+      "text": "Malformed or adversarial codestreams shall produce bounded failure without uncontrolled allocation or unsafe memory access.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-012",
+      "text": "Original DICOM instances shall be preserved when JP3D or other toolkit-native cache formats are generated.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-013",
+      "text": "Toolkit-native JP3D representations shall not be represented as standard DICOM transfer syntaxes.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CMP-014",
+      "text": "Compression benchmarks shall report ratio, encode time, decode time, random-access cost, memory use and output equality.",
+      "priority": "P1",
+      "verification": "T,A",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-EXE-001",
+      "text": "Voxelia operations shall be immutable descriptions of typed transformations or render requests.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-002",
+      "text": "Each operation shall have a stable operation identifier and semantic version.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-003",
+      "text": "Each implementation shall have an implementation identifier and version distinct from operation semantics.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-004",
+      "text": "Operation identity shall include inputs, parameters, precision policy, quality profile and implementation-affecting options.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-005",
+      "text": "Execution shall support lazy evaluation of dependencies.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-006",
+      "text": "Execution shall support multiple inputs and outputs where the operation definition requires them.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-007",
+      "text": "Execution shall support cancellation propagation from a parent operation to dependent work.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-008",
+      "text": "Execution shall support progress reporting as an asynchronous stream or equivalent non-blocking mechanism.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-009",
+      "text": "Execution shall assign generations or revisions so obsolete asynchronous results cannot replace newer results.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-010",
+      "text": "Execution shall deduplicate identical in-flight operations where safe.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-011",
+      "text": "Execution shall support explicit reference, diagnostic, interactive and preview policies.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-012",
+      "text": "Reference policy shall favour deterministic and highest-assurance implementations.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-013",
+      "text": "Diagnostic policy shall select only validated implementations with documented error bounds.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-EXE-014",
+      "text": "Interactive policy may use validated adaptive quality but shall converge towards the requested final quality.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-EXE-015",
+      "text": "Preview policy shall be identifiable to the host and shall not be used for authoritative measurements.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-EXE-016",
+      "text": "Execution errors shall retain the operation and implementation context required for diagnosis.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CON-001",
+      "text": "Shared mutable execution state shall be isolated by actors or an equivalently safe concurrency mechanism.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CON-002",
+      "text": "The primary execution engine shall be actor-isolated.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CON-003",
+      "text": "Storage and data descriptors shall be safe to transfer across tasks according to their declared `Sendable` semantics.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-CON-004",
+      "text": "Metal command encoders shall remain within their valid command-buffer and pass lifetimes and shall not be returned as operation results.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-CON-005",
+      "text": "Interactive draw callbacks shall not launch overlapping unstructured work that can publish frames out of order.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-CON-006",
+      "text": "Long-running CPU and GPU work shall periodically observe cancellation where technically possible.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CON-007",
+      "text": "Cancellation shall not corrupt caches or leave data identities pointing to incomplete results.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CON-008",
+      "text": "Priority shall be propagated so interactive work can pre-empt or outrank background cache generation.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-CON-009",
+      "text": "Concurrency tests shall include race detection, cancellation storms, repeated generation changes and memory-pressure scenarios.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-CON-010",
+      "text": "Any use of `@unchecked Sendable` shall be documented and independently reviewed.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-CCH-001",
+      "text": "The execution planner shall select an implementation based on operation support, quality policy, determinism, device capability, data locality, latency and memory cost.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-CCH-002",
+      "text": "The host shall be able to request reference, CPU-preferred, GPU-preferred or automatic backend policy without selecting a specific device generation.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-CCH-003",
+      "text": "A diagnostic request shall fail rather than silently use an unvalidated implementation.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-CCH-004",
+      "text": "Operation cache keys shall include operation version, implementation version, input identity, parameters, precision, backend and shader identity where applicable.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CCH-005",
+      "text": "Cache entries shall not be reused across incompatible quality or precision policies.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CCH-006",
+      "text": "Result caches shall support bounded memory and explicit eviction.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CCH-007",
+      "text": "Persistent cache formats shall carry independent format versions.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CCH-008",
+      "text": "Cache corruption shall be detected and shall not result in publication of unverified data.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CCH-009",
+      "text": "Cache instrumentation shall report hit, miss, eviction, decode and recomputation events.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-CPU-001",
+      "text": "Voxelia shall provide CPU reference implementations for safety-critical or diagnostic GPU operations where practical.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CPU-002",
+      "text": "Reference implementations shall favour clarity, determinism and numerical traceability over maximum speed.",
+      "priority": "P0",
+      "verification": "I,R,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CPU-003",
+      "text": "Optimised CPU implementations shall remain distinguishable from reference implementations.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CPU-004",
+      "text": "The CPU backend shall permit Accelerate and vImage implementations only behind Voxelia operation semantics whose behaviour and precision are validated.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CPU-005",
+      "text": "CPU reductions used for reference statistics shall be deterministic under the documented execution policy.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CPU-006",
+      "text": "CPU kernels shall support cancellation at suitable partition boundaries.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CPU-007",
+      "text": "CPU kernels shall validate strides, bounds, alignment assumptions and scalar formats.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CPU-008",
+      "text": "CPU benchmark results shall distinguish scalar reference, SIMD-optimised and Accelerate-backed implementations.",
+      "priority": "P1",
+      "verification": "T,A",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-CPU-009",
+      "text": "A CPU-only build of backend-neutral modules shall remain possible on supported Apple platforms.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-MTL-001",
+      "text": "Metal shall be the primary GPU compute and diagnostic rendering backend.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-002",
+      "text": "Voxelia shall create an internal device-capability model covering GPU family, memory model, sparse-resource support, ray-tracing support, texture limits and recommended concurrency.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-003",
+      "text": "The public API shall not expose capability checks that require callers to understand Metal family numbering.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-004",
+      "text": "The Metal backend shall own command queues, command buffers, encoders, events and in-flight resources.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-005",
+      "text": "Shader libraries and pipeline states shall be cached by stable shader and configuration identities.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-006",
+      "text": "The backend shall support reusable frame contexts and bounded in-flight frame counts.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-007",
+      "text": "The backend shall support shared CPU/GPU resources when this reduces copies without unacceptable sampling cost.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-008",
+      "text": "The backend shall support private GPU resources for repeatedly sampled or rendered data when justified by measured performance.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-009",
+      "text": "The backend shall minimise full-volume CPU-to-GPU duplication.",
+      "priority": "P0",
+      "verification": "A,T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-MTL-010",
+      "text": "The backend shall support reusable staging and decode destination buffers.",
+      "priority": "P1",
+      "verification": "T,A",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-MTL-011",
+      "text": "Metal heaps shall be used where they provide measurable allocation or residency benefit.",
+      "priority": "P1",
+      "verification": "A,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-MTL-012",
+      "text": "Sparse resources shall be capability-gated and shall have a bricked fallback.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-MTL-013",
+      "text": "GPU resource residency shall respond to memory pressure and active workload priority.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-MTL-014",
+      "text": "GPU completion errors and device failures shall be surfaced as typed Voxelia errors.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-015",
+      "text": "The Metal backend shall record kernel time, command-buffer latency, upload time, frame time and residency changes.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-MTL-016",
+      "text": "Every diagnostic Metal kernel shall have an analytical oracle, CPU reference or approved independent reference.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-IMG-001",
+      "text": "Voxelia shall provide explicit scalar conversion operations with defined rounding, clipping and overflow behaviour.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-IMG-002",
+      "text": "Voxelia shall provide modality or value transformation operations independent of display windowing.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-IMG-003",
+      "text": "Voxelia shall provide nearest-neighbour interpolation.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-IMG-004",
+      "text": "Voxelia shall provide linear interpolation for supported scalar and component formats.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-IMG-005",
+      "text": "Voxelia should provide cubic interpolation with documented kernel and boundary behaviour.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-IMG-006",
+      "text": "Interpolation operations shall define boundary handling explicitly.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-IMG-007",
+      "text": "Label maps and masks shall use nearest-neighbour interpolation by default.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-IMG-008",
+      "text": "Voxelia shall provide image resampling between explicit source and destination geometries.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-IMG-009",
+      "text": "Voxelia shall provide histogram calculation with documented binning, range and treatment of invalid or padded values.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-IMG-010",
+      "text": "Voxelia shall provide threshold, mask and image-arithmetic foundations.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-IMG-011",
+      "text": "Voxelia shall provide convolution and Gaussian-filter foundations with explicit boundary conditions.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-IMG-012",
+      "text": "Voxelia shall provide morphology foundations including erosion and dilation.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-IMG-013",
+      "text": "Voxelia shall provide connected-component analysis.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-IMG-014",
+      "text": "Voxelia should provide distance transforms.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-IMG-015",
+      "text": "Quantitative operations shall exclude presentation-only approximations from authoritative results.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-R2D-001",
+      "text": "Voxelia shall provide a canonical diagnostic two-dimensional presentation pipeline.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-R2D-002",
+      "text": "The pipeline shall preserve stored values separately from modality-transformed and displayed values.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-R2D-003",
+      "text": "The pipeline shall support signed and unsigned integer input values required by supported modalities.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-R2D-004",
+      "text": "The pipeline shall support floating-point input where the descriptor and operation permit it.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-R2D-005",
+      "text": "The pipeline shall support MONOCHROME1 and MONOCHROME2 presentation semantics.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-R2D-006",
+      "text": "The pipeline shall support linear window centre and width behaviour with defined edge cases.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-R2D-007",
+      "text": "The pipeline shall support VOI LUT application.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-R2D-008",
+      "text": "The pipeline shall support presentation inversion independently of source-value transformation.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-R2D-009",
+      "text": "The pipeline shall support pixel-padding exclusion where supplied by the source adapter.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-R2D-010",
+      "text": "The pipeline shall support palette-colour and RGB presentation through explicit colour transforms.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-R2D-011",
+      "text": "The pipeline shall support segmentation, mask and image overlays with defined alpha-compositing semantics.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-R2D-012",
+      "text": "The pipeline shall preserve quantitative pixel inspection before display transformations.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-R2D-013",
+      "text": "The pipeline shall support explicit nearest-neighbour, linear and no-interpolation display policies where applicable.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-R2D-014",
+      "text": "Off-screen and interactive output shall use the same presentation semantics.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-R2D-015",
+      "text": "Display colour transformation and output colour space shall be explicit in render requests and provenance.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-MPR-001",
+      "text": "Voxelia shall support axial, coronal and sagittal reconstruction from regular volumes.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-MPR-002",
+      "text": "Voxelia shall support arbitrary oblique reconstruction.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-MPR-003",
+      "text": "MPR shall use physical spacing and orientation rather than assuming isotropic or axis-aligned input.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-MPR-004",
+      "text": "MPR output geometry shall be explicit and reproducible.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-MPR-005",
+      "text": "Voxelia shall support linked orthogonal views with a shared patient-space crosshair.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-MPR-006",
+      "text": "Voxelia shall support single-slice and thick-slab reconstruction.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-MPR-007",
+      "text": "Voxelia shall support maximum-intensity projection.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-MPR-008",
+      "text": "Voxelia shall support minimum-intensity projection.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-MPR-009",
+      "text": "Voxelia shall support average-intensity projection.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-MPR-010",
+      "text": "Projection operations shall define treatment of padding, missing samples and out-of-bounds regions.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-MPR-011",
+      "text": "Voxelia shall support multi-volume fusion for spatially registered inputs.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-MPR-012",
+      "text": "Curved planar reconstruction shall accept an explicit centreline in physical coordinates.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-MPR-013",
+      "text": "Curved planar reconstruction shall map output positions back to source patient coordinates.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-MPR-014",
+      "text": "Measurements made in reconstructed views shall use authoritative physical geometry.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DVR-001",
+      "text": "Voxelia shall provide conventional direct volume rendering.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-002",
+      "text": "The volume renderer shall intersect view rays with the actual volume bounds.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-003",
+      "text": "Sampling intervals shall derive from physical spacing, quality policy and view geometry rather than a fixed normalised constant.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-004",
+      "text": "The renderer shall support front-to-back compositing with early ray termination.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-005",
+      "text": "The renderer shall support one-dimensional transfer functions.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-006",
+      "text": "The renderer should support multi-dimensional transfer functions using intensity, gradient or material information.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-DVR-007",
+      "text": "Transfer-function indexing shall be clamped and shall define out-of-range behaviour.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-008",
+      "text": "The renderer shall support gradient estimation and lighting.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-009",
+      "text": "The renderer shall support clipping planes and cropping regions.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-010",
+      "text": "The renderer shall support segmentation masks and multi-volume compositing.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-011",
+      "text": "The renderer shall support bricked and multi-resolution volumes.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-012",
+      "text": "The renderer shall support empty-space skipping or an equivalent acceleration path where occupancy metadata is available.",
+      "priority": "P1",
+      "verification": "T,A",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-013",
+      "text": "Interactive quality shall refine towards requested diagnostic quality after interaction stops.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-014",
+      "text": "The renderer shall support deterministic off-screen rendering for a fixed scene, implementation and quality profile within declared tolerances.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-DVR-015",
+      "text": "Volume-rendered pixels shall not be used as the source of authoritative quantitative measurements.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-PRR-001",
+      "text": "Photorealistic Rendering shall be delivered as an optional module.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-002",
+      "text": "Applications shall be able to disable Photorealistic Rendering without disabling conventional diagnostic rendering.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-003",
+      "text": "The module shall support interactive, progressive and reference quality modes.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-004",
+      "text": "The module shall support physically based volumetric illumination.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-005",
+      "text": "The module shall support volumetric shadows.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-006",
+      "text": "The module shall support area and environment lighting.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-007",
+      "text": "The progressive and reference modes shall support multiple-scattering or an explicitly documented physically based approximation.",
+      "priority": "P1",
+      "verification": "A,T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-008",
+      "text": "The module shall support transparency and transillumination presentations.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-009",
+      "text": "The module should support material-separated presentation for clinically significant material classes.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-010",
+      "text": "The reference mode shall support deterministic random seeds.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-011",
+      "text": "The progressive mode shall expose convergence or variance information.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-012",
+      "text": "Temporal accumulation shall be reset or reprojected safely when scene, camera, transfer function or source data changes.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-013",
+      "text": "Denoising shall be explicit, versioned and recorded in provenance.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-014",
+      "text": "Generative reconstruction shall not be applied implicitly to Photorealistic Rendering output.",
+      "priority": "P0",
+      "verification": "I,T,R",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-015",
+      "text": "The module shall support side-by-side comparison with conventional rendering using the same authoritative scene state.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-PRR-016",
+      "text": "The module shall support partitioning by tile or sample range for distributed accumulation.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-PRR-017",
+      "text": "Photorealistic presets shall be tested for preservation of specified thin structures and high-value intensity ranges.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-SUR-001",
+      "text": "Voxelia shall render triangle meshes with explicit coordinate-space transforms.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-SUR-002",
+      "text": "Surface rendering shall support depth testing and hidden-surface removal.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-SUR-003",
+      "text": "Surface rendering shall support per-object opacity.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-SUR-004",
+      "text": "Surface rendering shall support vertex normals and physically based or validated diagnostic materials.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-SUR-005",
+      "text": "Surface rendering shall support scalar colour maps where geometry carries scalar attributes.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-SUR-006",
+      "text": "Surface rendering shall support clipping and section views.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-SUR-007",
+      "text": "Surface picking shall return authoritative geometry identifiers and physical coordinates.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-SUR-008",
+      "text": "Depth-aware annotations shall remain correctly registered during camera movement.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-SUR-009",
+      "text": "Geometry generated by Metal compute shall be representable without making GPU buffers the canonical geometry model.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-INT-001",
+      "text": "Interaction state shall be independent of SwiftUI, AppKit, UIKit and RealityKit event types.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-INT-002",
+      "text": "Voxelia shall define commands for window and level, pan, zoom, scroll, rotate, crosshair, picking, clipping, cropping and measurement construction.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-INT-003",
+      "text": "Camera state shall be serialisable or snapshot-able for off-screen and distributed rendering.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-INT-004",
+      "text": "Crosshair state shall be represented in a shared physical coordinate space.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-INT-005",
+      "text": "Viewport synchronisation shall validate frame-of-reference compatibility.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-INT-006",
+      "text": "Picking shall identify the rendered layer, source data and physical position.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-INT-007",
+      "text": "Interaction updates shall increment render generations so stale frames are not presented.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-INT-008",
+      "text": "Interactive manipulation shall remain responsive while background processing continues.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-INT-009",
+      "text": "Measurement construction shall preserve the original input points and derived physical result.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-INT-010",
+      "text": "Host applications shall be able to define input mappings without modifying Voxelia interaction semantics.",
+      "priority": "P1",
+      "verification": "I,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-001",
+      "text": "Voxelia shall use DICOMKit rather than implementing a second general DICOM parser.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-002",
+      "text": "DICOMKit integration shall be provided by an optional `VoxeliaDICOMKit` module.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-003",
+      "text": "The adapter shall translate DICOMKit output into canonical Voxelia data, spatial, metadata and provenance types.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-004",
+      "text": "The adapter shall assemble regular image series using spatial position and orientation rather than filename or instance number alone.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-005",
+      "text": "The adapter shall support signed and unsigned 16-bit CT samples for the first vertical slice.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-006",
+      "text": "The adapter shall preserve rescale slope and intercept as explicit value-transformation metadata or operations.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-007",
+      "text": "The adapter shall preserve Image Position, Image Orientation, Pixel Spacing and frame-of-reference information.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-008",
+      "text": "The adapter shall preserve MONOCHROME1, MONOCHROME2 and pixel-padding presentation information required by the first vertical slice.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-009",
+      "text": "The adapter shall detect missing, duplicated, irregular or contradictory geometry and shall not silently coerce it into a regular volume.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-010",
+      "text": "The adapter shall preserve source SOP Instance and frame provenance.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DCM-011",
+      "text": "Enhanced multi-frame and irregular frame-set support shall be introduced through explicit geometry models rather than hidden regularisation.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-DCM-012",
+      "text": "DICOM segmentation, parametric map, surface and registration integrations shall map to canonical Voxelia models through optional adapter capabilities.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-DCM-013",
+      "text": "DICOM parsing or decoding errors shall retain source-object context without logging patient-identifying content by default.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-ADP-001",
+      "text": "RealityKit integration shall be optional and shall not define the canonical scene, camera, geometry or measurement model.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-ADP-002",
+      "text": "The RealityKit adapter shall support spatial presentation of Voxelia surface and annotation data where platform capability permits.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-ADP-003",
+      "text": "Model I/O integration shall be optional and shall be used for asset interchange and mesh preparation rather than as the canonical scientific data model.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-ADP-004",
+      "text": "Core Image integration shall be optional and shall be limited to suitable two-dimensional compositing, export, thumbnail or media workflows.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-ADP-005",
+      "text": "Core Image shall not be used as the canonical N-dimensional processing engine.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-ADP-006",
+      "text": "Voxelia shall permit Metal Performance Shaders only behind validated Voxelia operations without leaking MPS types into general APIs.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-ADP-007",
+      "text": "VTK and ITK interoperability shall be optional and shall not become a core runtime dependency.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-ADP-008",
+      "text": "VTK interoperability should support exchange of image and polygonal data required for migration and validation.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-ADP-009",
+      "text": "ITK interoperability should support exchange of images and transforms required for algorithm comparison.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-ADP-010",
+      "text": "Interoperability conversions shall preserve or explicitly document spatial convention changes.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-HLS-001",
+      "text": "Voxelia shall support off-screen rendering without an application window.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-HLS-002",
+      "text": "Voxelia shall support headless rendering on Apple Silicon macOS.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-HLS-003",
+      "text": "Headless and interactive rendering shall consume the same scene and presentation descriptions.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-HLS-004",
+      "text": "Headless rendering shall produce raw pixel data.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-HLS-005",
+      "text": "Headless rendering should support `CVPixelBuffer` or an equivalent Apple media buffer through an optional adapter.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-HLS-006",
+      "text": "Headless rendering shall support explicit SDR or HDR output descriptors where the backend supports them.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-HLS-007",
+      "text": "Headless rendering shall support optional depth and object-identifier outputs.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-HLS-008",
+      "text": "Progressive renderers shall be able to publish intermediate frames with generation and convergence metadata.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-HLS-009",
+      "text": "Render requests shall be cancellable and shall not publish stale final output.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-HLS-010",
+      "text": "Media encoding shall be isolated from core rendering in an optional module.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-HLS-011",
+      "text": "Voxelia shall not embed an HTTP server, WebSocket server, WebRTC signalling service or browser client.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-DST-001",
+      "text": "Voxelia shall define transport-neutral serialisable descriptions for distributable operations and render jobs.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-002",
+      "text": "Distributed job descriptions shall include operation or scene identity, algorithm versions, parameters and required input identities.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-003",
+      "text": "Distributed job descriptions shall include compatibility requirements for scalar formats, geometry, quality and device capabilities.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-004",
+      "text": "Distributed work shall support partitioning by image tile, frame range, brick set or path-tracing sample range as appropriate.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-005",
+      "text": "Distributed work descriptions shall support deterministic random seeds where stochastic rendering is used.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-006",
+      "text": "Partial results shall include checksums, provenance and partition identity.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-007",
+      "text": "Merge operations shall detect missing, duplicated or incompatible partitions.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-008",
+      "text": "Path-tracing accumulators shall be mergeable without requiring original sample ordering.",
+      "priority": "P1",
+      "verification": "T,A",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-009",
+      "text": "Distributed quantitative reductions shall declare numerical and ordering semantics.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-010",
+      "text": "Voxelia shall not implement worker discovery, cluster membership, node identity, enterprise scheduling or peer enrolment.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-DST-011",
+      "text": "External compute-fabric services shall be able to pre-empt and cancel Voxelia worker tasks.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DST-012",
+      "text": "Distributed workers shall reject jobs whose algorithm, shader, format or capability requirements are incompatible.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-EXT-001",
+      "text": "The primary extension mechanism shall be source-level Swift packages depending on public Voxelia modules.",
+      "priority": "P0",
+      "verification": "I,D",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-EXT-002",
+      "text": "Third-party modules shall be able to define operations and register implementations without modifying unrelated core modules.",
+      "priority": "P0",
+      "verification": "I,T,D",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-EXT-003",
+      "text": "Implementation registration shall declare operation ID, implementation ID, versions, supported ranks, formats, geometry, quality profiles and capability requirements.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-EXT-004",
+      "text": "Registration shall reject duplicate incompatible implementation identities.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-EXT-005",
+      "text": "Third-party implementations shall provide provenance metadata.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-EXT-006",
+      "text": "Third-party implementations shall not be selected for diagnostic policy unless explicitly approved by the host or validated distribution.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-EXT-007",
+      "text": "Runtime binary plug-ins, if introduced, shall use a versioned stable boundary rather than assuming Swift compiler ABI compatibility.",
+      "priority": "P1",
+      "verification": "I,R",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-EXT-008",
+      "text": "Runtime plug-in capability negotiation shall be explicit.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-EXT-009",
+      "text": "Untrusted runtime plug-ins should be executable out of process where the host platform permits it.",
+      "priority": "P2",
+      "verification": "I,D",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-ERR-001",
+      "text": "Voxelia shall use typed errors for invalid data, unsupported capability, allocation failure, cancellation, backend failure, shader failure and convergence failure.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-ERR-002",
+      "text": "Errors shall identify the operation, implementation and relevant data identity where safe.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-ERR-003",
+      "text": "Cancellation shall be distinguishable from failure.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-ERR-004",
+      "text": "Unsupported diagnostic behaviour shall fail explicitly rather than silently select preview behaviour.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-ERR-005",
+      "text": "Warnings shall be structured and machine-readable where they may affect interpretation.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-ERR-006",
+      "text": "The host shall be able to observe cache hit, cache miss, decode time, upload time, kernel time, command-buffer latency, frame time, brick faults, memory budget and refinement progress.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-ERR-007",
+      "text": "Diagnostic logging shall be configurable and shall avoid image data and patient information by default.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-ERR-008",
+      "text": "Instrumentation shall be removable or sufficiently low overhead for production use.",
+      "priority": "P1",
+      "verification": "A,T",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-ERR-009",
+      "text": "Known limitations shall be published by operation, format and platform.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-SEC-001",
+      "text": "All external dimensions, extents, strides, offsets and allocation sizes shall be validated before memory access or allocation.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SEC-002",
+      "text": "Unsafe Swift code shall be minimised, documented and reviewed.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M1"
+    },
+    {
+      "id": "VOX-SEC-003",
+      "text": "Codec and file-format adapters shall defend against malformed, truncated and adversarial input.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-SEC-004",
+      "text": "Voxelia shall not embed credentials or unauthenticated network services.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-SEC-005",
+      "text": "Temporary-file creation shall be explicit, documented and configurable.",
+      "priority": "P1",
+      "verification": "I,T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-SEC-006",
+      "text": "Logs and telemetry shall exclude patient-identifying metadata by default.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-SEC-007",
+      "text": "The repository shall publish a security vulnerability reporting process.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-SEC-008",
+      "text": "Dependencies shall be monitored for known vulnerabilities.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-SEC-009",
+      "text": "Release artefacts shall include dependency and version information sufficient for vulnerability assessment.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-SEC-010",
+      "text": "Distributed contracts shall not assume transport security; external services shall be responsible for authentication, encryption and authorisation.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-SEC-011",
+      "text": "Untrusted workloads shall be cancellable and subject to host-defined resource limits.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-VAL-001",
+      "text": "Voxelia shall maintain automated unit, kernel, operation, pipeline, integration and system-reference test levels.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-VAL-002",
+      "text": "Validation shall use analytical test cases where closed-form expected results exist.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-VAL-003",
+      "text": "Validation shall use synthetic phantoms for spatial, intensity and measurement verification.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VAL-004",
+      "text": "Golden results shall include source, licence, generator, versions, checksums and tolerance definitions.",
+      "priority": "P0",
+      "verification": "I,R,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VAL-005",
+      "text": "A golden image alone shall not be considered sufficient evidence for quantitative operations.",
+      "priority": "P0",
+      "verification": "R",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VAL-006",
+      "text": "Diagnostic Metal kernels shall be compared against analytical, CPU or approved independent references.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-VAL-007",
+      "text": "Validation shall distinguish exact byte equality, exact numeric equality, bounded numeric equality, spatial tolerance, topology equivalence, perceptual similarity and statistical equivalence.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-VAL-008",
+      "text": "Validation shall include cross-device testing by capability class.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-VAL-009",
+      "text": "The cross-device matrix shall include representative mobile, tablet, spatial-computing, workstation and high-memory worker classes.",
+      "priority": "P1",
+      "verification": "T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-VAL-010",
+      "text": "Validation reports shall identify source and compiled shader fingerprints for GPU-tested behaviour.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-VAL-011",
+      "text": "Validation shall cover cancellation, stale-result rejection, memory pressure and fault injection.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VAL-012",
+      "text": "DICOM-derived spatial geometry shall be validated with known datasets and phantoms.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VAL-013",
+      "text": "Compression validation shall include lossless equality and random-access correctness.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-VAL-014",
+      "text": "Registration validation shall include transform accuracy, convergence and failure cases.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M7"
+    },
+    {
+      "id": "VOX-VAL-015",
+      "text": "Photorealistic Rendering validation shall include statistical convergence, reproducibility and diagnostic-feature preservation.",
+      "priority": "P0",
+      "verification": "T,R",
+      "target": "M8"
+    },
+    {
+      "id": "VOX-VAL-016",
+      "text": "Validation evidence shall be versioned and traceable to requirements, implementations and releases.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-PER-001",
+      "text": "Performance requirements shall be evaluated only on output that has passed the applicable correctness validation.",
+      "priority": "P0",
+      "verification": "R,T",
+      "target": "M2"
+    },
+    {
+      "id": "VOX-PER-002",
+      "text": "Routine two-dimensional scrolling and windowing should sustain the active display refresh rate on the reference workstation hardware.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-PER-003",
+      "text": "Common MPR interaction shall target 60 frames per second on reference workstation hardware.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-PER-004",
+      "text": "Conventional 512\u00b3 volume rendering shall target 30\u201360 frames per second depending on quality profile and reference hardware capability.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M6"
+    },
+    {
+      "id": "VOX-PER-005",
+      "text": "Crosshair, camera and windowing interaction shall target visible response within 50 milliseconds on reference workstation hardware.",
+      "priority": "P1",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-PER-006",
+      "text": "The first useful image shall be available before full study cache generation completes.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-PER-007",
+      "text": "Cancellation shall prevent publication of stale output and should stop or supersede work promptly.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-PER-008",
+      "text": "Steady-state execution of the first vertical slice shall not retain an unnecessary complete CPU-to-GPU duplicate of the source volume.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-PER-009",
+      "text": "Large-volume tests shall demonstrate bounded decoded-brick and GPU-residency working sets.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M5"
+    },
+    {
+      "id": "VOX-PER-010",
+      "text": "Benchmark reports shall include cold-start, warm-cache, steady-state, memory-pressure, cancellation, contention, headless-batch and distributed modes as applicable.",
+      "priority": "P0",
+      "verification": "T,A",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-PER-011",
+      "text": "Benchmarks shall record hardware, operating system, compiler, Voxelia version, operation version, shader identity, dataset, storage form, cache state, quality, latency, throughput, memory and validation status.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-PER-012",
+      "text": "Performance regressions beyond approved thresholds shall fail continuous integration or require explicit review.",
+      "priority": "P1",
+      "verification": "T,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-PER-013",
+      "text": "Energy use should be measured for representative sustained mobile and workstation workloads where practical.",
+      "priority": "P2",
+      "verification": "A,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-DOC-001",
+      "text": "Project documentation shall be stored with source and version controlled.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-DOC-002",
+      "text": "Project documentation shall use Markdown and DocC as the primary formats.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-DOC-003",
+      "text": "Project documentation shall use British English except where external standards or programming identifiers require otherwise.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-DOC-004",
+      "text": "Every public module shall have an overview describing purpose, dependencies, supported platforms and diagnostic status.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-DOC-005",
+      "text": "Every public API shall have DocC documentation sufficient for safe integration.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-DOC-006",
+      "text": "Every algorithm shall have a specification describing inputs, outputs, parameters, supported formats, numerical behaviour, boundary behaviour and validation.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-DOC-007",
+      "text": "Every Metal kernel family shall have a shader specification and version identity.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M3"
+    },
+    {
+      "id": "VOX-DOC-008",
+      "text": "Requirements shall be traceable to architecture, implementation, tests, validation evidence and releases.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-DOC-009",
+      "text": "Architecture deviations shall be linked to approved ADRs.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-DOC-010",
+      "text": "Known limitations and unsupported cases shall be documented.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-DOC-011",
+      "text": "Examples shall not bypass canonical validation or safety semantics for convenience.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-DOC-012",
+      "text": "Release notes shall identify diagnostic-output-affecting changes explicitly.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-REL-001",
+      "text": "Voxelia shall use Semantic Versioning.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-REL-002",
+      "text": "During 0.x development, breaking public API changes shall be documented.",
+      "priority": "P0",
+      "verification": "I",
+      "target": "M0"
+    },
+    {
+      "id": "VOX-REL-003",
+      "text": "After 1.0, deprecation shall precede removal of public API except for urgent security or correctness reasons.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-REL-004",
+      "text": "Diagnostic-output-affecting behavioural changes shall require release notes and updated validation evidence.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-REL-005",
+      "text": "Serialised job, cache and provenance formats shall carry independent format versions.",
+      "priority": "P0",
+      "verification": "I,T",
+      "target": "M9"
+    },
+    {
+      "id": "VOX-REL-006",
+      "text": "Stable releases shall publish a supported-platform matrix.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-REL-007",
+      "text": "Stable releases shall publish test, benchmark and validation status.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-REL-008",
+      "text": "Stable releases shall publish known limitations and dependency inventory.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-REL-009",
+      "text": "Release artefacts should be reproducible where practical and shall record the toolchain used.",
+      "priority": "P1",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-REL-010",
+      "text": "Source-package compatibility shall be prioritised before a Voxelia-specific binary ABI commitment is made.",
+      "priority": "P0",
+      "verification": "I,R",
+      "target": "M10"
+    },
+    {
+      "id": "VOX-VS1-001",
+      "text": "The first vertical slice shall ingest a supported CT series through DICOMKit.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-002",
+      "text": "The first vertical slice shall assemble frames using spatial metadata.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-003",
+      "text": "The first vertical slice shall reject or clearly warn on irregular geometry that it cannot represent correctly.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-004",
+      "text": "The first vertical slice shall create a Voxelia affine volume with patient-space geometry.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-005",
+      "text": "The first vertical slice shall support signed and unsigned 16-bit samples.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-006",
+      "text": "The first vertical slice shall apply rescale slope and intercept correctly.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-007",
+      "text": "The first vertical slice shall support MONOCHROME1 and MONOCHROME2.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-008",
+      "text": "The first vertical slice shall handle pixel padding where present.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-009",
+      "text": "The first vertical slice shall provide CPU reference axial, coronal and sagittal reconstruction.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-010",
+      "text": "The first vertical slice shall provide Metal axial, coronal and sagittal rendering.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-011",
+      "text": "The first vertical slice shall provide nearest-neighbour and linear interpolation.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-012",
+      "text": "The first vertical slice shall provide window centre and width interaction.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-013",
+      "text": "The first vertical slice shall provide linked patient-space crosshairs.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-014",
+      "text": "The first vertical slice shall provide quantitative pixel inspection.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-015",
+      "text": "The first vertical slice shall provide patient-space distance measurement.",
+      "priority": "P0",
+      "verification": "T,D",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-016",
+      "text": "The first vertical slice shall provide off-screen output using the same presentation semantics as the interactive viewport.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-017",
+      "text": "The first vertical slice shall demonstrate that cancellation prevents stale result publication.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-018",
+      "text": "The first vertical slice shall demonstrate no unnecessary full-volume CPU-to-GPU duplicate after steady state.",
+      "priority": "P0",
+      "verification": "A,T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-019",
+      "text": "The first vertical slice shall record provenance for source frames, transforms, operations, implementations and backend.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-020",
+      "text": "The first vertical slice shall compile and pass tests under Swift 6 strict concurrency on macOS 15.",
+      "priority": "P0",
+      "verification": "T",
+      "target": "M4"
+    },
+    {
+      "id": "VOX-VS1-021",
+      "text": "The first vertical slice shall produce a validation and benchmark report.",
+      "priority": "P0",
+      "verification": "I,R,T",
+      "target": "M4"
+    }
+  ]
+}

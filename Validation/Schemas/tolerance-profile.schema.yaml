@@ -1,0 +1,6 @@
+schema_version: "0.1"
+type: "tolerance_profile"
+required:
+  - tolerance_profile_id
+  - version
+  - quantities

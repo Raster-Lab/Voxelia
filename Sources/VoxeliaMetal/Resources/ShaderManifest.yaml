@@ -1,0 +1,5 @@
+schema_version: "0.1"
+shader_families: []
+notes:
+  - "M0 contains no operational diagnostic shaders."
+  - "Each future family must record source digest, semantic version, entry points and validation evidence."

@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    name: Build and Test
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, macOS, ARM64, voxelia]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Assert Apple Silicon environment
+        run: Tools/Scripts/assert-apple-platform.sh
+      - name: Toolchain
+        run: swift --version
+      - name: Validate scaffold
+        run: Tools/Scripts/validate-scaffold.sh
+      - name: Build release
+        run: swift build -c release

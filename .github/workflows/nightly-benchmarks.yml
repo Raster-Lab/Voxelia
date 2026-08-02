@@ -1,0 +1,20 @@
+name: Nightly Benchmarks
+
+on:
+  schedule:
+    - cron: '47 20 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark-smoke:
+    runs-on: [self-hosted, macOS, ARM64, voxelia]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Assert Apple Silicon environment
+        run: Tools/Scripts/assert-apple-platform.sh
+      - run: Tools/Scripts/benchmark-smoke.sh
+      - name: Baseline policy
+        run: echo 'Nightly jobs never replace approved baselines automatically.'

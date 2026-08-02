@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "0.1.1",
+  "targets": {
+    "VoxeliaSpatial": [],
+    "VoxeliaCore": [
+      "VoxeliaSpatial"
+    ],
+    "VoxeliaStorage": [
+      "VoxeliaCore"
+    ],
+    "VoxeliaExecution": [
+      "VoxeliaStorage"
+    ],
+    "VoxeliaImaging": [
+      "VoxeliaExecution"
+    ],
+    "VoxeliaGeometry": [
+      "VoxeliaCore"
+    ],
+    "VoxeliaRendering": [
+      "VoxeliaGeometry",
+      "VoxeliaImaging"
+    ],
+    "VoxeliaInteraction": [
+      "VoxeliaRendering"
+    ],
+    "VoxeliaCPU": [
+      "VoxeliaGeometry",
+      "VoxeliaImaging"
+    ],
+    "VoxeliaMetal": [
+      "VoxeliaExecution",
+      "VoxeliaRendering"
+    ],
+    "VoxeliaValidation": [
+      "VoxeliaCPU",
+      "VoxeliaMetal"
+    ],
+    "Voxelia": [
+      "VoxeliaCore",
+      "VoxeliaExecution",
+      "VoxeliaGeometry",
+      "VoxeliaImaging",
+      "VoxeliaInteraction",
+      "VoxeliaRendering",
+      "VoxeliaSpatial",
+      "VoxeliaStorage"
+    ]
+  }
+}

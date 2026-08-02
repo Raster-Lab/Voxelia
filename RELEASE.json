@@ -1,0 +1,22 @@
+{
+  "project": "Voxelia",
+  "release": "Repository and Package Scaffold",
+  "version": "0.1.1",
+  "date": "2026-08-02",
+  "status": "M0 corrective release - Apple platform validation pending",
+  "platformPolicy": {
+    "hardware": "Apple Silicon ARM64 only",
+    "operatingSystems": [
+      "macOS",
+      "iOS",
+      "iPadOS",
+      "visionOS",
+      "tvOS"
+    ],
+    "developmentHost": "Apple Silicon Mac running macOS and Xcode",
+    "nonAppleSupport": false
+  },
+  "correctiveActions": [
+    "M0-001"
+  ]
+}

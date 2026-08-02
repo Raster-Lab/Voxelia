@@ -1,0 +1,8 @@
+schema_version: "0.1"
+type: "benchmark_result"
+required:
+  - run_id
+  - benchmark_id
+  - environment
+  - validation_status
+  - raw_metrics

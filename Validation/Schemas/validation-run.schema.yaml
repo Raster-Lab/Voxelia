@@ -1,0 +1,7 @@
+schema_version: "0.1"
+type: "validation_run"
+required:
+  - run_id
+  - requirement_ids
+  - test_id
+  - result

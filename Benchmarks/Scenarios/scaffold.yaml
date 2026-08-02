@@ -1,0 +1,10 @@
+schema_version: "0.1"
+benchmark_id: "voxelia.scaffold.noop"
+version: "0.1.0"
+mode: "steady_state"
+correctness_gate:
+  status: "self_check"
+measurement:
+  repetitions: 1
+  metrics:
+    - "elapsed"

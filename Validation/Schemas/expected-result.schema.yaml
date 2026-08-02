@@ -1,0 +1,7 @@
+schema_version: "0.1"
+type: "expected_result"
+required:
+  - expected_result_id
+  - dataset_id
+  - comparison_class
+  - tolerance_profile

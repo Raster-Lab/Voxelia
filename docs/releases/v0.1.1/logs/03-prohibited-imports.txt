@@ -1,0 +1,2 @@
+$ python3 Tools/Scripts/check_prohibited_imports.py
+Prohibited import check passed.

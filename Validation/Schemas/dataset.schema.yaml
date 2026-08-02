@@ -1,0 +1,8 @@
+schema_version: "0.1"
+type: "dataset_manifest"
+required:
+  - dataset_id
+  - version
+  - class
+  - licence
+  - files

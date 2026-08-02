@@ -1,0 +1,19 @@
+* text=auto eol=lf
+
+*.swift text diff
+*.metal text diff
+*.md text diff
+*.yml text diff
+*.yaml text diff
+*.json text diff
+*.sh text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.zip binary
+*.dcm binary
+*.raw binary
+*.bin binary
+*.metallib binary

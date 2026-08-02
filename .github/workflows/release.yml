@@ -1,0 +1,23 @@
+name: Release Gate
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  release-gate:
+    runs-on: [self-hosted, macOS, ARM64, voxelia]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Assert Apple Silicon environment
+        run: Tools/Scripts/assert-apple-platform.sh
+      - run: Tools/Scripts/prepare-release.sh
+      - name: Verify release metadata
+        run: |
+          test -s CHANGELOG.md
+          test -s LICENSE
+          test -s THIRD_PARTY_NOTICES.md

@@ -1,0 +1,16 @@
+title: "[Design] "
+labels:
+  - "type:rfc"
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed direction
+    validations:
+      required: true

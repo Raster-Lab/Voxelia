@@ -1,0 +1,61 @@
+{
+  "bomFormat": "Voxelia-Scaffold-SBOM",
+  "specVersion": "0.1.1",
+  "project": "Voxelia",
+  "platform": "Apple Silicon ARM64 and Apple operating systems only",
+  "externalRuntimeDependencies": [],
+  "components": [
+    {
+      "name": "VoxeliaSpatial",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaCore",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaStorage",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaExecution",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaImaging",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaGeometry",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaRendering",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaInteraction",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaCPU",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaMetal",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaValidation",
+      "type": "library-target"
+    },
+    {
+      "name": "Voxelia",
+      "type": "library-target"
+    },
+    {
+      "name": "VoxeliaTestSupport",
+      "type": "test-support-target"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+$ python3 Tools/Scripts/check_front_matter.py
+Front-matter check passed for 7 documents.

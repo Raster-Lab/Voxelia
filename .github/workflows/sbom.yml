@@ -1,0 +1,19 @@
+name: SBOM
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  sbom:
+    runs-on: [self-hosted, macOS, ARM64, voxelia]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Assert Apple Silicon environment
+        run: Tools/Scripts/assert-apple-platform.sh
+      - run: Tools/Scripts/generate-sbom.sh
+      - run: test -s docs/releases/v0.1.1/SBOM.scaffold.generated.json

@@ -1,0 +1,36 @@
+name: "Feature proposal"
+description: "Propose a bounded feature or start an RFC."
+title: "[Feature] "
+labels:
+  - "type:feature"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include patient-identifying information, credentials or private datasets.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the issue clearly.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Environment and context
+      description: Include Voxelia commit, platform, device, operating system and affected module.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Reproduction or evidence
+      description: Provide reproducible steps, validation data or benchmark IDs as applicable.
+    validations:
+      required: true
+  - type: input
+    id: requirements
+    attributes:
+      label: Requirement IDs
+      placeholder: "VOX-..."

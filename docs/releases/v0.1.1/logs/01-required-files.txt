@@ -1,0 +1,2 @@
+$ python3 Tools/Scripts/check_required_files.py
+Required-file check passed.

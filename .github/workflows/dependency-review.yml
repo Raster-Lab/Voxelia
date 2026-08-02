@@ -1,0 +1,25 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    paths:
+      - '**/Package.swift'
+      - '**/Package.resolved'
+      - 'THIRD_PARTY_NOTICES.md'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-policy:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, macOS, ARM64, voxelia]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Assert Apple Silicon environment
+        run: Tools/Scripts/assert-apple-platform.sh
+      - name: Confirm M0 runtime dependency policy
+        run: |
+          test "$(swift package show-dependencies --format json | python3 -c 'import json,sys; print(len(json.load(sys.stdin).get("dependencies", [])))')" = "0"
+      - run: test -f THIRD_PARTY_NOTICES.md

@@ -1,0 +1,12 @@
+schema_version: "0.1"
+dataset_id: "voxelia.phantom.scaffold"
+version: "0.1.0"
+title: "M0 scaffold dataset manifest"
+class: "analytical_phantom"
+licence: "MIT"
+confidentiality: "public"
+redistribution: true
+files: []
+maintainer: "Voxelia Validation"
+notes:
+  - "This manifest validates structure only; it contains no sample data."

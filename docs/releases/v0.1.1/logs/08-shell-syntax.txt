@@ -1,0 +1,12 @@
+PASS Tools/Scripts/assert-apple-platform.sh
+PASS Tools/Scripts/benchmark-smoke.sh
+PASS Tools/Scripts/bootstrap.sh
+PASS Tools/Scripts/build.sh
+PASS Tools/Scripts/generate-sbom.sh
+PASS Tools/Scripts/prepare-release.sh
+PASS Tools/Scripts/test-platforms.sh
+PASS Tools/Scripts/test-repository-scripts.sh
+PASS Tools/Scripts/test.sh
+PASS Tools/Scripts/validate-docs.sh
+PASS Tools/Scripts/validate-scaffold.sh
+PASS Tools/Scripts/validation-smoke.sh
