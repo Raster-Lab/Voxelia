@@ -1287,7 +1287,7 @@
     {
       "path": "Tools/Tests/Python/test_adr_register.py",
       "size": 14088,
-      "sha256": "64e2f4c5cac45d8ba8de7545b07c3436423ca0b38f47449315f41266ce7ac4ae"
+      "sha256": "8249eaad482d1e11ce3573e390ca30eef63310a6842168ac19e5ea19174bfd35"
     },
     {
       "path": "Tools/Tests/Python/test_docc_archives.py",
@@ -1450,9 +1450,14 @@
       "sha256": "0dda1d9436a29f5f23d69af375f4d5b867f0ac1fe5bdf995c516bc670b5243e5"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0027-frame-geometry-anchor-index-boundary.md",
+      "size": 16953,
+      "sha256": "3f99c69d2b2f2fe55ebf5a51b826e0a9042076bacbc14f6f89c4489ddf8b2cfb"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 1321,
-      "sha256": "05ecf6d389893f62eebb6906c7e26ccf002ffbcb90ec503a22b85bfe5e1127e9"
+      "size": 1573,
+      "sha256": "1fac3774fa57f15fbbe2a083d0402af10ea8af7cc4529a975ce2e97946b41b20"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1536,8 +1541,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 91842,
-      "sha256": "85ee64affcbf7640a88bd0a3efe3a5049b7e8f5c39ff4a0ea396c4147237a957"
+      "size": 93630,
+      "sha256": "dc02faf71b7fff07e57e586b324d98120d60e8c212cc2cb46fdbf078d46a614a"
     },
     {
       "path": "docs/project/README.md",
@@ -1821,8 +1826,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 16056,
-      "sha256": "b3f696874957d308f952c1917dc95354000d064c523d573fa326f41e53d85e71"
+      "size": 16133,
+      "sha256": "d78659e0fd71668122df8b5e8e7e723b08387fcca5aacdb3e7b5c8532eac97d8"
     }
   ]
 }

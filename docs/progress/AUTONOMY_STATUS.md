@@ -38,6 +38,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Proposed `ADR-0023` selects four common `ValueTransform` cases with validated
   linear and composition payloads while deferring undefined piecewise and
   lookup-execution behavior; it is not accepted and does not unblock code.
+- Proposed `ADR-0027` replaces the cross-module frame-index reference with a
+  Spatial-owned, full-rank `FrameAnchorIndex` and defines the minimum full-frame
+  logical-anchor semantics needed for stable identity; it is not accepted and
+  does not authorise source.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -79,7 +83,7 @@ The blocked axis and spatial branch expands as follows:
 | `CoordinateSpaceDescriptor` | `CoordinateSpaceID`, `CoordinateHandedness`, `ExternalFrameReference`, `MeasurementUnit` | Proposed `ADR-0022` selects a convention shape but is not accepted. Its built-in contradiction matrix is therefore unapproved; display/custom unit validity, unresolved-handedness operation policy, external-reference ordering and construction errors remain incomplete. |
 | `AffineGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. MTA also uses fixed `SIMD3<Int>` axes while CDMS uses one-to-three `SpatialAxisMapping` entries. Affine-final-row validation has no declared tolerance; singularity and near-singularity policy separately block inverse operations. |
 | `RectilinearGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. Coordinate-count binding, monotonicity/coincident-sample policy, orientation and invertibility semantics are incomplete. |
-| `FrameSetGeometry` | `SpatialAxisMapping`, `Matrix4x4Double`; Core-owned `ImageIndex` is implemented but unusable from Spatial | `FrameGeometry` depends on the blocked coordinate-space descriptor and contains Core-owned `ImageIndex`, which would reverse the approved `Core -> Spatial` dependency. Frame rank, sparse/empty framing, identity, compatibility and regularity-result policies are also incomplete. |
+| `FrameSetGeometry` | `SpatialAxisMapping`, `Matrix4x4Double`; Core-owned `ImageIndex` is implemented but unusable from Spatial | `FrameGeometry` depends on the blocked coordinate-space descriptor and contains Core-owned `ImageIndex`, which would reverse the approved `Core -> Spatial` dependency. Proposed `ADR-0027` supplies a role-specific replacement but is not accepted; frame-set ordering, sparse/enhanced coverage, identity, compatibility and regularity-result policies remain incomplete. |
 | `SpatialGeometry` | None beyond its payload leaves | The aggregate cannot be declared safely until all three public payload contracts and their stable encodings are available. |
 
 The descriptor also requires cross-field contracts that no individual field can
@@ -502,6 +506,15 @@ not speculative source code.
 - Kept metadata, identity, provenance and storage outside the descriptor and
   mapped them at the downstream `ImageData` boundary, including the separate
   prohibited Core/Storage cycle in the currently prescribed ownership model.
+- Audited the `FrameGeometry.frameIndex` conflict against the package graph,
+  full-rank indexing, frame-local geometry and enhanced multi-frame needs, and
+  rejected reverse dependencies, symbol moves, scalar ordinals and raw arrays.
+- Added proposed `ADR-0027` with a distinct Spatial-owned
+  `FrameAnchorIndex`, typed possible-image validation, strict type-level
+  encoding and an explicit full-frame local-origin contract.
+- Kept Core responsible for later shape- and descriptor-bound validation while
+  leaving frame-set order, sparse/enhanced coverage and other aggregate
+  policies outside the leaf decision; no geometry source is authorised.
 
 ## Verification evidence
 
@@ -902,6 +915,17 @@ not speculative source code.
   six file-backed ADRs and 52 Markdown files. Release-integrity regeneration,
   the 365-path manifest check, read-only integrity verification and
   `git diff --check` also passed with 364 inventory records and 365 checksums.
+- `Tools/Tests/Python/test_adr_register.py` passed all 21 focused tests after
+  its live-repository expectation moved from six to seven file-backed ADRs;
+  the direct checker also reported all seven records valid.
+- Independent API/architecture, serialisation/validation and spatial reviews
+  corrected the universally unbindable `Int.max` case, mapped-axis identity,
+  full-frame scope, decode error propagation, resource-limit wording and the
+  physical-matrix scope. All three final re-reviews were clean.
+- `Tools/Scripts/validate-docs.sh` passed for seven front-matter documents, all
+  seven file-backed ADRs and 53 Markdown files; `git diff --check` also passed.
+- Release-integrity regeneration, the 366-path manifest check and read-only
+  integrity verification passed with 365 inventory records and 366 checksums.
 
 ## Known blockers and risks
 
@@ -1230,6 +1254,10 @@ not speculative source code.
 - Spatial-owned `FrameGeometry` is specified with Core-owned `ImageIndex`, but
   the approved dependency direction is `Core -> Spatial`; implementing that
   shape in Spatial would create a prohibited reverse edge or cycle.
+- Proposed `ADR-0027` does not resolve that boundary until accepted. It may
+  authorise only the standalone `FrameAnchorIndex` leaf and controlled CDMS
+  correction; `FrameGeometry`, frame-set ordering, sparse/enhanced coverage,
+  coordinate-space compatibility and regularity assessment remain blocked.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -1250,24 +1278,20 @@ not speculative source code.
 
 ## Exact next action
 
-Audit and prepare a narrowly scoped proposed `ADR-0027` that decides the
-cross-module representation of `FrameGeometry.frameIndex`: retain, move or
-replace the Core-owned `ImageIndex` reference while preserving the acyclic
-`Core -> Spatial` package direction, including whether a new Spatial-owned
-locator is required. Define whether it denotes a full image index, a frame-axis
-ordinal or another identity, its serialisation and standalone validation, and
-the owner of deferred rank/shape binding validation without defining those
-detailed invariants. Acceptance must resolve only this boundary; coordinate-
-space policy, empty or sparse framing, frame-space compatibility and transforms,
-frame identity, regularity assessment, detailed descriptor binding and affine
-mapping/tolerance remain separate blockers. Do not implement source while the
-record remains Proposed.
+Audit the remaining `CoordinateSpaceDescriptor` construction boundary:
+ordinary-physical versus image-display/custom unit validity, built-in and
+unresolved handedness rules, external-reference order/uniqueness, exact public
+initializer errors and strict type-level encoding. Prepare proposed `ADR-0028`
+only if those policies can be resolved without inventing coordinate conversion
+or canonical-JSON bytes; implement no source while the governing convention
+decision and any new record remain Proposed.
 
 ## Test policy for the next action
 
-- For the frame-boundary decision, run the focused ADR-register tests plus the
-  documentation, manifest and release-integrity checks. Do not run Swift tests
-  while only architecture and progress records change.
+- For the coordinate-space audit or proposal, run focused ADR-register tests
+  plus documentation, manifest and release-integrity checks when records
+  change. Do not run Swift tests while only architecture and progress records
+  change.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
