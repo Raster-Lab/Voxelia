@@ -81,6 +81,7 @@ Sources/VoxeliaCore/Public/ImageShape.swift
 Sources/VoxeliaCore/Public/LookupTableDescriptor.swift
 Sources/VoxeliaCore/Public/MetadataKey.swift
 Sources/VoxeliaCore/Public/MetadataPrivacyClass.swift
+Sources/VoxeliaCore/Public/ProvenanceID.swift
 Sources/VoxeliaCore/Public/ProvenanceKind.swift
 Sources/VoxeliaCore/Public/ScalarFormat.swift
 Sources/VoxeliaCore/Public/SemanticVersion.swift
@@ -183,6 +184,7 @@ Tests/VoxeliaCoreTests/ImageShapeTests.swift
 Tests/VoxeliaCoreTests/LookupTableDescriptorTests.swift
 Tests/VoxeliaCoreTests/MetadataKeyTests.swift
 Tests/VoxeliaCoreTests/MetadataPrivacyClassTests.swift
+Tests/VoxeliaCoreTests/ProvenanceIDTests.swift
 Tests/VoxeliaCoreTests/ProvenanceKindTests.swift
 Tests/VoxeliaCoreTests/ScalarFormatTests.swift
 Tests/VoxeliaCoreTests/SemanticVersionTests.swift
