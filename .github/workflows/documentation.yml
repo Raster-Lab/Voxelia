@@ -3,8 +3,18 @@ name: Documentation
 on:
   pull_request:
     paths:
+      - '.github/workflows/documentation.yml'
       - 'docs/**'
+      - 'Package.swift'
+      - 'Sources/**/*.swift'
       - 'Sources/**/*.docc/**'
+      - 'Tools/Scripts/assert-apple-platform.sh'
+      - 'Tools/Scripts/build-docc.sh'
+      - 'Tools/Scripts/check_docc_archives.py'
+      - 'Tools/Scripts/check_document_text.py'
+      - 'Tools/Scripts/check_front_matter.py'
+      - 'Tools/Scripts/generate_requirement_index.py'
+      - 'Tools/Scripts/validate-docs.sh'
       - 'README.md'
   push:
     branches: [main]
@@ -22,4 +32,4 @@ jobs:
         run: Tools/Scripts/assert-apple-platform.sh
       - run: Tools/Scripts/validate-docs.sh
       - name: Build DocC documentation
-        run: swift package generate-documentation --target Voxelia || swift package describe
+        run: Tools/Scripts/build-docc.sh

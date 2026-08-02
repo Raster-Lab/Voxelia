@@ -9,7 +9,7 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Direct dependencies
 
-``VoxeliaExecution``
+`VoxeliaExecution`
 
 ## Topics
 

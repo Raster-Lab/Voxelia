@@ -9,7 +9,7 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Direct dependencies
 
-``VoxeliaSpatial``
+`VoxeliaSpatial`
 
 ## Topics
 

@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
+
+from Tools.Scripts import check_release_integrity
+from Tools.Scripts.check_release_integrity import sha256_git_index
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -75,6 +80,82 @@ class ReleaseIntegrityTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("release inventory metadata mismatch", result.stdout)
             self.assertIn("checksum mismatch", result.stdout)
+
+    def test_hashes_dataless_content_from_the_git_index(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.make_repository(directory)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(
+                ["git", "add", "Sources/Voxelia.swift"],
+                cwd=root,
+                check=True,
+            )
+            contents = (root / "Sources/Voxelia.swift").read_bytes()
+
+            digest = sha256_git_index(
+                root,
+                "Sources/Voxelia.swift",
+                len(contents),
+            )
+
+            self.assertEqual(digest, hashlib.sha256(contents).hexdigest())
+
+    def test_refuses_modified_content_with_the_same_size(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.make_repository(directory)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            source = root / "Sources/Voxelia.swift"
+            subprocess.run(
+                ["git", "add", "Sources/Voxelia.swift"],
+                cwd=root,
+                check=True,
+            )
+            original_size = source.stat().st_size
+            source.write_bytes(b"x" * original_size)
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "dataless file differs from the Git index",
+            ):
+                sha256_git_index(
+                    root,
+                    "Sources/Voxelia.swift",
+                    original_size,
+                )
+
+    def test_check_reports_evidence_computation_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.make_repository(directory)
+            self.assertEqual(self.run_checker(root, "--write").returncode, 0)
+
+            with patch.object(
+                check_release_integrity,
+                "expected_inventory",
+                side_effect=ValueError("simulated dataless mismatch"),
+            ):
+                errors = check_release_integrity.check_integrity(root)
+
+            self.assertIn(
+                "cannot compute release inventory: simulated dataless mismatch",
+                errors,
+            )
+
+    def test_write_failure_preserves_existing_ledgers(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.make_repository(directory)
+            ledger_paths = [root / name for name in check_release_integrity.LEDGERS]
+            before = {path.name: path.read_bytes() for path in ledger_paths}
+
+            with patch.object(
+                check_release_integrity,
+                "expected_checksums",
+                side_effect=ValueError("simulated hashing failure"),
+            ):
+                with self.assertRaisesRegex(ValueError, "simulated hashing failure"):
+                    check_release_integrity.write_integrity(root)
+
+            after = {path.name: path.read_bytes() for path in ledger_paths}
+            self.assertEqual(after, before)
 
 
 if __name__ == "__main__":

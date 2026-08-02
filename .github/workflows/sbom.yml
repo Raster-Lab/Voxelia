@@ -16,4 +16,7 @@ jobs:
       - name: Assert Apple Silicon environment
         run: Tools/Scripts/assert-apple-platform.sh
       - run: Tools/Scripts/generate-sbom.sh
-      - run: test -s docs/releases/v0.1.1/SBOM.scaffold.generated.json
+      - name: Validate release SBOM profile
+        run: >-
+          python3 Tools/Scripts/generate_sbom.py --validate
+          docs/releases/v0.1.1/SBOM.scaffold.generated.json

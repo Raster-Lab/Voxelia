@@ -1,0 +1,557 @@
+{
+  "bomFormat": "Voxelia-Release-SBOM",
+  "bundledResources": [
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "dd46040cfe542f97e248793e40a420e395fe71e278b9c662be4a1866548a41aa"
+      },
+      "owningTarget": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal/Resources/ShaderManifest.yaml",
+      "processingRule": "process",
+      "scope": "runtime"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "0debcc2101ba6eae0c5fa1533437f297159aec340dae80706d808749eb89abca"
+      },
+      "owningTarget": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal/Resources/Shaders/Common/README.md",
+      "processingRule": "process",
+      "scope": "runtime"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "owningTarget": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal/Resources/Shaders/Compositing/.gitkeep",
+      "processingRule": "process",
+      "scope": "runtime"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "owningTarget": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal/Resources/Shaders/Imaging/.gitkeep",
+      "processingRule": "process",
+      "scope": "runtime"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "owningTarget": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal/Resources/Shaders/Picking/.gitkeep",
+      "processingRule": "process",
+      "scope": "runtime"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "owningTarget": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal/Resources/Shaders/Projection/.gitkeep",
+      "processingRule": "process",
+      "scope": "runtime"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "owningTarget": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal/Resources/Shaders/Resampling/.gitkeep",
+      "processingRule": "process",
+      "scope": "runtime"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "owningTarget": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal/Resources/Shaders/SurfaceRendering/.gitkeep",
+      "processingRule": "process",
+      "scope": "runtime"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "owningTarget": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal/Resources/Shaders/VolumeRendering/.gitkeep",
+      "processingRule": "process",
+      "scope": "runtime"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "2317efa5e92ced3dee72fe947f77898b82c20f432e2e20c08f61ad2d734dc5cd"
+      },
+      "owningTarget": "VoxeliaTestSupport",
+      "path": "Tests/Support/Resources/README.md",
+      "processingRule": "process",
+      "scope": "test"
+    }
+  ],
+  "checksums": [
+    {
+      "algorithm": "SHA-256",
+      "path": "LICENSE",
+      "value": "744cf02040db2b51c4615804aceb0c8b812f8fc753369615a5d5c240f07bbdcf"
+    },
+    {
+      "algorithm": "SHA-256",
+      "path": "Package.swift",
+      "value": "70d256e6750fb7c1f9d3485adebbd7b9dd7b9ee4ad698e84e3c996c7e09ce9da"
+    },
+    {
+      "algorithm": "SHA-256",
+      "path": "RELEASE.json",
+      "value": "a09f66213f5e78739ce8965166d0768a4a8145a7007c86b806fd096bdabdb2ea"
+    },
+    {
+      "algorithm": "SHA-256",
+      "path": "THIRD_PARTY_NOTICES.md",
+      "value": "de7c64ffeaec8769ae219eef2256cec42d9804d916a5ee800a4a2a1530ea6bf1"
+    },
+    {
+      "algorithm": "SHA-256",
+      "path": "Tools/Schemas/VoxeliaSBOM.schema.json",
+      "value": "d3248a56dc8659c8a92add4bf204fac158b1e5777b47fd50a3287d132abbb926"
+    },
+    {
+      "algorithm": "SHA-256",
+      "path": "Tools/Scripts/generate-sbom.sh",
+      "value": "1d562dc44415865beeac5765ff9495bcee5375d576e1f5f3152c897cd4a53df4"
+    },
+    {
+      "algorithm": "SHA-256",
+      "path": "Tools/Scripts/generate_sbom.py",
+      "value": "86694eef5fa9c3bb5642a60c3a774ee534207b028ce6332cc4b2a55bd977d3c9"
+    },
+    {
+      "algorithm": "SHA-256",
+      "path": "VERSION",
+      "value": "80447316529fc62014fbaa047fb67c51ac30e32830cda370405349d8d66d196c"
+    }
+  ],
+  "externalPackages": [],
+  "licences": [
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "744cf02040db2b51c4615804aceb0c8b812f8fc753369615a5d5c240f07bbdcf"
+      },
+      "component": "Voxelia",
+      "source": "LICENSE",
+      "spdxIdentifier": "MIT"
+    }
+  ],
+  "metadata": {
+    "platformPolicy": {
+      "developmentHost": "Apple Silicon Mac running macOS and Xcode",
+      "hardware": "Apple Silicon ARM64 only",
+      "nonAppleSupport": false,
+      "operatingSystems": [
+        "macOS",
+        "iOS",
+        "iPadOS",
+        "visionOS",
+        "tvOS"
+      ]
+    },
+    "project": "Voxelia",
+    "release": "Repository and Package Scaffold",
+    "releaseDate": "2026-08-02",
+    "sourceRevision": {
+      "commit": "d088b0bae3c90c9cf0879b46bb6dbbdecdacf95f",
+      "scope": "Checked-out source revision observed before writing the generated SBOM artifact.",
+      "workingTreeDirty": true
+    },
+    "version": "0.1.1"
+  },
+  "optionalDependencies": [],
+  "products": [
+    {
+      "name": "Voxelia",
+      "targets": [
+        "Voxelia"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaCPU",
+      "targets": [
+        "VoxeliaCPU"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaCore",
+      "targets": [
+        "VoxeliaCore"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaExecution",
+      "targets": [
+        "VoxeliaExecution"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaGeometry",
+      "targets": [
+        "VoxeliaGeometry"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaImaging",
+      "targets": [
+        "VoxeliaImaging"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaInteraction",
+      "targets": [
+        "VoxeliaInteraction"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaMetal",
+      "targets": [
+        "VoxeliaMetal"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaRendering",
+      "targets": [
+        "VoxeliaRendering"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaSpatial",
+      "targets": [
+        "VoxeliaSpatial"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaStorage",
+      "targets": [
+        "VoxeliaStorage"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaValidation",
+      "targets": [
+        "VoxeliaValidation"
+      ],
+      "type": "library"
+    }
+  ],
+  "releaseTools": [
+    {
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "86694eef5fa9c3bb5642a60c3a774ee534207b028ce6332cc4b2a55bd977d3c9"
+      },
+      "name": "Voxelia SBOM Generator",
+      "path": "Tools/Scripts/generate_sbom.py",
+      "version": "1.0.0"
+    },
+    {
+      "name": "Git",
+      "role": "source revision",
+      "version": "git version 2.50.1 (Apple Git-155)"
+    },
+    {
+      "name": "Python",
+      "role": "SBOM profile generation and validation",
+      "version": "3.14.6"
+    },
+    {
+      "name": "Swift",
+      "role": "Swift package metadata",
+      "version": "swift-driver version: 1.148.6 Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0"
+    },
+    {
+      "name": "Xcode",
+      "role": "Apple release toolchain",
+      "version": "Xcode 26.6 | Build version 17F113"
+    }
+  ],
+  "schema": {
+    "dialect": "https://json-schema.org/draft/2020-12/schema",
+    "path": "Tools/Schemas/VoxeliaSBOM.schema.json",
+    "profileVersion": "1.0.0"
+  },
+  "sourceTargets": [
+    {
+      "dependencies": [
+        "VoxeliaCore",
+        "VoxeliaExecution",
+        "VoxeliaGeometry",
+        "VoxeliaImaging",
+        "VoxeliaInteraction",
+        "VoxeliaRendering",
+        "VoxeliaSpatial",
+        "VoxeliaStorage"
+      ],
+      "name": "Voxelia",
+      "path": "Sources/Voxelia",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaGeometry",
+        "VoxeliaImaging"
+      ],
+      "name": "VoxeliaCPU",
+      "path": "Sources/VoxeliaCPU",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaSpatial"
+      ],
+      "name": "VoxeliaCore",
+      "path": "Sources/VoxeliaCore",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaStorage"
+      ],
+      "name": "VoxeliaExecution",
+      "path": "Sources/VoxeliaExecution",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaCore"
+      ],
+      "name": "VoxeliaGeometry",
+      "path": "Sources/VoxeliaGeometry",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaExecution"
+      ],
+      "name": "VoxeliaImaging",
+      "path": "Sources/VoxeliaImaging",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaRendering"
+      ],
+      "name": "VoxeliaInteraction",
+      "path": "Sources/VoxeliaInteraction",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaExecution",
+        "VoxeliaRendering"
+      ],
+      "name": "VoxeliaMetal",
+      "path": "Sources/VoxeliaMetal",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaGeometry",
+        "VoxeliaImaging"
+      ],
+      "name": "VoxeliaRendering",
+      "path": "Sources/VoxeliaRendering",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [],
+      "name": "VoxeliaSpatial",
+      "path": "Sources/VoxeliaSpatial",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaCore"
+      ],
+      "name": "VoxeliaStorage",
+      "path": "Sources/VoxeliaStorage",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaCore",
+        "VoxeliaValidation"
+      ],
+      "name": "VoxeliaTestSupport",
+      "path": "Tests/Support",
+      "scope": "test-support",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaCPU",
+        "VoxeliaMetal"
+      ],
+      "name": "VoxeliaValidation",
+      "path": "Sources/VoxeliaValidation",
+      "scope": "runtime",
+      "type": "regular"
+    }
+  ],
+  "specVersion": "1.0.0",
+  "testTargets": [
+    {
+      "dependencies": [
+        "VoxeliaCPU",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaCPUTests",
+      "path": "Tests/VoxeliaCPUTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaCore",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaCoreTests",
+      "path": "Tests/VoxeliaCoreTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaExecution",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaExecutionTests",
+      "path": "Tests/VoxeliaExecutionTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaGeometry",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaGeometryTests",
+      "path": "Tests/VoxeliaGeometryTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaImaging",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaImagingTests",
+      "path": "Tests/VoxeliaImagingTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaInteraction",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaInteractionTests",
+      "path": "Tests/VoxeliaInteractionTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaMetal",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaMetalTests",
+      "path": "Tests/VoxeliaMetalTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaRendering",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaRenderingTests",
+      "path": "Tests/VoxeliaRenderingTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaSpatial",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaSpatialTests",
+      "path": "Tests/VoxeliaSpatialTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaStorage",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaStorageTests",
+      "path": "Tests/VoxeliaStorageTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "Voxelia",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaTests",
+      "path": "Tests/VoxeliaTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaTestSupport",
+        "VoxeliaValidation"
+      ],
+      "name": "VoxeliaValidationTests",
+      "path": "Tests/VoxeliaValidationTests",
+      "scope": "test",
+      "type": "test"
+    }
+  ]
+}

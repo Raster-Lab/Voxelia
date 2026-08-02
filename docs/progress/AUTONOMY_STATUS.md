@@ -8,10 +8,16 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Current state
 
-- Active milestone: M0 - repository and quality foundation.
+- Active implementation milestone: M1 - core data and spatial foundations.
+- M0 local technical status: all host-supported build, test, documentation,
+  resource and SBOM criteria pass; formal acceptance remains open for
+  visionOS, external governance and human approvals.
 - Local repository: the complete 283-file v0.1.1 scaffold is imported alongside the autonomous workflow files.
 - Remote baseline: Google Drive folder `Voxelia_Repository_and_Package_Scaffold_v0.1.1`.
-- Baseline status: the complete local M0 scaffold gate passes on the supported Apple Silicon host; formal M0 acceptance remains pending for the wider platform matrix, external repository governance, and required human sign-offs.
+- Baseline status: the complete local M0 scaffold gate and every host-supported
+  Apple platform criterion pass on the Apple Silicon host; formal M0 acceptance
+  remains pending for the unavailable visionOS destinations, external
+  repository governance, runner review and required human sign-offs.
 - Host capability observed: Apple Silicon ARM64 macOS, Xcode 26.6, Swift 6.3.3.
 - Automation: `Complete Voxelia autonomously`, active heartbeat every 15 minutes on this Codex task.
 
@@ -34,24 +40,93 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Resolved the shared auxiliary-package defect by moving all three explicit `@main` types out of specially treated `main.swift` files without changing command behaviour.
 - Added a fast repository regression check for explicit entry points placed in `main.swift`.
 - Reran the complete M0 scaffold gate after the targeted fix and passed it end to end.
+- Built the root package in release configuration.
+- Built the root package with complete Swift 6 concurrency checking and
+  warnings promoted to errors.
+- Built the package for macOS, generic iOS, iOS Simulator, generic tvOS and
+  tvOS Simulator without rerunning the already passing destinations.
+- Added a focused resource-bundle test that loads and verifies the
+  VoxeliaMetal shader manifest through `Bundle.module`.
+- Replaced the documentation workflow's unavailable, false-green SwiftPM DocC
+  command with an Xcode-native wrapper that treats warnings as errors and
+  verifies all 12 target-local archives.
+- Corrected cross-module dependency labels that DocC had interpreted as
+  unresolved symbol links.
+- Replaced the target-name-only SBOM output with a versioned, schema-backed
+  release profile covering source revision semantics, products, source and
+  test targets, licences, file checksums, release tools, bundled resources,
+  external packages and optional-dependency classification.
+- Updated the Apple platform acceptance checklist with passed local evidence
+  and explicit external gaps; formal M0 acceptance is not claimed.
+- Made release-integrity hashing resilient to macOS dataless placeholders by
+  reading provably unchanged tracked bytes from the Git index, with a bounded
+  worktree comparison, size validation and non-interactive timeouts.
+- Made SBOM reads fail closed with an actionable error when macOS exposes a
+  required file as a dataless placeholder instead of allowing an unbounded
+  File Provider wait.
+- Enforced the checked-in SBOM JSON Schema during generation and validation,
+  including local references, composed definitions, types, constants, enums,
+  patterns, full dates, required fields, collection bounds and unexpected
+  top-level fields.
+- Reordered release preparation so generated SBOM evidence is validated and
+  included in regenerated integrity ledgers before the scaffold and final
+  integrity gates run.
+- Made release-integrity checks report dataless hashing failures as structured
+  gate errors and made the writer compute all dependent evidence before
+  replacing any ledger content.
+- Added bounded subprocess execution to repository-script regressions so a
+  cloud placeholder or failed validator cannot stall an autonomous run.
+- Pinned the repository metadata and top-level project contents for local
+  storage so autonomous runs remain reliable in the iCloud-backed workspace.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 289-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
-- `Tools/Tests/Python/test_repository_scripts.py`: 7 tests passed individually or as part of the M0 and focused runs.
+- The current 296-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
+  across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
 - `Tools/Tests/Python/test_manifest_paths.py`: 10 focused tests passed, including the original different-leaf `Logs/` versus `logs/` failure mode.
-- The live 289-entry repository manifest passes the new component-prefix validator.
-- `Tools/Tests/Python/test_release_integrity.py`: 3 focused round-trip, omission, and digest-corruption tests passed.
-- The regenerated 288-record inventory and 289-entry SHA-256 ledger pass both the read-only integrity checker and direct `shasum` verification.
+- The live 296-entry repository manifest passes the new component-prefix validator.
+- `Tools/Tests/Python/test_release_integrity.py`: 7 focused round-trip,
+  omission, digest-corruption, Git-index hashing and same-size modification
+  rejection tests passed, including structured computation failures and
+  failed-write ledger preservation.
+- The regenerated 295-record inventory and 296-entry SHA-256 ledger pass the
+  read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
 - Initial M0 gate: 28 Python repository tests, all static/document checks, the root build, and all 12 root Swift tests passed; execution then stopped at `voxelia-validation` because `@main` was declared in `main.swift`.
 - Focused follow-up: Validation, Benchmarks, and Tools auxiliary packages each pass their single Swift test and executable `--self-check` on Swift 6.3.3.
 - Final local M0 scaffold gate: all required-file, manifest, release-integrity, package-graph, prohibited-import, Apple-policy, controlled-document and requirement-index checks passed; 29 Python tests and 12 root Swift tests passed; all three auxiliary self-checks returned `pass`; the script reported `M0 scaffold validation passed`.
+- `swift build -c release` passed for all root source targets.
+- `swift build -Xswiftc -strict-concurrency=complete -Xswiftc
+  -warnings-as-errors` passed without warnings.
+- `Tools/Scripts/test-platforms.sh` passed macOS, iOS device/simulator and tvOS
+  device/simulator builds before the missing visionOS component stopped the
+  sequential script.
+- `swift test --filter 'VoxeliaMetalTests.shaderManifestIsBundled'` ran one
+  focused Swift Testing test and passed.
+- `Tools/Scripts/build-docc.sh` passed with warnings as errors and verified the
+  exact expected names of all 12 generated `.doccarchive` directories.
+- Three focused DocC archive-set tests passed for exact, missing/unexpected and
+  duplicate archive cases.
+- Three focused repository/release workflow regressions passed; they reject
+  the unavailable DocC fallback and non-validating SBOM smoke check, and require
+  generated release evidence to precede final integrity validation.
+- Eight focused SBOM tests passed for the complete profile, required fields,
+  digest tampering, unreviewed dependency licences, schema structure, enforced
+  checked-in schema and dependency constraints, malformed collection values
+  and dataless-placeholder failure behavior.
+- `Tools/Scripts/generate-sbom.sh` produced the schema-backed release profile,
+  and an independent `--validate` invocation passed. The profile includes 12
+  products, 13 source targets, 12 test targets, eight source checksums, five
+  release tools, 10 bundled resources and no external package dependency.
+- The live integrity writer and checker completed while macOS retained
+  dataless placeholders, proving that this host state no longer stalls the
+  release gate.
 
 ## Known blockers and risks
 
@@ -61,13 +136,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - The traceability index still lacks source digest and lifecycle/status fields promised by scaffold specification section 37.1; this is separate from the corrected count drift.
 - No public repository or remote is configured.
 - External GitHub governance and any push/publication require explicit user authorization.
+- Xcode reports the visionOS 26.5 platform component as not installed, so both
+  generic and simulator visionOS evidence remain open. Installing the component
+  is a large external toolchain change and was not attempted silently.
 
 ## Exact next action
 
-Commit the passing local M0 scaffold evidence, then audit the remaining Apple platform acceptance checklist and execute only unmet local destination checks that this host can support.
+Commit the host-local M0 evidence, then implement the first M1 criterion:
+`ImageShape` and `ShapeError` in VoxeliaCore for requirements `VOX-DAT-002`
+through `VOX-DAT-005`.
 
 ## Test policy for the next action
 
-- Do not rerun the complete scaffold suite unless a later change affects its gate or a release candidate is being accepted.
-- Use the named macOS/iOS/iPadOS/tvOS/visionOS build or test destination for each remaining platform criterion rather than all repository tests.
-- Record unavailable SDKs, simulators, signing contexts, repository settings, and human approvals as explicit external evidence gaps rather than treating them as passing.
+- Run `swift build --target VoxeliaCore` and only the `ImageShape`-filtered
+  VoxeliaCore tests for the next slice.
+- Do not rerun the complete scaffold suite unless a later cross-cutting change
+  affects its gate or a release candidate is being accepted.
+- Keep unavailable SDKs, signing contexts, repository settings and human
+  approvals recorded as explicit evidence gaps rather than treating them as
+  passing.

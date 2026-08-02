@@ -164,11 +164,14 @@ Tests/VoxeliaValidationTests/VoxeliaValidationTests.swift
 Tools/Package.swift
 Tools/Plugins/README.md
 Tools/README.md
+Tools/Schemas/VoxeliaSBOM.schema.json
 Tools/Scripts/assert-apple-platform.sh
 Tools/Scripts/benchmark-smoke.sh
 Tools/Scripts/bootstrap.sh
+Tools/Scripts/build-docc.sh
 Tools/Scripts/build.sh
 Tools/Scripts/check_apple_platform_policy.py
+Tools/Scripts/check_docc_archives.py
 Tools/Scripts/check_document_text.py
 Tools/Scripts/check_front_matter.py
 Tools/Scripts/check_manifest_paths.py
@@ -179,6 +182,7 @@ Tools/Scripts/check_release_integrity.py
 Tools/Scripts/check_required_files.py
 Tools/Scripts/generate-sbom.sh
 Tools/Scripts/generate_requirement_index.py
+Tools/Scripts/generate_sbom.py
 Tools/Scripts/prepare-release.sh
 Tools/Scripts/test-platforms.sh
 Tools/Scripts/test-repository-scripts.sh
@@ -188,6 +192,8 @@ Tools/Scripts/validate-scaffold.sh
 Tools/Scripts/validation-smoke.sh
 Tools/Sources/voxelia-repo-check/ApplePlatformGate.swift
 Tools/Sources/voxelia-repo-check/VoxeliaRepositoryCheck.swift
+Tools/Tests/Python/test_docc_archives.py
+Tools/Tests/Python/test_generate_sbom.py
 Tools/Tests/Python/test_manifest_paths.py
 Tools/Tests/Python/test_release_integrity.py
 Tools/Tests/Python/test_repository_scripts.py
@@ -247,6 +253,7 @@ docs/releases/v0.1.1/Package_Graph.json
 docs/releases/v0.1.1/Package_Graph.md
 docs/releases/v0.1.1/README.md
 docs/releases/v0.1.1/Requirements_Traceability_Index.json
+docs/releases/v0.1.1/SBOM.scaffold.generated.json
 docs/releases/v0.1.1/SBOM.scaffold.json
 docs/releases/v0.1.1/Static_Verification_Report.md
 docs/releases/v0.1.1/Voxelia_v0.1.1_Corrective_Release_Notes.md

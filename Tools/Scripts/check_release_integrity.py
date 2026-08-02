@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import stat
 import subprocess
 import sys
 
@@ -31,7 +32,73 @@ IGNORED_DIRECTORIES = {
 }
 
 
-def sha256_file(path: Path) -> str:
+def sha256_git_index(
+    root: Path,
+    relative_path: str,
+    expected_size: int,
+) -> str:
+    """Hash a tracked dataless file from Git without forcing cloud hydration."""
+    worktree_check = subprocess.run(
+        [
+            "git",
+            "-c",
+            "credential.helper=",
+            "-C",
+            str(root),
+            "diff-files",
+            "--quiet",
+            "--",
+            relative_path,
+        ],
+        check=False,
+        capture_output=True,
+        timeout=15,
+    )
+    if worktree_check.returncode == 1:
+        raise ValueError(
+            f"dataless file differs from the Git index: {relative_path!r}"
+        )
+    if worktree_check.returncode != 0:
+        raise subprocess.CalledProcessError(
+            worktree_check.returncode,
+            worktree_check.args,
+            output=worktree_check.stdout,
+            stderr=worktree_check.stderr,
+        )
+
+    result = subprocess.run(
+        [
+            "git",
+            "-c",
+            "credential.helper=",
+            "-C",
+            str(root),
+            "show",
+            f":{relative_path}",
+        ],
+        check=True,
+        capture_output=True,
+        timeout=15,
+    )
+    if len(result.stdout) != expected_size:
+        raise ValueError(
+            f"Git index size differs from dataless file metadata: {relative_path!r}"
+        )
+    return hashlib.sha256(result.stdout).hexdigest()
+
+
+def sha256_file(
+    path: Path,
+    root: Path | None = None,
+    relative_path: str | None = None,
+) -> str:
+    file_status = path.stat()
+    dataless_flag = getattr(stat, "SF_DATALESS", 0)
+    if dataless_flag and file_status.st_flags & dataless_flag:
+        if root is None or relative_path is None:
+            raise ValueError(f"cannot hash dataless file without Git context: {path}")
+        return sha256_git_index(root, relative_path, file_status.st_size)
+
     digest = hashlib.sha256()
     with path.open("rb") as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
@@ -46,6 +113,8 @@ def repository_paths(root: Path) -> list[str]:
         result = subprocess.run(
             [
                 "git",
+                "-c",
+                "credential.helper=",
                 "-C",
                 str(root),
                 "ls-files",
@@ -56,6 +125,7 @@ def repository_paths(root: Path) -> list[str]:
             ],
             check=True,
             capture_output=True,
+            timeout=60,
         )
         try:
             paths = [
@@ -98,25 +168,44 @@ def expected_manifest(paths: list[str]) -> list[str]:
     return [path for path in paths if path != MANIFEST]
 
 
-def expected_inventory(root: Path, paths: list[str]) -> list[dict[str, object]]:
+def expected_inventory(
+    root: Path,
+    paths: list[str],
+    content_overrides: dict[str, bytes] | None = None,
+) -> list[dict[str, object]]:
+    overrides = content_overrides or {}
     records: list[dict[str, object]] = []
     for relative_path in paths:
         if relative_path in {INVENTORY, CHECKSUMS}:
             continue
         path = root / relative_path
+        override = overrides.get(relative_path)
         records.append(
             {
                 "path": relative_path,
-                "size": path.stat().st_size,
-                "sha256": sha256_file(path),
+                "size": len(override) if override is not None else path.stat().st_size,
+                "sha256": (
+                    hashlib.sha256(override).hexdigest()
+                    if override is not None
+                    else sha256_file(path, root, relative_path)
+                ),
             }
         )
     return records
 
 
-def expected_checksums(root: Path, paths: list[str]) -> list[str]:
+def expected_checksums(
+    root: Path,
+    paths: list[str],
+    content_overrides: dict[str, bytes] | None = None,
+) -> list[str]:
+    overrides = content_overrides or {}
     return [
-        f"{sha256_file(root / path)}  {path}"
+        (
+            f"{hashlib.sha256(overrides[path]).hexdigest()}  {path}"
+            if path in overrides
+            else f"{sha256_file(root / path, root, path)}  {path}"
+        )
         for path in paths
         if path != CHECKSUMS
     ]
@@ -188,7 +277,12 @@ def read_checksums(root: Path) -> tuple[list[tuple[str, str]], list[str]]:
 def check_integrity(root: Path) -> list[str]:
     try:
         paths = repository_paths(root)
-    except (OSError, subprocess.CalledProcessError, ValueError) as error:
+    except (
+        OSError,
+        subprocess.CalledProcessError,
+        subprocess.TimeoutExpired,
+        ValueError,
+    ) as error:
         return [f"cannot enumerate repository files: {error}"]
 
     errors: list[str] = []
@@ -212,40 +306,60 @@ def check_integrity(root: Path) -> list[str]:
         if not all(isinstance(path, str) for path in actual_inventory_paths):
             errors.append(f"{INVENTORY} contains an invalid path")
         else:
-            expected_records = expected_inventory(root, paths)
-            errors.extend(
-                compare_path_lists(
-                    "release inventory",
-                    actual_inventory_paths,
-                    [record["path"] for record in expected_records],
+            try:
+                expected_records = expected_inventory(root, paths)
+            except (
+                OSError,
+                subprocess.CalledProcessError,
+                subprocess.TimeoutExpired,
+                ValueError,
+            ) as error:
+                errors.append(f"cannot compute release inventory: {error}")
+            else:
+                errors.extend(
+                    compare_path_lists(
+                        "release inventory",
+                        actual_inventory_paths,
+                        [record["path"] for record in expected_records],
+                    )
                 )
-            )
-            actual_by_path = {record.get("path"): record for record in inventory}
-            for expected_record in expected_records:
-                path = expected_record["path"]
-                actual_record = actual_by_path.get(path)
-                if actual_record is not None and actual_record != expected_record:
-                    errors.append(f"release inventory metadata mismatch: {path!r}")
+                actual_by_path = {record.get("path"): record for record in inventory}
+                for expected_record in expected_records:
+                    path = expected_record["path"]
+                    actual_record = actual_by_path.get(path)
+                    if actual_record is not None and actual_record != expected_record:
+                        errors.append(
+                            f"release inventory metadata mismatch: {path!r}"
+                        )
 
     checksums, checksum_errors = read_checksums(root)
     errors.extend(checksum_errors)
     if not checksum_errors:
         actual_checksum_paths = [path for path, _ in checksums]
-        expected_lines = expected_checksums(root, paths)
-        expected_checksum_records = [
-            (line[66:], line[:64]) for line in expected_lines
-        ]
-        errors.extend(
-            compare_path_lists(
-                "checksum ledger",
-                actual_checksum_paths,
-                [path for path, _ in expected_checksum_records],
+        try:
+            expected_lines = expected_checksums(root, paths)
+        except (
+            OSError,
+            subprocess.CalledProcessError,
+            subprocess.TimeoutExpired,
+            ValueError,
+        ) as error:
+            errors.append(f"cannot compute checksum ledger: {error}")
+        else:
+            expected_checksum_records = [
+                (line[66:], line[:64]) for line in expected_lines
+            ]
+            errors.extend(
+                compare_path_lists(
+                    "checksum ledger",
+                    actual_checksum_paths,
+                    [path for path, _ in expected_checksum_records],
+                )
             )
-        )
-        actual_by_path = {path: digest for path, digest in checksums}
-        for path, digest in expected_checksum_records:
-            if path in actual_by_path and actual_by_path[path] != digest:
-                errors.append(f"checksum mismatch: {path!r}")
+            actual_by_path = {path: digest for path, digest in checksums}
+            for path, digest in expected_checksum_records:
+                if path in actual_by_path and actual_by_path[path] != digest:
+                    errors.append(f"checksum mismatch: {path!r}")
 
     return errors
 
@@ -256,17 +370,23 @@ def write_integrity(root: Path) -> tuple[int, int, int]:
     paths = repository_paths(root)
 
     manifest = expected_manifest(paths)
-    (root / MANIFEST).write_text("\n".join(manifest) + "\n", encoding="utf-8")
+    manifest_text = "\n".join(manifest) + "\n"
+    content_overrides = {MANIFEST: manifest_text.encode("utf-8")}
 
     inventory = inventory_metadata(root)
-    inventory["files"] = expected_inventory(root, paths)
-    (root / INVENTORY).write_text(
-        json.dumps(inventory, indent=2, ensure_ascii=False) + "\n",
+    inventory["files"] = expected_inventory(root, paths, content_overrides)
+    inventory_text = json.dumps(inventory, indent=2, ensure_ascii=False) + "\n"
+    content_overrides[INVENTORY] = inventory_text.encode("utf-8")
+
+    checksums = expected_checksums(root, paths, content_overrides)
+    checksums_text = "\n".join(checksums) + "\n"
+
+    (root / MANIFEST).write_text(manifest_text, encoding="utf-8")
+    (root / INVENTORY).write_text(inventory_text, encoding="utf-8")
+    (root / CHECKSUMS).write_text(
+        checksums_text,
         encoding="utf-8",
     )
-
-    checksums = expected_checksums(root, paths)
-    (root / CHECKSUMS).write_text("\n".join(checksums) + "\n", encoding="utf-8")
     return len(manifest), len(inventory["files"]), len(checksums)
 
 
@@ -287,7 +407,12 @@ def main() -> int:
     if arguments.write:
         try:
             manifest_count, inventory_count, checksum_count = write_integrity(root)
-        except (OSError, subprocess.CalledProcessError, ValueError) as error:
+        except (
+            OSError,
+            subprocess.CalledProcessError,
+            subprocess.TimeoutExpired,
+            ValueError,
+        ) as error:
             print(f"Release integrity update failed: {error}")
             return 1
         print(

@@ -1,0 +1,405 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voxelia Release SBOM",
+  "description": "Machine-readable release evidence required by the Voxelia repository scaffold specification section 40.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bomFormat",
+    "specVersion",
+    "schema",
+    "metadata",
+    "products",
+    "sourceTargets",
+    "testTargets",
+    "externalPackages",
+    "licences",
+    "checksums",
+    "releaseTools",
+    "bundledResources",
+    "optionalDependencies"
+  ],
+  "properties": {
+    "bomFormat": {
+      "const": "Voxelia-Release-SBOM"
+    },
+    "specVersion": {
+      "const": "1.0.0"
+    },
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dialect",
+        "path",
+        "profileVersion"
+      ],
+      "properties": {
+        "dialect": {
+          "const": "https://json-schema.org/draft/2020-12/schema"
+        },
+        "path": {
+          "const": "Tools/Schemas/VoxeliaSBOM.schema.json"
+        },
+        "profileVersion": {
+          "const": "1.0.0"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project",
+        "version",
+        "release",
+        "releaseDate",
+        "sourceRevision",
+        "platformPolicy"
+      ],
+      "properties": {
+        "project": {
+          "const": "Voxelia"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "release": {
+          "type": "string",
+          "minLength": 1
+        },
+        "releaseDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "sourceRevision": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "commit",
+            "workingTreeDirty",
+            "scope"
+          ],
+          "properties": {
+            "commit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40,64}$"
+            },
+            "workingTreeDirty": {
+              "type": "boolean"
+            },
+            "scope": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "platformPolicy": {
+          "type": "object"
+        }
+      }
+    },
+    "products": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/product"
+      }
+    },
+    "sourceTargets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/target"
+      }
+    },
+    "testTargets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/target"
+      }
+    },
+    "externalPackages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/externalPackage"
+      }
+    },
+    "licences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/licence"
+      }
+    },
+    "checksums": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/fileChecksum"
+      }
+    },
+    "releaseTools": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/releaseTool"
+      }
+    },
+    "bundledResources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/resource"
+      }
+    },
+    "optionalDependencies": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "checksum": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "SHA-256"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "fileChecksum": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/checksum"
+        },
+        {
+          "type": "object",
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type",
+        "targets"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type",
+        "scope",
+        "path",
+        "dependencies"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "enum": [
+            "runtime",
+            "test-support",
+            "test"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "externalPackage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "location",
+        "resolvedVersion",
+        "resolvedRevision",
+        "licence",
+        "usage",
+        "distribution",
+        "optional"
+      ],
+      "properties": {
+        "identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resolvedVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resolvedRevision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40,64}$"
+        },
+        "licence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "usage": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "distribution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "optional": {
+          "type": "boolean"
+        }
+      }
+    },
+    "licence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component",
+        "spdxIdentifier",
+        "source",
+        "checksum"
+      ],
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1
+        },
+        "spdxIdentifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        }
+      }
+    },
+    "releaseTool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        }
+      }
+    },
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owningTarget",
+        "path",
+        "scope",
+        "processingRule",
+        "checksum"
+      ],
+      "properties": {
+        "owningTarget": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "enum": [
+            "runtime",
+            "test"
+          ]
+        },
+        "processingRule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,22 @@ Repository tools validate package boundaries, controlled-document front matter, 
 
 All repository tools are executed on an Apple Silicon Mac with the approved Xcode toolchain.
 
+Build all target-local DocC archives with unresolved links and other warnings treated as errors:
+
+```bash
+Tools/Scripts/build-docc.sh
+```
+
+Generate the release SBOM profile, including source revision, products,
+targets, licences, checksums, toolchain identity, bundled resources and
+dependency classification:
+
+```bash
+Tools/Scripts/generate-sbom.sh
+python3 Tools/Scripts/generate_sbom.py --validate \
+    docs/releases/v0.1.1/SBOM.scaffold.generated.json
+```
+
 Manifest paths use NFC normalization plus Unicode case folding as a conservative portability policy for Apple filesystems and case-sensitive CI hosts.
 
 After an intentional releasable-file change, regenerate the manifest, inventory and checksum ledger, review their diff, and run the read-only check:
