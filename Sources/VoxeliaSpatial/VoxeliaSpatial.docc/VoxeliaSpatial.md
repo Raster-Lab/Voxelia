@@ -36,6 +36,12 @@ None.
 - ``SpatialAxisMapping``
 - ``SpatialAxisMappingError``
 
+### Spatial primitives
+
+- ``Point3D``
+- ``Vector3D``
+- ``SpatialPrimitiveError``
+
 ### Project documents
 
 - <doc:Architecture>

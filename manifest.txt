@@ -137,6 +137,7 @@ Sources/VoxeliaSpatial/Module.swift
 Sources/VoxeliaSpatial/Public/Matrix4x4Double.swift
 Sources/VoxeliaSpatial/Public/MeasurementUnit.swift
 Sources/VoxeliaSpatial/Public/SpatialAxisMapping.swift
+Sources/VoxeliaSpatial/Public/SpatialPrimitives.swift
 Sources/VoxeliaSpatial/Public/StringIdentifier.swift
 Sources/VoxeliaSpatial/VoxeliaSpatial.docc/Architecture.md
 Sources/VoxeliaSpatial/VoxeliaSpatial.docc/Requirements.md
@@ -177,6 +178,7 @@ Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift
 Tests/VoxeliaSpatialTests/Matrix4x4DoubleTests.swift
 Tests/VoxeliaSpatialTests/MeasurementUnitTests.swift
 Tests/VoxeliaSpatialTests/SpatialAxisMappingTests.swift
+Tests/VoxeliaSpatialTests/SpatialPrimitivesTests.swift
 Tests/VoxeliaSpatialTests/StringIdentifierTests.swift
 Tests/VoxeliaSpatialTests/VoxeliaSpatialTests.swift
 Tests/VoxeliaStorageTests/VoxeliaStorageTests.swift
