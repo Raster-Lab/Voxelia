@@ -29,6 +29,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
+- Governance preparation: proposed `ADR-0021` documents the axis-model
+  ownership conflict and recommends Spatial ownership with Core binding
+  validation; it is not accepted and does not unblock implementation.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -346,6 +349,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Kept policy values declarative, avoided speculative raw-value/`Hashable`
   surface and stable JSON-byte claims, and exposed the API through its DocC
   catalog without implying device support or fulfilled residency.
+- Added proposed `ADR-0021` with evidence for every conflicting axis-model
+  allocation, a cycle-free recommendation, rejected alternatives, conditional
+  migration and focused future validation requirements.
+- Added a discoverable ADR index, reserved new IDs after the MTA's existing
+  `ADR-0001` through `ADR-0020` register, and disclosed the pre-existing local
+  platform `ADR-0001` identifier collision without changing either decision.
 
 ## Verification evidence
 
@@ -659,6 +668,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `swift test --filter 'VoxeliaMetalTests.ResidencyPolicyTests'` executed exactly
   four tests; all six cases, synthesized Codable round trips, malformed-value
   rejection and `Sendable` conformance passed without freezing JSON bytes.
+- Targeted ADR checks passed for required template fields, exact Proposed
+  status, collision-free `ADR-0021`, README discoverability and all five
+  referenced controlled-document paths.
+- `Tools/Scripts/validate-docs.sh` passed Apple-host validation, front matter
+  for all seven controlled project documents and text hygiene for all 48
+  Markdown files; no Swift test ran for the documentation-only slice.
 
 ## Known blockers and risks
 
@@ -915,6 +930,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   synthesized `Codable` wire representation is not claimed as canonical, and a
   case does not prove device capability, resource allocation, fallback,
   residency-manager state or memory-pressure behavior.
+- MTA Appendix A already assigns `ADR-0001` through `ADR-0020`, while the
+  scaffold contains a different accepted platform `ADR-0001`. New proposals
+  start at `ADR-0021`; the existing identifier collision still requires
+  governance reconciliation.
+- Proposed `ADR-0021` is review material only. Until its status becomes
+  Accepted and subordinate documents are corrected, the axis-model public API
+  remains blocked and no implementation may rely on its recommendation.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
   planes, rays, oriented bounds and rendering or interaction intersections that
@@ -922,10 +944,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Prepare evidence-backed proposed ADRs for the highest-impact M1 controlled-
-document conflicts, starting with axis ownership, coordinate-convention shape
-and value-transform shape; do not mark any proposal accepted or use it to
-unblock code without the required governance approval.
+Prepare proposed `ADR-0022` for the `CoordinateConvention` shape conflict,
+recommending the detailed namespaced CDMS vocabulary while keeping units,
+handedness, frame identity and transforms separate; do not treat it as accepted
+or claim that it unblocks `CoordinateSpaceDescriptor`.
 
 ## Test policy for the next action
 

@@ -281,6 +281,7 @@ Validation/Tests/VoxeliaValidationToolTests/ValidationToolTests.swift
 Validation/Tolerances/scaffold.yaml
 docs/algorithms/README.md
 docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md
+docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

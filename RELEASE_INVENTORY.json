@@ -1415,9 +1415,14 @@
       "sha256": "ca0458374ac3d67d76ef664d9d56f4b729e1ce1d2f834d7849de9e806505e6c8"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
+      "size": 6278,
+      "sha256": "0bc743324d38957836b404f5ef2054472dcfeca75ff3dce190df931712cc740f"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 71,
-      "sha256": "8f666596189e4847b4a981db528e61a9ab06ff1820ce74a831ba4b994b939cde"
+      "size": 610,
+      "sha256": "dc3ab80a8b57b51688065d75ec3db14f81cfdc68ca4a2c5b0b1c6fa085acf4f4"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1501,8 +1506,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 64958,
-      "sha256": "f922864b821ce248596072d65dc01dbcdfa6b0dcce1e97ec65c1b3029bcdf82f"
+      "size": 66494,
+      "sha256": "8e050e75a4d63f868048dafae644242349e27a837bf3b0d3967ce3dffc94e126"
     },
     {
       "path": "docs/project/README.md",
@@ -1786,8 +1791,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 15639,
-      "sha256": "3e3bf71e5dd2a10f1840abe20700a6ce5720c0de8b767f09cf83969126937e6d"
+      "size": 15700,
+      "sha256": "cab1e2331f5ec1dccf6c4ba2dd8c1946077c7d5b0430513d28c1178f8e7f8314"
     }
   ]
 }
