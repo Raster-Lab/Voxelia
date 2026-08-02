@@ -43,6 +43,8 @@ None.
 - ``Plane3D``
 - ``Ray3D``
 - ``SpatialPrimitiveError``
+- ``AxisAlignedBounds3D``
+- ``SpatialBoundsError``
 
 ### Project documents
 
