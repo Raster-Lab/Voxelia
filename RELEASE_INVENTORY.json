@@ -1471,18 +1471,18 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0031-bounded-recursive-metadata-value-boundary.md",
-      "size": 33928,
-      "sha256": "6a927af82dd118a4ec1b32e8681324b18d465b3f0569e97f10bf52693f179fde"
+      "size": 34204,
+      "sha256": "b652f1388b696b7b595d8ae279bcc53e43ede080805eb16fda0eb6daffbe3787"
     },
     {
       "path": "docs/architecture/decisions/ADR-0032-required-metadata-entry-privacy-attachment.md",
-      "size": 28947,
-      "sha256": "944e26db1a82e7ea5c00afd456b2babf417b6502d1bb832ae04b6255a8b3206d"
+      "size": 29324,
+      "sha256": "77f124fe8bfe8482a2f4b0fff085845c687957e826edaf758a5d1b72d40304bc"
     },
     {
       "path": "docs/architecture/decisions/ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md",
-      "size": 31249,
-      "sha256": "4c0db2b9b1854bb82d8b28c135ef90a9de49bdaab6148dc167603c7622e85499"
+      "size": 31601,
+      "sha256": "6e5db47ec15a5df3c44a4cedc660fdb1fe5f1add99a43439595e47b8197380a1"
     },
     {
       "path": "docs/architecture/decisions/ADR-0034-closed-exact-case-typed-metadata-read-boundary.md",
@@ -1491,13 +1491,18 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md",
-      "size": 66199,
-      "sha256": "4bcb38c01c87e89b9479d1cea7af0ae8b8b7f8abe077a185c2cda5e1258f2082"
+      "size": 66801,
+      "sha256": "e105e5d05c143290b4f30bfd915bf7faae9fab60f47091f52a6b8cb524f2d9c8"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md",
+      "size": 41273,
+      "sha256": "dcf1914f3286a025bea60603109536af36e62daf8593e90fa6a7b05e8e8ffc76"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 3268,
-      "sha256": "9f0c35355f85de056bb2c5c4c23b65d9440cd50d4e88ed9ac7cc7d15718c20da"
+      "size": 3533,
+      "sha256": "3dd3ea38d35ce66d2bde08e4e94722cee6b0a43775cc0abc23a9934a9ff54e0f"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1581,8 +1586,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 214366,
-      "sha256": "5b9d5b839034b32ac13ad12091edb866fb8c4c09bd0264f72b1107157fef45f3"
+      "size": 228026,
+      "sha256": "160ba12933c6ef4bfe8e1c3830c08d79572091140f667cc420309659cc92122d"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1608,6 +1613,11 @@
       "path": "docs/progress/evidence/ADR-0035-canonical-metadata-ingress-probe.swift",
       "size": 32869,
       "sha256": "b3dcc57f3bc84cc959f8799e640eddcd270201c367a934feff546556e03f48ed"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift",
+      "size": 33299,
+      "sha256": "ce3e25624d80d911c27fddfd7d02bed407407afe6dca5a9adb64505edf874a30"
     },
     {
       "path": "docs/project/README.md",
@@ -1891,8 +1901,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 17149,
-      "sha256": "cd3b94df104fcedecb017c1e0357515a97dec3b240b3a0ad38a4c0d1488c06e4"
+      "size": 17328,
+      "sha256": "3ed9b592ac56b4fdbbafcec19cb3cf9114aaabe22242e6646c0168b91d8e178b"
     }
   ]
 }

@@ -267,7 +267,10 @@ exact class to survive `VCMJ-1`, treats the entire raw document as sensitive
 and keeps parser failures payload-free, but remains unaccepted and grants no
 export permission. A persistent canonical digest remains separate and must
 preserve the declared class or define a separately named content-only identity
-that cannot be used for privacy authorisation.
+that cannot be used for privacy authorisation. Proposed `ADR-0036` selects only
+the first option for complete `VCMJ-1` records: exact privacy classes enter a
+domain-separated record digest, which remains sensitive-derived and grants no
+privacy, logging or export authority.
 
 ### Logging and export boundary
 
@@ -569,6 +572,7 @@ logging, export, authentication or audit decisions.
 - [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
 - [ADR-0034 - Closed exact-case typed metadata read boundary](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md)
 - [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)
+- [ADR-0036 - Domain-separated complete canonical metadata record identity](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md)
 - [HL7 FHIR R5 - Security Labels](https://fhir.hl7.org/fhir/security-labels.html)
 - [DICOM PS3.15 - Attribute Confidentiality Profiles](https://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html)
 - [Apple Developer Documentation - OSLogPrivacy](https://developer.apple.com/documentation/os/oslogprivacy)

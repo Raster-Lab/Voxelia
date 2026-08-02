@@ -19,7 +19,9 @@ the required metadata-entry privacy-attachment proposal. `ADR-0033` is
 allocated to the ordered metadata-collection and explicit multiplicity-policy
 proposal. `ADR-0034` is allocated to the closed exact-case typed metadata-read
 proposal. `ADR-0035` is allocated to the versioned canonical metadata JSON and
-raw-ingress proposal. The next unallocated numeric identifier is `ADR-0036`.
+raw-ingress proposal. `ADR-0036` is allocated to the domain-separated complete
+canonical metadata record-identity proposal. The next unallocated numeric
+identifier is `ADR-0037`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -38,3 +40,4 @@ raw-ingress proposal. The next unallocated numeric identifier is `ADR-0036`.
 | [ADR-0033](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md) | Proposed | Ordered metadata collection and explicit multiplicity policy |
 | [ADR-0034](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md) | Proposed | Closed exact-case typed metadata read boundary |
 | [ADR-0035](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md) | Proposed | Versioned canonical metadata JSON and raw ingress boundary |
+| [ADR-0036](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md) | Proposed | Domain-separated complete canonical metadata record identity |

@@ -454,8 +454,10 @@ array of strict key/value member records is lossless and bounded.
 
 This would couple in-memory equality to an unselected serializer and conflict
 with existing code/unit semantic identity, which excludes presentation text
-that Codable preserves. Persistent identity remains a separately versioned
-canonical projection and digest.
+that Codable preserves. Proposed `ADR-0036` now selects a separately named
+complete-record projection that deliberately retains those fields; it is not
+semantic `MetadataValue` or `MetadataCollection` identity and remains
+unaccepted.
 
 ### Choose no hard node or payload ceiling
 
@@ -644,5 +646,6 @@ adapter, provenance or persistent-identity decisions.
 - [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
 - [ADR-0034 - Closed exact-case typed metadata read boundary](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md)
 - [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)
+- [ADR-0036 - Domain-separated complete canonical metadata record identity](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md)
 - [RFC 8259 - The JavaScript Object Notation Data Interchange Format](https://www.rfc-editor.org/rfc/rfc8259.html)
 - [RFC 8785 - JSON Canonicalization Scheme](https://www.rfc-editor.org/rfc/rfc8785.html)

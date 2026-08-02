@@ -786,7 +786,8 @@ invariants.
 
 ### Persistent identity and export separation
 
-`VCMJ-1` provides deterministic complete-record bytes. It defines no:
+`VCMJ-1` provides deterministic complete-record bytes. This ADR itself defines
+no:
 
 - hash algorithm, content ID, persistent digest scope or signature;
 - semantic projection that removes presentation fields;
@@ -795,10 +796,14 @@ invariants.
 - privacy transformation or export format; or
 - authorisation to disclose a successfully parsed record.
 
-Any later digest ADR must decide whether order, presentation strings, privacy
-classes and schema references participate and must reconcile the controlled
-`ContentID` conflicts independently. Any later export path must apply trusted
-host privacy and destination policy before emitting bytes.
+Proposed `ADR-0036` now selects one domain-separated SHA-256 identity for the
+exact complete record. That proposal includes order, presentation strings,
+privacy classes, schema references and unknown retained entries, excludes the
+out-of-band policy snapshot and explicitly does not define semantic collection
+identity or export authority. It remains unaccepted and cannot authorise digest
+source while this ADR or its semantic dependencies remain Proposed. Any later
+export path must apply trusted host privacy and destination policy before
+emitting bytes.
 
 ## Alternatives considered
 
@@ -1121,13 +1126,15 @@ revision) are complete:
 6. integrate adapters only with immutable caller limits and trusted schema
    context, keeping decompression and transport errors outside Core; and
 7. make no content-ID, digest, signature or export change until its own accepted
-   decision defines the projection and authority.
+   decision defines the projection and authority; proposed `ADR-0036` supplies
+   only the complete-record identity candidate and remains unaccepted.
 
 While this ADR or any semantic dependency remains Proposed, do not add public
 recursive metadata, canonical-parser or canonical-emitter source. The next
 independent audit may study persistent metadata identity, but it must treat
 `VCMJ-1` as proposed complete-record bytes rather than an already accepted
-digest projection.
+digest projection. Proposed `ADR-0036` records the audit outcome but authorises
+no source.
 
 ## Supersession
 
@@ -1157,3 +1164,4 @@ post-ingress typed-read proposal.
 - [RFC 8785 - JSON Canonicalization Scheme](https://www.rfc-editor.org/rfc/rfc8785.html)
 - [RFC 4648 - The Base16, Base32, and Base64 Data Encodings](https://www.rfc-editor.org/rfc/rfc4648.html)
 - [ADR-0035 canonical metadata ingress probe](../../progress/evidence/ADR-0035-canonical-metadata-ingress-probe.swift)
+- [ADR-0036 - Domain-separated complete canonical metadata record identity](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md)

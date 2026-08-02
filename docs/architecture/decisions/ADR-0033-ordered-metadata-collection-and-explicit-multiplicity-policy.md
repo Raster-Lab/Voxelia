@@ -164,7 +164,10 @@ document digest must use ordinary `Codable` bytes. Any future order-insensitive
 or schema-normalised identity needs a separately named projection and cannot
 silently replace this `Hashable` contract. Swift hashes are process-randomised,
 must not be persisted and must not key authorisation or schema-validation caches
-without the complete external policy identity and context.
+without the complete external policy identity and context. Proposed `ADR-0036`
+selects only an order-sensitive complete-record projection over exact VCMJ
+bytes; it remains distinct from collection-semantic identity and excludes the
+out-of-band policy snapshot.
 
 ### Exact-key multiplicity admission
 
@@ -606,5 +609,6 @@ change collection construction or multiplicity admission.
 - [ADR-0032 - Required metadata-entry privacy attachment](ADR-0032-required-metadata-entry-privacy-attachment.md)
 - [ADR-0034 - Closed exact-case typed metadata read boundary](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md)
 - [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)
+- [ADR-0036 - Domain-separated complete canonical metadata record identity](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md)
 - [Apple Developer Documentation - CodableWithConfiguration](https://developer.apple.com/documentation/foundation/codablewithconfiguration)
 - [Apple Developer Documentation - DecodableWithConfiguration](https://developer.apple.com/documentation/foundation/decodablewithconfiguration)

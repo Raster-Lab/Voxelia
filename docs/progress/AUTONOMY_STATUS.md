@@ -54,9 +54,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   and Proposed `ADR-0033` adds the ordered collection plus explicit configured
   multiplicity admission. Proposed `ADR-0034` adds privacy-preserving closed
   exact-case typed reads. Proposed `ADR-0035` separately adds the versioned
-  canonical-document and raw-ingress boundary. The independently implemented
-  metadata-key leaf uses exact accepted UTF-8 pair identity without claiming
-  canonical-digest normalisation. None of the proposals authorises aggregate
+  canonical-document and raw-ingress boundary, and Proposed `ADR-0036` adds a
+  domain-separated SHA-256 identity for the exact complete canonical record,
+  not semantic collection identity. The independently implemented metadata-key
+  leaf uses exact accepted UTF-8 pair identity without claiming canonical-
+  digest normalisation. None of the proposals authorises aggregate or digest
   source.
 - Proposed `ADR-0028` selects a shared Core-owned `CanonicalInstant` for the raw
   metadata and provenance strings: one bounded uppercase zero-offset RFC 3339-
@@ -120,6 +122,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   floating emitter/parser pair, Core/Spatial whitespace correction,
   cancellation/device evidence and recoverable allocation-failure evidence
   remain acceptance blockers; no codec source is authorised.
+- Proposed `ADR-0036` selects one Core-owned complete-record identity tuple:
+  SHA-256 over a length-framed domain containing explicit algorithm,
+  `serialisedObject` scope, projection
+  `org.voxelia.metadata-complete-record` version `1.0` and exact complete
+  `VCMJ-1` bytes. It selects owned 32-byte storage and strict 64-character
+  lowercase-hex coding, includes order/privacy/schema/presentation/unknown
+  entries, excludes only the out-of-band policy snapshot and grants no schema
+  trust, de-identification, export, MAC or signature authority. It deliberately
+  does not define semantic `MetadataCollection` identity and authorises no
+  source while its proposal and the metadata dependency chain remain
+  unaccepted.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -184,8 +197,8 @@ binding:
 
 | `ImageData` dependency | Status | Boundary issue |
 |---|---|---|
-| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0032` select validated leaves, a bounded recursive value and a required classified entry; Proposed `ADR-0033` selects ordered storage/configured multiplicity/aggregate limits, `ADR-0034` selects closed exact-case typed reads and `ADR-0035` selects the generic versioned canonical envelope/raw ingress. None is accepted. Schema trust/resolution, custom conversion, persistent identity and production ceiling/parser evidence remain open. |
-| `DataIdentity` | Contract-blocked | `ContentID` has incompatible prescribed shapes, lacks an approved scope-bearing record and fully specified canonical digest byte encoding, and `DataIdentityReference` is undefined. |
+| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0032` select validated leaves, a bounded recursive value and a required classified entry; Proposed `ADR-0033` selects ordered storage/configured multiplicity/aggregate limits, `ADR-0034` selects closed exact-case typed reads, `ADR-0035` selects the generic versioned canonical envelope/raw ingress and `ADR-0036` selects exact complete-record identity. None is accepted. Schema trust/resolution, custom conversion, semantic collection identity and production ceiling/parser evidence remain open. |
+| `DataIdentity` | Proposed-dependent and contract-blocked | Proposed `ADR-0036` supplies a corrected scope/projection-bearing `ContentID` and one exact metadata-record profile, but is unaccepted and does not define generic image identity. `DataIdentityReference` and the source/derivation/content completeness boundary remain undefined. |
 | `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf but is not accepted. References, warning severity, validation state and graph invariants remain incomplete, and several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
 | `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
 | `ImageData` | Transitively blocked | Its exact five-field shape is consistent, but construction still needs storage descriptor/shape/scalar/component/byte-order compatibility, geometry/axis compatibility, identity completeness, provenance/source consistency, metadata uniqueness and the Core/Storage ownership decision. |
@@ -247,7 +260,9 @@ the general entry to required `key`, `value` and `privacyClass` fields.
 Proposed `ADR-0033` selects the collection's ordered content and explicit
 multiplicity-admission boundary. Proposed `ADR-0034` selects closed exact-case
 typed reads that retain classification. Proposed `ADR-0035` selects the
-separate canonical-document and raw-ingress boundary. None is accepted. `VoxeliaCore ->
+separate canonical-document and raw-ingress boundary. Proposed `ADR-0036`
+selects the exact complete-record digest projection while explicitly leaving
+semantic collection identity open. None is accepted. `VoxeliaCore ->
 VoxeliaSpatial` is already an approved dependency, so the unit payload creates
 no cycle, and `CodedConcept`, `AnyMetadataKey` and `MetadataPrivacyClass`
 already exist in Core. The recursive aggregate, general entry and collection
@@ -262,10 +277,10 @@ are nevertheless a source no-go:
 | Recursive arrays | Array order is naturally preserved. | Proposed `ADR-0031` replaces the raw payload with validated `MetadataArray`, preserves order and enforces depth, structural-work and logical-payload ceilings. The proposal and its numerical ceiling evidence remain unaccepted. |
 | Objects | Object keys must be unique. | Proposed `ADR-0031` uses validated `MetadataObject` plus a privacy-neutral nested member, rejects exact-key duplicates and canonical-sorts unsigned UTF-8 namespace/name bytes. Proposed `ADR-0032` keeps that member distinct from the general entry; both remain unaccepted. |
 | Collection multiplicity | Duplicate keys are rejected unless a namespace schema permits multiplicity. | Proposed `ADR-0033` keeps the context-free subset unique-only and admits repeats only through an explicit bounded exact-key policy snapshot supplied by a host/adapter. The snapshot is a caller assertion, not authenticated schema identity, and the proposal remains unaccepted. |
-| Privacy | Metadata may carry `MetadataPrivacyClass`, and validation/logging/export must cover it. | Proposed `ADR-0032` selects a required direct attachment, no default/unclassified state, whole-entry scope, exact class identity and strict three-field wire, but remains unaccepted. Host resolver shape, versioned policy aggregation, logging/export authorisation and persistent digest treatment remain future or host-owned decisions. |
+| Privacy | Metadata may carry `MetadataPrivacyClass`, and validation/logging/export must cover it. | Proposed `ADR-0032` selects a required direct attachment, no default/unclassified state, whole-entry scope, exact class identity and strict three-field wire. Proposed `ADR-0036` includes the exact class in complete-record identity but treats the digest as sensitive-derived and grants no authority. Both remain unaccepted; host resolver shape, versioned policy aggregation and logging/export authorisation remain future or host-owned decisions. |
 | Typed access | Reads must match the requested type or return a typed error without coercion. | Proposed `ADR-0034` selects concrete overloads for the eleven exact corrected payloads, classified typed results, payload-free errors, cardinality-before-case precedence and ordered atomic plural reads. It remains unaccepted; custom/optional/default conversions stay deferred. |
 | Type-level encoding | Value cases require explicit stable tags. | Proposed `ADR-0031` selects one-member externally tagged objects, strict payloads and sorted object-member arrays. It deliberately does not claim raw duplicate detection or canonical document bytes. |
-| Canonical identity | Metadata included in an identity is ordered and uses canonical JSON. | Proposed `ADR-0035` defines deterministic complete-record bytes, but `ADR-0031` distinguishes semantic `Hashable` identity from those bytes because unit/code presentation text remains encoded but excluded from equality. Persistent digest scope and algorithm remain unresolved. |
+| Canonical identity | Metadata included in an identity is ordered and uses canonical JSON. | Proposed `ADR-0036` names the exact `ADR-0035` bytes as a complete-record projection and selects domain-separated SHA-256 with explicit algorithm, `serialisedObject` scope, projection/version, owned 32-byte digest and strict lowercase hex. Presentation differences intentionally change this record ID even when Swift semantic equality does not; semantic collection identity remains separate. |
 | Canonical ingress | Raw duplicate keys, stable lexical forms, schema versions and bounded untrusted input are mandatory. | Proposed `ADR-0035` selects `VCMJ-1`, a dedicated iterative canonical-only parser, exact schema-policy binding and coarse redacted errors. Its universal canonical-document byte cap, production floating codec, cancellation/device evidence and actual allocation-failure recovery remain unresolved; it is Proposed and authorises no source. |
 
 Swift 6.3.3 probes confirmed that `ContiguousArray` supplies enough indirection
@@ -279,9 +294,10 @@ anti-amplification ceilings. Proposed `ADR-0032` separately supplies the
 required entry-privacy attachment, and Proposed `ADR-0033` supplies the ordered
 collection and configured multiplicity-admission proposal. Proposed `ADR-0034`
 supplies the closed typed-read proposal, and proposed `ADR-0035` supplies the
-versioned canonical-document/raw-ingress proposal. None is accepted; schema
-trust, operational host policy and persistent digest remain independent rather
-than being folded into the value proposal.
+versioned canonical-document/raw-ingress proposal. Proposed `ADR-0036` supplies
+only the exact complete-record digest proposal. None is accepted; schema trust,
+operational host policy and semantic collection identity remain independent
+rather than being folded into the value proposal.
 
 The audit also exposed a bounded defect in the existing `MetadataKey<Value>`
 and `AnyMetadataKey`: both preserve and encode opaque source spelling, while
@@ -766,6 +782,62 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
 `VOX-ERR-001`, `VOX-ERR-003`, `VOX-ERR-007`, `VOX-SEC-001`,
 `VOX-SEC-003`, `VOX-SEC-006`, `VOX-SEC-011`, `VOX-VAL-007`,
 `VOX-VAL-008`, `VOX-VAL-009` and `VOX-VAL-011`.
+
+## M1 complete canonical metadata record-identity audit
+
+The controlled architecture assigns content identity to Core but prescribes
+two incompatible `ContentID` shapes. The MTA uses typed `DigestAlgorithm` plus
+Foundation `Data`; the CDMS uses an arbitrary algorithm `String` plus
+`ContiguousArray<UInt8>`. Both displayed records omit the scope that CDMS says
+must be present. Neither identifies the canonical projection, specifies digest
+length/text, or makes the payload-free `.custom` case satisfy its required
+namespaced approved identity.
+
+Proposed `ADR-0036` resolves only the exact complete VCMJ record boundary:
+
+| Area | Proposed complete-record decision | Acceptance or later work |
+|---|---|---|
+| Meaning | Exact complete canonical metadata record identity, never an implied semantic `MetadataCollection` identity. | A semantic/presentation-free or schema-normalised identity needs a separately named projection and justification. |
+| Record | Core-owned `ContentID` carries typed algorithm, scope, bounded versioned projection reference and owned contiguous digest bytes. No unchecked public initializer. | Public API/data-model RFC, controlled MTA/CDMS correction and maintainer approval remain mandatory. |
+| Profile | Exact tuple `sha256` / `serialisedObject` / `org.voxelia.metadata-complete-record` version `1.0`. Only compiled reviewed tuples are executable. | SHA-512, exact BLAKE3 mode/output and custom namespaced algorithm profiles remain separate approvals; no downgrade negotiation. |
+| Coverage | Exact complete `VCMJ-1` bytes include document schema, multiplicity reference/null, order, privacy, presentation text and unknown retained entries. | The out-of-band policy snapshot stays validation context; the digest does not authenticate the claimed profile or supplied policy. |
+| Framing | SHA-256 receives a 109-byte big-endian length-framed domain header binding magic/version, algorithm, scope, projection/version and payload count before exact VCMJ bytes. | Any framing or payload-selection change requires a new projection version; raw SHA-256 remains only a negative control. |
+| Storage/wire | Exactly 32 owned bytes; exactly 64 lowercase hexadecimal characters in the manual type-level wire. No `Data`, Base64, array, uppercase, prefix, separator, truncation or inference alias. | A standalone portable Content-ID document still needs its own schema envelope and raw duplicate/lexical boundary. |
+| Equality | Algorithm, scope, projection/version and all digest bytes participate. Direct fixed-byte comparison uses the platform timing-safe comparator after public discriminators. | Swift `Hasher`, `hashValue`, ordinary Codable bytes and dictionary lookup have no persistent or timing-safe claim. |
+| Streaming | CryptoKit SHA-256, checked payload/frame counts, bounded updates and at most 4,096 work units between cancellation checks; final check before atomic publication. | Unknown-length raw streams require an already approved replayable bounded source or validated re-emission. This proposal selects no disk spool; any spool is separate future work. Full parser, device, cancellation, memory and fault evidence still depends on `ADR-0035`. |
+| Privacy/security | Digest is sensitive-derived and an equality/dictionary oracle. No log, telemetry, filename, cross-tenant dedupe, export, schema trust, de-identification, MAC, signature or encryption authority. | Hosts own disclosure, cache partitioning, privacy/export policy, schema authenticity, signatures and keys. |
+
+The exact frame is independently reproducible. For the 148-byte empty VCMJ-1
+document, raw SHA-256 is
+`a27e896af6381de3cf78c5b4166851b601b6461d9e2503935b32ab4d6811ee50`,
+while the proposed domain-framed digest is
+`8dde6fa088cd4b1e676fca392a6d24fdeed93fc93bdc43c94cfbc75f362e7432`.
+CryptoKit and Python's standard SHA-256 implementation produced the same
+framed value.
+
+The focused strict Swift 6 probe covers the SHA-256 `abc` vector, exact empty-
+record goldens, algorithm/scope/projection framing, bounded chunk invariance,
+owned digest storage, strict lowercase hex, timing-safe first/middle/last-byte
+negative comparisons, checked frame arithmetic, selected cancellation points,
+payload-free errors and exact record mutations. Presentation-only code/unit
+changes prove why the record ID is not semantic equality; order, privacy,
+multiplicity-reference, unknown-entry and exact-UTF-8 changes prove the
+complete-record coverage; two different out-of-band policies prove only their
+intentional absence from the preimage, not policy trust.
+
+The probe is not a VCMJ parser/emitter, complete cryptographic validation,
+production API, supported-device matrix, allocation-failure proof or source
+authorisation. Proposed `ADR-0028` through `ADR-0036`, the public RFC,
+controlled-document reconciliation and `ADR-0035` acceptance evidence remain
+mandatory before implementation.
+
+Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
+`VOX-ARC-003`, `VOX-API-001`, `VOX-API-003`, `VOX-API-004`,
+`VOX-API-010`, `VOX-DAT-014`, `VOX-RGN-007`, `VOX-RGN-008`,
+`VOX-RGN-009`, `VOX-META-001`, `VOX-META-002`, `VOX-META-011`,
+`VOX-CON-006`, `VOX-CON-007`, `VOX-ERR-001`, `VOX-ERR-003`,
+`VOX-ERR-007`, `VOX-SEC-001`, `VOX-SEC-003`, `VOX-SEC-006`,
+`VOX-SEC-011`, `VOX-VAL-007` and `VOX-VAL-011`.
 
 ## Completed in this increment
 
@@ -1336,16 +1408,39 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
   subprofiles, schema-policy/emission preflight, checked budget arithmetic,
   generated nesting and redacted errors; reconciled `ADR-0028` through
   `ADR-0034` with the new proposal.
+- Audited controlled content-identity authority, the two incompatible
+  `ContentID` records, digest-storage wire drift, missing scope/projection,
+  algorithm/mode ambiguity, complete-record versus semantic identity, privacy,
+  schema trust, algorithm agility, streaming, cancellation and publication
+  without changing product source.
+- Added proposed `ADR-0036` with an explicit algorithm/scope/projection-bearing
+  identity record and one closed complete-record tuple: CryptoKit SHA-256,
+  `serialisedObject`, `org.voxelia.metadata-complete-record` version `1.0`,
+  exact 32 owned bytes and strict 64-character lowercase hexadecimal coding.
+- Defined the exact 109-byte domain frame binding frame version, algorithm,
+  scope, projection/version and payload length before complete VCMJ bytes;
+  independently reproduced the empty-document framed golden with CryptoKit and
+  Python and kept raw SHA-256 as a deliberately different negative control.
+- Preserved exact order, privacy classes, schema reference/null, presentation
+  fields and unknown retained entries in record identity while excluding only
+  the out-of-band policy snapshot. Kept semantic collection identity, schema
+  authenticity, privacy/export authority, MACs, signatures and keyed
+  pseudonyms explicitly separate.
+- Added a focused strict Swift 6 evidence probe covering the SHA-256 known
+  answer, record mutations, frame-domain mutations, bounded streaming,
+  cancellation without publication, owned-byte snapshot, strict hex,
+  timing-safe direct comparison, checked arithmetic and payload-free errors;
+  reconciled `ADR-0031` through `ADR-0035` with the new proposal.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 379-entry manifest covers every releasable file except its
+- The current 381-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
 - Final release-integrity regeneration and read-only verification passed with
-  378 inventory records and 379 checksums for this increment.
+  380 inventory records and 381 checksums for this increment.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -2715,6 +2810,100 @@ python3 Tools/Scripts/check_release_integrity.py --write
 python3 Tools/Scripts/check_release_integrity.py
 ```
 
+For proposed `ADR-0036`, the isolated reproducible Swift evidence is stored in
+`docs/progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift`.
+It is a reduced identity-record/framing probe over fixed VCMJ strings, not a
+canonical parser/emitter, product API, general content-ID implementation,
+cryptographic proof, complete cancellation/device/fault corpus or source
+authorisation. The exact successful commands were:
+
+```bash
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift
+xcrun swift -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors \
+  docs/progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift
+```
+
+It printed:
+
+```text
+sha256=knownAnswer recordProjection=completeVCMJ1 emptyFramedDigest=8dde6fa088cd4b1e676fca392a6d24fdeed93fc93bdc43c94cfbc75f362e7432 rawDigestIsDifferent=true semanticEqualityIsNotRecordIdentity=true order+privacy+profile+unknown+presentation=bound policy=outOfBand framing=algorithm+scope+projection+length projectionIdentifier=63/64+255/256 declaredLength=mismatchRejected streaming=chunkInvariant4096 hex=lowercase64 digestBytes=owned comparison=timingsafe_bcmp cancellation=noPublication diagnostics=payloadFree
+```
+
+An independent Python standard-library construction confirmed the fixed
+148-byte empty payload, 109-byte frame header, raw digest and framed digest:
+
+```bash
+python3 - <<'PY'
+import hashlib
+import struct
+
+payload = b'{"documentSchema":{"identifier":"org.voxelia.metadata-document","version":{"major":1,"minor":0}},"multiplicitySchema":null,"payload":{"entries":[]}}'
+parts = [b"VOXELIA-CONTENT-ID\0", struct.pack(">I", 1)]
+for value in [
+    b"sha256",
+    b"serialisedObject",
+    b"org.voxelia.metadata-complete-record",
+]:
+    parts.extend([struct.pack(">I", len(value)), value])
+parts.extend(
+    [
+        struct.pack(">I", 1),
+        struct.pack(">I", 0),
+        struct.pack(">Q", len(payload)),
+    ]
+)
+header = b"".join(parts)
+print(
+    len(payload),
+    len(header),
+    hashlib.sha256(payload).hexdigest(),
+    hashlib.sha256(header + payload).hexdigest(),
+)
+PY
+```
+
+```text
+148 109 a27e896af6381de3cf78c5b4166851b601b6461d9e2503935b32ab4d6811ee50 8dde6fa088cd4b1e676fca392a6d24fdeed93fc93bdc43c94cfbc75f362e7432
+```
+
+The probe demonstrates only the named reduced checks. Its fixed canonical
+strings are fixtures, not an emitter; the Foundation `Data`/array encodings are
+wire-drift negative controls; selected mutations are not collision-resistance
+proof; `timingsafe_bcmp` covers direct fixed-byte comparison only; two
+cancellation positions are not the complete required cancellation/fault
+matrix. The probe now locks the exact 109 header bytes/framed golden,
+projection-identifier 63/64 and 255/256 limits/error mapping, and both declared-
+length mismatch directions. Full SHA-256 vectors, every chunk split,
+independent VCMJ projection oracles, remaining boundaries, supported Apple
+destinations, resource ceilings, memory pressure and atomic cache/provenance
+integration remain acceptance work.
+
+- Three independent pre-draft audits covered controlled authority/API and
+  milestone ownership, exact metadata scope/equality/privacy semantics and
+  cryptographic framing/algorithm/streaming boundaries. Their findings are
+  incorporated in the proposal and probe.
+- No full Swift package suite was run for this proposal increment. Product
+  source did not change, and only the focused probe plus documentation,
+  manifest and release-integrity checks cover the changed surface.
+
+The exact focused repository commands for the complete-record identity
+proposal were:
+
+```bash
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift
+xcrun swift -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors \
+  docs/progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift
+Tools/Scripts/validate-docs.sh
+git diff --check
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_release_integrity.py
+```
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -2905,14 +3094,17 @@ python3 Tools/Scripts/check_release_integrity.py
 - `LookupTableDescriptor` is independently unblocked. Its standalone contract
   requires finite ordered values but does not specify non-empty tables, lookup
   application, extrapolation or derived-domain overflow behavior.
-- `ContentID` is deferred because the MTA and CDMS disagree on algorithm and
-  digest storage types, required scope has no declared record field, custom
-  algorithm identity is incomplete, and canonical digest serialization remains
-  undecided. Digest computation must not precede those contracts.
+- Proposed `ADR-0036` supplies a candidate correction for the incompatible
+  controlled `ContentID` records: typed algorithm, required scope, bounded
+  versioned projection, owned contiguous digest bytes and strict lowercase-hex
+  coding. It remains Proposed and requires a public RFC, controlled MTA/CDMS
+  reconciliation and maintainer approval, so no record or digest source is yet
+  authorised.
 - `DigestAlgorithm.custom` alone is not an approved persistent or distributed
-  identity; it still needs a namespaced algorithm identifier whose record shape
-  is not defined. `ContentScope` likewise remains vocabulary until an identity
-  record has an approved scope field.
+  identity; it still needs a bounded namespaced/versioned algorithm profile.
+  `.blake3` likewise lacks an accepted mode/output contract. Proposed
+  `ADR-0036` authorises only SHA-256 for its complete-record profile and does
+  not make the other taxonomy cases executable.
 - `SourceIdentity`, `DerivationIdentity` and `DataIdentity` remain blocked by
   `ContentID`; `DataIdentityReference` is also undefined, and record-level
   empty, duplicate and consistency invariants are not specified.
@@ -2926,19 +3118,22 @@ python3 Tools/Scripts/check_release_integrity.py
   `ADR-0034` adds a closed exact-case typed-read mapping that preserves each
   entry's privacy class and fails cardinality or type mismatches without
   payloads. Proposed `ADR-0035` adds the generic versioned canonical envelope,
-  exact schema-policy binding and duplicate-safe raw-ingress contract. None is
-  accepted; the recursive/collection ceilings, universal canonical-document
+  exact schema-policy binding and duplicate-safe raw-ingress contract. Proposed
+  `ADR-0036` adds only the domain-separated exact complete-record digest. None
+  is accepted; the recursive/collection ceilings, universal canonical-document
   byte maximum, production floating codec, cancellation/device evidence,
   recoverable allocation-failure evidence and supported-destination evidence
-  remain open, and no value, entry, collection, typed-read or codec source is
-  authorised. Schema trust/resolution, custom semantic conversion, privacy-
-  authorised disclosure and persistent digest remain separate by design.
+  remain open, and no value, entry, collection, typed-read, codec or digest
+  source is authorised. Schema trust/resolution, custom semantic conversion,
+  privacy-authorised disclosure and semantic collection identity remain
+  separate by design.
 - `MetadataPrivacyClass` supplies a value-redacted vocabulary. Proposed
   `ADR-0032` resolves direct entry attachment, absence, whole-subtree scope,
   exact preservation, identity and type-level wire only if accepted. Public
   resolver shape, portable `hostDefined` identity, global downgrade enforcement,
-  collection disclosure, logging/export APIs and persistent digest treatment
-  remain host or future-decision responsibilities.
+  collection disclosure and logging/export APIs remain host or future-decision
+  responsibilities. Proposed `ADR-0036` includes exact classes in one
+  sensitive-derived complete-record digest but grants none of those powers.
 - Metadata keys now define validated exact UTF-8 pair identity and a strict
   erased type-level wire shape. Namespace aliases, key erasure/conversion,
   multiplicity schemas and typed accessors remain deferred. Any future
@@ -3096,8 +3291,16 @@ python3 Tools/Scripts/check_release_integrity.py
   fixed work cadence, complete chunk/fuzz corpus, frozen-whitespace correction
   in Core and Spatial metadata identity constructors, recoverable allocation-
   failure evidence and lowest-resource supported-device evidence remain
-  acceptance blockers. `VCMJ-1` complete-record bytes are not automatically a
-  persistent digest or export authorisation.
+  acceptance blockers. Proposed `ADR-0036` separately names those bytes as one
+  exact domain-separated complete-record digest, but it too remains Proposed
+  and grants no export authorisation.
+- Proposed `ADR-0036` does not authorise `ContentID`, CryptoKit hashing,
+  verification, cache/provenance integration or recursive metadata source. Its
+  public API needs the required RFC and controlled-document correction; its
+  VCMJ projection also depends on acceptance and evidence closure for
+  `ADR-0028` through `ADR-0035`. Semantic collection identity, general image
+  identity, custom/BLAKE3 algorithms, standalone Content-ID raw ingress,
+  signatures and keyed identities remain separate decisions.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -3118,27 +3321,29 @@ python3 Tools/Scripts/check_release_integrity.py
 
 ## Exact next action
 
-Audit the persistent metadata identity and digest projection after the proposed
-canonical-record boundary. Decide whether complete `VCMJ-1` bytes are suitable
-given order-sensitive collections, presentation fields excluded from semantic
-equality, privacy classes, multiplicity-schema references and unknown
-namespaced entries; reconcile the conflicting `ContentID` shapes, algorithm
-identity, digest byte representation and scope without treating Swift
-`Hashable` or ordinary Codable as persistent identity. Keep schema trust,
-privacy/export authorisation and signatures separate. Do not add recursive
-metadata or digest source while `ADR-0028` through `ADR-0035` remain Proposed,
-and retain the raw-byte/floating/cancellation/device/allocation-recovery gaps as
-explicit `ADR-0035` acceptance work.
+Audit the Core-owned source/derivation/content identity boundary downstream of
+proposed `ADR-0036`. Reconcile the MTA phrase “every immutable data object shall
+have a content identity” with the baseline/CDMS rule that a stable source or
+derivation identity may exist before a lazy full digest. Define or explicitly
+defer `DataIdentity`, `DataIdentityReference`, completeness/trust states,
+duplicate/empty invariants, lazy publication and cache/provenance behaviour
+without treating a source identifier as verified content. Keep the exact VCMJ
+record ID distinct from future image `descriptorAndSamples` identity and keep
+schema trust, privacy/export authority, signatures and storage verification at
+their owning boundaries. Do not add identity source while `ADR-0036` or its
+dependencies remain Proposed.
 
 ## Test policy for the next action
 
-- For the metadata-identity/digest audit or a documentation-only proposal, run
-  only a focused canonical-byte projection/hash probe, exact order/privacy/
-  presentation/schema-scope fixtures, document/ADR checks, manifest and
-  release-integrity checks. If an independently safe digest helper becomes
-  authorised, run only focused golden-byte, algorithm/scope, mutation,
-  collision-negative, resource and redacted-failure fixtures, the owning
-  target build, strict format lint and directly affected dependent tests.
+- For a source/derivation/content identity audit or documentation-only
+  proposal, run only a focused closed-state/invariant probe covering absent,
+  source-only, derivation-only, verified-content and invalid mixed states,
+  exact reference identity, trust/completeness transitions, redacted failures,
+  document/ADR checks, manifest and release-integrity checks. If an
+  independently safe value record becomes authorised, run only its focused
+  construction, Codable, equality, ownership, cancellation/publication and
+  directly affected dependent tests plus the owning target build and strict
+  format lint.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
