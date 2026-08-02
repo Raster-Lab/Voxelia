@@ -158,6 +158,50 @@ public struct ImageRegion: Sendable, Hashable, Codable {
         }
     }
 
+    /// Returns a region translated by one signed offset per axis.
+    ///
+    /// Translation preserves the region's extents and empty axes. It does not
+    /// clamp to, or validate containment in, any image shape.
+    ///
+    /// - Throws: ``RegionError/rankMismatch`` when `offsets` has a different
+    ///   rank, or ``RegionError/arithmeticOverflow`` when any translated lower
+    ///   or upper bound cannot be represented by `Int`.
+    public func translated<Offsets: Collection>(
+        by offsets: Offsets
+    ) throws -> ImageRegion where Offsets.Element == Int {
+        let validatedOffsets = ContiguousArray(offsets)
+        guard validatedOffsets.count == rank else {
+            throw RegionError.rankMismatch
+        }
+
+        var translatedLowerBounds = ContiguousArray<Int>()
+        var translatedUpperBounds = ContiguousArray<Int>()
+        translatedLowerBounds.reserveCapacity(rank)
+        translatedUpperBounds.reserveCapacity(rank)
+
+        for axis in lowerBounds.indices {
+            let lower = lowerBounds[axis].addingReportingOverflow(
+                validatedOffsets[axis]
+            )
+            guard !lower.overflow else {
+                throw RegionError.arithmeticOverflow
+            }
+            let upper = upperBounds[axis].addingReportingOverflow(
+                validatedOffsets[axis]
+            )
+            guard !upper.overflow else {
+                throw RegionError.arithmeticOverflow
+            }
+            translatedLowerBounds.append(lower.partialValue)
+            translatedUpperBounds.append(upper.partialValue)
+        }
+
+        return try ImageRegion(
+            lowerBounds: translatedLowerBounds,
+            upperBounds: translatedUpperBounds
+        )
+    }
+
     private enum CodingKeys: String, CodingKey {
         case lowerBounds
         case upperBounds

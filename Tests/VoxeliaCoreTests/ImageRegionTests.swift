@@ -203,6 +203,92 @@ struct ImageRegionTests {
         try lastElement.validateContainment(in: shape)
     }
 
+    @Test("[Unit] translates every bound by mixed-sign offsets")
+    func translatesByMixedSignOffsets() throws {
+        let region = try ImageRegion(
+            lowerBounds: [2, 5, -4],
+            upperBounds: [5, 10, 1]
+        )
+        let translated = try region.translated(by: [-3, 2, 4])
+        let originalExtents = try region.extents()
+        let translatedExtents = try translated.extents()
+
+        #expect(Array(translated.lowerBounds) == [-1, 7, 0])
+        #expect(Array(translated.upperBounds) == [2, 12, 5])
+        #expect(translatedExtents == originalExtents)
+    }
+
+    @Test("[Unit] translation preserves empty axes without clamping")
+    func translationPreservesEmptyAxes() throws {
+        let region = try ImageRegion(
+            lowerBounds: [2, 5],
+            upperBounds: [2, 9]
+        )
+        let translated = try region.translated(by: [-4, 3])
+
+        #expect(Array(translated.lowerBounds) == [-2, 8])
+        #expect(Array(translated.upperBounds) == [-2, 12])
+    }
+
+    @Test("[Unit][VOX-RGN-002] translation requires exact offset rank")
+    func translationRejectsRankMismatch() throws {
+        let region = try ImageRegion(
+            lowerBounds: [0, 0],
+            upperBounds: [1, 1]
+        )
+
+        #expect(throws: RegionError.rankMismatch) {
+            try region.translated(by: [1])
+        }
+        #expect(throws: RegionError.rankMismatch) {
+            try region.translated(by: [1, 2, 3])
+        }
+    }
+
+    @Test("[Unit][VOX-RGN-002] translation checks both bound arrays for overflow")
+    func translationRejectsEveryOverflowBoundary() throws {
+        let lowerOverflow = try ImageRegion(
+            lowerBounds: [Int.min],
+            upperBounds: [Int.min + 1]
+        )
+        let upperOverflow = try ImageRegion(
+            lowerBounds: [Int.max - 1],
+            upperBounds: [Int.max]
+        )
+
+        #expect(throws: RegionError.arithmeticOverflow) {
+            try lowerOverflow.translated(by: [-1])
+        }
+        #expect(throws: RegionError.arithmeticOverflow) {
+            try upperOverflow.translated(by: [1])
+        }
+    }
+
+    @Test("[Unit][VOX-RGN-002] translation accepts exact Int boundaries")
+    func translationAcceptsExactIntegerBoundaries() throws {
+        let region = try ImageRegion(
+            lowerBounds: [Int.min + 1, Int.max - 2],
+            upperBounds: [Int.min + 2, Int.max - 1]
+        )
+        let translated = try region.translated(by: [-1, 1])
+
+        #expect(Array(translated.lowerBounds) == [Int.min, Int.max - 1])
+        #expect(Array(translated.upperBounds) == [Int.min + 1, Int.max])
+    }
+
+    @Test("[Unit][VOX-DAT-005] zero translation preserves a high-rank value")
+    func zeroTranslationPreservesHighRankValue() throws {
+        let region = try ImageRegion(
+            lowerBounds: repeatElement(-1, count: 1_024),
+            upperBounds: repeatElement(1, count: 1_024)
+        )
+        let translated = try region.translated(
+            by: repeatElement(0, count: 1_024)
+        )
+
+        #expect(translated == region)
+    }
+
     @Test("[Unit][VOX-RGN-002] rejects a rank mismatch")
     func rejectsRankMismatch() {
         #expect(throws: RegionError.rankMismatch) {

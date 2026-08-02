@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first thirty-two foundational slices, `ImageShape` /
+- M1 implementation status: the first thirty-three foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -21,7 +21,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   storage-kind/persistence taxonomies, codec identifiers, compressed-region
   access vocabulary, initial geometry/mesh taxonomies, validated geometry
   attribute descriptors, extent-based region construction and shape-aware
-  region containment validation are implemented and locally verified.
+  region containment validation and checked region translation are implemented
+  and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -296,6 +297,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Defined empty anchors at zero and at the upper shape boundary as contained,
   rejected anchors outside `0...extent`, and kept the validation free of
   arithmetic, allocation or implicit clipping.
+- Added immutable `ImageRegion.translated(by:)` operations with exact offset
+  rank validation and independent checked addition for every lower and upper
+  bound.
+- Preserved extents, empty axes and arbitrary rank across mixed-sign and zero
+  offsets without clamping or silently imposing containment in a shape.
 
 ## Verification evidence
 
@@ -546,6 +552,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   interior containment, negative/oversized rejection, rank mismatch, empty
   anchors below/at/above both boundaries, and empty/non-empty `Int.max`
   boundaries passed alongside all prior region cases.
+- `swift build --target VoxeliaCore` and directly affected builds for
+  `VoxeliaStorage`, `VoxeliaGeometry` and `Voxelia` passed with strict format
+  lint for checked region translation.
+- `swift test --filter ImageRegion` executed only the 29 region tests; mixed-
+  sign translation, empty-axis preservation, short/long rank mismatches,
+  isolated lower/upper overflow, exact `Int.min`/`Int.max` success and
+  1,024-axis zero-offset identity passed alongside all prior region cases.
 
 ## Known blockers and risks
 
@@ -777,12 +790,15 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `VOX-SEC-001`, not completion evidence. No storage-read implementation yet
   proves that it calls the validator, and other external dimensions, strides,
   offsets and allocation sizes remain separate validation obligations.
+- Region translation deliberately does not validate or restore containment.
+  Callers that translate an access region must explicitly validate the result
+  against its target shape before memory access.
 
 ## Exact next action
 
-Add checked `ImageRegion.translated(by:)` support with exact rank validation,
-mixed-sign offsets, overflow detection for both lower and upper bounds, and no
-implicit containment or clamping.
+Add `ImageRegion.clipped(to:)` with exact rank validation and deterministic
+componentwise clamping to `0...extent`, including canonical boundary-empty
+results for regions wholly outside a shape.
 
 ## Test policy for the next action
 
