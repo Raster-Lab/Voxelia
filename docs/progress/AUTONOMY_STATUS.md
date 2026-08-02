@@ -9,12 +9,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first twelve foundational slices, `ImageShape` /
+- M1 implementation status: the first thirteen foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
-  representation, spatial-axis mapping, points and vectors are implemented and
-  locally verified.
+  representation, spatial-axis mapping, points, vectors, planes and rays are
+  implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -182,13 +182,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Added strict four-field keyed serialization with constructor revalidation and
   focused coverage of finite boundaries, every non-finite component position,
   coordinate-space identity and malformed nested identifiers.
+- Implemented `Plane3D` and `Ray3D` with exact coordinate-space agreement and
+  typed diagnostics for zero normal, zero direction and mismatched spaces.
+- Preserved finite non-unit normals and directions exactly, including
+  subnormal and extreme values, by detecting exact zero without squared-length
+  arithmetic or an undocumented tolerance.
+- Added strict two-field keyed serialization with constructor revalidation and
+  nested error paths while leaving normalization and coordinate conversion
+  explicit for future operations.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 319-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 320-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -199,7 +207,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 318-record inventory and 319-entry SHA-256 ledger pass the
+- The regenerated 319-record inventory and 320-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -308,6 +316,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   finite extrema and subnormal preservation, all 18 point/vector non-finite
   placements, zero-vector validity, signed-zero canonicalization,
   coordinate-space identity and strict Codable revalidation all passed.
+- `swift build --target VoxeliaSpatial`, the direct-dependent
+  `swift build --target VoxeliaCore`, and strict format lint passed for the
+  plane/ray primitive slice.
+- `swift test --filter PlaneAndRayTests` executed only six plane/ray tests;
+  non-unit preservation, exact-zero rejection, subnormal and extreme finite
+  acceptance, coordinate-space mismatch diagnostics, exact Codable shapes and
+  decode-time invariant revalidation all passed.
 
 ## Known blockers and risks
 
@@ -447,17 +462,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Spatial primitives carry only a `CoordinateSpaceID`, not a unit, convention
   or transform. Matching IDs participate in exact value identity but do not by
   themselves prove physical equivalence or authorize coordinate conversion.
+- Plane/ray constructor and error names are not prescribed. The implementation
+  treats exact identifier equality as the only currently safe compatibility
+  rule and reports the origin space as expected and the vector space as actual.
+- Plane/ray non-zero validation is exact and tolerance-free. Numerical
+  conditioning and any normalization operation require a separately specified,
+  explicit API; neither is inferred by these value constructors.
 
 ## Exact next action
 
-Audit and implement the unambiguously Spatial-owned `Plane3D` and `Ray3D`
-consumers, enforcing non-zero finite normal/direction vectors and exact
-coordinate-space agreement without implicit normalization.
+Audit and implement the unambiguously Spatial-owned `AxisAlignedBounds3D`,
+including exact coordinate-space agreement and explicitly justified ordering
+semantics without expanding into oriented bounds.
 
 ## Test policy for the next action
 
 - Run only the Spatial and direct-dependent Core builds, strict format lint and
-  plane/ray-filtered tests for the next slice.
+  axis-aligned-bounds-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

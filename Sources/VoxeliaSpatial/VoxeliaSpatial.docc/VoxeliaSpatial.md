@@ -40,6 +40,8 @@ None.
 
 - ``Point3D``
 - ``Vector3D``
+- ``Plane3D``
+- ``Ray3D``
 - ``SpatialPrimitiveError``
 
 ### Project documents

@@ -1,10 +1,22 @@
 // SPDX-License-Identifier: MIT
 
-/// An error raised while validating a spatial point or vector.
+/// An error raised while validating a spatial primitive.
 public enum SpatialPrimitiveError: Error, Sendable, Equatable {
     /// A coordinate component was NaN or infinity. Indices 0, 1, and 2
     /// correspond to X, Y, and Z respectively.
     case nonFiniteComponent(index: Int)
+
+    /// A plane was supplied an all-zero normal vector.
+    case zeroNormal
+
+    /// A ray was supplied an all-zero direction vector.
+    case zeroDirection
+
+    /// Related spatial values use different coordinate-space identifiers.
+    case coordinateSpaceMismatch(
+        expected: CoordinateSpaceID,
+        actual: CoordinateSpaceID
+    )
 }
 
 /// A finite three-dimensional point in an explicit coordinate space.
@@ -134,6 +146,136 @@ public struct Vector3D: Sendable, Hashable, Codable {
     }
 }
 
+/// An oriented plane defined by an origin and a non-zero normal vector.
+///
+/// The normal is preserved without implicit normalization. Its coordinate
+/// space must exactly match the origin's coordinate space.
+public struct Plane3D: Sendable, Hashable, Codable {
+    /// A point lying on the plane.
+    public let origin: Point3D
+    /// The non-zero vector defining the plane's orientation.
+    public let normal: Vector3D
+
+    /// Creates a plane without changing the supplied normal.
+    ///
+    /// - Throws: ``SpatialPrimitiveError/zeroNormal`` if every normal
+    ///   component is zero, or
+    ///   ``SpatialPrimitiveError/coordinateSpaceMismatch(expected:actual:)``
+    ///   if the origin and normal use different coordinate spaces.
+    public init(origin: Point3D, normal: Vector3D) throws {
+        guard origin.coordinateSpace == normal.coordinateSpace else {
+            throw SpatialPrimitiveError.coordinateSpaceMismatch(
+                expected: origin.coordinateSpace,
+                actual: normal.coordinateSpace
+            )
+        }
+        guard !isZeroSpatialVector(normal) else {
+            throw SpatialPrimitiveError.zeroNormal
+        }
+
+        self.origin = origin
+        self.normal = normal
+    }
+
+    /// Decodes and revalidates the plane's spatial invariants.
+    public init(from decoder: any Decoder) throws {
+        let originKey = SpatialPrimitiveCodingKey("origin")
+        let normalKey = SpatialPrimitiveCodingKey("normal")
+        let container = try exactSpatialPrimitiveContainer(
+            from: decoder,
+            expectedKeys: [originKey, normalKey],
+            description: "A plane requires origin and normal."
+        )
+        let origin = try container.decode(Point3D.self, forKey: originKey)
+        let normal = try container.decode(Vector3D.self, forKey: normalKey)
+
+        do {
+            try self.init(origin: origin, normal: normal)
+        } catch {
+            throw invalidCompositeSpatialPrimitiveDecodingError(
+                decoder: decoder,
+                kind: "Plane3D",
+                vectorKey: normalKey,
+                underlyingError: error
+            )
+        }
+    }
+
+    /// Encodes the plane's origin and normal without changing either value.
+    public func encode(to encoder: any Encoder) throws {
+        let originKey = SpatialPrimitiveCodingKey("origin")
+        let normalKey = SpatialPrimitiveCodingKey("normal")
+        var container = encoder.container(keyedBy: SpatialPrimitiveCodingKey.self)
+        try container.encode(origin, forKey: originKey)
+        try container.encode(normal, forKey: normalKey)
+    }
+}
+
+/// A ray defined by an origin and a non-zero direction vector.
+///
+/// The direction is preserved without implicit normalization. Its coordinate
+/// space must exactly match the origin's coordinate space.
+public struct Ray3D: Sendable, Hashable, Codable {
+    /// The ray's starting point.
+    public let origin: Point3D
+    /// The non-zero vector defining the ray's direction and parameterization.
+    public let direction: Vector3D
+
+    /// Creates a ray without changing the supplied direction.
+    ///
+    /// - Throws: ``SpatialPrimitiveError/zeroDirection`` if every direction
+    ///   component is zero, or
+    ///   ``SpatialPrimitiveError/coordinateSpaceMismatch(expected:actual:)``
+    ///   if the origin and direction use different coordinate spaces.
+    public init(origin: Point3D, direction: Vector3D) throws {
+        guard origin.coordinateSpace == direction.coordinateSpace else {
+            throw SpatialPrimitiveError.coordinateSpaceMismatch(
+                expected: origin.coordinateSpace,
+                actual: direction.coordinateSpace
+            )
+        }
+        guard !isZeroSpatialVector(direction) else {
+            throw SpatialPrimitiveError.zeroDirection
+        }
+
+        self.origin = origin
+        self.direction = direction
+    }
+
+    /// Decodes and revalidates the ray's spatial invariants.
+    public init(from decoder: any Decoder) throws {
+        let originKey = SpatialPrimitiveCodingKey("origin")
+        let directionKey = SpatialPrimitiveCodingKey("direction")
+        let container = try exactSpatialPrimitiveContainer(
+            from: decoder,
+            expectedKeys: [originKey, directionKey],
+            description: "A ray requires origin and direction."
+        )
+        let origin = try container.decode(Point3D.self, forKey: originKey)
+        let direction = try container.decode(Vector3D.self, forKey: directionKey)
+
+        do {
+            try self.init(origin: origin, direction: direction)
+        } catch {
+            throw invalidCompositeSpatialPrimitiveDecodingError(
+                decoder: decoder,
+                kind: "Ray3D",
+                vectorKey: directionKey,
+                underlyingError: error
+            )
+        }
+    }
+
+    /// Encodes the ray's origin and direction without changing either value.
+    public func encode(to encoder: any Encoder) throws {
+        let originKey = SpatialPrimitiveCodingKey("origin")
+        let directionKey = SpatialPrimitiveCodingKey("direction")
+        var container = encoder.container(keyedBy: SpatialPrimitiveCodingKey.self)
+        try container.encode(origin, forKey: originKey)
+        try container.encode(direction, forKey: directionKey)
+    }
+}
+
 private struct DecodedSpatialPrimitive {
     let x: Double
     let y: Double
@@ -185,21 +327,11 @@ private func decodeSpatialPrimitive(
     let yKey = SpatialPrimitiveCodingKey("y")
     let zKey = SpatialPrimitiveCodingKey("z")
     let coordinateSpaceKey = SpatialPrimitiveCodingKey("coordinateSpace")
-    let container = try decoder.container(keyedBy: SpatialPrimitiveCodingKey.self)
-    let expectedKeys = Set([
-        xKey.stringValue,
-        yKey.stringValue,
-        zKey.stringValue,
-        coordinateSpaceKey.stringValue,
-    ])
-    guard Set(container.allKeys.map(\.stringValue)) == expectedKeys else {
-        throw DecodingError.dataCorrupted(
-            DecodingError.Context(
-                codingPath: container.codingPath,
-                debugDescription: "A spatial primitive requires x, y, z, and coordinateSpace."
-            )
-        )
-    }
+    let container = try exactSpatialPrimitiveContainer(
+        from: decoder,
+        expectedKeys: [xKey, yKey, zKey, coordinateSpaceKey],
+        description: "A spatial primitive requires x, y, z, and coordinateSpace."
+    )
 
     return try DecodedSpatialPrimitive(
         x: container.decode(Double.self, forKey: xKey),
@@ -210,6 +342,28 @@ private func decodeSpatialPrimitive(
             forKey: coordinateSpaceKey
         )
     )
+}
+
+private func exactSpatialPrimitiveContainer(
+    from decoder: any Decoder,
+    expectedKeys: [SpatialPrimitiveCodingKey],
+    description: String
+) throws -> KeyedDecodingContainer<SpatialPrimitiveCodingKey> {
+    let container = try decoder.container(keyedBy: SpatialPrimitiveCodingKey.self)
+    let expectedNames = Set(expectedKeys.map(\.stringValue))
+    guard Set(container.allKeys.map(\.stringValue)) == expectedNames else {
+        throw DecodingError.dataCorrupted(
+            DecodingError.Context(
+                codingPath: container.codingPath,
+                debugDescription: description
+            )
+        )
+    }
+    return container
+}
+
+private func isZeroSpatialVector(_ vector: Vector3D) -> Bool {
+    vector.x == 0 && vector.y == 0 && vector.z == 0
 }
 
 private func encodeSpatialPrimitive(
@@ -247,6 +401,21 @@ private func invalidSpatialPrimitiveDecodingError(
         DecodingError.Context(
             codingPath: codingPath,
             debugDescription: "\(kind) contains a non-finite component.",
+            underlyingError: underlyingError
+        )
+    )
+}
+
+private func invalidCompositeSpatialPrimitiveDecodingError(
+    decoder: any Decoder,
+    kind: String,
+    vectorKey: SpatialPrimitiveCodingKey,
+    underlyingError: any Error
+) -> DecodingError {
+    DecodingError.dataCorrupted(
+        DecodingError.Context(
+            codingPath: decoder.codingPath + [vectorKey],
+            debugDescription: "\(kind) contains incompatible spatial values.",
             underlyingError: underlyingError
         )
     )

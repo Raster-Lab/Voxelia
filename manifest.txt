@@ -177,6 +177,7 @@ Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
 Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift
 Tests/VoxeliaSpatialTests/Matrix4x4DoubleTests.swift
 Tests/VoxeliaSpatialTests/MeasurementUnitTests.swift
+Tests/VoxeliaSpatialTests/PlaneAndRayTests.swift
 Tests/VoxeliaSpatialTests/SpatialAxisMappingTests.swift
 Tests/VoxeliaSpatialTests/SpatialPrimitivesTests.swift
 Tests/VoxeliaSpatialTests/StringIdentifierTests.swift
