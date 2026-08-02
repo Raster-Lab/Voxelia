@@ -38,6 +38,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Proposed `ADR-0023` selects four common `ValueTransform` cases with validated
   linear and composition payloads while deferring undefined piecewise and
   lookup-execution behavior; it is not accepted and does not unblock code.
+- The complete `ImageDescriptor` closure has been audited field by field. Five
+  of its eight direct field types are implemented, but axes, value transforms
+  and every complete spatial-geometry path remain governance- or contract-
+  blocked; no descriptor implementation is currently authorised.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -49,6 +53,68 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   repository governance, runner review and required human sign-offs.
 - Host capability observed: Apple Silicon ARM64 macOS, Xcode 26.6, Swift 6.3.3.
 - Automation: `Complete Voxelia autonomously`, active heartbeat every 15 minutes on this Codex task.
+
+## M1 `ImageDescriptor` prerequisite matrix
+
+Status in this matrix describes readiness for a public implementation. A
+standalone prerequisite marked Implemented may still require descriptor-level
+binding validation before `ImageDescriptor` can be constructed.
+
+| Descriptor field | Direct type | Status | Remaining gate |
+|---|---|---|---|
+| `shape` | `ImageShape` | Implemented | Descriptor construction must use its rank when validating axes and geometry. |
+| `scalarFormat` | `ScalarFormat` | Implemented | Semantic compatibility is descriptor-level; storage compatibility is deferred to `ImageData`/storage binding and must not cause descriptor construction to access storage. |
+| `components` | `ComponentDescriptor` | Implemented | The semantic/component/scalar compatibility matrix is not fully specified. |
+| `semantic` | `ImageSemantic` | Implemented | The detailed namespaced generic form is implemented; older MTA drift and descriptor-level consistency remain recorded. |
+| `axes` | `ContiguousArray<AxisDescriptor>` | Proposed-dependent and contract-blocked | MTA ownership conflicts with CDMS/FVSP ownership; proposed `ADR-0021` is not accepted, and sampling/name/unit validation plus wire rules remain incomplete. |
+| `spatialGeometry` | `SpatialGeometry?` | Proposed-dependent and contract-blocked | Coordinate-space policy, affine shape and tolerance, rectilinear binding, and the frame-index dependency cycle all remain unresolved. |
+| `valueTransform` | `ValueTransform?` | Proposed-dependent | Proposed `ADR-0023` must be accepted and its controlled-document corrections completed before its bounded four-case declaration is authorised. Piecewise extension and lookup execution are explicitly later scope, not blockers to that declaration. |
+| `units` | `MeasurementUnit?` | Implemented | The unit must describe authoritative sample values; semantic and transform compatibility policy is still required. |
+
+The blocked axis and spatial branch expands as follows:
+
+| Prerequisite | Implemented leaves | Blocking contract |
+|---|---|---|
+| `AxisDescriptor` | `AxisID`, `MeasurementUnit` | Proposed `ADR-0021` recommends Spatial ownership but does not authorise it. Direct enum payloads cannot enforce finite, non-zero regular spacing; origin/irregular-coordinate finiteness, generic and external string validity, categorical-label policy, duplicate-semantic support and descriptor binding are incomplete. |
+| `CoordinateSpaceDescriptor` | `CoordinateSpaceID`, `CoordinateHandedness`, `ExternalFrameReference`, `MeasurementUnit` | Proposed `ADR-0022` selects a convention shape but is not accepted. Its built-in contradiction matrix is therefore unapproved; display/custom unit validity, unresolved-handedness operation policy, external-reference ordering and construction errors remain incomplete. |
+| `AffineGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. MTA also uses fixed `SIMD3<Int>` axes while CDMS uses one-to-three `SpatialAxisMapping` entries. Affine-final-row validation has no declared tolerance; singularity and near-singularity policy separately block inverse operations. |
+| `RectilinearGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. Coordinate-count binding, monotonicity/coincident-sample policy, orientation and invertibility semantics are incomplete. |
+| `FrameSetGeometry` | `SpatialAxisMapping`, `Matrix4x4Double`; Core-owned `ImageIndex` is implemented but unusable from Spatial | `FrameGeometry` depends on the blocked coordinate-space descriptor and contains Core-owned `ImageIndex`, which would reverse the approved `Core -> Spatial` dependency. Frame rank, sparse/empty framing, identity, compatibility and regularity-result policies are also incomplete. |
+| `SpatialGeometry` | None beyond its payload leaves | The aggregate cannot be declared safely until all three public payload contracts and their stable encodings are available. |
+
+The descriptor also requires cross-field contracts that no individual field can
+enforce:
+
+| Binding area | Required decision or validation |
+|---|---|
+| Axis structure | Axis count equals shape rank; IDs are unique; irregular coordinates and categorical labels match the corresponding extent. |
+| Sample semantics | Component interpretation/count, scalar domain and image semantic form a permitted combination. |
+| Spatial binding | Mapped axes are in rank, geometry dimensionality is supported, and axis semantics agree with the geometry. |
+| Authoritative values | `units` and `valueTransform` agree with each other and with the image semantic. |
+| Stable identity | Canonical JSON still needs stable key and number forms, explicit tags, schema versioning, duplicate-key rejection, absent/null rules and non-finite policy. This blocks M1 canonical-serialisation and digest acceptance, not necessarily an earlier in-memory declaration after its type and invariant blockers are resolved; ordinary `Codable` round trips do not satisfy the byte-ingress boundary. |
+
+Metadata, provenance, identity and storage are deliberately not fields of
+the exact MTA/CDMS `ImageDescriptor`. FVSP section 18 nevertheless says the
+accepted CT descriptor includes “technical metadata”; that is controlled drift
+requiring correction or interpretation, not authority to add a silent ninth
+field. The canonical metadata boundary is the later immutable `ImageData`
+binding:
+
+| `ImageData` dependency | Status | Boundary issue |
+|---|---|---|
+| `MetadataCollection` | Contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent; finite floating values, canonical UTC instants, binary encoding, object-key uniqueness, tags, recursion limits, multiplicity, privacy attachment and typed access remain open. |
+| `DataIdentity` | Contract-blocked | `ContentID` has incompatible prescribed shapes, lacks an approved scope-bearing record and fully specified canonical digest byte encoding, and `DataIdentityReference` is undefined. |
+| `ProvenanceRecord` | Architecture- and contract-blocked | References, warning severity, validation state, timestamps and graph invariants are incomplete; several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
+| `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
+| `ImageData` | Transitively blocked | Its exact five-field shape is consistent, but construction still needs storage descriptor/shape/scalar/component/byte-order compatibility, geometry/axis compatibility, identity completeness, provenance/source consistency, metadata uniqueness and the Core/Storage ownership decision. |
+
+Conclusion: no independently implementable public leaf remains inside this
+closure. Already safe leaves include `ImageShape`, `ScalarFormat`,
+`ComponentDescriptor`, `ImageSemantic`, `MeasurementUnit`, `AxisID`,
+`CoordinateSpaceID`, `CoordinateHandedness`, `ExternalFrameReference`,
+`SpatialAxisMapping`, `Matrix4x4Double`, `ImageIndex` and
+`LookupTableDescriptor`. Further work is governance and contract clarification,
+not speculative source code.
 
 ## Completed in this increment
 
@@ -428,6 +494,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   subtraction scaling, signed overflow/underflow tokens, fixed ordering and
   precedence, typed entry/exit failures and explicit floating-point environment
   requirements; no operation code is authorised while the ADR is Proposed.
+- Audited all eight direct `ImageDescriptor` fields and separated implemented
+  standalone values from Proposed-dependent and still-undefined contracts.
+- Expanded the spatial closure through affine, rectilinear and frame-set
+  geometry, exposing the previously implicit reverse dependency from
+  Spatial-owned `FrameGeometry` to Core-owned `ImageIndex`.
+- Kept metadata, identity, provenance and storage outside the descriptor and
+  mapped them at the downstream `ImageData` boundary, including the separate
+  prohibited Core/Storage cycle in the currently prescribed ownership model.
 
 ## Verification evidence
 
@@ -817,6 +891,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Release-integrity regeneration, the 365-path manifest check and read-only
   verification passed with 364 inventory records and 365 checksums after the
   sixth file-backed ADR was added.
+- Three independent read-only audits covered the descriptor field shape,
+  axis/spatial closure and downstream identity/metadata/storage boundary. All
+  three concluded that no unimplemented public leaf is safe to add, so no Swift
+  source or test suite was run for this documentation-only result.
+- The audits cross-checked MTA sections 8.1 through 10, CDMS sections 6, 14, 18
+  through 27, 37, 40, 55, 64, 70, 72 and Appendix A, FVSP sections 14, 18 and
+  41, the live `Package.swift` graph and the current `Public/` source inventory.
+- `Tools/Scripts/validate-docs.sh` passed for seven front-matter documents, all
+  six file-backed ADRs and 52 Markdown files. Release-integrity regeneration,
+  the 365-path manifest check, read-only integrity verification and
+  `git diff --check` also passed with 364 inventory records and 365 checksums.
 
 ## Known blockers and risks
 
@@ -1137,6 +1222,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Proposed `ADR-0023` does not resolve the transform conflict until accepted.
   Piecewise-linear transforms remain undefined, and lookup declarations do not
   establish interpolation, missing-entry or extrapolation behavior.
+- The exact in-memory `ImageDescriptor` declaration remains transitively blocked
+  even if proposed `ADR-0021` through `ADR-0023` were accepted: coordinate-
+  space descriptor policy, affine shape and construction tolerance,
+  rectilinear binding and frame-set binding are still incomplete. Full M1
+  descriptor acceptance is additionally blocked by canonical JSON.
+- Spatial-owned `FrameGeometry` is specified with Core-owned `ImageIndex`, but
+  the approved dependency direction is `Core -> Spatial`; implementing that
+  shape in Spatial would create a prohibited reverse edge or cycle.
+- The downstream `ImageData` shape places a storage-erased value beside
+  Core-owned descriptor, metadata, provenance and identity values. MTA assigns
+  storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
+  and RPSS fixes the live `Storage -> Core` package edge; Core cannot import a
+  Storage-owned `AnyImageStorage` without a cycle.
+- Core-owned execution provenance names unresolved execution-profile, backend
+  and approximation types. If they remain Execution-owned, the live
+  `Execution -> Storage -> Core` graph likewise prevents Core from importing
+  them; this boundary is separate from the storage decision.
 - Proposed `ADR-0026` does not authorise the ray/bounds operation until
   accepted. Its binary64-v1 result classifies the specified rounded model, not
   arbitrary exact-rational geometry; a versioned algorithm specification and
@@ -1148,17 +1250,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Audit the complete M1 dependency closure for `ImageDescriptor`, including
-`AxisDescriptor`, `ValueTransform`, `SpatialGeometry`, coordinate-space policy,
-metadata and identity boundaries. Produce a precise matrix of implemented,
-Proposed-dependent and still-undefined prerequisites; implement nothing that
-would rely on an unaccepted ADR.
+Audit and prepare a narrowly scoped proposed `ADR-0027` that decides the
+cross-module representation of `FrameGeometry.frameIndex`: retain, move or
+replace the Core-owned `ImageIndex` reference while preserving the acyclic
+`Core -> Spatial` package direction, including whether a new Spatial-owned
+locator is required. Define whether it denotes a full image index, a frame-axis
+ordinal or another identity, its serialisation and standalone validation, and
+the owner of deferred rank/shape binding validation without defining those
+detailed invariants. Acceptance must resolve only this boundary; coordinate-
+space policy, empty or sparse framing, frame-space compatibility and transforms,
+frame identity, regularity assessment, detailed descriptor binding and affine
+mapping/tolerance remain separate blockers. Do not implement source while the
+record remains Proposed.
 
 ## Test policy for the next action
 
-- For the dependency audit, run documentation and integrity checks only if the
-  progress or architecture records change. Do not run Swift tests for a
-  read-only or documentation-only audit.
+- For the frame-boundary decision, run the focused ADR-register tests plus the
+  documentation, manifest and release-integrity checks. Do not run Swift tests
+  while only architecture and progress records change.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
