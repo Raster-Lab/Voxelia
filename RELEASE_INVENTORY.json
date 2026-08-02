@@ -1471,23 +1471,28 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0031-bounded-recursive-metadata-value-boundary.md",
-      "size": 33143,
-      "sha256": "06ed46639fef4a2a5a742e8654d8ba7c292a6b226cc30191c546c2697a08e9ee"
+      "size": 33634,
+      "sha256": "65c1014d53e7d6af898f693014e30a8da2823817707dc6e1e22e88e9300e8f92"
     },
     {
       "path": "docs/architecture/decisions/ADR-0032-required-metadata-entry-privacy-attachment.md",
-      "size": 28146,
-      "sha256": "d7ec146455775391958e5089c457f2b71b46cedbd742e53900d40ddce471e9b8"
+      "size": 28557,
+      "sha256": "50c17fd2b6dff0ecf03bd9f53f5805a0767bb56c19bcf046cda2ad751f5ce6e4"
     },
     {
       "path": "docs/architecture/decisions/ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md",
-      "size": 29696,
-      "sha256": "c593c82aefb4d70ed4be73dd207d35afc4a1446e6fb92545a12af8e7c3b6c95d"
+      "size": 30360,
+      "sha256": "56ea6385ec0c0108da5b540b501d0f869a2c7b3e7a226fe59fcfec260ae0cb71"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0034-closed-exact-case-typed-metadata-read-boundary.md",
+      "size": 24856,
+      "sha256": "1443d8a7f6a210476fb924a4f2e81abe6bf7778029e79a7ea8f3b57c3acfb82e"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 2804,
-      "sha256": "32959a8d5d3b559df8277ffa908e12f6170475ab779ad9e813f21ee27b005b32"
+      "size": 3018,
+      "sha256": "76899f1fa74d7782a4bda05a88e1bab88eefdcfd85c412193a3eb1e5608b9679"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1571,8 +1576,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 188811,
-      "sha256": "b126458466487510141465b033d7472a2d090cf8870748efcf977eb58fdcf9ad"
+      "size": 200744,
+      "sha256": "1bb1e84b8f7758040a17dc4c636bd04259f4724b107eabb9e829807574cb7533"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1588,6 +1593,11 @@
       "path": "docs/progress/evidence/ADR-0033-metadata-collection-policy-probe.swift",
       "size": 20298,
       "sha256": "6d0e6acd8e40410a2d854f3df404647571b1ea6fcbc0913ba4bfc3b17484e1c4"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0034-typed-metadata-access-probe.swift",
+      "size": 23431,
+      "sha256": "3c4384d7cd05c9a6c3e08823374101583089c6aa0ae7e89a8119a27d0eb3ced5"
     },
     {
       "path": "docs/project/README.md",
@@ -1871,8 +1881,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 16826,
-      "sha256": "35575052135980cb246a999e2ff4abb7ecbac61a029375e9ba7edfd269f59152"
+      "size": 16979,
+      "sha256": "f968f7c2594839cc71c51091b9ce9dea0868977738c4f2f1e2bd40088621d3b6"
     }
   ]
 }

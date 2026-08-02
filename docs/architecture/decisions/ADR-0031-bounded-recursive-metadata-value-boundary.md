@@ -391,6 +391,12 @@ ADR's cached structural and logical-payload metrics to impose separate
 collection-wide ceilings. Those ceilings are new proposed contracts and do
 not amend the standalone value limits while either record remains Proposed.
 
+Proposed `ADR-0034` also depends on the exact eleven associated payloads in
+this value. It selects only closed exact-case read projections and does not
+change this ADR's case identity, storage, wire or recursive invariants. It is
+not a prerequisite for reviewing the privacy-neutral value and has no authority
+while Proposed.
+
 `ADR-0030` continues to permit any finite standalone `MetadataBinary` if
 accepted. This ADR proposes a separate hard logical-payload ceiling only when a
 leaf is embedded in a recursive array or object. It therefore refines the
@@ -606,7 +612,8 @@ After all four required ADRs are accepted and the ceiling evidence is approved:
    multiplicity, typed access, canonical byte ingress and persistent digest
    identity governed by their own accepted decisions, including `ADR-0032` for
    the entry/privacy boundary and `ADR-0033` for the ordered collection and
-   explicit multiplicity-policy boundary; and
+   explicit multiplicity-policy boundary plus `ADR-0034` for closed typed
+   reads; and
 6. update traceability, changelog, API documentation and release-integrity
    evidence.
 
@@ -634,5 +641,6 @@ adapter, provenance or persistent-identity decisions.
 - [ADR-0030 - Owned binary metadata boundary](ADR-0030-owned-binary-metadata-boundary.md)
 - [ADR-0032 - Required metadata-entry privacy attachment](ADR-0032-required-metadata-entry-privacy-attachment.md)
 - [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
+- [ADR-0034 - Closed exact-case typed metadata read boundary](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md)
 - [RFC 8259 - The JavaScript Object Notation Data Interchange Format](https://www.rfc-editor.org/rfc/rfc8259.html)
 - [RFC 8785 - JSON Canonicalization Scheme](https://www.rfc-editor.org/rfc/rfc8785.html)

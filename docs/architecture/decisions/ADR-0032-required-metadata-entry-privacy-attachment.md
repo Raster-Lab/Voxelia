@@ -90,6 +90,10 @@ authentication, export workflows, audit storage, canonical byte ingress or a
 persistent data digest. Its Proposed status does not authorise
 `MetadataEntry` source or controlled-document changes.
 
+Proposed `ADR-0034` now selects a separate typed-read result that retains the
+typed key, exact payload and this required class. It depends on this proposal,
+remains unaccepted and does not change the entry attachment selected here.
+
 ## Decision
 
 If this ADR and its value dependencies are accepted, `VoxeliaCore` will own
@@ -533,7 +537,8 @@ evidence is approved:
 5. keep `MetadataCollection`, namespace multiplicity, typed access, policy
    resolver shape, concrete logging/export APIs, canonical ingress and
    persistent identity deferred to their own accepted decisions, including
-   `ADR-0033` for collection construction and local multiplicity admission; and
+   `ADR-0033` for collection construction/local multiplicity admission and
+   `ADR-0034` for privacy-preserving closed typed reads; and
 6. update traceability, changelog, API documentation and release-integrity
    evidence.
 
@@ -559,6 +564,7 @@ logging, export, authentication or audit decisions.
 - [Voxelia Validation and Benchmark Strategy v0.1.1, sections 13, 17 and 38](../../project/Voxelia_Validation_and_Benchmark_Strategy_v0.1.1.md)
 - [ADR-0031 - Bounded recursive metadata value boundary](ADR-0031-bounded-recursive-metadata-value-boundary.md)
 - [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
+- [ADR-0034 - Closed exact-case typed metadata read boundary](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md)
 - [HL7 FHIR R5 - Security Labels](https://fhir.hl7.org/fhir/security-labels.html)
 - [DICOM PS3.15 - Attribute Confidentiality Profiles](https://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html)
 - [Apple Developer Documentation - OSLogPrivacy](https://developer.apple.com/documentation/os/oslogprivacy)

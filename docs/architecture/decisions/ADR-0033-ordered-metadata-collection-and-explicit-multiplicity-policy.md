@@ -294,9 +294,10 @@ order and persistent signatures/digests remain canonical-ingress work.
 
 ### Typed-read cardinality boundary
 
-Broad typed access remains deferred until a reviewed mapping connects
-`MetadataKey<Value>` to supported `MetadataValue` cases. This ADR nevertheless
-fixes the cardinality rule so a later accessor cannot silently choose:
+Typed access remains separate from collection construction. Proposed
+`ADR-0034` now selects a closed mapping from supported `MetadataKey<Value>`
+specialisations to exact `MetadataValue` cases, but remains unaccepted. This ADR
+fixes the cardinality rule independently so an accessor cannot silently choose:
 
 - a single-value read with no exact-key match returns a typed payload-free
   missing-value failure;
@@ -307,9 +308,10 @@ fixes the cardinality rule so a later accessor cannot silently choose:
 - a future multi-value read preserves match order and validates every element,
   never coercing or dropping a mismatch.
 
-The exact public accessor, conversion protocol and error-type names require the
-typed-access decision. Its errors never associate the requested key, expected
-type, actual case, value or cardinality.
+Proposed `ADR-0034` selects the exact public accessor and error names without an
+open conversion protocol. Read errors never associate the requested key,
+expected type, actual case, value or exact cardinality; their fixed cases
+necessarily distinguish missing, repeated and mismatched outcomes.
 
 ### Privacy, logging and export boundary
 
@@ -410,7 +412,8 @@ make a separately reviewed choice.
 The generic `MetadataKey<Value>` parameter alone does not define conversion
 from an erased recursive case to arbitrary `Value`. Freezing an ad hoc protocol
 would couple independent construction and typed-access concerns. Only the
-no-silent-cardinality rule is safe to settle here.
+no-silent-cardinality rule is safe to settle here. Proposed `ADR-0034`
+separately selects concrete overloads for the eleven exact associated payloads.
 
 ## Consequences
 
@@ -429,8 +432,9 @@ no-silent-cardinality rule is safe to settle here.
 - Ordered semantic identity may distinguish collections that a future schema
   considers equivalent; any normalised persistent identity must be separately
   named and reviewed.
-- Typed conversion, portable schema identity, canonical bytes and concrete
-  logging/export behaviour remain explicit later work.
+- Closed exact-case typed reads are separately proposed by `ADR-0034`; custom
+  conversion, portable schema identity, canonical bytes and concrete logging/
+  export behaviour remain explicit later work.
 - No collection source is authorised while this ADR or `ADR-0028` through
   `ADR-0032` remains Proposed.
 
@@ -561,8 +565,9 @@ collection ceiling evidence is approved:
    concurrency and static-dependency tests listed above;
 4. gather supported-destination and lowest-resource-device boundary evidence;
 5. keep typed conversion/accessor shape, canonical schema identity, raw ingress,
-   persistent digest, concrete logging/export and host resolver APIs deferred to
-   their own accepted decisions; and
+   persistent digest, concrete logging/export and host resolver APIs governed
+   by their own accepted decisions, including `ADR-0034` for closed exact-case
+   typed reads; and
 6. update traceability, changelog, API documentation, validation reports and
    release-integrity evidence.
 
@@ -577,7 +582,8 @@ ADR. It depends on the leaves and bounded recursive value proposed by
 It completes only ordered collection construction and type-level multiplicity
 admission if accepted. It does not supersede canonical serialisation, typed
 access, privacy policy, provenance, persistent identity or host-authorisation
-decisions.
+decisions. Proposed `ADR-0034` depends on this cardinality boundary but does not
+change collection construction or multiplicity admission.
 
 ## References
 
@@ -588,5 +594,6 @@ decisions.
 - [Voxelia Validation and Benchmark Strategy v0.1.1, sections 5.8, 7, 35, 38 and 49.2](../../project/Voxelia_Validation_and_Benchmark_Strategy_v0.1.1.md)
 - [ADR-0031 - Bounded recursive metadata value boundary](ADR-0031-bounded-recursive-metadata-value-boundary.md)
 - [ADR-0032 - Required metadata-entry privacy attachment](ADR-0032-required-metadata-entry-privacy-attachment.md)
+- [ADR-0034 - Closed exact-case typed metadata read boundary](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md)
 - [Apple Developer Documentation - CodableWithConfiguration](https://developer.apple.com/documentation/foundation/codablewithconfiguration)
 - [Apple Developer Documentation - DecodableWithConfiguration](https://developer.apple.com/documentation/foundation/decodablewithconfiguration)
