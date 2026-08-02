@@ -10,8 +10,9 @@ until it is accepted, the platform record and all live references retain their
 current identifier. `ADR-0025` is held only as the proposed migration target
 and is not an existing decision. `ADR-0026` is allocated independently to the
 ray/axis-aligned-bounds intersection proposal, and `ADR-0027` is allocated to
-the frame-geometry anchor-index boundary proposal. The next unallocated numeric
-identifier is `ADR-0028`.
+the frame-geometry anchor-index boundary proposal. `ADR-0028` is allocated to
+the shared canonical-instant boundary proposal. The next unallocated numeric
+identifier is `ADR-0029`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -22,3 +23,4 @@ identifier is `ADR-0028`.
 | [ADR-0024](ADR-0024-decision-register-reconciliation.md) | Proposed | Architecture decision register reconciliation |
 | [ADR-0026](ADR-0026-ray-axis-aligned-bounds-intersection.md) | Proposed | Ray to axis-aligned bounds intersection |
 | [ADR-0027](ADR-0027-frame-geometry-anchor-index-boundary.md) | Proposed | Frame geometry anchor-index boundary |
+| [ADR-0028](ADR-0028-canonical-instant-boundary.md) | Proposed | Canonical instant boundary |

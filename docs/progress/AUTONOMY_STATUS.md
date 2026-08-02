@@ -52,6 +52,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   privacy or resource invariants. The independently implemented metadata-key
   leaf now uses exact accepted UTF-8 pair identity without claiming canonical-
   digest string normalization.
+- Proposed `ADR-0028` selects a shared Core-owned `CanonicalInstant` for the raw
+  metadata and provenance strings: one bounded uppercase zero-offset RFC 3339-
+  derived profile, typed value-redacted errors and strict scalar-string Codable.
+  It is not accepted and does not authorise source or either aggregate.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -116,9 +120,9 @@ binding:
 
 | `ImageData` dependency | Status | Boundary issue |
 |---|---|---|
-| `MetadataCollection` | Contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Their inventory and Core ownership are stable, but raw enum payloads bypass finite floating, canonical UTC instant and object-uniqueness invariants; direct `Data`, tags, ordering, limits, multiplicity, privacy attachment, typed access and canonical ingress remain open. |
+| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` selects a validated canonical-instant payload but is not accepted; raw floating-point and object payloads still bypass invariants, while direct `Data`, tags, ordering, limits, multiplicity, privacy attachment, typed access and canonical ingress remain open. |
 | `DataIdentity` | Contract-blocked | `ContentID` has incompatible prescribed shapes, lacks an approved scope-bearing record and fully specified canonical digest byte encoding, and `DataIdentityReference` is undefined. |
-| `ProvenanceRecord` | Architecture- and contract-blocked | References, warning severity, validation state, timestamps and graph invariants are incomplete; several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
+| `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf but is not accepted. References, warning severity, validation state and graph invariants remain incomplete, and several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
 | `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
 | `ImageData` | Transitively blocked | Its exact five-field shape is consistent, but construction still needs storage descriptor/shape/scalar/component/byte-order compatibility, geometry/axis compatibility, identity completeness, provenance/source consistency, metadata uniqueness and the Core/Storage ownership decision. |
 
@@ -162,7 +166,7 @@ The focused correction now:
   optional fields and constructor revalidation after decoding.
 
 This is a defect correction to existing public promises, not a new conversion
-policy and not `ADR-0028`. Equality does not establish compatibility or make
+policy or unit-policy decision. Equality does not establish compatibility or make
 conversion metadata executable. Equal values may preserve different display
 labels and therefore produce different ordinary `JSONEncoder` output; future
 canonical descriptor digests must define their identity projection rather than
@@ -209,6 +213,41 @@ their exact accepted UTF-8 namespace/name bytes, with field lengths included in
 hashing. Namespace aliases remain schema/adapter policy, and future canonical-
 digest Unicode normalization must explicitly reconcile its equivalence relation
 with this exact in-memory identity.
+
+## M1 canonical-instant prerequisite audit
+
+The baseline gives two Core-owned raw strings the same semantic requirement:
+`MetadataValue.instant(String)` must be canonical UTC ISO 8601, and
+`ProvenanceRecord.createdAt: String` must be an absolute instant with canonical
+UTC JSON. Three independent governance, standards and Swift implementation
+audits agreed that one standalone leaf is coherent even though both aggregates
+remain blocked. Proposed `ADR-0028` selects this review boundary:
+
+| Area | Proposed version-one decision | Explicitly deferred |
+|---|---|---|
+| Ownership and consumers | Core-owned `CanonicalInstant`; after acceptance only, replace both raw strings with that type. | Complete `MetadataValue`, metadata collections and `ProvenanceRecord`. |
+| Grammar | ASCII `YYYY-MM-DDTHH:mm:ss[.fraction]Z`; uppercase markers, mandatory seconds and no offsets or suffixes. | General ISO 8601/RFC 3339 parsing and implicit adapter conversion. |
+| Calendar and clock | Proleptic Gregorian years 0001 through 9999, valid dates and a leap-unaware 86,400-labelled-second day with hours 00 through 23 and minutes/seconds 00 through 59. | Historical calendars, year zero, `24:00:00`, leap-event validation and UTC/TAI/GPS conversion. |
+| Fraction | Absent or one through nine digits ending non-zero; whole seconds omit it, giving one decimal spelling per represented grid value. | Rounding, fractions beyond nanoseconds and source clock resolution/uncertainty. |
+| Identity | Exact stored ASCII equality and hashing; constructor rejects aliases without normalization. | `Comparable`, arithmetic, clock capture and persistent digests. |
+| Type-level encoding | One JSON string with decode-time constructor revalidation and a typed underlying error. | Schema envelopes, raw JSON escape canonicality, duplicate keys and whole-document bytes. |
+| Implementation | Manual fixed-position UTF-8 parsing with typed component errors and no Foundation formatter or mutable state. | `Date` storage or an implicit `Date` bridge. |
+| Limits and privacy | Accepted input is 20 or 22 through 30 bytes; scan stops on byte 31, and errors never echo the timestamp. | Pre-allocation document/string limits and logging/export policy. |
+
+The nine-digit cap, minimal fraction, year-zero rejection and leap-unaware grid
+are proposed project choices, not claims already present in the baseline.
+RFC 3339 permits broader spellings; this profile deliberately rejects rather
+than normalizes them. Swift 6.3.3 probes reinforced the boundary:
+`ISO8601DateFormatter` is not `Sendable`, Foundation parsers accepted or
+normalized invalid dates and `24:00:00`, the format-style parser also accepted
+leap seconds, offsets and other aliases, and `Date` round trips lost the exact
+nine-digit decimal value. Foundation may be an adapter or supplementary test
+oracle, never the authoritative validator or storage.
+
+`CanonicalInstant` therefore has no source implementation while `ADR-0028`
+remains Proposed. Acceptance would authorise only the standalone leaf and the
+two controlled declaration corrections, not the downstream aggregates or the
+canonical byte-ingress layer.
 
 ## Completed in this increment
 
@@ -622,13 +661,28 @@ with this exact in-memory identity.
 - Kept Core responsible for later shape- and descriptor-bound validation while
   leaving frame-set order, sparse/enhanced coverage and other aggregate
   policies outside the leaf decision; no geometry source is authorised.
+- Audited the shared raw-string instant boundary across metadata, provenance,
+  canonical serialisation, the Core package graph, RFC timestamp profiles and
+  Swift 6.3.3 Foundation behaviour.
+- Added proposed `ADR-0028` with a Core-owned `CanonicalInstant`, an exact
+  bounded uppercase zero-offset RFC 3339-derived grammar, proleptic Gregorian
+  validation, minimal nanosecond fractions, typed value-redacted errors and
+  scalar-string Codable.
+- Rejected formatter-dependent validation, `Date` identity storage, offsets,
+  hidden normalization, year zero, `24:00:00` and leap-aware time-scale claims
+  while keeping source conversion, clock precision and leap policy explicit
+  future work.
+- Updated the ADR register and its focused live-repository expectation to eight
+  records; no canonical-instant, metadata or provenance Swift source is
+  authorised while the proposal remains unaccepted.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 364-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 367-entry manifest covers every releasable file except its
+  intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -1069,6 +1123,25 @@ with this exact in-memory identity.
   seven file-backed ADRs and 53 Markdown files. The 366-path manifest check,
   release-integrity regeneration and read-only verification passed with 365
   inventory records and 366 checksums; `git diff --check` also passed.
+- Three independent read-only canonical-instant audits covered local governance,
+  primary timestamp standards and Swift implementation/security. They agreed on
+  the bounded profile in proposed `ADR-0028` and on keeping both aggregates and
+  every Foundation parser out of the leaf decision.
+- Isolated Swift 6.3.3 probes found permissive invalid-date, `24:00:00`, leap-
+  second, offset and alias parsing plus binary64 fraction loss; they introduced
+  no repository source or public API.
+- `Tools/Tests/Python/test_adr_register.py` passed all 21 focused tests after its
+  live-repository expectation moved from seven to eight records; the direct
+  checker reported all eight records valid.
+- Independent final governance, standards and Swift/API reviews corrected
+  uppercase ABNF octets, fraction-error reachability, RFC references, one weak
+  requirement mapping, RFC 9557 offset semantics and leap/pre-UTC scope; all
+  focused re-reviews were clean.
+- `Tools/Scripts/validate-docs.sh` passed for seven front-matter documents, all
+  eight file-backed ADRs and 54 Markdown files. The 367-path manifest check,
+  release-integrity regeneration and read-only verification passed with 366
+  inventory records and 367 checksums; `git diff --check` also passed. No Swift
+  suite was run for the documentation-only Proposed decision.
 
 ## Known blockers and risks
 
@@ -1272,10 +1345,11 @@ with this exact in-memory identity.
   `ContentID`; `DataIdentityReference` is also undefined, and record-level
   empty, duplicate and consistency invariants are not specified.
 - Recursive metadata values, entries and collections remain deferred. Their raw
-  payload shape bypasses finite floating-point, canonical-instant and unique-
-  object-key invariants; direct `Data`, stable tags, semantic ordering, recursion
-  and allocation limits, multiplicity schemas, typed access and duplicate-safe
-  canonical byte ingress are also unresolved.
+  payload shape bypasses finite floating-point and unique-object-key invariants.
+  Proposed `ADR-0028` resolves the canonical-instant design only if accepted;
+  direct `Data`, stable tags, semantic ordering, recursion and allocation
+  limits, multiplicity schemas, typed access and duplicate-safe canonical byte
+  ingress are also unresolved.
 - `MetadataPrivacyClass` supplies vocabulary only. Per-entry attachment,
   default or unclassified behavior, `hostDefined` resolution, nested
   aggregation, downgrade prevention and equality/digest treatment are not
@@ -1289,9 +1363,10 @@ with this exact in-memory identity.
   equivalence. Scheme-specific aliases, version compatibility and ontology
   resolution require an explicit resolver or ADR.
 - Provenance records, software/operation/execution details, warnings and graph
-  references remain blocked by undefined types, timestamp/identifier policy,
-  `ContentID`, validation-state schema and graph invariants. `ProvenanceKind`
-  does not imply those records exist or are verified.
+  references remain blocked by undefined types, identifiers, `ContentID`,
+  validation-state schema and graph invariants. Proposed `ADR-0028` supplies the
+  `createdAt` policy only if accepted; `ProvenanceKind` does not imply that
+  records exist or are verified.
 - Execution quality profiles have four required behavioral categories, but the
   documents provide no normative declaration and alternate between undefined
   `ExecutionProfile` and `ExecutionProfileDescriptor` names with unresolved
@@ -1390,7 +1465,7 @@ with this exact in-memory identity.
   compare them with MTA Appendix A while the known `ADR-0001` collision remains
   unresolved, and it does not treat body mentions or the `ADR-0025` allocator
   hold as record assignments.
-- The checked-in template and all seven file-backed ADRs now contain the RPSS
+- The checked-in template and all eight file-backed ADRs now contain the RPSS
   section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
   meaningful bodies. It intentionally does not infer decision quality, status
   transitions, module validity or supersession semantics from prose.
@@ -1417,6 +1492,10 @@ with this exact in-memory identity.
   authorise only the standalone `FrameAnchorIndex` leaf and controlled CDMS
   correction; `FrameGeometry`, frame-set ordering, sparse/enhanced coverage,
   coordinate-space compatibility and regularity assessment remain blocked.
+- Proposed `ADR-0028` does not authorise `CanonicalInstant` until accepted. It
+  may authorise only the standalone Core leaf and replacement of the two
+  controlled raw-string declarations; metadata aggregates, provenance records,
+  timestamp acquisition/conversion and canonical byte ingress remain blocked.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -1437,19 +1516,19 @@ with this exact in-memory identity.
 
 ## Exact next action
 
-Audit a shared string-backed canonical-instant boundary for metadata and future
-provenance. Resolve the exact UTC grammar, mandatory `Z`, seconds, fractional
-precision and trailing zeros, calendar/year range, leap-second and `24:00:00`
-rules, equality, maximum input length and strict type-level Codable shape.
-Determine whether that bounded contract warrants proposed `ADR-0028`; do not add
-`MetadataValue` source while its other raw-payload and collection contracts
-remain unresolved.
+Audit the raw `MetadataValue.floatingPoint(Double)` payload as the next isolated
+metadata scalar boundary. Decide finite-only versus named non-finite values,
+signed-zero canonicalization, subnormal preservation, equality and hashing,
+strict type-level Codable, typed privacy-safe errors and whether a validated
+wrapper requires proposed `ADR-0029`. Do not add `MetadataValue` source while
+the recursive/container, tag, privacy and collection contracts remain
+unresolved.
 
 ## Test policy for the next action
 
-- For the canonical-instant audit or a documentation-only proposal, run only
+- For the floating-metadata audit or a documentation-only proposal, run only
   the relevant document/ADR checks plus manifest and release-integrity checks.
-  If a bounded instant leaf becomes independently authorised, run its focused
+  If a bounded scalar leaf becomes independently authorised, run its focused
   unit tests, the owning Core target build, strict format lint and only directly
   affected dependent tests.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change

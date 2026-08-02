@@ -1287,7 +1287,7 @@
     {
       "path": "Tools/Tests/Python/test_adr_register.py",
       "size": 14088,
-      "sha256": "8249eaad482d1e11ce3573e390ca30eef63310a6842168ac19e5ea19174bfd35"
+      "sha256": "bc02c4c4d03894eb93afc3097bd6747030d2cef1396d8bde21917d4e6f349fba"
     },
     {
       "path": "Tools/Tests/Python/test_docc_archives.py",
@@ -1455,9 +1455,14 @@
       "sha256": "3f99c69d2b2f2fe55ebf5a51b826e0a9042076bacbc14f6f89c4489ddf8b2cfb"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0028-canonical-instant-boundary.md",
+      "size": 20334,
+      "sha256": "a9a767bc7d85ec5fe5169dcd57d655f2d937037e5c49a8d337561b8e3914f111"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 1573,
-      "sha256": "1fac3774fa57f15fbbe2a083d0402af10ea8af7cc4529a975ce2e97946b41b20"
+      "size": 1743,
+      "sha256": "9fd7b4c8750290e2f5a237e63446ebb4f14f0c37cb7121b8540bf87d308f474a"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1541,8 +1546,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 108214,
-      "sha256": "2cdfd118ca65022a12e419ae4172227e70fa51e4cedf527fe00c64189ad6e131"
+      "size": 114423,
+      "sha256": "5b5f109b8265c4f808c6d8d9e110a5182a747a065f898c61aeb2f0f9da797db3"
     },
     {
       "path": "docs/project/README.md",
@@ -1826,8 +1831,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 16133,
-      "sha256": "d78659e0fd71668122df8b5e8e7e723b08387fcca5aacdb3e7b5c8532eac97d8"
+      "size": 16200,
+      "sha256": "caeff2c7b23b797d52496601a22a2a9510f81068dea009e4d9f12922aa4ce25c"
     }
   ]
 }
