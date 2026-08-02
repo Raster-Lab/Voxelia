@@ -26,6 +26,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   intersection queries, exact shape/index and half-open region/index
   containment, explicit region emptiness and checked region element counts are
   implemented and locally verified.
+- Independently unblocked later-milestone declaration: the exact six-case
+  `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
+  module without attaching allocation or capability behavior.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -338,6 +341,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Returned the established empty product of one for zero rank, avoided routing
   empty regions through positive-rank `ImageShape`, and kept storage read policy
   outside the operation.
+- Implemented the exact six-case `ResidencyPolicy` declaration in
+  `VoxeliaMetal` with only the specified `Sendable` and `Codable` conformances.
+- Kept policy values declarative, avoided speculative raw-value/`Hashable`
+  surface and stable JSON-byte claims, and exposed the API through its DocC
+  catalog without implying device support or fulfilled residency.
 
 ## Verification evidence
 
@@ -645,6 +653,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   55 region tests; negative-origin multiplication, collapsed-axis zero before a
   would-be overflow, exact `Int.max`, checked product overflow, zero-rank empty
   product and 1,024-axis counts passed alongside all prior region cases.
+- `swift build --target VoxeliaMetal` and the direct-dependent
+  `swift build --target VoxeliaValidation` passed with strict format lint for
+  the residency-policy declaration.
+- `swift test --filter 'VoxeliaMetalTests.ResidencyPolicyTests'` executed exactly
+  four tests; all six cases, synthesized Codable round trips, malformed-value
+  rejection and `Sendable` conformance passed without freezing JSON bytes.
 
 ## Known blockers and risks
 
@@ -897,6 +911,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Region element count follows `CDMS-13.4` and is safe for allocation planning,
   but it neither authorizes an empty storage read nor establishes byte length,
   which still depends on component and storage layout.
+- `ResidencyPolicy` is declaration vocabulary from MTA section 18.2 only. Its
+  synthesized `Codable` wire representation is not claimed as canonical, and a
+  case does not prove device capability, resource allocation, fallback,
+  residency-manager state or memory-pressure behavior.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
   planes, rays, oriented bounds and rendering or interaction intersections that
@@ -904,15 +922,15 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Audit the next smallest unimplemented foundational operation and proceed only
-when its signature and edge behavior are controlled without resolving a
-documented architecture conflict by assumption.
+Prepare evidence-backed proposed ADRs for the highest-impact M1 controlled-
+document conflicts, starting with axis ownership, coordinate-convention shape
+and value-transform shape; do not mark any proposal accepted or use it to
+unblock code without the required governance approval.
 
 ## Test policy for the next action
 
-- Run only `VoxeliaCore`, its directly affected `VoxeliaStorage`,
-  `VoxeliaGeometry` and `Voxelia` consumers, strict format lint and
-  `ImageRegion`-filtered tests for the next slice.
+- Run only front-matter, controlled-document and integrity checks relevant to
+  the proposed ADR files; do not run Swift tests for documentation-only work.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

@@ -124,7 +124,7 @@ Sources/VoxeliaInteraction/VoxeliaInteraction.docc/VoxeliaInteraction.md
 Sources/VoxeliaMetal/ApplePlatformGate.swift
 Sources/VoxeliaMetal/Internal/.gitkeep
 Sources/VoxeliaMetal/Module.swift
-Sources/VoxeliaMetal/Public/.gitkeep
+Sources/VoxeliaMetal/Public/ResidencyPolicy.swift
 Sources/VoxeliaMetal/Resources/ShaderManifest.yaml
 Sources/VoxeliaMetal/Resources/Shaders/Common/README.md
 Sources/VoxeliaMetal/Resources/Shaders/Compositing/.gitkeep
@@ -203,6 +203,7 @@ Tests/VoxeliaGeometryTests/GeometryTaxonomyTests.swift
 Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
 Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift
 Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift
+Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift
 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
 Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift
 Tests/VoxeliaSpatialTests/AxisAlignedBounds3DTests.swift

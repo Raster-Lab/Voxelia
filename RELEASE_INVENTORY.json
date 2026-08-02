@@ -630,9 +630,9 @@
       "sha256": "632214914dfacea6b65b68bc5f98bad689b9865198348d44160455fe9418bf2a"
     },
     {
-      "path": "Sources/VoxeliaMetal/Public/.gitkeep",
-      "size": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "path": "Sources/VoxeliaMetal/Public/ResidencyPolicy.swift",
+      "size": 812,
+      "sha256": "807e964b1d88bed611b18c719d66f207947db4faf79cb4cff6a5e37e5b399f51"
     },
     {
       "path": "Sources/VoxeliaMetal/Resources/ShaderManifest.yaml",
@@ -691,8 +691,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md",
-      "size": 383,
-      "sha256": "1ce55daf59482022ac6caaba1a47bdafe34eb1c571c84c7d870e8ddca7b0eb8c"
+      "size": 427,
+      "sha256": "52eb9d3aaeadeee9c75ce81e5c1f51ec9306ed598f8adc9feb9244a896e686d3"
     },
     {
       "path": "Sources/VoxeliaRendering/ApplePlatformGate.swift",
@@ -1023,6 +1023,11 @@
       "path": "Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift",
       "size": 328,
       "sha256": "53037c107fead8eede873116c3a47b166783682afc75528e50bb7616dffe1ca5"
+    },
+    {
+      "path": "Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift",
+      "size": 2317,
+      "sha256": "2680d482da934731fc4b1e52ce209eba4cf4265e14630b176073d4af2fe44223"
     },
     {
       "path": "Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift",
@@ -1496,8 +1501,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 63632,
-      "sha256": "18e4d8deb9f6c3f6b5881c0f55de33e5f61c035c371c0b939aa1745e5d7a9566"
+      "size": 64958,
+      "sha256": "f922864b821ce248596072d65dc01dbcdfa6b0dcce1e97ec65c1b3029bcdf82f"
     },
     {
       "path": "docs/project/README.md",
@@ -1781,8 +1786,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 15575,
-      "sha256": "59154988367eb61d53d7f7cc8e774c2c1b65630e202c6de979f555e830fc5b2b"
+      "size": 15639,
+      "sha256": "3e3bf71e5dd2a10f1840abe20700a6ce5720c0de8b767f09cf83969126937e6d"
     }
   ]
 }
