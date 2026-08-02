@@ -69,6 +69,7 @@ Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md
 Sources/VoxeliaCore/ApplePlatformGate.swift
 Sources/VoxeliaCore/Internal/.gitkeep
 Sources/VoxeliaCore/Module.swift
+Sources/VoxeliaCore/Public/CodedConcept.swift
 Sources/VoxeliaCore/Public/ComponentDescriptor.swift
 Sources/VoxeliaCore/Public/ContentIdentityTaxonomy.swift
 Sources/VoxeliaCore/Public/DataModelError.swift
@@ -170,6 +171,7 @@ Tests/Support/ApplePlatformGate.swift
 Tests/Support/Resources/README.md
 Tests/Support/TestSupport.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
+Tests/VoxeliaCoreTests/CodedConceptTests.swift
 Tests/VoxeliaCoreTests/ComponentDescriptorTests.swift
 Tests/VoxeliaCoreTests/ContentIdentityTaxonomyTests.swift
 Tests/VoxeliaCoreTests/DataObjectIDTests.swift

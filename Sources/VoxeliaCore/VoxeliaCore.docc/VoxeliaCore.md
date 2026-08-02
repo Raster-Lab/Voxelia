@@ -66,6 +66,8 @@ storage semantics.
 - ``MetadataKey``
 - ``AnyMetadataKey``
 - ``MetadataKeyError``
+- ``CodedConcept``
+- ``CodedConceptError``
 
 ### Common errors
 
