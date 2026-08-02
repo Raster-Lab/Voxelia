@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first thirty-eight foundational slices, `ImageShape` /
+- M1 implementation status: the first thirty-nine foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -23,8 +23,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   attribute descriptors, extent-based region construction and shape-aware
   region containment validation, checked region translation and deterministic
   shape clipping plus exact axis-aligned point-containment and bounds-
-  intersection queries plus exact shape/index and half-open region/index
-  containment are implemented and locally verified.
+  intersection queries, exact shape/index and half-open region/index
+  containment, and explicit region emptiness are implemented and locally
+  verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -327,6 +328,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Kept the shape-aware predicate allocation- and arithmetic-free without
   calculating a linear offset, inferring axis semantics or authorizing storage
   access.
+- Added `ImageRegion.isEmpty` with exact any-collapsed-axis semantics for the
+  canonical half-open representation.
+- Kept the query nonthrowing, allocation-free and independent of storage read
+  policy; the established zero-rank region has no collapsed axis and reports
+  false.
 
 ## Verification evidence
 
@@ -620,6 +626,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   14 shape tests; origin and last-valid inclusion, every negative, upper and
   beyond-upper axis, exact `Int` boundaries, short/long/zero-rank mismatches and
   1,024-axis queries passed alongside all prior shape cases.
+- `swift build --target VoxeliaCore` and directly affected builds for
+  `VoxeliaStorage`, `VoxeliaGeometry` and `Voxelia` passed with strict format
+  lint for explicit region emptiness.
+- `swift test --filter 'VoxeliaCoreTests.ImageRegionTests'` executed exactly the
+  49 region tests; ordinary nonempty bounds, every independently collapsed
+  axis, negative and exact `Int` anchors, one collapsed axis at rank 1,024 and
+  explicit zero-rank behavior passed alongside all prior region cases.
 
 ## Known blockers and risks
 
@@ -866,6 +879,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Shape/index containment implements the exact `CDMS-12.3` predicate and uses
   the existing `ShapeError.rankMismatch`, but it does not calculate a stride or
   linear offset and is only supporting evidence for access-safety requirements.
+- `ImageRegion.isEmpty` identifies the transient empty values permitted by
+  `CDMS-13.3`; it does not decide whether a storage operation accepts a no-op
+  read or must throw `RegionError.emptyRead`.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
   planes, rays, oriented bounds and rendering or interaction intersections that
@@ -873,9 +889,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Add an allocation-free `ImageRegion.isEmpty` query that returns true exactly
-when at least one half-open axis is collapsed, preserving the established
-zero-rank behavior without choosing storage empty-read policy.
+Add checked `ImageRegion.elementCount()` using zero for any collapsed axis,
+the established empty product of one for zero rank, and overflow-safe exact
+subtraction and multiplication without routing through `ImageShape`.
 
 ## Test policy for the next action
 

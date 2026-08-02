@@ -39,6 +39,19 @@ public struct ImageRegion: Sendable, Hashable, Codable {
     /// The number of logical axes represented by this region.
     public var rank: Int { lowerBounds.count }
 
+    /// Whether at least one half-open axis is collapsed.
+    ///
+    /// A zero-rank region has no collapsed axis and therefore is not empty.
+    /// This query does not determine whether a storage operation permits an
+    /// empty region.
+    public var isEmpty: Bool {
+        for axis in lowerBounds.indices
+        where lowerBounds[axis] == upperBounds[axis] {
+            return true
+        }
+        return false
+    }
+
     /// Creates a half-open region from lower and upper bound collections.
     ///
     /// - Throws: ``RegionError/rankMismatch`` when the collections have

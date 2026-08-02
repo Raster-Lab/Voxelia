@@ -19,6 +19,67 @@ struct ImageRegionTests {
         #expect(Array(region.upperBounds) == [5, 10, 20])
     }
 
+    @Test("[Unit][CDMS-13.3] nonempty regions report false")
+    func nonemptyRegionIsNotEmpty() throws {
+        let region = try ImageRegion(
+            lowerBounds: [-3, 0, 7],
+            upperBounds: [-2, 1, 8]
+        )
+
+        #expect(!region.isEmpty)
+    }
+
+    @Test("[Unit][CDMS-13.3] every collapsed axis reports empty")
+    func collapsedAxisMakesRegionEmpty() throws {
+        let lowerBounds = [2, 5, 8]
+        for emptyAxis in lowerBounds.indices {
+            var upperBounds = [3, 9, 12]
+            upperBounds[emptyAxis] = lowerBounds[emptyAxis]
+            let region = try ImageRegion(
+                lowerBounds: lowerBounds,
+                upperBounds: upperBounds
+            )
+
+            #expect(region.isEmpty)
+        }
+    }
+
+    @Test("[Unit][CDMS-13.3] exact Int anchors report empty")
+    func extremeAnchorsReportEmpty() throws {
+        let anchors = [Int.min, -1, Int.max]
+
+        for anchor in anchors {
+            let region = try ImageRegion(
+                lowerBounds: [anchor],
+                upperBounds: [anchor]
+            )
+            #expect(region.isEmpty)
+        }
+    }
+
+    @Test("[Unit][VOX-DAT-005][CDMS-13.3] high-rank collapse reports empty")
+    func highRankCollapsedAxisReportsEmpty() throws {
+        let lowerBounds = ContiguousArray(repeatElement(0, count: 1_024))
+        var upperBounds = ContiguousArray(repeatElement(1, count: 1_024))
+        upperBounds[1_023] = 0
+        let region = try ImageRegion(
+            lowerBounds: lowerBounds,
+            upperBounds: upperBounds
+        )
+
+        #expect(region.isEmpty)
+    }
+
+    @Test("[Unit][CDMS-13.3] zero-rank region has no collapsed axis")
+    func zeroRankRegionIsNotEmpty() throws {
+        let region = try ImageRegion(
+            lowerBounds: [Int](),
+            upperBounds: [Int]()
+        )
+
+        #expect(!region.isEmpty)
+    }
+
     @Test("[Unit][VOX-RGN-001] converts half-open bounds to extents")
     func calculatesHalfOpenExtents() throws {
         let region = try ImageRegion(lowerBounds: [2, 5], upperBounds: [5, 11])
