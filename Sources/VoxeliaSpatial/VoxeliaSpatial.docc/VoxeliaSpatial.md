@@ -19,6 +19,13 @@ None.
 - ``MeasurementUnitError``
 - ``UnitDimension``
 
+### Identifiers
+
+- ``VoxeliaStringIdentifier``
+- ``VoxeliaStringIdentifierError``
+- ``CoordinateSpaceID``
+- ``AxisID``
+
 ### Project documents
 
 - <doc:Architecture>

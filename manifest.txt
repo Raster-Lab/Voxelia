@@ -135,6 +135,7 @@ Sources/VoxeliaSpatial/ApplePlatformGate.swift
 Sources/VoxeliaSpatial/Internal/.gitkeep
 Sources/VoxeliaSpatial/Module.swift
 Sources/VoxeliaSpatial/Public/MeasurementUnit.swift
+Sources/VoxeliaSpatial/Public/StringIdentifier.swift
 Sources/VoxeliaSpatial/VoxeliaSpatial.docc/Architecture.md
 Sources/VoxeliaSpatial/VoxeliaSpatial.docc/Requirements.md
 Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md
@@ -172,6 +173,7 @@ Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift
 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
 Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift
 Tests/VoxeliaSpatialTests/MeasurementUnitTests.swift
+Tests/VoxeliaSpatialTests/StringIdentifierTests.swift
 Tests/VoxeliaSpatialTests/VoxeliaSpatialTests.swift
 Tests/VoxeliaStorageTests/VoxeliaStorageTests.swift
 Tests/VoxeliaTests/VoxeliaTests.swift

@@ -9,10 +9,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first eight foundational slices, `ImageShape` /
+- M1 implementation status: the first nine foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
-  models are implemented and locally verified.
+  models plus the initial typed spatial identifiers are implemented and locally
+  verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -140,13 +141,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Added stable string dimension encoding, invariant-preserving unit decoding,
   Spatial DocC topics and focused coverage of the millimetre and Hounsfield
   examples, validation, optional conversion metadata and serialization.
+- Implemented the shared `VoxeliaStringIdentifier` contract plus distinct
+  `CoordinateSpaceID` and `AxisID` types in the dependency-free Spatial
+  foundation, keeping both documented axis-ownership outcomes cycle-free.
+- Added failable `RawRepresentable` construction and a typed throwing
+  initializer, rejecting only empty or Unicode-whitespace-only identifiers
+  while preserving external spelling, case and surrounding nonblank content.
+- Added one-field keyed identifier encoding with decode-time invariant and
+  distinct-extra-key rejection, plus focused coverage of protocol use,
+  case-sensitive identity, representative spaces and exact serialization.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 311-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 313-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -157,7 +167,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 310-record inventory and 311-entry SHA-256 ledger pass the
+- The regenerated 312-record inventory and 313-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -234,6 +244,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   every initial dimension string, exact metadata preservation, absent and
   independently supplied conversion fields, blank identity rejection,
   non-finite rejection and decode-time revalidation all passed.
+- `swift build --target VoxeliaSpatial`, the direct-dependent
+  `swift build --target VoxeliaCore`, and strict format lint passed for the
+  typed-identifier slice.
+- `swift test --filter StringIdentifier` executed only seven identifier tests;
+  accepted spelling, Unicode whitespace rejection, typed failures,
+  case-sensitive/type-distinct identity, exact keyed JSON, invalid-object
+  rejection and representative coordinate-space distinctness all passed.
 
 ## Known blockers and risks
 
@@ -313,17 +330,40 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - There is no dedicated `VOX-UNIT-*` requirement, and units are assigned to M1
   by the implementation sequence and type inventory but omitted from the M1
   checklist. This slice does not treat that baseline gap as acceptance.
+- The Master Technical Architecture assigns axis descriptors to
+  `VoxeliaSpatial`, while the Core Data Model Specification's module table and
+  type inventory assign `AxisDescriptor` to `VoxeliaCore`. `AxisID` lives in
+  the lower Spatial foundation so either eventual governance resolution remains
+  possible without a dependency cycle; no descriptor ownership is claimed yet.
+- `AxisID` is referenced by the canonical axis shape but never declared. It is
+  implemented as a distinct `VoxeliaStringIdentifier`, matching the prescribed
+  identifier pattern without inventing built-in axis constants.
+- `RawRepresentable` requires an untyped failable `init?(rawValue:)`, while the
+  public-initializer policy requires typed validation errors. Identifiers expose
+  both that required initializer and `init(validating:)`, with identical blank
+  input validation.
+- Identifier JSON shape is not fixed by the canonical serialization schema.
+  The current explicit `{ "rawValue": ... }` form follows the controlled struct
+  examples and revalidates decoded data; schema wrapping, byte ordering and raw
+  duplicate-key rejection remain deferred to the canonical JSON boundary.
+- The specification requires normalized identifier strings for future identity
+  digests but defines no Unicode normalization algorithm. Accepted identifiers
+  are therefore preserved without silent normalization; canonical digest work
+  must settle this before claiming stable cross-system identity.
+- Full `VOX-SPA-005` evidence remains pending coordinate conventions and
+  `CoordinateSpaceDescriptor`; distinct representative raw identifiers alone
+  do not complete that requirement.
 
 ## Exact next action
 
-Audit the M1 strongly typed identifier family and implement the smallest
-architecture-safe foundation that unblocks `AxisDescriptor` and coordinate
-spaces without reversing the `VoxeliaCore`-to-`VoxeliaSpatial` dependency.
+Audit and implement the M1 axis model while explicitly resolving its
+controlled-document ownership conflict in favor of a dependency-safe placement
+and preserving extent-dependent validation for the later image descriptor.
 
 ## Test policy for the next action
 
-- Run only the identifier-owning target builds, strict format lint and
-  identifier-filtered tests for the next slice.
+- Run only the axis-model owning target and direct-dependent builds, strict
+  format lint and axis-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
