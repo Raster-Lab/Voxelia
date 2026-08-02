@@ -421,6 +421,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   current modules or activate optional targets early: `SegmentAlgorithmType`
   and `ConvergenceStatus` belong to M7 modules, while
   `PhotorealisticQuality` belongs to the M8 optional rendering module.
+- Added proposed `ADR-0026` with one bounded ray-to-axis-aligned-bounds API,
+  closed half-ray and degenerate-bound semantics, exact-space validation and a
+  transient finite entry/exit result without a premature wire contract.
+- Defined a deterministic `binary64-v1` slab model with overflow-safe
+  subtraction scaling, signed overflow/underflow tokens, fixed ordering and
+  precedence, typed entry/exit failures and explicit floating-point environment
+  requirements; no operation code is authorised while the ADR is Proposed.
 
 ## Verification evidence
 
@@ -798,6 +805,18 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Three independent read-only ownership audits confirmed the M7/M8 activation
   gates for the later taxonomies. No Swift tests were run because no source,
   package graph or optional-module artifact was changed.
+- `Tools/Tests/Python/test_adr_register.py` remained at exactly 21 focused tests
+  and passed after its live-repository expectation moved from five to six ADRs;
+  the direct checker reported all six records valid and the documentation gate
+  passed for all 52 Markdown files.
+- Independent API, numerical and governance reviews found and then verified
+  corrections for direction-scaling scope, model-versus-exact miss claims,
+  tagged-endpoint ordering, nil/error precedence, floating-point environment,
+  algorithm-specification migration, compatibility evolution and British
+  English. All three final re-reviews were clean.
+- Release-integrity regeneration, the 365-path manifest check and read-only
+  verification passed with 364 inventory records and 365 checksums after the
+  sixth file-backed ADR was added.
 
 ## Known blockers and risks
 
@@ -1104,7 +1123,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   compare them with MTA Appendix A while the known `ADR-0001` collision remains
   unresolved, and it does not treat body mentions or the `ADR-0025` allocator
   hold as record assignments.
-- The checked-in template and all five file-backed ADRs now contain the RPSS
+- The checked-in template and all six file-backed ADRs now contain the RPSS
   section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
   meaningful bodies. It intentionally does not infer decision quality, status
   transitions, module validity or supersession semantics from prose.
@@ -1118,6 +1137,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Proposed `ADR-0023` does not resolve the transform conflict until accepted.
   Piecewise-linear transforms remain undefined, and lookup declarations do not
   establish interpolation, missing-entry or extrapolation behavior.
+- Proposed `ADR-0026` does not authorise the ray/bounds operation until
+  accepted. Its binary64-v1 result classifies the specified rounded model, not
+  arbitrary exact-rational geometry; a versioned algorithm specification and
+  focused Swift evidence remain acceptance-only migration work.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
   oriented bounds plus rendering or interaction intersections involving the
@@ -1125,17 +1148,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Draft proposed `ADR-0026` to define one exact ray-to-`AxisAlignedBounds3D`
-intersection API: ownership, half-ray parameter domain, result shape,
-coordinate-space rule, inclusive boundary and degenerate-bound behavior,
-parallel-axis handling, numerical failure policy and focused analytic evidence.
-Do not implement the operation while the decision remains Proposed.
+Audit the complete M1 dependency closure for `ImageDescriptor`, including
+`AxisDescriptor`, `ValueTransform`, `SpatialGeometry`, coordinate-space policy,
+metadata and identity boundaries. Produce a precise matrix of implemented,
+Proposed-dependent and still-undefined prerequisites; implement nothing that
+would rely on an unaccepted ADR.
 
 ## Test policy for the next action
 
-- For the proposed ADR slice, run the focused ADR checker, documentation gate,
-  manifest check and release-integrity checks. Do not run Swift tests for a
-  documentation-only proposal.
+- For the dependency audit, run documentation and integrity checks only if the
+  progress or architecture records change. Do not run Swift tests for a
+  read-only or documentation-only audit.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

@@ -1287,7 +1287,7 @@
     {
       "path": "Tools/Tests/Python/test_adr_register.py",
       "size": 14088,
-      "sha256": "86543c31fd725f1aed8bf6f93be0fe62ae8b4fdef6dbf7a6a0d3f6177027929d"
+      "sha256": "64e2f4c5cac45d8ba8de7545b07c3436423ca0b38f47449315f41266ce7ac4ae"
     },
     {
       "path": "Tools/Tests/Python/test_docc_archives.py",
@@ -1441,13 +1441,18 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0024-decision-register-reconciliation.md",
-      "size": 9365,
-      "sha256": "e86f9cdd586364e6ba419852ebf41be417263bb1a0756823f32cc19efea9967b"
+      "size": 9522,
+      "sha256": "b7e1ecfd2a89c28de5af5b4db42066ccb4fa3b127f6113e4375ef705c256395c"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0026-ray-axis-aligned-bounds-intersection.md",
+      "size": 19711,
+      "sha256": "0dda1d9436a29f5f23d69af375f4d5b867f0ac1fe5bdf995c516bc670b5243e5"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 1111,
-      "sha256": "bc716878b95e1187635c978f67fe49abcbd1c8f52ca00f7aee4afb15d295160c"
+      "size": 1321,
+      "sha256": "05ecf6d389893f62eebb6906c7e26ccf002ffbcb90ec503a22b85bfe5e1127e9"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1531,8 +1536,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 79138,
-      "sha256": "b704099cd274c62f06bb9af410d33498ebb60742b10a25a7f57e5d5cace88955"
+      "size": 80753,
+      "sha256": "b814097c91971aeed9cd23c90d6bc428f7fa98ffaadb04034971011b67725fd8"
     },
     {
       "path": "docs/project/README.md",
@@ -1816,8 +1821,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 15979,
-      "sha256": "f7ed9cc42bcf6fd5492d268b25166aa64fa7e14d3ca21480b424334fe4a0b9cf"
+      "size": 16056,
+      "sha256": "b3f696874957d308f952c1917dc95354000d064c523d573fa326f41e53d85e71"
     }
   ]
 }

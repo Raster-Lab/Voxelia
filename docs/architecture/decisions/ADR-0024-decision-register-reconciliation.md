@@ -61,9 +61,10 @@ platform decision re-identified as `ADR-0025`.
 
 While this ADR remains Proposed, `ADR-0025` is an allocator hold only. It is
 not an existing or accepted decision, and no platform record, live link or
-policy check may be renamed. Any new proposal created before this one is
-resolved must begin at `ADR-0026` or later. Rejection of this proposal releases
-the hold.
+policy check may be renamed. `ADR-0026` is independently allocated to the
+ray/axis-aligned-bounds intersection proposal, so any new proposal created
+before this one is resolved must begin at `ADR-0027` or later. Rejection of
+this proposal releases only the `ADR-0025` hold.
 
 This decision does not revise the platform policy, the Project Foundation, the
 Master Technical Architecture decision text or any Swift API.
@@ -108,8 +109,9 @@ requirements.
   the accepted migration.
 - One accepted record and its active references will change identifier once;
   its platform meaning and approval state will not change.
-- The next generally available identifier will be `ADR-0026` while the
-  `ADR-0025` migration hold exists and after the migration completes.
+- The next generally available identifier will be `ADR-0027` while the
+  `ADR-0025` migration hold exists and after the migration completes;
+  `ADR-0026` remains independently allocated.
 - The Master Technical Architecture register and proposed `ADR-0021` through
   `ADR-0023` require no content or identifier changes.
 - Historical release text will continue to say `ADR-0001`; the path- and

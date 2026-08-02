@@ -8,7 +8,8 @@ contains an accepted platform `ADR-0001` that conflicts with the MTA's
 different `ADR-0001`. Proposed `ADR-0024` recommends a one-time reconciliation;
 until it is accepted, the platform record and all live references retain their
 current identifier. `ADR-0025` is held only as the proposed migration target
-and is not an existing decision.
+and is not an existing decision. `ADR-0026` is allocated independently to the
+ray/axis-aligned-bounds intersection proposal.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -17,3 +18,4 @@ and is not an existing decision.
 | [ADR-0022](ADR-0022-coordinate-convention-shape.md) | Proposed | Coordinate convention public shape |
 | [ADR-0023](ADR-0023-value-transform-shape.md) | Proposed | Value transform public shape |
 | [ADR-0024](ADR-0024-decision-register-reconciliation.md) | Proposed | Architecture decision register reconciliation |
+| [ADR-0026](ADR-0026-ray-axis-aligned-bounds-intersection.md) | Proposed | Ray to axis-aligned bounds intersection |
