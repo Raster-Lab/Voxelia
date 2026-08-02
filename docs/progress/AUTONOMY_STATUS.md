@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first thirty-six foundational slices, `ImageShape` /
+- M1 implementation status: the first thirty-seven foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -23,7 +23,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   attribute descriptors, extent-based region construction and shape-aware
   region containment validation, checked region translation and deterministic
   shape clipping plus exact axis-aligned point-containment and bounds-
-  intersection queries are implemented and locally verified.
+  intersection queries and exact half-open region/index containment are
+  implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -316,6 +317,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   maximum minima and minimum maxima in one required coordinate space.
 - Returned nil only for strict separation while preserving non-nil face, edge
   and point contact as valid degenerate bounds without tolerance or arithmetic.
+- Added `ImageRegion.contains(_:)` queries for `ImageIndex` with exact rank
+  validation and componentwise half-open comparisons.
+- Preserved negative and full-range `Int` coordinates without shape assumptions,
+  normalization, allocation or arithmetic; zero-rank containment follows the
+  vacuous per-axis predicate while any explicitly empty axis contains no index.
 
 ## Verification evidence
 
@@ -595,6 +601,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   exact overlap, commutativity, containment/identity, positive and negative
   next-representable separation on every axis, face/edge/point contact and
   coordinate-space mismatch passed alongside all prior bounds cases.
+- `swift build --target VoxeliaCore` and directly affected builds for
+  `VoxeliaStorage`, `VoxeliaGeometry` and `Voxelia` passed with strict format
+  lint for half-open region/index containment.
+- `swift test --filter ImageRegion` executed only the 44 region tests; lower
+  faces, upper and beyond-upper exclusion, every below-lower and empty axis,
+  explicit zero-rank behavior, negative and exact `Int` boundaries, both rank
+  mismatches and 1,024-axis queries passed alongside all prior region cases.
 
 ## Known blockers and risks
 
@@ -835,6 +848,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `CDMS-13.4` test labels link to the controlled region-operations section
   because the requirements baseline has no dedicated clipping identifier; they
   neither create a new requirement nor imply `VOX-RGN-002` specifies clipping.
+- `CDMS-13.4` also governs region/index containment tests because the baseline
+  has no dedicated point-containment requirement. This query does not validate
+  an index against an image shape or prove storage offset safety.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
   planes, rays, oriented bounds and rendering or interaction intersections that
@@ -842,9 +858,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Add exact half-open `ImageRegion.contains(_:)` queries for `ImageIndex`, with
-rank mismatch errors and no shape assumption, coordinate normalization or
-arithmetic.
+Audit the next smallest unimplemented M1 value or operation and implement it
+only when its public signature, edge behavior and requirement ownership are
+fully controlled; keep ambiguous region arithmetic and blocked descriptor
+families deferred.
 
 ## Test policy for the next action
 

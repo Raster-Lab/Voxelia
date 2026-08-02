@@ -117,6 +117,152 @@ struct ImageRegionTests {
         }
     }
 
+    @Test("[Unit][CDMS-13.4] index containment includes every lower face")
+    func indexContainmentIncludesLowerBounds() throws {
+        let region = try ImageRegion(
+            lowerBounds: [1, 2, 3],
+            upperBounds: [5, 6, 7]
+        )
+        let contained = [
+            ImageIndex(components: [3, 4, 5]),
+            ImageIndex(components: [1, 2, 3]),
+            ImageIndex(components: [1, 4, 5]),
+            ImageIndex(components: [3, 2, 5]),
+            ImageIndex(components: [3, 4, 3]),
+        ]
+
+        for index in contained {
+            #expect(try region.contains(index))
+        }
+    }
+
+    @Test("[Unit][CDMS-13.4] index containment excludes upper bounds and beyond")
+    func indexContainmentExcludesUpperBounds() throws {
+        let region = try ImageRegion(
+            lowerBounds: [1, 2, 3],
+            upperBounds: [5, 6, 7]
+        )
+        let excluded = [
+            ImageIndex(components: [5, 4, 5]),
+            ImageIndex(components: [3, 6, 5]),
+            ImageIndex(components: [3, 4, 7]),
+            ImageIndex(components: [6, 4, 5]),
+            ImageIndex(components: [3, 7, 5]),
+            ImageIndex(components: [3, 4, 8]),
+        ]
+
+        for index in excluded {
+            #expect(try !region.contains(index))
+        }
+    }
+
+    @Test("[Unit][CDMS-13.4] index containment rejects every lower outside axis")
+    func indexContainmentRejectsLowerOutsideComponents() throws {
+        let region = try ImageRegion(
+            lowerBounds: [1, 2, 3],
+            upperBounds: [5, 6, 7]
+        )
+        let excluded = [
+            ImageIndex(components: [0, 4, 5]),
+            ImageIndex(components: [3, 1, 5]),
+            ImageIndex(components: [3, 4, 2]),
+        ]
+
+        for index in excluded {
+            #expect(try !region.contains(index))
+        }
+    }
+
+    @Test("[Unit][CDMS-13.4] empty regions contain no index")
+    func emptyRegionContainsNoIndex() throws {
+        let lowerBounds = [2, 5, 8]
+        for emptyAxis in lowerBounds.indices {
+            var upperBounds = [3, 9, 12]
+            upperBounds[emptyAxis] = lowerBounds[emptyAxis]
+            let region = try ImageRegion(
+                lowerBounds: lowerBounds,
+                upperBounds: upperBounds
+            )
+
+            #expect(try !region.contains(ImageIndex(components: lowerBounds)))
+        }
+
+        let zeroRankRegion = try ImageRegion(
+            lowerBounds: [Int](),
+            upperBounds: [Int]()
+        )
+        #expect(try zeroRankRegion.contains(ImageIndex(components: [Int]())))
+    }
+
+    @Test("[Unit][CDMS-13.4] index containment supports negative coordinates")
+    func indexContainmentSupportsNegativeCoordinates() throws {
+        let region = try ImageRegion(
+            lowerBounds: [-5, -3],
+            upperBounds: [0, 2]
+        )
+
+        #expect(try region.contains(ImageIndex(components: [-5, -3])))
+        #expect(try region.contains(ImageIndex(components: [-1, 1])))
+        #expect(try !region.contains(ImageIndex(components: [-6, 0])))
+        #expect(try !region.contains(ImageIndex(components: [0, 0])))
+        #expect(try !region.contains(ImageIndex(components: [-1, 2])))
+    }
+
+    @Test("[Unit][CDMS-13.4] index containment requires exact rank")
+    func indexContainmentRejectsRankMismatch() throws {
+        let region = try ImageRegion(
+            lowerBounds: [0, 0],
+            upperBounds: [1, 1]
+        )
+
+        #expect(throws: RegionError.rankMismatch) {
+            try region.contains(ImageIndex(components: [0]))
+        }
+        #expect(throws: RegionError.rankMismatch) {
+            try region.contains(ImageIndex(components: [0, 0, 0]))
+        }
+    }
+
+    @Test("[Unit][CDMS-13.4] index containment handles exact Int boundaries")
+    func indexContainmentHandlesIntegerBoundaries() throws {
+        let region = try ImageRegion(
+            lowerBounds: [Int.min, Int.max - 1],
+            upperBounds: [Int.min + 1, Int.max]
+        )
+
+        #expect(
+            try region.contains(
+                ImageIndex(components: [Int.min, Int.max - 1])
+            )
+        )
+        #expect(
+            try !region.contains(
+                ImageIndex(components: [Int.min + 1, Int.max - 1])
+            )
+        )
+        #expect(
+            try !region.contains(
+                ImageIndex(components: [Int.min, Int.max])
+            )
+        )
+    }
+
+    @Test("[Unit][CDMS-13.4][VOX-DAT-005] index containment supports high rank")
+    func indexContainmentSupportsHighRank() throws {
+        let region = try ImageRegion(
+            lowerBounds: repeatElement(0, count: 1_024),
+            upperBounds: repeatElement(2, count: 1_024)
+        )
+        let contained = ImageIndex(components: repeatElement(1, count: 1_024))
+        var outsideComponents = ContiguousArray(
+            repeatElement(1, count: 1_024)
+        )
+        outsideComponents[1_023] = 2
+
+        #expect(try region.contains(contained))
+        #expect(try !region.contains(ImageIndex(components: outsideComponents)))
+    }
+
     @Test("[Unit][VOX-STO-007][VOX-SEC-001] accepts contained half-open bounds")
     func validatesContainedBounds() throws {
         let shape = try ImageShape(extents: [5, 10])

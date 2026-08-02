@@ -386,8 +386,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/ImageRegion.swift",
-      "size": 10608,
-      "sha256": "54efc38b6a311e66f34625121e835b9e1ac76f9b4d94ee4937d0441efed28888"
+      "size": 11348,
+      "sha256": "0c7e284e4343661c36ef403124fffd2fba74ea2e067a54c390dbe6db8442b0f7"
     },
     {
       "path": "Sources/VoxeliaCore/Public/ImageSemantic.swift",
@@ -941,8 +941,8 @@
     },
     {
       "path": "Tests/VoxeliaCoreTests/ImageRegionTests.swift",
-      "size": 18426,
-      "sha256": "f5c862f5f026f375dfeafc08807ee4d81cb13125b101396dc9d1e5c1e6ec1cb0"
+      "size": 23464,
+      "sha256": "dc091c427e9672d22b28d94ffdd63a35a2197ef73d438867721407a1903a0f8b"
     },
     {
       "path": "Tests/VoxeliaCoreTests/ImageSemanticTests.swift",
@@ -1496,8 +1496,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 59319,
-      "sha256": "06c325c695976e104a82f93e081383db01b308d09e18e5265d2f762deae5bdad"
+      "size": 60546,
+      "sha256": "2d1f46ea42f911b69bf8d9d4301f3ebb7f190db8598bf9bceca11a5ec4eb85b9"
     },
     {
       "path": "docs/project/README.md",

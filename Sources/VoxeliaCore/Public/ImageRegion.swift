@@ -135,6 +135,28 @@ public struct ImageRegion: Sendable, Hashable, Codable {
         return try ImageShape(extents: regionExtents)
     }
 
+    /// Returns whether `index` lies in this half-open region.
+    ///
+    /// Negative bounds and components compare normally because this query does
+    /// not assume an image shape. A region with any empty axis contains no
+    /// index.
+    ///
+    /// - Throws: ``RegionError/rankMismatch`` when the ranks differ.
+    public func contains(_ index: ImageIndex) throws -> Bool {
+        guard index.rank == rank else {
+            throw RegionError.rankMismatch
+        }
+
+        for axis in lowerBounds.indices {
+            guard index.components[axis] >= lowerBounds[axis],
+                index.components[axis] < upperBounds[axis]
+            else {
+                return false
+            }
+        }
+        return true
+    }
+
     /// Validates that this region is contained in `shape`.
     ///
     /// Half-open upper bounds may equal the corresponding shape extent. An
