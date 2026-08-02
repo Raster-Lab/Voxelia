@@ -9,9 +9,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first four core-data slices, `ImageShape` /
+- M1 implementation status: the first five core-data slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
-  scalar formats are implemented and locally verified.
+  scalar and component formats are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -109,13 +109,19 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Added the specification's canonical `DataModelError` vocabulary so invalid
   scalar formats fail with an approved typed error and decoding revalidates the
   same invariant.
+- Implemented `ComponentInterpretation`, `ComponentLayout` and validated
+  `ComponentDescriptor` for `VOX-DAT-011`, keeping logical components explicit
+  and distinct from image axes.
+- Enforced positive component counts, exact RGB/RGBA counts and optional-name
+  count agreement while preserving supplied layout, order and names without
+  silent normalization.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 304-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 306-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -126,7 +132,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 303-record inventory and 304-entry SHA-256 ledger pass the
+- The regenerated 305-record inventory and 306-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -179,6 +185,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `swift test --filter ScalarFormat` executed only six scalar-format tests;
   every declared type, exact range and classification, valid-bit boundary,
   byte-order value, round trip and invalid decode passed.
+- `swift build --target VoxeliaCore` and strict format lint passed for the
+  component-model slice.
+- `swift test --filter ComponentDescriptor` executed only eight component
+  tests; every interpretation and layout, strict count rules, optional names,
+  descriptor round trips and invalid decoding passed.
 
 ## Known blockers and risks
 
@@ -216,17 +227,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - The specification's "finite-value support" wording is ambiguous. The public
   `supportsNonFiniteValues` property makes the useful distinction explicit:
   only floating-point types encode infinity and NaN.
+- Component-model wording says `.scalar` shall "normally" have count one, so
+  the isolated descriptor accepts larger positive scalar counts. Strict
+  scalar-image consistency remains deferred to image-semantic validation.
+- Component enums use explicit stable strings matching the descriptor example;
+  namespaced generic interpretations use a documented structured object.
+  Cross-model canonical JSON byte ordering remains an open serialization decision.
 
 ## Exact next action
 
-Audit and implement the next independent M1 component-model slice:
-`ComponentInterpretation`, `ComponentLayout` and `ComponentDescriptor` from
-Core Data Model Specification section 16 for `VOX-DAT-011`. Keep image-semantic
-cross-validation and channel-axis conversion outside this slice.
+Audit and implement the next independent M1 image-semantics slice,
+`ImageSemantic`, from Core Data Model Specification section 17 for
+`VOX-DAT-012`. Keep descriptor-level semantic contradiction checks in a later
+`ImageDescriptor` initializer where scalar, component and geometry context is
+available together.
 
 ## Test policy for the next action
 
-- Run `swift build --target VoxeliaCore` and only component-descriptor-filtered
+- Run `swift build --target VoxeliaCore` and only image-semantic-filtered
   VoxeliaCore tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.

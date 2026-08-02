@@ -32,6 +32,12 @@ storage semantics.
 - ``ByteOrder``
 - ``ScalarFormat``
 
+### Component model
+
+- ``ComponentInterpretation``
+- ``ComponentLayout``
+- ``ComponentDescriptor``
+
 ### Common errors
 
 - ``DataModelError``
