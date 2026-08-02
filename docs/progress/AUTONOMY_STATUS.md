@@ -386,13 +386,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   proposals and historical v0.1.1 evidence; no platform record or live link was
   renamed, and `ADR-0025` is only an allocator hold while the proposal awaits
   governance approval.
+- Added a standard-library file-backed ADR validator for required metadata,
+  real ISO dates, global and milestone identifier forms, filename/front-matter/
+  H1 agreement and duplicate identifiers.
+- Integrated the validator into documentation and scaffold gates, the
+  documentation workflow trigger, required-file policy and repository-tool
+  guidance without interpreting body mentions or applying proposed ADR
+  reservations.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 362-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 364-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -723,6 +730,19 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   decision-register proposal.
 - Release-integrity regeneration and verification passed with 362 manifest
   paths, 361 inventory records and 362 checksums.
+- `Tools/Tests/Python/test_adr_register.py` executed exactly 14 focused tests;
+  numeric and milestone identifiers, malformed or incomplete metadata,
+  filename and heading mismatches, duplicate IDs, fenced examples and body-only
+  references all followed the intended file-backed policy.
+- Three selected repository integration tests passed for direct checker
+  execution, wrapper integration and documentation-workflow coverage.
+- Direct ADR validation, documentation validation, required-file validation,
+  Python compilation and edited-shell syntax checks passed. An independent
+  parser review found three bypasses, verified their regression fixes and then
+  reported the slice clean.
+- Release-integrity regeneration and verification passed with 364 manifest
+  paths, 363 inventory records and 364 checksums after adding the checker and
+  its focused test file.
 
 ## Known blockers and risks
 
@@ -992,6 +1012,16 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `ADR-0025` is not an existing or accepted decision. While `ADR-0024` remains
   Proposed, the current platform filename, identifier, links and policy-script
   paths must not change.
+- The ADR checker intentionally validates file-backed records only. It does not
+  compare them with MTA Appendix A while the known `ADR-0001` collision remains
+  unresolved, and it does not treat body mentions or the `ADR-0025` allocator
+  hold as record assignments.
+- RPSS section 9.2 requires affected modules, migration impact and supersession
+  content, but both Appendix G and the checked-in template omit some of those
+  sections. The accepted platform ADR also lacks affected-modules and migration
+  sections, while proposed `ADR-0021` through `ADR-0023` lack affected-modules
+  and supersession sections; structural enforcement remains deferred until an
+  editorial normalization preserves each decision's semantics.
 - Proposed `ADR-0021` is review material only. Until its status becomes
   Accepted and subordinate documents are corrected, the axis-model public API
   remains blocked and no implementation may rely on its recommendation.
@@ -1009,16 +1039,16 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Audit current ADR validation coverage against the Repository and Package
-Scaffold Specification. Add a focused file-backed ADR validator only if its
-required fields, identifier consistency and uniqueness rules can be enforced
-without encoding or prematurely applying proposed `ADR-0024`.
+Audit and perform an editorial normalization of the checked-in ADR template and
+existing file-backed records against RPSS section 9.2. Add only factual affected
+module, migration and supersession content that preserves every decision's
+status and semantics, then extend the checker with focused structural fixtures.
 
 ## Test policy for the next action
 
-- Run only the focused repository-script tests, ADR fixtures, documentation
-  checks and integrity checks affected by an ADR validator; do not run Swift
-  tests for repository-tooling-only work.
+- Run only focused ADR structure fixtures, selected repository integration
+  tests, documentation checks and integrity checks; do not run Swift tests for
+  an editorial and repository-tooling-only normalization.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

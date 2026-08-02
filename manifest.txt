@@ -232,6 +232,7 @@ Tools/Scripts/benchmark-smoke.sh
 Tools/Scripts/bootstrap.sh
 Tools/Scripts/build-docc.sh
 Tools/Scripts/build.sh
+Tools/Scripts/check_adr_register.py
 Tools/Scripts/check_apple_platform_policy.py
 Tools/Scripts/check_docc_archives.py
 Tools/Scripts/check_document_text.py
@@ -254,6 +255,7 @@ Tools/Scripts/validate-scaffold.sh
 Tools/Scripts/validation-smoke.sh
 Tools/Sources/voxelia-repo-check/ApplePlatformGate.swift
 Tools/Sources/voxelia-repo-check/VoxeliaRepositoryCheck.swift
+Tools/Tests/Python/test_adr_register.py
 Tools/Tests/Python/test_docc_archives.py
 Tools/Tests/Python/test_generate_sbom.py
 Tools/Tests/Python/test_manifest_paths.py

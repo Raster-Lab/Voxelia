@@ -81,8 +81,8 @@
     },
     {
       "path": ".github/workflows/documentation.yml",
-      "size": 1087,
-      "sha256": "8989a5834d6bf2d54423a1135d2ecea8e76e2594da6b50f68aa0a24d7bbf1544"
+      "size": 1133,
+      "sha256": "ea74de0c54ad3364748c59a28095c9c027735fccdbcd3f96f4d5dc89f0af768b"
     },
     {
       "path": ".github/workflows/nightly-benchmarks.yml",
@@ -1136,8 +1136,8 @@
     },
     {
       "path": "Tools/README.md",
-      "size": 1361,
-      "sha256": "a559c9e6832981c70d7cd53c62890c6a038cd10f30713e2a7783a41f9f90cab1"
+      "size": 1481,
+      "sha256": "3b8cdee42493aac32d87f365e2ef25324ddf9ddd8c92a173bf40891603c861fe"
     },
     {
       "path": "Tools/Schemas/VoxeliaSBOM.schema.json",
@@ -1168,6 +1168,11 @@
       "path": "Tools/Scripts/build.sh",
       "size": 328,
       "sha256": "9b7f344e6a691c1d84590187cd318fc0b26b9412da82f33ab2f3bc50920c01fa"
+    },
+    {
+      "path": "Tools/Scripts/check_adr_register.py",
+      "size": 7516,
+      "sha256": "16fc78eb32ef765be9f5af03f186b621c4a821244ceefda4e74dd28fe6ed850b"
     },
     {
       "path": "Tools/Scripts/check_apple_platform_policy.py",
@@ -1216,8 +1221,8 @@
     },
     {
       "path": "Tools/Scripts/check_required_files.py",
-      "size": 1327,
-      "sha256": "594f3f010ee1344d45d7b8fbfe8f45707508115a284fbc34e755eb19d4ef1bff"
+      "size": 1366,
+      "sha256": "6b783e02e7ff1f0a0f7a13f2e6660e7bce4f0d1b9be83e907fd50a90b0184727"
     },
     {
       "path": "Tools/Scripts/generate-sbom.sh",
@@ -1256,13 +1261,13 @@
     },
     {
       "path": "Tools/Scripts/validate-docs.sh",
-      "size": 279,
-      "sha256": "05b612ee6da2779059e78382e5e88c1274c8aa87fa4977bf703859162a1d91d7"
+      "size": 323,
+      "sha256": "ea8c50940d31469b9b8916933d74ed4544b0229635da864c10b3c50ac199c15c"
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
-      "size": 962,
-      "sha256": "14b4bb55e1b400d6305ab8859a57b811be363a3c82efa1aa54812057c633c663"
+      "size": 1006,
+      "sha256": "3630130fd8d574360abb3fde56963a427436ee60807d563ffb7376764acd6790"
     },
     {
       "path": "Tools/Scripts/validation-smoke.sh",
@@ -1278,6 +1283,11 @@
       "path": "Tools/Sources/voxelia-repo-check/VoxeliaRepositoryCheck.swift",
       "size": 473,
       "sha256": "f1bfdf5c8f844979f4661b3532b0150eac76aab966251b4fddbc2f7aa98123a5"
+    },
+    {
+      "path": "Tools/Tests/Python/test_adr_register.py",
+      "size": 7674,
+      "sha256": "31a44a6420795268f3c7cd492265ca4212b1bc2744423fb6fa46bfef35afeb91"
     },
     {
       "path": "Tools/Tests/Python/test_docc_archives.py",
@@ -1301,8 +1311,8 @@
     },
     {
       "path": "Tools/Tests/Python/test_repository_scripts.py",
-      "size": 5238,
-      "sha256": "6332e27efcb3e0025516b7be23af9bb4c519eb9be211a3737361d743abc8c493"
+      "size": 5689,
+      "sha256": "0e6a7b5aeffa4db623948417fa9398e717983e59eb5213ab5d43369d5c3f0c70"
     },
     {
       "path": "Tools/Tests/Python/test_requirement_index.py",
@@ -1521,8 +1531,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 70983,
-      "sha256": "0caa770a52dbadd43da986cab124f984fcc6ed6f7b885fbac8b807ab0d9d3f18"
+      "size": 73052,
+      "sha256": "e91ca1fc46a1265676bdd3495d5998636a72dd99cdb5685184ec803ba8b76b10"
     },
     {
       "path": "docs/project/README.md",
@@ -1806,8 +1816,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 15903,
-      "sha256": "d2b4ee456ccad654c14132e27848dd2ab16552f0676e9868841f2ee4287ac785"
+      "size": 15979,
+      "sha256": "f7ed9cc42bcf6fd5492d268b25166aa64fa7e14d3ca21480b424334fe4a0b9cf"
     }
   ]
 }

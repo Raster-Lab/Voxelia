@@ -10,6 +10,12 @@ Build all target-local DocC archives with unresolved links and other warnings tr
 Tools/Scripts/build-docc.sh
 ```
 
+Validate file-backed ADR metadata and identifier consistency:
+
+```bash
+python3 Tools/Scripts/check_adr_register.py
+```
+
 Generate the release SBOM profile, including source revision, products,
 targets, licences, checksums, toolchain identity, bundled resources and
 dependency classification:

@@ -56,6 +56,12 @@ class RepositoryScriptTests(unittest.TestCase):
             timeout=COMMAND_TIMEOUT_SECONDS,
         )
         subprocess.run(
+            ["python3", "Tools/Scripts/check_adr_register.py"],
+            cwd=ROOT,
+            check=True,
+            timeout=COMMAND_TIMEOUT_SECONDS,
+        )
+        subprocess.run(
             ["python3", "Tools/Scripts/check_document_text.py"],
             cwd=ROOT,
             check=True,
@@ -64,8 +70,13 @@ class RepositoryScriptTests(unittest.TestCase):
 
     def test_validate_docs_wrapper_contains_no_inline_python(self) -> None:
         text = (ROOT / "Tools/Scripts/validate-docs.sh").read_text(encoding="utf-8")
+        scaffold = (ROOT / "Tools/Scripts/validate-scaffold.sh").read_text(
+            encoding="utf-8"
+        )
         self.assertNotIn("python3 - <<", text)
+        self.assertIn("check_adr_register.py", text)
         self.assertIn("check_document_text.py", text)
+        self.assertIn("check_adr_register.py", scaffold)
 
     def test_validate_docs_wrapper_executes_on_supported_host(self) -> None:
         if platform.system() != "Darwin" or platform.machine() != "arm64":
@@ -88,6 +99,7 @@ class RepositoryScriptTests(unittest.TestCase):
         for dependency in (
             "assert-apple-platform.sh",
             "build-docc.sh",
+            "check_adr_register.py",
             "check_docc_archives.py",
             "check_document_text.py",
             "check_front_matter.py",

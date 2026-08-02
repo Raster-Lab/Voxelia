@@ -11,6 +11,7 @@ python3 Tools/Scripts/check_package_graph.py
 python3 Tools/Scripts/check_prohibited_imports.py
 python3 Tools/Scripts/check_apple_platform_policy.py
 python3 Tools/Scripts/check_front_matter.py
+python3 Tools/Scripts/check_adr_register.py
 python3 Tools/Scripts/check_document_text.py
 python3 Tools/Scripts/generate_requirement_index.py --check
 Tools/Scripts/test-repository-scripts.sh
