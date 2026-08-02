@@ -413,6 +413,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Deferred oriented bounds and new intersection operations because the
   controlled documents do not yet define the representation invariants,
   numerical policy or public result semantics needed for correct code.
+- Audited the first M2 Execution policy and identifier declarations and found
+  no ownership-safe public slice: the documents disagree on profile and
+  backend-policy shapes while leaving priority, determinism, identifiers and
+  generation representations incomplete.
 
 ## Verification evidence
 
@@ -783,7 +787,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   only conclusion.
 - The documentation gate, 364-path manifest check and read-only release-
   integrity check passed after regenerating the inventory and checksum evidence
-  for this ledger-only change.
+  for each ledger-only audit update.
+- Two independent read-only Execution audits covered policy/profile types and
+  identifiers respectively. Both reported no-go conclusions, so no Execution
+  source or Swift tests were added for incomplete contracts.
 
 ## Known blockers and risks
 
@@ -992,6 +999,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   references remain blocked by undefined types, timestamp/identifier policy,
   `ContentID`, validation-state schema and graph invariants. `ProvenanceKind`
   does not imply those records exist or are verified.
+- Execution quality profiles have four required behavioral categories, but the
+  documents provide no normative declaration and alternate between undefined
+  `ExecutionProfile` and `ExecutionProfileDescriptor` names with unresolved
+  Execution-versus-Core provenance ownership. `ExecutionPriority` and
+  `DeterminismRequirement` have no case vocabularies or ordering semantics.
+- `BackendPreference` appears only in a non-final appendix sketch whose
+  automatic/CPU/Metal/required-ID cases do not match the requirement baseline's
+  reference/CPU-preferred/GPU-preferred/automatic host policies. Fallback and
+  exact-selection semantics, `BackendID` and stable encoding remain undefined.
+- `OperationID` is named but not declared. Applying the mandated shared string-
+  identifier pattern would add an unapproved Spatial dependency to Execution;
+  duplicating it would fork the common contract. `OperationVersion` is likewise
+  unresolved against Core's `SemanticVersion`, and implementation IDs and
+  generation/revision tokens lack stable public representations.
 - `ValidationStatus` and `DataIntegrityState` remain deferred: their tagged
   associated-value wire shapes, evidence/reason validation and trust semantics
   are undefined, and integrity state also depends on the blocked `ContentID`.
@@ -1086,17 +1107,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Audit the M2 `VoxeliaExecution` declarations, beginning with quality-profile,
-backend-preference and identifier vocabularies, against every governing
-document. Select only the smallest ownership-safe type whose cases, payloads,
-invariants and serialization are complete; record a blocker if the prose names
-a concept without defining a stable public contract.
+Audit the exact standalone declarations for `SegmentAlgorithmType`,
+`ConvergenceStatus` and `PhotorealisticQuality` across ownership, requirements,
+case vocabulary and serialization rules. Implement only the smallest
+independently useful declaration that is fully specified despite its later
+milestone; otherwise record the remaining contract gap.
 
 ## Test policy for the next action
 
-- For an implemented Execution slice, run strict formatting, the affected
-  Execution and direct-consumer builds, and only that type's exact focused tests
-  plus integrity checks. Do not run the full Swift suite.
+- For an implemented declaration slice, run strict formatting, the owning and
+  direct-consumer builds, and only that type's exact focused tests plus integrity
+  checks. Do not run the full Swift suite.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
