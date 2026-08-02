@@ -53,4 +53,42 @@ struct MetadataPrivacyClassTests {
             }
         }
     }
+
+    @Test("[Unit][VOX-ERR-007][VOX-SEC-006] decoding failures are value-redacted")
+    func decodingFailuresAreValueRedacted() {
+        let callerKey = "patient-key-sentinel"
+        let rejectedValue = "patient-value-sentinel"
+        let payloads = [
+            #"{"patient-key-sentinel":"patient-value-sentinel"}"#,
+            #"{"patient-key-sentinel":{"private":"patient-value-sentinel"}}"#,
+        ]
+
+        for payload in payloads {
+            do {
+                _ = try JSONDecoder().decode(
+                    [String: MetadataPrivacyClass].self,
+                    from: Data(payload.utf8)
+                )
+                #expect(Bool(false), "Expected privacy-class decoding to fail.")
+            } catch let error as DecodingError {
+                let descriptions = [
+                    String(describing: error),
+                    String(reflecting: error),
+                ]
+                for description in descriptions {
+                    #expect(!description.contains(callerKey))
+                    #expect(!description.contains(rejectedValue))
+                }
+
+                guard case .dataCorrupted(let context) = error else {
+                    #expect(Bool(false), "Expected a redacted data-corruption error.")
+                    continue
+                }
+                #expect(context.codingPath.isEmpty)
+                #expect(context.underlyingError == nil)
+            } catch {
+                #expect(Bool(false), "Expected a DecodingError.")
+            }
+        }
+    }
 }

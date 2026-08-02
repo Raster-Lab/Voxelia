@@ -81,6 +81,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   recursive root. It remains Proposed, depends on `ADR-0028` through
   `ADR-0030`, requires supported-device ceiling evidence and does not authorise
   source.
+- The existing `MetadataPrivacyClass` taxonomy now uses manual scalar-string
+  Codable with fixed value-redacted failures. Rejected tokens, wrong-shaped
+  input, arbitrary enclosing keys and unsafe underlying decoder errors are not
+  retained in its diagnostic text or coding path; the five accepted raw values
+  and their valid wire bytes are unchanged.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -972,6 +977,14 @@ Value-redacted logging guidance additionally maps to `VOX-ERR-007` and
   the bounded aggregate while leaving general `MetadataEntry`, collections,
   privacy, typed access, canonical byte ingress and source implementation
   deferred until their own approvals and the ceiling evidence exist.
+- Reproduced a privacy defect in synthesized raw-enum decoding: an arbitrary
+  rejected classification token and enclosing dictionary key appeared in both
+  descriptive and reflective `DecodingError` text.
+- Replaced only `MetadataPrivacyClass` Codable synthesis with an exact manual
+  scalar-string implementation that emits a fixed empty-path failure without
+  source text or an underlying error, preserving all successful wire values.
+- Added a focused nested regression for unknown and wrong-shaped input that
+  checks both error renderings, the empty safe path and absent underlying error.
 
 ## Verification evidence
 
@@ -1173,6 +1186,10 @@ Value-redacted logging guidance additionally maps to `VOX-ERR-007` and
 - `swift test --filter MetadataPrivacyClass` executed only three taxonomy tests;
   all five exact raw values, case sensitivity, raw-string Codable and unknown or
   wrong-shaped decoding rejection passed.
+- After the decoder hardening, `swift test --filter MetadataPrivacyClass`
+  executed only four privacy-taxonomy tests; all valid-wire, rejection and
+  nested value-redaction checks passed. Strict format lint for the two modified
+  Swift files and `swift build --target VoxeliaCore` also passed.
 - `swift build --target VoxeliaCore` and strict format lint passed for the
   metadata-key slice.
 - A regression-first sixth metadata-key test reproduced six issues under
@@ -2278,10 +2295,11 @@ python3 Tools/Scripts/check_release_integrity.py
   representative lowest-resource-device evidence. General `MetadataEntry`,
   collections, multiplicity schemas, privacy, typed access and duplicate-safe
   canonical byte ingress remain unresolved by design.
-- `MetadataPrivacyClass` supplies vocabulary only. Per-entry attachment,
-  default or unclassified behavior, `hostDefined` resolution, nested
-  aggregation, downgrade prevention and equality/digest treatment are not
-  specified; host logging, export and redaction controls remain authoritative.
+- `MetadataPrivacyClass` supplies a value-redacted vocabulary only. Per-entry
+  attachment, default or unclassified behavior, `hostDefined` resolution,
+  nested aggregation, downgrade prevention and equality/digest treatment are
+  not specified; host logging, export and redaction controls remain
+  authoritative.
 - Metadata keys now define validated exact UTF-8 pair identity and a strict
   erased type-level wire shape. Namespace aliases, key erasure/conversion,
   multiplicity schemas and typed accessors remain deferred. Any future

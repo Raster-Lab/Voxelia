@@ -411,8 +411,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/MetadataPrivacyClass.swift",
-      "size": 362,
-      "sha256": "f7c850964d1d47d5237b0d7dc25dab7ae34d574e9eea4b1579170c83a20a7bd1"
+      "size": 1585,
+      "sha256": "54ef576621495caade4d3cf6626f42dd66375b23515103618862598e0703e4af"
     },
     {
       "path": "Sources/VoxeliaCore/Public/ProvenanceID.swift",
@@ -966,8 +966,8 @@
     },
     {
       "path": "Tests/VoxeliaCoreTests/MetadataPrivacyClassTests.swift",
-      "size": 1942,
-      "sha256": "feac778347c201d3db3f3a66b08dfc1996ed39548e0f415e6613ddeab09c7ab2"
+      "size": 3477,
+      "sha256": "b4b5e1f5e2d9223164eca4f58adac9a00a57468860f89943f78dc29bcf0ae553"
     },
     {
       "path": "Tests/VoxeliaCoreTests/ProvenanceIDTests.swift",
@@ -1561,8 +1561,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 164810,
-      "sha256": "49233344ca21e8e07c423b17990ab88cf31bcb18678a1b80d552ac42c78d8cfd"
+      "size": 166074,
+      "sha256": "c3e2df766ae66450edc5fc8a3b07768ad61a466cea0378713c0d9d46bfc2c307"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
