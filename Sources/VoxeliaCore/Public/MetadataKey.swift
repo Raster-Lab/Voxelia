@@ -10,7 +10,10 @@ public enum MetadataKeyError: Error, Sendable, Equatable {
 ///
 /// The generic parameter identifies the expected value type at compile time; it
 /// is not stored or serialized. Namespace and name preserve all accepted
-/// spelling, case, Unicode, and surrounding nonblank whitespace.
+/// spelling, case, Unicode, and surrounding nonblank whitespace. Pair identity
+/// compares those accepted UTF-8 spellings exactly; namespace-specific aliases
+/// require an explicit schema or adapter policy. Future canonical-digest string
+/// normalization is a separate serialization-layer decision.
 public struct MetadataKey<Value: Sendable>: Sendable, Hashable {
     /// The case-sensitive namespace that owns the key.
     public let namespace: String
@@ -27,9 +30,24 @@ public struct MetadataKey<Value: Sendable>: Sendable, Hashable {
         self.namespace = namespace
         self.name = name
     }
+
+    /// Compares the exact accepted UTF-8 spellings of both identity fields.
+    public static func == (
+        lhs: MetadataKey<Value>,
+        rhs: MetadataKey<Value>
+    ) -> Bool {
+        metadataKeyStringEqual(lhs.namespace, rhs.namespace)
+            && metadataKeyStringEqual(lhs.name, rhs.name)
+    }
+
+    /// Hashes the exact accepted UTF-8 spellings of both identity fields.
+    public func hash(into hasher: inout Hasher) {
+        hashMetadataKeyString(namespace, into: &hasher)
+        hashMetadataKeyString(name, into: &hasher)
+    }
 }
 
-/// A serializable metadata key identified by an opaque namespace/name pair.
+/// A serializable metadata key identified by an exact opaque namespace/name pair.
 public struct AnyMetadataKey: Sendable, Hashable, Codable {
     /// The case-sensitive namespace that owns the key.
     public let namespace: String
@@ -45,6 +63,18 @@ public struct AnyMetadataKey: Sendable, Hashable, Codable {
         try validateMetadataKey(namespace: namespace, name: name)
         self.namespace = namespace
         self.name = name
+    }
+
+    /// Compares the exact accepted UTF-8 spellings of both identity fields.
+    public static func == (lhs: AnyMetadataKey, rhs: AnyMetadataKey) -> Bool {
+        metadataKeyStringEqual(lhs.namespace, rhs.namespace)
+            && metadataKeyStringEqual(lhs.name, rhs.name)
+    }
+
+    /// Hashes the exact accepted UTF-8 spellings of both identity fields.
+    public func hash(into hasher: inout Hasher) {
+        hashMetadataKeyString(namespace, into: &hasher)
+        hashMetadataKeyString(name, into: &hasher)
     }
 
     /// Decodes the exact keyed representation and revalidates both fields.
@@ -119,5 +149,16 @@ private func validateMetadataKey(namespace: String, name: String) throws {
     }
     guard name.contains(where: { !$0.isWhitespace }) else {
         throw MetadataKeyError.emptyName
+    }
+}
+
+private func metadataKeyStringEqual(_ lhs: String, _ rhs: String) -> Bool {
+    lhs.utf8.elementsEqual(rhs.utf8)
+}
+
+private func hashMetadataKeyString(_ value: String, into hasher: inout Hasher) {
+    hasher.combine(value.utf8.count)
+    for byte in value.utf8 {
+        hasher.combine(byte)
     }
 }

@@ -49,6 +49,67 @@ struct MetadataKeyTests {
         requireSendable(AnyMetadataKey.self)
     }
 
+    @Test("[Unit][VOX-META-001][VOX-API-004] key identity preserves exact UTF-8 spelling")
+    func keyIdentityPreservesExactUTF8Spelling() throws {
+        let composedNamespace = "org.voxelia.m\u{00E9}tadata"
+        let decomposedNamespace = "org.voxelia.me\u{301}tadata"
+        let composedName = "valu\u{00E9}"
+        let decomposedName = "value\u{301}"
+
+        let typedComposed = try MetadataKey<String>(
+            namespace: composedNamespace,
+            name: composedName
+        )
+        let typedNamespaceVariant = try MetadataKey<String>(
+            namespace: decomposedNamespace,
+            name: composedName
+        )
+        let typedNameVariant = try MetadataKey<String>(
+            namespace: composedNamespace,
+            name: decomposedName
+        )
+        #expect(typedComposed != typedNamespaceVariant)
+        #expect(typedComposed != typedNameVariant)
+        #expect(
+            Set([
+                typedComposed,
+                typedNamespaceVariant,
+                typedNameVariant,
+            ]).count == 3
+        )
+
+        let erasedComposed = try AnyMetadataKey(
+            namespace: composedNamespace,
+            name: composedName
+        )
+        let erasedNamespaceVariant = try AnyMetadataKey(
+            namespace: decomposedNamespace,
+            name: composedName
+        )
+        let erasedNameVariant = try AnyMetadataKey(
+            namespace: composedNamespace,
+            name: decomposedName
+        )
+        #expect(erasedComposed != erasedNamespaceVariant)
+        #expect(erasedComposed != erasedNameVariant)
+        #expect(
+            Set([
+                erasedComposed,
+                erasedNamespaceVariant,
+                erasedNameVariant,
+            ]).count == 3
+        )
+
+        for original in [erasedComposed, erasedNamespaceVariant, erasedNameVariant] {
+            let decoded = try JSONDecoder().decode(
+                AnyMetadataKey.self,
+                from: JSONEncoder().encode(original)
+            )
+            #expect(Array(decoded.namespace.utf8) == Array(original.namespace.utf8))
+            #expect(Array(decoded.name.utf8) == Array(original.name.utf8))
+        }
+    }
+
     @Test("[Unit][VOX-ERR-001] both key forms reject Unicode-blank fields")
     func rejectsBlankFields() {
         for blank in ["", " \t\n", "\u{2003}\u{00A0}"] {

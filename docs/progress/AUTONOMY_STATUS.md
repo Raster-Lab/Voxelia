@@ -47,6 +47,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   independent equality and hashing, signed-zero normalization, and an exact
   six-key explicit-null wire shape. This does not define unit conversion or
   coordinate-space unit admissibility.
+- The recursive metadata model has been audited and remains contract-blocked:
+  its raw public payloads cannot enforce floating-point, instant, object,
+  privacy or resource invariants. The independently implemented metadata-key
+  leaf now uses exact accepted UTF-8 pair identity without claiming canonical-
+  digest string normalization.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -111,7 +116,7 @@ binding:
 
 | `ImageData` dependency | Status | Boundary issue |
 |---|---|---|
-| `MetadataCollection` | Contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent; finite floating values, canonical UTC instants, binary encoding, object-key uniqueness, tags, recursion limits, multiplicity, privacy attachment and typed access remain open. |
+| `MetadataCollection` | Contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Their inventory and Core ownership are stable, but raw enum payloads bypass finite floating, canonical UTC instant and object-uniqueness invariants; direct `Data`, tags, ordering, limits, multiplicity, privacy attachment, typed access and canonical ingress remain open. |
 | `DataIdentity` | Contract-blocked | `ContentID` has incompatible prescribed shapes, lacks an approved scope-bearing record and fully specified canonical digest byte encoding, and `DataIdentityReference` is undefined. |
 | `ProvenanceRecord` | Architecture- and contract-blocked | References, warning severity, validation state, timestamps and graph invariants are incomplete; several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
 | `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
@@ -162,6 +167,48 @@ conversion metadata executable. Equal values may preserve different display
 labels and therefore produce different ordinary `JSONEncoder` output; future
 canonical descriptor digests must define their identity projection rather than
 hashing ordinary type-level JSON blindly.
+
+## M1 metadata-model prerequisite audit
+
+`VoxeliaCore` ownership, the eleven `MetadataValue` cases, the two
+`MetadataEntry` fields and the one-field `MetadataCollection` declaration are
+stable. `VoxeliaCore -> VoxeliaSpatial` is already an approved dependency, so
+the unit payload creates no cycle, and `CodedConcept`, `AnyMetadataKey` and
+`MetadataPrivacyClass` already exist in Core. The three recursive public types
+are nevertheless a source no-go:
+
+| Area | Governed requirement | Blocking contract |
+|---|---|---|
+| Floating point | Floating metadata must have an explicit non-finite policy; identity requires a NaN rule and signed-zero canonicalization. | Public `case floatingPoint(Double)` bypasses validation. NaN makes synthesized equality non-reflexive and permits two apparently identical set members; `-0.0` equals/hashes like `+0.0` but encodes differently. |
+| Instant | The wire value must be a canonical UTC ISO 8601 string. | Public `case instant(String)` bypasses validation. Extended/basic form, mandatory `Z`, seconds, fractional precision, trailing zeros, calendar/year range, leap seconds and `24:00:00` are unspecified. |
+| Binary | Binary metadata exists and canonical JSON must select base64 or hexadecimal. | CDMS section 72 explicitly leaves direct `Data` permission open. Storage type, alphabet/padding, canonical spelling, diagnostic redaction and pre-allocation size limits are undecided. |
+| Recursive arrays | Array order is naturally preserved. | No depth, node, entry, string, binary or total-byte limits exist; it is undecided which are intrinsic and which are host-provided ingress policy. |
+| Objects | Object keys must be unique. | Public `case object(ContiguousArray<MetadataEntry>)` permits duplicates directly; object input order versus canonical map identity and sorting are unspecified. |
+| Collection multiplicity | Duplicate keys are rejected unless a namespace schema permits multiplicity. | No schema type, resolver, stable identity or serialization contract exists. Rejecting all repeats removes governed multiplicity; accepting them violates validation by construction. |
+| Privacy | Metadata may carry `MetadataPrivacyClass`, and validation/logging/export must cover it. | No attachment field, default/unclassified meaning, `hostDefined` resolver, nested aggregation, downgrade rule or equality/digest policy is specified. Classification belongs semantically per entry, with schema constraints and host enforcement, but that design requires approval. |
+| Typed access | Reads must match the requested type or return a typed error without coercion. | No mapping protocol, missing/wrong-type/multiple-value behavior or erased-to-typed conversion contract exists. |
+| Type-level encoding | Value cases require explicit stable tags. | Synthesized associated-value Codable exposes compiler-shaped `_0` payloads and accepts distinct extras; exact discriminator, payload and null rules are absent. |
+| Canonical identity | Metadata included in an identity is ordered and uses canonical JSON. | The relationship between semantic equality and record-exact encoding is unresolved, especially because nested unit/code presentation text is encoded but excluded from local equality. |
+| Canonical ingress | Raw duplicate keys, stable lexical forms, schema versions and bounded untrusted input are mandatory. | A Swift value decoder may receive already-collapsed keys and already-allocated strings/data; type-level Codable cannot recover or enforce byte-ingress constraints. |
+
+Swift 6.3.3 probes confirmed that `ContiguousArray` supplies enough indirection
+for the recursive shape to compile, but synthesis is not a safe contract:
+`.floatingPoint(.nan)` is unequal to itself and creates two set members,
+positive and negative zero encode differently, synthesized tags use `_0`,
+distinct extra fields decode, raw duplicate JSON keys collapse before model
+inspection, and hashing a 50,000-level tree trapped. A safe correction therefore
+needs separately reviewed scalar wrappers, recursive containers, canonical
+byte ingress and collection policy rather than one speculative implementation.
+
+The audit also exposed a bounded defect in the existing `MetadataKey<Value>`
+and `AnyMetadataKey`: both preserve and encode opaque source spelling, while
+synthesized Swift `String` equality collapsed canonically equivalent but UTF-8-
+distinct namespaces or names. That could make object-key duplicate identity
+disagree with the stored representation. Both key forms now compare and hash
+their exact accepted UTF-8 namespace/name bytes, with field lengths included in
+hashing. Namespace aliases remain schema/adapter policy, and future canonical-
+digest Unicode normalization must explicitly reconcile its equivalence relation
+with this exact in-memory identity.
 
 ## Completed in this increment
 
@@ -381,6 +428,16 @@ hashing ordinary type-level JSON blindly.
 - Preserved accepted opaque namespace/name spelling and case, kept the generic
   value type as compile-time information only, and limited strict two-field
   Codable behavior to the erased key.
+- Audited the complete recursive metadata declaration and kept it out of source:
+  raw floating-point, instant, binary and object payloads cannot satisfy the
+  governed invariants, while tags, limits, multiplicity, privacy and canonical
+  byte ingress remain unresolved.
+- Corrected typed and erased metadata-key equality and hashing to use the exact
+  accepted UTF-8 bytes of both identity fields, preventing canonically
+  equivalent but byte-distinct keys from collapsing in memory.
+- Preserved exact key spelling through erased-key Codable round trips; namespace
+  aliases and future canonical-digest Unicode normalization remain explicit
+  schema or serialization-layer decisions.
 - Implemented neutral `CodedConcept` storage with typed blank scheme/value
   errors and exact UTF-8 `(scheme, value, version)` identity.
 - Excluded human-readable meaning from equality and hashing while preserving it
@@ -765,10 +822,16 @@ hashing ordinary type-level JSON blindly.
   wrong-shaped decoding rejection passed.
 - `swift build --target VoxeliaCore` and strict format lint passed for the
   metadata-key slice.
-- `swift test --filter MetadataKey` executed only five key tests; typed/erased
-  opaque pair preservation, case-sensitive Hashable identity, both blank-field
-  errors, generic Sendable behavior and strict contextual erased-key Codable all
-  passed.
+- A regression-first sixth metadata-key test reproduced six issues under
+  synthesized Swift `String` equality: composed/decomposed namespace and name
+  spellings compared equal and collapsed each typed and erased three-value set
+  to one member.
+- After the correction, `swift test --filter MetadataKey` executed only the six
+  key tests; exact UTF-8 typed/erased identity and erased Codable preservation,
+  opaque pair and case-sensitive identity, both blank-field errors, generic
+  Sendable behavior and strict contextual decoding all passed.
+- `swift build --target VoxeliaCore` and strict format lint passed again for the
+  corrected key boundary; the complete test suite was intentionally not run.
 - `swift build --target VoxeliaCore` and strict format lint passed for the
   neutral coded-concept slice.
 - `swift test --filter CodedConcept` executed only six concept tests; opaque
@@ -994,6 +1057,18 @@ hashing ordinary type-level JSON blindly.
   seven file-backed ADRs and 53 Markdown files; `git diff --check` also passed.
 - Release-integrity regeneration, the 366-path manifest check and read-only
   integrity verification passed with 365 inventory records and 366 checksums.
+- Three independent read-only metadata audits covered declaration ownership and
+  shape, recursive/wire safety, scalar identity and privacy. All agreed that the
+  recursive model is not source-ready and that exact UTF-8 key identity is the
+  only bounded correction exposed by this audit.
+- Swift 6.3.3 probes confirmed the blockers: NaN broke reflexive synthesized
+  equality, signed zeros encoded differently, synthesis exposed `_0` payloads,
+  distinct extras decoded, duplicate JSON keys collapsed before the model and a
+  50,000-level recursive hash trapped. These probes did not become public API.
+- `Tools/Scripts/validate-docs.sh` passed for seven front-matter documents, all
+  seven file-backed ADRs and 53 Markdown files. The 366-path manifest check,
+  release-integrity regeneration and read-only verification passed with 365
+  inventory records and 366 checksums; `git diff --check` also passed.
 
 ## Known blockers and risks
 
@@ -1196,14 +1271,20 @@ hashing ordinary type-level JSON blindly.
 - `SourceIdentity`, `DerivationIdentity` and `DataIdentity` remain blocked by
   `ContentID`; `DataIdentityReference` is also undefined, and record-level
   empty, duplicate and consistency invariants are not specified.
-- Recursive metadata values, entries and collections remain deferred pending
-  finite-value, canonical instant, binary, coded-concept equality, enum-tag,
-  multiplicity, typed-access and privacy-attachment decisions.
-- `MetadataPrivacyClass` supplies vocabulary only; host logging, export and
-  redaction controls remain authoritative and no default policy is inferred.
-- Metadata-key erasure/conversion, namespace schemas, multiplicity and typed
-  accessors remain deferred; the current key types define only validated pair
-  identity and the erased wire shape.
+- Recursive metadata values, entries and collections remain deferred. Their raw
+  payload shape bypasses finite floating-point, canonical-instant and unique-
+  object-key invariants; direct `Data`, stable tags, semantic ordering, recursion
+  and allocation limits, multiplicity schemas, typed access and duplicate-safe
+  canonical byte ingress are also unresolved.
+- `MetadataPrivacyClass` supplies vocabulary only. Per-entry attachment,
+  default or unclassified behavior, `hostDefined` resolution, nested
+  aggregation, downgrade prevention and equality/digest treatment are not
+  specified; host logging, export and redaction controls remain authoritative.
+- Metadata keys now define validated exact UTF-8 pair identity and a strict
+  erased type-level wire shape. Namespace aliases, key erasure/conversion,
+  multiplicity schemas and typed accessors remain deferred. Any future
+  canonical-digest Unicode normalization must explicitly reconcile its
+  equivalence relation with the exact in-memory identity.
 - `CodedConcept` defines deterministic record identity, not external terminology
   equivalence. Scheme-specific aliases, version compatibility and ontology
   resolution require an explicit resolver or ADR.
@@ -1356,20 +1437,21 @@ hashing ordinary type-level JSON blindly.
 
 ## Exact next action
 
-Audit `MetadataValue` and `MetadataEntry` as the next downstream `ImageData`
-prerequisite: reconcile the exact recursive case shape with finite floating
-values, canonical UTC instants, binary representation, object-key
-ordering/uniqueness, recursion/resource limits, privacy attachment and strict
-type-level encoding. Implement only an independently valid leaf whose
-constructor and validation oracle are fully governed; otherwise record the
-smallest decision boundary without inventing canonical-JSON bytes.
+Audit a shared string-backed canonical-instant boundary for metadata and future
+provenance. Resolve the exact UTC grammar, mandatory `Z`, seconds, fractional
+precision and trailing zeros, calendar/year range, leap-second and `24:00:00`
+rules, equality, maximum input length and strict type-level Codable shape.
+Determine whether that bounded contract warrants proposed `ADR-0028`; do not add
+`MetadataValue` source while its other raw-payload and collection contracts
+remain unresolved.
 
 ## Test policy for the next action
 
-- For a metadata audit or documentation-only proposal, run only the relevant
-  document/ADR checks plus manifest and release-integrity checks. If a bounded
-  metadata leaf is implemented, run its focused unit tests, the owning Core
-  target build, strict format lint and only directly affected dependent tests.
+- For the canonical-instant audit or a documentation-only proposal, run only
+  the relevant document/ADR checks plus manifest and release-integrity checks.
+  If a bounded instant leaf becomes independently authorised, run its focused
+  unit tests, the owning Core target build, strict format lint and only directly
+  affected dependent tests.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
