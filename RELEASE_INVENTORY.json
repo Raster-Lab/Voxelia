@@ -685,6 +685,11 @@
       "sha256": "92dc30f825c2287d7642f06f0b93c0eada128a772d8d36464022e86e1d82729f"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/CoordinateHandedness.swift",
+      "size": 220,
+      "sha256": "8fc012cccdbcee2d26d1447b7d2bdec211b093cbb1d55da089852206ba996231"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/Matrix4x4Double.swift",
       "size": 4693,
       "sha256": "afb0401cb295a119c0a0369b3fda5316ae40e4beae297c88d718c85790848b26"
@@ -726,8 +731,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 897,
-      "sha256": "385a957b8a0f94e5800244505bdaffa31334e13887cdd48f3baeddaa06c34a5d"
+      "size": 948,
+      "sha256": "554c1740116c23e340ae6d1f01c3e410d45c9d75ebc43ca8cca3f3f47b3df8ba"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -898,6 +903,11 @@
       "path": "Tests/VoxeliaSpatialTests/AxisAlignedBounds3DTests.swift",
       "size": 8930,
       "sha256": "049ced171e7733a930bbe74e4e185e50141d2e336a2d5965edb4f706df06c4fc"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/CoordinateHandednessTests.swift",
+      "size": 1797,
+      "sha256": "ae88b96136afd3e192b214d71a975e2aa0622b6d9ad327f9bccebf01bfc57192"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/Matrix4x4DoubleTests.swift",
@@ -1331,8 +1341,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 36896,
-      "sha256": "b8161d8e95a8a914c3ab7c1a0ec3364bb4c818a78d94d6085b0abe8039a4fd08"
+      "size": 37885,
+      "sha256": "e8050f8f499689e1f818cd6d56afd25c5890708765fd38fc6eec1488364e7cf9"
     },
     {
       "path": "docs/project/README.md",
@@ -1616,8 +1626,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 13813,
-      "sha256": "b6f18a99343b1f4e52531ef3e544d9cafedbf726a41ee28454239a61db3d348d"
+      "size": 13928,
+      "sha256": "60525da97edaf94191eb1f5cf4f83a458edde67a29523f77c2d07423176e90d9"
     }
   ]
 }

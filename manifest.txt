@@ -135,6 +135,7 @@ Sources/VoxeliaSpatial/ApplePlatformGate.swift
 Sources/VoxeliaSpatial/Internal/.gitkeep
 Sources/VoxeliaSpatial/Module.swift
 Sources/VoxeliaSpatial/Public/Bounds3D.swift
+Sources/VoxeliaSpatial/Public/CoordinateHandedness.swift
 Sources/VoxeliaSpatial/Public/Matrix4x4Double.swift
 Sources/VoxeliaSpatial/Public/MeasurementUnit.swift
 Sources/VoxeliaSpatial/Public/SpatialAxisMapping.swift
@@ -178,6 +179,7 @@ Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift
 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
 Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift
 Tests/VoxeliaSpatialTests/AxisAlignedBounds3DTests.swift
+Tests/VoxeliaSpatialTests/CoordinateHandednessTests.swift
 Tests/VoxeliaSpatialTests/Matrix4x4DoubleTests.swift
 Tests/VoxeliaSpatialTests/MeasurementUnitTests.swift
 Tests/VoxeliaSpatialTests/PlaneAndRayTests.swift

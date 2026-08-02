@@ -9,13 +9,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first fifteen foundational slices, `ImageShape` /
+- M1 implementation status: the first sixteen foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
   representation, spatial-axis mapping, points, vectors, planes, rays,
-  axis-aligned bounds and the transform-kind taxonomy are implemented and
-  locally verified.
+  axis-aligned bounds, transform-kind taxonomy and coordinate handedness are
+  implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -202,13 +202,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `VoxeliaSpatial` without adding speculative cases, protocols or behavior.
 - Preserved the specified case-sensitive serialized vocabulary and added
   focused rejection coverage for unknown and non-string encoded values.
+- Implemented the exact three-case `CoordinateHandedness` raw-string taxonomy
+  without adding compatibility, conversion or descriptor-validation behavior.
+- Preserved the specified case-sensitive JSON vocabulary and kept
+  `.unspecified` as a declaration value rather than treating it as a wildcard.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 324-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 326-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -219,7 +223,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 323-record inventory and 324-entry SHA-256 ledger pass the
+- The regenerated 325-record inventory and 326-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -348,6 +352,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `swift test --filter SpatialTransformKind` executed only three taxonomy
   tests; all six exact raw values, raw-string Codable round trips and unknown or
   wrong-shaped decoding rejection passed.
+- `swift build --target VoxeliaSpatial`, the direct-dependent
+  `swift build --target VoxeliaCore`, and strict format lint passed for the
+  coordinate-handedness taxonomy slice.
+- `swift test --filter CoordinateHandedness` executed only three taxonomy
+  tests; all three exact raw values, raw-string Codable round trips and unknown
+  or wrong-shaped decoding rejection passed.
 
 ## Known blockers and risks
 
@@ -509,17 +519,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `SpatialTransformKind` is only a stable category vocabulary and does not
   claim transform execution, inversion, serialization descriptors or M1
   transform acceptance.
+- `CoordinateHandedness` is only the stable declaration vocabulary. Consistency
+  with a built-in convention remains a future descriptor invariant, and
+  `.unspecified` does not imply compatibility with another handedness.
 
 ## Exact next action
 
-Audit and, if confirmed standalone, implement the exact `CoordinateHandedness`
-raw-string taxonomy without resolving or bypassing the blocked
-`CoordinateConvention` / `CoordinateSpaceDescriptor` contract.
+Audit and implement the next unblocked Core value-transformation model from
+CDMS section 18, preserving exact finite-value and serialization invariants
+without advancing into the descriptor until its dependencies are verified.
 
 ## Test policy for the next action
 
-- Run only the Spatial and direct-dependent Core builds, strict format lint and
-  `CoordinateHandedness`-filtered tests for the next slice.
+- Run only the directly affected Core build, strict format lint and
+  value-transform-filtered tests for the next slice, plus dependent builds only
+  if the public surface requires them.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

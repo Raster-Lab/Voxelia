@@ -23,8 +23,12 @@ None.
 
 - ``VoxeliaStringIdentifier``
 - ``VoxeliaStringIdentifierError``
-- ``CoordinateSpaceID``
 - ``AxisID``
+
+### Coordinate spaces
+
+- ``CoordinateSpaceID``
+- ``CoordinateHandedness``
 
 ### Matrices
 
