@@ -57,6 +57,76 @@ struct ImageShapeTests {
         #expect(try shape.elementCount() == 1)
     }
 
+    @Test("[Unit][CDMS-12.3] index containment includes exact valid boundaries")
+    func indexContainmentIncludesValidBoundaries() throws {
+        let shape = try ImageShape(extents: [3, 5, 7])
+
+        #expect(try shape.contains(ImageIndex(components: [0, 0, 0])))
+        #expect(try shape.contains(ImageIndex(components: [2, 4, 6])))
+    }
+
+    @Test("[Unit][CDMS-12.3] index containment excludes each negative axis")
+    func indexContainmentExcludesNegativeComponents() throws {
+        let shape = try ImageShape(extents: [3, 5, 7])
+
+        for axis in shape.extents.indices {
+            var components = [0, 0, 0]
+            components[axis] = -1
+            #expect(try !shape.contains(ImageIndex(components: components)))
+        }
+    }
+
+    @Test("[Unit][CDMS-12.3] index containment excludes each upper axis")
+    func indexContainmentExcludesUpperAndBeyondComponents() throws {
+        let shape = try ImageShape(extents: [3, 5, 7])
+
+        for axis in shape.extents.indices {
+            var components = [0, 0, 0]
+            components[axis] = shape.extents[axis]
+            #expect(try !shape.contains(ImageIndex(components: components)))
+
+            components[axis] = shape.extents[axis] + 1
+            #expect(try !shape.contains(ImageIndex(components: components)))
+        }
+    }
+
+    @Test("[Unit][CDMS-12.3] index containment compares exact Int boundaries")
+    func indexContainmentHandlesIntegerBoundaries() throws {
+        let shape = try ImageShape(extents: [Int.max])
+
+        #expect(try shape.contains(ImageIndex(components: [Int.max - 1])))
+        #expect(try !shape.contains(ImageIndex(components: [Int.max])))
+        #expect(try !shape.contains(ImageIndex(components: [Int.min])))
+    }
+
+    @Test("[Unit][CDMS-11.5] index containment reports exact rank mismatch")
+    func indexContainmentRejectsRankMismatch() throws {
+        let shape = try ImageShape(extents: [3, 5])
+
+        #expect(throws: ShapeError.rankMismatch(expected: 2, actual: 0)) {
+            try shape.contains(ImageIndex(components: [Int]()))
+        }
+        #expect(throws: ShapeError.rankMismatch(expected: 2, actual: 1)) {
+            try shape.contains(ImageIndex(components: [0]))
+        }
+        #expect(throws: ShapeError.rankMismatch(expected: 2, actual: 3)) {
+            try shape.contains(ImageIndex(components: [0, 0, 0]))
+        }
+    }
+
+    @Test("[Unit][VOX-DAT-005] index containment supports high rank")
+    func indexContainmentSupportsHighRank() throws {
+        let shape = try ImageShape(extents: repeatElement(2, count: 1_024))
+        let contained = ImageIndex(components: repeatElement(1, count: 1_024))
+        var outsideComponents = ContiguousArray(
+            repeatElement(1, count: 1_024)
+        )
+        outsideComponents[1_023] = 2
+
+        #expect(try shape.contains(contained))
+        #expect(try !shape.contains(ImageIndex(components: outsideComponents)))
+    }
+
     @Test("[Unit] Codable round trips a validated shape")
     func codableRoundTrip() throws {
         let shape = try ImageShape(extents: [64, 32, 12])

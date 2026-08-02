@@ -66,6 +66,28 @@ public struct ImageShape: Sendable, Hashable, Codable {
         return count
     }
 
+    /// Returns whether `index` is within this shape on every axis.
+    ///
+    /// This query performs exact bounds comparisons only. It does not calculate
+    /// a linear offset or infer axis semantics.
+    ///
+    /// - Throws: ``ShapeError/rankMismatch(expected:actual:)`` when the index
+    ///   rank differs from the shape rank.
+    public func contains(_ index: ImageIndex) throws -> Bool {
+        guard index.rank == rank else {
+            throw ShapeError.rankMismatch(expected: rank, actual: index.rank)
+        }
+
+        for axis in extents.indices {
+            guard index.components[axis] >= 0,
+                index.components[axis] < extents[axis]
+            else {
+                return false
+            }
+        }
+        return true
+    }
+
     private enum CodingKeys: String, CodingKey {
         case extents
     }

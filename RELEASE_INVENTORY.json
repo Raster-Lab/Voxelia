@@ -396,8 +396,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/ImageShape.swift",
-      "size": 3694,
-      "sha256": "16a319983b0b2244d1082c3027e6c12cbd379a9ed9d7da1571246672dd9459c3"
+      "size": 4462,
+      "sha256": "e8df517cc6feea5697bdc67a14ea4cb0ab63caf3d3b3378e90d46e338e94cfdf"
     },
     {
       "path": "Sources/VoxeliaCore/Public/LookupTableDescriptor.swift",
@@ -951,8 +951,8 @@
     },
     {
       "path": "Tests/VoxeliaCoreTests/ImageShapeTests.swift",
-      "size": 2541,
-      "sha256": "6784d5508631d525c7a99ef89a07dcecf51cbf6d74f0ecf582b5fad42ecb9c99"
+      "size": 5466,
+      "sha256": "3919be8b193a0461f9b1f1c1a8e4daafd9a56814341ef962a09f7d753ca1f237"
     },
     {
       "path": "Tests/VoxeliaCoreTests/LookupTableDescriptorTests.swift",
@@ -1496,8 +1496,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 60546,
-      "sha256": "2d1f46ea42f911b69bf8d9d4301f3ebb7f190db8598bf9bceca11a5ec4eb85b9"
+      "size": 61568,
+      "sha256": "7f387a6b164cd191494b87220415a9501257548467d468487cac08bcc0b39fc9"
     },
     {
       "path": "docs/project/README.md",

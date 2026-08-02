@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first thirty-seven foundational slices, `ImageShape` /
+- M1 implementation status: the first thirty-eight foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -23,8 +23,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   attribute descriptors, extent-based region construction and shape-aware
   region containment validation, checked region translation and deterministic
   shape clipping plus exact axis-aligned point-containment and bounds-
-  intersection queries and exact half-open region/index containment are
-  implemented and locally verified.
+  intersection queries plus exact shape/index and half-open region/index
+  containment are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -322,6 +322,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Preserved negative and full-range `Int` coordinates without shape assumptions,
   normalization, allocation or arithmetic; zero-rank containment follows the
   vacuous per-axis predicate while any explicitly empty axis contains no index.
+- Added `ImageShape.contains(_:)` queries for `ImageIndex` with exact typed rank
+  diagnostics and componentwise `0 <= index < extent` comparisons.
+- Kept the shape-aware predicate allocation- and arithmetic-free without
+  calculating a linear offset, inferring axis semantics or authorizing storage
+  access.
 
 ## Verification evidence
 
@@ -608,6 +613,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   faces, upper and beyond-upper exclusion, every below-lower and empty axis,
   explicit zero-rank behavior, negative and exact `Int` boundaries, both rank
   mismatches and 1,024-axis queries passed alongside all prior region cases.
+- `swift build --target VoxeliaCore` and directly affected builds for
+  `VoxeliaStorage`, `VoxeliaGeometry` and `Voxelia` passed with strict format
+  lint for shape-aware index containment.
+- `swift test --filter 'VoxeliaCoreTests.ImageShapeTests'` executed exactly the
+  14 shape tests; origin and last-valid inclusion, every negative, upper and
+  beyond-upper axis, exact `Int` boundaries, short/long/zero-rank mismatches and
+  1,024-axis queries passed alongside all prior shape cases.
 
 ## Known blockers and risks
 
@@ -851,6 +863,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `CDMS-13.4` also governs region/index containment tests because the baseline
   has no dedicated point-containment requirement. This query does not validate
   an index against an image shape or prove storage offset safety.
+- Shape/index containment implements the exact `CDMS-12.3` predicate and uses
+  the existing `ShapeError.rankMismatch`, but it does not calculate a stride or
+  linear offset and is only supporting evidence for access-safety requirements.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
   planes, rays, oriented bounds and rendering or interaction intersections that
@@ -858,10 +873,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Audit the next smallest unimplemented M1 value or operation and implement it
-only when its public signature, edge behavior and requirement ownership are
-fully controlled; keep ambiguous region arithmetic and blocked descriptor
-families deferred.
+Add an allocation-free `ImageRegion.isEmpty` query that returns true exactly
+when at least one half-open axis is collapsed, preserving the established
+zero-rank behavior without choosing storage empty-read policy.
 
 ## Test policy for the next action
 
