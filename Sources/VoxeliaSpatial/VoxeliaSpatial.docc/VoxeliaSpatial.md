@@ -26,6 +26,11 @@ None.
 - ``CoordinateSpaceID``
 - ``AxisID``
 
+### Matrices
+
+- ``Matrix4x4Double``
+- ``Matrix4x4DoubleError``
+
 ### Project documents
 
 - <doc:Architecture>

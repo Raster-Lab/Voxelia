@@ -9,11 +9,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first nine foundational slices, `ImageShape` /
+- M1 implementation status: the first ten foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
-  models plus the initial typed spatial identifiers are implemented and locally
-  verified.
+  models plus the initial typed spatial identifiers and canonical matrix
+  representation are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -150,13 +150,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Added one-field keyed identifier encoding with decode-time invariant and
   distinct-extra-key rejection, plus focused coverage of protocol use,
   case-sensitive identity, representative spaces and exact serialization.
+- Audited the public Axis model and deferred its implementation because the
+  governing architecture assigns it to Spatial while the detailed data-model
+  documents assign it to Core and explicitly require resolution before work.
+- Implemented validated `Matrix4x4Double` storage in `VoxeliaSpatial` with
+  exactly 16 finite row-major values, documented homogeneous column-vector
+  convention, canonical identity and typed count/index diagnostics.
+- Canonicalized signed zero for equality/hash/serialization coherence while
+  preserving every other finite bit pattern, and added invariant-preserving,
+  distinct-extra-key-rejecting keyed Codable behavior.
+- Kept multiplication, inversion, affine tolerance and point/vector/normal APIs
+  outside this slice because their public vector boundary, implementation and
+  singularity tolerance remain explicit specification decisions.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 313-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 315-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -167,7 +179,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 312-record inventory and 313-entry SHA-256 ledger pass the
+- The regenerated 314-record inventory and 315-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -251,6 +263,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   accepted spelling, Unicode whitespace rejection, typed failures,
   case-sensitive/type-distinct identity, exact keyed JSON, invalid-object
   rejection and representative coordinate-space distinctness all passed.
+- The formatter initially blocked because macOS had evicted the unchanged
+  tracked `.swift-format` file despite its pinned marker. Its exact Git-index
+  bytes were rematerialized; `git diff --exit-code -- .swift-format` confirms
+  no configuration change.
+- `swift build --target VoxeliaSpatial`, the direct-dependent
+  `swift build --target VoxeliaCore`, and strict format lint passed for the
+  canonical matrix slice.
+- `swift test --filter Matrix4x4Double` executed only six matrix tests; exact
+  row-major storage and generic collection materialization, identity,
+  count/non-finite diagnostics, signed-zero canonicalization, equality/hash
+  distinction and strict invariant-preserving Codable behavior all passed.
 
 ## Known blockers and risks
 
@@ -353,17 +376,32 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Full `VOX-SPA-005` evidence remains pending coordinate conventions and
   `CoordinateSpaceDescriptor`; distinct representative raw identifiers alone
   do not complete that requirement.
+- The governing Master Technical Architecture assigns axis descriptors to
+  `VoxeliaSpatial`, but the Core Data Model Specification and First Vertical
+  Slice Plan assign them to `VoxeliaCore`. The Core Data Model Specification
+  requires this discrepancy to be resolved by controlled-document correction,
+  revision or an approved ADR before implementation. Axis work is deferred,
+  with Spatial ownership recorded only as the audit recommendation.
+- `Matrix4x4Double` currently guarantees the canonical finite storage shape,
+  not transform operations. The SIMD-versus-custom public vector boundary,
+  multiplication implementation, two-dimensional representation and a
+  scale-aware singularity tolerance remain open decisions; `VOX-SPA-008` and
+  `VOX-SPA-009` are not claimed by this storage slice.
+- `Matrix4x4Double` normalizes `-0.0` to `+0.0` because Swift equality and
+  hashing treat them as the same value and the identity rules require one
+  canonical representation where semantic equality does. NaN and infinity are
+  rejected; approximate geometric equivalence remains a separate future API.
 
 ## Exact next action
 
-Audit and implement the M1 axis model while explicitly resolving its
-controlled-document ownership conflict in favor of a dependency-safe placement
-and preserving extent-dependent validation for the later image descriptor.
+Audit and implement the unambiguously Spatial-owned M1 coordinate-space model,
+including conventions, handedness, external frame references and descriptor
+invariants, using the validated unit and identifier foundations now available.
 
 ## Test policy for the next action
 
-- Run only the axis-model owning target and direct-dependent builds, strict
-  format lint and axis-filtered tests for the next slice.
+- Run only the Spatial and direct-dependent Core builds, strict format lint and
+  coordinate-space-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
