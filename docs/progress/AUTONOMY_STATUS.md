@@ -67,6 +67,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   host-selected limits to the raw-ingress and aggregate boundaries rather than
   inventing an intrinsic cap. It is not accepted and does not authorise source
   or the recursive metadata aggregate.
+- The raw metadata `String` audit retains `case string(String)`: every valid
+  Swift string remains admissible. It recommends exact UTF-8 branch identity
+  over Swift's canonical-equivalence relation, but that projection remains an
+  aggregate-ADR decision. A standalone wrapper and string-only ADR would add
+  no invariant or independently implementable leaf; no source is authorised.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -196,7 +201,7 @@ are nevertheless a source no-go:
 |---|---|---|
 | Floating point | Floating metadata must have an explicit non-finite policy; identity requires a NaN rule and signed-zero canonicalization. | Public `case floatingPoint(Double)` bypasses validation. NaN makes synthesized equality non-reflexive and permits two apparently identical set members; `-0.0` equals/hashes like `+0.0` but encodes differently. |
 | Instant | The wire value must be a canonical UTC ISO 8601 string. | Public `case instant(String)` bypasses validation. Extended/basic form, mandatory `Z`, seconds, fractional precision, trailing zeros, calendar/year range, leap seconds and `24:00:00` are unspecified. |
-| String | Text metadata exists, but no Unicode identity or canonicalisation policy is selected. | Swift `String` equality can equate canonically equivalent spellings while preserving and encoding their distinct UTF-8. Empty/control/noncharacter policy, exact versus semantic identity and intrinsic versus ingress limits require an isolated audit. |
+| String | Generic text must preserve the supplied Unicode scalar sequence without silently choosing a namespace-specific equivalence. | The isolated audit retains raw `String`, admits every valid Swift string and recommends exact UTF-8 equality/hashing as the aggregate identity projection. No wrapper or string-only ADR is justified; the future aggregate ADR must approve or replace that candidate while settling tags, recursion and resource limits before source. |
 | Binary | Binary metadata exists and canonical JSON must select base64 or hexadecimal. | Proposed `ADR-0030` selects an owned byte snapshot and strict padded standard Base64 without an arbitrary intrinsic cap, but it is not accepted. Pre-allocation and aggregate limits remain canonical-ingress and host-policy work. |
 | Recursive arrays | Array order is naturally preserved. | No depth, node, entry, string, binary or total-byte limits exist; it is undecided which are intrinsic and which are host-provided ingress policy. |
 | Objects | Object keys must be unique. | Public `case object(ContiguousArray<MetadataEntry>)` permits duplicates directly; object input order versus canonical map identity and sorting are unspecified. |
@@ -339,6 +344,84 @@ surplus padding and non-zero unused-bit aliases.
 remains Proposed. Acceptance would authorise only the standalone leaf and the
 controlled direct-`Data`/Base64 corrections, not the recursive model,
 canonical byte-ingress layer or resource-policy API.
+
+## M1 string metadata prerequisite audit
+
+The baseline prescribes `MetadataValue.string(String)` without a separate
+string invariant. Three independent governance, Unicode/JSON and Swift audits
+agreed that the associated-value shape is already sufficient: `String` is a
+value-semantic, `Sendable` Unicode value, and every value in its programmatic
+domain is admissible as a generic metadata payload. The unresolved defect lies
+in aggregate identity, not construction. The audit therefore recommends these
+candidate rules, subject to the future aggregate decision:
+
+| Area | Audited candidate for the future aggregate | Explicitly deferred |
+|---|---|---|
+| Public shape | Retain `case string(String)`; add no `MetadataString`, public parser or string-specific error. | The complete `MetadataValue`, entry and collection declarations. |
+| Admitted domain | Accept empty and whitespace-only strings, NUL and other controls, bidi/format controls, private-use and unassigned scalars, all 66 Unicode noncharacters and every other valid Swift `String`. | Namespace- or key-schema constraints such as non-empty, display-safe or terminology-specific text. |
+| Preservation | Preserve the supplied Unicode scalar sequence without NFC/NFD/NFKC/NFKD normalisation, case folding, trimming, control removal or replacement. | Source encodings and ill-formed byte sequences, which are not representable by `String`. |
+| Identity | Candidate: the `.string` branch compares exact UTF-8 byte count and ordered bytes and hashes its case discriminator, byte count and bytes. Canonically equivalent but differently encoded scalar sequences remain distinct. | Approval of the aggregate equality projection, plus schema-specific aliasing, search equivalence, locale comparison and canonical content digests. |
+| Type-level encoding | The future tagged value encodes this payload as one JSON string and decodes one semantic string without normalisation. | Outer tags, raw escape spelling, schema envelopes, key order and complete canonical document bytes. |
+| Malformed input | Candidate ingress rule: strict byte ingress or the underlying decoder rejects malformed UTF-8 and unpaired surrogates before aggregate construction; adapters do not repair source bytes silently. | Adapter/schema-specific preservation, a canonical raw parser and uniform sanitisation of errors raised before semantic decoding. |
+| Privacy and presentation | The value itself makes no safe-display claim; errors and logs must not interpolate arbitrary text, and hosts must apply privacy classification plus sink-specific escaping. | Per-entry classification, bidi/log/terminal/UI policy and host export authorisation. |
+| Limits | No intrinsic string maximum is invented. Raw token bytes, decoded UTF-8 bytes and aggregate string bytes must be host-bounded before allocation where possible. | Exact limit values, configuration API, scalar limits, recursion depth and aggregate node/entry totals. |
+
+Primary traceability for this audit and the future aggregate decision is
+`VOX-GOV-005`, `VOX-GOV-006`, `VOX-ARC-003`, `VOX-API-001`, `VOX-API-003`,
+`VOX-API-004`, `VOX-META-001`, `VOX-META-002`, `VOX-ERR-001`,
+`VOX-SEC-011` and `VOX-VAL-007`. The value-redacted diagnostic and logging
+boundary also maps to `VOX-ERR-007` and `VOX-SEC-006`; `VOX-DAT-014` and
+`VOX-DCM-003` are downstream consumers rather than authorisation for this
+leaf or aggregate.
+
+Swift's ordinary `String` equality uses Unicode canonical equivalence. That is
+appropriate for general text but not for a metadata record that preserves both
+the composed `café` scalar sequence and the decomposed `cafe` plus combining-
+acute sequence as different serialised values. The repository already handles
+the same mismatch inside `AnyMetadataKey`, `CodedConcept`, `MeasurementUnit`
+and other owning types by comparing accepted UTF-8 directly. The recursive
+`MetadataValue` would need approved custom, bounded equality and hashing if
+this projection is selected, so its string branch can apply that rule
+internally without adding a public wrapper whose only purpose is to override
+`String` equality.
+
+Under the recommended exact UTF-8 projection, identity begins after conversion
+to a valid Swift `String`. JSON escape aliases such as a literal `é` and
+`\u00e9`, or `/` and `\/`, correctly
+decode to the same scalar sequence and identity. Composed and decomposed
+sequences remain byte-distinct. Raw escape canonicality belongs to the future
+canonical byte-ingress layer, not the semantic value.
+
+RFC 8259 permits parsers to limit string size and content and warns that
+unpaired surrogate escapes are not interoperable. I-JSON additionally forbids
+decoded surrogate code points, including lone surrogate escapes, and
+noncharacters; well-formed escape pairs representing supplementary scalars
+remain valid. Voxelia has not selected I-JSON or JCS, so applying only that
+profile's noncharacter prohibition at this context-independent leaf would
+silently narrow source preservation. Unicode defines noncharacters as
+well-formed code points that are not illegal in interchange, although they
+have no standard external meaning. A future I-JSON/JCS admission or
+canonicalisation boundary must reject them with a typed value-redacted profile
+error, or a broader approved decision must change the value domain; it must not
+delete or replace them silently. JCS remains useful precedent for preserving
+parsed string data as-is and not applying Unicode normalisation.
+
+Control and bidi characters are likewise data, not proof that text is safe for
+a terminal, log, HTML, filename, query or user interface. Generic metadata
+cannot choose one sink's escaping or display policy. Format adapters must
+strictly decode valid source text rather than use a repairing conversion such
+as `String(decoding:as:)`; how an adapter preserves malformed or intentionally
+opaque source data remains a separate schema/format decision.
+
+There is no standalone `MetadataString` implementation or `ADR-0031`. The
+identity candidate is significant enough to resolve in the future aggregate
+ADR, but it has no independent invariant, ownership boundary, migration or
+source slice. Reserving public API or an ADR solely to restate raw `String`
+would violate the minimal-public-API principle and separate the equality rule
+from the recursive algorithm that would enforce it. Until approved, exact
+UTF-8 is audit evidence rather than contract. `ADR-0031` remains the next
+unallocated identifier for that aggregate decision if the combined audit
+warrants it.
 
 ## Completed in this increment
 
@@ -786,6 +869,16 @@ canonical byte-ingress layer or resource-policy API.
   unevidenced one-mebibyte cap; host-selected raw-token, decoded-leaf and
   aggregate limits remain mandatory future ingress work, and no binary-
   metadata Swift source is authorised while the proposal remains unaccepted.
+- Audited the raw string metadata branch across local governance, Unicode
+  normalisation and noncharacter rules, JSON/I-JSON/JCS, Swift 6.3.3 exact
+  storage, equality, hashing, bridging, Codable and privacy behaviour.
+- Retained `case string(String)` and rejected a public `MetadataString` wrapper:
+  every valid Swift string is admissible, while exact UTF-8 branch identity is
+  the audited aggregate candidate rather than an authorised contract.
+- Kept empty text, controls, bidi/format values, private-use, unassigned and
+  noncharacter scalars lossless; no standalone `ADR-0031`, intrinsic cap,
+  silent normalisation or string source is authorised before the aggregate ADR
+  settles tags, recursion, objects, limits and privacy.
 
 ## Verification evidence
 
@@ -1607,6 +1700,197 @@ python3 Tools/Scripts/check_manifest_paths.py
 python3 Tools/Scripts/check_release_integrity.py
 ```
 
+For the raw string-metadata audit, an isolated strict-concurrency Swift 6.3.3
+probe used the exact command below. It reproduced Swift's canonical-equivalent
+`String` identity, verified the aggregate branch's exact UTF-8 alternative,
+round-tripped representative controls and every Unicode noncharacter, checked
+escape aliases and encoder-dependent slash spelling, confirmed rejection of
+a representative overlong UTF-8 sequence and representative unpaired
+surrogates before model construction, exercised copy and mutable-Foundation
+bridge isolation, and distinguished grapheme, scalar and UTF-8 resource counts:
+
+```bash
+xcrun swift -swift-version 6 -strict-concurrency=complete -warnings-as-errors - <<'SWIFT'
+import Foundation
+
+struct AggregateStringBranchProbe: Sendable, Hashable {
+    let payload: String
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.payload.utf8.elementsEqual(rhs.payload.utf8)
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(payload.utf8.count)
+        for byte in payload.utf8 {
+            hasher.combine(byte)
+        }
+    }
+}
+
+func requireSendable<Value: Sendable>(_: Value.Type) {}
+requireSendable(String.self)
+requireSendable(AggregateStringBranchProbe.self)
+
+let composed = "caf\u{00e9}"
+let decomposed = "cafe\u{0301}"
+precondition(composed == decomposed)
+precondition(Array(composed.utf8) != Array(decomposed.utf8))
+precondition(Set([composed, decomposed]).count == 1)
+let exactComposed = AggregateStringBranchProbe(payload: composed)
+let exactDecomposed = AggregateStringBranchProbe(payload: decomposed)
+precondition(exactComposed != exactDecomposed)
+precondition(Set([exactComposed, exactDecomposed]).count == 2)
+
+let representativeValues = [
+    "",
+    "\0",
+    "\u{001f}\u{007f}",
+    "\n\t",
+    "\u{061c}\u{202e}",
+    "\u{feff}",
+    "\u{e000}",
+    "\u{0378}",
+    "👨‍👩‍👧‍👦",
+]
+for value in representativeValues {
+    let decoded = try JSONDecoder().decode(
+        String.self,
+        from: JSONEncoder().encode(value)
+    )
+    precondition(Array(decoded.utf8) == Array(value.utf8))
+}
+
+let composedJSON = try JSONEncoder().encode(composed)
+let decomposedJSON = try JSONEncoder().encode(decomposed)
+precondition(composedJSON != decomposedJSON)
+let decodedComposed = try JSONDecoder().decode(String.self, from: composedJSON)
+let decodedDecomposed = try JSONDecoder().decode(String.self, from: decomposedJSON)
+precondition(Array(decodedComposed.utf8) == Array(composed.utf8))
+precondition(Array(decodedDecomposed.utf8) == Array(decomposed.utf8))
+
+let literalComposed = try JSONDecoder().decode(
+    String.self,
+    from: Data(#""café""#.utf8)
+)
+let escapedComposed = try JSONDecoder().decode(
+    String.self,
+    from: Data(#""caf\u00e9""#.utf8)
+)
+let escapedDecomposed = try JSONDecoder().decode(
+    String.self,
+    from: Data(#""cafe\u0301""#.utf8)
+)
+precondition(Array(literalComposed.utf8) == Array(escapedComposed.utf8))
+precondition(Array(escapedDecomposed.utf8) == Array(decomposed.utf8))
+
+let gClef = try JSONDecoder().decode(
+    String.self,
+    from: Data(#""\uD834\uDD1E""#.utf8)
+)
+precondition(gClef == "\u{1d11e}")
+
+var noncharacterCount = 0
+for codePoint in UInt32(0)...0x10ffff {
+    guard let scalar = Unicode.Scalar(codePoint) else { continue }
+    let isNoncharacter = (0xfdd0...0xfdef).contains(codePoint)
+        || codePoint & 0xfffe == 0xfffe
+    guard isNoncharacter else { continue }
+    let value = String(scalar)
+    let decoded = try JSONDecoder().decode(
+        String.self,
+        from: JSONEncoder().encode(value)
+    )
+    precondition(Array(decoded.utf8) == Array(value.utf8))
+    noncharacterCount += 1
+}
+precondition(noncharacterCount == 66)
+
+for token in [#""\uDEAD""#, #""\uD800""#, #""\uD800x""#] {
+    do {
+        _ = try JSONDecoder().decode(String.self, from: Data(token.utf8))
+        preconditionFailure("Accepted unpaired surrogate")
+    } catch {
+    }
+}
+
+do {
+    _ = try JSONDecoder().decode(String.self, from: Data([0x22, 0xc0, 0xaf, 0x22]))
+    preconditionFailure("Accepted malformed UTF-8")
+} catch {
+}
+
+let defaultSlashJSON = try JSONEncoder().encode("/")
+let literalSlashEncoder = JSONEncoder()
+literalSlashEncoder.outputFormatting = .withoutEscapingSlashes
+let literalSlashJSON = try literalSlashEncoder.encode("/")
+precondition(defaultSlashJSON != literalSlashJSON)
+let decodedDefaultSlash = try JSONDecoder().decode(
+    String.self,
+    from: defaultSlashJSON
+)
+let decodedLiteralSlash = try JSONDecoder().decode(
+    String.self,
+    from: literalSlashJSON
+)
+precondition(decodedDefaultSlash == decodedLiteralSlash)
+
+let mutable = NSMutableString(string: decomposed)
+let bridged = mutable as String
+mutable.append("!")
+precondition(Array(bridged.utf8) == Array(decomposed.utf8))
+var mutatedCopy = decomposed
+let preservedCopy = mutatedCopy
+mutatedCopy.append("!")
+precondition(Array(preservedCopy.utf8) == Array(decomposed.utf8))
+
+let family = "👨‍👩‍👧‍👦"
+precondition(family.count == 1)
+precondition(family.unicodeScalars.count == 7)
+precondition(family.utf8.count == 25)
+
+print("rawEqual=\(composed == decomposed) rawSet=\(Set([composed, decomposed]).count)")
+print("exactEqual=\(exactComposed == exactDecomposed) exactSet=\(Set([exactComposed, exactDecomposed]).count)")
+print("composedJSON=\(String(decoding: composedJSON, as: UTF8.self))")
+print("decomposedJSON=\(String(decoding: decomposedJSON, as: UTF8.self))")
+print("slash=\(String(decoding: defaultSlashJSON, as: UTF8.self)) vs \(String(decoding: literalSlashJSON, as: UTF8.self))")
+print("noncharacters=\(noncharacterCount) family=\(family.count)/\(family.unicodeScalars.count)/\(family.utf8.count)")
+SWIFT
+```
+
+It printed:
+
+```text
+rawEqual=true rawSet=1
+exactEqual=false exactSet=2
+composedJSON="café"
+decomposedJSON="café"
+slash="\/" vs "/"
+noncharacters=66 family=1/7/25
+```
+
+- Independent governance, Unicode/JSON and Swift reviews agreed on the
+  admitted string domain, exact UTF-8 identity candidate, no normalisation,
+  ingress-owned limits and privacy boundary. The API reviews additionally established that
+  the future recursive aggregate already needs custom identity and tagged
+  Codable, so a wrapper and standalone ADR would add no enforceable invariant.
+- `Tools/Scripts/validate-docs.sh` passed for seven front-matter documents, all
+  ten file-backed ADRs and 56 Markdown files; `git diff --check` passed.
+- Release-integrity regeneration, the 369-path manifest check and read-only
+  integrity verification passed with 368 inventory records and 369 checksums.
+  No Swift package suite was run because the audit adds no source and explicitly
+  defers its tests to the recursive aggregate implementation.
+
+The exact focused repository commands for this audit were:
+
+```bash
+Tools/Scripts/validate-docs.sh
+git diff --check
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py
+```
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -1811,9 +2095,11 @@ python3 Tools/Scripts/check_release_integrity.py
 - Recursive metadata values, entries and collections remain deferred. Their raw
   payload shape bypasses finite floating-point and unique-object-key invariants.
   Proposed `ADR-0028` through `ADR-0030` resolve the canonical-instant, finite-
-  floating and owned-binary leaf designs only if accepted; stable tags,
-  semantic ordering, recursion and allocation limits, multiplicity schemas,
-  typed access and duplicate-safe canonical byte ingress remain unresolved.
+  floating and owned-binary leaf designs only if accepted. The raw string case
+  is retained with its exact UTF-8 identity candidate deferred to the aggregate ADR;
+  stable tags, semantic ordering, recursion and allocation limits, multiplicity
+  schemas, typed access and duplicate-safe canonical byte ingress remain
+  unresolved.
 - `MetadataPrivacyClass` supplies vocabulary only. Per-entry attachment,
   default or unclassified behavior, `hostDefined` resolution, nested
   aggregation, downgrade prevention and equality/digest treatment are not
@@ -1988,21 +2274,27 @@ python3 Tools/Scripts/check_release_integrity.py
 
 ## Exact next action
 
-Audit the raw `MetadataValue.string(String)` payload as the next isolated
-metadata scalar boundary. Decide exact UTF-8 versus Unicode-equivalent identity,
-normalisation and source-spelling preservation, empty/control/noncharacter
-admission, intrinsic versus byte-ingress size limits, strict scalar-string
-Codable, value-redacted diagnostics and whether a nominal wrapper or proposed
-`ADR-0031` is required. Do not add `MetadataValue` source while the recursive/
-container, tag, privacy and collection contracts remain unresolved.
+Audit `MetadataValue.array(ContiguousArray<MetadataValue>)` and
+`.object(ContiguousArray<MetadataEntry>)` together as the recursive value
+boundary plus the minimum `MetadataEntry` contract it requires. Decide
+validated container shapes, object-key uniqueness and input-order identity,
+host-policy recursion/node/entry/aggregate-byte budgets, bounded or iterative
+equality/hashing, strict tagged Codable and value-redacted errors. Determine
+whether an `ADR-0031` proposal can eventually authorise only `MetadataValue` and
+that minimum entry contract, explicitly excluding `MetadataCollection`, typed
+access, privacy attachment and canonical byte ingress. Treat the audited
+string projection as candidate evidence that the proposal must explicitly
+accept or replace. Treat the proposed binary leaf/host-limit policy as a
+dependency rather than reopening it. Do not add source until prerequisite leaf
+ADRs and the aggregate decision are accepted.
 
 ## Test policy for the next action
 
-- For the string-metadata audit or a documentation-only proposal, run only
+- For the recursive metadata audit or a documentation-only proposal, run only
   the relevant document/ADR checks plus manifest and release-integrity checks.
-  If a bounded scalar leaf becomes independently authorised, run its focused
-  unit tests, the owning Core target build, strict format lint and only directly
-  affected dependent tests.
+  If the aggregate becomes authorised, run focused `MetadataValue`, entry and
+  container unit tests, the owning Core target build, strict format lint and
+  only directly affected dependent tests.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
