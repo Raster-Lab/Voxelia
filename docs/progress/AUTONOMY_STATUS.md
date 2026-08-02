@@ -9,8 +9,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first core-data slice, `ImageShape` and
-  `ShapeError`, is implemented and locally verified.
+- M1 implementation status: the first two core-data slices, `ImageShape` /
+  `ShapeError` and `ImageIndex`, are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -87,13 +87,19 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Placed the new public API under the scaffold's required `Public/` source
   layout and replaced the now-obsolete directory placeholder.
 - Documented the M1 shape API in the VoxeliaCore DocC catalog.
+- Implemented the canonical immutable, dynamic-rank `ImageIndex`, including a
+  generic collection initializer that preserves component order and values
+  without inventing a standalone bounds contract.
+- Documented the zero-based, pixel-or-voxel-centre and axis-zero-fastest index
+  convention while explicitly deferring shape-aware validation and offset
+  calculation to their later approved APIs.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 297-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 299-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -103,7 +109,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 296-record inventory and 297-entry SHA-256 ledger pass the
+- The regenerated 298-record inventory and 299-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -141,6 +147,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `swift test --filter ImageShape` executed only the eight `ImageShape` unit
   tests; dynamic rank, invalid extents, the maximum valid count, true overflow,
   high rank and Codable invariant cases all passed.
+- `swift build --target VoxeliaCore` and strict format lint passed for the
+  `ImageIndex` slice.
+- `swift test --filter ImageIndex` executed only the three `ImageIndex` unit
+  tests; representative zero-based dynamic rank, high rank and Codable
+  round-trip cases all passed.
 
 ## Known blockers and risks
 
@@ -158,18 +169,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   section 11.1 defines a throwing method and the exact overflow error. The M1
   implementation follows the detailed throwing contract; the older sketch
   remains a controlled-document correction for later governance review.
+- The index specification defines validity only relative to a shape and does
+  not define constructor errors for empty or negative standalone components.
+  `ImageIndex` therefore preserves supplied coordinates without claiming bounds
+  validity; shape-aware validation remains a separate API decision.
+- The architecture calls axis-zero-fastest ordering "row-major", although that
+  label is conventionally ambiguous. Future offset work shall follow the
+  explicit axis-zero-fastest rule.
 
 ## Exact next action
 
-Implement the next isolated M1 core-data value type: `ImageIndex` in
-VoxeliaCore `Public/`, following Core Data Model Specification section 12's
-dynamic-rank, zero-based integer-coordinate convention. Keep bounds and linear
-offset operations separate until their shape/stride validation contracts are
-implemented.
+Audit and implement the next isolated M1 core-data value type, `ImageRegion`,
+following Core Data Model Specification section 13's dynamic-rank, half-open
+bound convention. Keep storage reads and view-lifetime behavior outside this
+value-type slice.
 
 ## Test policy for the next action
 
-- Run `swift build --target VoxeliaCore` and only the `ImageIndex`-filtered
+- Run `swift build --target VoxeliaCore` and only the `ImageRegion`-filtered
   VoxeliaCore tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
