@@ -17,6 +17,11 @@ storage semantics.
 
 ## Topics
 
+### Versioning
+
+- ``SemanticVersion``
+- ``SemanticVersionError``
+
 ### Image coordinates and regions
 
 - ``ImageShape``

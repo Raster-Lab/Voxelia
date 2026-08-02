@@ -9,10 +9,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first six core-data slices, `ImageShape` /
+- M1 implementation status: the first seven core-data slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
-  scalar, component and image-semantic models are implemented and locally
-  verified.
+  scalar, component, image-semantic and semantic-version models are
+  implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -121,13 +121,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Hardened both generic semantic and component-interpretation decoders to
   reject missing, unexpected and extra fields instead of allowing typed coding
   keys to hide schema drift.
+- Implemented the immutable `SemanticVersion` value type with validated
+  non-negative core components, exact ASCII identifier rules, arbitrarily long
+  numeric prerelease comparison and canonical Semantic Versioning precedence.
+- Preserved build metadata through serialization while excluding it from
+  precedence equality and hashing, maintaining a coherent Swift `Comparable`
+  and `Hashable` contract.
+- Added invariant-preserving semantic-version decoding and focused coverage for
+  boundaries, malformed identifiers, the canonical precedence chain, numeric
+  overflow avoidance, build-insensitive identity and Codable rejection.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 308-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 310-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -138,7 +147,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 307-record inventory and 308-entry SHA-256 ledger pass the
+- The regenerated 309-record inventory and 310-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -202,6 +211,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   meanings, exact simple/generic JSON and malformed-schema rejection passed.
 - The eight-test `ComponentDescriptor` suite was rerun after the shared decoder
   correction and passed without running unrelated tests.
+- `swift build --target VoxeliaCore` and strict format lint passed for the
+  semantic-version slice.
+- `swift test --filter SemanticVersion` executed only nine semantic-version
+  tests; core boundaries, exact validation errors, valid and malformed
+  identifiers, canonical and large-numeric precedence, build-insensitive
+  identity and invariant-preserving Codable behavior all passed.
 
 ## Known blockers and risks
 
@@ -254,17 +269,29 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fields but do not claim full Core Data Model Specification section 55.3
   compliance; duplicate-key rejection must occur at the future canonical-JSON
   byte-ingress boundary before `Codable` decoding.
+- The controlled documents prescribe `SemanticVersion` fields and conformances
+  but no initializer or exact error vocabulary. The implementation uses a
+  dedicated `SemanticVersionError` to distinguish negative core components
+  from malformed prerelease and build identifier sequences.
+- Semantic Versioning defines build metadata as precedence-neutral but does not
+  define Swift value identity. `SemanticVersion` equality and hashing ignore
+  build metadata, matching `<` and preserving `Comparable`'s total-order law;
+  the metadata remains available and round-trippable on each stored value.
+- The M1 acceptance checklist does not name `SemanticVersion`, although the
+  Core Data Model Specification's type-to-milestone appendix assigns it to M1.
+  The appendix governs implementation sequencing without claiming checklist
+  completion.
 
 ## Exact next action
 
-Audit and implement the independent M1 `SemanticVersion` value type from Core
-Data Model Specification section 9, including validated prerelease/build syntax
-and SemVer precedence. Keep schema-version compatibility policy separate.
+Audit and implement the independent M1 `MeasurementUnit` value type from Core
+Data Model Specification section 18 in the architecture-approved foundational
+module, preserving unit identity separately from later value transforms.
 
 ## Test policy for the next action
 
-- Run `swift build --target VoxeliaCore` and only semantic-version-filtered
-  VoxeliaCore tests for the next slice.
+- Run only the owning target build, strict format lint and
+  measurement-unit-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
