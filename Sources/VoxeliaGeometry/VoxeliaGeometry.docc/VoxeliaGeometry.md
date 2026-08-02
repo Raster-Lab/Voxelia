@@ -17,6 +17,7 @@ public API is introduced only by reviewed milestone specifications.
 
 - ``GeometryKind``
 - ``GeometryAttributeSemantic``
+- ``GeometryAttributeDescriptor``
 - ``MeshPrimitive``
 - ``IndexType``
 

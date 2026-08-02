@@ -99,6 +99,7 @@ Sources/VoxeliaGeometry/ApplePlatformGate.swift
 Sources/VoxeliaGeometry/Internal/.gitkeep
 Sources/VoxeliaGeometry/Module.swift
 Sources/VoxeliaGeometry/Public/.gitkeep
+Sources/VoxeliaGeometry/Public/GeometryAttributeDescriptor.swift
 Sources/VoxeliaGeometry/Public/GeometryAttributeSemantic.swift
 Sources/VoxeliaGeometry/Public/GeometryKind.swift
 Sources/VoxeliaGeometry/Public/IndexType.swift
@@ -197,6 +198,7 @@ Tests/VoxeliaCoreTests/ScalarFormatTests.swift
 Tests/VoxeliaCoreTests/SemanticVersionTests.swift
 Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift
 Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift
+Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift
 Tests/VoxeliaGeometryTests/GeometryTaxonomyTests.swift
 Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
 Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift

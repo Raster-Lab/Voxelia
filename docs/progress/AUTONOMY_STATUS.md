@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first twenty-nine foundational slices, `ImageShape` /
+- M1 implementation status: the first thirty foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -19,8 +19,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   taxonomies, object identifiers, metadata privacy taxonomy and typed/erased
   metadata keys, neutral coded concepts, provenance vocabularies/identifiers,
   storage-kind/persistence taxonomies, codec identifiers, compressed-region
-  access vocabulary and initial geometry/mesh taxonomies are implemented and
-  locally verified.
+  access vocabulary, initial geometry/mesh taxonomies and validated geometry
+  attribute descriptors are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -279,13 +279,19 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Preserved all built-in case-sensitive tags and byte-exact namespaced custom
   semantic identity with strict type-level serialization, without adding
   unstated curve kinds, descriptor behavior or mesh validation.
+- Implemented validated `GeometryAttributeDescriptor` values with the exact
+  four controlled fields, nonnegative element counts and two-or-three-component
+  position attributes.
+- Added strict four-field serialization with nested descriptor decoding,
+  constructor revalidation and field-specific typed-error context while
+  leaving interpolation domains and cross-attribute compatibility to binding.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 355-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 357-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -296,7 +302,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 354-record inventory and 355-entry SHA-256 ledger pass the
+- The regenerated 356-record inventory and 357-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -508,6 +514,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   all 24 exact built-in tags, case sensitivity, structured custom semantics,
   byte-exact Unicode identity, strict malformed decoding, Hashable behavior and
   Sendable conformance passed.
+- `swift build --target VoxeliaGeometry` and direct-consumer builds for
+  `VoxeliaRendering`, `VoxeliaCPU` and `Voxelia` passed with strict format lint
+  for the geometry-attribute descriptor slice.
+- `swift test --filter GeometryAttributeDescriptor` executed only seven tests;
+  valid 2D/3D positions, zero and maximum element counts, deferred non-position
+  policy, both typed validation failures, exact Codable shape, nested failures,
+  Hashable behavior and Sendable conformance passed.
 
 ## Known blockers and risks
 
@@ -729,17 +742,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   policy and canonical digest JSON remain undefined, and `MeshDescriptor` stays
   deferred with the blocked coordinate-space descriptor and unspecified
   topology/index-buffer binding validation.
+- `GeometryAttributeDescriptor` validates only invariants knowable from one
+  attribute. Element-domain agreement, normal/position compatibility and
+  required position presence remain binding-level rules and are not inferred.
 
 ## Exact next action
 
-Implement the standalone validated `GeometryAttributeDescriptor`, enforcing a
-nonnegative element count and two-or-three-component position attributes with
-strict constructor-revalidating Codable behavior.
+Add extent-based `ImageRegion` construction from lower bounds plus an
+`ImageShape`, with exact rank validation and checked upper-bound addition while
+preserving the existing canonical lower/upper representation.
 
 ## Test policy for the next action
 
-- Run only `VoxeliaGeometry`, its direct dependents, strict format lint and
-  `GeometryAttributeDescriptor`-filtered tests for the next slice.
+- Run only `VoxeliaCore`, its directly affected `VoxeliaStorage`,
+  `VoxeliaGeometry` and `Voxelia` consumers, strict format lint and
+  `ImageRegion`-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

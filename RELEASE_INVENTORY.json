@@ -505,6 +505,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaGeometry/Public/GeometryAttributeDescriptor.swift",
+      "size": 5499,
+      "sha256": "b06483312696ca6d7cf25d967be4a7cde727ada044312c99dfaf05f90a9f8bd9"
+    },
+    {
       "path": "Sources/VoxeliaGeometry/Public/GeometryAttributeSemantic.swift",
       "size": 7407,
       "sha256": "ba7e3c51ab52dd17e1686a0749af07064d7917b648267962ca122bf31e158e24"
@@ -536,8 +541,8 @@
     },
     {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/VoxeliaGeometry.md",
-      "size": 461,
-      "sha256": "e12978e6146d8190ab02b8bdb7cb2d635963e3185c1d4612bd5e99b909493e92"
+      "size": 495,
+      "sha256": "58ec9c6b7c1fc4bece1e776db450d427a24b0bcb04a320f869c67cedf8643006"
     },
     {
       "path": "Sources/VoxeliaImaging/ApplePlatformGate.swift",
@@ -993,6 +998,11 @@
       "path": "Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift",
       "size": 320,
       "sha256": "4b33d4b1e39a5a3bd7914c273ae35b631929d2caf2aa592cfd8a9ebc81851130"
+    },
+    {
+      "path": "Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift",
+      "size": 8120,
+      "sha256": "29e20eb51848549866a97102431570760d192e4d53234622ec74aa2bceb45ef8"
     },
     {
       "path": "Tests/VoxeliaGeometryTests/GeometryTaxonomyTests.swift",
@@ -1486,8 +1496,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 51739,
-      "sha256": "6b621297deca46d67f0970e844f94d4c73934642a4900dd3807196e2ad935e7a"
+      "size": 52944,
+      "sha256": "49c0d0803ce598228184a180d51a10daadbd6b8f26a64438d9c4ed852aa7f677"
     },
     {
       "path": "docs/project/README.md",
@@ -1771,8 +1781,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 15444,
-      "sha256": "b6c2129a3f7c021240109b1e752b8889a7b16455f90435519d3f8fd7b1e219ce"
+      "size": 15575,
+      "sha256": "59154988367eb61d53d7f7cc8e774c2c1b65630e202c6de979f555e830fc5b2b"
     }
   ]
 }
