@@ -70,6 +70,7 @@ Sources/VoxeliaCore/ApplePlatformGate.swift
 Sources/VoxeliaCore/Internal/.gitkeep
 Sources/VoxeliaCore/Module.swift
 Sources/VoxeliaCore/Public/ComponentDescriptor.swift
+Sources/VoxeliaCore/Public/ContentIdentityTaxonomy.swift
 Sources/VoxeliaCore/Public/DataModelError.swift
 Sources/VoxeliaCore/Public/ImageIndex.swift
 Sources/VoxeliaCore/Public/ImageRegion.swift
@@ -167,6 +168,7 @@ Tests/Support/Resources/README.md
 Tests/Support/TestSupport.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
 Tests/VoxeliaCoreTests/ComponentDescriptorTests.swift
+Tests/VoxeliaCoreTests/ContentIdentityTaxonomyTests.swift
 Tests/VoxeliaCoreTests/ImageIndexTests.swift
 Tests/VoxeliaCoreTests/ImageRegionTests.swift
 Tests/VoxeliaCoreTests/ImageSemanticTests.swift

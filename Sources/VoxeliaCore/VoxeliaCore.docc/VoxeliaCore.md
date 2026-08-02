@@ -51,6 +51,11 @@ storage semantics.
 
 - ``LookupTableDescriptor``
 
+### Content identity
+
+- ``DigestAlgorithm``
+- ``ContentScope``
+
 ### Common errors
 
 - ``DataModelError``

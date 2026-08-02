@@ -9,14 +9,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first eighteen foundational slices, `ImageShape` /
+- M1 implementation status: the first nineteen foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
   representation, spatial-axis mapping, points, vectors, planes, rays,
   axis-aligned bounds, transform-kind taxonomy, coordinate handedness,
-  external frame references and lookup-table descriptors are implemented and
-  locally verified.
+  external frame references, lookup-table descriptors and content-identity
+  taxonomies are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -220,13 +220,18 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   explicitly accepted empty tables without inventing lookup behavior.
 - Added exact three-field keyed serialization with an explicit null absent unit,
   strict key validation, constructor revalidation and nested-unit validation.
+- Implemented the exact `DigestAlgorithm` and `ContentScope` raw-string
+  taxonomies in `VoxeliaCore` without adding digest bytes or computation.
+- Documented `descriptorAndSamples` as the preferred cross-system image scope
+  while explicitly keeping custom algorithm identity and canonical digest input
+  outside these declaration-only enums.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 330-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 332-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -237,7 +242,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 329-record inventory and 330-entry SHA-256 ledger pass the
+- The regenerated 331-record inventory and 332-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -385,6 +390,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   tests; collection materialization, full-range origins, absent/present units,
   empty tables, finite boundaries, signed-zero canonicalization, all nine
   non-finite placements and strict nested Codable revalidation all passed.
+- `swift build --target VoxeliaCore` and strict format lint passed for the
+  content-identity taxonomy slice.
+- `swift test --filter ContentIdentityTaxonomy` executed only five taxonomy
+  tests; all nine exact raw values, case sensitivity, raw-string Codable,
+  malformed decoding, Hashable distinction and Sendable conformance passed.
 
 ## Known blockers and risks
 
@@ -563,17 +573,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   digest storage types, required scope has no declared record field, custom
   algorithm identity is incomplete, and canonical digest serialization remains
   undecided. Digest computation must not precede those contracts.
+- `DigestAlgorithm.custom` alone is not an approved persistent or distributed
+  identity; it still needs a namespaced algorithm identifier whose record shape
+  is not defined. `ContentScope` likewise remains vocabulary until an identity
+  record has an approved scope field.
 
 ## Exact next action
 
-Implement only the exact standalone Core `DigestAlgorithm` and `ContentScope`
-raw-string taxonomies, without adding the blocked `ContentID` record or digest
-generation behavior.
+Audit and implement only unambiguous standalone Core source/derivation identity
+values from CDMS section 33, without coupling them to the blocked `ContentID`
+record or provenance graph.
 
 ## Test policy for the next action
 
 - Run only the Core build, strict format lint and
-  content-identity-taxonomy-filtered tests for the next slice.
+  source-identity-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
