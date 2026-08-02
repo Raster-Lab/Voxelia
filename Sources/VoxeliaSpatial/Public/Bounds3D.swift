@@ -81,6 +81,60 @@ public struct AxisAlignedBounds3D: Sendable, Hashable, Codable {
             && point.z >= minimum.z && point.z <= maximum.z
     }
 
+    /// Returns the exact intersection with `other`, or nil when disjoint.
+    ///
+    /// Face, edge, and point contact produce valid degenerate bounds. The
+    /// component comparisons apply no tolerance and perform no coordinate
+    /// conversion.
+    ///
+    /// - Throws: ``SpatialBoundsError/coordinateSpaceMismatch(expected:actual:)``
+    ///   when the bounds use different coordinate spaces.
+    public func intersection(
+        with other: AxisAlignedBounds3D
+    ) throws -> AxisAlignedBounds3D? {
+        guard minimum.coordinateSpace == other.minimum.coordinateSpace else {
+            throw SpatialBoundsError.coordinateSpaceMismatch(
+                expected: minimum.coordinateSpace,
+                actual: other.minimum.coordinateSpace
+            )
+        }
+
+        let intersectionMinimum = (
+            x: max(minimum.x, other.minimum.x),
+            y: max(minimum.y, other.minimum.y),
+            z: max(minimum.z, other.minimum.z)
+        )
+        let intersectionMaximum = (
+            x: min(maximum.x, other.maximum.x),
+            y: min(maximum.y, other.maximum.y),
+            z: min(maximum.z, other.maximum.z)
+        )
+        guard intersectionMinimum.x <= intersectionMaximum.x,
+            intersectionMinimum.y <= intersectionMaximum.y,
+            intersectionMinimum.z <= intersectionMaximum.z
+        else {
+            return nil
+        }
+
+        let space = minimum.coordinateSpace
+        let intersectionMinimumPoint = try Point3D(
+            x: intersectionMinimum.x,
+            y: intersectionMinimum.y,
+            z: intersectionMinimum.z,
+            coordinateSpace: space
+        )
+        let intersectionMaximumPoint = try Point3D(
+            x: intersectionMaximum.x,
+            y: intersectionMaximum.y,
+            z: intersectionMaximum.z,
+            coordinateSpace: space
+        )
+        return try AxisAlignedBounds3D(
+            minimum: intersectionMinimumPoint,
+            maximum: intersectionMaximumPoint
+        )
+    }
+
     /// Decodes and revalidates the bounds and their nested points.
     public init(from decoder: any Decoder) throws {
         let minimumKey = SpatialBoundsCodingKey("minimum")

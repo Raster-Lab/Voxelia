@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first thirty-five foundational slices, `ImageShape` /
+- M1 implementation status: the first thirty-six foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -22,8 +22,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   access vocabulary, initial geometry/mesh taxonomies, validated geometry
   attribute descriptors, extent-based region construction and shape-aware
   region containment validation, checked region translation and deterministic
-  shape clipping and exact axis-aligned point-containment queries are
-  implemented and locally verified.
+  shape clipping plus exact axis-aligned point-containment and bounds-
+  intersection queries are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -312,6 +312,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   coordinate-space identity checks and typed mismatch errors.
 - Used exact finite component comparisons without tolerance, normalization or
   implicit coordinate conversion, including point/line/plane degeneracy.
+- Added `AxisAlignedBounds3D.intersection(with:)` using exact componentwise
+  maximum minima and minimum maxima in one required coordinate space.
+- Returned nil only for strict separation while preserving non-nil face, edge
+  and point contact as valid degenerate bounds without tolerance or arithmetic.
 
 ## Verification evidence
 
@@ -584,6 +588,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   interior points, all eight corners, all six faces, each next-representable
   outside direction, point/line/plane degeneracy and exact coordinate-space
   mismatch passed alongside all prior bounds cases.
+- `swift build --target VoxeliaSpatial` and directly affected
+  `VoxeliaCore`/`Voxelia` builds passed with strict format lint for exact
+  axis-aligned bounds intersection.
+- `swift test --filter AxisAlignedBounds3D` executed only the 15 bounds tests;
+  exact overlap, commutativity, containment/identity, positive and negative
+  next-representable separation on every axis, face/edge/point contact and
+  coordinate-space mismatch passed alongside all prior bounds cases.
 
 ## Known blockers and risks
 
@@ -824,21 +835,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `CDMS-13.4` test labels link to the controlled region-operations section
   because the requirements baseline has no dedicated clipping identifier; they
   neither create a new requirement nor imply `VOX-RGN-002` specifies clipping.
-- Point containment is supporting evidence for `VOX-SPA-011`, not completion:
-  the requirement also covers planes, rays, oriented bounds and rendering or
-  interaction intersections that remain blocked or unimplemented.
+- Point containment and axis-aligned bounds intersection are supporting
+  evidence for `VOX-SPA-011`, not completion: the requirement also covers
+  planes, rays, oriented bounds and rendering or interaction intersections that
+  remain blocked or unimplemented.
 
 ## Exact next action
 
-Add exact `AxisAlignedBounds3D.intersection(with:)` queries with coordinate-
-space agreement, nil for disjoint bounds, and non-nil degenerate results for
-face, edge and point contact.
+Add exact half-open `ImageRegion.contains(_:)` queries for `ImageIndex`, with
+rank mismatch errors and no shape assumption, coordinate normalization or
+arithmetic.
 
 ## Test policy for the next action
 
-- Run only `VoxeliaSpatial`, its directly affected `VoxeliaCore` and `Voxelia`
-  consumers, strict format lint and `AxisAlignedBounds3D`-filtered tests for the
-  next slice.
+- Run only `VoxeliaCore`, its directly affected `VoxeliaStorage`,
+  `VoxeliaGeometry` and `Voxelia` consumers, strict format lint and
+  `ImageRegion`-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

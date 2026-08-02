@@ -156,6 +156,134 @@ struct AxisAlignedBounds3DTests {
         }
     }
 
+    @Test("[Unit][VOX-SPA-011] intersection returns exact overlapping bounds")
+    func intersectionReturnsOverlap() throws {
+        let space = try CoordinateSpaceID(validating: "world")
+        let first = try AxisAlignedBounds3D(
+            minimum: point(0, 0, 0, in: space),
+            maximum: point(4, 4, 4, in: space)
+        )
+        let second = try AxisAlignedBounds3D(
+            minimum: point(2, -1, 1, in: space),
+            maximum: point(5, 3, 6, in: space)
+        )
+        let expected = try AxisAlignedBounds3D(
+            minimum: point(2, 0, 1, in: space),
+            maximum: point(4, 3, 4, in: space)
+        )
+
+        #expect(try first.intersection(with: second) == expected)
+        #expect(try second.intersection(with: first) == expected)
+    }
+
+    @Test("[Unit][VOX-SPA-011] intersection is nil for each separated axis")
+    func intersectionRejectsEverySeparatedAxis() throws {
+        let space = try CoordinateSpaceID(validating: "world")
+        let reference = try AxisAlignedBounds3D(
+            minimum: point(0, 0, 0, in: space),
+            maximum: point(1, 1, 1, in: space)
+        )
+        let separated = [
+            try AxisAlignedBounds3D(
+                minimum: point(-1, 0, 0, in: space),
+                maximum: point(Double(0).nextDown, 1, 1, in: space)
+            ),
+            try AxisAlignedBounds3D(
+                minimum: point(Double(1).nextUp, 0, 0, in: space),
+                maximum: point(2, 1, 1, in: space)
+            ),
+            try AxisAlignedBounds3D(
+                minimum: point(0, -1, 0, in: space),
+                maximum: point(1, Double(0).nextDown, 1, in: space)
+            ),
+            try AxisAlignedBounds3D(
+                minimum: point(0, Double(1).nextUp, 0, in: space),
+                maximum: point(1, 2, 1, in: space)
+            ),
+            try AxisAlignedBounds3D(
+                minimum: point(0, 0, -1, in: space),
+                maximum: point(1, 1, Double(0).nextDown, in: space)
+            ),
+            try AxisAlignedBounds3D(
+                minimum: point(0, 0, Double(1).nextUp, in: space),
+                maximum: point(1, 1, 2, in: space)
+            ),
+        ]
+
+        for candidate in separated {
+            #expect(try reference.intersection(with: candidate) == nil)
+            #expect(try candidate.intersection(with: reference) == nil)
+        }
+    }
+
+    @Test("[Unit][VOX-SPA-011] intersection preserves face edge and point contact")
+    func intersectionPreservesContactDegeneracy() throws {
+        let space = try CoordinateSpaceID(validating: "world")
+        let reference = try AxisAlignedBounds3D(
+            minimum: point(0, 0, 0, in: space),
+            maximum: point(1, 1, 1, in: space)
+        )
+        let faceContact = try AxisAlignedBounds3D(
+            minimum: point(1, 0.25, 0.25, in: space),
+            maximum: point(2, 0.75, 0.75, in: space)
+        )
+        let edgeContact = try AxisAlignedBounds3D(
+            minimum: point(1, 1, 0.25, in: space),
+            maximum: point(2, 2, 0.75, in: space)
+        )
+        let pointContact = try AxisAlignedBounds3D(
+            minimum: point(1, 1, 1, in: space),
+            maximum: point(2, 2, 2, in: space)
+        )
+
+        let faceResult = try reference.intersection(with: faceContact)
+        let edgeResult = try reference.intersection(with: edgeContact)
+        let pointResult = try reference.intersection(with: pointContact)
+        let face = try #require(faceResult)
+        let edge = try #require(edgeResult)
+        let pointIntersection = try #require(pointResult)
+        #expect(face.minimum.x == face.maximum.x)
+        #expect(edge.minimum.x == edge.maximum.x)
+        #expect(edge.minimum.y == edge.maximum.y)
+        #expect(pointIntersection.minimum == pointIntersection.maximum)
+        let contactPoint = try point(1, 1, 1, in: space)
+        #expect(pointIntersection.minimum == contactPoint)
+    }
+
+    @Test("[Unit][VOX-SPA-011] intersection preserves containment and identity")
+    func intersectionPreservesContainedBounds() throws {
+        let space = try CoordinateSpaceID(validating: "world")
+        let outer = try AxisAlignedBounds3D(
+            minimum: point(-1, -1, -1, in: space),
+            maximum: point(2, 2, 2, in: space)
+        )
+        let inner = try AxisAlignedBounds3D(
+            minimum: point(0, 0, 0, in: space),
+            maximum: point(1, 1, 1, in: space)
+        )
+
+        #expect(try outer.intersection(with: inner) == inner)
+        #expect(try inner.intersection(with: outer) == inner)
+        #expect(try inner.intersection(with: inner) == inner)
+    }
+
+    @Test("[Unit][VOX-SPA-001] intersection rejects coordinate-space mismatch")
+    func intersectionRejectsCoordinateSpaceMismatch() throws {
+        let world = try CoordinateSpaceID(validating: "world")
+        let patient = try CoordinateSpaceID(validating: "patient")
+        let worldBounds = try bounds(in: world)
+        let patientBounds = try bounds(in: patient)
+
+        #expect(
+            throws: SpatialBoundsError.coordinateSpaceMismatch(
+                expected: world,
+                actual: patient
+            )
+        ) {
+            try worldBounds.intersection(with: patientBounds)
+        }
+    }
+
     @Test("[Unit][VOX-ERR-001] rejects every independently inverted axis")
     func rejectsInvertedAxesDeterministically() throws {
         let space = try CoordinateSpaceID(validating: "org.voxelia.coordinate.world")
