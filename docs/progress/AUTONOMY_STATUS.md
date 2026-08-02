@@ -9,11 +9,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first ten foundational slices, `ImageShape` /
+- M1 implementation status: the first eleven foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
-  representation are implemented and locally verified.
+  representation and spatial-axis mapping are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -162,13 +162,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Kept multiplication, inversion, affine tolerance and point/vector/normal APIs
   outside this slice because their public vector boundary, implementation and
   singularity tolerance remain explicit specification decisions.
+- Audited and deferred the coordinate-space descriptor because the governing
+  MTA and detailed data-model specification define incompatible public
+  `CoordinateConvention` cases and associated values, requiring controlled
+  resolution before implementation.
+- Implemented the standalone `SpatialAxisMapping` in `VoxeliaSpatial`,
+  preserving one-to-three unique nonnegative image axes in documented X/Y/Z
+  consumption order with contextual typed validation errors.
+- Deferred only the upper image-rank bound to later descriptor/geometry binding,
+  because standalone mappings do not carry rank, and added strict keyed
+  Codable behavior with constructor revalidation.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 315-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 317-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -179,7 +189,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 314-record inventory and 315-entry SHA-256 ledger pass the
+- The regenerated 316-record inventory and 317-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -274,6 +284,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   row-major storage and generic collection materialization, identity,
   count/non-finite diagnostics, signed-zero canonicalization, equality/hash
   distinction and strict invariant-preserving Codable behavior all passed.
+- `swift build --target VoxeliaSpatial`, the direct-dependent
+  `swift build --target VoxeliaCore`, and strict format lint passed for the
+  spatial-axis mapping slice.
+- `swift test --filter SpatialAxisMapping` executed only six mapping tests;
+  one-to-three axis ordering, generic collection materialization, exact count,
+  negative and duplicate diagnostics, rank-bound deferment and strict
+  invariant-preserving Codable behavior all passed.
 
 ## Known blockers and risks
 
@@ -391,17 +408,30 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   hashing treat them as the same value and the identity rules require one
   canonical representation where semantic equality does. NaN and infinity are
   rejected; approximate geometric equivalence remains a separate future API.
+- The MTA defines `CoordinateConvention.custom(name:)`, while the detailed
+  data-model specification defines `custom(namespace:name:)` and adds
+  `.cartesianLeftHanded` and `.imageDisplay`. Both public API shape and custom
+  physical-unit policy require controlled-document correction or an approved
+  ADR; coordinate-space implementation is deferred.
+- The MTA sketches fixed `SIMD3<Int>` axes on `AffineGridGeometry`, while the
+  detailed data-model specification requires a one-to-three-axis
+  `SpatialAxisMapping`. The standalone mapping is additive and unambiguous, but
+  affine-geometry integration is deferred pending the same required governance
+  process.
+- `SpatialAxisMapping` accepts any unique nonnegative axis, including
+  `Int.max`, because no image rank is stored. Geometry or descriptor binding
+  must reject `axis >= imageRank` before the mapping is used.
 
 ## Exact next action
 
-Audit and implement the unambiguously Spatial-owned M1 coordinate-space model,
-including conventions, handedness, external frame references and descriptor
-invariants, using the validated unit and identifier foundations now available.
+Audit and implement the unambiguously Spatial-owned finite `Point3D` and
+`Vector3D` primitives, preserving explicit coordinate-space identity while
+leaving direction/normal non-zero requirements to their consuming types.
 
 ## Test policy for the next action
 
 - Run only the Spatial and direct-dependent Core builds, strict format lint and
-  coordinate-space-filtered tests for the next slice.
+  spatial-primitive-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

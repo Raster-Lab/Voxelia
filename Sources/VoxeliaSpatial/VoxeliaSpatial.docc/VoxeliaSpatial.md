@@ -31,6 +31,11 @@ None.
 - ``Matrix4x4Double``
 - ``Matrix4x4DoubleError``
 
+### Spatial-axis mappings
+
+- ``SpatialAxisMapping``
+- ``SpatialAxisMappingError``
+
 ### Project documents
 
 - <doc:Architecture>
