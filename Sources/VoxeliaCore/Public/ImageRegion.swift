@@ -135,6 +135,29 @@ public struct ImageRegion: Sendable, Hashable, Codable {
         return try ImageShape(extents: regionExtents)
     }
 
+    /// Validates that this region is contained in `shape`.
+    ///
+    /// Half-open upper bounds may equal the corresponding shape extent. An
+    /// empty region is contained when its anchor lies in `0...extent`,
+    /// including exactly on the upper boundary.
+    ///
+    /// - Throws: ``RegionError/rankMismatch`` when the ranks differ, or
+    ///   ``RegionError/outsideShape`` when any lower bound is negative or any
+    ///   upper bound exceeds the corresponding shape extent.
+    public func validateContainment(in shape: ImageShape) throws {
+        guard rank == shape.rank else {
+            throw RegionError.rankMismatch
+        }
+
+        for axis in lowerBounds.indices {
+            guard lowerBounds[axis] >= 0,
+                upperBounds[axis] <= shape.extents[axis]
+            else {
+                throw RegionError.outsideShape
+            }
+        }
+    }
+
     private enum CodingKeys: String, CodingKey {
         case lowerBounds
         case upperBounds

@@ -117,6 +117,92 @@ struct ImageRegionTests {
         }
     }
 
+    @Test("[Unit][VOX-STO-007][VOX-SEC-001] accepts contained half-open bounds")
+    func validatesContainedBounds() throws {
+        let shape = try ImageShape(extents: [5, 10])
+        let full = try ImageRegion(
+            lowerBounds: [0, 0],
+            upperBounds: [5, 10]
+        )
+        let interior = try ImageRegion(
+            lowerBounds: [1, 2],
+            upperBounds: [4, 9]
+        )
+
+        try full.validateContainment(in: shape)
+        try interior.validateContainment(in: shape)
+    }
+
+    @Test("[Unit][VOX-STO-007][VOX-SEC-001] rejects bounds outside the shape")
+    func rejectsBoundsOutsideShape() throws {
+        let shape = try ImageShape(extents: [5, 10])
+        let negative = try ImageRegion(
+            lowerBounds: [-1, 2],
+            upperBounds: [4, 9]
+        )
+        let oversized = try ImageRegion(
+            lowerBounds: [1, 2],
+            upperBounds: [4, 11]
+        )
+
+        #expect(throws: RegionError.outsideShape) {
+            try negative.validateContainment(in: shape)
+        }
+        #expect(throws: RegionError.outsideShape) {
+            try oversized.validateContainment(in: shape)
+        }
+    }
+
+    @Test("[Unit][VOX-STO-007] containment requires exact rank")
+    func containmentRejectsRankMismatch() throws {
+        let shape = try ImageShape(extents: [5])
+        let region = try ImageRegion(
+            lowerBounds: [0, 0],
+            upperBounds: [1, 1]
+        )
+
+        #expect(throws: RegionError.rankMismatch) {
+            try region.validateContainment(in: shape)
+        }
+    }
+
+    @Test("[Unit][VOX-STO-007] validates empty-region boundary anchors")
+    func containmentValidatesEmptyBoundaryAnchors() throws {
+        let shape = try ImageShape(extents: [10])
+        let atOrigin = try ImageRegion(lowerBounds: [0], upperBounds: [0])
+        let atUpperBoundary = try ImageRegion(
+            lowerBounds: [10],
+            upperBounds: [10]
+        )
+        let belowShape = try ImageRegion(lowerBounds: [-1], upperBounds: [-1])
+        let aboveShape = try ImageRegion(lowerBounds: [11], upperBounds: [11])
+
+        try atOrigin.validateContainment(in: shape)
+        try atUpperBoundary.validateContainment(in: shape)
+        #expect(throws: RegionError.outsideShape) {
+            try belowShape.validateContainment(in: shape)
+        }
+        #expect(throws: RegionError.outsideShape) {
+            try aboveShape.validateContainment(in: shape)
+        }
+    }
+
+    @Test("[Unit][VOX-SEC-001] containment handles the maximum shape boundary")
+    func containmentHandlesMaximumBoundary() throws {
+        let shape = try ImageShape(extents: [Int.max])
+        let boundary = try ImageRegion(
+            lowerBounds: [Int.max],
+            upperBounds: [Int.max]
+        )
+        let lastElement = try ImageRegion(
+            lowerBounds: [Int.max - 1],
+            upperBounds: [Int.max]
+        )
+
+        try boundary.validateContainment(in: shape)
+        try lastElement.validateContainment(in: shape)
+    }
+
     @Test("[Unit][VOX-RGN-002] rejects a rank mismatch")
     func rejectsRankMismatch() {
         #expect(throws: RegionError.rankMismatch) {
