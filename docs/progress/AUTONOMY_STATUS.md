@@ -11,7 +11,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Active milestone: M0 - repository and quality foundation.
 - Local repository: the complete 283-file v0.1.1 scaffold is imported alongside the autonomous workflow files.
 - Remote baseline: Google Drive folder `Voxelia_Repository_and_Package_Scaffold_v0.1.1`.
-- Baseline status: import integrity, static checks, release-ledger guards, requirement consistency, root Swift tests, and focused auxiliary-package tests pass; the complete M0 gate requires one rerun after an auxiliary entry-point fix, and formal acceptance remains pending.
+- Baseline status: the complete local M0 scaffold gate passes on the supported Apple Silicon host; formal M0 acceptance remains pending for the wider platform matrix, external repository governance, and required human sign-offs.
 - Host capability observed: Apple Silicon ARM64 macOS, Xcode 26.6, Swift 6.3.3.
 - Automation: `Complete Voxelia autonomously`, active heartbeat every 15 minutes on this Codex task.
 
@@ -33,6 +33,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Ran the complete M0 technical gate once; every check through the root Swift suite passed before the validation executable exposed a Swift 6.3 entry-point incompatibility.
 - Resolved the shared auxiliary-package defect by moving all three explicit `@main` types out of specially treated `main.swift` files without changing command behaviour.
 - Added a fast repository regression check for explicit entry points placed in `main.swift`.
+- Reran the complete M0 scaffold gate after the targeted fix and passed it end to end.
 
 ## Verification evidence
 
@@ -50,6 +51,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
 - Initial M0 gate: 28 Python repository tests, all static/document checks, the root build, and all 12 root Swift tests passed; execution then stopped at `voxelia-validation` because `@main` was declared in `main.swift`.
 - Focused follow-up: Validation, Benchmarks, and Tools auxiliary packages each pass their single Swift test and executable `--self-check` on Swift 6.3.3.
+- Final local M0 scaffold gate: all required-file, manifest, release-integrity, package-graph, prohibited-import, Apple-policy, controlled-document and requirement-index checks passed; 29 Python tests and 12 root Swift tests passed; all three auxiliary self-checks returned `pass`; the script reported `M0 scaffold validation passed`.
 
 ## Known blockers and risks
 
@@ -62,10 +64,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Commit the auxiliary entry-point compatibility fix, then rerun the complete M0 technical scaffold gate once because this change directly fixes its only observed failure.
+Commit the passing local M0 scaffold evidence, then audit the remaining Apple platform acceptance checklist and execute only unmet local destination checks that this host can support.
 
 ## Test policy for the next action
 
-- Run `validate-scaffold.sh` once more because the targeted fix changed the previously failing M0 executable boundary.
-- If it fails, return to only the smallest failing script, target, or test filter until the defect is corrected.
-- If it passes, do not repeat the complete suite unless a later change affects the M0 gate or a release candidate is being accepted.
+- Do not rerun the complete scaffold suite unless a later change affects its gate or a release candidate is being accepted.
+- Use the named macOS/iOS/iPadOS/tvOS/visionOS build or test destination for each remaining platform criterion rather than all repository tests.
+- Record unavailable SDKs, simulators, signing contexts, repository settings, and human approvals as explicit external evidence gaps rather than treating them as passing.
