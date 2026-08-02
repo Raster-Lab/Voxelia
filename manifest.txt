@@ -159,6 +159,7 @@ Sources/VoxeliaStorage/Internal/.gitkeep
 Sources/VoxeliaStorage/Module.swift
 Sources/VoxeliaStorage/Public/.gitkeep
 Sources/VoxeliaStorage/Public/CodecIdentifier.swift
+Sources/VoxeliaStorage/Public/CompressedRegionAccess.swift
 Sources/VoxeliaStorage/Public/StorageTaxonomy.swift
 Sources/VoxeliaStorage/VoxeliaStorage.docc/Architecture.md
 Sources/VoxeliaStorage/VoxeliaStorage.docc/Requirements.md
@@ -209,6 +210,7 @@ Tests/VoxeliaSpatialTests/SpatialTransformKindTests.swift
 Tests/VoxeliaSpatialTests/StringIdentifierTests.swift
 Tests/VoxeliaSpatialTests/VoxeliaSpatialTests.swift
 Tests/VoxeliaStorageTests/CodecIdentifierTests.swift
+Tests/VoxeliaStorageTests/CompressedRegionAccessTests.swift
 Tests/VoxeliaStorageTests/StorageTaxonomyTests.swift
 Tests/VoxeliaStorageTests/VoxeliaStorageTests.swift
 Tests/VoxeliaTests/VoxeliaTests.swift
