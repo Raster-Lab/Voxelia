@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first twenty-six foundational slices, `ImageShape` /
+- M1 implementation status: the first twenty-seven foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -18,7 +18,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   external frame references, lookup-table descriptors, content-identity
   taxonomies, object identifiers, metadata privacy taxonomy and typed/erased
   metadata keys, neutral coded concepts, provenance vocabularies/identifiers
-  and storage-kind/persistence taxonomies are implemented and locally verified.
+  storage-kind/persistence taxonomies and codec identifiers are implemented and
+  locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -262,13 +263,18 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   taxonomies in their owning `VoxeliaStorage` module.
 - Kept both enums as descriptor vocabulary only, without inferring capabilities,
   durability, retention or cache behavior.
+- Implemented validated `CodecIdentifier` values in `VoxeliaStorage` with exact
+  UTF-8 namespace/name/version/profile identity and typed required-field errors.
+- Preserved optional nil versus empty strings and added strict four-field keyed
+  serialization with explicit nulls and constructor revalidation, without
+  claiming codec capability, interoperability or digest semantics.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 346-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 348-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -279,7 +285,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 345-record inventory and 346-entry SHA-256 ledger pass the
+- The regenerated 347-record inventory and 348-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -470,6 +476,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `swift test --filter StorageTaxonomy` executed only five taxonomy tests; all
   13 exact raw values, case sensitivity, raw-string Codable, malformed decoding,
   Hashable distinction and Sendable conformance passed.
+- `swift build --target VoxeliaStorage`, the direct-dependent
+  `swift build --target VoxeliaExecution`, and strict format lint passed for the
+  codec-identifier slice.
+- `swift test --filter CodecIdentifier` executed only five identifier tests;
+  opaque/optional preservation, both blank errors, per-field Unicode identity,
+  nil/empty distinction, explicit-null Codable and contextual strict decoding
+  all passed.
 
 ## Known blockers and risks
 
@@ -679,17 +692,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `StorageDescriptor`, storage protocols and type erasure remain blocked by an
   undefined integrity/destination descriptor, incomplete byte-layout validation,
   buffer-lifetime API decisions and independent unchecked-Sendable gates.
+- Tiled/bricked descriptors remain blocked by undefined resolution levels,
+  public SIMD decisions, `ContentID`, spatial geometry and cross-field
+  invariants. `BrickStatistics` also lacks the required raw-versus-authoritative
+  value-domain field.
 
 ## Exact next action
 
-Audit later storage sections and implement only exact standalone value
-taxonomies/descriptors that do not depend on blocked storage descriptors,
-capability bits, content identity or I/O lifetime contracts.
+Implement the standalone `CompressedRegionAccess` vocabulary with exact simple
+tags and a strict structured custom case, without inferring actual decode
+capabilities or claiming canonical digest JSON.
 
 ## Test policy for the next action
 
-- Run only the owning target and direct-dependent builds, strict format lint and
-  a focused test filter for the next safe storage value slice.
+- Run only `VoxeliaStorage`, its direct-dependent `VoxeliaExecution`, strict
+  format lint and `CompressedRegionAccess`-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

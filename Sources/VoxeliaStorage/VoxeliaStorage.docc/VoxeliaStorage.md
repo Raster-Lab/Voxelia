@@ -17,6 +17,8 @@ public API is introduced only by reviewed milestone specifications.
 
 - ``StorageKind``
 - ``StoragePersistence``
+- ``CodecIdentifier``
+- ``CodecIdentifierError``
 
 ### Project documents
 
