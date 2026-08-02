@@ -891,8 +891,8 @@
     },
     {
       "path": "Tools/Scripts/check_required_files.py",
-      "size": 1100,
-      "sha256": "842e69dda3862c4af5e8ded52ec66c3c2d528588924ef9aa7475086a0ae1d149"
+      "size": 1147,
+      "sha256": "09de808128b9cad31fb0e798c77dfe0a69529592aa41496bb6def5707c8bcf1c"
     },
     {
       "path": "Tools/Scripts/generate-sbom.sh",
@@ -901,8 +901,8 @@
     },
     {
       "path": "Tools/Scripts/generate_requirement_index.py",
-      "size": 893,
-      "sha256": "9766dc5a59ab7650a994d8b9201330dee61fadc2743edca4a8a78ef3eaf3873b"
+      "size": 9590,
+      "sha256": "0f304c72d7e144939603c76d24922af8c1f893e4a762f08fd29317d4e314d1ba"
     },
     {
       "path": "Tools/Scripts/prepare-release.sh",
@@ -931,8 +931,8 @@
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
-      "size": 954,
-      "sha256": "1a9e1d3d1d7658f90a00d19dd936060f8cc46f6aa6e90bad58faf88d1c9e5bc7"
+      "size": 962,
+      "sha256": "14b4bb55e1b400d6305ab8859a57b811be363a3c82efa1aa54812057c633c663"
     },
     {
       "path": "Tools/Scripts/validation-smoke.sh",
@@ -961,8 +961,13 @@
     },
     {
       "path": "Tools/Tests/Python/test_repository_scripts.py",
-      "size": 1603,
-      "sha256": "a0af4e7ecf35b59a00bbafdf4ae3aec7bf5d90a4d20a7affb7021a2bcff69a8c"
+      "size": 1820,
+      "sha256": "9ba9ac6cae597e326400fcf596593ff769f0e3f5574c8e2256148e5709f52b5d"
+    },
+    {
+      "path": "Tools/Tests/Python/test_requirement_index.py",
+      "size": 4508,
+      "sha256": "8f08348cf4b9d2f24f72c7a67a4e3d324d6848d621b49e7aa002109472ecda5e"
     },
     {
       "path": "Tools/Tests/VoxeliaRepositoryToolTests/RepositoryToolTests.swift",
@@ -1156,8 +1161,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 4416,
-      "sha256": "c2e46ab4981d6f2b6cd90d55a987ddae2f1d94da140b088e67756e40a57e9f98"
+      "size": 5273,
+      "sha256": "2c25ab132c70041b1c54cc7cf21cf8913f6f84215cb646e4671fc6808b9ac4ad"
     },
     {
       "path": "docs/project/README.md",
@@ -1192,7 +1197,7 @@
     {
       "path": "docs/project/Voxelia_Requirements_Baseline_v0.1.1.md",
       "size": 93295,
-      "sha256": "6284680b09ece60ded26efcbc533a20ada9b46e6b6d543fc5eaef45ccd0276be"
+      "sha256": "67c0ddb2c1bf1918938ba7d39721bf072a1278bb7687ac0c1f5fc96dfb6f83e4"
     },
     {
       "path": "docs/project/Voxelia_Validation_and_Benchmark_Strategy_v0.1.1.md",
@@ -1381,8 +1386,8 @@
     },
     {
       "path": "docs/requirements/README.md",
-      "size": 103,
-      "sha256": "dfbed47eb855ab34f5e3246949604c8bcb98f2b357b49fa0406e288849cdcd06"
+      "size": 323,
+      "sha256": "c9a801e921479e07e5b3d67da1f0f7daec06e686ce43cca3779172a9c33b584f"
     },
     {
       "path": "docs/rfcs/README.md",
@@ -1436,8 +1441,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 12006,
-      "sha256": "1ac2295f529ca3b4fce5888cf08ceca6069311719185226ec5ccd7ae5bd16495"
+      "size": 12051,
+      "sha256": "9cc0c33b8b42eb1b5f77d3b9c6dbe07cbd39dc2d34a2e871164a47a3698ff68a"
     }
   ]
 }

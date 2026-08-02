@@ -247,10 +247,10 @@ A target milestone does not remove the requirement from the eventual Voxelia 1.0
 
 | Milestone | Count |
 |---|---:|
-| M0 | 45 |
+| M0 | 46 |
 | M1 | 53 |
 | M2 | 57 |
-| M3 | 38 |
+| M3 | 37 |
 | M4 | 78 |
 | M5 | 39 |
 | M6 | 46 |

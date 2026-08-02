@@ -11,7 +11,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Active milestone: M0 - repository and quality foundation.
 - Local repository: the complete 283-file v0.1.1 scaffold is imported alongside the autonomous workflow files.
 - Remote baseline: Google Drive folder `Voxelia_Repository_and_Package_Scaffold_v0.1.1`.
-- Baseline status: import integrity and narrow M0 static checks pass; portable path and complete release-ledger guards are implemented; full Apple Silicon execution and formal M0 acceptance remain pending.
+- Baseline status: import integrity, narrow M0 static checks, release-ledger guards, and requirement-summary consistency pass; full Apple Silicon execution and formal M0 acceptance remain pending.
 - Host capability observed: Apple Silicon ARM64 macOS, Xcode 26.6, Swift 6.3.3.
 - Automation: `Complete Voxelia autonomously`, active heartbeat every 15 minutes on this Codex task.
 
@@ -28,33 +28,39 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Integrated the validator into required-file checks, repository-script tests, and the M0 scaffold gate.
 - Added deterministic release-integrity checking and regeneration for manifest completeness, inventory sizes/digests, checksum coverage, duplicates, and canonical ordering.
 - Integrated release-integrity verification into the M0 scaffold gate and autonomous commit workflow.
+- Corrected the only proven requirements-summary drift: M0 from 45 to 46 and M3 from 38 to 37, without changing any normative row.
+- Refactored requirement-index generation to provide a read-only gate for malformed or duplicate rows, declared totals, category/priority/milestone summaries, duplicate summary keys, and stale index content.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 288-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
-- `Tools/Tests/Python/test_repository_scripts.py`: 5 tests passed.
+- The current 289-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- `Tools/Tests/Python/test_repository_scripts.py`: 6 tests passed.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
 - `Tools/Tests/Python/test_manifest_paths.py`: 10 focused tests passed, including the original different-leaf `Logs/` versus `logs/` failure mode.
-- The live 288-entry repository manifest passes the new component-prefix validator.
+- The live 289-entry repository manifest passes the new component-prefix validator.
 - `Tools/Tests/Python/test_release_integrity.py`: 3 focused round-trip, omission, and digest-corruption tests passed.
-- The regenerated 287-record inventory and 288-entry SHA-256 ledger pass both the read-only integrity checker and direct `shasum` verification.
+- The regenerated 288-record inventory and 289-entry SHA-256 ledger pass both the read-only integrity checker and direct `shasum` verification.
+- `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
+- All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
 
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
-- The baseline requirements and approval documents still contain known count, ownership, status, and sign-off inconsistencies that must be reconciled before formal M0 acceptance.
+- Architecture documents still disagree on storage-abstraction ownership and future segmentation/registration module boundaries.
+- Approval documents still contain status and sign-off inconsistencies that require governance review before formal acceptance.
+- The traceability index still lacks source digest and lifecycle/status fields promised by scaffold specification section 37.1; this is separate from the corrected count drift.
 - No public repository or remote is configured.
 - External GitHub governance and any push/publication require explicit user authorization.
 
 ## Exact next action
 
-Commit the manifest-portability and release-integrity guards, then programmatically reconcile the requirement rows with the milestone summary and correct the confirmed M0/M3 count drift with a focused regression check.
+Commit the requirement-summary correction and guard, then run the complete M0 technical scaffold gate once on the supported Apple Silicon host and record exact evidence or focused follow-up failures.
 
 ## Test policy for the next action
 
-- Run only requirement-index/count checks and their directly related tests while correcting the summary drift.
-- Re-run document validation only for affected controlled documents.
-- Reserve the complete `validate-scaffold.sh` suite for the formal M0 acceptance gate.
+- Run `validate-scaffold.sh` once because this is the M0 technical acceptance gate.
+- If it fails, return to only the smallest failing script, target, or test filter until the defect is corrected.
+- Do not repeat the complete suite unless a later change affects the M0 gate or a release candidate is being accepted.

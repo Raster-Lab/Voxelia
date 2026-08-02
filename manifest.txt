@@ -191,6 +191,7 @@ Tools/Sources/voxelia-repo-check/main.swift
 Tools/Tests/Python/test_manifest_paths.py
 Tools/Tests/Python/test_release_integrity.py
 Tools/Tests/Python/test_repository_scripts.py
+Tools/Tests/Python/test_requirement_index.py
 Tools/Tests/VoxeliaRepositoryToolTests/RepositoryToolTests.swift
 VERSION
 Validation/Datasets/Fetch/README.md

@@ -16,6 +16,13 @@ class RepositoryScriptTests(unittest.TestCase):
             check=True,
         )
 
+    def test_requirement_index_passes(self) -> None:
+        subprocess.run(
+            ["python3", "Tools/Scripts/generate_requirement_index.py", "--check"],
+            cwd=ROOT,
+            check=True,
+        )
+
     def test_document_python_checks_pass(self) -> None:
         subprocess.run(
             ["python3", "Tools/Scripts/check_front_matter.py"],
