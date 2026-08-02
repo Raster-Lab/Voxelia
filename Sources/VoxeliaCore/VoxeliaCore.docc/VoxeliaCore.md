@@ -15,11 +15,13 @@ leaving shape-aware bounds validation to access operations.
 
 ## Topics
 
-### Shape model
+### Image coordinates and regions
 
 - ``ImageShape``
 - ``ShapeError``
 - ``ImageIndex``
+- ``ImageRegion``
+- ``RegionError``
 
 ### Project documents
 

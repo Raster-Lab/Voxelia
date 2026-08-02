@@ -9,8 +9,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first two core-data slices, `ImageShape` /
-  `ShapeError` and `ImageIndex`, are implemented and locally verified.
+- M1 implementation status: the first three core-data slices, `ImageShape` /
+  `ShapeError`, `ImageIndex` and `ImageRegion` / `RegionError`, are implemented
+  and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -93,23 +94,30 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Documented the zero-based, pixel-or-voxel-centre and axis-zero-fastest index
   convention while explicitly deferring shape-aware validation and offset
   calculation to their later approved APIs.
+- Implemented the canonical dynamic-rank, half-open `ImageRegion` and exact
+  `RegionError` model for `VOX-RGN-001` and `VOX-RGN-002`, including rank and
+  bound validation, overflow-safe extent calculation and invariant-preserving
+  Codable conformance.
+- Preserved the specified transient empty-region behavior without repurposing
+  the storage-only `emptyRead` error or inventing shape-containment APIs.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 299-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 301-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
 - `Tools/Tests/Python/test_manifest_paths.py`: 10 focused tests passed, including the original different-leaf `Logs/` versus `logs/` failure mode.
-- The live 296-entry repository manifest passes the new component-prefix validator.
+- At M0 close, the then-live 296-entry repository manifest passed the new
+  component-prefix validator.
 - `Tools/Tests/Python/test_release_integrity.py`: 7 focused round-trip,
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 298-record inventory and 299-entry SHA-256 ledger pass the
+- The regenerated 300-record inventory and 301-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -152,6 +160,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `swift test --filter ImageIndex` executed only the three `ImageIndex` unit
   tests; representative zero-based dynamic rank, high rank and Codable
   round-trip cases all passed.
+- `swift build --target VoxeliaCore` and strict format lint passed for the
+  `ImageRegion` slice.
+- `swift test --filter ImageRegion` executed only the 12 `ImageRegion` unit
+  tests; valid half-open bounds, rank and inversion failures, transient empty
+  regions, extent overflow, high rank and Codable validation all passed.
 
 ## Known blockers and risks
 
@@ -176,17 +189,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - The architecture calls axis-zero-fastest ordering "row-major", although that
   label is conventionally ambiguous. Future offset work shall follow the
   explicit axis-zero-fastest rule.
+- The region specification permits transient empty regions but requires
+  `extents()` to return `ImageShape`, whose extents must be positive. The
+  implementation permits empty construction and lets `extents()` return the
+  existing `ShapeError.nonPositiveExtent`; no unrelated region error was
+  reassigned to conceal this controlled-document ambiguity.
 
 ## Exact next action
 
-Audit and implement the next isolated M1 core-data value type, `ImageRegion`,
-following Core Data Model Specification section 13's dynamic-rank, half-open
-bound convention. Keep storage reads and view-lifetime behavior outside this
-value-type slice.
+Audit and implement the next independent M1 scalar-representation slice:
+`ScalarType`, `ByteOrder` and `ScalarFormat` from Core Data Model Specification
+section 15 for `VOX-DAT-009` and `VOX-DAT-010`. Keep packed-storage semantics
+and component descriptors outside this slice.
 
 ## Test policy for the next action
 
-- Run `swift build --target VoxeliaCore` and only the `ImageRegion`-filtered
+- Run `swift build --target VoxeliaCore` and only scalar-format-filtered
   VoxeliaCore tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
