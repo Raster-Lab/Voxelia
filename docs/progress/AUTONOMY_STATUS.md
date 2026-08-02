@@ -32,6 +32,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Governance preparation: proposed `ADR-0021` documents the axis-model
   ownership conflict and recommends Spatial ownership with Core binding
   validation; it is not accepted and does not unblock implementation.
+- Proposed `ADR-0022` selects a namespaced six-case `CoordinateConvention`
+  shape and explicit type-level tags while preserving the separate descriptor
+  unit-policy blocker; it is not accepted and does not unblock code.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -355,6 +358,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Added a discoverable ADR index, reserved new IDs after the MTA's existing
   `ADR-0001` through `ADR-0020` register, and disclosed the pre-existing local
   platform `ADR-0001` identifier collision without changing either decision.
+- Added proposed `ADR-0022` with the complete convention-shape conflict,
+  explicit built-in and structured custom encoding, exact custom identity,
+  handedness implications, unit separation and rejected alternatives.
+- Kept `CoordinateSpaceDescriptor` explicitly blocked after the enum proposal
+  because ordinary-physical, image-display and custom-unit validity still need
+  an approved policy.
 
 ## Verification evidence
 
@@ -674,6 +683,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `Tools/Scripts/validate-docs.sh` passed Apple-host validation, front matter
   for all seven controlled project documents and text hygiene for all 48
   Markdown files; no Swift test ran for the documentation-only slice.
+- Targeted ADR checks passed for collision-free `ADR-0022`, exact Proposed
+  status, template fields, README discoverability and all five referenced
+  controlled-document paths.
+- `Tools/Scripts/validate-docs.sh` passed again with text hygiene for all 49
+  Markdown files; no Swift test ran for the coordinate-convention proposal.
 
 ## Known blockers and risks
 
@@ -937,6 +951,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Proposed `ADR-0021` is review material only. Until its status becomes
   Accepted and subordinate documents are corrected, the axis-model public API
   remains blocked and no implementation may rely on its recommendation.
+- Proposed `ADR-0022` likewise does not resolve the convention conflict until
+  accepted. Even after acceptance, `CoordinateSpaceDescriptor` remains blocked
+  on display/custom unit policy; the enum must not imply a unit, transform or
+  external frame identity.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
   planes, rays, oriented bounds and rendering or interaction intersections that
@@ -944,10 +962,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Prepare proposed `ADR-0022` for the `CoordinateConvention` shape conflict,
-recommending the detailed namespaced CDMS vocabulary while keeping units,
-handedness, frame identity and transforms separate; do not treat it as accepted
-or claim that it unblocks `CoordinateSpaceDescriptor`.
+Prepare proposed `ADR-0023` for the `ValueTransform` shape conflict, using only
+the four controlled common cases with validated linear and composition payloads
+and deferring undefined piecewise-linear behavior; do not implement it until
+the ADR and explicit Codable tags are approved.
 
 ## Test policy for the next action
 

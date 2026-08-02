@@ -1420,9 +1420,14 @@
       "sha256": "0bc743324d38957836b404f5ef2054472dcfeca75ff3dce190df931712cc740f"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md",
+      "size": 7852,
+      "sha256": "62f45a87c76bf0367c57e9679a47bb70207afcf9f7dadeba7c8a1fbc34124142"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 610,
-      "sha256": "dc3ab80a8b57b51688065d75ec3db14f81cfdc68ca4a2c5b0b1c6fa085acf4f4"
+      "size": 714,
+      "sha256": "fa1c793c2541452984c8799ac541cf642131004bc031dc41ab685f7407eb0d61"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1506,8 +1511,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 66494,
-      "sha256": "8e050e75a4d63f868048dafae644242349e27a837bf3b0d3967ce3dffc94e126"
+      "size": 67707,
+      "sha256": "d3d8aad210569071d00e3c1bfb1a5ce0af6b01350b138af1be0ff80443bad344"
     },
     {
       "path": "docs/project/README.md",
@@ -1791,8 +1796,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 15700,
-      "sha256": "cab1e2331f5ec1dccf6c4ba2dd8c1946077c7d5b0430513d28c1178f8e7f8314"
+      "size": 15768,
+      "sha256": "9f943398dfe73578b0bb9305efbdae34814395b0102d1a757c8c88fb32ada480"
     }
   ]
 }
