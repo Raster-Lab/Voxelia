@@ -13,6 +13,13 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Topics
 
+### Geometry vocabularies
+
+- ``GeometryKind``
+- ``GeometryAttributeSemantic``
+- ``MeshPrimitive``
+- ``IndexType``
+
 ### Project documents
 
 - <doc:Architecture>

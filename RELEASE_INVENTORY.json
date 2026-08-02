@@ -505,6 +505,26 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaGeometry/Public/GeometryAttributeSemantic.swift",
+      "size": 7407,
+      "sha256": "ba7e3c51ab52dd17e1686a0749af07064d7917b648267962ca122bf31e158e24"
+    },
+    {
+      "path": "Sources/VoxeliaGeometry/Public/GeometryKind.swift",
+      "size": 729,
+      "sha256": "19a104e340a37479a26eb64e26dbd4f6c84146e31aa9a5e553d16fc4cbfe8d37"
+    },
+    {
+      "path": "Sources/VoxeliaGeometry/Public/IndexType.swift",
+      "size": 301,
+      "sha256": "9152f1902c116eeb41be6d666fdc40070a188b07d9128f8b1ba697db3ce7da4a"
+    },
+    {
+      "path": "Sources/VoxeliaGeometry/Public/MeshPrimitive.swift",
+      "size": 451,
+      "sha256": "c4e2048272678a6f815e9d6fa8a88faa60ac206141e8f0c05c0bcc4084278598"
+    },
+    {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/Architecture.md",
       "size": 184,
       "sha256": "b6f041155e802d54d99d79cf4df18a928e17f4b8daa50c69bf5fe1ce843ea3e2"
@@ -516,8 +536,8 @@
     },
     {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/VoxeliaGeometry.md",
-      "size": 346,
-      "sha256": "49055c03ed2e067a368d56d46f3e6341a3544b28e718cec8eb7f63046e2c64d2"
+      "size": 461,
+      "sha256": "e12978e6146d8190ab02b8bdb7cb2d635963e3185c1d4612bd5e99b909493e92"
     },
     {
       "path": "Sources/VoxeliaImaging/ApplePlatformGate.swift",
@@ -973,6 +993,11 @@
       "path": "Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift",
       "size": 320,
       "sha256": "4b33d4b1e39a5a3bd7914c273ae35b631929d2caf2aa592cfd8a9ebc81851130"
+    },
+    {
+      "path": "Tests/VoxeliaGeometryTests/GeometryTaxonomyTests.swift",
+      "size": 8977,
+      "sha256": "78ea82bc2c08fed3035dc6c41e5aaf242db8617370baa5fbc30ae22f9d93d80b"
     },
     {
       "path": "Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift",
@@ -1461,8 +1486,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 50630,
-      "sha256": "cbfc9a5f8a27bdbef10f71b8c57c73385fe14104823737174c6f99a7cf31d81c"
+      "size": 51739,
+      "sha256": "6b621297deca46d67f0970e844f94d4c73934642a4900dd3807196e2ad935e7a"
     },
     {
       "path": "docs/project/README.md",
@@ -1746,8 +1771,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 15178,
-      "sha256": "63fb1b21914406efde45e9d4f2f1d42bf19c582b30030b3f56a01628388f9d22"
+      "size": 15444,
+      "sha256": "b6c2129a3f7c021240109b1e752b8889a7b16455f90435519d3f8fd7b1e219ce"
     }
   ]
 }
