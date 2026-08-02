@@ -407,6 +407,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Made structural parsing fence-aware, normalized valid ATX closing hashes and
   rejected duplicate logical sections plus comment-only or empty-fence
   placeholders as completion evidence.
+- Re-audited the remaining low-level `VOX-SPA-011` surface and confirmed that
+  the existing `Plane3D` and `Ray3D` values already exhaust their complete,
+  non-speculative standalone contract.
+- Deferred oriented bounds and new intersection operations because the
+  controlled documents do not yet define the representation invariants,
+  numerical policy or public result semantics needed for correct code.
 
 ## Verification evidence
 
@@ -771,6 +777,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   the selected repository integration test passed. Independent review found
   three Markdown edge cases, verified their fixes and reported the final gate
   clean.
+- Three independent read-only spatial audits agreed that no additional plane,
+  ray, oriented-bounds or intersection code is currently implementable without
+  inventing public semantics; no Swift suite was rerun for this documentation-
+  only conclusion.
+- The documentation gate, 364-path manifest check and read-only release-
+  integrity check passed after regenerating the inventory and checksum evidence
+  for this ledger-only change.
 
 ## Known blockers and risks
 
@@ -921,7 +934,15 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   centre-versus-sample-support selection remain future operations.
 - `OrientedBounds3D` is deferred because the specifications do not define axis
   count, unit length, orthogonality, handedness, tolerances, half-extent
-  validity or a stable public `SIMD3<Double>` serialization shape.
+  validity, degeneracy, axis-to-lane ordering, centre/axis space agreement or a
+  stable public `SIMD3<Double>` serialization shape.
+- Ray/bounds and plane intersection APIs remain blocked because the documents
+  do not select a result type, ray parameter domain, boundary/tangent/parallel/
+  coplanar behavior, versioned tolerance, extreme-intermediate policy or typed
+  failure model. Bounds interpretation and transformed-space integration are
+  additional downstream concerns, not prerequisites for an exact-space
+  operation on caller-supplied values. Validation requirements for analytic
+  entry and exit oracles do not by themselves define the public semantics.
 - `InverseAvailability` is referenced only as a prose taxonomy; its public case
   names, encoding and capability-versus-evaluated-state lifecycle require a
   controlled correction or ADR before implementation.
@@ -1060,21 +1081,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   establish interpolation, missing-entry or extrapolation behavior.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
-  planes, rays, oriented bounds and rendering or interaction intersections that
-  remain blocked or unimplemented.
+  oriented bounds plus rendering or interaction intersections involving the
+  existing plane and ray values, which remain blocked or unimplemented.
 
 ## Exact next action
 
-Audit the governing definitions and invariants for `Plane`, `Ray` and oriented
-bounds as the remaining low-level `VOX-SPA-011` primitives. Select only the
-smallest fully specified value or operation for implementation; record a
-blocker rather than inventing normalization, tolerance or intersection policy.
+Audit the M2 `VoxeliaExecution` declarations, beginning with quality-profile,
+backend-preference and identifier vocabularies, against every governing
+document. Select only the smallest ownership-safe type whose cases, payloads,
+invariants and serialization are complete; record a blocker if the prose names
+a concept without defining a stable public contract.
 
 ## Test policy for the next action
 
-- For an implemented spatial slice, run strict formatting, the affected Spatial
-  and direct-consumer builds, and only that type's exact focused tests plus
-  integrity checks. Do not run the full Swift suite.
+- For an implemented Execution slice, run strict formatting, the affected
+  Execution and direct-consumer builds, and only that type's exact focused tests
+  plus integrity checks. Do not run the full Swift suite.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
