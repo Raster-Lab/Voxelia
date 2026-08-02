@@ -1287,7 +1287,7 @@
     {
       "path": "Tools/Tests/Python/test_adr_register.py",
       "size": 14088,
-      "sha256": "bc02c4c4d03894eb93afc3097bd6747030d2cef1396d8bde21917d4e6f349fba"
+      "sha256": "b9db1cdae14dda5797d3cfa2a84ad31d42bc1890c1fa85d6667cf1ae41d479dd"
     },
     {
       "path": "Tools/Tests/Python/test_docc_archives.py",
@@ -1460,9 +1460,14 @@
       "sha256": "a9a767bc7d85ec5fe5169dcd57d655f2d937037e5c49a8d337561b8e3914f111"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0029-finite-floating-point-metadata-boundary.md",
+      "size": 19069,
+      "sha256": "9f0829247ea8c08a5d7b6d87f344e56587c416dc7d30026df0ec656e01caa307"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 1743,
-      "sha256": "9fd7b4c8750290e2f5a237e63446ebb4f14f0c37cb7121b8540bf87d308f474a"
+      "size": 1945,
+      "sha256": "2f4b23a4d376b5253802b254509927aab681c5d82eba2486a874a6b5cb51db82"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1546,8 +1551,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 114423,
-      "sha256": "5b5f109b8265c4f808c6d8d9e110a5182a747a065f898c61aeb2f0f9da797db3"
+      "size": 128138,
+      "sha256": "799bed43c81b90eda99bf399d2f251387d5ada15174b27984f8823eccdaae3bd"
     },
     {
       "path": "docs/project/README.md",
@@ -1831,8 +1836,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 16200,
-      "sha256": "caeff2c7b23b797d52496601a22a2a9510f81068dea009e4d9f12922aa4ce25c"
+      "size": 16280,
+      "sha256": "63873391e7f97c153a0338b74f1a801a427387d7fdef9412c054a6e6e745cafa"
     }
   ]
 }

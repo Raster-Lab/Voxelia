@@ -56,6 +56,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   metadata and provenance strings: one bounded uppercase zero-offset RFC 3339-
   derived profile, typed value-redacted errors and strict scalar-string Codable.
   It is not accepted and does not authorise source or either aggregate.
+- Proposed `ADR-0029` selects a Core-owned `MetadataFloatingPoint` for the raw
+  metadata `Double`: finite binary64 only, positive-zero canonical identity,
+  exact preservation of every other finite bit pattern and scalar-number
+  Codable without claiming canonical JSON bytes. It is not accepted and does
+  not authorise source or the recursive metadata aggregate.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -120,7 +125,7 @@ binding:
 
 | `ImageData` dependency | Status | Boundary issue |
 |---|---|---|
-| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` selects a validated canonical-instant payload but is not accepted; raw floating-point and object payloads still bypass invariants, while direct `Data`, tags, ordering, limits, multiplicity, privacy attachment, typed access and canonical ingress remain open. |
+| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` and `ADR-0029` select validated instant and finite floating-point payloads but are not accepted; raw binary and object payloads still bypass unresolved policy or invariants, while tags, ordering, limits, multiplicity, privacy attachment, typed access and canonical ingress remain open. |
 | `DataIdentity` | Contract-blocked | `ContentID` has incompatible prescribed shapes, lacks an approved scope-bearing record and fully specified canonical digest byte encoding, and `DataIdentityReference` is undefined. |
 | `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf but is not accepted. References, warning severity, validation state and graph invariants remain incomplete, and several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
 | `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
@@ -248,6 +253,45 @@ oracle, never the authoritative validator or storage.
 remains Proposed. Acceptance would authorise only the standalone leaf and the
 two controlled declaration corrections, not the downstream aggregates or the
 canonical byte-ingress layer.
+
+## M1 floating-point metadata prerequisite audit
+
+The baseline prescribes `MetadataValue.floatingPoint(Double)` but separately
+requires floating metadata to choose a non-finite policy and floating identity
+to resolve NaN, infinity and signed zero. Three independent governance,
+standards and Swift implementation audits agreed that the raw associated value
+cannot satisfy those rules by construction. Proposed `ADR-0029` selects this
+review boundary:
+
+| Area | Proposed version-one decision | Explicitly deferred |
+|---|---|---|
+| Ownership and consumer | Core-owned `MetadataFloatingPoint`; after acceptance only, replace the raw `Double` payload. | Complete `MetadataValue`, entries and collections. |
+| Numeric domain | Accept every finite IEEE 754 binary64 value; reject all NaNs and both infinities with `.nonFiniteValue`. | Named exceptional values, decimal values, missing-value semantics and unit meaning. |
+| Canonicalisation | Normalise either zero sign to positive zero; preserve every other finite bit pattern, including both signed subnormal ranges. | Arithmetic, tolerance comparisons, backend denormal policy and source conversion. |
+| Identity | Exact canonical binary64 identity with reflexive equality and coherent hashing; no approximate tolerance and no persistent use of `hashValue`. | Canonical descriptor digests and cross-system identity bytes. |
+| Type-level encoding | One numeric scalar, constructor revalidation and a typed underlying error at the current coding path. | Outer enum tags, canonical decimal spelling, schema envelopes and raw duplicate-key handling. |
+| Privacy and limits | Wrapper-owned errors contain no rejected value or bit pattern; construction is fixed constant work. | Sanitising errors produced before wrapper validation and pre-allocation document, token, node and depth limits. |
+
+Finite-only storage and signed-zero normalisation are Voxelia policy choices,
+not IEEE 754 mandates. RFC 8259 excludes NaN and infinity from JSON numbers but
+does not provide canonical number spelling; RFC 7493 supplies binary64-oriented
+interoperability guidance; informative RFC 8785 JCS supplies compatible
+finite-number precedent but has not been selected as Voxelia's serialiser.
+Subnormals remain finite and are not flushed.
+
+Swift 6.3.3 probes reproduced non-reflexive NaN equality, duplicate NaN set
+members and equal/hash-equal signed zeros that `JSONEncoder` emitted as `0` and
+`-0`. A strict-concurrency prototype preserved all finite values other than the
+zero sign; a deterministic 20,000-pattern probe round-tripped 19,989 finite
+patterns exactly, including subnormals. The probes also showed why the leaf
+cannot claim canonical ingress: decimal tokens can round before construction,
+and Foundation can reject out-of-range tokens before the wrapper while echoing
+the token in its own underlying error.
+
+`MetadataFloatingPoint` therefore has no source implementation while
+`ADR-0029` remains Proposed. Acceptance would authorise only the standalone
+leaf and controlled floating-payload correction, not the recursive model,
+canonical serialiser or exceptional-value schema.
 
 ## Completed in this increment
 
@@ -675,13 +719,23 @@ canonical byte-ingress layer.
 - Updated the ADR register and its focused live-repository expectation to eight
   records; no canonical-instant, metadata or provenance Swift source is
   authorised while the proposal remains unaccepted.
+- Audited the raw floating-point metadata boundary across local governance,
+  IEEE 754, JSON/I-JSON/JCS and Swift 6.3.3 value, hashing and Codable behaviour.
+- Added proposed `ADR-0029` with a Core-owned `MetadataFloatingPoint`, a
+  finite-only binary64 domain, signed-zero canonicalisation, exact preservation
+  of every other finite bit pattern, a payload-free typed error and one-number
+  type-level Codable.
+- Kept canonical number spelling, decoder-token sanitisation, source lexical
+  precision, named exceptional values and every recursive metadata contract
+  explicit future work; no floating-metadata Swift source is authorised while
+  the proposal remains unaccepted.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 367-entry manifest covers every releasable file except its
+- The current 368-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
@@ -1142,6 +1196,252 @@ canonical byte-ingress layer.
   release-integrity regeneration and read-only verification passed with 366
   inventory records and 367 checksums; `git diff --check` also passed. No Swift
   suite was run for the documentation-only Proposed decision.
+- Three independent read-only floating-metadata audits covered local governance,
+  IEEE 754 and JSON-family standards, and Swift 6.3.3 API, identity, Codable and
+  privacy behaviour. They agreed on the bounded finite wrapper in proposed
+  `ADR-0029` and on keeping exceptional values, the recursive aggregate and
+  canonical bytes outside this leaf.
+- An isolated `swift -e` probe reproduced non-reflexive NaN equality, three set
+  members from two payloads with one repeated, equal and hash-equal signed zeros
+  encoded as distinct `0` and `-0` tokens, exact selected subnormal/extrema round
+  trips, numeric alias decoding and configured special-string decoding. Its
+  first untyped-zero expression was compiler-ambiguous; the explicit-`Double`
+  rerun passed without changing repository source.
+- A separate `swift -e` decoder probe rejected `1e400`, `-1e400`, `1e-400` and
+  `-1e-400` before wrapper validation and demonstrated binary64 rounding of
+  longer decimal tokens. This evidence limits value-redaction claims to errors
+  owned by the proposed wrapper.
+- The deterministic prototype command `xcrun swift -` used seed
+  `0x9e37_79b9_7f4a_7c15` and the recurrence
+  `state = state &* 6364136223846793005 &+ 1442695040888963407` for 20,000
+  `Double(bitPattern:)` samples. On ARM64 Swift 6.3.3 it round-tripped 19,989
+  finite values through single-value JSON with zero mismatches, included six
+  subnormals and classified 11 non-finite patterns.
+
+The exact successful Swift 6 strict-concurrency probe was:
+
+```bash
+xcrun swift -swift-version 6 -strict-concurrency=complete -warnings-as-errors - <<'SWIFT'
+import Foundation
+
+enum ProbeError: Error, Sendable, Equatable {
+    case nonFiniteValue
+}
+
+struct ProbeValue: Sendable, Hashable, Codable {
+    let value: Double
+
+    init(value: Double) throws {
+        let magnitude = value.bitPattern & 0x7fff_ffff_ffff_ffff
+        guard magnitude < 0x7ff0_0000_0000_0000 else {
+            throw ProbeError.nonFiniteValue
+        }
+        self.value = magnitude == 0 ? 0 : value
+    }
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.value.bitPattern == rhs.value.bitPattern
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(value.bitPattern)
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        do {
+            try self.init(value: container.decode(Double.self))
+        } catch let error as ProbeError {
+            throw DecodingError.dataCorrupted(
+                .init(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "Invalid metadata floating-point value.",
+                    underlyingError: error
+                )
+            )
+        }
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(value)
+    }
+}
+
+struct NestedProbe: Decodable {
+    let item: ProbeValue
+}
+
+let nanA = Double(bitPattern: 0x7ff8_0000_0000_0001)
+let nanB = Double(bitPattern: 0x7ff8_0000_0000_0002)
+precondition(nanA != nanA)
+precondition(Set([nanA, nanA, nanB]).count == 3)
+precondition(Double(0) == -Double(0))
+precondition(Double(0).hashValue == (-Double(0)).hashValue)
+let encodedPositiveZero = try JSONEncoder().encode(Double(0))
+let encodedNegativeZero = try JSONEncoder().encode(-Double(0))
+precondition(String(decoding: encodedPositiveZero, as: UTF8.self) == "0")
+precondition(String(decoding: encodedNegativeZero, as: UTF8.self) == "-0")
+
+for bits: UInt64 in [
+    0x7ff0_0000_0000_0000,
+    0xfff0_0000_0000_0000,
+    0x7ff0_0000_0000_0001,
+    0xfff0_0000_0000_0001,
+    0x7ff8_0000_0000_0001,
+    0xfff8_0000_0000_0001,
+] {
+    do {
+        _ = try ProbeValue(value: Double(bitPattern: bits))
+        preconditionFailure("Accepted non-finite bit pattern")
+    } catch ProbeError.nonFiniteValue {
+    }
+}
+
+let negativeZero = try ProbeValue(value: -Double(0))
+precondition(negativeZero.value.bitPattern == Double(0).bitPattern)
+
+let boundaryValues: [Double] = [
+    -Double.greatestFiniteMagnitude,
+    -Double.leastNormalMagnitude,
+    -Double.leastNonzeroMagnitude,
+    -Double(0),
+    Double(0),
+    Double.leastNonzeroMagnitude,
+    Double.leastNormalMagnitude,
+    Double.greatestFiniteMagnitude,
+]
+for source in boundaryValues {
+    let value = try ProbeValue(value: source)
+    let decoded = try JSONDecoder().decode(
+        ProbeValue.self,
+        from: JSONEncoder().encode(value)
+    )
+    let magnitude = source.bitPattern & 0x7fff_ffff_ffff_ffff
+    let expectedBits = magnitude == 0 ? Double(0).bitPattern : source.bitPattern
+    precondition(value.value.bitPattern == expectedBits)
+    precondition(decoded.value.bitPattern == expectedBits)
+}
+
+let specialDecoder = JSONDecoder()
+specialDecoder.nonConformingFloatDecodingStrategy = .convertFromString(
+    positiveInfinity: "Infinity",
+    negativeInfinity: "-Infinity",
+    nan: "NaN"
+)
+do {
+    _ = try specialDecoder.decode(
+        NestedProbe.self,
+        from: Data(#"{"item":"NaN"}"#.utf8)
+    )
+    preconditionFailure("Accepted configured NaN string")
+} catch DecodingError.dataCorrupted(let context) {
+    precondition(context.codingPath.last?.stringValue == "item")
+    precondition(context.underlyingError as? ProbeError == .nonFiniteValue)
+    precondition(!context.debugDescription.contains("NaN"))
+}
+
+var state: UInt64 = 0x9e37_79b9_7f4a_7c15
+var finiteCount = 0
+var nonFiniteCount = 0
+var subnormalCount = 0
+var mismatchCount = 0
+for _ in 0..<20_000 {
+    state = state &* 6_364_136_223_846_793_005 &+ 1_442_695_040_888_963_407
+    let source = Double(bitPattern: state)
+    do {
+        let value = try ProbeValue(value: source)
+        finiteCount += 1
+        if source.isSubnormal {
+            subnormalCount += 1
+        }
+        let decoded = try JSONDecoder().decode(
+            ProbeValue.self,
+            from: JSONEncoder().encode(value)
+        )
+        if decoded.value.bitPattern != value.value.bitPattern {
+            mismatchCount += 1
+        }
+    } catch ProbeError.nonFiniteValue {
+        nonFiniteCount += 1
+    }
+}
+precondition(finiteCount == 19_989)
+precondition(nonFiniteCount == 11)
+precondition(subnormalCount == 6)
+precondition(mismatchCount == 0)
+
+for token in ["1", "1.0", "1e0", "-0", "-0.0", "5e-324"] {
+    _ = try JSONDecoder().decode(ProbeValue.self, from: Data(token.utf8))
+}
+for token in ["1e400", "-1e400", "1e-400", "-1e-400"] {
+    do {
+        _ = try JSONDecoder().decode(Double.self, from: Data(token.utf8))
+        preconditionFailure("Accepted out-of-range token")
+    } catch DecodingError.dataCorrupted(let context) {
+        precondition(String(describing: context.underlyingError).contains(token))
+    }
+}
+let rounded = try JSONDecoder().decode(
+    Double.self,
+    from: Data("9007199254740993".utf8)
+)
+precondition(rounded == 9_007_199_254_740_992)
+
+print(
+    "finite=\(finiteCount) nonfinite=\(nonFiniteCount) "
+        + "subnormal=\(subnormalCount) mismatches=\(mismatchCount)"
+)
+SWIFT
+```
+
+It printed
+`finite=19989 nonfinite=11 subnormal=6 mismatches=0`. An earlier consolidated
+attempt put throwing encoder calls inside `precondition` autoclosures and was
+rejected at compile time; lifting those results into local constants produced
+the successful command above. The probe remained isolated and added no
+repository source.
+
+- `python3 -m unittest Tools.Tests.Python.test_adr_register` passed all 21
+  focused tests after the live expectation moved from eight to nine records;
+  `python3 Tools/Scripts/check_adr_register.py` reported all nine records valid.
+- `Tools/Scripts/validate-docs.sh` passed for seven front-matter documents, all
+  nine file-backed ADRs and 55 Markdown files. Every relative link in
+  `ADR-0029` resolved, and `git diff --check` passed.
+- Independent final governance, standards and Swift/API reviews corrected
+  British-English wording and one overbroad set-identity statement; the
+  standards review found no IEEE, JSON, I-JSON, JCS or citation defect, and all
+  three current-tree re-reviews were clean.
+- Release-integrity regeneration, the 368-path manifest check and read-only
+  integrity verification passed with 367 inventory records and 368 checksums.
+  No Swift package suite was run because this is a documentation-only Proposed
+  decision; its acceptance-only migration explicitly defers source and tests.
+
+The exact focused repository commands for this proposal were:
+
+```bash
+python3 -m unittest Tools.Tests.Python.test_adr_register
+python3 Tools/Scripts/check_adr_register.py
+Tools/Scripts/validate-docs.sh
+python3 - <<'PY'
+from pathlib import Path
+import re
+
+document = Path(
+    "docs/architecture/decisions/"
+    "ADR-0029-finite-floating-point-metadata-boundary.md"
+)
+for target in re.findall(r"\]\(([^)]+)\)", document.read_text()):
+    if target.startswith(("http://", "https://")):
+        continue
+    resolved = (document.parent / target.split("#", 1)[0]).resolve()
+    print(target, resolved.exists())
+PY
+git diff --check
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py
+```
 
 ## Known blockers and risks
 
@@ -1496,6 +1796,10 @@ canonical byte-ingress layer.
   may authorise only the standalone Core leaf and replacement of the two
   controlled raw-string declarations; metadata aggregates, provenance records,
   timestamp acquisition/conversion and canonical byte ingress remain blocked.
+- Proposed `ADR-0029` does not authorise `MetadataFloatingPoint` until
+  accepted. It may authorise only the standalone Core leaf and replacement of
+  the controlled raw `Double`; metadata aggregates, named exceptional values,
+  source-decimal preservation and canonical numeric bytes remain blocked.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -1516,17 +1820,18 @@ canonical byte-ingress layer.
 
 ## Exact next action
 
-Audit the raw `MetadataValue.floatingPoint(Double)` payload as the next isolated
-metadata scalar boundary. Decide finite-only versus named non-finite values,
-signed-zero canonicalization, subnormal preservation, equality and hashing,
-strict type-level Codable, typed privacy-safe errors and whether a validated
-wrapper requires proposed `ADR-0029`. Do not add `MetadataValue` source while
+Audit the raw `MetadataValue.binary(Data)` payload as the next isolated
+metadata scalar boundary. Decide whether direct `Data` remains permitted,
+exact byte identity, base64 versus hexadecimal JSON spelling and padding,
+immutable ownership, intrinsic versus byte-ingress size limits, strict
+type-level Codable, typed value-redacted errors and whether the controlled open
+decision requires proposed `ADR-0030`. Do not add `MetadataValue` source while
 the recursive/container, tag, privacy and collection contracts remain
 unresolved.
 
 ## Test policy for the next action
 
-- For the floating-metadata audit or a documentation-only proposal, run only
+- For the binary-metadata audit or a documentation-only proposal, run only
   the relevant document/ADR checks plus manifest and release-integrity checks.
   If a bounded scalar leaf becomes independently authorised, run its focused
   unit tests, the owning Core target build, strict format lint and only directly

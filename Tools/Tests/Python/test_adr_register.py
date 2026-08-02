@@ -132,7 +132,7 @@ class ADRRegisterTests(unittest.TestCase):
         )
 
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("passed for 8 records", result.stdout)
+        self.assertIn("passed for 9 records", result.stdout)
 
     def test_rejects_missing_and_empty_required_fields(self) -> None:
         base = adr_text()
