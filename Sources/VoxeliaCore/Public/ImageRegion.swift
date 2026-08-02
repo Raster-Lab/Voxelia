@@ -76,6 +76,42 @@ public struct ImageRegion: Sendable, Hashable, Codable {
         self.upperBounds = validatedUpperBounds
     }
 
+    /// Creates a half-open region from lower bounds and positive extents.
+    ///
+    /// Negative lower bounds are preserved because containment in an image
+    /// shape is a separate access-time validation. The canonical stored and
+    /// serialized representation remains lower plus upper bounds.
+    ///
+    /// - Throws: ``RegionError/rankMismatch`` when `lowerBounds` and `extents`
+    ///   have different ranks, or ``RegionError/arithmeticOverflow`` when an
+    ///   upper bound cannot be represented by `Int`.
+    public init<LowerBounds: Collection>(
+        lowerBounds: LowerBounds,
+        extents: ImageShape
+    ) throws where LowerBounds.Element == Int {
+        let validatedLowerBounds = ContiguousArray(lowerBounds)
+        guard validatedLowerBounds.count == extents.rank else {
+            throw RegionError.rankMismatch
+        }
+
+        var upperBounds = ContiguousArray<Int>()
+        upperBounds.reserveCapacity(extents.rank)
+        for axis in validatedLowerBounds.indices {
+            let addition = validatedLowerBounds[axis].addingReportingOverflow(
+                extents.extents[axis]
+            )
+            guard !addition.overflow else {
+                throw RegionError.arithmeticOverflow
+            }
+            upperBounds.append(addition.partialValue)
+        }
+
+        try self.init(
+            lowerBounds: validatedLowerBounds,
+            upperBounds: upperBounds
+        )
+    }
+
     /// Returns the positive extent of every non-empty axis.
     ///
     /// - Throws: ``RegionError/arithmeticOverflow`` when subtracting a bound

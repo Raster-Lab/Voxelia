@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first thirty foundational slices, `ImageShape` /
+- M1 implementation status: the first thirty-one foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -19,8 +19,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   taxonomies, object identifiers, metadata privacy taxonomy and typed/erased
   metadata keys, neutral coded concepts, provenance vocabularies/identifiers,
   storage-kind/persistence taxonomies, codec identifiers, compressed-region
-  access vocabulary, initial geometry/mesh taxonomies and validated geometry
-  attribute descriptors are implemented and locally verified.
+  access vocabulary, initial geometry/mesh taxonomies, validated geometry
+  attribute descriptors and extent-based region construction are implemented
+  and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -285,6 +286,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Added strict four-field serialization with nested descriptor decoding,
   constructor revalidation and field-specific typed-error context while
   leaving interpolation domains and cross-attribute compatibility to binding.
+- Added `ImageRegion` construction from lower bounds plus an `ImageShape`, with
+  exact rank validation and checked upper-bound addition on every axis.
+- Preserved negative origins, arbitrary rank and the canonical lower/upper
+  value and serialization shape without clamping or introducing parallel
+  extent storage.
 
 ## Verification evidence
 
@@ -521,6 +527,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   valid 2D/3D positions, zero and maximum element counts, deferred non-position
   policy, both typed validation failures, exact Codable shape, nested failures,
   Hashable behavior and Sendable conformance passed.
+- `swift build --target VoxeliaCore` and directly affected builds for
+  `VoxeliaStorage`, `VoxeliaGeometry` and `Voxelia` passed with strict format
+  lint for extent-based region construction.
+- `swift test --filter ImageRegion` executed only the 18 region tests; exact
+  negative-origin conversion, short/long rank mismatches, largest valid `Int`
+  sums, independent-axis overflow, 1,024-axis construction, exact canonical
+  JSON and validated-shape enforcement passed alongside the prior region cases.
 
 ## Known blockers and risks
 
@@ -745,12 +758,15 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `GeometryAttributeDescriptor` validates only invariants knowable from one
   attribute. Element-domain agreement, normal/position compatibility and
   required position presence remain binding-level rules and are not inferred.
+- Extent-based region construction does not imply containment in an image.
+  Negative origins remain valid until the separately specified shape-aware
+  access validation runs.
 
 ## Exact next action
 
-Add extent-based `ImageRegion` construction from lower bounds plus an
-`ImageShape`, with exact rank validation and checked upper-bound addition while
-preserving the existing canonical lower/upper representation.
+Add `ImageRegion.validateContainment(in:)` with exact rank checking and
+half-open bounds validation against an `ImageShape`, including valid empty
+regions anchored on the shape boundary.
 
 ## Test policy for the next action
 

@@ -2,6 +2,7 @@
 
 import Foundation
 import Testing
+
 @testable import VoxeliaCore
 
 @Suite("ImageRegion")
@@ -25,6 +26,95 @@ struct ImageRegionTests {
         let shape = try region.extents()
 
         #expect(Array(shape.extents) == [3, 6])
+    }
+
+    @Test("[Unit][VOX-RGN-001] constructs exact bounds from an origin and extents")
+    func constructsBoundsFromExtents() throws {
+        let shape = try ImageShape(extents: [3, 4, 5])
+        let region = try ImageRegion(
+            lowerBounds: [-2, 10, 0],
+            extents: shape
+        )
+
+        #expect(Array(region.lowerBounds) == [-2, 10, 0])
+        #expect(Array(region.upperBounds) == [1, 14, 5])
+        #expect(try region.extents() == shape)
+    }
+
+    @Test("[Unit][VOX-RGN-002] extent construction requires exact rank")
+    func extentConstructionRejectsRankMismatch() throws {
+        let shape = try ImageShape(extents: [3, 4, 5])
+
+        #expect(throws: RegionError.rankMismatch) {
+            try ImageRegion(lowerBounds: [0, 0], extents: shape)
+        }
+        #expect(throws: RegionError.rankMismatch) {
+            try ImageRegion(lowerBounds: [0, 0, 0, 0], extents: shape)
+        }
+    }
+
+    @Test("[Unit][VOX-RGN-002] extent construction detects upper-bound overflow")
+    func extentConstructionRejectsUpperBoundOverflow() throws {
+        let shape = try ImageShape(extents: [1, 3, 1])
+        let boundaryShape = try ImageShape(extents: [1, 1])
+        let boundaryRegion = try ImageRegion(
+            lowerBounds: [Int.max - 1, Int.min],
+            extents: boundaryShape
+        )
+
+        #expect(Array(boundaryRegion.upperBounds) == [Int.max, Int.min + 1])
+
+        #expect(throws: RegionError.arithmeticOverflow) {
+            try ImageRegion(
+                lowerBounds: [0, Int.max - 2, 0],
+                extents: shape
+            )
+        }
+    }
+
+    @Test("[Unit][VOX-DAT-005] extent construction preserves dynamic rank")
+    func extentConstructionSupportsHighRank() throws {
+        let shape = try ImageShape(extents: repeatElement(1, count: 1_024))
+        let lowerBounds = repeatElement(-1, count: 1_024)
+        let region = try ImageRegion(lowerBounds: lowerBounds, extents: shape)
+
+        #expect(region.rank == 1_024)
+        #expect(region.lowerBounds.allSatisfy { $0 == -1 })
+        #expect(region.upperBounds.allSatisfy { $0 == 0 })
+    }
+
+    @Test("[Unit][VOX-API-004] both construction forms have one canonical value")
+    func extentConstructionUsesCanonicalRepresentation() throws {
+        let shape = try ImageShape(extents: [3, 6])
+        let fromExtents = try ImageRegion(lowerBounds: [2, 5], extents: shape)
+        let fromBounds = try ImageRegion(
+            lowerBounds: [2, 5],
+            upperBounds: [5, 11]
+        )
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+
+        #expect(fromExtents == fromBounds)
+        let encoded = try encoder.encode(fromExtents)
+        let boundsEncoded = try encoder.encode(fromBounds)
+        #expect(encoded == boundsEncoded)
+        let object = try #require(
+            JSONSerialization.jsonObject(with: encoded) as? [String: [Int]]
+        )
+        #expect(
+            object == [
+                "lowerBounds": [2, 5],
+                "upperBounds": [5, 11],
+            ]
+        )
+    }
+
+    @Test("[Unit][VOX-DAT-003] invalid extents cannot enter region construction")
+    func extentConstructionRequiresValidatedShape() {
+        #expect(throws: ShapeError.nonPositiveExtent(axis: 1, value: 0)) {
+            let shape = try ImageShape(extents: [3, 0])
+            _ = try ImageRegion(lowerBounds: [0, 0], extents: shape)
+        }
     }
 
     @Test("[Unit][VOX-RGN-002] rejects a rank mismatch")
