@@ -35,6 +35,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Proposed `ADR-0022` selects a namespaced six-case `CoordinateConvention`
   shape and explicit type-level tags while preserving the separate descriptor
   unit-policy blocker; it is not accepted and does not unblock code.
+- Proposed `ADR-0023` selects four common `ValueTransform` cases with validated
+  linear and composition payloads while deferring undefined piecewise and
+  lookup-execution behavior; it is not accepted and does not unblock code.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -364,6 +367,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Kept `CoordinateSpaceDescriptor` explicitly blocked after the enum proposal
   because ordinary-physical, image-display and custom-unit validity still need
   an approved policy.
+- Added proposed `ADR-0023` with exact public throwing initializer signatures,
+  finite and signed-zero linear policy, ordered nonempty composition policy and
+  explicit strict case tags.
+- Deferred the undefined `PiecewiseLinearDescriptor` and lookup evaluation
+  contract rather than inventing knot, continuity, missing-entry or
+  extrapolation semantics.
 
 ## Verification evidence
 
@@ -688,6 +697,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   controlled-document paths.
 - `Tools/Scripts/validate-docs.sh` passed again with text hygiene for all 49
   Markdown files; no Swift test ran for the coordinate-convention proposal.
+- Targeted ADR checks passed for collision-free `ADR-0023`, exact Proposed
+  status, public initializer signatures, README discoverability and all four
+  referenced source or controlled-document paths.
+- `Tools/Scripts/validate-docs.sh` passed again with text hygiene for all 50
+  Markdown files; no Swift test ran for the value-transform proposal.
 
 ## Known blockers and risks
 
@@ -955,6 +969,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   accepted. Even after acceptance, `CoordinateSpaceDescriptor` remains blocked
   on display/custom unit policy; the enum must not imply a unit, transform or
   external frame identity.
+- Proposed `ADR-0023` does not resolve the transform conflict until accepted.
+  Piecewise-linear transforms remain undefined, and lookup declarations do not
+  establish interpolation, missing-entry or extrapolation behavior.
 - Point containment and axis-aligned bounds intersection are supporting
   evidence for `VOX-SPA-011`, not completion: the requirement also covers
   planes, rays, oriented bounds and rendering or interaction intersections that
@@ -962,10 +979,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Prepare proposed `ADR-0023` for the `ValueTransform` shape conflict, using only
-the four controlled common cases with validated linear and composition payloads
-and deferring undefined piecewise-linear behavior; do not implement it until
-the ADR and explicit Codable tags are approved.
+Audit the conflicting `StorageCapabilities` flag sets, writable spelling,
+stable public bit positions, unknown-bit policy and Codable shape; prepare a
+Proposed ADR only if the complete public contract can be grounded without
+silently choosing behavior.
 
 ## Test policy for the next action
 

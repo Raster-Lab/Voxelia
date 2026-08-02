@@ -1425,9 +1425,14 @@
       "sha256": "62f45a87c76bf0367c57e9679a47bb70207afcf9f7dadeba7c8a1fbc34124142"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0023-value-transform-shape.md",
+      "size": 8811,
+      "sha256": "7abb6f09d5f42cf3f0db9e96517c05df61a74e2aa4eaff1e8490701cce529f8c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 714,
-      "sha256": "fa1c793c2541452984c8799ac541cf642131004bc031dc41ab685f7407eb0d61"
+      "size": 806,
+      "sha256": "004c31f8b6c8e99f907e8cd282016fe70bebf90d84a5b7b4767d277e4c37aed0"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1511,8 +1516,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 67707,
-      "sha256": "d3d8aad210569071d00e3c1bfb1a5ce0af6b01350b138af1be0ff80443bad344"
+      "size": 68836,
+      "sha256": "fdf81e4c8e70840dce8414de04d17b733bc006ffdf13724fc05e8151730a84b8"
     },
     {
       "path": "docs/project/README.md",
@@ -1796,8 +1801,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 15768,
-      "sha256": "9f943398dfe73578b0bb9305efbdae34814395b0102d1a757c8c88fb32ada480"
+      "size": 15830,
+      "sha256": "7a4f07d4b0da289dd7ced30add6d85bc46b57cf484b55335d0e795b33b4ff885"
     }
   ]
 }
