@@ -47,6 +47,10 @@ storage semantics.
 
 - ``ImageSemantic``
 
+### Value transformations
+
+- ``LookupTableDescriptor``
+
 ### Common errors
 
 - ``DataModelError``
