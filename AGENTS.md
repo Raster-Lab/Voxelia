@@ -17,7 +17,8 @@
 5. Run the narrowest relevant verification described below.
 6. Review the diff for API, concurrency, numerical, memory, security, and provenance risks.
 7. Update the progress ledger with evidence and the next action.
-8. Commit only a coherent, verified increment. Never push or publish without explicit user authorization.
+8. Regenerate and verify the release-integrity ledgers when releasable files changed.
+9. Commit only a coherent, verified increment. Never push or publish without explicit user authorization.
 
 If another implementation turn is active, do not start duplicate work. If blocked, continue with another independent unblocked criterion when safe. Ask the user only when a product decision, credential, unavailable required hardware/SDK, or irreversible external action is genuinely required.
 

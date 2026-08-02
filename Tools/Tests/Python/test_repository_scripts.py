@@ -9,6 +9,13 @@ ROOT = Path(__file__).resolve().parents[3]
 
 
 class RepositoryScriptTests(unittest.TestCase):
+    def test_manifest_paths_pass(self) -> None:
+        subprocess.run(
+            ["python3", "Tools/Scripts/check_manifest_paths.py"],
+            cwd=ROOT,
+            check=True,
+        )
+
     def test_document_python_checks_pass(self) -> None:
         subprocess.run(
             ["python3", "Tools/Scripts/check_front_matter.py"],

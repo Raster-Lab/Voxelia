@@ -135,6 +135,11 @@
       "sha256": "858ba4545c445e19ed9e84e7489333fec6db369ede37fcf5f4aea50eee744204"
     },
     {
+      "path": "AGENTS.md",
+      "size": 5721,
+      "sha256": "25de8c55fcf732f69b975108a76025bd275c60340f29793fe0fdd8fc3b083b1a"
+    },
+    {
       "path": "Benchmarks/Baselines/README.md",
       "size": 82,
       "sha256": "5ab2cdd96c534ccd7ae39386f5546d30446ee2aa80e2a2ecbb71ddd343ca51e8"
@@ -821,8 +826,8 @@
     },
     {
       "path": "Tools/README.md",
-      "size": 421,
-      "sha256": "2fa8514d0cee6fb941da4a24ecd2c2c19f5470c4a006c690c0002ffb984abdc3"
+      "size": 900,
+      "sha256": "99de54b894844bd1dbda2f17c0530ac5fb993b6b1fe65ba8509449328808e15b"
     },
     {
       "path": "Tools/Scripts/assert-apple-platform.sh",
@@ -860,6 +865,11 @@
       "sha256": "50df4b26d2d10b9d50083632b305f25b65480c3bb6346534bb076e7b67b2793e"
     },
     {
+      "path": "Tools/Scripts/check_manifest_paths.py",
+      "size": 5645,
+      "sha256": "d46309ec193dd1df44c62a3da546f36c14dffc8a1d7f3d3f3a265beb6f7cb389"
+    },
+    {
       "path": "Tools/Scripts/check_package_graph.py",
       "size": 2466,
       "sha256": "219a23e2ec6beaed9d4958dcb572f21998766f60874a6ae7a74e990690666f1b"
@@ -875,9 +885,14 @@
       "sha256": "5d2184cdbbd155c549dafaaa385ef7060b6c22f63c61713cbe62dca1511a28ba"
     },
     {
+      "path": "Tools/Scripts/check_release_integrity.py",
+      "size": 10622,
+      "sha256": "6de80ea631dfdebefe78e9c2f817da6a957f514cd302d83f43c0fdd50e15027f"
+    },
+    {
       "path": "Tools/Scripts/check_required_files.py",
-      "size": 999,
-      "sha256": "b28fac151a393a4ffdfa34a14feb2cc787d080f2376dc6b4216f16c18309c23f"
+      "size": 1100,
+      "sha256": "842e69dda3862c4af5e8ded52ec66c3c2d528588924ef9aa7475086a0ae1d149"
     },
     {
       "path": "Tools/Scripts/generate-sbom.sh",
@@ -916,8 +931,8 @@
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
-      "size": 859,
-      "sha256": "4ae24a8f2386614624e1e53dedab7c889505b380962f5285891590246a60a294"
+      "size": 954,
+      "sha256": "1a9e1d3d1d7658f90a00d19dd936060f8cc46f6aa6e90bad58faf88d1c9e5bc7"
     },
     {
       "path": "Tools/Scripts/validation-smoke.sh",
@@ -935,9 +950,19 @@
       "sha256": "f1bfdf5c8f844979f4661b3532b0150eac76aab966251b4fddbc2f7aa98123a5"
     },
     {
+      "path": "Tools/Tests/Python/test_manifest_paths.py",
+      "size": 3497,
+      "sha256": "5bee382aa33ac3ac8b449887b9e538aa3f137bdc910a66c3eea618f7aee56fb0"
+    },
+    {
+      "path": "Tools/Tests/Python/test_release_integrity.py",
+      "size": 2918,
+      "sha256": "5004392076997510690687b188a0e6c19a4496a23dc455fdbd255c8920614b9a"
+    },
+    {
       "path": "Tools/Tests/Python/test_repository_scripts.py",
-      "size": 1408,
-      "sha256": "81642e97d509c10d74346d2b0481151f3cb0f336e0501defb3fa8de179d34454"
+      "size": 1603,
+      "sha256": "a0af4e7ecf35b59a00bbafdf4ae3aec7bf5d90a4d20a7affb7021a2bcff69a8c"
     },
     {
       "path": "Tools/Tests/VoxeliaRepositoryToolTests/RepositoryToolTests.swift",
@@ -1130,6 +1155,11 @@
       "sha256": "e82ed8799284471194ba078966b301b63d3b5fd4a0a2c51b9b74316c2d41975d"
     },
     {
+      "path": "docs/progress/AUTONOMY_STATUS.md",
+      "size": 4416,
+      "sha256": "c2e46ab4981d6f2b6cd90d55a987ddae2f1d94da140b088e67756e40a57e9f98"
+    },
+    {
       "path": "docs/project/README.md",
       "size": 695,
       "sha256": "d061861861573883c06fe35e69a2c365649bdfd93f7eb08ffbafbd7650cea55e"
@@ -1183,6 +1213,51 @@
       "path": "docs/releases/v0.1.1/Apple_Platform_Acceptance_Checklist.md",
       "size": 1149,
       "sha256": "f3ac5856ac173b2c908efc6d310ec5872bc51c3d92072e8478f67e0f4896ade2"
+    },
+    {
+      "path": "docs/releases/v0.1.1/M0-001_Corrective_Action_Record.md",
+      "size": 1509,
+      "sha256": "59968a3e1be3e9ba65d73f3f3f7d37cfcf3b35965909866632af3578d5ec3e49"
+    },
+    {
+      "path": "docs/releases/v0.1.1/Package_Graph.json",
+      "size": 934,
+      "sha256": "6dc6b2358786c493aeeeba2ee028e15662a0db893c4047f8ecaa79b60b5dde6d"
+    },
+    {
+      "path": "docs/releases/v0.1.1/Package_Graph.md",
+      "size": 972,
+      "sha256": "85c41566ab13b30cabb13ba983c2ab85ab4e47b8cfd6a3bfd299249ec266086c"
+    },
+    {
+      "path": "docs/releases/v0.1.1/README.md",
+      "size": 477,
+      "sha256": "88ee10979a76b94c99257bd48572f1d0939f656ed120e48047962d477852594e"
+    },
+    {
+      "path": "docs/releases/v0.1.1/Requirements_Traceability_Index.json",
+      "size": 111576,
+      "sha256": "99623477c9d43cdb24a9879e1ae9437caf294268d940ab67204c8fc5ccb6f83a"
+    },
+    {
+      "path": "docs/releases/v0.1.1/SBOM.scaffold.json",
+      "size": 1215,
+      "sha256": "1b003bdab1cbf9bc2209f4a200540c76623f298ba2f7307b0434229dc406571d"
+    },
+    {
+      "path": "docs/releases/v0.1.1/Static_Verification_Report.md",
+      "size": 4357,
+      "sha256": "b945bea40c83fbd04d93e41fe0f35df41a16da29286be654d4974a8a0d1494ce"
+    },
+    {
+      "path": "docs/releases/v0.1.1/Voxelia_v0.1.1_Corrective_Release_Notes.md",
+      "size": 1634,
+      "sha256": "6f4bf6ce2a5780ef428a1e7f8df7048f7e83f426a803e923970e8c0dd6a744bd"
+    },
+    {
+      "path": "docs/releases/v0.1.1/checksums.sha256",
+      "size": 3078,
+      "sha256": "d08014acf92ab3ec32fddf890013f34e7b81227e6bca456858dba1e5cdb5c44b"
     },
     {
       "path": "docs/releases/v0.1.1/logs/01-required-files.txt",
@@ -1243,46 +1318,6 @@
       "path": "docs/releases/v0.1.1/logs/12-alternate-platform-config.txt",
       "size": 54,
       "sha256": "c5d3ab29de65ca0ea4c7c412a159c7b9e1f5121cd9db7606a72954d5663b3dbf"
-    },
-    {
-      "path": "docs/releases/v0.1.1/M0-001_Corrective_Action_Record.md",
-      "size": 1509,
-      "sha256": "59968a3e1be3e9ba65d73f3f3f7d37cfcf3b35965909866632af3578d5ec3e49"
-    },
-    {
-      "path": "docs/releases/v0.1.1/Package_Graph.json",
-      "size": 934,
-      "sha256": "6dc6b2358786c493aeeeba2ee028e15662a0db893c4047f8ecaa79b60b5dde6d"
-    },
-    {
-      "path": "docs/releases/v0.1.1/Package_Graph.md",
-      "size": 972,
-      "sha256": "85c41566ab13b30cabb13ba983c2ab85ab4e47b8cfd6a3bfd299249ec266086c"
-    },
-    {
-      "path": "docs/releases/v0.1.1/README.md",
-      "size": 477,
-      "sha256": "88ee10979a76b94c99257bd48572f1d0939f656ed120e48047962d477852594e"
-    },
-    {
-      "path": "docs/releases/v0.1.1/Requirements_Traceability_Index.json",
-      "size": 111576,
-      "sha256": "99623477c9d43cdb24a9879e1ae9437caf294268d940ab67204c8fc5ccb6f83a"
-    },
-    {
-      "path": "docs/releases/v0.1.1/SBOM.scaffold.json",
-      "size": 1215,
-      "sha256": "1b003bdab1cbf9bc2209f4a200540c76623f298ba2f7307b0434229dc406571d"
-    },
-    {
-      "path": "docs/releases/v0.1.1/Static_Verification_Report.md",
-      "size": 4357,
-      "sha256": "b945bea40c83fbd04d93e41fe0f35df41a16da29286be654d4974a8a0d1494ce"
-    },
-    {
-      "path": "docs/releases/v0.1.1/Voxelia_v0.1.1_Corrective_Release_Notes.md",
-      "size": 1634,
-      "sha256": "6f4bf6ce2a5780ef428a1e7f8df7048f7e83f426a803e923970e8c0dd6a744bd"
     },
     {
       "path": "docs/releases/v0.1.1/logs/apple_platform_policy.log",
@@ -1401,8 +1436,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 11797,
-      "sha256": "db3e7afb02f3f60feb8c11fab8bd83eb8595a0d1140b7fab00bcbd4a95902908"
+      "size": 12006,
+      "sha256": "1ac2295f529ca3b4fce5888cf08ceca6069311719185226ec5ccd7ae5bd16495"
     }
   ]
 }
