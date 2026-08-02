@@ -63,6 +63,9 @@ storage semantics.
 ### Metadata
 
 - ``MetadataPrivacyClass``
+- ``MetadataKey``
+- ``AnyMetadataKey``
+- ``MetadataKeyError``
 
 ### Common errors
 
