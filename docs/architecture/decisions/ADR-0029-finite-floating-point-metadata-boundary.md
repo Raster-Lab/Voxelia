@@ -261,9 +261,10 @@ aggregates.
   exposing `Double` directly.
 - A scalar JSON-number shape is available, but canonical decimal bytes and
   raw-ingress validation remain explicitly unresolved.
-- The recursive metadata model remains blocked by binary representation,
-  recursive limits, object uniqueness and ordering, collection multiplicity,
-  privacy attachment, typed access, case tags and canonical JSON.
+- `MetadataValue` remains blocked pending the binary leaf and accepted bounded
+  recursive-value decision `ADR-0031`; collection multiplicity, privacy
+  attachment, typed access and canonical JSON remain separate blockers for
+  their wider layers.
 
 ## Affected modules
 
@@ -348,9 +349,9 @@ After acceptance:
 2. implement only the standalone wrapper and typed error in `VoxeliaCore` with
    strict single-value Codable;
 3. add the focused Core, DocC and static dependency evidence listed above;
-4. use the wrapper in `MetadataValue` only after the recursive aggregate's
-   remaining case-tag, container, privacy and collection contracts are
-   approved;
+4. use the wrapper in `MetadataValue` only after bounded recursive-value
+   decision `ADR-0031` is accepted, while keeping general entries,
+   collections and privacy attachment deferred to their own decisions;
 5. specify canonical numeric bytes and raw-ingress limits in the separate
    canonical JSON decision; and
 6. update traceability, changelog and release-integrity evidence.

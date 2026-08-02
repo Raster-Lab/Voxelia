@@ -316,9 +316,9 @@ never the authoritative public value selected here.
 - The canonical value remains human-readable and directly embeddable as a JSON
   string, but does not by itself establish canonical top-level JSON or digest
   bytes.
-- `MetadataValue`, metadata collections and complete provenance remain blocked
-  by their other identity, privacy, graph, execution and serialisation
-  decisions.
+- `MetadataValue` remains blocked pending accepted recursive-value decision
+  `ADR-0031`; metadata collections and complete provenance remain separately
+  blocked by their privacy, graph, execution and serialisation decisions.
 
 ## Affected modules
 
@@ -407,8 +407,10 @@ After acceptance:
 3. implement only the standalone leaf and typed error in `VoxeliaCore`, using a
    manual bounded ASCII parser and strict single-value Codable;
 4. add the focused Core tests and static dependency evidence listed above;
-5. keep the recursive metadata and full provenance aggregates deferred until
-   their remaining contracts are approved; and
+5. use the leaf in `MetadataValue` only after bounded recursive-value decision
+   `ADR-0031` is accepted, while keeping general entries, collections, privacy
+   attachment and full provenance deferred until their own contracts are
+   approved; and
 6. update traceability, changelog and release-integrity evidence.
 
 No migration step may begin while this ADR remains Proposed.

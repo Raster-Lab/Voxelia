@@ -120,15 +120,16 @@ mutation, textual parsing or presentation behaviour that this leaf does not
 need. Deliberate byte access remains available through the immutable `bytes`
 property. Hosts must still avoid interpolating metadata values into logs.
 
-There is no intrinsic byte-count maximum in version one. Every finite byte
-collection is a semantically valid programmatic input, subject to available
-memory. This absence is not permission for unbounded untrusted decoding. A
-canonical or adapter ingress must apply host-selected limits to the raw
-document, encoded string token, decoded binary leaf and aggregate metadata
-before the corresponding allocations or recursive work. The future metadata
-aggregate must also limit entry count, nesting depth and total decoded bytes.
-Large sample buffers remain external references by default rather than binary
-metadata.
+There is no intrinsic byte-count maximum for the standalone leaf in version
+one. Every finite byte collection is a semantically valid programmatic input,
+subject to available memory. This absence is not permission for unbounded
+untrusted decoding. A canonical or adapter ingress must apply host-selected
+limits to the raw document, encoded string token and decoded binary leaf before
+the corresponding allocations. Proposed `ADR-0031` additionally gives a
+recursive array or object a hard logical aggregate-payload ceiling, so an
+otherwise valid standalone leaf may be too large to embed in that container.
+Hosts may impose lower aggregate limits. Large sample buffers remain external
+references by default rather than binary metadata.
 
 Type-level Codable will be implemented manually and will use exactly one
 single-value JSON string containing the standard RFC 4648 Base64 alphabet:
@@ -274,8 +275,9 @@ can be implemented after acceptance without authorising those aggregates.
   value boundary and does not appear in the public stored representation.
 - Type-level Codable has one strict padded Base64 semantic string independent
   of Foundation data strategies.
-- The leaf adds no arbitrary intrinsic maximum; safe untrusted decoding depends
-  on earlier host-selected raw and decoded resource limits.
+- The standalone leaf adds no arbitrary intrinsic maximum; safe untrusted
+  decoding depends on earlier host-selected raw and decoded resource limits,
+  while proposed `ADR-0031` separately bounds recursive embedding.
 - Construction is linear in the general case but may share safe canonical
   copy-on-write storage in constant time; equality, hashing and serialisation
   are linear in byte count, so callers must not confuse this metadata leaf with
@@ -387,10 +389,12 @@ After acceptance:
    Codable in `VoxeliaCore`;
 4. add the focused Core, DocC, property, fuzz and static dependency evidence
    listed above;
-5. use the wrapper in `MetadataValue` only after the recursive aggregate's
-   remaining tag, container, privacy and collection contracts are approved;
-6. define raw admission, decoded-leaf and aggregate limits in the separate
-   canonical-ingress, adapter and host-policy decisions; and
+5. use the wrapper in `MetadataValue` only after bounded recursive-value
+   decision `ADR-0031` is accepted, while keeping general entries,
+   collections and privacy attachment deferred to their own decisions;
+6. define raw admission and decoded-leaf limits in the separate canonical-
+   ingress, adapter and host-policy decisions, with hosts permitted to tighten
+   the hard recursive ceilings proposed by `ADR-0031`; and
 7. update traceability, changelog and release-integrity evidence.
 
 No migration step may begin while this ADR remains Proposed.
@@ -401,8 +405,9 @@ This Proposed ADR neither supersedes nor is superseded by another file-backed
 ADR. If accepted, it resolves only direct `Data` ownership and the binary
 leaf's semantic JSON string through the controlled migration above. It does not
 select a complete metadata schema, recursive resource policy, canonical JSON
-document algorithm, content identity or privacy model. While Proposed, it has
-no supersession effect.
+document algorithm, content identity or privacy model. Proposed `ADR-0031`
+governs only whether and how the standalone leaf may be embedded in a bounded
+recursive value. While Proposed, neither record has supersession effect.
 
 ## References
 

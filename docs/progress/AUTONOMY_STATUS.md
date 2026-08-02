@@ -47,11 +47,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   independent equality and hashing, signed-zero normalization, and an exact
   six-key explicit-null wire shape. This does not define unit conversion or
   coordinate-space unit admissibility.
-- The recursive metadata model has been audited and remains contract-blocked:
-  its raw public payloads cannot enforce floating-point, instant, binary,
-  string, object, privacy or resource invariants. The independently implemented
-  metadata-key leaf now uses exact accepted UTF-8 pair identity without
-  claiming canonical-digest string normalization.
+- The recursive metadata model has been audited and remains source-blocked:
+  proposed `ADR-0031` replaces its bypassable array/object payloads with
+  validated bounded containers and a privacy-neutral nested object member.
+  General entries, collections, privacy and canonical byte ingress remain
+  separate; the independently implemented metadata-key leaf uses exact
+  accepted UTF-8 pair identity without claiming canonical-digest normalisation.
 - Proposed `ADR-0028` selects a shared Core-owned `CanonicalInstant` for the raw
   metadata and provenance strings: one bounded uppercase zero-offset RFC 3339-
   derived profile, typed value-redacted errors and strict scalar-string Codable.
@@ -64,14 +65,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Proposed `ADR-0030` selects a Core-owned `MetadataBinary` for the raw
   metadata `Data`: one owned `ContiguousArray<UInt8>` snapshot, exact ordered-
   byte identity and strict padded standard-Base64 scalar Codable. It assigns
-  host-selected limits to the raw-ingress and aggregate boundaries rather than
-  inventing an intrinsic cap. It is not accepted and does not authorise source
-  or the recursive metadata aggregate.
+  host-selected limits to raw and standalone-leaf ingress without inventing an
+  intrinsic leaf cap; proposed `ADR-0031` separately bounds recursive
+  embedding. Neither is accepted or authorises source.
 - The raw metadata `String` audit retains `case string(String)`: every valid
   Swift string remains admissible. It recommends exact UTF-8 branch identity
-  over Swift's canonical-equivalence relation, but that projection remains an
-  aggregate-ADR decision. A standalone wrapper and string-only ADR would add
-  no invariant or independently implementable leaf; no source is authorised.
+  over Swift's canonical-equivalence relation; proposed `ADR-0031` accepts that
+  candidate for the aggregate. A standalone wrapper and string-only ADR would
+  add no invariant or independently implementable leaf; no source is
+  authorised while the aggregate proposal remains unaccepted.
+- Proposed `ADR-0031` selects privacy-neutral `MetadataArray` and
+  `MetadataObject.Member`/`MetadataObject` wrappers, exact-key map ordering,
+  strict one-tag Codable and hard ceilings of 64 container levels, 1,048,576
+  logical structural elements and 64 MiB logical variable payload per
+  recursive root. It remains Proposed, depends on `ADR-0028` through
+  `ADR-0030`, requires supported-device ceiling evidence and does not authorise
+  source.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -201,15 +210,15 @@ are nevertheless a source no-go:
 |---|---|---|
 | Floating point | Floating metadata must have an explicit non-finite policy; identity requires a NaN rule and signed-zero canonicalization. | Public `case floatingPoint(Double)` bypasses validation. NaN makes synthesized equality non-reflexive and permits two apparently identical set members; `-0.0` equals/hashes like `+0.0` but encodes differently. |
 | Instant | The wire value must be a canonical UTC ISO 8601 string. | Public `case instant(String)` bypasses validation. Extended/basic form, mandatory `Z`, seconds, fractional precision, trailing zeros, calendar/year range, leap seconds and `24:00:00` are unspecified. |
-| String | Generic text must preserve the supplied Unicode scalar sequence without silently choosing a namespace-specific equivalence. | The isolated audit retains raw `String`, admits every valid Swift string and recommends exact UTF-8 equality/hashing as the aggregate identity projection. No wrapper or string-only ADR is justified; the future aggregate ADR must approve or replace that candidate while settling tags, recursion and resource limits before source. |
-| Binary | Binary metadata exists and canonical JSON must select base64 or hexadecimal. | Proposed `ADR-0030` selects an owned byte snapshot and strict padded standard Base64 without an arbitrary intrinsic cap, but it is not accepted. Pre-allocation and aggregate limits remain canonical-ingress and host-policy work. |
-| Recursive arrays | Array order is naturally preserved. | No depth, node, entry, string, binary or total-byte limits exist; it is undecided which are intrinsic and which are host-provided ingress policy. |
-| Objects | Object keys must be unique. | Public `case object(ContiguousArray<MetadataEntry>)` permits duplicates directly; object input order versus canonical map identity and sorting are unspecified. |
+| String | Generic text must preserve the supplied Unicode scalar sequence without silently choosing a namespace-specific equivalence. | The isolated audit retains raw `String` and admits every valid Swift string. Proposed `ADR-0031` accepts exact UTF-8 aggregate equality/hashing without a wrapper, but it remains unaccepted. |
+| Binary | Binary metadata exists and canonical JSON must select base64 or hexadecimal. | Proposed `ADR-0030` selects an owned snapshot and strict padded standard Base64 without an intrinsic standalone cap. Proposed `ADR-0031` adds a hard logical payload ceiling only for recursive embedding; raw/token/leaf pre-allocation remains ingress policy. |
+| Recursive arrays | Array order is naturally preserved. | Proposed `ADR-0031` replaces the raw payload with validated `MetadataArray`, preserves order and enforces depth, structural-work and logical-payload ceilings. The proposal and its numerical ceiling evidence remain unaccepted. |
+| Objects | Object keys must be unique. | Proposed `ADR-0031` uses validated `MetadataObject` plus a privacy-neutral nested member, rejects exact-key duplicates and canonical-sorts unsigned UTF-8 namespace/name bytes. General `MetadataEntry` remains deferred. |
 | Collection multiplicity | Duplicate keys are rejected unless a namespace schema permits multiplicity. | No schema type, resolver, stable identity or serialization contract exists. Rejecting all repeats removes governed multiplicity; accepting them violates validation by construction. |
 | Privacy | Metadata may carry `MetadataPrivacyClass`, and validation/logging/export must cover it. | No attachment field, default/unclassified meaning, `hostDefined` resolver, nested aggregation, downgrade rule or equality/digest policy is specified. Classification belongs semantically per entry, with schema constraints and host enforcement, but that design requires approval. |
 | Typed access | Reads must match the requested type or return a typed error without coercion. | No mapping protocol, missing/wrong-type/multiple-value behavior or erased-to-typed conversion contract exists. |
-| Type-level encoding | Value cases require explicit stable tags. | Synthesized associated-value Codable exposes compiler-shaped `_0` payloads and accepts distinct extras; exact discriminator, payload and null rules are absent. |
-| Canonical identity | Metadata included in an identity is ordered and uses canonical JSON. | The relationship between semantic equality and record-exact encoding is unresolved, especially because nested unit/code presentation text is encoded but excluded from local equality. |
+| Type-level encoding | Value cases require explicit stable tags. | Proposed `ADR-0031` selects one-member externally tagged objects, strict payloads and sorted object-member arrays. It deliberately does not claim raw duplicate detection or canonical document bytes. |
+| Canonical identity | Metadata included in an identity is ordered and uses canonical JSON. | Proposed `ADR-0031` distinguishes semantic `Hashable` identity from record bytes: unit/code display text remains encoded but excluded from equality. The persistent canonical projection and digest remain unresolved. |
 | Canonical ingress | Raw duplicate keys, stable lexical forms, schema versions and bounded untrusted input are mandatory. | A Swift value decoder may receive already-collapsed keys and already-allocated strings/data; type-level Codable cannot recover or enforce byte-ingress constraints. |
 
 Swift 6.3.3 probes confirmed that `ContiguousArray` supplies enough indirection
@@ -217,9 +226,10 @@ for the recursive shape to compile, but synthesis is not a safe contract:
 `.floatingPoint(.nan)` is unequal to itself and creates two set members,
 positive and negative zero encode differently, synthesized tags use `_0`,
 distinct extra fields decode, raw duplicate JSON keys collapse before model
-inspection, and hashing a 50,000-level tree trapped. A safe correction therefore
-needs separately reviewed scalar wrappers, recursive containers, canonical
-byte ingress and collection policy rather than one speculative implementation.
+inspection, and hashing a 50,000-level tree trapped. Proposed
+`ADR-0031` now supplies separately reviewed recursive containers and hard
+anti-amplification ceilings; canonical byte ingress, collection and privacy
+policy remain independent rather than being folded into that value proposal.
 
 The audit also exposed a bounded defect in the existing `MetadataKey<Value>`
 and `AnyMetadataKey`: both preserve and encode opaque source spelling, while
@@ -321,7 +331,7 @@ Proposed `ADR-0030` selects this review boundary:
 | Identity | Exact byte count and ordered sequence, including a valid empty value; source allocation, segmentation and text spelling are irrelevant. | Content typing, cryptographic identity, compression and constant-time comparison. |
 | Type-level encoding | One strict standard RFC 4648 Base64 string with required padding, standard `+/` alphabet and zero unused bits. | Outer enum tags, schema envelopes, raw JSON escape spelling, key ordering and complete canonical document bytes. |
 | Errors and privacy | Malformed semantic Base64 becomes value-redacted `DecodingError.dataCorrupted` at the current coding path; no public error is added because every programmatic byte sequence is valid. | Sanitising errors raised before wrapper validation, privacy attachment and host logging/export policy. |
-| Limits | No fixed intrinsic leaf maximum without governed evidence; operations are linear and ingress must apply host-selected raw-token, decoded-leaf and aggregate limits before allocation or recursion. | Exact limit values, configuration API, entry/node/depth/string totals and distributed payload policy. |
+| Limits | No fixed intrinsic standalone-leaf maximum; ingress applies host-selected raw-token and decoded-leaf limits, while proposed `ADR-0031` separately caps recursive logical payload. | Lower host profiles, pre-allocation enforcement and distributed payload policy. |
 
 Standard padded Base64 is a Voxelia policy choice, not a JSON or RFC mandate.
 It is more compact than hexadecimal and needs no URL-safe alphabet inside a
@@ -413,15 +423,81 @@ strictly decode valid source text rather than use a repairing conversion such
 as `String(decoding:as:)`; how an adapter preserves malformed or intentionally
 opaque source data remains a separate schema/format decision.
 
-There is no standalone `MetadataString` implementation or `ADR-0031`. The
-identity candidate is significant enough to resolve in the future aggregate
-ADR, but it has no independent invariant, ownership boundary, migration or
-source slice. Reserving public API or an ADR solely to restate raw `String`
-would violate the minimal-public-API principle and separate the equality rule
-from the recursive algorithm that would enforce it. Until approved, exact
-UTF-8 is audit evidence rather than contract. `ADR-0031` remains the next
-unallocated identifier for that aggregate decision if the combined audit
-warrants it.
+There is no standalone `MetadataString` implementation or string-only ADR. The
+identity candidate is significant enough to resolve in the aggregate but has
+no independent invariant, ownership boundary, migration or source slice.
+Proposed `ADR-0031` now accepts exact UTF-8 string-branch identity as part of
+the recursive algorithm that would enforce it. Until that proposal is accepted,
+exact UTF-8 remains audit evidence rather than an authorised contract.
+
+## M1 bounded recursive metadata-value prerequisite audit
+
+The combined governance, Swift and wire audits established that the raw
+recursive cases are unsafe even after the scalar leaves are corrected. Swift
+does not permit a public enum case to have narrower access than its enum, so a
+factory cannot prevent direct duplicate-key objects or excessive recursion.
+Changing only equality and hashing to iterative traversals also leaves
+arbitrary-depth recursive storage teardown unbounded. Proposed `ADR-0031`
+therefore selects validated nominal payloads while preserving enum pattern
+matching:
+
+| Area | Proposed version-one decision | Explicitly deferred |
+|---|---|---|
+| Array shape | `case array(MetadataArray)`; one throwing generic-collection initializer, immutable `ContiguousArray` storage, empty valid and input order preserved. | Typed numeric arrays, flattening and standalone wrapper Codable. |
+| Object shape | `case object(MetadataObject)` with privacy-neutral nested `MetadataObject.Member`; reject duplicate exact keys and canonical-sort namespace then name by unsigned UTF-8 bytes. | General `MetadataEntry`, `MetadataCollection`, privacy attachment and namespace multiplicity. |
+| Hard safety | Container depth 64, 1,048,576 logical structural elements and 67,108,864 logical variable-payload bytes. Count repeated COW-shared subtrees per semantic occurrence and use checked arithmetic. | Lower host-selected document, token, leaf, entry and workload limits plus lowest-resource-device acceptance evidence. |
+| Identity | Exact case tag and payload; arrays ordered; objects map-ordered; raw strings exact UTF-8; accepted instant/floating/binary leaves delegate to their contracts. | Canonical record/digest identity; unit/code presentation text remains preserved in Codable but excluded from semantic equality. |
+| Traversal | Iterative depth-first equality and hashing with O(depth) cursor state; private cached metrics never enter identity or wire. | Persistent hash/digest, interning and private lookup indexing. |
+| Type-level wire | Exactly one external tag from the eleven case names; object payload is a sorted array of strict `{key,value}` members; null, unknown/multiple tags and wrong shapes rejected. | Raw duplicate names, lexical integer/escape form, schema version, canonical document bytes and signatures. |
+| Errors and privacy | Four payload-free typed errors for duplicate key and each hard limit; no key, value, unknown tag or recursive `self` in model-originated errors. | Classification attachment, inheritance, downgrade prevention, `hostDefined` resolution, logging/export authorisation and upstream decoder sanitisation. |
+
+Depth is the number of recursive containers: a leaf has depth zero, an empty
+container has depth one and a nonempty container has one plus its deepest child
+depth. Logical structural elements count every `MetadataValue` and object
+member occurrence, not unique backing buffers. Logical variable payload counts
+every occurrence of raw-string UTF-8, instant text, decoded binary, object-key
+UTF-8 and all stored code/unit strings, including presentation fields.
+
+The structural and byte ceilings are required because copy-on-write sharing
+can amplify logical work without comparable resident storage. Repeatedly
+wrapping `[value, value]` produces 1,048,575 logical value nodes at depth 19
+and 2,097,151 at depth 20 with only twenty new container buffers. Repeating a
+one-mebibyte string six times through the same binary pattern denotes 64 MiB of
+logical payload. The wrappers charge every occurrence and reject the next
+step. A standalone valid string or binary leaf keeps its uncapped leaf domain,
+but a recursive container may reject embedding it; raw standalone admission
+still belongs to the host.
+
+Object order is non-semantic. The nested member avoids freezing the general
+two-field `MetadataEntry` before privacy classification has an approved
+attachment and wire contract. Exact-key uniqueness follows the already
+implemented `AnyMetadataKey` identity, so canonically equivalent but UTF-8-
+distinct keys remain different. Arbitrary metadata keys never become dynamic
+JSON property names or diagnostic fields.
+
+The tagged semantic wire uses `boolean`, `signedInteger`, `unsignedInteger`,
+`floatingPoint`, `string`, `binary`, `instant`, `unit`, `code`, `array` and
+`object`. Full `Int64` and `UInt64` values remain JSON numbers. A semantic
+decoder may accept numeric aliases such as `1.0`, `1e0` or `-0`; canonical raw
+ingress must select an exact lexical integer parser. Unmodified JCS cannot
+round-trip the full unsigned range through its binary64 number model, so the
+future canonical-byte decision must not silently narrow the controlled value
+domain.
+
+`ADR-0031` also reconciles the three Proposed leaf migrations: a leaf may enter
+`MetadataValue` only after its own ADR and `ADR-0031` are accepted. General
+entries, collections, privacy and canonical byte ingress are no longer treated
+as prerequisites for reviewing the privacy-neutral value, but remain blocked
+on their own contracts. The proposed ceilings require focused boundary and
+representative lowest-resource Apple-device evidence before acceptance, so no
+Swift implementation is authorised in this increment.
+
+Primary traceability is `VOX-GOV-005`, `VOX-GOV-006`, `VOX-ARC-003`,
+`VOX-API-001`, `VOX-API-003`, `VOX-API-004`, `VOX-DAT-014`,
+`VOX-META-001`, `VOX-META-002`, `VOX-ERR-001`, `VOX-SEC-001`,
+`VOX-SEC-011`, `VOX-VAL-007`, `VOX-VAL-008` and `VOX-VAL-009`.
+Value-redacted logging guidance additionally maps to `VOX-ERR-007` and
+`VOX-SEC-006`.
 
 ## Completed in this increment
 
@@ -866,9 +942,9 @@ warrants it.
   `ContiguousArray<UInt8>` snapshot, exact ordered-byte identity, a valid empty
   value and strict padded standard-Base64 scalar Codable.
 - Rejected direct retained `Data`, permissive Foundation Base64 decoding and an
-  unevidenced one-mebibyte cap; host-selected raw-token, decoded-leaf and
-  aggregate limits remain mandatory future ingress work, and no binary-
-  metadata Swift source is authorised while the proposal remains unaccepted.
+  unevidenced intrinsic leaf cap; host-selected raw-token and decoded-leaf
+  limits remain mandatory ingress work, while proposed `ADR-0031` separately
+  bounds recursive embedding. No binary-metadata Swift source is authorised.
 - Audited the raw string metadata branch across local governance, Unicode
   normalisation and noncharacter rules, JSON/I-JSON/JCS, Swift 6.3.3 exact
   storage, equality, hashing, bridging, Codable and privacy behaviour.
@@ -876,17 +952,36 @@ warrants it.
   every valid Swift string is admissible, while exact UTF-8 branch identity is
   the audited aggregate candidate rather than an authorised contract.
 - Kept empty text, controls, bidi/format values, private-use, unassigned and
-  noncharacter scalars lossless; no standalone `ADR-0031`, intrinsic cap,
-  silent normalisation or string source is authorised before the aggregate ADR
-  settles tags, recursion, objects, limits and privacy.
+  noncharacter scalars lossless; no string wrapper, string-only ADR, intrinsic
+  leaf cap, silent normalisation or string source is authorised.
+- Audited recursive construction, copy-on-write amplification, destruction,
+  equality, hashing, object identity, strict semantic Codable, full-width
+  integers, resource accounting and value-redacted diagnostics under Swift
+  6.3.3 and the controlled metadata/canonical-JSON requirements.
+- Added proposed `ADR-0031` with validated `MetadataArray` and
+  `MetadataObject` payloads, a privacy-neutral nested object member, exact-key
+  canonical map order and exact UTF-8 raw-string identity.
+- Selected Proposed hard ceilings of 64 container levels, 1,048,576 logical
+  structural elements and 64 MiB logical variable payload, counting repeated
+  copy-on-write-shared occurrences with checked arithmetic; lower host limits
+  and pre-allocation ingress remain separate.
+- Selected strict one-member external tags for all eleven cases and preserved
+  full `Int64`/`UInt64` number domains without claiming ordinary Codable output
+  is canonical JSON or that JCS can represent the full unsigned range.
+- Reconciled the Proposed instant, floating and binary leaf migrations with
+  the bounded aggregate while leaving general `MetadataEntry`, collections,
+  privacy, typed access, canonical byte ingress and source implementation
+  deferred until their own approvals and the ceiling evidence exist.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 369-entry manifest covers every releasable file except its
+- The current 371-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
+- Final release-integrity regeneration and read-only verification passed with
+  370 inventory records and 371 checksums for this increment.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -1891,6 +1986,89 @@ python3 Tools/Scripts/check_manifest_paths.py
 python3 Tools/Scripts/check_release_integrity.py
 ```
 
+For proposed `ADR-0031`, the isolated reproducible Swift evidence is stored in
+`docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift`. It is
+explicitly probe code, not product source or implementation authorisation. The
+exact successful strict-concurrency command was:
+
+```bash
+xcrun swift -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors \
+  docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift
+```
+
+It printed:
+
+```text
+exactStrings=2
+objectOrder=a,b
+equivalentKeySpellings=2
+depth=64/64 next=rejected
+amplifiedElements=1048575 next=rejected
+elementArithmetic=1048576/1048576 next=rejected
+payload=67108864/67108864 next=rejected
+standalonePayload=67108865 embedded=rejected callerPath=sanitized
+wide=20000 strictInvalid=6 integerAliases=4
+ordered={"object":[{"key":{"name":"a","namespace":"ns"},"value":{"signedInteger":1}},{"key":{"name":"b","namespace":"ns"},"value":{"signedInteger":2}}]}
+```
+
+The probe compiled the reciprocal value/container/member shape under strict
+`Sendable` checking; exercised exact UTF-8 string and key identity, duplicate
+rejection, canonical object order, order-independent object equality/hashing,
+iterative O(depth)-cursor identity and a 20,000-element array; admitted depth
+64 and rejected 65; admitted the 1,048,575-node COW amplification case and
+rejected 2,097,151; checked exact 1,048,576-element arithmetic and one-over;
+admitted exactly 64 MiB logical repeated payload and rejected 128 MiB; checked
+an above-ceiling standalone leaf while rejecting the same leaf inside a
+recursive container; sanitised a model-originated coding path beneath an
+arbitrary caller key; checked unsigned counter overflow; round-tripped
+`Int64.min`, `Int64.max`, `UInt64.max`, empty containers and representative
+tags; accepted the semantic integer aliases `1`, `1.0`, `1e0` and `-0`; and
+rejected empty, unknown, null, multi-tag, wrong-shape and duplicate-object wire
+forms.
+
+Earlier exploratory Swift commands separately confirmed that public enum cases
+cannot be access-restricted, direct raw object construction bypasses duplicate
+validation, synthesized recursive hashing can trap on very deep trees, and
+Foundation integer decoding preserves both 64-bit extrema while accepting the
+same lexical aliases. Two draft probe invocations failed
+to compile because a throwing expression was placed in a nonthrowing
+`precondition` autoclosure and because private probe types escaped to top-level
+bindings; both were corrected before the checked-in evidence command above.
+
+- Three independent read-only reviews agreed that validated array/object
+  wrappers, a hard depth bound and logical anti-amplification ceilings are
+  mandatory for the recursive `ContiguousArray` representation.
+- The reviews also agreed that general `MetadataEntry` cannot be published
+  while privacy attachment is unresolved; `ADR-0031` therefore uses a distinct
+  privacy-neutral nested object member and leaves collection policy untouched.
+- RFC 8259 object/array semantics and parser-limit guidance support ordered
+  arrays, unordered unique-key objects and bounded parsing. JCS was retained
+  only as canonicalisation precedent because its binary64 number model cannot
+  preserve the complete controlled `UInt64` domain.
+- `Tools/Scripts/validate-docs.sh` passed for seven front-matter documents, all
+  eleven file-backed ADRs and 57 Markdown files; `git diff --check` passed.
+- `xcrun swift-format lint --strict` passed for the checked-in Swift evidence
+  probe after three initial line-layout findings were corrected.
+- The 371-path manifest check passed before final integrity regeneration. No
+  Swift package suite was run because the only Swift file is an isolated
+  proposal probe and no package target or product source changed.
+
+The exact focused repository commands for the recursive proposal were:
+
+```bash
+xcrun swift -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors \
+  docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift
+Tools/Scripts/validate-docs.sh
+git diff --check
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_release_integrity.py
+```
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -2092,14 +2270,14 @@ python3 Tools/Scripts/check_release_integrity.py
 - `SourceIdentity`, `DerivationIdentity` and `DataIdentity` remain blocked by
   `ContentID`; `DataIdentityReference` is also undefined, and record-level
   empty, duplicate and consistency invariants are not specified.
-- Recursive metadata values, entries and collections remain deferred. Their raw
-  payload shape bypasses finite floating-point and unique-object-key invariants.
-  Proposed `ADR-0028` through `ADR-0030` resolve the canonical-instant, finite-
-  floating and owned-binary leaf designs only if accepted. The raw string case
-  is retained with its exact UTF-8 identity candidate deferred to the aggregate ADR;
-  stable tags, semantic ordering, recursion and allocation limits, multiplicity
-  schemas, typed access and duplicate-safe canonical byte ingress remain
-  unresolved.
+- Recursive metadata source remains deferred. Proposed `ADR-0028` through
+  `ADR-0030` supply leaf designs only if accepted, and proposed `ADR-0031`
+  supplies validated containers, exact UTF-8 string identity, strict semantic
+  tags, canonical exact-key object order and hard depth/work/payload ceilings.
+  None is accepted; the ceiling values still need supported-destination and
+  representative lowest-resource-device evidence. General `MetadataEntry`,
+  collections, multiplicity schemas, privacy, typed access and duplicate-safe
+  canonical byte ingress remain unresolved by design.
 - `MetadataPrivacyClass` supplies vocabulary only. Per-entry attachment,
   default or unclassified behavior, `hostDefined` resolution, nested
   aggregation, downgrade prevention and equality/digest treatment are not
@@ -2215,7 +2393,7 @@ python3 Tools/Scripts/check_release_integrity.py
   compare them with MTA Appendix A while the known `ADR-0001` collision remains
   unresolved, and it does not treat body mentions or the `ADR-0025` allocator
   hold as record assignments.
-- The checked-in template and all ten file-backed ADRs now contain the RPSS
+- The checked-in template and all eleven file-backed ADRs now contain the RPSS
   section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
   meaningful bodies. It intentionally does not infer decision quality, status
   transitions, module validity or supersession semantics from prose.
@@ -2274,27 +2452,24 @@ python3 Tools/Scripts/check_release_integrity.py
 
 ## Exact next action
 
-Audit `MetadataValue.array(ContiguousArray<MetadataValue>)` and
-`.object(ContiguousArray<MetadataEntry>)` together as the recursive value
-boundary plus the minimum `MetadataEntry` contract it requires. Decide
-validated container shapes, object-key uniqueness and input-order identity,
-host-policy recursion/node/entry/aggregate-byte budgets, bounded or iterative
-equality/hashing, strict tagged Codable and value-redacted errors. Determine
-whether an `ADR-0031` proposal can eventually authorise only `MetadataValue` and
-that minimum entry contract, explicitly excluding `MetadataCollection`, typed
-access, privacy attachment and canonical byte ingress. Treat the audited
-string projection as candidate evidence that the proposal must explicitly
-accept or replace. Treat the proposed binary leaf/host-limit policy as a
-dependency rather than reopening it. Do not add source until prerequisite leaf
-ADRs and the aggregate decision are accepted.
+Audit the general `MetadataEntry` privacy-attachment boundary before exposing
+that type or `MetadataCollection`. Decide whether classification is stored per
+entry or in a distinct wrapper, the unclassified/default state,
+`hostDefined` resolution, nested-object inheritance or aggregation, downgrade
+prevention, equality/hash/Codable participation and value-redacted
+logging/export enforcement. Determine whether an `ADR-0032` proposal can settle
+only the entry/privacy contract while leaving namespace multiplicity, typed
+access, collection indexing and canonical byte ingress separate. Do not add
+metadata source while `ADR-0028` through `ADR-0031` remain Proposed or while
+the privacy contract is unresolved.
 
 ## Test policy for the next action
 
-- For the recursive metadata audit or a documentation-only proposal, run only
+- For the entry/privacy audit or a documentation-only proposal, run only
   the relevant document/ADR checks plus manifest and release-integrity checks.
-  If the aggregate becomes authorised, run focused `MetadataValue`, entry and
-  container unit tests, the owning Core target build, strict format lint and
-  only directly affected dependent tests.
+  If a privacy-neutral helper becomes independently authorised, run only its
+  focused invariant, identity, strict-Codable and redaction tests, the owning
+  Core target build, strict format lint and directly affected dependent tests.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
