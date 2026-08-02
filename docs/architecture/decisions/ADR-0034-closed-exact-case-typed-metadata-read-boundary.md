@@ -453,8 +453,8 @@ ceiling evidence required by `ADR-0031` and `ADR-0033` is approved:
    redaction, concurrency, allocation and static-dependency evidence above;
 5. keep optional/default access, custom semantic conversion, namespace-schema
    identity, privacy authorisation, canonical ingress, persistent digest,
-   logging/export and write/update APIs deferred to their own accepted work;
-   and
+   logging/export and write/update APIs deferred to their own accepted work,
+   including proposed `ADR-0035` for canonical ingress; and
 6. update traceability, changelog, API documentation, validation reports and
    release-integrity evidence.
 
@@ -484,4 +484,5 @@ adapter conversion or host-authorisation decisions.
 - [ADR-0031 - Bounded recursive metadata value boundary](ADR-0031-bounded-recursive-metadata-value-boundary.md)
 - [ADR-0032 - Required metadata-entry privacy attachment](ADR-0032-required-metadata-entry-privacy-attachment.md)
 - [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
+- [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)
 - [ADR-0034 focused Swift evidence](../../progress/evidence/ADR-0034-typed-metadata-access-probe.swift)

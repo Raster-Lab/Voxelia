@@ -178,6 +178,12 @@ unlisted key is unique-only. The policy preserves no live closure, protocol
 existential, mutable resolver, global registration, task-local value or
 `Decoder.userInfo` lookup. Its constructor deduplicates its own exact keys only
 after bounding the source count and checked sum of namespace/name UTF-8 bytes.
+After normalisation it privately caches the retained unique-key count and
+checked retained namespace/name UTF-8 byte sum. Those derived metrics do not
+participate in identity and do not replace the constructor's authoritative
+pre-normalisation hard-limit checks. A later codec may apply lower local limits
+to the retained metrics, but must not reconstruct or recharge discarded source
+duplicates.
 
 The policy is an explicit caller assertion that the host or adapter has already
 performed whatever external schema selection it requires for the candidate
@@ -197,8 +203,10 @@ A collection containing repeats remains a valid immutable value after checked
 construction, but its admission witness is deliberately not stored. Equality
 therefore proves equal ordered content, not validity under a different policy.
 Portable or distributed data that needs repeat permission must use a future
-enclosing canonical envelope that binds a trusted schema identity/version and
-supplies a compatible policy during type-level decoding.
+enclosing canonical envelope that binds a versioned schema reference to
+trusted caller context and supplies a compatible policy during decoding.
+Proposed `ADR-0035` now selects that generic envelope and exact binding, but it
+remains unaccepted and does not authenticate the caller's schema assertion.
 
 ### Hard collection and policy ceilings
 
@@ -364,8 +372,8 @@ invariant. It also makes accidental duplicates valid without evidence.
 A wire-provided allow-list would let untrusted input waive its own duplicate
 validation. Storing it would also make a caller assertion look like portable
 schema identity and force policy into equality, hashing and the one-field wire.
-The future canonical envelope needs an authenticated/versioned schema reference,
-not an untrusted embedded allow-list.
+The canonical envelope needs a versioned schema reference exactly matched to
+trusted out-of-band caller context, not an untrusted embedded allow-list.
 
 ### Use Decoder.userInfo, global registration or task-local policy
 
@@ -446,8 +454,9 @@ value types. Foundation's configuration-aware Codable protocols add no package
 dependency and are available on Voxelia's declared minimum Apple platforms.
 
 Adapters and hosts own trusted namespace-schema selection and resolve it to a
-bounded policy snapshot. They also own lower admission limits, logging/export
-authorisation and any canonical envelope that identifies the schema. Downstream
+bounded policy snapshot. Proposed `ADR-0035` assigns Core the generic canonical
+envelope and exact reference binding while leaving schema trust, lower admission
+limits and logging/export authorisation with adapters and hosts. Downstream
 Imaging, Storage, provenance, DICOM and host modules consume the immutable
 collection without changing Core's dependency direction.
 
@@ -567,7 +576,8 @@ collection ceiling evidence is approved:
 5. keep typed conversion/accessor shape, canonical schema identity, raw ingress,
    persistent digest, concrete logging/export and host resolver APIs governed
    by their own accepted decisions, including `ADR-0034` for closed exact-case
-   typed reads; and
+   typed reads and `ADR-0035` for the generic canonical envelope and raw
+   ingress; and
 6. update traceability, changelog, API documentation, validation reports and
    release-integrity evidence.
 
@@ -595,5 +605,6 @@ change collection construction or multiplicity admission.
 - [ADR-0031 - Bounded recursive metadata value boundary](ADR-0031-bounded-recursive-metadata-value-boundary.md)
 - [ADR-0032 - Required metadata-entry privacy attachment](ADR-0032-required-metadata-entry-privacy-attachment.md)
 - [ADR-0034 - Closed exact-case typed metadata read boundary](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md)
+- [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)
 - [Apple Developer Documentation - CodableWithConfiguration](https://developer.apple.com/documentation/foundation/codablewithconfiguration)
 - [Apple Developer Documentation - DecodableWithConfiguration](https://developer.apple.com/documentation/foundation/decodablewithconfiguration)

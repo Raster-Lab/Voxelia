@@ -53,9 +53,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   Proposed `ADR-0032` separately adds the required classified general entry,
   and Proposed `ADR-0033` adds the ordered collection plus explicit configured
   multiplicity admission. Proposed `ADR-0034` adds privacy-preserving closed
-  exact-case typed reads. Canonical byte ingress remains separate; the
-  independently implemented metadata-key leaf uses exact accepted UTF-8 pair
-  identity without claiming canonical-digest normalisation.
+  exact-case typed reads. Proposed `ADR-0035` separately adds the versioned
+  canonical-document and raw-ingress boundary. The independently implemented
+  metadata-key leaf uses exact accepted UTF-8 pair identity without claiming
+  canonical-digest normalisation. None of the proposals authorises aggregate
+  source.
 - Proposed `ADR-0028` selects a shared Core-owned `CanonicalInstant` for the raw
   metadata and provenance strings: one bounded uppercase zero-offset RFC 3339-
   derived profile, typed value-redacted errors and strict scalar-string Codable.
@@ -108,6 +110,16 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   order and fail atomically without coercion. Arbitrary `MetadataKey<Value>`
   construction stays unchanged; unsupported types have no read overload. The
   proposal does not authorise source.
+- Proposed `ADR-0035` selects `VCMJ-1`: one three-field schema envelope,
+  exact out-of-band multiplicity-schema binding, decimal-string full-domain
+  64-bit integers, JCS-derived string/floating/property rules, strict Base64
+  and instant tokens, bounded ASCII schema-profile identifiers, iterative raw
+  ingress plus four payload-free ingress and three emission failures. It
+  deliberately preserves Unicode noncharacters, so it does not claim
+  unmodified JCS/I-JSON. The universal canonical-document byte ceiling, vetted
+  floating emitter/parser pair, Core/Spatial whitespace correction,
+  cancellation/device evidence and recoverable allocation-failure evidence
+  remain acceptance blockers; no codec source is authorised.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -172,7 +184,7 @@ binding:
 
 | `ImageData` dependency | Status | Boundary issue |
 |---|---|---|
-| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0032` select validated leaves, a bounded recursive value and a required classified entry; Proposed `ADR-0033` selects ordered storage/configured multiplicity/aggregate limits, and Proposed `ADR-0034` selects closed exact-case typed reads. None is accepted. Portable schema identity, custom conversion, canonical ingress and production ceiling evidence remain open. |
+| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0032` select validated leaves, a bounded recursive value and a required classified entry; Proposed `ADR-0033` selects ordered storage/configured multiplicity/aggregate limits, `ADR-0034` selects closed exact-case typed reads and `ADR-0035` selects the generic versioned canonical envelope/raw ingress. None is accepted. Schema trust/resolution, custom conversion, persistent identity and production ceiling/parser evidence remain open. |
 | `DataIdentity` | Contract-blocked | `ContentID` has incompatible prescribed shapes, lacks an approved scope-bearing record and fully specified canonical digest byte encoding, and `DataIdentityReference` is undefined. |
 | `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf but is not accepted. References, warning severity, validation state and graph invariants remain incomplete, and several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
 | `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
@@ -234,7 +246,8 @@ says metadata may carry a privacy class without attaching it. Proposed
 the general entry to required `key`, `value` and `privacyClass` fields.
 Proposed `ADR-0033` selects the collection's ordered content and explicit
 multiplicity-admission boundary. Proposed `ADR-0034` selects closed exact-case
-typed reads that retain classification. None is accepted. `VoxeliaCore ->
+typed reads that retain classification. Proposed `ADR-0035` selects the
+separate canonical-document and raw-ingress boundary. None is accepted. `VoxeliaCore ->
 VoxeliaSpatial` is already an approved dependency, so the unit payload creates
 no cycle, and `CodedConcept`, `AnyMetadataKey` and `MetadataPrivacyClass`
 already exist in Core. The recursive aggregate, general entry and collection
@@ -252,8 +265,8 @@ are nevertheless a source no-go:
 | Privacy | Metadata may carry `MetadataPrivacyClass`, and validation/logging/export must cover it. | Proposed `ADR-0032` selects a required direct attachment, no default/unclassified state, whole-entry scope, exact class identity and strict three-field wire, but remains unaccepted. Host resolver shape, versioned policy aggregation, logging/export authorisation and persistent digest treatment remain future or host-owned decisions. |
 | Typed access | Reads must match the requested type or return a typed error without coercion. | Proposed `ADR-0034` selects concrete overloads for the eleven exact corrected payloads, classified typed results, payload-free errors, cardinality-before-case precedence and ordered atomic plural reads. It remains unaccepted; custom/optional/default conversions stay deferred. |
 | Type-level encoding | Value cases require explicit stable tags. | Proposed `ADR-0031` selects one-member externally tagged objects, strict payloads and sorted object-member arrays. It deliberately does not claim raw duplicate detection or canonical document bytes. |
-| Canonical identity | Metadata included in an identity is ordered and uses canonical JSON. | Proposed `ADR-0031` distinguishes semantic `Hashable` identity from record bytes: unit/code display text remains encoded but excluded from equality. The persistent canonical projection and digest remain unresolved. |
-| Canonical ingress | Raw duplicate keys, stable lexical forms, schema versions and bounded untrusted input are mandatory. | A Swift value decoder may receive already-collapsed keys and already-allocated strings/data; type-level Codable cannot recover or enforce byte-ingress constraints. |
+| Canonical identity | Metadata included in an identity is ordered and uses canonical JSON. | Proposed `ADR-0035` defines deterministic complete-record bytes, but `ADR-0031` distinguishes semantic `Hashable` identity from those bytes because unit/code presentation text remains encoded but excluded from equality. Persistent digest scope and algorithm remain unresolved. |
+| Canonical ingress | Raw duplicate keys, stable lexical forms, schema versions and bounded untrusted input are mandatory. | Proposed `ADR-0035` selects `VCMJ-1`, a dedicated iterative canonical-only parser, exact schema-policy binding and coarse redacted errors. Its universal canonical-document byte cap, production floating codec, cancellation/device evidence and actual allocation-failure recovery remain unresolved; it is Proposed and authorises no source. |
 
 Swift 6.3.3 probes confirmed that `ContiguousArray` supplies enough indirection
 for the recursive shape to compile, but synthesis is not a safe contract:
@@ -265,9 +278,10 @@ inspection, and hashing a 50,000-level tree trapped. Proposed
 anti-amplification ceilings. Proposed `ADR-0032` separately supplies the
 required entry-privacy attachment, and Proposed `ADR-0033` supplies the ordered
 collection and configured multiplicity-admission proposal. Proposed `ADR-0034`
-supplies the closed typed-read proposal. None is accepted; canonical byte
-ingress, portable schema identity and operational host policy remain independent
-rather than being folded into the value proposal.
+supplies the closed typed-read proposal, and proposed `ADR-0035` supplies the
+versioned canonical-document/raw-ingress proposal. None is accepted; schema
+trust, operational host policy and persistent digest remain independent rather
+than being folded into the value proposal.
 
 The audit also exposed a bounded defect in the existing `MetadataKey<Value>`
 and `AnyMetadataKey`: both preserve and encode opaque source spelling, while
@@ -709,6 +723,49 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
 `VOX-API-010`, `VOX-DAT-014`, `VOX-META-001`, `VOX-META-002`,
 `VOX-ERR-001`, `VOX-ERR-007`, `VOX-SEC-006`, `VOX-SEC-011` and
 `VOX-VAL-007`.
+
+## M1 versioned canonical metadata JSON and raw-ingress audit
+
+The controlled model requires canonical JSON but leaves the exact library and
+cross-system digest algorithm open. Type-level `Codable` cannot establish raw
+canonicality: the focused Apple Swift 6.3.3 negative controls confirmed that
+Foundation collapses duplicate and escape-equivalent member names, accepts
+integer aliases, accepts a BOM, emits negative zero/noncanonical exponent forms
+and does not supply RFC 8785 property ordering for every non-BMP name.
+
+Proposed `ADR-0035` selects a separate record profile without changing
+ordinary type-level Codable:
+
+| Area | Proposed `VCMJ-1` decision | Acceptance or later work |
+|---|---|---|
+| Envelope | Exact `documentSchema`, required nullable `multiplicitySchema` and `payload`; fixed document identifier `org.voxelia.metadata-document`, version `1.0`; successful decode retains all three in `CanonicalMetadataDocument`. Schema/profile identifiers use a bounded 255-byte lowercase ASCII reverse-domain grammar. | Future minors require explicit lossless compatibility; unknown structural fields/tags reject. |
+| Multiplicity trust | `null` is context-free unique-only. A non-null reference identifies a whole-document immutable profile and must exact-match caller context containing the expected reference and an already bounded `MetadataMultiplicityPolicy`; bytes never carry the allow-list. Emission uses the symmetric complete preflight. | Hosts/adapters still own profile composition, schema selection, resolution, authentication and lifecycle. |
+| Integers | Canonical-document `.signedInteger`/`.unsignedInteger` payloads are minimal decimal JSON strings parsed with checked arithmetic, preserving full `Int64`/`UInt64`. | Ordinary type-level Codable remains numeric; the two surfaces must be named distinctly. |
+| Floating values | Finite `MetadataFloatingPoint` and unit conversion fields use RFC 8785/ECMAScript shortest-round-trip binary64 spelling; negative zero emits `0`; canonical tokens are analytically at most 25 bytes under a 32-byte ceiling. | Separate vetted Ryu/V8-compatible emission and correctly rounded roundTiesToEven decimal-parser oracles, RFC vectors and random-bit cross-platform differential corpora are required. |
+| Unicode | Exact decoded scalar/UTF-8 identity, no normalisation, RFC 8785 escaping/property ordering and preservation of valid Unicode noncharacters. Nonblank metadata identity fields use one enumerated stable whitespace set rather than toolchain `isWhitespace`. | Because I-JSON rejects noncharacters, the profile is accurately JCS-derived rather than claimed as JCS/I-JSON. The dependency correction broadens known multi-scalar grapheme edge cases and needs compatibility fixtures before acceptance. |
+| Binary and instant | Strict padded standard Base64 with zero pad bits and the exact proposed canonical-instant ASCII form; escape aliases reject. | Both semantic leaf ADRs must be accepted first. |
+| Order | JSON properties follow decoded UTF-16 order; fixed v1 names are ASCII. Metadata-object tuple order, collection occurrence order and array order remain semantic. | Persistent digest normalisation, if any, requires a separate projection decision. |
+| Raw parser | Dedicated iterative incremental UTF-8 scanner/state machine; no Foundation/DOM first boundary; raw duplicates reject after unescaping; publication is atomic after EOF, validation and cancellation. | Complete parser, chunk-split, mutation/fuzz, cancellation and memory-pressure evidence remain acceptance work. |
+| Limits | Inclusive, compute-guard-commit ingress limits now have fixed raw-token, decoded string, Base64, direct-count, depth and aggregate units; emission has a distinct exact canonical-output-byte limit and invalid-value-before-sizing order. Actual generated worst-case structure reaches raw JSON depth 198. One additive operation-wide counter fixes a 4,096-work-unit cancellation polling bound. | The universal unrestricted raw-document/output ceiling derivation, release-device cancellation benchmark, approved allocator-failure disposition and lowest-device memory evidence remain open. Lower caps are local admission/emission policy, not another canonical profile. |
+| Diagnostics/privacy | Four payload-free ingress and three payload-free emission errors; byte-order precedence and non-cancellation chunk invariance are explicit. No source path/token/version/count/class/policy/underlying error or parser log. The whole raw document is sensitive before classification, and every exact class survives. | Timing/coarse error oracles, host throttling, schema trust, disclosure policy and zeroisation remain outside the guarantee. |
+| Identity/export | Bytes are unique for the complete document-schema/profile-reference-or-null/collection tuple and preserve presentation fields excluded from semantic equality; the policy remains validation context, not record content. | No hash, content ID, signature, privacy filter or export permission is implied. |
+
+The focused probe exercises Foundation as a negative control, full integer
+extrema/aliases, exact UTF-8/noncharacter preservation, the frozen whitespace
+oracle, canonical control escapes, strict Base64 pad bits, bounded ASCII schema
+identifiers, exact schema-policy binding, symmetric emission preflight, checked
+budget arithmetic, an actually generated depth-198 structure and payload-free
+errors. It is deliberately a reduced evidence program, not a raw parser,
+floating emitter/parser, policy-budget proof, product API or source
+authorisation.
+
+Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
+`VOX-ARC-003`, `VOX-API-001`, `VOX-API-003`, `VOX-API-004`,
+`VOX-API-010`, `VOX-CON-006`, `VOX-CON-007`, `VOX-DAT-014`,
+`VOX-META-001`, `VOX-META-002`,
+`VOX-ERR-001`, `VOX-ERR-003`, `VOX-ERR-007`, `VOX-SEC-001`,
+`VOX-SEC-003`, `VOX-SEC-006`, `VOX-SEC-011`, `VOX-VAL-007`,
+`VOX-VAL-008`, `VOX-VAL-009` and `VOX-VAL-011`.
 
 ## Completed in this increment
 
@@ -1244,16 +1301,51 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
   all mappings, both read families, all five classes, exact UTF-8 lookup,
   cardinality precedence, late plural mismatch and redacted errors; reconciled
   `ADR-0031` through `ADR-0033` with the typed-read proposal.
+- Audited controlled canonical-JSON authority, Foundation raw-parser behaviour,
+  full-width integer portability, Unicode/noncharacter policy, schema trust,
+  multiplicity binding, privacy, cancellation and raw resource accounting
+  without changing product source.
+- Added proposed `ADR-0035` with the exact `VCMJ-1` envelope, a distinct
+  decimal-string canonical projection for full-domain `Int64`/`UInt64`,
+  JCS-derived string/floating/property rules, strict Base64/instant spellings
+  and a dedicated iterative canonical-only ingress boundary. Bounded lowercase
+  ASCII schema-profile references make a finite universal byte derivation
+  possible without a Unicode-version-dependent control-plane identity.
+- Required exact out-of-band schema-reference/policy binding for repeats,
+  unique-only context-free ingress, symmetric emission preflight, retention of
+  the matched profile in `CanonicalMetadataDocument`, four payload-free ingress
+  and three emission failures, atomic publication, sensitive-from-byte-zero
+  handling and no implied digest/export authority.
+- Froze the exact whitespace-scalar oracle needed by nonblank metadata identity
+  fields, split floating emission from correctly rounded decimal parsing, fixed
+  byte-order/chunk-invariant failure precedence and required early offending-
+  key rejection plus operation-scoped source-error teardown.
+- Froze inclusive resource-accounting units and compute-guard-commit charges,
+  a distinct exact emission-output budget, one additive operation-wide 4,096-
+  work-unit cancellation cadence plus reproducible device benchmark, partial
+  `VOX-ERR-001` allocation-failure traceability and module-local Core/Spatial
+  ownership of the shared whitespace oracle.
+- Generated and measured the candidate maximum raw JSON depth of 198 while
+  leaving the universal document-byte ceiling, production floating oracles,
+  cancellation/device evidence, recoverable allocator-failure evidence and
+  supported-device memory evidence as explicit acceptance blockers rather than
+  guessed defaults.
+- Added a focused strict Swift 6 evidence probe for Foundation negative
+  controls, integer extrema and aliases, exact UTF-8/noncharacter identity,
+  frozen whitespace, bounded schema identifiers, canonical string and Base64
+  subprofiles, schema-policy/emission preflight, checked budget arithmetic,
+  generated nesting and redacted errors; reconciled `ADR-0028` through
+  `ADR-0034` with the new proposal.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 377-entry manifest covers every releasable file except its
+- The current 379-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
 - Final release-integrity regeneration and read-only verification passed with
-  376 inventory records and 377 checksums for this increment.
+  378 inventory records and 379 checksums for this increment.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -2564,6 +2656,65 @@ python3 Tools/Scripts/check_release_integrity.py --write
 python3 Tools/Scripts/check_release_integrity.py
 ```
 
+For proposed `ADR-0035`, the isolated reproducible Swift evidence is stored in
+`docs/progress/evidence/ADR-0035-canonical-metadata-ingress-probe.swift`. It is
+a reduced raw-boundary and token-profile probe, not a complete parser,
+production floating codec, public API, unrestricted-resource proof or
+implementation authorisation. The exact successful commands were:
+
+```bash
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0035-canonical-metadata-ingress-probe.swift
+xcrun swift -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors \
+  docs/progress/evidence/ADR-0035-canonical-metadata-ingress-probe.swift
+```
+
+It printed:
+
+```text
+foundationBoundary=false duplicatesCollapsed=true integerAliasesAccepted=true
+integerProjection=decimalStrings fullInt64=true fullUInt64=true
+unicode=exactUTF8 noNormalization=true noncharacters=preserved frozenBlankOracle=true
+canonicalSubtokens=strings+strictBase64 floatingVectorsOnly=true
+foundationSortedKeysIsNotJCS=true schemaIdentifier=boundedASCII255
+schemaBinding=callerExpected policy=outOfBand uniqueOnlyWithoutContext=true
+emissionPreflight=symmetric policyFailureBeginsNoEmission=true
+budgetArithmetic=checked generatedRawDepth=198 diagnostics=payloadFree
+```
+
+The probe demonstrates only the named reduced checks. Its Foundation calls are
+negative controls and an illustrative-envelope syntax smoke test; none sits on
+the candidate trust boundary. The RFC 8785 floating values are vector anchors,
+not an emitter/parser implementation. The budget helper proves checked counter
+arithmetic, not pre-allocation safety; the generated nesting scanner proves the
+candidate depth calculation, not semantic parsing. Complete duplicate scanning,
+every chunk split, full grammar construction, policy-budget preflight, fuzzing,
+cancellation, cross-platform differential results and production resource
+ceilings remain required.
+
+- Three independent reviews covered controlled authority/schema shape,
+  canonical wire/Unicode/numerics and privacy/parser/resource behaviour. Their
+  final findings are incorporated in the proposal and focused probe.
+- No full Swift package suite was run for this proposal increment. Product
+  source did not change, and only the focused probe plus documentation,
+  manifest and release-integrity checks cover the changed surface.
+
+The exact focused repository commands for the canonical-ingress proposal were:
+
+```bash
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0035-canonical-metadata-ingress-probe.swift
+xcrun swift -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors \
+  docs/progress/evidence/ADR-0035-canonical-metadata-ingress-probe.swift
+Tools/Scripts/validate-docs.sh
+git diff --check
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_release_integrity.py
+```
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -2774,11 +2925,14 @@ python3 Tools/Scripts/check_release_integrity.py
   ordinary coding and explicit configured multiplicity admission. Proposed
   `ADR-0034` adds a closed exact-case typed-read mapping that preserves each
   entry's privacy class and fails cardinality or type mismatches without
-  payloads. None is accepted; the recursive and collection ceilings still need
-  supported-destination evidence, and no value, entry, collection or typed-read
-  source is authorised. Portable schema identity, custom semantic conversion,
-  privacy-authorised disclosure and duplicate-safe canonical byte ingress
-  remain unresolved by design.
+  payloads. Proposed `ADR-0035` adds the generic versioned canonical envelope,
+  exact schema-policy binding and duplicate-safe raw-ingress contract. None is
+  accepted; the recursive/collection ceilings, universal canonical-document
+  byte maximum, production floating codec, cancellation/device evidence,
+  recoverable allocation-failure evidence and supported-destination evidence
+  remain open, and no value, entry, collection, typed-read or codec source is
+  authorised. Schema trust/resolution, custom semantic conversion, privacy-
+  authorised disclosure and persistent digest remain separate by design.
 - `MetadataPrivacyClass` supplies a value-redacted vocabulary. Proposed
   `ADR-0032` resolves direct entry attachment, absence, whole-subtree scope,
   exact preservation, identity and type-level wire only if accepted. Public
@@ -2896,7 +3050,7 @@ python3 Tools/Scripts/check_release_integrity.py
   compare them with MTA Appendix A while the known `ADR-0001` collision remains
   unresolved, and it does not treat body mentions or the `ADR-0025` allocator
   hold as record assignments.
-- The checked-in template and all fourteen file-backed ADRs now contain the RPSS
+- The checked-in template and all fifteen file-backed ADRs now contain the RPSS
   section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
   meaningful bodies. It intentionally does not infer decision quality, status
   transitions, module validity or supersession semantics from prose.
@@ -2935,6 +3089,15 @@ python3 Tools/Scripts/check_release_integrity.py
   may authorise only the standalone Core leaf and replacement of the controlled
   raw `Data`; metadata aggregates, exact host resource limits, privacy
   attachment and canonical document bytes remain blocked.
+- Proposed `ADR-0035` does not authorise a canonical parser or emitter until it
+  and `ADR-0028` through `ADR-0033` are accepted. Its exact v1 grammar is review
+  material only; the universal canonical-document byte maximum, vetted shortest-
+  round-trip binary64 implementation, cancellation latency evidence under the
+  fixed work cadence, complete chunk/fuzz corpus, frozen-whitespace correction
+  in Core and Spatial metadata identity constructors, recoverable allocation-
+  failure evidence and lowest-resource supported-device evidence remain
+  acceptance blockers. `VCMJ-1` complete-record bytes are not automatically a
+  persistent digest or export authorisation.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -2955,26 +3118,27 @@ python3 Tools/Scripts/check_release_integrity.py
 
 ## Exact next action
 
-Audit a versioned canonical metadata-document and raw-JSON ingress boundary
-before persistent digest work. Decide the schema/version envelope, duplicate-
-member rejection before semantic decoding, exact integer/number/string/Base64
-lexical forms, deterministic entry and object order, the projection between
-raw Unicode and exact UTF-8 in-memory key identity, recursion/resource limits,
-configured multiplicity and schema-identity binding, and whether `ADR-0035`
-can define canonical ingress independently of a persistent digest or export
-format. Keep custom semantic conversion, concrete logging/export authorisation
-and persistent content identity separate. Do not add recursive metadata source
-while `ADR-0028` through `ADR-0034` remain Proposed.
+Audit the persistent metadata identity and digest projection after the proposed
+canonical-record boundary. Decide whether complete `VCMJ-1` bytes are suitable
+given order-sensitive collections, presentation fields excluded from semantic
+equality, privacy classes, multiplicity-schema references and unknown
+namespaced entries; reconcile the conflicting `ContentID` shapes, algorithm
+identity, digest byte representation and scope without treating Swift
+`Hashable` or ordinary Codable as persistent identity. Keep schema trust,
+privacy/export authorisation and signatures separate. Do not add recursive
+metadata or digest source while `ADR-0028` through `ADR-0035` remain Proposed,
+and retain the raw-byte/floating/cancellation/device/allocation-recovery gaps as
+explicit `ADR-0035` acceptance work.
 
 ## Test policy for the next action
 
-- For the canonical-ingress audit or a documentation-only proposal, run only
-  the relevant isolated raw-byte/parser probe, document/ADR checks, manifest
-  and release-integrity checks. If an independently safe parser or canonical-
-  byte helper becomes authorised, run only focused valid-byte, malformed-
-  syntax, duplicate-member, lexical-form, order, resource-limit and redacted-
-  failure fixtures, the owning target build, strict format lint and directly
-  affected dependent tests.
+- For the metadata-identity/digest audit or a documentation-only proposal, run
+  only a focused canonical-byte projection/hash probe, exact order/privacy/
+  presentation/schema-scope fixtures, document/ADR checks, manifest and
+  release-integrity checks. If an independently safe digest helper becomes
+  authorised, run only focused golden-byte, algorithm/scope, mutation,
+  collision-negative, resource and redacted-failure fixtures, the owning
+  target build, strict format lint and directly affected dependent tests.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

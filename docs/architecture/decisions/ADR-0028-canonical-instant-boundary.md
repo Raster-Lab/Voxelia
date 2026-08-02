@@ -210,6 +210,11 @@ The 30-byte leaf limit cannot recover memory already allocated by a general JSON
 decoder, so untrusted ingress must enforce document and string limits before or
 during allocation.
 
+Proposed `ADR-0035` now selects the separate `VCMJ-1` envelope and requires
+this instant's exact ASCII characters to appear unescaped in canonical record
+bytes. It remains unaccepted and does not change this leaf's ordinary scalar-
+string Codable.
+
 After acceptance, the controlled metadata case and provenance field will be
 corrected to:
 
@@ -410,7 +415,8 @@ After acceptance:
 5. use the leaf in `MetadataValue` only after bounded recursive-value decision
    `ADR-0031` is accepted, while keeping general entries, collections, privacy
    attachment and full provenance deferred until their own contracts are
-   approved; and
+   approved, and use it in canonical metadata bytes only after `ADR-0035` is
+   accepted; and
 6. update traceability, changelog and release-integrity evidence.
 
 No migration step may begin while this ADR remains Proposed.
@@ -434,3 +440,4 @@ effect.
 - [RFC 9557 - Date and Time on the Internet: Timestamps with Additional Information](https://www.rfc-editor.org/rfc/rfc9557.html)
 - [Apple ISO8601DateFormatter documentation](https://developer.apple.com/documentation/foundation/iso8601dateformatter)
 - [Apple Date.ISO8601FormatStyle fractional-seconds documentation](https://developer.apple.com/documentation/foundation/date/iso8601formatstyle/includingfractionalseconds)
+- [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)

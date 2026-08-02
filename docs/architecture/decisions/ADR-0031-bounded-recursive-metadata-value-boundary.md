@@ -332,10 +332,11 @@ Raw canonical ingress must use an exact integer parser and decide the one
 accepted lexical form.
 
 Unmodified JCS uses a binary64 number model and cannot round-trip the full
-prescribed `Int64`/`UInt64` domain. A later canonical-byte decision must use an
-exact-integer canonicaliser or explicitly version a different integer wire
-shape; it must not silently narrow the semantic cases. Ordinary `JSONEncoder`
-output is not declared canonical JSON.
+prescribed `Int64`/`UInt64` domain. Proposed `ADR-0035` now selects an explicitly
+versioned canonical-document shape whose integer payloads are exact decimal
+JSON strings, while keeping this ordinary type-level numeric representation.
+It must not silently narrow the semantic cases, remains unaccepted and does
+not make ordinary `JSONEncoder` output canonical JSON.
 
 Type-level Codable cannot detect duplicate raw JSON member names after a
 general decoder has collapsed them, cannot bound a token before that decoder
@@ -613,7 +614,7 @@ After all four required ADRs are accepted and the ceiling evidence is approved:
    identity governed by their own accepted decisions, including `ADR-0032` for
    the entry/privacy boundary and `ADR-0033` for the ordered collection and
    explicit multiplicity-policy boundary plus `ADR-0034` for closed typed
-   reads; and
+   reads and `ADR-0035` for versioned canonical document bytes; and
 6. update traceability, changelog, API documentation and release-integrity
    evidence.
 
@@ -642,5 +643,6 @@ adapter, provenance or persistent-identity decisions.
 - [ADR-0032 - Required metadata-entry privacy attachment](ADR-0032-required-metadata-entry-privacy-attachment.md)
 - [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
 - [ADR-0034 - Closed exact-case typed metadata read boundary](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md)
+- [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)
 - [RFC 8259 - The JavaScript Object Notation Data Interchange Format](https://www.rfc-editor.org/rfc/rfc8259.html)
 - [RFC 8785 - JSON Canonicalization Scheme](https://www.rfc-editor.org/rfc/rfc8785.html)

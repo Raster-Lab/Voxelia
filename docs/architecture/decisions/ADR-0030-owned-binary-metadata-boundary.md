@@ -188,7 +188,9 @@ translate JSON escape aliases such as `"\u005A\u0067=="` into `"Zg=="` before
 the leaf sees them, and a general encoder may escape `/` as `\/`. The leaf also
 cannot reject duplicate object keys, case-tag aliases, noncanonical outer key
 order or missing schema versions. Those raw lexical and document rules remain
-part of the future canonical byte-ingress and serialiser decision.
+part of the canonical byte-ingress and serialiser decision. Proposed
+`ADR-0035` now selects this padded standard-Base64 payload plus canonical pad-
+bit and raw lexical checks for `VCMJ-1`, but remains unaccepted.
 
 ## Alternatives considered
 
@@ -392,9 +394,9 @@ After acceptance:
 5. use the wrapper in `MetadataValue` only after bounded recursive-value
    decision `ADR-0031` is accepted, while keeping general entries,
    collections and privacy attachment deferred to their own decisions;
-6. define raw admission and decoded-leaf limits in the separate canonical-
-   ingress, adapter and host-policy decisions, with hosts permitted to tighten
-   the hard recursive ceilings proposed by `ADR-0031`; and
+6. use raw admission and decoded-leaf limits only after proposed `ADR-0035` is
+   accepted with its required evidence, with hosts permitted to tighten the
+   hard recursive ceilings proposed by `ADR-0031`; and
 7. update traceability, changelog and release-integrity evidence.
 
 No migration step may begin while this ADR remains Proposed.
@@ -423,3 +425,4 @@ recursive value. While Proposed, neither record has supersession effect.
 - [Apple Foundation `Data(bytesNoCopy:count:deallocator:)`](https://developer.apple.com/documentation/foundation/data/init(bytesnocopy:count:deallocator:))
 - [Apple Foundation `JSONEncoder.DataEncodingStrategy`](https://developer.apple.com/documentation/foundation/jsonencoder/dataencodingstrategy)
 - [Apple Foundation `JSONDecoder.DataDecodingStrategy`](https://developer.apple.com/documentation/foundation/jsondecoder/datadecodingstrategy-swift.enum)
+- [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)

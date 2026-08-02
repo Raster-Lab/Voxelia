@@ -162,11 +162,12 @@ already in canonical form.
 Ordinary `JSONEncoder` output is likewise not declared to be Voxelia canonical
 JSON. Stable shortest-round-trip spelling, exponent form, key ordering,
 schema-version envelopes, raw duplicate-key rejection and acceptance or
-rejection of noncanonical input remain part of the future canonical byte-
-ingress and serialiser decision. Selecting JCS or another algorithm will
-require a separate accepted decision and differential evidence; this ADR only
-ensures that every value admitted by the leaf has a valid JSON-number
-representation available to such a serialiser.
+rejection of noncanonical input remain part of the canonical byte-ingress and
+serialiser decision. Proposed `ADR-0035` now selects a JCS-derived shortest-
+round-trip projection with positive-zero spelling, but it remains unaccepted
+and still requires differential evidence. This ADR only ensures that every
+value admitted by the leaf has a valid JSON-number representation available to
+such a serialiser.
 
 Only errors created by `MetadataFloatingPoint` are guaranteed to redact the
 value. An underlying JSON implementation may reject an out-of-range or
@@ -352,8 +353,9 @@ After acceptance:
 4. use the wrapper in `MetadataValue` only after bounded recursive-value
    decision `ADR-0031` is accepted, while keeping general entries,
    collections and privacy attachment deferred to their own decisions;
-5. specify canonical numeric bytes and raw-ingress limits in the separate
-   canonical JSON decision; and
+5. use canonical numeric bytes and raw-ingress limits only after proposed
+   `ADR-0035` is accepted with its required differential and resource
+   evidence; and
 6. update traceability, changelog and release-integrity evidence.
 
 No migration step may begin while this ADR remains Proposed.
@@ -380,3 +382,4 @@ supersession effect.
 - [RFC 8785, sections 3.1, 3.2.2.3 and Appendix B - JCS number input, serialisation and examples](https://www.rfc-editor.org/rfc/rfc8785.html)
 - [The Swift Programming Language - The Basics](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics/)
 - [Apple Foundation `JSONEncoder.NonConformingFloatEncodingStrategy`](https://developer.apple.com/documentation/foundation/jsonencoder/nonconformingfloatencodingstrategy-swift.enum)
+- [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)

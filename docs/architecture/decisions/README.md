@@ -18,7 +18,8 @@ bounded recursive metadata-value boundary proposal. `ADR-0032` is allocated to
 the required metadata-entry privacy-attachment proposal. `ADR-0033` is
 allocated to the ordered metadata-collection and explicit multiplicity-policy
 proposal. `ADR-0034` is allocated to the closed exact-case typed metadata-read
-proposal. The next unallocated numeric identifier is `ADR-0035`.
+proposal. `ADR-0035` is allocated to the versioned canonical metadata JSON and
+raw-ingress proposal. The next unallocated numeric identifier is `ADR-0036`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -36,3 +37,4 @@ proposal. The next unallocated numeric identifier is `ADR-0035`.
 | [ADR-0032](ADR-0032-required-metadata-entry-privacy-attachment.md) | Proposed | Required metadata-entry privacy attachment |
 | [ADR-0033](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md) | Proposed | Ordered metadata collection and explicit multiplicity policy |
 | [ADR-0034](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md) | Proposed | Closed exact-case typed metadata read boundary |
+| [ADR-0035](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md) | Proposed | Versioned canonical metadata JSON and raw ingress boundary |

@@ -261,11 +261,13 @@ principal, purpose, destination, consent or sink policy. Ordinary encoder
 output is also not canonical document bytes: `ADR-0031` permits semantically
 equal code or unit leaves whose presentation text encodes differently.
 
-Raw duplicate-member detection, field ordering, lexical JSON rules, schema
-versions and a persistent canonical digest remain canonical-ingress work. Any
-future canonical metadata-record projection must preserve the declared class
-or define a separately named content-only identity that cannot be used for
-privacy authorisation.
+Raw duplicate-member detection, field ordering, lexical JSON rules and schema
+versions remain canonical-ingress work. Proposed `ADR-0035` now requires the
+exact class to survive `VCMJ-1`, treats the entire raw document as sensitive
+and keeps parser failures payload-free, but remains unaccepted and grants no
+export permission. A persistent canonical digest remains separate and must
+preserve the declared class or define a separately named content-only identity
+that cannot be used for privacy authorisation.
 
 ### Logging and export boundary
 
@@ -538,7 +540,8 @@ evidence is approved:
    resolver shape, concrete logging/export APIs, canonical ingress and
    persistent identity deferred to their own accepted decisions, including
    `ADR-0033` for collection construction/local multiplicity admission and
-   `ADR-0034` for privacy-preserving closed typed reads; and
+   `ADR-0034` for privacy-preserving closed typed reads plus `ADR-0035` for
+   canonical record bytes and raw ingress; and
 6. update traceability, changelog, API documentation and release-integrity
    evidence.
 
@@ -565,6 +568,7 @@ logging, export, authentication or audit decisions.
 - [ADR-0031 - Bounded recursive metadata value boundary](ADR-0031-bounded-recursive-metadata-value-boundary.md)
 - [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
 - [ADR-0034 - Closed exact-case typed metadata read boundary](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md)
+- [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)
 - [HL7 FHIR R5 - Security Labels](https://fhir.hl7.org/fhir/security-labels.html)
 - [DICOM PS3.15 - Attribute Confidentiality Profiles](https://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html)
 - [Apple Developer Documentation - OSLogPrivacy](https://developer.apple.com/documentation/os/oslogprivacy)
