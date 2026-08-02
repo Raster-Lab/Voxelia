@@ -45,6 +45,7 @@ None.
 - ``SpatialPrimitiveError``
 - ``AxisAlignedBounds3D``
 - ``SpatialBoundsError``
+- ``SpatialTransformKind``
 
 ### Project documents
 
