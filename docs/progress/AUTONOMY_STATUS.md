@@ -373,6 +373,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Deferred the undefined `PiecewiseLinearDescriptor` and lookup evaluation
   contract rather than inventing knot, continuity, missing-entry or
   extrapolation semantics.
+- Audited both specified `StorageCapabilities` definitions and rejected a
+  premature capability-only ADR because their surrounding storage contract is
+  not complete enough to ground a stable public API.
+- Recorded the unresolved ownership, acquisition, bit-allocation, unknown-bit,
+  wire-shape, implication, digest-availability and residency-coverage questions
+  instead of silently choosing behavior.
 
 ## Verification evidence
 
@@ -906,8 +912,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   associated-value wire shapes, evidence/reason validation and trust semantics
   are undefined, and integrity state also depends on the blocked `ContentID`.
 - `StorageCapabilities` is deferred because the MTA/CDMS flag sets and writable
-  spelling disagree and neither document assigns stable public `UInt64` bit
-  positions or unknown-bit Codable policy.
+  spelling disagree, while the MTA, CDMS and RPSS also disagree about whether
+  capabilities, protocols and type erasure belong to Core or Storage.
+- Neither document assigns stable public `UInt64` bit positions, reserved bits,
+  unknown-bit behavior or an exact Codable representation. Sequential-only
+  region reads, builder acquisition, content-digest availability and trust,
+  flag implications and the required residency characteristic also remain
+  undefined, so those choices cannot be resolved safely in isolation.
 - `StorageDescriptor`, storage protocols and type erasure remain blocked by an
   undefined integrity/destination descriptor, incomplete byte-layout validation,
   buffer-lifetime API decisions and independent unchecked-Sendable gates.
@@ -979,10 +990,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Audit the conflicting `StorageCapabilities` flag sets, writable spelling,
-stable public bit positions, unknown-bit policy and Codable shape; prepare a
-Proposed ADR only if the complete public contract can be grounded without
-silently choosing behavior.
+Audit every repository reference affected by the conflicting local and MTA
+`ADR-0001` identifiers, then prepare proposed `ADR-0024` for decision-register
+reconciliation. Do not renumber the accepted platform decision unless that
+governance proposal is approved.
 
 ## Test policy for the next action
 
