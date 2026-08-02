@@ -15,8 +15,19 @@ ADR_ID_PATTERN = re.compile(r"ADR-(?:[0-9]{4}|M[0-9]+-[0-9]{3})")
 TOP_LEVEL_FIELD_PATTERN = re.compile(r"^([A-Za-z0-9_]+):(?:\s*(.*))?$")
 LIST_ITEM_PATTERN = re.compile(r"^\s+-\s*(.*?)\s*$")
 FENCE_PATTERN = re.compile(r"^ {0,3}(`{3,}|~{3,})")
+HTML_COMMENT_PATTERN = re.compile(r"<!--.*?-->", re.DOTALL)
 REQUIRED_SCALARS = ("document_id", "title", "status", "date")
 REQUIRED_LISTS = ("owners", "affected_requirements")
+REQUIRED_SECTION_ALIASES = (
+    ("Context", ("Context",)),
+    ("Decision", ("Decision",)),
+    ("Alternatives", ("Alternatives", "Alternatives considered")),
+    ("Consequences", ("Consequences",)),
+    ("Affected modules", ("Affected modules",)),
+    ("Validation impact", ("Validation impact",)),
+    ("Migration", ("Migration", "Migration impact")),
+    ("Supersession", ("Supersession", "Supersession links")),
+)
 
 
 def unquote(value: str) -> str:
@@ -90,7 +101,11 @@ def h1_headings(body: str) -> list[str]:
             marker = fence_match.group(1)
             if open_fence is None:
                 open_fence = (marker[0], len(marker))
-            elif marker[0] == open_fence[0] and len(marker) >= open_fence[1]:
+            elif (
+                marker[0] == open_fence[0]
+                and len(marker) >= open_fence[1]
+                and not line[fence_match.end() :].strip()
+            ):
                 open_fence = None
             continue
 
@@ -98,6 +113,94 @@ def h1_headings(body: str) -> list[str]:
             headings.append(line)
 
     return headings
+
+
+def h2_sections(body: str) -> list[tuple[str, str]]:
+    """Return H2 names and bodies outside fenced Markdown code blocks."""
+    sections: list[tuple[str, str]] = []
+    open_fence: tuple[str, int] | None = None
+    current_name: str | None = None
+    current_body: list[str] = []
+
+    for line in body.splitlines():
+        fence_match = FENCE_PATTERN.match(line)
+        if fence_match:
+            marker = fence_match.group(1)
+            if open_fence is None:
+                open_fence = (marker[0], len(marker))
+            elif (
+                marker[0] == open_fence[0]
+                and len(marker) >= open_fence[1]
+                and not line[fence_match.end() :].strip()
+            ):
+                open_fence = None
+            if current_name is not None:
+                current_body.append(line)
+            continue
+
+        if open_fence is None and line.startswith("## "):
+            if current_name is not None:
+                sections.append((current_name, "\n".join(current_body)))
+            current_name = normalized_atx_heading(line[len("## ") :])
+            current_body = []
+            continue
+
+        if current_name is not None:
+            current_body.append(line)
+
+    if current_name is not None:
+        sections.append((current_name, "\n".join(current_body)))
+
+    return sections
+
+
+def normalized_atx_heading(name: str) -> str:
+    """Normalize trailing space and an optional CommonMark closing hash run."""
+    name = name.rstrip()
+    return re.sub(r"\s+#+$", "", name).rstrip()
+
+
+def has_meaningful_content(content: str) -> bool:
+    """Reject whitespace, comments and empty fenced blocks as section content."""
+    content = HTML_COMMENT_PATTERN.sub("", content)
+    open_fence: tuple[str, int] | None = None
+
+    for line in content.splitlines():
+        fence_match = FENCE_PATTERN.match(line)
+        if fence_match:
+            marker = fence_match.group(1)
+            if open_fence is None:
+                open_fence = (marker[0], len(marker))
+                continue
+            if (
+                marker[0] == open_fence[0]
+                and len(marker) >= open_fence[1]
+                and not line[fence_match.end() :].strip()
+            ):
+                open_fence = None
+                continue
+
+        if line.strip():
+            return True
+
+    return False
+
+
+def validate_required_sections(body: str) -> list[str]:
+    """Validate the content areas required by RPSS section 9.2."""
+    sections = h2_sections(body)
+    errors: list[str] = []
+
+    for logical_name, aliases in REQUIRED_SECTION_ALIASES:
+        matches = [content for name, content in sections if name in aliases]
+        if not matches:
+            errors.append(f"missing required section {logical_name}")
+        elif len(matches) > 1:
+            errors.append(f"required section {logical_name} appears more than once")
+        elif not has_meaningful_content(matches[0]):
+            errors.append(f"required section {logical_name} must have nonblank content")
+
+    return errors
 
 
 def validate_record(path: Path) -> tuple[str | None, list[str]]:
@@ -162,6 +265,8 @@ def validate_record(path: Path) -> tuple[str | None, list[str]]:
             errors.append(
                 "H1 heading must exactly match front-matter document_id and title"
             )
+
+    errors.extend(validate_required_sections(body))
 
     return valid_id, errors
 

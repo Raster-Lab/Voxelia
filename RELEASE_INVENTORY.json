@@ -1171,8 +1171,8 @@
     },
     {
       "path": "Tools/Scripts/check_adr_register.py",
-      "size": 7516,
-      "sha256": "16fc78eb32ef765be9f5af03f186b621c4a821244ceefda4e74dd28fe6ed850b"
+      "size": 11192,
+      "sha256": "e2838b9a3bc1d6fb72990b4f0d89de379de1a8e9c9fbcff44cdb80e1f8cd0eaa"
     },
     {
       "path": "Tools/Scripts/check_apple_platform_policy.py",
@@ -1286,8 +1286,8 @@
     },
     {
       "path": "Tools/Tests/Python/test_adr_register.py",
-      "size": 7674,
-      "sha256": "31a44a6420795268f3c7cd492265ca4212b1bc2744423fb6fa46bfef35afeb91"
+      "size": 14088,
+      "sha256": "86543c31fd725f1aed8bf6f93be0fe62ae8b4fdef6dbf7a6a0d3f6177027929d"
     },
     {
       "path": "Tools/Tests/Python/test_docc_archives.py",
@@ -1531,8 +1531,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 73667,
-      "sha256": "0ea4a053a67aa6b6642b2e73b67285c91736002dbca89278cd2f96b110d192f2"
+      "size": 74736,
+      "sha256": "19ee84dc6bc360a86e3c80080b0b110c96d7c8a465718a72a8a374d670666d7a"
     },
     {
       "path": "docs/project/README.md",

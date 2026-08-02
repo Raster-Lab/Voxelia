@@ -400,6 +400,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   unchanged: the added text records factual scope, completed or conditional
   migration and the absence of supersession rather than changing approval or
   authorizing implementation.
+- Extended the ADR validator to require exactly one meaningful Context,
+  Decision, Alternatives, Consequences, Affected modules, Validation impact,
+  Migration and Supersession section, with the RPSS/template heading aliases,
+  arbitrary order and additional sections permitted.
+- Made structural parsing fence-aware, normalized valid ATX closing hashes and
+  rejected duplicate logical sections plus comment-only or empty-fence
+  placeholders as completion evidence.
 
 ## Verification evidence
 
@@ -755,6 +762,15 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   ADR; the metadata checker, documentation gate and text checks remained green.
 - Release-integrity regeneration, 364-path manifest validation and read-only
   integrity verification passed after the editorial normalization.
+- `Tools/Tests/Python/test_adr_register.py` executed exactly 21 focused tests
+  after structural enforcement. Every required-section omission and empty body,
+  both alias families, arbitrary order, duplicates, fenced examples,
+  adversarial fence text, placeholder-only content and ATX closing hashes were
+  covered.
+- Direct validation of all five file-backed ADRs, the documentation gate and
+  the selected repository integration test passed. Independent review found
+  three Markdown edge cases, verified their fixes and reported the final gate
+  clean.
 
 ## Known blockers and risks
 
@@ -1029,9 +1045,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   unresolved, and it does not treat body mentions or the `ADR-0025` allocator
   hold as record assignments.
 - The checked-in template and all five file-backed ADRs now contain the RPSS
-  section 9.2 areas, but the ADR checker does not yet enforce required H2
-  presence, uniqueness or nonempty bodies. That mechanical gate remains the
-  next repository-tooling step.
+  section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
+  meaningful bodies. It intentionally does not infer decision quality, status
+  transitions, module validity or supersession semantics from prose.
 - Proposed `ADR-0021` is review material only. Until its status becomes
   Accepted and subordinate documents are corrected, the axis-model public API
   remains blocked and no implementation may rely on its recommendation.
@@ -1049,16 +1065,16 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Extend the file-backed ADR checker with fence-aware RPSS section 9.2 validation:
-require exactly one nonempty Context, Decision, Alternatives, Consequences,
-Affected modules, Validation impact, Migration and Supersession section, while
-allowing the documented heading aliases, extra sections and any order.
+Audit the governing definitions and invariants for `Plane`, `Ray` and oriented
+bounds as the remaining low-level `VOX-SPA-011` primitives. Select only the
+smallest fully specified value or operation for implementation; record a
+blocker rather than inventing normalization, tolerance or intersection policy.
 
 ## Test policy for the next action
 
-- Run only focused ADR structure fixtures, selected repository integration
-  tests, documentation checks and integrity checks; do not run Swift tests for
-  an editorial and repository-tooling-only normalization.
+- For an implemented spatial slice, run strict formatting, the affected Spatial
+  and direct-consumer builds, and only that type's exact focused tests plus
+  integrity checks. Do not run the full Swift suite.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
