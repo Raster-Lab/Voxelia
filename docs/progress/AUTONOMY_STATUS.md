@@ -9,14 +9,15 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first twenty foundational slices, `ImageShape` /
+- M1 implementation status: the first twenty-one foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
   representation, spatial-axis mapping, points, vectors, planes, rays,
   axis-aligned bounds, transform-kind taxonomy, coordinate handedness,
   external frame references, lookup-table descriptors, content-identity
-  taxonomies and object identifiers are implemented and locally verified.
+  taxonomies, object identifiers and the metadata privacy taxonomy are
+  implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -230,13 +231,18 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   one-field keyed representation.
 - Documented object identity as an immutable instance or published-record key,
   never as a substitute for verified content or derivation equality.
+- Implemented the exact five-case `MetadataPrivacyClass` raw-string taxonomy
+  without attaching policy or classification to the still-deferred metadata
+  collection model.
+- Documented classification as an input to logging/export policy rather than a
+  replacement for host privacy controls.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 334-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 336-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -247,7 +253,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 333-record inventory and 334-entry SHA-256 ledger pass the
+- The regenerated 335-record inventory and 336-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -405,6 +411,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `swift test --filter DataObjectID` executed only three identifier tests;
   opaque spelling/case preservation, typed and failable Unicode-blank rejection,
   distinct type identity and strict keyed Codable validation all passed.
+- `swift build --target VoxeliaCore` and strict format lint passed for the
+  metadata privacy taxonomy slice.
+- `swift test --filter MetadataPrivacyClass` executed only three taxonomy tests;
+  all five exact raw values, case sensitivity, raw-string Codable and unknown or
+  wrong-shaped decoding rejection passed.
 
 ## Known blockers and risks
 
@@ -593,16 +604,19 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Recursive metadata values, entries and collections remain deferred pending
   finite-value, canonical instant, binary, coded-concept equality, enum-tag,
   multiplicity, typed-access and privacy-attachment decisions.
+- `MetadataPrivacyClass` supplies vocabulary only; host logging, export and
+  redaction controls remain authoritative and no default policy is inferred.
 
 ## Exact next action
 
-Implement only the exact standalone Core `MetadataPrivacyClass` raw-string
-taxonomy before advancing separately to validated metadata keys.
+Implement validated Core `MetadataKey<Value>` and `AnyMetadataKey` pair values,
+with strict serialization only for the erased key and no typed-access or schema
+behavior.
 
 ## Test policy for the next action
 
 - Run only the Core build, strict format lint and
-  `MetadataPrivacyClass`-filtered tests for the next slice.
+  metadata-key-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

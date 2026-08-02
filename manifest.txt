@@ -78,6 +78,7 @@ Sources/VoxeliaCore/Public/ImageRegion.swift
 Sources/VoxeliaCore/Public/ImageSemantic.swift
 Sources/VoxeliaCore/Public/ImageShape.swift
 Sources/VoxeliaCore/Public/LookupTableDescriptor.swift
+Sources/VoxeliaCore/Public/MetadataPrivacyClass.swift
 Sources/VoxeliaCore/Public/ScalarFormat.swift
 Sources/VoxeliaCore/Public/SemanticVersion.swift
 Sources/VoxeliaCore/VoxeliaCore.docc/Architecture.md
@@ -176,6 +177,7 @@ Tests/VoxeliaCoreTests/ImageRegionTests.swift
 Tests/VoxeliaCoreTests/ImageSemanticTests.swift
 Tests/VoxeliaCoreTests/ImageShapeTests.swift
 Tests/VoxeliaCoreTests/LookupTableDescriptorTests.swift
+Tests/VoxeliaCoreTests/MetadataPrivacyClassTests.swift
 Tests/VoxeliaCoreTests/ScalarFormatTests.swift
 Tests/VoxeliaCoreTests/SemanticVersionTests.swift
 Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift

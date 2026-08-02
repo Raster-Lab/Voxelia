@@ -60,6 +60,10 @@ storage semantics.
 - ``DigestAlgorithm``
 - ``ContentScope``
 
+### Metadata
+
+- ``MetadataPrivacyClass``
+
 ### Common errors
 
 - ``DataModelError``
