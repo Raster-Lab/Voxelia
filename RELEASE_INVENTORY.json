@@ -1286,8 +1286,8 @@
     },
     {
       "path": "Tools/Tests/Python/test_adr_register.py",
-      "size": 14088,
-      "sha256": "b9db1cdae14dda5797d3cfa2a84ad31d42bc1890c1fa85d6667cf1ae41d479dd"
+      "size": 14089,
+      "sha256": "2bfcd0b4caaddb2dc7474590676d471c24e21ffb7bd3467dbb413a085de6f020"
     },
     {
       "path": "Tools/Tests/Python/test_docc_archives.py",
@@ -1465,9 +1465,14 @@
       "sha256": "9f0829247ea8c08a5d7b6d87f344e56587c416dc7d30026df0ec656e01caa307"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0030-owned-binary-metadata-boundary.md",
+      "size": 21759,
+      "sha256": "bb9840f323bff0254122722496c198153cbe9877e42b7526a6ab1fd89b523f88"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 1945,
-      "sha256": "2f4b23a4d376b5253802b254509927aab681c5d82eba2486a874a6b5cb51db82"
+      "size": 2120,
+      "sha256": "95f73729468a5633dda02e9c5613f284a0eca13c628c6b8c7a1673348dd7ffd5"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1551,8 +1556,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 128138,
-      "sha256": "799bed43c81b90eda99bf399d2f251387d5ada15174b27984f8823eccdaae3bd"
+      "size": 137867,
+      "sha256": "9ed7dfd8a4ccfed26fb262eb85b75b76ec32c62598dc1b4e6a1336e305577f00"
     },
     {
       "path": "docs/project/README.md",
@@ -1836,8 +1841,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 16280,
-      "sha256": "63873391e7f97c153a0338b74f1a801a427387d7fdef9412c054a6e6e745cafa"
+      "size": 16351,
+      "sha256": "ada4b5a339f202212aa29cb23fe66f84e40cf778906e64c2385a14bc063fac1c"
     }
   ]
 }

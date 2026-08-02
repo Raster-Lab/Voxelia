@@ -48,10 +48,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   six-key explicit-null wire shape. This does not define unit conversion or
   coordinate-space unit admissibility.
 - The recursive metadata model has been audited and remains contract-blocked:
-  its raw public payloads cannot enforce floating-point, instant, object,
-  privacy or resource invariants. The independently implemented metadata-key
-  leaf now uses exact accepted UTF-8 pair identity without claiming canonical-
-  digest string normalization.
+  its raw public payloads cannot enforce floating-point, instant, binary,
+  string, object, privacy or resource invariants. The independently implemented
+  metadata-key leaf now uses exact accepted UTF-8 pair identity without
+  claiming canonical-digest string normalization.
 - Proposed `ADR-0028` selects a shared Core-owned `CanonicalInstant` for the raw
   metadata and provenance strings: one bounded uppercase zero-offset RFC 3339-
   derived profile, typed value-redacted errors and strict scalar-string Codable.
@@ -61,6 +61,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   exact preservation of every other finite bit pattern and scalar-number
   Codable without claiming canonical JSON bytes. It is not accepted and does
   not authorise source or the recursive metadata aggregate.
+- Proposed `ADR-0030` selects a Core-owned `MetadataBinary` for the raw
+  metadata `Data`: one owned `ContiguousArray<UInt8>` snapshot, exact ordered-
+  byte identity and strict padded standard-Base64 scalar Codable. It assigns
+  host-selected limits to the raw-ingress and aggregate boundaries rather than
+  inventing an intrinsic cap. It is not accepted and does not authorise source
+  or the recursive metadata aggregate.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -125,7 +131,7 @@ binding:
 
 | `ImageData` dependency | Status | Boundary issue |
 |---|---|---|
-| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` and `ADR-0029` select validated instant and finite floating-point payloads but are not accepted; raw binary and object payloads still bypass unresolved policy or invariants, while tags, ordering, limits, multiplicity, privacy attachment, typed access and canonical ingress remain open. |
+| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0030` select validated instant, finite floating-point and owned exact-byte payloads but are not accepted; recursive arrays and objects still bypass unresolved invariants, while tags, ordering, limits, multiplicity, privacy attachment, typed access and canonical ingress remain open. |
 | `DataIdentity` | Contract-blocked | `ContentID` has incompatible prescribed shapes, lacks an approved scope-bearing record and fully specified canonical digest byte encoding, and `DataIdentityReference` is undefined. |
 | `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf but is not accepted. References, warning severity, validation state and graph invariants remain incomplete, and several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
 | `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
@@ -190,7 +196,8 @@ are nevertheless a source no-go:
 |---|---|---|
 | Floating point | Floating metadata must have an explicit non-finite policy; identity requires a NaN rule and signed-zero canonicalization. | Public `case floatingPoint(Double)` bypasses validation. NaN makes synthesized equality non-reflexive and permits two apparently identical set members; `-0.0` equals/hashes like `+0.0` but encodes differently. |
 | Instant | The wire value must be a canonical UTC ISO 8601 string. | Public `case instant(String)` bypasses validation. Extended/basic form, mandatory `Z`, seconds, fractional precision, trailing zeros, calendar/year range, leap seconds and `24:00:00` are unspecified. |
-| Binary | Binary metadata exists and canonical JSON must select base64 or hexadecimal. | CDMS section 72 explicitly leaves direct `Data` permission open. Storage type, alphabet/padding, canonical spelling, diagnostic redaction and pre-allocation size limits are undecided. |
+| String | Text metadata exists, but no Unicode identity or canonicalisation policy is selected. | Swift `String` equality can equate canonically equivalent spellings while preserving and encoding their distinct UTF-8. Empty/control/noncharacter policy, exact versus semantic identity and intrinsic versus ingress limits require an isolated audit. |
+| Binary | Binary metadata exists and canonical JSON must select base64 or hexadecimal. | Proposed `ADR-0030` selects an owned byte snapshot and strict padded standard Base64 without an arbitrary intrinsic cap, but it is not accepted. Pre-allocation and aggregate limits remain canonical-ingress and host-policy work. |
 | Recursive arrays | Array order is naturally preserved. | No depth, node, entry, string, binary or total-byte limits exist; it is undecided which are intrinsic and which are host-provided ingress policy. |
 | Objects | Object keys must be unique. | Public `case object(ContiguousArray<MetadataEntry>)` permits duplicates directly; object input order versus canonical map identity and sorting are unspecified. |
 | Collection multiplicity | Duplicate keys are rejected unless a namespace schema permits multiplicity. | No schema type, resolver, stable identity or serialization contract exists. Rejecting all repeats removes governed multiplicity; accepting them violates validation by construction. |
@@ -292,6 +299,46 @@ the token in its own underlying error.
 `ADR-0029` remains Proposed. Acceptance would authorise only the standalone
 leaf and controlled floating-payload correction, not the recursive model,
 canonical serialiser or exceptional-value schema.
+
+## M1 binary metadata prerequisite audit
+
+The baseline prescribes `MetadataValue.binary(Data)` but separately leaves
+direct `Data` permission open and requires canonical JSON to select Base64 or
+hexadecimal. Three independent governance, standards and Swift implementation
+audits agreed that direct storage cannot guarantee immutable byte identity and
+that Foundation data coding strategies cannot define the wire contract.
+Proposed `ADR-0030` selects this review boundary:
+
+| Area | Proposed version-one decision | Explicitly deferred |
+|---|---|---|
+| Ownership and consumer | Core-owned `MetadataBinary`; after acceptance only, replace the raw `Data` payload. | Complete `MetadataValue`, entries and collections, plus adapter convenience APIs. |
+| Storage and construction | Immutable `ContiguousArray<UInt8>` materialised from a generic byte `Collection`; no retained borrowed or no-copy storage. | No-copy Core construction, shared mutation and a Foundation type in the public shape. |
+| Identity | Exact byte count and ordered sequence, including a valid empty value; source allocation, segmentation and text spelling are irrelevant. | Content typing, cryptographic identity, compression and constant-time comparison. |
+| Type-level encoding | One strict standard RFC 4648 Base64 string with required padding, standard `+/` alphabet and zero unused bits. | Outer enum tags, schema envelopes, raw JSON escape spelling, key ordering and complete canonical document bytes. |
+| Errors and privacy | Malformed semantic Base64 becomes value-redacted `DecodingError.dataCorrupted` at the current coding path; no public error is added because every programmatic byte sequence is valid. | Sanitising errors raised before wrapper validation, privacy attachment and host logging/export policy. |
+| Limits | No fixed intrinsic leaf maximum without governed evidence; operations are linear and ingress must apply host-selected raw-token, decoded-leaf and aggregate limits before allocation or recursion. | Exact limit values, configuration API, entry/node/depth/string totals and distributed payload policy. |
+
+Standard padded Base64 is a Voxelia policy choice, not a JSON or RFC mandate.
+It is more compact than hexadecimal and needs no URL-safe alphabet inside a
+JSON string. Strict grammar is necessary because RFC 4648 permits applications
+to decide how aggressively they reject noncanonical aliases, and permissive
+Foundation decoding is not an identity validator. The type-level decoder still
+cannot see a JSON escape alias or cap the source string before a general parser
+allocates it.
+
+Swift 6.3.3 probes confirmed that `Data` and `ContiguousArray<UInt8>` satisfy
+strict `Sendable` checking and that ordinary `Data` is copy-on-write, but
+`Data(bytesNoCopy:)` reflected a later external-pointer mutation. The changed
+value could no longer be found in a populated `Set<Data>`, while a
+`ContiguousArray` materialised before mutation retained its original bytes.
+The default Foundation JSON data strategy emitted padded Base64, a configured
+strategy emitted a byte array, and the Foundation Base64 decoder accepted both
+surplus padding and non-zero unused-bit aliases.
+
+`MetadataBinary` therefore has no source implementation while `ADR-0030`
+remains Proposed. Acceptance would authorise only the standalone leaf and the
+controlled direct-`Data`/Base64 corrections, not the recursive model,
+canonical byte-ingress layer or resource-policy API.
 
 ## Completed in this increment
 
@@ -729,13 +776,23 @@ canonical serialiser or exceptional-value schema.
   precision, named exceptional values and every recursive metadata contract
   explicit future work; no floating-metadata Swift source is authorised while
   the proposal remains unaccepted.
+- Audited the raw binary metadata boundary across local governance, RFC 4648,
+  JSON/I-JSON/JCS, Foundation data strategies and Swift 6.3.3 ownership,
+  hashing, concurrency and allocation behaviour.
+- Added proposed `ADR-0030` with a Core-owned `MetadataBinary`, an owned
+  `ContiguousArray<UInt8>` snapshot, exact ordered-byte identity, a valid empty
+  value and strict padded standard-Base64 scalar Codable.
+- Rejected direct retained `Data`, permissive Foundation Base64 decoding and an
+  unevidenced one-mebibyte cap; host-selected raw-token, decoded-leaf and
+  aggregate limits remain mandatory future ingress work, and no binary-
+  metadata Swift source is authorised while the proposal remains unaccepted.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 368-entry manifest covers every releasable file except its
+- The current 369-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
@@ -1443,6 +1500,113 @@ python3 Tools/Scripts/check_manifest_paths.py
 python3 Tools/Scripts/check_release_integrity.py
 ```
 
+For proposed `ADR-0030`, an isolated strict-concurrency Swift 6.3.3 probe used
+the exact command below. It verified both candidate byte types as `Sendable`,
+showed Foundation's configurable JSON `Data` shapes, reproduced mutation
+through caller-managed no-copy memory, demonstrated that a prior
+`ContiguousArray` materialisation remained unchanged, reproduced failed lookup
+of the mutated value in a populated set and confirmed two noncanonical Base64
+aliases accepted by the Foundation decoder:
+
+```bash
+xcrun swift -swift-version 6 -strict-concurrency=complete -warnings-as-errors - <<'SWIFT'
+import Foundation
+
+func requireSendable<Value: Sendable>(_: Value.Type) {}
+requireSendable(Data.self)
+requireSendable(ContiguousArray<UInt8>.self)
+
+let sample = Data([0x00, 0x01, 0x02, 0xff])
+let standardEncoder = JSONEncoder()
+let standardJSON = String(decoding: try standardEncoder.encode(sample), as: UTF8.self)
+let deferredEncoder = JSONEncoder()
+deferredEncoder.dataEncodingStrategy = .deferredToData
+let deferredJSON = String(decoding: try deferredEncoder.encode(sample), as: UTF8.self)
+
+let pointer = UnsafeMutableRawPointer.allocate(byteCount: 1_024, alignment: 1)
+pointer.initializeMemory(as: UInt8.self, repeating: 200, count: 1_024)
+defer { pointer.deallocate() }
+let externallyBacked = Data(bytesNoCopy: pointer, count: 1_024, deallocator: .none)
+var values = Set<Data>()
+for byte in UInt8(0)..<UInt8(128) {
+    values.insert(Data(repeating: byte, count: 1_024))
+}
+values.insert(externallyBacked)
+precondition(values.contains(externallyBacked))
+let snapshot = ContiguousArray(externallyBacked)
+pointer.storeBytes(of: UInt8(9), as: UInt8.self)
+precondition(externallyBacked[0] == 9)
+precondition(snapshot[0] == 200)
+
+let extraPadding = Data(base64Encoded: "Zg===")
+let nonZeroPadBits = Data(base64Encoded: "Zh==")
+precondition(extraPadding == Data([0x66]))
+precondition(nonZeroPadBits == Data([0x66]))
+
+print("default=\(standardJSON)")
+print("deferred=\(deferredJSON)")
+print("external=\(externallyBacked[0]) snapshot=\(snapshot[0]) setContains=\(values.contains(externallyBacked))")
+print("aliases=\(extraPadding == nonZeroPadBits)")
+SWIFT
+```
+
+It printed:
+
+```text
+default="AAEC\/w=="
+deferred=[0,1,2,255]
+external=9 snapshot=200 setContains=false
+aliases=true
+```
+
+- `python3 -m unittest Tools.Tests.Python.test_adr_register` passed all 21
+  focused tests after the live expectation moved from nine to ten records;
+  `python3 Tools/Scripts/check_adr_register.py` reported all ten records valid.
+- `Tools/Scripts/validate-docs.sh` passed for seven front-matter documents, all
+  ten file-backed ADRs and 56 Markdown files. Every relative link in
+  `ADR-0030` resolved, and `git diff --check` passed.
+- Three independent current-tree reviews covered governed scope, API shape,
+  Swift ownership, privacy, complexity, RFC 4648 padding and unused-bit rules,
+  I-JSON interoperability and the canonical-document boundary. Their findings
+  narrowed a Core-wide statement to metadata, corrected Codable attribution,
+  added encoded-length overflow evidence, reconciled copy-on-write complexity
+  and recorded the deliberate I-JSON recommendation trade-off.
+- Release-integrity regeneration, the 369-path manifest check and read-only
+  integrity verification passed with 368 inventory records and 369 checksums.
+  No Swift package suite was run because this is a documentation-only Proposed
+  decision; its acceptance-only migration explicitly defers source and tests.
+
+The exact focused repository commands for this proposal were:
+
+```bash
+python3 -m unittest Tools.Tests.Python.test_adr_register
+python3 Tools/Scripts/check_adr_register.py
+Tools/Scripts/validate-docs.sh
+python3 - <<'PY'
+from pathlib import Path
+import re
+
+document = Path(
+    "docs/architecture/decisions/"
+    "ADR-0030-owned-binary-metadata-boundary.md"
+)
+missing = []
+for target in re.findall(r"\]\(([^)]+)\)", document.read_text(encoding="utf-8")):
+    if target.startswith(("http://", "https://")):
+        continue
+    resolved = (document.parent / target.split("#", 1)[0]).resolve()
+    print(f"{target}: {resolved.exists()}")
+    if not resolved.exists():
+        missing.append(target)
+if missing:
+    raise SystemExit(f"missing links: {missing}")
+PY
+git diff --check
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py
+```
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -1646,10 +1810,10 @@ python3 Tools/Scripts/check_release_integrity.py
   empty, duplicate and consistency invariants are not specified.
 - Recursive metadata values, entries and collections remain deferred. Their raw
   payload shape bypasses finite floating-point and unique-object-key invariants.
-  Proposed `ADR-0028` resolves the canonical-instant design only if accepted;
-  direct `Data`, stable tags, semantic ordering, recursion and allocation
-  limits, multiplicity schemas, typed access and duplicate-safe canonical byte
-  ingress are also unresolved.
+  Proposed `ADR-0028` through `ADR-0030` resolve the canonical-instant, finite-
+  floating and owned-binary leaf designs only if accepted; stable tags,
+  semantic ordering, recursion and allocation limits, multiplicity schemas,
+  typed access and duplicate-safe canonical byte ingress remain unresolved.
 - `MetadataPrivacyClass` supplies vocabulary only. Per-entry attachment,
   default or unclassified behavior, `hostDefined` resolution, nested
   aggregation, downgrade prevention and equality/digest treatment are not
@@ -1765,7 +1929,7 @@ python3 Tools/Scripts/check_release_integrity.py
   compare them with MTA Appendix A while the known `ADR-0001` collision remains
   unresolved, and it does not treat body mentions or the `ADR-0025` allocator
   hold as record assignments.
-- The checked-in template and all eight file-backed ADRs now contain the RPSS
+- The checked-in template and all ten file-backed ADRs now contain the RPSS
   section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
   meaningful bodies. It intentionally does not infer decision quality, status
   transitions, module validity or supersession semantics from prose.
@@ -1800,6 +1964,10 @@ python3 Tools/Scripts/check_release_integrity.py
   accepted. It may authorise only the standalone Core leaf and replacement of
   the controlled raw `Double`; metadata aggregates, named exceptional values,
   source-decimal preservation and canonical numeric bytes remain blocked.
+- Proposed `ADR-0030` does not authorise `MetadataBinary` until accepted. It
+  may authorise only the standalone Core leaf and replacement of the controlled
+  raw `Data`; metadata aggregates, exact host resource limits, privacy
+  attachment and canonical document bytes remain blocked.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -1820,18 +1988,17 @@ python3 Tools/Scripts/check_release_integrity.py
 
 ## Exact next action
 
-Audit the raw `MetadataValue.binary(Data)` payload as the next isolated
-metadata scalar boundary. Decide whether direct `Data` remains permitted,
-exact byte identity, base64 versus hexadecimal JSON spelling and padding,
-immutable ownership, intrinsic versus byte-ingress size limits, strict
-type-level Codable, typed value-redacted errors and whether the controlled open
-decision requires proposed `ADR-0030`. Do not add `MetadataValue` source while
-the recursive/container, tag, privacy and collection contracts remain
-unresolved.
+Audit the raw `MetadataValue.string(String)` payload as the next isolated
+metadata scalar boundary. Decide exact UTF-8 versus Unicode-equivalent identity,
+normalisation and source-spelling preservation, empty/control/noncharacter
+admission, intrinsic versus byte-ingress size limits, strict scalar-string
+Codable, value-redacted diagnostics and whether a nominal wrapper or proposed
+`ADR-0031` is required. Do not add `MetadataValue` source while the recursive/
+container, tag, privacy and collection contracts remain unresolved.
 
 ## Test policy for the next action
 
-- For the binary-metadata audit or a documentation-only proposal, run only
+- For the string-metadata audit or a documentation-only proposal, run only
   the relevant document/ADR checks plus manifest and release-integrity checks.
   If a bounded scalar leaf becomes independently authorised, run its focused
   unit tests, the owning Core target build, strict format lint and only directly

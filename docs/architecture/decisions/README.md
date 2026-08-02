@@ -12,8 +12,9 @@ and is not an existing decision. `ADR-0026` is allocated independently to the
 ray/axis-aligned-bounds intersection proposal, and `ADR-0027` is allocated to
 the frame-geometry anchor-index boundary proposal. `ADR-0028` is allocated to
 the shared canonical-instant boundary proposal. `ADR-0029` is allocated to the
-finite floating-point metadata boundary proposal. The next unallocated numeric
-identifier is `ADR-0030`.
+finite floating-point metadata boundary proposal. `ADR-0030` is allocated to
+the owned binary metadata boundary proposal. The next unallocated numeric
+identifier is `ADR-0031`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -26,3 +27,4 @@ identifier is `ADR-0030`.
 | [ADR-0027](ADR-0027-frame-geometry-anchor-index-boundary.md) | Proposed | Frame geometry anchor-index boundary |
 | [ADR-0028](ADR-0028-canonical-instant-boundary.md) | Proposed | Canonical instant boundary |
 | [ADR-0029](ADR-0029-finite-floating-point-metadata-boundary.md) | Proposed | Finite floating-point metadata boundary |
+| [ADR-0030](ADR-0030-owned-binary-metadata-boundary.md) | Proposed | Owned binary metadata boundary |
