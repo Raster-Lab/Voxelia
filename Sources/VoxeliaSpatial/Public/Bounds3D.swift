@@ -2,7 +2,7 @@
 
 /// An error raised while validating spatial bounds.
 public enum SpatialBoundsError: Error, Sendable, Equatable {
-    /// The minimum and maximum points use different coordinate spaces.
+    /// Related bounds or query values use different coordinate spaces.
     case coordinateSpaceMismatch(
         expected: CoordinateSpaceID,
         actual: CoordinateSpaceID
@@ -59,6 +59,26 @@ public struct AxisAlignedBounds3D: Sendable, Hashable, Codable {
 
         self.minimum = minimum
         self.maximum = maximum
+    }
+
+    /// Returns whether `point` lies inside or on these bounds.
+    ///
+    /// Component comparisons are exact and inclusive. This query applies no
+    /// tolerance and performs no coordinate conversion.
+    ///
+    /// - Throws: ``SpatialBoundsError/coordinateSpaceMismatch(expected:actual:)``
+    ///   when `point` is expressed in a different coordinate space.
+    public func contains(_ point: Point3D) throws -> Bool {
+        guard minimum.coordinateSpace == point.coordinateSpace else {
+            throw SpatialBoundsError.coordinateSpaceMismatch(
+                expected: minimum.coordinateSpace,
+                actual: point.coordinateSpace
+            )
+        }
+
+        return point.x >= minimum.x && point.x <= maximum.x
+            && point.y >= minimum.y && point.y <= maximum.y
+            && point.z >= minimum.z && point.z <= maximum.z
     }
 
     /// Decodes and revalidates the bounds and their nested points.

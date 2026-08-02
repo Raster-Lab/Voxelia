@@ -55,6 +55,107 @@ struct AxisAlignedBounds3DTests {
         #expect(pointBounds.minimum.x.bitPattern == Double(0).bitPattern)
     }
 
+    @Test("[Unit][VOX-SPA-011] containment includes every face and corner")
+    func containmentIncludesBoundaries() throws {
+        let space = try CoordinateSpaceID(validating: "world")
+        let bounds = try AxisAlignedBounds3D(
+            minimum: point(0, 1, 2, in: space),
+            maximum: point(4, 5, 6, in: space)
+        )
+        let contained = [
+            try point(2, 3, 4, in: space),
+            try point(0, 1, 2, in: space),
+            try point(0, 1, 6, in: space),
+            try point(0, 5, 2, in: space),
+            try point(0, 5, 6, in: space),
+            try point(4, 1, 2, in: space),
+            try point(4, 1, 6, in: space),
+            try point(4, 5, 2, in: space),
+            try point(4, 5, 6, in: space),
+            try point(0, 3, 4, in: space),
+            try point(4, 3, 4, in: space),
+            try point(2, 1, 4, in: space),
+            try point(2, 5, 4, in: space),
+            try point(2, 3, 2, in: space),
+            try point(2, 3, 6, in: space),
+        ]
+
+        for candidate in contained {
+            #expect(try bounds.contains(candidate))
+        }
+    }
+
+    @Test("[Unit][VOX-SPA-011] containment rejects each outside direction")
+    func containmentRejectsOutsideComponents() throws {
+        let space = try CoordinateSpaceID(validating: "world")
+        let bounds = try AxisAlignedBounds3D(
+            minimum: point(0, 1, 2, in: space),
+            maximum: point(4, 5, 6, in: space)
+        )
+        let outside = [
+            try point(-Double.leastNonzeroMagnitude, 3, 4, in: space),
+            try point(Double(4).nextUp, 3, 4, in: space),
+            try point(2, Double(1).nextDown, 4, in: space),
+            try point(2, Double(5).nextUp, 4, in: space),
+            try point(2, 3, Double(2).nextDown, in: space),
+            try point(2, 3, Double(6).nextUp, in: space),
+        ]
+
+        for candidate in outside {
+            #expect(try !bounds.contains(candidate))
+        }
+    }
+
+    @Test("[Unit][VOX-SPA-011] containment respects degenerate dimensions")
+    func containmentRespectsDegenerateBounds() throws {
+        let space = try CoordinateSpaceID(validating: "world")
+        let exactPoint = try point(1, 2, 3, in: space)
+        let pointBounds = try AxisAlignedBounds3D(
+            minimum: exactPoint,
+            maximum: exactPoint
+        )
+        let lineBounds = try AxisAlignedBounds3D(
+            minimum: exactPoint,
+            maximum: point(4, 2, 3, in: space)
+        )
+        let planeBounds = try AxisAlignedBounds3D(
+            minimum: exactPoint,
+            maximum: point(4, 5, 3, in: space)
+        )
+        let outsidePoint = try point(Double(1).nextUp, 2, 3, in: space)
+        let onLine = try point(3, 2, 3, in: space)
+        let outsideLine = try point(3, Double(2).nextUp, 3, in: space)
+        let onPlane = try point(3, 4, 3, in: space)
+        let outsidePlane = try point(3, 4, Double(3).nextUp, in: space)
+
+        #expect(try pointBounds.contains(exactPoint))
+        #expect(try !pointBounds.contains(outsidePoint))
+        #expect(try lineBounds.contains(onLine))
+        #expect(try !lineBounds.contains(outsideLine))
+        #expect(try planeBounds.contains(onPlane))
+        #expect(try !planeBounds.contains(outsidePlane))
+    }
+
+    @Test("[Unit][VOX-SPA-001] containment rejects coordinate-space mismatch")
+    func containmentRejectsCoordinateSpaceMismatch() throws {
+        let world = try CoordinateSpaceID(validating: "world")
+        let patient = try CoordinateSpaceID(validating: "patient")
+        let bounds = try AxisAlignedBounds3D(
+            minimum: point(0, 0, 0, in: world),
+            maximum: point(1, 1, 1, in: world)
+        )
+        let candidate = try point(0.5, 0.5, 0.5, in: patient)
+
+        #expect(
+            throws: SpatialBoundsError.coordinateSpaceMismatch(
+                expected: world,
+                actual: patient
+            )
+        ) {
+            try bounds.contains(candidate)
+        }
+    }
+
     @Test("[Unit][VOX-ERR-001] rejects every independently inverted axis")
     func rejectsInvertedAxesDeterministically() throws {
         let space = try CoordinateSpaceID(validating: "org.voxelia.coordinate.world")
@@ -197,6 +298,15 @@ struct AxisAlignedBounds3DTests {
         let minimum = try Point3D(x: 0, y: 0, z: 0, coordinateSpace: space)
         let maximum = try Point3D(x: 1, y: 2, z: 3, coordinateSpace: space)
         return try AxisAlignedBounds3D(minimum: minimum, maximum: maximum)
+    }
+
+    private func point(
+        _ x: Double,
+        _ y: Double,
+        _ z: Double,
+        in space: CoordinateSpaceID
+    ) throws -> Point3D {
+        try Point3D(x: x, y: y, z: z, coordinateSpace: space)
     }
 
     private func expectInvalidDecoding(

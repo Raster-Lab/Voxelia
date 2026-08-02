@@ -746,8 +746,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/Bounds3D.swift",
-      "size": 5354,
-      "sha256": "92dc30f825c2287d7642f06f0b93c0eada128a772d8d36464022e86e1d82729f"
+      "size": 6221,
+      "sha256": "9cf9fd054f593208f639d665a463cb7c4e189f45826aaf8984e2503d686b58a2"
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/CoordinateHandedness.swift",
@@ -1036,8 +1036,8 @@
     },
     {
       "path": "Tests/VoxeliaSpatialTests/AxisAlignedBounds3DTests.swift",
-      "size": 8930,
-      "sha256": "049ced171e7733a930bbe74e4e185e50141d2e336a2d5965edb4f706df06c4fc"
+      "size": 13150,
+      "sha256": "ccfd9d768e4551d452c7b7e11da89f7dd00a25572b6cd907ece91399ad719057"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/CoordinateHandednessTests.swift",
@@ -1496,8 +1496,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 57447,
-      "sha256": "2ca39df36c0f22263f027c8c1b552c577900dbe221199fb07f0e8fa7a4e6e7bb"
+      "size": 58488,
+      "sha256": "be078cb31c7524657563d72d4e42bca5e302de5a5358aaed968349d205946243"
     },
     {
       "path": "docs/project/README.md",

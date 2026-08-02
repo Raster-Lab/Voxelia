@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first thirty-four foundational slices, `ImageShape` /
+- M1 implementation status: the first thirty-five foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -22,7 +22,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   access vocabulary, initial geometry/mesh taxonomies, validated geometry
   attribute descriptors, extent-based region construction and shape-aware
   region containment validation, checked region translation and deterministic
-  shape clipping are implemented and locally verified.
+  shape clipping and exact axis-aligned point-containment queries are
+  implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -307,6 +308,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Defined wholly below/above regions as deterministic empty results at the
   corresponding zero/upper boundary, including exact `Int` extremes, without
   changing the region's canonical representation.
+- Added inclusive `AxisAlignedBounds3D.contains(_:)` queries with exact
+  coordinate-space identity checks and typed mismatch errors.
+- Used exact finite component comparisons without tolerance, normalization or
+  implicit coordinate conversion, including point/line/plane degeneracy.
 
 ## Verification evidence
 
@@ -572,6 +577,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   empty anchors below/inside/at/above the shape, mixed 3D below/above/interior
   anchoring, both rank mismatches and 1,024-axis clipping passed alongside all
   prior region cases.
+- `swift build --target VoxeliaSpatial` and directly affected
+  `VoxeliaCore`/`Voxelia` builds passed with strict format lint for
+  axis-aligned point containment.
+- `swift test --filter AxisAlignedBounds3D` executed only the 10 bounds tests;
+  interior points, all eight corners, all six faces, each next-representable
+  outside direction, point/line/plane degeneracy and exact coordinate-space
+  mismatch passed alongside all prior bounds cases.
 
 ## Known blockers and risks
 
@@ -812,11 +824,15 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `CDMS-13.4` test labels link to the controlled region-operations section
   because the requirements baseline has no dedicated clipping identifier; they
   neither create a new requirement nor imply `VOX-RGN-002` specifies clipping.
+- Point containment is supporting evidence for `VOX-SPA-011`, not completion:
+  the requirement also covers planes, rays, oriented bounds and rendering or
+  interaction intersections that remain blocked or unimplemented.
 
 ## Exact next action
 
-Add inclusive `AxisAlignedBounds3D.contains(_:)` queries with exact coordinate-
-space agreement and no tolerance or implicit coordinate conversion.
+Add exact `AxisAlignedBounds3D.intersection(with:)` queries with coordinate-
+space agreement, nil for disjoint bounds, and non-nil degenerate results for
+face, edge and point contact.
 
 ## Test policy for the next action
 
