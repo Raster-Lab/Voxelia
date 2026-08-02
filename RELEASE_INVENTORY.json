@@ -1496,13 +1496,18 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md",
-      "size": 41273,
-      "sha256": "dcf1914f3286a025bea60603109536af36e62daf8593e90fa6a7b05e8e8ffc76"
+      "size": 41771,
+      "sha256": "49c0c5ffd02b60bb1a288252bdaf0997527f078544421e95d06491cfdda1736c"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md",
+      "size": 36451,
+      "sha256": "95921c363cc48ada46dc1e30f672714956673045603701d1324a3981e39e4765"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 3533,
-      "sha256": "3dd3ea38d35ce66d2bde08e4e94722cee6b0a43775cc0abc23a9934a9ff54e0f"
+      "size": 3777,
+      "sha256": "97610378d765b00b6b7cba08ef53754080c368b1eb9ebe9fe60557e02d064cc3"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1586,8 +1591,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 228026,
-      "sha256": "160ba12933c6ef4bfe8e1c3830c08d79572091140f667cc420309659cc92122d"
+      "size": 238622,
+      "sha256": "4d88585476eb73b6ee13d0bad27ab266f0c69dd9f54aeb1031752830deda62ba"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1618,6 +1623,11 @@
       "path": "docs/progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift",
       "size": 33299,
       "sha256": "ce3e25624d80d911c27fddfd7d02bed407407afe6dca5a9adb64505edf874a30"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0037-data-identity-cache-admission-probe.swift",
+      "size": 47583,
+      "sha256": "ce10ee6746f6ef9438ee54ca7093534db0c478b461292e3c93b95b4778f7013a"
     },
     {
       "path": "docs/project/README.md",
@@ -1901,8 +1911,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 17328,
-      "sha256": "3ed9b592ac56b4fdbbafcec19cb3cf9114aaabe22242e6646c0168b91d8e178b"
+      "size": 17499,
+      "sha256": "f29b43e309bf573a2741a278af727162b4b41997a7de9d09eba775de5f1f6221"
     }
   ]
 }

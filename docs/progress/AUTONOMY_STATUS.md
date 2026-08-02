@@ -133,6 +133,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   does not define semantic `MetadataCollection` identity and authorises no
   source while its proposal and the metadata dependency chain remain
   unaccepted.
+- Proposed `ADR-0037` selects a claim-bearing data-identity boundary downstream
+  of `ADR-0036`: `objectID` plus at least one content, source or derivation
+  claim; all seven non-empty content/source/derivation combinations; ordered
+  source lineage with exact duplicate-locator rejection; and a closed
+  non-recursive reference-case target whose wire and limits remain deferred. It
+  keeps decoded claims separate from
+  runtime assurance, makes lazy enrichment publish a new immutable snapshot
+  only after a pinned-generation commit, and keeps derivation records separate
+  from complete Execution result-cache keys. The proposal defines no image or
+  parameter digest projection, trust Boolean, intrinsic cache authority by
+  value presence, signature or export permission and authorises no source.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -198,7 +209,7 @@ binding:
 | `ImageData` dependency | Status | Boundary issue |
 |---|---|---|
 | `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0032` select validated leaves, a bounded recursive value and a required classified entry; Proposed `ADR-0033` selects ordered storage/configured multiplicity/aggregate limits, `ADR-0034` selects closed exact-case typed reads, `ADR-0035` selects the generic versioned canonical envelope/raw ingress and `ADR-0036` selects exact complete-record identity. None is accepted. Schema trust/resolution, custom conversion, semantic collection identity and production ceiling/parser evidence remain open. |
-| `DataIdentity` | Proposed-dependent and contract-blocked | Proposed `ADR-0036` supplies a corrected scope/projection-bearing `ContentID` and one exact metadata-record profile, but is unaccepted and does not define generic image identity. `DataIdentityReference` and the source/derivation/content completeness boundary remain undefined. |
+| `DataIdentity` | Proposed-dependent and contract-blocked | Proposed `ADR-0036` supplies a corrected scope/projection-bearing `ContentID` and one exact metadata-record profile. Proposed `ADR-0037` closes the claim-state lattice, duplicate/order rules, non-recursive reference target, assurance separation, lazy publication and cache-admission boundary. Both are unaccepted; exact source/operation identifiers, `DataObjectID` persistent identity, parameter/derivation/image projections, reference wire/limits, enrichment lifecycle and the complete derivation/cache-key split still block source. |
 | `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf but is not accepted. References, warning severity, validation state and graph invariants remain incomplete, and several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
 | `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
 | `ImageData` | Transitively blocked | Its exact five-field shape is consistent, but construction still needs storage descriptor/shape/scalar/component/byte-order compatibility, geometry/axis compatibility, identity completeness, provenance/source consistency, metadata uniqueness and the Core/Storage ownership decision. |
@@ -839,6 +850,61 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
 `VOX-ERR-007`, `VOX-SEC-001`, `VOX-SEC-003`, `VOX-SEC-006`,
 `VOX-SEC-011`, `VOX-VAL-007` and `VOX-VAL-011`.
 
+## M1 source, derivation and data-identity authority audit
+
+The controlled documents permit a large object to begin with source or
+derivation identity but do not define how the optional fields form a complete
+record or when a claim becomes verified/cache-admissible. They also reference
+an undefined `DataIdentityReference`, and the displayed derivation record omits
+dimensions required by the governed Execution result-cache key.
+
+Proposed `ADR-0037` records the conservative closure:
+
+It also requires controlled Requirements correction: `VOX-RGN-007` gains a
+provisional versioned source alternative, and `VOX-RGN-008` distinguishes that
+source-backed data identity from a full logical-content projection over data
+bytes, descriptor semantics and relevant transforms. A structurally valid
+source-only record does not satisfy M2 cache/provenance behavior until a host
+admits that exact source for the stated purpose and policy context.
+
+| Area | Proposed boundary | Deferred or owning work |
+|---|---|---|
+| Completeness | `objectID` plus at least one content, non-empty source or derivation claim; the object-only combination is invalid and every non-empty combination is structurally valid. | Whether successful identity enrichment preserves `objectID` remains an explicit lifecycle decision. |
+| Claims and assurance | A decoded/constructed `ContentID`, source content ID, locator or provenance edge is a claim. Generated/locally verified content and host-attested source are separate runtime evidence. | Host policy owns provider authentication, tenant/privacy/security domain, purpose, policy version, expiry and revocation. No serialised `trusted` Boolean is permitted. |
+| Sources | Nonblank bounded exact strings are required in principle; locator identity is exact accepted UTF-8 `(namespace, identifier, version)`. Caller order is retained as lineage-record order. Repeated locator keys fail, including conflicts with different content claims. | Exact byte ceilings/grammar are not selected. Acquisition/spatial order remains separately named. A source content scope need not equal the top-level logical-data scope. |
+| Derivation | Input order and repeats are preserved; empty input is allowed only for a declared generator. Exact record comparison includes build metadata. A derivation claim is not a cache key or proof of determinism. | Operation/implementation identifiers, canonical parameter and derivation-record projections, named roles and exact public record remain deferred. The VCMJ projection is invalid for parameter identity. |
+| References | The target is an explicit closed non-recursive one-of: object, content, source or future canonical derivation-record ID. Object-only is local/resolved lineage, not a persistent/distributed cache key. | `DerivationRecordID`, exact tagged wire, aggregate limits, resolver and lifecycle are undefined, so the public type remains blocked. |
+| Lazy publication | Work binds object, pinned immutable snapshot and exact projection. Only a final generation/snapshot recheck may publish a new immutable claim snapshot plus assurance. Separately accepted cache/provenance contracts may conditionally stage their own side effects; digest completion alone does not authorise them. | Storage supplies snapshot-consistent reads; Execution owns single-flight work, cancellation, determinism, cache key and commit coordination. Failure, mismatch, cancellation or staleness publishes nothing. |
+| Cache | Admission explicitly prefers verified content, deterministic derivation with independently verified input content identities/full execution key, then versioned host-attested source. Keys are kind- and tenant/privacy/security-domain-separated. | Persistent format versioning, atomic storage, integrity verification, eviction, revocation and complete M2 concurrency/fault evidence stay with Storage/Execution/host policy. |
+| Scope/security | `serialisedObject`, `storageObject`, `compressedRepresentation`, `sampleBytes` and future `descriptorAndSamples` claims are not interchangeable. Digests and locators are sensitive-derived, not authentication or de-identification. | Image identity, checksums, integrity/validation axes, MACs, signatures, keys, schema trust and export authority remain separate decisions. |
+
+The focused Swift 6 probe closes all eight content/source/derivation state
+combinations, source duplicate/conflict and order behavior, exact UTF-8
+negative controls, source-versus-data scope separation, ordered/repeated/zero-
+input derivation behavior, build-metadata-sensitive exact derivation equality,
+explicit reference admission, exact execution-key-bound derivation evidence,
+object/snapshot/policy-domain-bound verified-content evidence, one-at-a-time
+changes to every required execution/cache discriminator and atomic lazy
+publication under both externally selected `objectID` lifecycle fixtures.
+Existing-claim conflicts, cancellation, failure, mismatch, stale generation
+and snapshot change all leave identity, assurance, cache alias and provenance
+success counts unchanged.
+
+This is isolated evidence only. Proposed `ADR-0036` and `ADR-0037`, their
+controlled MTA/CDMS/Requirements corrections, the public RFC,
+identifier/reference/projection
+decisions and supported-device/concurrency evidence remain mandatory. No
+identity aggregate or cache implementation is authorised.
+
+Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
+`VOX-ARC-003`, `VOX-ARC-004`, `VOX-ARC-005`, `VOX-API-001`,
+`VOX-API-003`, `VOX-API-004`, `VOX-API-010`, `VOX-DAT-014`,
+`VOX-RGN-007`, `VOX-RGN-008`, `VOX-RGN-009`, `VOX-CON-001`,
+`VOX-CON-006`, `VOX-CON-007`, `VOX-CCH-004`, `VOX-CCH-005`,
+`VOX-CCH-007`, `VOX-CCH-008`, `VOX-ERR-001`, `VOX-ERR-002`,
+`VOX-ERR-003`, `VOX-ERR-007`, `VOX-SEC-006`, `VOX-SEC-011`,
+`VOX-VAL-007` and `VOX-VAL-011`.
+
 ## Completed in this increment
 
 - Established the long-running Codex completion goal.
@@ -1431,16 +1497,33 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
   cancellation without publication, owned-byte snapshot, strict hex,
   timing-safe direct comparison, checked arithmetic and payload-free errors;
   reconciled `ADR-0031` through `ADR-0035` with the new proposal.
+- Audited the downstream source/derivation/data-identity authority across the
+  MTA, CDMS, requirements, vertical-slice plan and live Core leaves, including
+  completeness, exact versus semantic equality, source order/duplicates,
+  undefined references, lazy lifecycle, trust, privacy, cache and module
+  ownership; three independent read-only reviews confirmed that product source
+  remains blocked.
+- Added proposed `ADR-0037` with a closed claim-state lattice, exact duplicate-
+  locator rejection, ordered source lineage, non-recursive reference target,
+  explicit runtime assurance and cache admission, pinned-snapshot lazy
+  publication, fail-closed mismatch handling and a strict separation between a
+  derivation record and the full Execution result-cache key.
+- Added a focused strict Swift 6 closed-state probe covering every structural
+  state, exact UTF-8/source and derivation behavior, content/source scope
+  separation, reference-specific cache authority, policy-domain-bound content
+  assurance, exact execution-key-bound derivation evidence, every required key
+  discriminator, and zero-publication cancellation/failure/existing-claim-
+  mismatch/stale-generation paths without adding product source.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 381-entry manifest covers every releasable file except its
+- The current 383-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
 - Final release-integrity regeneration and read-only verification passed with
-  380 inventory records and 381 checksums for this increment.
+  382 inventory records and 383 checksums for this increment.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -2904,6 +2987,45 @@ python3 Tools/Scripts/check_release_integrity.py --write
 python3 Tools/Scripts/check_release_integrity.py
 ```
 
+For proposed `ADR-0037`, the isolated strict Swift 6 evidence is stored in
+`docs/progress/evidence/ADR-0037-data-identity-cache-admission-probe.swift`.
+It models claim completeness, external assurance, reference-specific cache
+admission and atomic publication only; it is not product API, a canonical
+codec, a digest implementation, a trust store, a persistent cache or complete
+concurrency/fault evidence. The focused probe command exited successfully and
+emitted no output:
+
+```bash
+mkdir -p .build/evidence
+xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors -parse-as-library \
+  docs/progress/evidence/ADR-0037-data-identity-cache-admission-probe.swift \
+  -o .build/evidence/adr0037-probe
+.build/evidence/adr0037-probe
+```
+
+The final narrow gate for this documentation-only proposal is:
+
+```bash
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0037-data-identity-cache-admission-probe.swift
+xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors -parse-as-library \
+  docs/progress/evidence/ADR-0037-data-identity-cache-admission-probe.swift \
+  -o .build/evidence/adr0037-probe
+.build/evidence/adr0037-probe
+Tools/Scripts/validate-docs.sh
+git diff --check
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_release_integrity.py
+```
+
+No complete Swift package suite is required for this proposal. Product source,
+package topology and dependencies did not change, so the focused probe plus
+document, ADR-register, manifest and release-integrity checks are the affected
+surface.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -3105,9 +3227,14 @@ python3 Tools/Scripts/check_release_integrity.py
   `.blake3` likewise lacks an accepted mode/output contract. Proposed
   `ADR-0036` authorises only SHA-256 for its complete-record profile and does
   not make the other taxonomy cases executable.
-- `SourceIdentity`, `DerivationIdentity` and `DataIdentity` remain blocked by
-  `ContentID`; `DataIdentityReference` is also undefined, and record-level
-  empty, duplicate and consistency invariants are not specified.
+- `SourceIdentity`, `DerivationIdentity`, `DataIdentity` and
+  `DataIdentityReference` remain product-source blocked. Proposed `ADR-0037`
+  closes their conceptual claim-state, duplicate/order, non-recursive
+  reference, assurance, lazy-publication and cache-admission boundary, but it
+  is unaccepted and intentionally leaves exact source/operation identifiers,
+  `DataObjectID` persistent identity, parameter/derivation/image projections,
+  tagged reference wire/limits, enrichment lifecycle and the complete
+  derivation/cache-key split unresolved.
 - Recursive metadata source remains deferred. Proposed `ADR-0028` through
   `ADR-0030` supply leaf designs only if accepted, and proposed `ADR-0031`
   supplies validated containers, exact UTF-8 string identity, strict semantic
@@ -3245,7 +3372,7 @@ python3 Tools/Scripts/check_release_integrity.py
   compare them with MTA Appendix A while the known `ADR-0001` collision remains
   unresolved, and it does not treat body mentions or the `ADR-0025` allocator
   hold as record assignments.
-- The checked-in template and all fifteen file-backed ADRs now contain the RPSS
+- The checked-in template and all seventeen file-backed ADRs now contain the RPSS
   section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
   meaningful bodies. It intentionally does not infer decision quality, status
   transitions, module validity or supersession semantics from prose.
@@ -3301,6 +3428,13 @@ python3 Tools/Scripts/check_release_integrity.py
   `ADR-0028` through `ADR-0035`. Semantic collection identity, general image
   identity, custom/BLAKE3 algorithms, standalone Content-ID raw ingress,
   signatures and keyed identities remain separate decisions.
+- Proposed `ADR-0037` does not authorise source/derivation/data-identity values,
+  trust state, lazy resolver, result-cache key, cache integration or provenance
+  integration. A content-shaped or source-carried digest always remains a
+  claim value; external evidence may separately admit the exact tuple for one
+  pinned snapshot and policy context. Its logical reference cases include an
+  undefined `DerivationRecordID`, so the displayed target is review material
+  rather than an implementable enum.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -3321,29 +3455,29 @@ python3 Tools/Scripts/check_release_integrity.py
 
 ## Exact next action
 
-Audit the Core-owned source/derivation/content identity boundary downstream of
-proposed `ADR-0036`. Reconcile the MTA phrase “every immutable data object shall
-have a content identity” with the baseline/CDMS rule that a stable source or
-derivation identity may exist before a lazy full digest. Define or explicitly
-defer `DataIdentity`, `DataIdentityReference`, completeness/trust states,
-duplicate/empty invariants, lazy publication and cache/provenance behaviour
-without treating a source identifier as verified content. Keep the exact VCMJ
-record ID distinct from future image `descriptorAndSamples` identity and keep
-schema trust, privacy/export authority, signatures and storage verification at
-their owning boundaries. Do not add identity source while `ADR-0036` or its
-dependencies remain Proposed.
+Audit the Core-owned provenance record and graph-reference boundary downstream
+of proposed `ADR-0028`, `ADR-0036` and `ADR-0037`. Reconcile Core ownership of
+provenance values with the live dependency graph and the controlled sketches'
+undefined `ProvenanceReference`, `ExecutionProfileDescriptor`,
+`BackendDescriptor`, `ApproximationStatus`, warning severity, validation and
+integrity types. Define or explicitly defer exact record completeness,
+non-recursive references, ordered roles, DAG/cycle/resource invariants,
+claim-versus-evidence semantics, privacy-safe diagnostics and atomic
+publication without importing Execution-owned behavior into Core. Keep
+source/data identity claims distinct from verification and do not add
+provenance aggregate source while prerequisite ADRs or ownership contracts
+remain Proposed or undefined.
 
 ## Test policy for the next action
 
-- For a source/derivation/content identity audit or documentation-only
-  proposal, run only a focused closed-state/invariant probe covering absent,
-  source-only, derivation-only, verified-content and invalid mixed states,
-  exact reference identity, trust/completeness transitions, redacted failures,
-  document/ADR checks, manifest and release-integrity checks. If an
-  independently safe value record becomes authorised, run only its focused
-  construction, Codable, equality, ownership, cancellation/publication and
-  directly affected dependent tests plus the owning target build and strict
-  format lint.
+- For a provenance audit or documentation-only proposal, run only a focused
+  closed-record/graph probe covering missing required claims, explicit
+  non-recursive reference tags, ordered roles, duplicate/self/cycle/depth/count
+  rejection, exact record versus verified-evidence separation, atomic
+  publication and redacted failures, plus document/ADR, manifest and release-
+  integrity checks. If an independently safe leaf becomes authorised, run only
+  its focused construction, Codable, equality, ownership and directly affected
+  dependent tests plus the owning target build and strict format lint.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

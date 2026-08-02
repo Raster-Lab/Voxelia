@@ -117,6 +117,12 @@ identity, image `descriptorAndSamples` identity, source/derivation identity,
 signature input, keyed pseudonymisation or a generic algorithm registry. Its
 Proposed status authorises documentation and isolated evidence only.
 
+Proposed `ADR-0037` defines the downstream claim-versus-assurance boundary for
+source, derivation and data identity. A structurally valid or decoded
+`ContentID` from this ADR always remains a claim value. Separate generation or
+verification over one pinned immutable snapshot supplies assurance; the value
+never becomes cache authority by presence alone.
+
 ## Decision
 
 If `ADR-0028` through `ADR-0036` are accepted and the public API receives the
@@ -820,6 +826,7 @@ decisions.
 - [ADR-0032 - Required metadata-entry privacy attachment](ADR-0032-required-metadata-entry-privacy-attachment.md)
 - [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
 - [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)
+- [ADR-0037 - Claim-bearing data identity and cache-admission boundary](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md)
 - [ADR-0036 complete-record identity probe](../../progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift)
 - [NIST FIPS 180-4 - Secure Hash Standard](https://doi.org/10.6028/NIST.FIPS.180-4)
 - [NIST Cryptographic Algorithm Validation Program - Secure Hashing](https://csrc.nist.gov/projects/cryptographic-algorithm-validation-program/secure-hashing)
