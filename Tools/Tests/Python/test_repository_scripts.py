@@ -9,6 +9,27 @@ ROOT = Path(__file__).resolve().parents[3]
 
 
 class RepositoryScriptTests(unittest.TestCase):
+    def test_explicit_entry_points_are_not_named_main_swift(self) -> None:
+        expected_entry_points = [
+            ROOT
+            / "Validation/Sources/voxelia-validation/VoxeliaValidationCommand.swift",
+            ROOT
+            / "Benchmarks/Sources/voxelia-benchmark/VoxeliaBenchmarkCommand.swift",
+            ROOT
+            / "Tools/Sources/voxelia-repo-check/VoxeliaRepositoryCheck.swift",
+        ]
+        for path in expected_entry_points:
+            self.assertTrue(path.is_file(), path)
+            self.assertIn("@main", path.read_text(encoding="utf-8"), path)
+
+        for package in ("Validation", "Benchmarks", "Tools"):
+            for path in (ROOT / package / "Sources").rglob("main.swift"):
+                self.assertNotIn(
+                    "@main",
+                    path.read_text(encoding="utf-8"),
+                    f"{path} would define both implicit and explicit entry points",
+                )
+
     def test_manifest_paths_pass(self) -> None:
         subprocess.run(
             ["python3", "Tools/Scripts/check_manifest_paths.py"],

@@ -34,7 +34,7 @@ Benchmarks/Scenarios/scaffold.yaml
 Benchmarks/Schemas/benchmark-result.schema.yaml
 Benchmarks/Schemas/benchmark-scenario.schema.yaml
 Benchmarks/Sources/voxelia-benchmark/ApplePlatformGate.swift
-Benchmarks/Sources/voxelia-benchmark/main.swift
+Benchmarks/Sources/voxelia-benchmark/VoxeliaBenchmarkCommand.swift
 Benchmarks/Tests/VoxeliaBenchmarkToolTests/BenchmarkToolTests.swift
 CHANGELOG.md
 CODE_OF_CONDUCT.md
@@ -187,7 +187,7 @@ Tools/Scripts/validate-docs.sh
 Tools/Scripts/validate-scaffold.sh
 Tools/Scripts/validation-smoke.sh
 Tools/Sources/voxelia-repo-check/ApplePlatformGate.swift
-Tools/Sources/voxelia-repo-check/main.swift
+Tools/Sources/voxelia-repo-check/VoxeliaRepositoryCheck.swift
 Tools/Tests/Python/test_manifest_paths.py
 Tools/Tests/Python/test_release_integrity.py
 Tools/Tests/Python/test_repository_scripts.py
@@ -208,7 +208,7 @@ Validation/Schemas/tolerance-profile.schema.yaml
 Validation/Schemas/validation-report.schema.yaml
 Validation/Schemas/validation-run.schema.yaml
 Validation/Sources/voxelia-validation/ApplePlatformGate.swift
-Validation/Sources/voxelia-validation/main.swift
+Validation/Sources/voxelia-validation/VoxeliaValidationCommand.swift
 Validation/Tests/VoxeliaValidationToolTests/ValidationToolTests.swift
 Validation/Tolerances/scaffold.yaml
 docs/algorithms/README.md
