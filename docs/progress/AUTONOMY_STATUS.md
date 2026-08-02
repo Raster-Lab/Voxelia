@@ -86,6 +86,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   input, arbitrary enclosing keys and unsafe underlying decoder errors are not
   retained in its diagnostic text or coding path; the five accepted raw values
   and their valid wire bytes are unchanged.
+- Proposed `ADR-0032` adds a required `privacyClass` directly to every general
+  `MetadataEntry`, scopes it over the key and whole recursive value, includes it
+  in identity and strict three-field wire, and keeps host authorisation outside
+  Core. It requires exact class preservation, forbids automatic aggregation,
+  leaves `hostDefined` unresolved until trusted policy acts and does not
+  authorise entry source.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -150,7 +156,7 @@ binding:
 
 | `ImageData` dependency | Status | Boundary issue |
 |---|---|---|
-| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0030` select validated instant, finite floating-point and owned exact-byte payloads but are not accepted; recursive arrays and objects still bypass unresolved invariants, while tags, ordering, limits, multiplicity, privacy attachment, typed access and canonical ingress remain open. |
+| `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0031` select validated leaves and a bounded recursive value, while Proposed `ADR-0032` selects a required whole-entry privacy attachment; none is accepted. Collection schema/resolver identity, multiplicity, order, aggregate limits, privacy aggregation, typed access and canonical ingress remain open. |
 | `DataIdentity` | Contract-blocked | `ContentID` has incompatible prescribed shapes, lacks an approved scope-bearing record and fully specified canonical digest byte encoding, and `DataIdentityReference` is undefined. |
 | `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf but is not accepted. References, warning severity, validation state and graph invariants remain incomplete, and several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
 | `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
@@ -204,12 +210,16 @@ hashing ordinary type-level JSON blindly.
 
 ## M1 metadata-model prerequisite audit
 
-`VoxeliaCore` ownership, the eleven `MetadataValue` cases, the two
-`MetadataEntry` fields and the one-field `MetadataCollection` declaration are
-stable. `VoxeliaCore -> VoxeliaSpatial` is already an approved dependency, so
-the unit payload creates no cycle, and `CodedConcept`, `AnyMetadataKey` and
-`MetadataPrivacyClass` already exist in Core. The three recursive public types
-are nevertheless a source no-go:
+`VoxeliaCore` ownership, the eleven `MetadataValue` cases and the one-field
+`MetadataCollection` sketch are stable controlled inputs. The separate
+two-field `MetadataEntry` sketch is not safe to publish because the same model
+says metadata may carry a privacy class without attaching it. Proposed
+`ADR-0031` selects the bounded recursive value, and Proposed `ADR-0032` corrects
+the general entry to required `key`, `value` and `privacyClass` fields; neither
+is accepted. `VoxeliaCore -> VoxeliaSpatial` is already an approved dependency,
+so the unit payload creates no cycle, and `CodedConcept`, `AnyMetadataKey` and
+`MetadataPrivacyClass` already exist in Core. The recursive aggregate, general
+entry and collection are nevertheless a source no-go:
 
 | Area | Governed requirement | Blocking contract |
 |---|---|---|
@@ -218,9 +228,9 @@ are nevertheless a source no-go:
 | String | Generic text must preserve the supplied Unicode scalar sequence without silently choosing a namespace-specific equivalence. | The isolated audit retains raw `String` and admits every valid Swift string. Proposed `ADR-0031` accepts exact UTF-8 aggregate equality/hashing without a wrapper, but it remains unaccepted. |
 | Binary | Binary metadata exists and canonical JSON must select base64 or hexadecimal. | Proposed `ADR-0030` selects an owned snapshot and strict padded standard Base64 without an intrinsic standalone cap. Proposed `ADR-0031` adds a hard logical payload ceiling only for recursive embedding; raw/token/leaf pre-allocation remains ingress policy. |
 | Recursive arrays | Array order is naturally preserved. | Proposed `ADR-0031` replaces the raw payload with validated `MetadataArray`, preserves order and enforces depth, structural-work and logical-payload ceilings. The proposal and its numerical ceiling evidence remain unaccepted. |
-| Objects | Object keys must be unique. | Proposed `ADR-0031` uses validated `MetadataObject` plus a privacy-neutral nested member, rejects exact-key duplicates and canonical-sorts unsigned UTF-8 namespace/name bytes. General `MetadataEntry` remains deferred. |
+| Objects | Object keys must be unique. | Proposed `ADR-0031` uses validated `MetadataObject` plus a privacy-neutral nested member, rejects exact-key duplicates and canonical-sorts unsigned UTF-8 namespace/name bytes. Proposed `ADR-0032` keeps that member distinct from the general entry; both remain unaccepted. |
 | Collection multiplicity | Duplicate keys are rejected unless a namespace schema permits multiplicity. | No schema type, resolver, stable identity or serialization contract exists. Rejecting all repeats removes governed multiplicity; accepting them violates validation by construction. |
-| Privacy | Metadata may carry `MetadataPrivacyClass`, and validation/logging/export must cover it. | No attachment field, default/unclassified meaning, `hostDefined` resolver, nested aggregation, downgrade rule or equality/digest policy is specified. Classification belongs semantically per entry, with schema constraints and host enforcement, but that design requires approval. |
+| Privacy | Metadata may carry `MetadataPrivacyClass`, and validation/logging/export must cover it. | Proposed `ADR-0032` selects a required direct attachment, no default/unclassified state, whole-entry scope, exact class identity and strict three-field wire, but remains unaccepted. Host resolver shape, versioned policy aggregation, logging/export authorisation and persistent digest treatment remain future or host-owned decisions. |
 | Typed access | Reads must match the requested type or return a typed error without coercion. | No mapping protocol, missing/wrong-type/multiple-value behavior or erased-to-typed conversion contract exists. |
 | Type-level encoding | Value cases require explicit stable tags. | Proposed `ADR-0031` selects one-member externally tagged objects, strict payloads and sorted object-member arrays. It deliberately does not claim raw duplicate detection or canonical document bytes. |
 | Canonical identity | Metadata included in an identity is ordered and uses canonical JSON. | Proposed `ADR-0031` distinguishes semantic `Hashable` identity from record bytes: unit/code display text remains encoded but excluded from equality. The persistent canonical projection and digest remain unresolved. |
@@ -233,8 +243,10 @@ positive and negative zero encode differently, synthesized tags use `_0`,
 distinct extra fields decode, raw duplicate JSON keys collapse before model
 inspection, and hashing a 50,000-level tree trapped. Proposed
 `ADR-0031` now supplies separately reviewed recursive containers and hard
-anti-amplification ceilings; canonical byte ingress, collection and privacy
-policy remain independent rather than being folded into that value proposal.
+anti-amplification ceilings. Proposed `ADR-0032` separately supplies the
+required entry-privacy attachment. Neither is accepted; canonical byte ingress,
+collection behaviour and operational host policy remain independent rather than
+being folded into the value proposal.
 
 The audit also exposed a bounded defect in the existing `MetadataKey<Value>`
 and `AnyMetadataKey`: both preserve and encode opaque source spelling, while
@@ -449,12 +461,12 @@ matching:
 | Area | Proposed version-one decision | Explicitly deferred |
 |---|---|---|
 | Array shape | `case array(MetadataArray)`; one throwing generic-collection initializer, immutable `ContiguousArray` storage, empty valid and input order preserved. | Typed numeric arrays, flattening and standalone wrapper Codable. |
-| Object shape | `case object(MetadataObject)` with privacy-neutral nested `MetadataObject.Member`; reject duplicate exact keys and canonical-sort namespace then name by unsigned UTF-8 bytes. | General `MetadataEntry`, `MetadataCollection`, privacy attachment and namespace multiplicity. |
+| Object shape | `case object(MetadataObject)` with privacy-neutral nested `MetadataObject.Member`; reject duplicate exact keys and canonical-sort namespace then name by unsigned UTF-8 bytes. | General `MetadataEntry` and `MetadataCollection`; Proposed `ADR-0032` separately selects the required direct entry attachment, while namespace multiplicity remains open. |
 | Hard safety | Container depth 64, 1,048,576 logical structural elements and 67,108,864 logical variable-payload bytes. Count repeated COW-shared subtrees per semantic occurrence and use checked arithmetic. | Lower host-selected document, token, leaf, entry and workload limits plus lowest-resource-device acceptance evidence. |
 | Identity | Exact case tag and payload; arrays ordered; objects map-ordered; raw strings exact UTF-8; accepted instant/floating/binary leaves delegate to their contracts. | Canonical record/digest identity; unit/code presentation text remains preserved in Codable but excluded from semantic equality. |
 | Traversal | Iterative depth-first equality and hashing with O(depth) cursor state; private cached metrics never enter identity or wire. | Persistent hash/digest, interning and private lookup indexing. |
 | Type-level wire | Exactly one external tag from the eleven case names; object payload is a sorted array of strict `{key,value}` members; null, unknown/multiple tags and wrong shapes rejected. | Raw duplicate names, lexical integer/escape form, schema version, canonical document bytes and signatures. |
-| Errors and privacy | Four payload-free typed errors for duplicate key and each hard limit; no key, value, unknown tag or recursive `self` in model-originated errors. | Classification attachment, inheritance, downgrade prevention, `hostDefined` resolution, logging/export authorisation and upstream decoder sanitisation. |
+| Errors and privacy | Four payload-free typed errors for duplicate key and each hard limit; no key, value, unknown tag or recursive `self` in model-originated errors. | Proposed `ADR-0032` separately selects required whole-entry classification and exact preservation but is unaccepted; host policy, logging/export authorisation and upstream decoder sanitisation remain outside this value. |
 
 Depth is the number of recursive containers: a leaf has depth zero, an empty
 container has depth one and a nonempty container has one plus its deepest child
@@ -490,10 +502,11 @@ future canonical-byte decision must not silently narrow the controlled value
 domain.
 
 `ADR-0031` also reconciles the three Proposed leaf migrations: a leaf may enter
-`MetadataValue` only after its own ADR and `ADR-0031` are accepted. General
-entries, collections, privacy and canonical byte ingress are no longer treated
-as prerequisites for reviewing the privacy-neutral value, but remain blocked
-on their own contracts. The proposed ceilings require focused boundary and
+`MetadataValue` only after its own ADR and `ADR-0031` are accepted. Proposed
+`ADR-0032` now supplies the separate entry-privacy contract, but remains
+unaccepted; collections, operational host policy and canonical byte ingress are
+still blocked on their own contracts. None is a prerequisite for reviewing the
+privacy-neutral value. The proposed ceilings require focused boundary and
 representative lowest-resource Apple-device evidence before acceptance, so no
 Swift implementation is authorised in this increment.
 
@@ -503,6 +516,78 @@ Primary traceability is `VOX-GOV-005`, `VOX-GOV-006`, `VOX-ARC-003`,
 `VOX-SEC-011`, `VOX-VAL-007`, `VOX-VAL-008` and `VOX-VAL-009`.
 Value-redacted logging guidance additionally maps to `VOX-ERR-007` and
 `VOX-SEC-006`.
+
+## M1 required metadata-entry privacy-attachment audit
+
+The controlled metadata model separately sketches a two-field general entry
+and says metadata may carry one of five privacy classes. It does not attach the
+class or define absence, defaults, nested scope, ordering, resolution, identity
+or wire participation. Publishing that sketch would make an unclassified entry
+public and require a later breaking third-field correction.
+
+Proposed `ADR-0032` selects the smallest fail-closed entry boundary:
+
+| Area | Proposed version-one decision | Explicitly deferred |
+|---|---|---|
+| Public shape | `MetadataEntry` stores `key`, `value` and required `privacyClass`; its initializer has no default, optional or two-argument overload. | `MetadataCollection`, typed access and convenience projections. |
+| Authority | The declared class is a restriction signal, never logging/export permission. Wire labels are untrusted data; hosts own authorisation, purpose, destination, consent, declassification and audit. | Public resolver protocol, principal/destination model and audit storage. |
+| `hostDefined` | Explicit unresolved host policy, distinct from absence and every concrete class. Unknown wire text never maps to it; disclosure fails closed without trusted resolution. | Portable custom policy identity, which the payload-free case cannot represent. |
+| Recursive scope | One entry class covers both key strings and the complete recursive value subtree. `MetadataObject.Member` stays privacy-neutral and has no implicit entry conversion. | Independently classified nested members and mixed-policy object schemas. |
+| Preservation and aggregation | No `Comparable`, ordering or inferred aggregate class. One-to-one library transformations preserve the exact declaration; multi-input aggregation preserves entries separately, requires an explicit trusted-host output class or fails typed and payload-free. | A governed policy schema, public resolver and policy-specific aggregation rules. |
+| Identity and wire | Declared class participates in equality/hash. Codable requires exactly `key`, `value`, `privacyClass`; missing, null, extra, unknown and wrong-shaped fields reject. | Raw duplicate detection, canonical bytes and persistent scientific/content identity. |
+| Diagnostics | Entry-originated errors use fixed model-relative field paths and contain no caller key, rejected token, metadata value or arbitrary underlying decoder error. | Sanitising failures raised before model decoding or inside host policy. |
+
+There is no unclassified entry state. An optional `nil` would invent a sixth
+state outside the controlled taxonomy and overlap the explicitly unresolved
+purpose of `hostDefined`. No classification is a safe default: `publicData`
+could disclose, `technical` and `sensitive` invent source meaning, and
+`hostDefined` would silently turn omission into accepted unresolved policy.
+
+The taxonomy defines no total or partial privacy order. Its case names mix data
+categories and handling obligations, so replacing two declarations with a
+supposedly more restrictive case can erase information. Library-owned one-to-one
+transformations preserve the exact class. Generic multi-input operations retain
+entries separately, require the trusted host to supply an explicit output class
+under versioned policy with applicable provenance/audit, or fail typed and
+payload-free.
+
+`hostDefined` remains declared and unresolved through generic library
+operations. Because the entry carries no policy identity, generic code preserves
+such inputs separately or fails; a concrete replacement is an explicit audited
+host reclassification. A public value cannot prevent its owning host from
+constructing a lower-class record, so the proposal prohibits implicit library
+reclassification without overclaiming system-wide enforcement.
+
+Classification applies to the entire key/value record, including nested member
+keys, array elements and retained code/unit presentation strings. A bare value
+or member has no disclosure permission. Mixed-policy data remains separate
+general entries where schema permits or receives one explicit host-classified
+outer entry; Core cannot reconstruct labels after callers discard them into
+privacy-neutral members.
+
+Ordinary Codable is representation, not export authorisation. Default library
+logs omit arbitrary keys and values for every class, including `publicData` and
+`technical`. A host policy must decide destination and purpose before
+disclosure; unresolved policy fails closed. Collection-level reject/filter/
+redact behaviour remains a later API decision.
+
+FHIR security-label guidance supports attaching a label to the complete
+resource and evaluating it in a separate trust/policy framework. DICOM
+confidentiality guidance likewise treats nested sequence content under its
+enclosing protected attribute and warns that de-identification is
+context-dependent. Apple OSLog privacy remains a separate sink-specific
+mapping. These are design precedents, not claimed conformance or vocabulary
+mappings.
+
+The current `MetadataPrivacyClass` manual decoder already supplies fixed
+value-redacted failures without changing successful wire. The Proposed entry
+itself depends on still-Proposed `ADR-0031`; no `MetadataEntry` source or
+controlled-document migration is authorised.
+
+Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
+`VOX-ARC-003`, `VOX-API-001`, `VOX-API-003`, `VOX-API-004`,
+`VOX-API-010`, `VOX-DAT-014`, `VOX-META-001`, `VOX-META-002`,
+`VOX-ERR-001`, `VOX-ERR-007`, `VOX-SEC-006` and `VOX-VAL-007`.
 
 ## Completed in this increment
 
@@ -985,16 +1070,33 @@ Value-redacted logging guidance additionally maps to `VOX-ERR-007` and
   source text or an underlying error, preserving all successful wire values.
 - Added a focused nested regression for unknown and wrong-shaped input that
   checks both error renderings, the empty safe path and absent underlying error.
+- Audited direct versus wrapped privacy attachment, optional/default states,
+  host authority, nested scope, downgrade behaviour, identity, strict wire and
+  value-redacted diagnostics against the controlled model and primary
+  healthcare/Apple privacy guidance.
+- Added proposed `ADR-0032` with one required class directly on every general
+  entry, no unclassified/default state and no implicit privacy-erasing
+  conversion to or from `MetadataObject.Member`.
+- Defined whole-entry recursive scope, classification-sensitive equality/hash,
+  exact three-field Codable and fail-closed `hostDefined` handling while
+  retaining host ownership of authorisation, logging, export and audit.
+- Rejected an invented severity lattice: library-owned one-to-one transforms
+  preserve exact classes, while multi-input aggregation retains entries,
+  requires explicit trusted-host classification or fails payload-free.
+- Added a checked-in Swift 6 evidence probe for the required shape, exact
+  identity, nested scope, strict malformed forms, outer-shape/caller-path/token
+  redaction and exact `hostDefined` round-tripping, and reconciled `ADR-0031`
+  with the separate entry proposal.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 371-entry manifest covers every releasable file except its
+- The current 373-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
 - Final release-integrity regeneration and read-only verification passed with
-  370 inventory records and 371 checksums for this increment.
+  372 inventory records and 373 checksums for this increment.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -2086,6 +2188,66 @@ python3 Tools/Scripts/check_release_integrity.py --write
 python3 Tools/Scripts/check_release_integrity.py
 ```
 
+For proposed `ADR-0032`, the isolated reproducible Swift evidence is stored in
+`docs/progress/evidence/ADR-0032-metadata-entry-privacy-probe.swift`. It is
+entry-boundary evidence, not public API or implementation authorisation. The
+exact successful command was:
+
+```bash
+xcrun swift -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors \
+  docs/progress/evidence/ADR-0032-metadata-entry-privacy-probe.swift
+```
+
+It printed:
+
+```text
+entryIdentityClasses=2 requiredPrivacy=true strictInvalid=5
+hostDefinedRoundTrip=true
+nestedScope=oneOuterClass outerShapePaths=sanitized
+callerPath=sanitized ordered={"key":{"name":"field","namespace":"example"},"privacyClass":"sensitive","value":{"string":"x"}}
+```
+
+The probe compiled a required key/value/class entry under strict concurrency;
+proved different declarations remain unequal; kept `hostDefined` exact and
+unresolved; represented nested structural members beneath one outer class;
+round-tripped strict three-field entries; rejected missing, null, extra,
+unknown and wrong-shaped classifications; and verified that rejected nested
+tokens plus array and null outer shapes expose neither arbitrary caller paths
+nor source text in descriptive or reflective errors. Its first draft failed to
+compile because throwing decode expressions were placed in nonthrowing
+`precondition` autoclosures; intermediate values corrected the evidence before
+the checked-in successful command.
+
+- Independent shape, security/privacy and wire reviews covered the controlled
+  “may carry” ambiguity, optional versus required states, policy authority,
+  recursive scope, equality, strict Codable and diagnostic leakage. The final
+  decision requires an explicit class and rejects optional `nil` as an
+  ungoverned duplicate of unresolved policy.
+- The reviews confirmed that no total or partial order, automatic aggregation
+  or Core-owned disclosure resolver is justified. Exact preservation avoids
+  erasing category- or host-specific obligations, and classification never
+  grants logging or export permission.
+- The current manual `MetadataPrivacyClass` implementation and focused four-
+  test regression were independently re-reviewed clean.
+- No full Swift package suite was run for the ADR/probe increment; product
+  source did not change after the separately committed focused decoder fix.
+
+The exact focused repository commands for the entry proposal were:
+
+```bash
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0032-metadata-entry-privacy-probe.swift
+xcrun swift -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors \
+  docs/progress/evidence/ADR-0032-metadata-entry-privacy-probe.swift
+Tools/Scripts/validate-docs.sh
+git diff --check
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_release_integrity.py
+```
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -2291,15 +2453,17 @@ python3 Tools/Scripts/check_release_integrity.py
   `ADR-0030` supply leaf designs only if accepted, and proposed `ADR-0031`
   supplies validated containers, exact UTF-8 string identity, strict semantic
   tags, canonical exact-key object order and hard depth/work/payload ceilings.
-  None is accepted; the ceiling values still need supported-destination and
-  representative lowest-resource-device evidence. General `MetadataEntry`,
-  collections, multiplicity schemas, privacy, typed access and duplicate-safe
-  canonical byte ingress remain unresolved by design.
-- `MetadataPrivacyClass` supplies a value-redacted vocabulary only. Per-entry
-  attachment, default or unclassified behavior, `hostDefined` resolution,
-  nested aggregation, downgrade prevention and equality/digest treatment are
-  not specified; host logging, export and redaction controls remain
-  authoritative.
+  Proposed `ADR-0032` adds the required whole-entry privacy attachment. None is
+  accepted; the recursive ceilings still need supported-destination evidence,
+  and no value or entry source is authorised. Collections, multiplicity
+  schemas, typed access and duplicate-safe canonical byte ingress remain
+  unresolved by design.
+- `MetadataPrivacyClass` supplies a value-redacted vocabulary. Proposed
+  `ADR-0032` resolves direct entry attachment, absence, whole-subtree scope,
+  exact preservation, identity and type-level wire only if accepted. Public
+  resolver shape, portable `hostDefined` identity, global downgrade enforcement,
+  collection disclosure, logging/export APIs and persistent digest treatment
+  remain host or future-decision responsibilities.
 - Metadata keys now define validated exact UTF-8 pair identity and a strict
   erased type-level wire shape. Namespace aliases, key erasure/conversion,
   multiplicity schemas and typed accessors remain deferred. Any future
@@ -2470,24 +2634,24 @@ python3 Tools/Scripts/check_release_integrity.py
 
 ## Exact next action
 
-Audit the general `MetadataEntry` privacy-attachment boundary before exposing
-that type or `MetadataCollection`. Decide whether classification is stored per
-entry or in a distinct wrapper, the unclassified/default state,
-`hostDefined` resolution, nested-object inheritance or aggregation, downgrade
-prevention, equality/hash/Codable participation and value-redacted
-logging/export enforcement. Determine whether an `ADR-0032` proposal can settle
-only the entry/privacy contract while leaving namespace multiplicity, typed
-access, collection indexing and canonical byte ingress separate. Do not add
-metadata source while `ADR-0028` through `ADR-0031` remain Proposed or while
-the privacy contract is unresolved.
+Audit the `MetadataCollection` construction and namespace-multiplicity boundary
+before exposing that type. Decide schema/resolver identity and ownership,
+duplicate-key versus permitted multiplicity rules, deterministic entry order,
+entry-count and aggregate resource limits, collection equality/hash/Codable,
+typed-read cardinality errors and collection privacy aggregation. Determine
+whether `ADR-0033` can settle collection construction independently while
+leaving canonical raw ingress, concrete logging/export authorisation and broad
+typed-access convenience APIs separate. Do not add recursive metadata source
+while `ADR-0028` through `ADR-0032` remain Proposed.
 
 ## Test policy for the next action
 
-- For the entry/privacy audit or a documentation-only proposal, run only
+- For the collection/multiplicity audit or a documentation-only proposal, run only
   the relevant document/ADR checks plus manifest and release-integrity checks.
-  If a privacy-neutral helper becomes independently authorised, run only its
-  focused invariant, identity, strict-Codable and redaction tests, the owning
-  Core target build, strict format lint and directly affected dependent tests.
+  If an independently safe schema or collection helper becomes authorised, run
+  only its focused invariant, identity, strict-Codable, cardinality and
+  redaction tests, the owning Core target build, strict format lint and directly
+  affected dependent tests.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

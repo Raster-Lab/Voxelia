@@ -14,8 +14,9 @@ the frame-geometry anchor-index boundary proposal. `ADR-0028` is allocated to
 the shared canonical-instant boundary proposal. `ADR-0029` is allocated to the
 finite floating-point metadata boundary proposal. `ADR-0030` is allocated to
 the owned binary metadata boundary proposal. `ADR-0031` is allocated to the
-bounded recursive metadata-value boundary proposal. The next unallocated
-numeric identifier is `ADR-0032`.
+bounded recursive metadata-value boundary proposal. `ADR-0032` is allocated to
+the required metadata-entry privacy-attachment proposal. The next unallocated
+numeric identifier is `ADR-0033`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -30,3 +31,4 @@ numeric identifier is `ADR-0032`.
 | [ADR-0029](ADR-0029-finite-floating-point-metadata-boundary.md) | Proposed | Finite floating-point metadata boundary |
 | [ADR-0030](ADR-0030-owned-binary-metadata-boundary.md) | Proposed | Owned binary metadata boundary |
 | [ADR-0031](ADR-0031-bounded-recursive-metadata-value-boundary.md) | Proposed | Bounded recursive metadata value boundary |
+| [ADR-0032](ADR-0032-required-metadata-entry-privacy-attachment.md) | Proposed | Required metadata-entry privacy attachment |

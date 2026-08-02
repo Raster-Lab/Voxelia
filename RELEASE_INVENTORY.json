@@ -1471,13 +1471,18 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0031-bounded-recursive-metadata-value-boundary.md",
-      "size": 31591,
-      "sha256": "743fc9f3103995e862f4950131acfa06cf436ba6fb6b9002fbd7d14272e53955"
+      "size": 32410,
+      "sha256": "c930a1efe6c35569e20213228b1e1699871d4e6ce78909c21803cd76bbeb315d"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0032-required-metadata-entry-privacy-attachment.md",
+      "size": 27732,
+      "sha256": "764c84c2f5052b41cab4ddbcc408792b6445e331baea0132d9aecb01d4dd46ae"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 2328,
-      "sha256": "f96b05bd5793f17972fae09218f08ca57b0765b12fda324fc8a8ae665a65e9ca"
+      "size": 2539,
+      "sha256": "170bd278418cd90780db8d9e33844871198888de13fd17bddc462d6ffdd6e5ec"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1561,13 +1566,18 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 166074,
-      "sha256": "c3e2df766ae66450edc5fc8a3b07768ad61a466cea0378713c0d9d46bfc2c307"
+      "size": 177063,
+      "sha256": "e0fb5c1b8ae41d668b0beb65e07da9ad75a48942213cc8552432963529572711"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
       "size": 27122,
       "sha256": "b013163da00c0659d3dcf1d7af3baab4aeec0516eae3e84113f07969ff2b35af"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0032-metadata-entry-privacy-probe.swift",
+      "size": 10132,
+      "sha256": "abc5f46c4a6221881f749615586ded722f2fb4727cba5dd3fff02c25c4afa40a"
     },
     {
       "path": "docs/project/README.md",
@@ -1851,8 +1861,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 16504,
-      "sha256": "7af061a1590689a97e3f7d260991a47e01eb5e83590abc1c4855c8321931a74c"
+      "size": 16654,
+      "sha256": "fdde8fbdae72318b39280fda220789b03763dc60f0a2782395c55d63d897853f"
     }
   ]
 }

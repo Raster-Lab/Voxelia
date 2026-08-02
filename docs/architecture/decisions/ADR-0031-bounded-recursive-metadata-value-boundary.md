@@ -86,7 +86,9 @@ downgrade or wire policy. Adding classification later could change entry
 construction, equality, hashing and strict encoding. Recursive object members
 therefore receive a distinct privacy-neutral nested type. General
 `MetadataEntry`, `MetadataCollection`, multiplicity, typed access and privacy
-attachment remain separate decisions.
+attachment remain separate decisions. Proposed `ADR-0032` now selects a
+required direct entry classification and whole-entry privacy scope, but remains
+unaccepted and does not change this value proposal's independent member.
 
 This proposal selects the bounded semantic value model and its type-level
 Codable shape only. It does not select complete canonical JSON bytes, raw
@@ -238,8 +240,9 @@ order.
 `MetadataObject.Member` is a recursive object's structural key/value pair. It
 is not the general collection entry and makes no privacy, multiplicity,
 namespace-schema or typed-access claim. The eventual general `MetadataEntry`
-may wrap or otherwise use this structural pair only after its separate privacy
-and collection decision.
+must not expose an implicit privacy-erasing conversion to or from this
+structural pair. Proposed `ADR-0032` instead selects direct key, value and
+privacy-class fields for that separate record.
 
 ### Equality and hashing
 
@@ -356,8 +359,9 @@ conformance and make no safe-display claim. Values may contain patient-
 identifying or otherwise sensitive metadata. Hosts must not interpolate them
 into logs, telemetry, filenames or user interfaces. General privacy
 classification, attachment, inheritance, nested aggregation, downgrade
-prevention, `hostDefined` resolution and export authorisation remain deferred
-with `MetadataEntry` and `MetadataCollection`.
+prevention, `hostDefined` resolution and export authorisation remain outside
+this value. Proposed `ADR-0032` addresses the local entry attachment and
+whole-entry scope only; collection and host enforcement remain deferred.
 
 ### Dependency reconciliation
 
@@ -373,6 +377,11 @@ joint dependency precisely: a leaf may enter `MetadataValue` only after that
 leaf ADR and this bounded aggregate ADR are both accepted. General entries,
 collections, privacy and canonical byte ingress remain deferred and cannot be
 inferred from that joint acceptance.
+
+Proposed `ADR-0032` depends on this value but is not a prerequisite for the
+privacy-neutral value implementation. It selects a separate required
+classification on the general entry and forbids implicit member/entry
+conversion. Neither proposal has authority while Proposed.
 
 `ADR-0030` continues to permit any finite standalone `MetadataBinary` if
 accepted. This ADR proposes a separate hard logical-payload ceiling only when a
@@ -587,7 +596,8 @@ After all four required ADRs are accepted and the ceiling evidence is approved:
    static dependency evidence listed above;
 5. keep general `MetadataEntry`, `MetadataCollection`, privacy attachment,
    multiplicity, typed access, canonical byte ingress and persistent digest
-   identity deferred to their own accepted decisions; and
+   identity governed by their own accepted decisions, including `ADR-0032` for
+   the entry/privacy boundary; and
 6. update traceability, changelog, API documentation and release-integrity
    evidence.
 
@@ -613,5 +623,6 @@ adapter, provenance or persistent-identity decisions.
 - [ADR-0028 - Canonical instant boundary](ADR-0028-canonical-instant-boundary.md)
 - [ADR-0029 - Finite floating-point metadata boundary](ADR-0029-finite-floating-point-metadata-boundary.md)
 - [ADR-0030 - Owned binary metadata boundary](ADR-0030-owned-binary-metadata-boundary.md)
+- [ADR-0032 - Required metadata-entry privacy attachment](ADR-0032-required-metadata-entry-privacy-attachment.md)
 - [RFC 8259 - The JavaScript Object Notation Data Interchange Format](https://www.rfc-editor.org/rfc/rfc8259.html)
 - [RFC 8785 - JSON Canonicalization Scheme](https://www.rfc-editor.org/rfc/rfc8785.html)
