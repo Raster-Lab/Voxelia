@@ -9,9 +9,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first three core-data slices, `ImageShape` /
-  `ShapeError`, `ImageIndex` and `ImageRegion` / `RegionError`, are implemented
-  and locally verified.
+- M1 implementation status: the first four core-data slices, `ImageShape` /
+  `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
+  scalar formats are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -100,13 +100,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   Codable conformance.
 - Preserved the specified transient empty-region behavior without repurposing
   the storage-only `emptyRead` error or inventing shape-containment APIs.
+- Implemented all 11 canonical `ScalarType` cases, exact type-preserving finite
+  ranges, byte/bit sizes, integer/floating classification and non-finite-value
+  capability metadata for `VOX-DAT-009` and `VOX-DAT-010`.
+- Implemented `ByteOrder` and validated `ScalarFormat`, preserving explicit
+  valid-bit and source-order metadata without inferring bit placement, packing
+  or a narrowed value range.
+- Added the specification's canonical `DataModelError` vocabulary so invalid
+  scalar formats fail with an approved typed error and decoding revalidates the
+  same invariant.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 301-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 304-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -117,7 +126,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 300-record inventory and 301-entry SHA-256 ledger pass the
+- The regenerated 303-record inventory and 304-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -165,6 +174,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `swift test --filter ImageRegion` executed only the 12 `ImageRegion` unit
   tests; valid half-open bounds, rank and inversion failures, transient empty
   regions, extent overflow, high rank and Codable validation all passed.
+- `swift build --target VoxeliaCore` and strict format lint passed for the
+  scalar-representation slice.
+- `swift test --filter ScalarFormat` executed only six scalar-format tests;
+  every declared type, exact range and classification, valid-bit boundary,
+  byte-order value, round trip and invalid decode passed.
 
 ## Known blockers and risks
 
@@ -194,17 +208,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   implementation permits empty construction and lets `extents()` return the
   existing `ShapeError.nonPositiveExtent`; no unrelated region error was
   reassigned to conceal this controlled-document ambiguity.
+- Scalar-format derived-property signatures and placement are not fixed by the
+  controlled documents. The implementation records the selected names and a
+  tagged `ScalarValueRange` as a controlled interpretation, preserving exact
+  `Int64` and `UInt64` endpoints instead of coercing every range to `Double`;
+  `isSignedInteger` avoids applying ambiguous Boolean signedness to floats.
+- The specification's "finite-value support" wording is ambiguous. The public
+  `supportsNonFiniteValues` property makes the useful distinction explicit:
+  only floating-point types encode infinity and NaN.
 
 ## Exact next action
 
-Audit and implement the next independent M1 scalar-representation slice:
-`ScalarType`, `ByteOrder` and `ScalarFormat` from Core Data Model Specification
-section 15 for `VOX-DAT-009` and `VOX-DAT-010`. Keep packed-storage semantics
-and component descriptors outside this slice.
+Audit and implement the next independent M1 component-model slice:
+`ComponentInterpretation`, `ComponentLayout` and `ComponentDescriptor` from
+Core Data Model Specification section 16 for `VOX-DAT-011`. Keep image-semantic
+cross-validation and channel-axis conversion outside this slice.
 
 ## Test policy for the next action
 
-- Run `swift build --target VoxeliaCore` and only scalar-format-filtered
+- Run `swift build --target VoxeliaCore` and only component-descriptor-filtered
   VoxeliaCore tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
