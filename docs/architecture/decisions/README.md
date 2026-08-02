@@ -15,8 +15,9 @@ the shared canonical-instant boundary proposal. `ADR-0029` is allocated to the
 finite floating-point metadata boundary proposal. `ADR-0030` is allocated to
 the owned binary metadata boundary proposal. `ADR-0031` is allocated to the
 bounded recursive metadata-value boundary proposal. `ADR-0032` is allocated to
-the required metadata-entry privacy-attachment proposal. The next unallocated
-numeric identifier is `ADR-0033`.
+the required metadata-entry privacy-attachment proposal. `ADR-0033` is
+allocated to the ordered metadata-collection and explicit multiplicity-policy
+proposal. The next unallocated numeric identifier is `ADR-0034`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -32,3 +33,4 @@ numeric identifier is `ADR-0033`.
 | [ADR-0030](ADR-0030-owned-binary-metadata-boundary.md) | Proposed | Owned binary metadata boundary |
 | [ADR-0031](ADR-0031-bounded-recursive-metadata-value-boundary.md) | Proposed | Bounded recursive metadata value boundary |
 | [ADR-0032](ADR-0032-required-metadata-entry-privacy-attachment.md) | Proposed | Required metadata-entry privacy attachment |
+| [ADR-0033](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md) | Proposed | Ordered metadata collection and explicit multiplicity policy |

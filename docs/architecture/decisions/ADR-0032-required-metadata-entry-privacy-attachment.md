@@ -228,8 +228,9 @@ entry identity.
 Future collection duplicate detection must compare entry keys under the
 approved namespace schema, not rely on whole-entry equality. Differently
 classified records with the same key remain duplicate candidates unless that
-schema explicitly permits multiplicity. Collection cardinality, ordering and
-deduplication remain outside this ADR.
+schema explicitly permits multiplicity. Proposed `ADR-0033` selects exact-key
+comparison, ordered retention and explicit caller-supplied multiplicity
+admission if accepted; those collection semantics remain outside this ADR.
 
 `MetadataEntry` implements Codable manually as exactly three fixed fields:
 
@@ -399,8 +400,9 @@ separate.
   application.
 - The strict field requirement is less permissive than an optional reading of
   “may carry”; the controlled specification must be corrected before source.
-- Resolver shape, portable custom policy identity, collection behaviour and
-  canonical bytes remain explicit future work rather than hidden in the entry.
+- Resolver shape, portable custom policy identity and canonical bytes remain
+  explicit future work rather than hidden in the entry. Proposed `ADR-0033`
+  separately addresses local ordered collection behaviour if accepted.
 - No `MetadataEntry` implementation is authorised while this ADR or a value
   dependency remains Proposed.
 
@@ -530,7 +532,8 @@ evidence is approved:
    Core resolver API;
 5. keep `MetadataCollection`, namespace multiplicity, typed access, policy
    resolver shape, concrete logging/export APIs, canonical ingress and
-   persistent identity deferred to their own accepted decisions; and
+   persistent identity deferred to their own accepted decisions, including
+   `ADR-0033` for collection construction and local multiplicity admission; and
 6. update traceability, changelog, API documentation and release-integrity
    evidence.
 
@@ -555,6 +558,7 @@ logging, export, authentication or audit decisions.
 - [Voxelia Requirements Baseline v0.1.1, sections 6.1, 6.6, 6.10 and 6.34 through 6.36](../../project/Voxelia_Requirements_Baseline_v0.1.1.md)
 - [Voxelia Validation and Benchmark Strategy v0.1.1, sections 13, 17 and 38](../../project/Voxelia_Validation_and_Benchmark_Strategy_v0.1.1.md)
 - [ADR-0031 - Bounded recursive metadata value boundary](ADR-0031-bounded-recursive-metadata-value-boundary.md)
+- [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
 - [HL7 FHIR R5 - Security Labels](https://fhir.hl7.org/fhir/security-labels.html)
 - [DICOM PS3.15 - Attribute Confidentiality Profiles](https://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html)
 - [Apple Developer Documentation - OSLogPrivacy](https://developer.apple.com/documentation/os/oslogprivacy)

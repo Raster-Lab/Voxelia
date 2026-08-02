@@ -361,7 +361,9 @@ into logs, telemetry, filenames or user interfaces. General privacy
 classification, attachment, inheritance, nested aggregation, downgrade
 prevention, `hostDefined` resolution and export authorisation remain outside
 this value. Proposed `ADR-0032` addresses the local entry attachment and
-whole-entry scope only; collection and host enforcement remain deferred.
+whole-entry scope only. Proposed `ADR-0033` addresses ordered collection
+construction and explicit multiplicity admission without adding a privacy
+aggregate; host enforcement remains deferred.
 
 ### Dependency reconciliation
 
@@ -382,6 +384,12 @@ Proposed `ADR-0032` depends on this value but is not a prerequisite for the
 privacy-neutral value implementation. It selects a separate required
 classification on the general entry and forbids implicit member/entry
 conversion. Neither proposal has authority while Proposed.
+
+Proposed `ADR-0033` depends on this value and on `ADR-0032`, but likewise is
+not a prerequisite for reviewing this privacy-neutral value. It reuses this
+ADR's cached structural and logical-payload metrics to impose separate
+collection-wide ceilings. Those ceilings are new proposed contracts and do
+not amend the standalone value limits while either record remains Proposed.
 
 `ADR-0030` continues to permit any finite standalone `MetadataBinary` if
 accepted. This ADR proposes a separate hard logical-payload ceiling only when a
@@ -597,7 +605,8 @@ After all four required ADRs are accepted and the ceiling evidence is approved:
 5. keep general `MetadataEntry`, `MetadataCollection`, privacy attachment,
    multiplicity, typed access, canonical byte ingress and persistent digest
    identity governed by their own accepted decisions, including `ADR-0032` for
-   the entry/privacy boundary; and
+   the entry/privacy boundary and `ADR-0033` for the ordered collection and
+   explicit multiplicity-policy boundary; and
 6. update traceability, changelog, API documentation and release-integrity
    evidence.
 
@@ -624,5 +633,6 @@ adapter, provenance or persistent-identity decisions.
 - [ADR-0029 - Finite floating-point metadata boundary](ADR-0029-finite-floating-point-metadata-boundary.md)
 - [ADR-0030 - Owned binary metadata boundary](ADR-0030-owned-binary-metadata-boundary.md)
 - [ADR-0032 - Required metadata-entry privacy attachment](ADR-0032-required-metadata-entry-privacy-attachment.md)
+- [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
 - [RFC 8259 - The JavaScript Object Notation Data Interchange Format](https://www.rfc-editor.org/rfc/rfc8259.html)
 - [RFC 8785 - JSON Canonicalization Scheme](https://www.rfc-editor.org/rfc/rfc8785.html)

@@ -1471,18 +1471,23 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0031-bounded-recursive-metadata-value-boundary.md",
-      "size": 32410,
-      "sha256": "c930a1efe6c35569e20213228b1e1699871d4e6ce78909c21803cd76bbeb315d"
+      "size": 33143,
+      "sha256": "06ed46639fef4a2a5a742e8654d8ba7c292a6b226cc30191c546c2697a08e9ee"
     },
     {
       "path": "docs/architecture/decisions/ADR-0032-required-metadata-entry-privacy-attachment.md",
-      "size": 27732,
-      "sha256": "764c84c2f5052b41cab4ddbcc408792b6445e331baea0132d9aecb01d4dd46ae"
+      "size": 28146,
+      "sha256": "d7ec146455775391958e5089c457f2b71b46cedbd742e53900d40ddce471e9b8"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md",
+      "size": 29696,
+      "sha256": "c593c82aefb4d70ed4be73dd207d35afc4a1446e6fb92545a12af8e7c3b6c95d"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 2539,
-      "sha256": "170bd278418cd90780db8d9e33844871198888de13fd17bddc462d6ffdd6e5ec"
+      "size": 2804,
+      "sha256": "32959a8d5d3b559df8277ffa908e12f6170475ab779ad9e813f21ee27b005b32"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1566,8 +1571,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 177063,
-      "sha256": "e0fb5c1b8ae41d668b0beb65e07da9ad75a48942213cc8552432963529572711"
+      "size": 188811,
+      "sha256": "b126458466487510141465b033d7472a2d090cf8870748efcf977eb58fdcf9ad"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1578,6 +1583,11 @@
       "path": "docs/progress/evidence/ADR-0032-metadata-entry-privacy-probe.swift",
       "size": 10132,
       "sha256": "abc5f46c4a6221881f749615586ded722f2fb4727cba5dd3fff02c25c4afa40a"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0033-metadata-collection-policy-probe.swift",
+      "size": 20298,
+      "sha256": "6d0e6acd8e40410a2d854f3df404647571b1ea6fcbc0913ba4bfc3b17484e1c4"
     },
     {
       "path": "docs/project/README.md",
@@ -1861,8 +1871,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 16654,
-      "sha256": "fdde8fbdae72318b39280fda220789b03763dc60f0a2782395c55d63d897853f"
+      "size": 16826,
+      "sha256": "35575052135980cb246a999e2ff4abb7ecbac61a029375e9ba7edfd269f59152"
     }
   ]
 }
