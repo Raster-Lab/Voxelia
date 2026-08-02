@@ -13,6 +13,12 @@ None.
 
 ## Topics
 
+### Units
+
+- ``MeasurementUnit``
+- ``MeasurementUnitError``
+- ``UnitDimension``
+
 ### Project documents
 
 - <doc:Architecture>

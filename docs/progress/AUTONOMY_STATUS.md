@@ -9,10 +9,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first seven core-data slices, `ImageShape` /
+- M1 implementation status: the first eight foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
-  scalar, component, image-semantic and semantic-version models are
-  implemented and locally verified.
+  scalar, component, image-semantic, semantic-version and measurement-unit
+  models are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -130,13 +130,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Added invariant-preserving semantic-version decoding and focused coverage for
   boundaries, malformed identifiers, the canonical precedence chain, numeric
   overflow avoidance, build-insensitive identity and Codable rejection.
+- Implemented the neutral `MeasurementUnit` and all 11 initial
+  `UnitDimension` values in the dependency-free `VoxeliaSpatial` foundation,
+  without binding the canonical model to Foundation or an external unit
+  library.
+- Preserved opaque, case-sensitive external namespace and code spelling;
+  rejected blank identities and non-finite conversion metadata while leaving
+  independently optional scale and offset values explicit and uninferred.
+- Added stable string dimension encoding, invariant-preserving unit decoding,
+  Spatial DocC topics and focused coverage of the millimetre and Hounsfield
+  examples, validation, optional conversion metadata and serialization.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 310-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 311-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -147,7 +157,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 309-record inventory and 310-entry SHA-256 ledger pass the
+- The regenerated 310-record inventory and 311-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -217,6 +227,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   tests; core boundaries, exact validation errors, valid and malformed
   identifiers, canonical and large-numeric precedence, build-insensitive
   identity and invariant-preserving Codable behavior all passed.
+- `swift build --target VoxeliaSpatial` and strict format lint passed for the
+  measurement-unit slice; the direct dependent also passed
+  `swift build --target VoxeliaCore` without running unrelated tests.
+- `swift test --filter MeasurementUnit` executed only six unit-model tests;
+  every initial dimension string, exact metadata preservation, absent and
+  independently supplied conversion fields, blank identity rejection,
+  non-finite rejection and decode-time revalidation all passed.
 
 ## Known blockers and risks
 
@@ -281,17 +298,32 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   Core Data Model Specification's type-to-milestone appendix assigns it to M1.
   The appendix governs implementation sequencing without claiming checklist
   completion.
+- The Core Data Model Specification lists the initial unit dimensions but does
+  not declare `UnitDimension` itself. The implementation uses the least
+  expressive stable string enum matching that list, including a payloadless
+  `.custom`; namespaced unit identity remains on `MeasurementUnit`.
+- The exact measurement-unit initializer and error vocabulary are not
+  prescribed. A Spatial-owned `MeasurementUnitError` avoids reversing the
+  Core-to-Spatial dependency, while finite conversion validation follows the
+  descriptor identity rules for floating-point values.
+- The controlled documents do not define a canonical unit per dimension, an
+  affine conversion formula, or whether scale and offset must form a pair.
+  The descriptor therefore accepts each optional finite field independently
+  and provides no conversion operation or inferred default.
+- There is no dedicated `VOX-UNIT-*` requirement, and units are assigned to M1
+  by the implementation sequence and type inventory but omitted from the M1
+  checklist. This slice does not treat that baseline gap as acceptance.
 
 ## Exact next action
 
-Audit and implement the independent M1 `MeasurementUnit` value type from Core
-Data Model Specification section 18 in the architecture-approved foundational
-module, preserving unit identity separately from later value transforms.
+Audit the M1 strongly typed identifier family and implement the smallest
+architecture-safe foundation that unblocks `AxisDescriptor` and coordinate
+spaces without reversing the `VoxeliaCore`-to-`VoxeliaSpatial` dependency.
 
 ## Test policy for the next action
 
-- Run only the owning target build, strict format lint and
-  measurement-unit-filtered tests for the next slice.
+- Run only the identifier-owning target builds, strict format lint and
+  identifier-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

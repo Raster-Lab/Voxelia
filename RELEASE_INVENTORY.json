@@ -680,9 +680,9 @@
       "sha256": "85f04d7159fe4b0e4b9eac5672526440e45ed8c6c145b2fca27f95107642d1f2"
     },
     {
-      "path": "Sources/VoxeliaSpatial/Public/.gitkeep",
-      "size": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "path": "Sources/VoxeliaSpatial/Public/MeasurementUnit.swift",
+      "size": 6102,
+      "sha256": "4e5e07af7f555bf7154d043296ecca80c7982e2e1ffdd5d57ddaf2d53f4eb45c"
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/Architecture.md",
@@ -696,8 +696,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 363,
-      "sha256": "9a018ae767e37a4b15c038215d3838d480575bc1590ded36cd381fdb5eb40ddf"
+      "size": 444,
+      "sha256": "790d8fd26f974ca39c75c459698104227ec089bde23f6beb539a48e1dfc7c019"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -863,6 +863,11 @@
       "path": "Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift",
       "size": 320,
       "sha256": "18fe43aa1e3aacd5b3b85c4e2dcecd3e975361d10828cc4b6710e237204484d4"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/MeasurementUnitTests.swift",
+      "size": 5697,
+      "sha256": "41718feb7c497f96581f17bb4f7971871920c3f17d0fc849853d9c9ee13324bf"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/VoxeliaSpatialTests.swift",
@@ -1261,8 +1266,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 21120,
-      "sha256": "305f8f52678abd8db05a19be9d7ea77084283dcbc761a7f2a29391a80aa627da"
+      "size": 23390,
+      "sha256": "c609829a861a253b014b1311a237c96bc7c2183af8cf20f1c6b28544b4e06fcf"
     },
     {
       "path": "docs/project/README.md",
@@ -1546,8 +1551,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 13049,
-      "sha256": "3cce878c1f9ba74c241e9abaa58c44ada2c8b4e0d6cc2f2c36b2a3db9ce2e241"
+      "size": 13115,
+      "sha256": "d75fdcca44da0267c6f089e8141b4fd1389b553ab416ffce8a04f6e06bcc9ebb"
     }
   ]
 }
