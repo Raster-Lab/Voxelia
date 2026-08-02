@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first twenty-three foundational slices, `ImageShape` /
+- M1 implementation status: the first twenty-four foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -17,8 +17,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   axis-aligned bounds, transform-kind taxonomy, coordinate handedness,
   external frame references, lookup-table descriptors, content-identity
   taxonomies, object identifiers, metadata privacy taxonomy and typed/erased
-  metadata keys and neutral coded concepts are implemented and locally
-  verified.
+  metadata keys, neutral coded concepts and the provenance-kind taxonomy are
+  implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -249,13 +249,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   the canonical value.
 - Added exact four-field keyed serialization with explicit null optionals,
   constructor revalidation and field-specific decode context.
+- Implemented the exact 11-case `ProvenanceKind` raw-string taxonomy, preserving
+  the specified British `materialised` spelling.
+- Kept the enum as category vocabulary only, without adding identity, graph,
+  validation-status or lifecycle guarantees.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 340-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
+- The current 342-entry manifest covers every releasable file except its intentional self-reference exclusion, with no case-folded path collision.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -266,7 +270,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   omission, digest-corruption, Git-index hashing and same-size modification
   rejection tests passed, including structured computation failures and
   failed-write ledger preservation.
-- The regenerated 339-record inventory and 340-entry SHA-256 ledger pass the
+- The regenerated 341-record inventory and 342-entry SHA-256 ledger pass the
   read-only integrity checker.
 - `Tools/Tests/Python/test_requirement_index.py`: 9 focused tests passed.
 - All 486 unique normative rows parse; category summaries, P0/P1/P2 counts of 398/86/2, milestone counts, declared totals, and the checked-in traceability index agree.
@@ -441,6 +445,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   field preservation, both blank errors, meaning-independent/version-dependent
   identity, composed/decomposed distinction, exact explicit-null Codable and
   contextual malformed decoding all passed.
+- `swift build --target VoxeliaCore` and strict format lint passed for the
+  provenance-kind taxonomy slice.
+- `swift test --filter ProvenanceKind` executed only four taxonomy tests; all 11
+  exact values, spelling/case rejection, raw-string Codable, malformed decoding,
+  Hashable distinction and Sendable conformance passed.
 
 ## Known blockers and risks
 
@@ -637,17 +646,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - `CodedConcept` defines deterministic record identity, not external terminology
   equivalence. Scheme-specific aliases, version compatibility and ontology
   resolution require an explicit resolver or ADR.
+- Provenance records, software/operation/execution details, warnings and graph
+  references remain blocked by undefined types, timestamp/identifier policy,
+  `ContentID`, validation-state schema and graph invariants. `ProvenanceKind`
+  does not imply those records exist or are verified.
 
 ## Exact next action
 
-Audit and implement only exact standalone Core provenance taxonomies that do not
-depend on blocked provenance IDs, timestamps, graph references or validation
-records.
+Audit validation-state declarations and implement only exact standalone
+taxonomies whose authority and serialized associated-value contracts are fully
+specified.
 
 ## Test policy for the next action
 
 - Run only the Core build, strict format lint and
-  provenance-taxonomy-filtered tests for the next slice.
+  validation-state-filtered tests for the next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

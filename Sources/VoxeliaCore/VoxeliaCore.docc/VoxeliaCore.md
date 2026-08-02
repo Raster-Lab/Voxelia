@@ -69,6 +69,10 @@ storage semantics.
 - ``CodedConcept``
 - ``CodedConceptError``
 
+### Provenance
+
+- ``ProvenanceKind``
+
 ### Common errors
 
 - ``DataModelError``
