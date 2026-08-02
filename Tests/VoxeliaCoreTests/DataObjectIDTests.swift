@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: MIT
+
+import Foundation
+import Testing
+import VoxeliaSpatial
+
+@testable import VoxeliaCore
+
+@Suite("DataObjectID")
+struct DataObjectIDTests {
+    @Test("[Unit][VOX-ARC-003][VOX-API-003] preserves valid identifier spelling")
+    func preservesValidSpellingAndIdentity() throws {
+        let rawValue = "  org.voxelia.object.Δ  "
+        let identifier = try DataObjectID(validating: rawValue)
+        let differentlyCased = try DataObjectID(
+            validating: "  ORG.voxelia.object.Δ  "
+        )
+
+        #expect(identifier.rawValue == rawValue)
+        #expect(Array(identifier.rawValue.utf8) == Array(rawValue.utf8))
+        #expect(identifier != differentlyCased)
+        #expect(Set([identifier, differentlyCased]).count == 2)
+        requireIdentifier(identifier)
+        requireSendable(DataObjectID.self)
+
+        let coordinateSpace = try CoordinateSpaceID(validating: rawValue)
+        #expect(type(of: identifier) == DataObjectID.self)
+        #expect(type(of: coordinateSpace) == CoordinateSpaceID.self)
+    }
+
+    @Test("[Unit][VOX-ERR-001] both initializers reject Unicode-blank values")
+    func rejectsBlankValues() {
+        for blank in ["", " \t\n", "\u{2003}\u{00A0}"] {
+            #expect(DataObjectID(rawValue: blank) == nil)
+            #expect(throws: VoxeliaStringIdentifierError.emptyOrWhitespaceOnly) {
+                try DataObjectID(validating: blank)
+            }
+        }
+    }
+
+    @Test("[Unit][VOX-API-004] Codable uses the strict keyed identifier shape")
+    func codableRoundTripAndValidation() throws {
+        let identifier = try DataObjectID(
+            validating: "org.voxelia.object.example"
+        )
+        let data = try JSONEncoder().encode(identifier)
+
+        #expect(try JSONDecoder().decode(DataObjectID.self, from: data) == identifier)
+        let object = try #require(
+            JSONSerialization.jsonObject(with: data) as? [String: Any]
+        )
+        #expect(Set(object.keys) == ["rawValue"])
+        #expect(object["rawValue"] as? String == identifier.rawValue)
+
+        let invalidValues = [
+            #"{"rawValue":" "}"#,
+            #"{}"#,
+            #"{"rawValue":"object","extra":true}"#,
+            #""object""#,
+            #"[]"#,
+        ]
+        for invalidValue in invalidValues {
+            #expect(throws: DecodingError.self) {
+                try JSONDecoder().decode(
+                    DataObjectID.self,
+                    from: Data(invalidValue.utf8)
+                )
+            }
+        }
+    }
+
+    private func requireIdentifier<Value: VoxeliaStringIdentifier>(_ value: Value) {}
+
+    private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
+}
