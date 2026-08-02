@@ -19,6 +19,8 @@ affected_requirements:
 
 ## Consequences
 
+## Affected modules
+
 ## Compatibility impact
 
 ## Security impact
@@ -28,5 +30,7 @@ affected_requirements:
 ## Validation impact
 
 ## Migration
+
+## Supersession
 
 ## References

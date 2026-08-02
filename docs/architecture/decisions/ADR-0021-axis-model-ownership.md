@@ -97,6 +97,14 @@ expand the package graph and release surface without a demonstrated need.
 - Re-export policy remains a separate open decision; this ADR does not require
   `VoxeliaCore` to redeclare or type-alias Spatial types.
 
+## Affected modules
+
+If accepted, this decision affects `VoxeliaSpatial` as owner of `AxisID`,
+`AxisSemantic`, `AxisSampling` and `AxisDescriptor`, and `VoxeliaCore` as their
+consumer and the owner of image-descriptor binding validation. Other modules
+are affected only as downstream API consumers through existing dependency
+edges; no dependency edge changes.
+
 ## Compatibility impact
 
 No public `AxisDescriptor`, `AxisSemantic` or `AxisSampling` implementation
@@ -138,6 +146,13 @@ After acceptance:
 5. update traceability and release-integrity evidence.
 
 No migration step may begin while this ADR remains Proposed.
+
+## Supersession
+
+This Proposed ADR neither supersedes nor is superseded by another file-backed
+ADR. If accepted, it resolves the cited module-allocation conflict through the
+controlled document corrections in the Migration section without replacing
+either governing document. While Proposed, it has no supersession effect.
 
 ## References
 

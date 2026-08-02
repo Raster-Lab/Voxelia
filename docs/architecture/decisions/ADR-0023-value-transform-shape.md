@@ -163,6 +163,14 @@ four-case intersection provides a bounded path after approval.
   blocked on its own domain and extrapolation policy.
 - Both governing transform declarations require correction after acceptance.
 
+## Affected modules
+
+If accepted, this decision affects `VoxeliaCore` as owner and implementation
+site of `LinearValueTransformDescriptor`, `ValueTransformComposition` and
+`ValueTransform`. Existing downstream modules are affected only as consumers
+through current dependency edges; no dependency edge or backend-module
+ownership changes.
+
 ## Compatibility impact
 
 No public `ValueTransform`, `LinearValueTransformDescriptor` or
@@ -211,6 +219,13 @@ After acceptance:
 5. update traceability and release-integrity evidence.
 
 No migration step may begin while this ADR remains Proposed.
+
+## Supersession
+
+This Proposed ADR neither supersedes nor is superseded by another file-backed
+ADR. If accepted, it resolves the cited value-transform declaration conflict
+through the controlled corrections in the Migration section without replacing
+either governing document. While Proposed, it has no supersession effect.
 
 ## References
 

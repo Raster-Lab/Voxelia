@@ -39,6 +39,14 @@ Intel, x86/x64, non-Apple operating systems and non-Apple-hosted Swift toolchain
 - Platform-neutral scientific interfaces are retained for architectural quality, not portability.
 - Validation and benchmark evidence applies only to declared Apple Silicon capability classes.
 
+## Affected modules
+
+This decision applies to every Swift target and executable product because all
+Voxelia code is built and validated only for Apple operating systems on Apple
+Silicon. It also applies to the Validation, Benchmarks and Tools packages and
+to CI, documentation, benchmark and release workflows. It changes no target
+ownership or dependency edge.
+
 ## Alternatives considered
 
 ### Portable CPU core with multiple platform backends
@@ -53,6 +61,23 @@ Rejected because best-effort hosts rapidly become de facto compatibility commitm
 
 All M0 and later platform claims require execution on an approved Apple Silicon Mac. iOS, iPadOS, visionOS and tvOS build and device evidence remains part of the Apple platform matrix.
 
+## Migration
+
+The v0.1.1 corrective scaffold completed this decision's repository migration
+through package platform declarations, compile-time platform gates,
+Apple-Silicon-only repository scripts, self-hosted ARM64 workflow
+configuration, platform documentation and static policy checks. It requires no
+source, binary, wire-format or persisted-data migration.
+Proposed [ADR-0024](ADR-0024-decision-register-reconciliation.md) would only
+re-identify this same accepted record as `ADR-0025`; no filename, identifier or
+reference migration is authorized while that proposal remains Proposed. A
+future platform-policy change would require a formal Project Foundation
+revision and its own controlled migration.
+
 ## Supersession
 
-This ADR supersedes any earlier wording that described non-Apple support as a possible future direction.
+This ADR does not supersede another file-backed ADR and has not been
+superseded. It supersedes only earlier non-normative wording that described
+non-Apple support as a possible future direction. Proposed
+[ADR-0024](ADR-0024-decision-register-reconciliation.md) reconciles identifiers
+and does not supersede this platform decision.

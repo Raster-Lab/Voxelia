@@ -138,6 +138,14 @@ M1 scope.
 - `CoordinateSpaceDescriptor` remains blocked until ordinary-physical,
   `imageDisplay` and custom-unit validity rules are approved.
 
+## Affected modules
+
+If accepted, this decision affects `VoxeliaSpatial` as owner and implementation
+site of `CoordinateConvention`. Existing downstream modules are affected only
+as consumers through current dependency edges; no dependency edge or other
+module ownership changes. This proposal does not authorize the blocked
+`CoordinateSpaceDescriptor`.
+
 ## Compatibility impact
 
 No public `CoordinateConvention` implementation exists, so accepting this
@@ -182,6 +190,14 @@ After acceptance:
 5. update traceability and release-integrity evidence.
 
 No migration step may begin while this ADR remains Proposed.
+
+## Supersession
+
+This Proposed ADR neither supersedes nor is superseded by another file-backed
+ADR. If accepted, it resolves the cited coordinate-convention conflict through
+the controlled architecture correction in the Migration section without
+replacing either governing document. While Proposed, it has no supersession
+effect.
 
 ## References
 

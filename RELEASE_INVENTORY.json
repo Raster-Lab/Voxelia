@@ -1421,23 +1421,23 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md",
-      "size": 2485,
-      "sha256": "ca0458374ac3d67d76ef664d9d56f4b729e1ce1d2f834d7849de9e806505e6c8"
+      "size": 3783,
+      "sha256": "f58112f15cf15254ee1822ed990b96a7ed0af1039fe3286cced3de109e9a1262"
     },
     {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
-      "size": 6278,
-      "sha256": "0bc743324d38957836b404f5ef2054472dcfeca75ff3dce190df931712cc740f"
+      "size": 6964,
+      "sha256": "aa24803a9e0ec121a2f354df427f34ec25f728642a753ff9561d95ced5faeaca"
     },
     {
       "path": "docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md",
-      "size": 7852,
-      "sha256": "62f45a87c76bf0367c57e9679a47bb70207afcf9f7dadeba7c8a1fbc34124142"
+      "size": 8538,
+      "sha256": "1f118956ae1f7e250155d7ab1c4dd22b46459b193e9b999b13ba4e346a1802d6"
     },
     {
       "path": "docs/architecture/decisions/ADR-0023-value-transform-shape.md",
-      "size": 8811,
-      "sha256": "7abb6f09d5f42cf3f0db9e96517c05df61a74e2aa4eaff1e8490701cce529f8c"
+      "size": 9476,
+      "sha256": "c6d672597fd463a8972131867c9fec134215404b63e086dba709b408ebda5425"
     },
     {
       "path": "docs/architecture/decisions/ADR-0024-decision-register-reconciliation.md",
@@ -1531,8 +1531,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 73052,
-      "sha256": "e91ca1fc46a1265676bdd3495d5998636a72dd99cdb5685184ec803ba8b76b10"
+      "size": 73667,
+      "sha256": "0ea4a053a67aa6b6642b2e73b67285c91736002dbca89278cd2f96b110d192f2"
     },
     {
       "path": "docs/project/README.md",
@@ -1781,8 +1781,8 @@
     },
     {
       "path": "docs/templates/ADR-Template.md",
-      "size": 378,
-      "sha256": "1ae6ffc11df9acb49d66d5f651bf1490e1f04e2105af86fe928a645e21283863"
+      "size": 416,
+      "sha256": "8435dbafada067a01e88c412aa506114a2219160555d1bc82bb8ec8552670d7b"
     },
     {
       "path": "docs/templates/Algorithm-Specification-Template.md",

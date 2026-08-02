@@ -393,6 +393,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   documentation workflow trigger, required-file policy and repository-tool
   guidance without interpreting body mentions or applying proposed ADR
   reservations.
+- Normalized the checked-in ADR template and all incomplete file-backed records
+  with explicit affected-modules, migration and supersession content required
+  by RPSS section 9.2.
+- Kept the accepted platform decision and all Proposed decisions semantically
+  unchanged: the added text records factual scope, completed or conditional
+  migration and the absence of supersession rather than changing approval or
+  authorizing implementation.
 
 ## Verification evidence
 
@@ -743,6 +750,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Release-integrity regeneration and verification passed with 364 manifest
   paths, 363 inventory records and 364 checksums after adding the checker and
   its focused test file.
+- An independent RPSS section 9.2 audit verified complete structural coverage
+  after correcting one workflow-hosting overstatement in the accepted platform
+  ADR; the metadata checker, documentation gate and text checks remained green.
+- Release-integrity regeneration, 364-path manifest validation and read-only
+  integrity verification passed after the editorial normalization.
 
 ## Known blockers and risks
 
@@ -1016,12 +1028,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   compare them with MTA Appendix A while the known `ADR-0001` collision remains
   unresolved, and it does not treat body mentions or the `ADR-0025` allocator
   hold as record assignments.
-- RPSS section 9.2 requires affected modules, migration impact and supersession
-  content, but both Appendix G and the checked-in template omit some of those
-  sections. The accepted platform ADR also lacks affected-modules and migration
-  sections, while proposed `ADR-0021` through `ADR-0023` lack affected-modules
-  and supersession sections; structural enforcement remains deferred until an
-  editorial normalization preserves each decision's semantics.
+- The checked-in template and all five file-backed ADRs now contain the RPSS
+  section 9.2 areas, but the ADR checker does not yet enforce required H2
+  presence, uniqueness or nonempty bodies. That mechanical gate remains the
+  next repository-tooling step.
 - Proposed `ADR-0021` is review material only. Until its status becomes
   Accepted and subordinate documents are corrected, the axis-model public API
   remains blocked and no implementation may rely on its recommendation.
@@ -1039,10 +1049,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 
 ## Exact next action
 
-Audit and perform an editorial normalization of the checked-in ADR template and
-existing file-backed records against RPSS section 9.2. Add only factual affected
-module, migration and supersession content that preserves every decision's
-status and semantics, then extend the checker with focused structural fixtures.
+Extend the file-backed ADR checker with fence-aware RPSS section 9.2 validation:
+require exactly one nonempty Context, Decision, Alternatives, Consequences,
+Affected modules, Validation impact, Migration and Supersession section, while
+allowing the documented heading aliases, extra sections and any order.
 
 ## Test policy for the next action
 
