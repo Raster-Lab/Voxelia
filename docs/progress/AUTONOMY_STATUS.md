@@ -9,7 +9,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 ## Current state
 
 - Active implementation milestone: M1 - core data and spatial foundations.
-- M1 implementation status: the first thirty-three foundational slices, `ImageShape` /
+- M1 implementation status: the first thirty-four foundational slices, `ImageShape` /
   `ShapeError`, `ImageIndex`, `ImageRegion` / `RegionError`, and canonical
   scalar, component, image-semantic, semantic-version and measurement-unit
   models plus the initial typed spatial identifiers and canonical matrix
@@ -21,8 +21,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   storage-kind/persistence taxonomies, codec identifiers, compressed-region
   access vocabulary, initial geometry/mesh taxonomies, validated geometry
   attribute descriptors, extent-based region construction and shape-aware
-  region containment validation and checked region translation are implemented
-  and locally verified.
+  region containment validation, checked region translation and deterministic
+  shape clipping are implemented and locally verified.
 - M0 local technical status: all host-supported build, test, documentation,
   resource and SBOM criteria pass; formal acceptance remains open for
   visionOS, external governance and human approvals.
@@ -302,6 +302,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   bound.
 - Preserved extents, empty axes and arbitrary rank across mixed-sign and zero
   offsets without clamping or silently imposing containment in a shape.
+- Added `ImageRegion.clipped(to:)` with exact shape-rank validation and
+  componentwise monotonic clamping to each `0...extent` interval.
+- Defined wholly below/above regions as deterministic empty results at the
+  corresponding zero/upper boundary, including exact `Int` extremes, without
+  changing the region's canonical representation.
 
 ## Verification evidence
 
@@ -559,6 +564,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   sign translation, empty-axis preservation, short/long rank mismatches,
   isolated lower/upper overflow, exact `Int.min`/`Int.max` success and
   1,024-axis zero-offset identity passed alongside all prior region cases.
+- `swift build --target VoxeliaCore` and directly affected builds for
+  `VoxeliaStorage`, `VoxeliaGeometry` and `Voxelia` passed with strict format
+  lint for deterministic shape clipping.
+- `swift test --filter ImageRegion` executed only the 36 region tests; unchanged
+  contained regions, partial overlap, `Int.min`/`Int.max` disjoint results,
+  empty anchors below/inside/at/above the shape, mixed 3D below/above/interior
+  anchoring, both rank mismatches and 1,024-axis clipping passed alongside all
+  prior region cases.
 
 ## Known blockers and risks
 
@@ -793,18 +806,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Region translation deliberately does not validate or restore containment.
   Callers that translate an access region must explicitly validate the result
   against its target shape before memory access.
+- Shape clipping returns a rectangular region even when the source is wholly
+  disjoint, using a boundary-empty representation rather than nil. It does not
+  authorize a storage read; empty-read policy remains operation-specific.
+- `CDMS-13.4` test labels link to the controlled region-operations section
+  because the requirements baseline has no dedicated clipping identifier; they
+  neither create a new requirement nor imply `VOX-RGN-002` specifies clipping.
 
 ## Exact next action
 
-Add `ImageRegion.clipped(to:)` with exact rank validation and deterministic
-componentwise clamping to `0...extent`, including canonical boundary-empty
-results for regions wholly outside a shape.
+Add inclusive `AxisAlignedBounds3D.contains(_:)` queries with exact coordinate-
+space agreement and no tolerance or implicit coordinate conversion.
 
 ## Test policy for the next action
 
-- Run only `VoxeliaCore`, its directly affected `VoxeliaStorage`,
-  `VoxeliaGeometry` and `Voxelia` consumers, strict format lint and
-  `ImageRegion`-filtered tests for the next slice.
+- Run only `VoxeliaSpatial`, its directly affected `VoxeliaCore` and `Voxelia`
+  consumers, strict format lint and `AxisAlignedBounds3D`-filtered tests for the
+  next slice.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

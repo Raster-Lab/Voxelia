@@ -202,6 +202,39 @@ public struct ImageRegion: Sendable, Hashable, Codable {
         )
     }
 
+    /// Returns this region clipped componentwise to `shape`.
+    ///
+    /// Each lower and upper bound is clamped to `0...extent`. A region wholly
+    /// outside the shape therefore becomes an empty region anchored at zero or
+    /// at the corresponding upper shape boundary.
+    ///
+    /// - Throws: ``RegionError/rankMismatch`` when the ranks differ.
+    public func clipped(to shape: ImageShape) throws -> ImageRegion {
+        guard rank == shape.rank else {
+            throw RegionError.rankMismatch
+        }
+
+        var clippedLowerBounds = ContiguousArray<Int>()
+        var clippedUpperBounds = ContiguousArray<Int>()
+        clippedLowerBounds.reserveCapacity(rank)
+        clippedUpperBounds.reserveCapacity(rank)
+
+        for axis in lowerBounds.indices {
+            let extent = shape.extents[axis]
+            clippedLowerBounds.append(
+                min(max(lowerBounds[axis], 0), extent)
+            )
+            clippedUpperBounds.append(
+                min(max(upperBounds[axis], 0), extent)
+            )
+        }
+
+        return try ImageRegion(
+            lowerBounds: clippedLowerBounds,
+            upperBounds: clippedUpperBounds
+        )
+    }
+
     private enum CodingKeys: String, CodingKey {
         case lowerBounds
         case upperBounds

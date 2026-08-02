@@ -289,6 +289,128 @@ struct ImageRegionTests {
         #expect(translated == region)
     }
 
+    @Test("[Unit][CDMS-13.4] clipping preserves a region already inside the shape")
+    func clippingPreservesContainedRegion() throws {
+        let shape = try ImageShape(extents: [5, 10])
+        let region = try ImageRegion(
+            lowerBounds: [1, 2],
+            upperBounds: [4, 9]
+        )
+        let clipped = try region.clipped(to: shape)
+
+        #expect(clipped == region)
+    }
+
+    @Test("[Unit][CDMS-13.4] clipping trims partial overlap on every boundary")
+    func clippingTrimsPartialOverlap() throws {
+        let shape = try ImageShape(extents: [5, 10])
+        let region = try ImageRegion(
+            lowerBounds: [-3, 2],
+            upperBounds: [7, 12]
+        )
+        let clipped = try region.clipped(to: shape)
+
+        #expect(Array(clipped.lowerBounds) == [0, 2])
+        #expect(Array(clipped.upperBounds) == [5, 10])
+    }
+
+    @Test("[Unit][CDMS-13.4] disjoint clipping returns deterministic boundary empties")
+    func clippingReturnsBoundaryEmptyRegions() throws {
+        let shape = try ImageShape(extents: [10])
+        let below = try ImageRegion(
+            lowerBounds: [Int.min],
+            upperBounds: [Int.min + 1]
+        )
+        let above = try ImageRegion(
+            lowerBounds: [Int.max - 1],
+            upperBounds: [Int.max]
+        )
+        let clippedBelow = try below.clipped(to: shape)
+        let clippedAbove = try above.clipped(to: shape)
+
+        #expect(Array(clippedBelow.lowerBounds) == [0])
+        #expect(Array(clippedBelow.upperBounds) == [0])
+        #expect(Array(clippedAbove.lowerBounds) == [10])
+        #expect(Array(clippedAbove.upperBounds) == [10])
+    }
+
+    @Test("[Unit][CDMS-13.4] clipping relocates only out-of-shape empty anchors")
+    func clippingHandlesEmptyAnchors() throws {
+        let shape = try ImageShape(extents: [10])
+        let below = try ImageRegion(lowerBounds: [-1], upperBounds: [-1])
+        let interior = try ImageRegion(lowerBounds: [4], upperBounds: [4])
+        let boundary = try ImageRegion(lowerBounds: [10], upperBounds: [10])
+        let above = try ImageRegion(lowerBounds: [11], upperBounds: [11])
+        let originBoundary = try ImageRegion(
+            lowerBounds: [0],
+            upperBounds: [0]
+        )
+        let upperBoundary = try ImageRegion(
+            lowerBounds: [10],
+            upperBounds: [10]
+        )
+        let clippedBelow = try below.clipped(to: shape)
+        let clippedInterior = try interior.clipped(to: shape)
+        let clippedBoundary = try boundary.clipped(to: shape)
+        let clippedAbove = try above.clipped(to: shape)
+
+        #expect(clippedBelow == originBoundary)
+        #expect(clippedInterior == interior)
+        #expect(clippedBoundary == boundary)
+        #expect(clippedAbove == upperBoundary)
+    }
+
+    @Test("[Unit][CDMS-13.4] mixed-axis clipping anchors each component")
+    func clippingAnchorsMixedDisjointAxes() throws {
+        let shape = try ImageShape(extents: [10, 20, 30])
+        let disjoint = try ImageRegion(
+            lowerBounds: [-5, 25, 5],
+            upperBounds: [-2, 27, 12]
+        )
+        let empty = try ImageRegion(
+            lowerBounds: [-5, 25, 7],
+            upperBounds: [-5, 25, 7]
+        )
+        let clippedDisjoint = try disjoint.clipped(to: shape)
+        let clippedEmpty = try empty.clipped(to: shape)
+
+        #expect(Array(clippedDisjoint.lowerBounds) == [0, 20, 5])
+        #expect(Array(clippedDisjoint.upperBounds) == [0, 20, 12])
+        #expect(Array(clippedEmpty.lowerBounds) == [0, 20, 7])
+        #expect(Array(clippedEmpty.upperBounds) == [0, 20, 7])
+    }
+
+    @Test("[Unit][CDMS-13.4][VOX-RGN-002] clipping requires exact shape rank")
+    func clippingRejectsRankMismatch() throws {
+        let region = try ImageRegion(
+            lowerBounds: [0, 0],
+            upperBounds: [1, 1]
+        )
+        let shortShape = try ImageShape(extents: [1])
+        let longShape = try ImageShape(extents: [1, 1, 1])
+
+        #expect(throws: RegionError.rankMismatch) {
+            try region.clipped(to: shortShape)
+        }
+        #expect(throws: RegionError.rankMismatch) {
+            try region.clipped(to: longShape)
+        }
+    }
+
+    @Test("[Unit][CDMS-13.4][VOX-DAT-005] clipping preserves high dynamic rank")
+    func clippingPreservesHighRank() throws {
+        let shape = try ImageShape(extents: repeatElement(4, count: 1_024))
+        let region = try ImageRegion(
+            lowerBounds: repeatElement(-1, count: 1_024),
+            upperBounds: repeatElement(5, count: 1_024)
+        )
+        let clipped = try region.clipped(to: shape)
+
+        #expect(clipped.rank == 1_024)
+        #expect(clipped.lowerBounds.allSatisfy { $0 == 0 })
+        #expect(clipped.upperBounds.allSatisfy { $0 == 4 })
+    }
+
     @Test("[Unit][VOX-RGN-002] rejects a rank mismatch")
     func rejectsRankMismatch() {
         #expect(throws: RegionError.rankMismatch) {
