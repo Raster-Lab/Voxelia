@@ -27,9 +27,15 @@ public enum MeasurementUnitError: Error, Sendable, Equatable {
 /// A neutral, immutable measurement-unit descriptor.
 ///
 /// `namespace` and `code` preserve the supplying system's case-sensitive unit
-/// identity. Conversion metadata is optional and never inferred from the code
-/// or display name. A consumer must not convert values when the required
-/// conversion metadata is absent.
+/// identity using their exact accepted UTF-8 spellings. `displayName` is
+/// presentation text and is excluded from equality and hashing. Dimension and
+/// conversion metadata participate in value identity so conflicting
+/// declarations are not silently collapsed. Equality does not establish unit
+/// compatibility or authorize conversion.
+///
+/// Conversion metadata is optional and never inferred from the code or display
+/// name. A consumer must not convert values when the required conversion
+/// metadata is absent.
 public struct MeasurementUnit: Sendable, Hashable, Codable {
     /// The external or Voxelia-owned namespace defining ``code``.
     public let namespace: String
@@ -53,7 +59,9 @@ public struct MeasurementUnit: Sendable, Hashable, Codable {
     ///
     /// Namespace-specific syntax is intentionally preserved rather than
     /// restricted to a Voxelia grammar. Only empty or whitespace-only identity
-    /// fields and non-finite conversion parameters are rejected.
+    /// fields and non-finite conversion parameters are rejected. Negative zero
+    /// conversion metadata is canonicalized to positive zero because `Double`
+    /// equality and hashing do not distinguish the two representations.
     ///
     /// - Throws: ``MeasurementUnitError`` when an identity field is blank or a
     ///   supplied conversion parameter is not finite.
@@ -82,40 +90,71 @@ public struct MeasurementUnit: Sendable, Hashable, Codable {
         self.code = code
         self.displayName = displayName
         self.dimension = dimension
-        self.scaleToCanonical = scaleToCanonical
-        self.offsetToCanonical = offsetToCanonical
+        self.scaleToCanonical = scaleToCanonical.map { $0 == 0 ? 0 : $0 }
+        self.offsetToCanonical = offsetToCanonical.map { $0 == 0 ? 0 : $0 }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case namespace
-        case code
-        case displayName
-        case dimension
-        case scaleToCanonical
-        case offsetToCanonical
+    /// Compares semantic declarations while ignoring human-readable display text.
+    public static func == (lhs: MeasurementUnit, rhs: MeasurementUnit) -> Bool {
+        exactUTF8Equal(lhs.namespace, rhs.namespace)
+            && exactUTF8Equal(lhs.code, rhs.code)
+            && lhs.dimension == rhs.dimension
+            && lhs.scaleToCanonical == rhs.scaleToCanonical
+            && lhs.offsetToCanonical == rhs.offsetToCanonical
     }
 
-    /// Decodes and revalidates a descriptor so serialized input cannot bypass
-    /// its identity and finite-conversion invariants.
+    /// Hashes the same semantic declaration fields used by equality.
+    public func hash(into hasher: inout Hasher) {
+        hashUTF8(namespace, into: &hasher)
+        hashUTF8(code, into: &hasher)
+        hasher.combine(dimension)
+        hasher.combine(scaleToCanonical)
+        hasher.combine(offsetToCanonical)
+    }
+
+    /// Decodes the exact six-field representation and revalidates the descriptor.
     public init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let decodedNamespace = try container.decode(String.self, forKey: .namespace)
-        let decodedCode = try container.decode(String.self, forKey: .code)
+        let namespaceKey = MeasurementUnitCodingKey("namespace")
+        let codeKey = MeasurementUnitCodingKey("code")
+        let displayNameKey = MeasurementUnitCodingKey("displayName")
+        let dimensionKey = MeasurementUnitCodingKey("dimension")
+        let scaleKey = MeasurementUnitCodingKey("scaleToCanonical")
+        let offsetKey = MeasurementUnitCodingKey("offsetToCanonical")
+        let container = try decoder.container(keyedBy: MeasurementUnitCodingKey.self)
+        let expectedKeys = Set([
+            namespaceKey.stringValue,
+            codeKey.stringValue,
+            displayNameKey.stringValue,
+            dimensionKey.stringValue,
+            scaleKey.stringValue,
+            offsetKey.stringValue,
+        ])
+        guard Set(container.allKeys.map(\.stringValue)) == expectedKeys else {
+            throw DecodingError.dataCorrupted(
+                DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "MeasurementUnit requires exactly six fields."
+                )
+            )
+        }
+
+        let decodedNamespace = try container.decode(String.self, forKey: namespaceKey)
+        let decodedCode = try container.decode(String.self, forKey: codeKey)
         let decodedDisplayName = try container.decodeIfPresent(
             String.self,
-            forKey: .displayName
+            forKey: displayNameKey
         )
         let decodedDimension = try container.decodeIfPresent(
             UnitDimension.self,
-            forKey: .dimension
+            forKey: dimensionKey
         )
         let decodedScale = try container.decodeIfPresent(
             Double.self,
-            forKey: .scaleToCanonical
+            forKey: scaleKey
         )
         let decodedOffset = try container.decodeIfPresent(
             Double.self,
-            forKey: .offsetToCanonical
+            forKey: offsetKey
         )
 
         do {
@@ -128,16 +167,16 @@ public struct MeasurementUnit: Sendable, Hashable, Codable {
                 offsetToCanonical: decodedOffset
             )
         } catch let error as MeasurementUnitError {
-            let invalidKey: CodingKeys =
+            let invalidKey: MeasurementUnitCodingKey =
                 switch error {
                 case MeasurementUnitError.emptyNamespace:
-                    .namespace
+                    namespaceKey
                 case MeasurementUnitError.emptyCode:
-                    .code
+                    codeKey
                 case MeasurementUnitError.nonFiniteScaleToCanonical:
-                    .scaleToCanonical
+                    scaleKey
                 case MeasurementUnitError.nonFiniteOffsetToCanonical:
-                    .offsetToCanonical
+                    offsetKey
                 }
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
@@ -151,12 +190,48 @@ public struct MeasurementUnit: Sendable, Hashable, Codable {
 
     /// Encodes all six declared fields without inferring conversion metadata.
     public func encode(to encoder: any Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(namespace, forKey: .namespace)
-        try container.encode(code, forKey: .code)
-        try container.encode(displayName, forKey: .displayName)
-        try container.encode(dimension, forKey: .dimension)
-        try container.encode(scaleToCanonical, forKey: .scaleToCanonical)
-        try container.encode(offsetToCanonical, forKey: .offsetToCanonical)
+        let namespaceKey = MeasurementUnitCodingKey("namespace")
+        let codeKey = MeasurementUnitCodingKey("code")
+        let displayNameKey = MeasurementUnitCodingKey("displayName")
+        let dimensionKey = MeasurementUnitCodingKey("dimension")
+        let scaleKey = MeasurementUnitCodingKey("scaleToCanonical")
+        let offsetKey = MeasurementUnitCodingKey("offsetToCanonical")
+        var container = encoder.container(keyedBy: MeasurementUnitCodingKey.self)
+        try container.encode(namespace, forKey: namespaceKey)
+        try container.encode(code, forKey: codeKey)
+        try container.encode(displayName, forKey: displayNameKey)
+        try container.encode(dimension, forKey: dimensionKey)
+        try container.encode(scaleToCanonical, forKey: scaleKey)
+        try container.encode(offsetToCanonical, forKey: offsetKey)
+    }
+}
+
+private struct MeasurementUnitCodingKey: CodingKey {
+    let stringValue: String
+    let intValue: Int?
+
+    init(_ stringValue: String) {
+        self.stringValue = stringValue
+        self.intValue = nil
+    }
+
+    init?(stringValue: String) {
+        self.init(stringValue)
+    }
+
+    init?(intValue: Int) {
+        self.stringValue = String(intValue)
+        self.intValue = intValue
+    }
+}
+
+private func exactUTF8Equal(_ lhs: String, _ rhs: String) -> Bool {
+    lhs.utf8.elementsEqual(rhs.utf8)
+}
+
+private func hashUTF8(_ value: String, into hasher: inout Hasher) {
+    hasher.combine(value.utf8.count)
+    for byte in value.utf8 {
+        hasher.combine(byte)
     }
 }

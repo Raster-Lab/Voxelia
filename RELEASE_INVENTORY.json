@@ -766,8 +766,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/MeasurementUnit.swift",
-      "size": 6102,
-      "sha256": "4e5e07af7f555bf7154d043296ecca80c7982e2e1ffdd5d57ddaf2d53f4eb45c"
+      "size": 9243,
+      "sha256": "df88473fd65ae7f79aa620508df68531fb0ee23684f77612589833ca97495ff0"
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/SpatialAxisMapping.swift",
@@ -1061,8 +1061,8 @@
     },
     {
       "path": "Tests/VoxeliaSpatialTests/MeasurementUnitTests.swift",
-      "size": 5697,
-      "sha256": "41718feb7c497f96581f17bb4f7971871920c3f17d0fc849853d9c9ee13324bf"
+      "size": 11839,
+      "sha256": "3cfd7c6bd2b875695f0a9351dae5f24e254fae7a21d966c559fe5b2c94f9e809"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/PlaneAndRayTests.swift",
@@ -1541,8 +1541,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 93630,
-      "sha256": "dc02faf71b7fff07e57e586b324d98120d60e8c212cc2cb46fdbf078d46a614a"
+      "size": 100483,
+      "sha256": "837758261f6d3d9f8af8dd02f86aea0a759edd2da424588df59134ab6d09f8ff"
     },
     {
       "path": "docs/project/README.md",

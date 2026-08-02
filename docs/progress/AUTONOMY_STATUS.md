@@ -42,6 +42,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   Spatial-owned, full-rank `FrameAnchorIndex` and defines the minimum full-frame
   logical-anchor semantics needed for stable identity; it is not accepted and
   does not authorise source.
+- The existing `MeasurementUnit` leaf now has coherent semantic identity and
+  type-level encoding: exact UTF-8 namespace/code spelling, display-text-
+  independent equality and hashing, signed-zero normalization, and an exact
+  six-key explicit-null wire shape. This does not define unit conversion or
+  coordinate-space unit admissibility.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -73,14 +78,14 @@ binding validation before `ImageDescriptor` can be constructed.
 | `axes` | `ContiguousArray<AxisDescriptor>` | Proposed-dependent and contract-blocked | MTA ownership conflicts with CDMS/FVSP ownership; proposed `ADR-0021` is not accepted, and sampling/name/unit validation plus wire rules remain incomplete. |
 | `spatialGeometry` | `SpatialGeometry?` | Proposed-dependent and contract-blocked | Coordinate-space policy, affine shape and tolerance, rectilinear binding, and the frame-index dependency cycle all remain unresolved. |
 | `valueTransform` | `ValueTransform?` | Proposed-dependent | Proposed `ADR-0023` must be accepted and its controlled-document corrections completed before its bounded four-case declaration is authorised. Piecewise extension and lookup execution are explicitly later scope, not blockers to that declaration. |
-| `units` | `MeasurementUnit?` | Implemented | The unit must describe authoritative sample values; semantic and transform compatibility policy is still required. |
+| `units` | `MeasurementUnit?` | Implemented and conformance-hardened | The unit must describe authoritative sample values; semantic and transform compatibility policy is still required. |
 
 The blocked axis and spatial branch expands as follows:
 
 | Prerequisite | Implemented leaves | Blocking contract |
 |---|---|---|
 | `AxisDescriptor` | `AxisID`, `MeasurementUnit` | Proposed `ADR-0021` recommends Spatial ownership but does not authorise it. Direct enum payloads cannot enforce finite, non-zero regular spacing; origin/irregular-coordinate finiteness, generic and external string validity, categorical-label policy, duplicate-semantic support and descriptor binding are incomplete. |
-| `CoordinateSpaceDescriptor` | `CoordinateSpaceID`, `CoordinateHandedness`, `ExternalFrameReference`, `MeasurementUnit` | Proposed `ADR-0022` selects a convention shape but is not accepted. Its built-in contradiction matrix is therefore unapproved; display/custom unit validity, unresolved-handedness operation policy, external-reference ordering and construction errors remain incomplete. |
+| `CoordinateSpaceDescriptor` | `CoordinateSpaceID`, `CoordinateHandedness`, `ExternalFrameReference`, `MeasurementUnit` | Its implemented leaves now have coherent local identity and wire behavior, but proposed `ADR-0022` is not accepted. The descriptor still cannot classify physical versus logical Cartesian/custom/display spaces, so unit admissibility, handedness authority, external-reference ordering and construction errors remain incomplete. |
 | `AffineGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. MTA also uses fixed `SIMD3<Int>` axes while CDMS uses one-to-three `SpatialAxisMapping` entries. Affine-final-row validation has no declared tolerance; singularity and near-singularity policy separately block inverse operations. |
 | `RectilinearGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. Coordinate-count binding, monotonicity/coincident-sample policy, orientation and invertibility semantics are incomplete. |
 | `FrameSetGeometry` | `SpatialAxisMapping`, `Matrix4x4Double`; Core-owned `ImageIndex` is implemented but unusable from Spatial | `FrameGeometry` depends on the blocked coordinate-space descriptor and contains Core-owned `ImageIndex`, which would reverse the approved `Core -> Spatial` dependency. Proposed `ADR-0027` supplies a role-specific replacement but is not accepted; frame-set ordering, sparse/enhanced coverage, identity, compatibility and regularity-result policies remain incomplete. |
@@ -119,6 +124,44 @@ closure. Already safe leaves include `ImageShape`, `ScalarFormat`,
 `SpatialAxisMapping`, `Matrix4x4Double`, `ImageIndex` and
 `LookupTableDescriptor`. Further work is governance and contract clarification,
 not speculative source code.
+
+## `CoordinateSpaceDescriptor` construction audit
+
+The governed five-field declaration is cycle-free and all currently named leaf
+types exist except the Proposed `CoordinateConvention`. A general validating
+initializer is nevertheless a no-go under the current baseline:
+
+| Area | Governed or conditionally settled behavior | Remaining blocker |
+|---|---|---|
+| Convention and handedness | Proposed `ADR-0022` says right-handed Cartesian, DICOM LPS and RAS imply right; left-handed Cartesian implies left; `.unspecified` is constructible but cannot satisfy an operation requiring resolved handedness; display/custom imply nothing. | `ADR-0022` is not accepted, and the constructor cannot rely on its matrix. |
+| Unit domain | Ordinary physical spaces require a length unit and conversions must be explicit. | The five fields contain no physical/logical domain. Cartesian and custom conventions can describe either; `imageDisplay` has no governed pixel/point/normalized meaning. CDMS section 10.3's blanket length wording conflicts with section 21.6's ordinary-physical qualification. |
+| Conversion metadata | `MeasurementUnit` preserves independently optional finite scale and offset without inference. | No canonical unit, affine conversion formula, scale/offset pairing rule, positive-scale rule or zero-offset spatial profile is approved. The neutral leaf must not invent one. |
+| External references | References must be unique by exact namespace and identifier; an empty collection is permitted. A DICOM Frame of Reference UID belongs here, not source frame identity. | Input order versus semantic set identity, aliasing, primary reference and namespace-specific compatibility are not governed. Sorting or deduplication would silently choose identity semantics. |
+| Encoding | An exact five-key outer type-level representation and constructor revalidation are mechanically possible. The nested `MeasurementUnit` representation is now exact and strict at its own keyed boundary. | Raw duplicate keys, lexical number/string forms, key order, schema envelopes, Unicode digest normalization and resource limits remain canonical byte-ingress work. |
+| Compatibility | Equal coordinate-space IDs alone never prove transform equivalence. | Exact descriptor equality, external-frame compatibility and explicit-transform availability are distinct relations with no approved resolver contract. |
+
+The audit exposed four direct conformance defects in the already implemented
+`MeasurementUnit`: synthesized equality included human-readable `displayName`,
+Swift `String` equality collapsed byte-distinct external codes, signed zero
+could encode differently despite equal/hash-equivalent `Double` values, and a
+closed coding-key enum accepted missing optional keys plus hid distinct extras.
+The focused correction now:
+
+- compares and hashes exact accepted UTF-8 `namespace` and `code` spellings;
+- excludes `displayName` while including dimension, scale and offset in
+  semantic declaration identity, following the existing `CodedConcept`
+  presentation-text precedent;
+- canonicalizes either conversion field's `-0.0` to `+0.0` at construction and
+  decoding while preserving every other finite value; and
+- requires exactly all six type-level keys, with explicit nulls for absent
+  optional fields and constructor revalidation after decoding.
+
+This is a defect correction to existing public promises, not a new conversion
+policy and not `ADR-0028`. Equality does not establish compatibility or make
+conversion metadata executable. Equal values may preserve different display
+labels and therefore produce different ordinary `JSONEncoder` output; future
+canonical descriptor digests must define their identity projection rather than
+hashing ordinary type-level JSON blindly.
 
 ## Completed in this increment
 
@@ -235,6 +278,13 @@ not speculative source code.
 - Added stable string dimension encoding, invariant-preserving unit decoding,
   Spatial DocC topics and focused coverage of the millimetre and Hounsfield
   examples, validation, optional conversion metadata and serialization.
+- Corrected `MeasurementUnit` identity so human-readable display text no longer
+  perturbs equality or hashing, while interpretation-bearing dimension and
+  conversion declarations remain identity-bearing and namespace/code spelling
+  uses exact accepted UTF-8 bytes.
+- Canonicalized signed-zero conversion metadata and hardened the unit decoder
+  to require its exact six keys with explicit nullable fields and rejection of
+  distinct extras, without claiming canonical JSON byte handling.
 - Implemented the shared `VoxeliaStringIdentifier` contract plus distinct
   `CoordinateSpaceID` and `AxisID` types in the dependency-free Spatial
   foundation, keeping both documented axis-ownership outcomes cycle-free.
@@ -609,6 +659,24 @@ not speculative source code.
   every initial dimension string, exact metadata preservation, absent and
   independently supplied conversion fields, blank identity rejection,
   non-finite rejection and decode-time revalidation all passed.
+- Regression-first `swift test --filter MeasurementUnit` then reproduced seven
+  issues in the prior implementation: display text affected identity, composed
+  and decomposed external spellings collapsed, signed zero was retained, and
+  missing or extra keys decoded successfully. After the focused correction,
+  the expanded eight-test suite passed, including constructor/decode zero
+  normalization, exact UTF-8 identity, display-independent hashing, exact keys,
+  explicit nulls and malformed-shape rejection.
+- `swift test --filter LookupTableDescriptor` executed only the six direct-
+  dependent tests and passed its unit identity, strict nested decode and table
+  behavior checks. `swift build --target VoxeliaSpatial`,
+  `swift build --target VoxeliaCore`, and strict format lint passed; the full
+  suite was intentionally not rerun for this leaf-value correction.
+- Documentation validation passed for seven controlled front-matter documents,
+  seven ADR records and 53 Markdown files. The direct ADR-register check,
+  366-entry portable-manifest check, 365-record inventory and 366-checksum
+  release-integrity verification passed, as did `git diff --check`.
+- An independent read-only final review found no actionable equality/hash,
+  Unicode identity, signed-zero, Codable, downstream, test or ledger issue.
 - `swift build --target VoxeliaSpatial`, the direct-dependent
   `swift build --target VoxeliaCore`, and strict format lint passed for the
   typed-identifier slice.
@@ -1002,6 +1070,15 @@ not speculative source code.
   affine conversion formula, or whether scale and offset must form a pair.
   The descriptor therefore accepts each optional finite field independently
   and provides no conversion operation or inferred default.
+- `MeasurementUnit` semantic equality uses exact accepted UTF-8 namespace/code
+  spelling, includes dimension and conversion declarations, and excludes its
+  human-readable display label. It is not a unit-compatibility predicate. A
+  future canonical digest cannot blindly hash ordinary encoded unit values,
+  because equal semantic values may preserve different display labels.
+- Its exact six-key decoder is strict only after a general `Decoder` has
+  produced keyed values. Raw duplicate-key rejection, lexical number and
+  escape normalization, key ordering, schema envelopes, Unicode digest
+  normalization and pre-allocation resource limits remain byte-ingress work.
 - There is no dedicated `VOX-UNIT-*` requirement, and units are assigned to M1
   by the implementation sequence and type inventory but omitted from the M1
   checklist. This slice does not treat that baseline gap as acceptance.
@@ -1232,7 +1309,7 @@ not speculative source code.
   compare them with MTA Appendix A while the known `ADR-0001` collision remains
   unresolved, and it does not treat body mentions or the `ADR-0025` allocator
   hold as record assignments.
-- The checked-in template and all six file-backed ADRs now contain the RPSS
+- The checked-in template and all seven file-backed ADRs now contain the RPSS
   section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
   meaningful bodies. It intentionally does not infer decision quality, status
   transitions, module validity or supersession semantics from prose.
@@ -1241,8 +1318,9 @@ not speculative source code.
   remains blocked and no implementation may rely on its recommendation.
 - Proposed `ADR-0022` likewise does not resolve the convention conflict until
   accepted. Even after acceptance, `CoordinateSpaceDescriptor` remains blocked
-  on display/custom unit policy; the enum must not imply a unit, transform or
-  external frame identity.
+  because its exact five fields do not classify physical versus logical
+  Cartesian/custom/display spaces. The enum must not imply a unit, transform,
+  display-axis policy or external frame identity.
 - Proposed `ADR-0023` does not resolve the transform conflict until accepted.
   Piecewise-linear transforms remain undefined, and lookup declarations do not
   establish interpolation, missing-entry or extrapolation behavior.
@@ -1278,20 +1356,20 @@ not speculative source code.
 
 ## Exact next action
 
-Audit the remaining `CoordinateSpaceDescriptor` construction boundary:
-ordinary-physical versus image-display/custom unit validity, built-in and
-unresolved handedness rules, external-reference order/uniqueness, exact public
-initializer errors and strict type-level encoding. Prepare proposed `ADR-0028`
-only if those policies can be resolved without inventing coordinate conversion
-or canonical-JSON bytes; implement no source while the governing convention
-decision and any new record remain Proposed.
+Audit `MetadataValue` and `MetadataEntry` as the next downstream `ImageData`
+prerequisite: reconcile the exact recursive case shape with finite floating
+values, canonical UTC instants, binary representation, object-key
+ordering/uniqueness, recursion/resource limits, privacy attachment and strict
+type-level encoding. Implement only an independently valid leaf whose
+constructor and validation oracle are fully governed; otherwise record the
+smallest decision boundary without inventing canonical-JSON bytes.
 
 ## Test policy for the next action
 
-- For the coordinate-space audit or proposal, run focused ADR-register tests
-  plus documentation, manifest and release-integrity checks when records
-  change. Do not run Swift tests while only architecture and progress records
-  change.
+- For a metadata audit or documentation-only proposal, run only the relevant
+  document/ADR checks plus manifest and release-integrity checks. If a bounded
+  metadata leaf is implemented, run its focused unit tests, the owning Core
+  target build, strict format lint and only directly affected dependent tests.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
