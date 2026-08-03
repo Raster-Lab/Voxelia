@@ -164,6 +164,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   It resolves the conceptual MTA/CDMS/RPSS ownership direction but authorises
   no source while the ADR/RFC, controlled corrections, logical projection,
   lifetime/erasure design, limits and reviews remain open.
+- Proposed `ADR-0040` selects a representation-independent logical sample
+  sequence: axis-zero-fastest indices, component-fastest ordinals and exact
+  fixed-width big-endian decoded scalar bits. It removes byte order, valid-bit
+  interpretation, component layout, strides and allocation padding from the
+  logical binding; keeps source bit decoding, representation integrity and
+  persistent content assurance separate; and stages a lossless pre-1.0 Core/
+  Geometry migration. General component-role, pixel-padding and complete
+  `ImageDescriptor` identity remain blocked. The proposal authorises no source.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -231,7 +239,7 @@ binding:
 | `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0032` select validated leaves, a bounded recursive value and a required classified entry; Proposed `ADR-0033` selects ordered storage/configured multiplicity/aggregate limits, `ADR-0034` selects closed exact-case typed reads, `ADR-0035` selects the generic versioned canonical envelope/raw ingress and `ADR-0036` selects exact complete-record identity. None is accepted. Schema trust/resolution, custom conversion, semantic collection identity and production ceiling/parser evidence remain open. |
 | `DataIdentity` | Proposed-dependent and contract-blocked | Proposed `ADR-0036` supplies a corrected scope/projection-bearing `ContentID` and one exact metadata-record profile. Proposed `ADR-0037` closes the claim-state lattice, duplicate/order rules, non-recursive reference target, assurance separation, lazy publication and cache-admission boundary. Both are unaccepted; exact source/operation identifiers, `DataObjectID` persistent identity, parameter/derivation/image projections, reference wire/limits, enrichment lifecycle and the complete derivation/cache-key split still block source. |
 | `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf; Proposed `ADR-0036`/`ADR-0037` supply downstream identity-claim dependencies; and Proposed `ADR-0038` closes subject/activity/input state, Core-versus-Execution ownership, flat references, graph admission, evidence, diagnostics and publication conceptually. None is accepted. Exact persistent IDs, parameter/provenance projections, execution claim types, warnings, validation references, hard limits and canonical wires remain undefined, so no aggregate is authorised. |
-| `AnyImageStorage` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0039` preserves `Storage -> Core` by assigning backend-neutral descriptors/protocols/erasure to Core and implementations/resources to Storage. It also closes operations, bits/wire, layout/read/builder/integrity/residency conceptually. The proposal is unaccepted; logical descriptor projection, safe destination/lease lifetime, exact erasure, production limits and independent `@unchecked Sendable` gates still block source. |
+| `AnyImageStorage` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0039` preserves `Storage -> Core` by assigning backend-neutral descriptors/protocols/erasure to Core and implementations/resources to Storage. Proposed `ADR-0040` separates decoded logical values/component ordinals from source bit interpretation and physical representation. Both are unaccepted; the complete logical descriptor projection, safe destination/lease lifetime, exact erasure, production limits and independent `@unchecked Sendable` gates still block source. |
 | `ImageData` | Transitively blocked | Its exact five-field shape is consistent, but construction still needs accepted storage, identity and provenance boundaries, storage/logical descriptor compatibility, geometry/axis compatibility, metadata uniqueness and the Execution/host atomic publication contract. |
 
 Conclusion: no independently implementable public leaf remains inside this
@@ -1069,11 +1077,10 @@ a production provider or integrity implementation, complete cryptographic
 validation, unsafe/no-copy access or production device/limit proof. The
 identity token is an in-process fixture, not external authentication, a
 globally stable identifier, canonical wire or a production authority-capability
-design. Proposed
-`ADR-0037` through `ADR-0039`, controlled corrections, the public RFC, logical
-descriptor projection, exact destination/erasure lifetime design and
-designated reviews remain mandatory. No storage aggregate or protocol is
-authorised.
+design. Proposed `ADR-0037` through `ADR-0040`, controlled corrections, the
+public RFC, complete logical descriptor projection, exact destination/erasure
+lifetime design and designated reviews remain mandatory. No storage aggregate
+or protocol is authorised.
 
 Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
 `VOX-GOV-009`, `VOX-GOV-010`, `VOX-ARC-001`, `VOX-ARC-003`,
@@ -1085,6 +1092,62 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
 `VOX-CON-007`, `VOX-CON-010`, `VOX-ERR-001`, `VOX-ERR-003`,
 `VOX-ERR-007`, `VOX-SEC-001`, `VOX-SEC-002`, `VOX-SEC-006`,
 `VOX-SEC-011`, `VOX-BRK-002`, `VOX-BRK-005` and `VOX-VS1-018`.
+
+## M1 normalized logical-sample and representation-projection audit
+
+The controlled model requires canonical logical identity to ignore endian
+order, component arrangement, strides, compression and physical padding, but
+the live Core leaves place `byteOrder`, `validBitCount` and `layout` inside
+synthesised descriptor equality and ordinary coding. The prior storage probe
+gathers checked physical scalar bytes without endian normalization, so it is
+representation/read evidence rather than a logical-identity oracle.
+
+Three independent read-only audits covered controlled authority/live source,
+projection implementation shape, and numerical/security/cache/provenance
+failure modes. They converged on the source gate recorded by proposed
+`ADR-0040`:
+
+| Area | Proposed boundary | Deferred or owning work |
+|---|---|---|
+| Layers | Core logical binding, adapter source-bit interpretation, exact Storage representation and persistent claim/evidence are distinct. | Equal labels, byte counts or one digest never transfer authority between layers. The live package graph does not change. |
+| Logical scalar | One exact decoded `ScalarType`; integers use fixed-width signed/unsigned bits and binary floats use exact interchange bits in the sample sequence. No arithmetic occurs. | Numeric conversion, value transforms, units, colour conversion and approximate equality are separate operations/projections. Complete image semantics may reject non-finite samples even though the narrow exact-bit sequence can preserve them. |
+| Order | Indices enumerate with axis zero fastest under an exact ordinal formula and components enumerate by logical ordinal at each index. | The proposal treats current component names as presentation coding only through an RFC and controlled CDMS correction, not as persistent roles. General colour/vector/tensor/complex/probability role identity remains blocked; a toy RGB fixture proves only ordering mechanics. |
+| Representation | Explicit endian, base/axis/component strides, initialized length and a complete physical-to-logical component permutation decode to canonical most-significant-byte-first logical values. | A valid permutation cannot prove truthful semantic labelling; adapter/provider evidence remains required. Packed/storage-defined layouts need later tagged contracts. |
+| Valid bits | `validBitCount` is not logical identity or decoding authority. A source integer contract also needs field position, signedness, byte/bit order, unused-bit policy and extension result; direct M1 normalization accepts full-width decoded values. | M4 DICOMKit/codec work produces sign-extended `Int16` or zero-extended `UInt16` and preserves Bits Stored/High Bit in source metadata/provenance. Floating valid bits and guessed packing reject. |
+| Padding | Initialized allocation/stride/plane/halo padding is representation-only and skipped by logical enumeration; representation integrity may cover it. | Pixel padding is semantic unavailable-value metadata/policy, never allocation padding or a quantitative replacement. Complete image identity remains unavailable until an accepted typed validity/padding projection binds it. |
+| Identity | The candidate `org.voxelia.logical-sample-sequence` `1.0` payload is exact but not standalone; logical and representation hash domains are length-framed and non-substitutable. The label/version remains unregistered evidence-only and cannot be used as `ContentID`. | Full `descriptorAndSamples` identity still needs canonical complete `ImageDescriptor`, component roles, pixel-padding validity, `ADR-0036`/`ADR-0037` claim/evidence and atomic publication. Raw bytes, Swift `Hasher` and ordinary Codable are not persistent identity. |
+| Bounds/diagnostics | Raw unsigned counts fit `Int.max` and stricter limits before conversion; every product, offset, span and byte count is checked. Failures are typed and payload-free; samples, names, paths and digests are redacted. | Production ceilings, streaming/cancellation cadence, hostile-input/device evidence, safe destination/erasure lifetime and designated reviews remain open. |
+| Migration | Introduce lossless explicit logical/representation projections first; preserve every current Core/Geometry field or fail ambiguity. Deprecate and remove misplaced physical fields only through a documented later 0.x correction. | Proposed status changes no live API or wire. The RFC, controlled MTA/CDMS/RPSS/Requirements correction and downstream Geometry review are mandatory. |
+
+The focused strict Swift 6 evidence probe uses toy limits, tags and CryptoKit
+SHA-256. It exercises little-endian interleaved, big-endian planar and padded
+physical-BGR representations of one exact logical RGB fixture; an exact rank-
+three/two-component axis-zero-fastest golden; exact region enumeration; padding
+mutation; component-map/order failures; exact ordered signed/unsigned 12-in-16
+source extraction including nonzero offsets and dirty unused bits; valid-bit/
+packing rejection; all binary float bit classes without numeric conversion;
+checked platform-`Int`, count, address and length failures; distinct sample-
+layout, toy descriptor-bearing and representation domains; concurrent
+immutable normalization; and exact redacted diagnostics. It is not product
+API, canonical content-ID/descriptor wire, a general semantic component
+profile, production source decoder/storage or diagnostic validation.
+
+Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
+`VOX-GOV-009`, `VOX-GOV-010`, `VOX-ARC-001`, `VOX-ARC-003`,
+`VOX-ARC-004`, `VOX-ARC-007`, `VOX-ARC-012`, `VOX-API-001`,
+`VOX-API-003`, `VOX-API-004`, `VOX-API-007`, `VOX-API-010`,
+`VOX-API-011`, `VOX-DAT-001`, `VOX-DAT-004`, `VOX-DAT-009` through
+`VOX-DAT-015`, `VOX-RGN-001` through `VOX-RGN-004`, `VOX-RGN-006`
+through `VOX-RGN-008`, `VOX-STO-001` through `VOX-STO-004`,
+`VOX-STO-007` through `VOX-STO-011`, `VOX-CON-003`, `VOX-CON-006`,
+`VOX-CON-007`, `VOX-CON-010`, `VOX-ERR-001`, `VOX-ERR-003`,
+`VOX-ERR-007`, `VOX-SEC-001`, `VOX-SEC-002`, `VOX-SEC-006`,
+`VOX-SEC-011`, `VOX-VAL-007`, `VOX-VAL-016`, `VOX-DCM-003`,
+`VOX-DCM-005`, `VOX-DCM-006`, `VOX-DCM-008`, `VOX-DCM-010`,
+`VOX-DCM-013`, `VOX-IMG-001`, `VOX-IMG-002`, `VOX-IMG-009`,
+`VOX-IMG-015`, `VOX-META-001`, `VOX-META-002`, `VOX-META-011`,
+`VOX-VS1-005`, `VOX-VS1-006`, `VOX-VS1-008`, `VOX-VS1-014`,
+`VOX-VS1-019` and `VOX-VS1-020`.
 
 ## Completed in this increment
 
@@ -1739,16 +1802,39 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
   representation digest computation, same-authority policy snapshots,
   restricted evidence and incremental bounded generic/wire ingress. No product
   source, unsafe code, `@unchecked Sendable` or package topology changed.
+- Audited the normalized logical-sample boundary across controlled identity,
+  live descriptor equality/coding, source valid-bit interpretation, physical
+  representation, component semantics, pixel padding, persistent claims,
+  migration and publication. Independent authority, semantic and governance
+  reviews converged on the same source gate and finished clean after the
+  proposal corrections.
+- Added proposed `ADR-0040` with exact axis-zero-fastest/component-fastest
+  ordering, fixed-width most-significant-byte-first decoded scalar bits,
+  source-bit decode order, physical-versus-logical padding separation,
+  independent sample-layout/representation digest domains and a lossless
+  staged pre-1.0 migration. It explicitly leaves the evidence projection
+  unregistered and complete image identity undefined.
+- Added a focused strict Swift 6 evidence probe covering three equal-logical
+  physical layouts, exact region/rank-three ordering, padding-only mutation,
+  complete component maps, source bit extraction, exact floating bit classes,
+  checked hostile bounds, domain separation, semantic-role exclusion,
+  concurrent immutable normalization and payload-free diagnostics. No product
+  source, package topology, dependency or accepted persistent wire changed.
+- Independent numerical and security/privacy/concurrency probe reviews found
+  no P1 issue. The numerical review identified one P2 external-ingress gap;
+  raw platform and field-specific limits now precede every `Int` conversion,
+  direct checked arithmetic keeps separate overflow evidence, and both focused
+  re-reviews finished clean with unchanged projection goldens.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 387-entry manifest covers every releasable file except its
+- The current 389-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
 - Final release-integrity regeneration and read-only verification passed with
-  386 inventory records and 387 checksums for this increment.
+  388 inventory records and 389 checksums for this increment.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -3326,6 +3412,62 @@ python3 Tools/Scripts/check_release_integrity.py --write
 python3 Tools/Scripts/check_release_integrity.py
 ```
 
+For proposed `ADR-0040`, the isolated strict Swift 6 evidence is stored in
+`docs/progress/evidence/ADR-0040-logical-sample-projection-probe.swift` at
+SHA-256 `7ae0907e18dab77a144c8559ca1490e5a92693744a2ac8e700fe44be00b89f2b`.
+It models one evidence-only sample-layout frame, a separately labelled toy
+descriptor-bearing frame and exact representation frames. Ten focused groups
+cover canonical layout equality, a rank-three/two-component ordering golden,
+regions, semantic-role exclusion, source-bit extraction order, exact floating
+bits, checked hostile bounds, redaction and immutable concurrent normalization.
+It uses in-memory toy limits and CryptoKit SHA-256; it is not product API,
+registered projection/content-ID wire, a production decoder/storage, streaming
+or generation/cancellation/publication evidence, semantic image identity,
+authenticity or diagnostic validation.
+
+```bash
+mkdir -p .build/evidence
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0040-logical-sample-projection-probe.swift
+xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors -parse-as-library \
+  docs/progress/evidence/ADR-0040-logical-sample-projection-probe.swift \
+  -o .build/evidence/adr0040-probe
+.build/evidence/adr0040-probe
+```
+
+The focused execution reports:
+
+```text
+sampleLayoutFingerprintSHA256=813b6376bf98f5dc74bac7e0fa902297364ceacd7b730eb6ec28875fcba3f254
+littleInterleavedRepresentationSHA256=6b52f3fdb256e9eb94b0a0766363ce11fbc4acb046c1f7f8ed2ecbd72cbf925d
+bigPlanarRepresentationSHA256=2c1dc10f36e5664ebc88fbec871d0fe9d03eb7c22bdc82860045b5073d7abb5e
+paddedBGRRepresentationSHA256=d5b55f56ac4fa28a075a230822a00aa53c74bb43b7a00088ef6ab87c28e0c267
+mutatedPaddingRepresentationSHA256=dd667e6dcba64df60ffd827f0c1fb6f96f4d8a16b7cdb78ec9a342ddfc56d8c7
+rgbDescriptorBearingSHA256=fc72975ee02dfed43e2fed3a1f9d3249e6a189ac2b199ff058e46ae6f8c1a4bc
+bgrDescriptorBearingSHA256=6d9683fb97f0394ea6d1c14b68b88887bf14581e8337f30012d2f085b1a7e65e
+focusedTestGroups=10
+```
+
+The final narrow gate for this documentation-only proposal is:
+
+```bash
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0040-logical-sample-projection-probe.swift
+xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors -parse-as-library \
+  docs/progress/evidence/ADR-0040-logical-sample-projection-probe.swift \
+  -o .build/evidence/adr0040-probe
+.build/evidence/adr0040-probe
+Tools/Scripts/validate-docs.sh
+python3 Tools/Scripts/check_package_graph_static.py
+python3 Tools/Scripts/check_prohibited_imports.py
+git diff --check
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_release_integrity.py
+```
+
 No complete Swift package suite is required for this proposal. Product source,
 package topology and dependencies did not change, so the focused probe plus
 document, ADR-register, manifest and release-integrity checks are the affected
@@ -3758,6 +3900,15 @@ surface.
   logical sample projection, production resource limits, safe destination and
   owner-retaining erasure design, supported-destination evidence and designated
   API/concurrency/security reviews.
+- Proposed `ADR-0040` does not authorise logical-sample binding, source-bit
+  decoder, representation descriptor, projection hashing, `ContentID`, cache,
+  storage compatibility or image-descriptor migration source. Its labels,
+  frames, limits and probe digests are unregistered evidence only. Acceptance
+  still requires the public RFC, controlled MTA/CDMS/RPSS/Requirements
+  corrections, the complete logical descriptor and semantic-role/pixel-padding
+  projections, production limits and cancellation/device evidence, affected
+  Core/Geometry tests, supported Apple destination builds and designated API,
+  numerical, storage, security and privacy review.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -3781,30 +3932,30 @@ surface.
 
 ## Exact next action
 
-Audit the M1 normalized logical-sample binding before any storage descriptor,
-protocol or erasure implementation. Reconcile the current placement of
-`ScalarFormat.byteOrder` and `ComponentDescriptor.layout` inside logical
-`ImageDescriptor` with the requirement that canonical logical identity remain
-independent of endian order, interleaving, strides, padding, compression and
-tile/brick layout. Define or explicitly defer the exact logical scalar/value,
-valid-bit, semantic component order and storage-representation projections;
-their compatibility relation; packed/unused-bit treatment; persistent identity
-effects; source-compatible migration; platform-`Int` ingress; and privacy-safe
-typed failures. Do not change product source while `ADR-0039` and the logical
-projection remain unaccepted or inconsistent.
+Audit and propose `ADR-0041` for the M1 immutable snapshot-bound storage read
+transaction, owner-retaining contiguous/mapped byte leases, checked-`Sendable`
+`AnyImageStorage` erasure, cancellation linearisation and deinitialization
+boundary. Define one-shot private staging/publication states, exact strong
+ownership, late-completion and stale-generation denial, synchronous `Span`/
+`RawSpan` access, mapped external-change policy, bounded resources, typed
+redacted failures and focused lifetime/race evidence. Defer builders, remote/
+callback/sequential providers, unsafe/no-copy implementation, identity/
+provenance publication and Metal residency. Do not change product source while
+proposed `ADR-0039`, proposed `ADR-0040`, proposed `ADR-0041` and their
+controlled corrections/reviews remain unaccepted.
 
 ## Test policy for the next action
 
-- For the logical-sample binding audit or documentation-only proposal, run only
-  a focused projection probe covering same logical samples across explicit
-  endian/interleaved/planar/padded representations, exact semantic component
-  order mismatches, valid-bit versus packing separation, checked platform-
-  `Int` conversion, logical-versus-representation digest domains and redacted
-  failures, plus document/ADR, package-graph/import, manifest and
-  release-integrity checks. If an independently safe leaf becomes authorised,
-  run only its focused construction, coding, equality, compatibility and
-  directly affected dependent tests plus the owning target build and strict
-  format lint.
+- For the destination/lease/erasure lifetime audit or documentation-only
+  proposal, run only a focused strict Swift probe covering owner retention for
+  the complete scope, non-escaping contiguous/mapped access, provider-instance/
+  snapshot/generation binding, one-shot destination state, exact success/
+  failure/cancellation/stale/deinit publication behavior, actor isolation,
+  erased dispatch and payload-free failures, plus document/ADR, package-graph/
+  import, manifest and release-integrity checks. If an independently safe leaf
+  becomes authorised, run only its focused construction, equality, capability/
+  availability and directly affected dependent tests plus the owning target
+  build and strict format lint.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

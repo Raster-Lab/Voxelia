@@ -287,15 +287,23 @@ alignment claim, when applicable
 optional representation-integrity claim
 ```
 
-The logical binding contains shape, scalar value interpretation, defined
-valid-bit interpretation, component count and semantic component order. It
-does not contain paths, storage objects, strides, allocation padding,
-compressed headers, tile order or device state.
+The logical binding contains shape, exact decoded scalar type, component count
+and logical component ordinals. Source valid-bit interpretation and physical
+component arrangement belong to source/representation decoding under proposed
+`ADR-0040`; neither enters the decoded logical sample-layout binding. The
+binding also excludes paths, storage objects, strides, allocation padding,
+compressed headers, tile order and device state.
 
 Before aggregate source, the model must move physical byte order/component
 arrangement out of logical identity or define an equally exact normalized
 projection. Ordinary `ImageDescriptor` coding bytes are not canonical logical
 content bytes until that correction is accepted.
+
+Proposed `ADR-0040` supplies that correction: it separates exact decoded
+scalar/component order from source bit interpretation and physical layout,
+defines a fixed-endian logical sample sequence, and keeps the complete
+descriptor-and-samples identity blocked on the canonical full descriptor and
+semantic-role/pixel-padding projections.
 
 Initial representation tags are:
 
@@ -751,7 +759,8 @@ If accepted:
 1. publish and accept the storage-contract RFC;
 2. correct MTA/CDMS/RPSS/Requirements ownership, inventory, names, M1 data
    handle/residency/digest wording and builder/publication semantics;
-3. define the normalized logical sample/component projection;
+3. accept proposed `ADR-0040`'s normalized logical sample/component
+   projection and its controlled migration;
 4. migrate backend-neutral storage taxonomy to Core pre-1.0;
 5. implement closed operations and exact custom wire with focused tests;
 6. implement tagged Core descriptor and checked construction;
@@ -771,9 +780,10 @@ This proposal refines conflicting storage ownership, capability, descriptor,
 read, builder and integrity sketches. It does not change the live graph.
 
 It composes with proposed `ADR-0037` for data identity/cache admission and
-proposed `ADR-0038` for provenance/publication. It does not define canonical
-logical `ContentID`, final `ImageData`, metadata/provenance, codecs, tile/brick
-grids, remote transport, Metal resources or diagnostic status.
+proposed `ADR-0038` for provenance/publication, and proposed `ADR-0040` for the
+normalized logical sample projection. It does not define canonical logical
+`ContentID`, final `ImageData`, metadata/provenance, codecs, tile/brick grids,
+remote transport, Metal resources or diagnostic status.
 
 ## References
 
@@ -786,4 +796,5 @@ grids, remote transport, Metal resources or diagnostic status.
 - [Voxelia Validation and Benchmark Strategy v0.1.1](../../project/Voxelia_Validation_and_Benchmark_Strategy_v0.1.1.md)
 - [ADR-0037 - Claim-bearing data identity and cache-admission boundary](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md)
 - [ADR-0038 - Closed provenance record and graph admission boundary](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md)
+- [ADR-0040 - Normalized logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
 - [ADR-0039 storage capability/descriptor admission probe](../../progress/evidence/ADR-0039-storage-capability-descriptor-admission-probe.swift)

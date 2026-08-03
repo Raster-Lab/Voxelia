@@ -24,7 +24,9 @@ canonical metadata record-identity proposal. `ADR-0037` is allocated to the
 claim-bearing data-identity and cache-admission proposal. `ADR-0038` is
 allocated to the closed provenance-record and graph-admission proposal.
 `ADR-0039` is allocated to the closed storage capability and descriptor
-admission proposal. The next unallocated numeric identifier is `ADR-0040`.
+admission proposal. `ADR-0040` is allocated to the normalized logical-sample
+and representation-projection proposal. The next unallocated numeric
+identifier is `ADR-0041`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -47,3 +49,4 @@ admission proposal. The next unallocated numeric identifier is `ADR-0040`.
 | [ADR-0037](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md) | Proposed | Claim-bearing data identity and cache-admission boundary |
 | [ADR-0038](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md) | Proposed | Closed provenance record and graph admission boundary |
 | [ADR-0039](ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md) | Proposed | Closed storage capability and descriptor admission boundary |
+| [ADR-0040](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md) | Proposed | Normalized logical sample and representation projection boundary |

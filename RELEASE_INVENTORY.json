@@ -1511,13 +1511,18 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md",
-      "size": 37520,
-      "sha256": "ba36f8901f1f0f56089ba1693af6fcd0e592c4f46d21bd38cafb315fc08cb8d7"
+      "size": 38302,
+      "sha256": "9391579c7bfa229f70b91304e88f1bc4fab425941524c3ce0b9b268d96b7bcb3"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md",
+      "size": 33574,
+      "sha256": "923ddf5ebbb14427b7f58498c49f7e3ff397f86ac76783ecd81bbf8e869c2dd4"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 4265,
-      "sha256": "b7ba0a8d6bceb9942b786135baba6ca3b5897d0104386de2ab9fb3ad3e8d9b3d"
+      "size": 4533,
+      "sha256": "94368b756b842f53b49c7ef4fb311f9e92d5927cb849dd2d535386dc257d367f"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1601,8 +1606,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 267882,
-      "sha256": "5a6d8abf074f8d762aaf0eb0bffc7d20687361e8c521586d433094eb4d7c5840"
+      "size": 279985,
+      "sha256": "d4243130a679700c5420f62959c438799e237cf2e340c25856475c54da5a05b6"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1648,6 +1653,11 @@
       "path": "docs/progress/evidence/ADR-0039-storage-capability-descriptor-admission-probe.swift",
       "size": 148371,
       "sha256": "10704fd20d94a7f0d63bb3b04b2c03f20f87d053e1514c591df8c433c9d47a45"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0040-logical-sample-projection-probe.swift",
+      "size": 99598,
+      "sha256": "7ae0907e18dab77a144c8559ca1490e5a92693744a2ac8e700fe44be00b89f2b"
     },
     {
       "path": "docs/project/README.md",
@@ -1931,8 +1941,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 17855,
-      "sha256": "bddb5e3edf028b63d4852f469943db915ab034eedb03dd62dfd9cc6a19d8619d"
+      "size": 18030,
+      "sha256": "970c890daa0ba25623c50470643448dcb783827117c574c0f1e5b60449c9574a"
     }
   ]
 }
