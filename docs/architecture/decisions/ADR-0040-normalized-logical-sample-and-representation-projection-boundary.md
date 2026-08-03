@@ -484,6 +484,10 @@ design proposed by `ADR-0041`, affected Core/Geometry tests, supported Apple-
 destination builds and designated API/concurrency/security reviews. This link
 does not accept `ADR-0041` or close the remaining source gate.
 
+Draft `RFC-0001` now supplies the composition and correction inventory for
+review. Its Draft status does not accept this proposal, register a content
+projection or authorise source.
+
 ## Alternatives considered
 
 ### Keep byte order, valid bits and component layout in logical descriptors
@@ -708,4 +712,5 @@ geometry or cache-key projections.
 - [ADR-0037 - Claim-bearing data identity and cache-admission boundary](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md)
 - [ADR-0039 - Closed storage capability and descriptor admission boundary](ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md)
 - [ADR-0041 - Safe storage read transaction and type-erasure lifetime boundary](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md)
+- [RFC-0001 - Storage contract and logical data-model composition](../../rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md)
 - [ADR-0040 logical-sample projection probe](../../progress/evidence/ADR-0040-logical-sample-projection-probe.swift)

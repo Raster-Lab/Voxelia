@@ -680,6 +680,10 @@ Core/Storage/Execution tests; strict builds on every supported Apple
 destination; and designated API, concurrency, security, privacy and memory-
 lifetime review.
 
+Draft `RFC-0001` composes the three proposals, records their evidence limits
+and presents the mapped-storage milestone conflict for governed resolution. Its
+Draft status satisfies no acceptance, correction or source gate.
+
 ## Alternatives considered
 
 ### Keep the async writable-pointer destination sketch
@@ -949,4 +953,5 @@ compression, remote/sequential transport or Metal residency.
 - [Voxelia Validation and Benchmark Strategy v0.1.1](../../project/Voxelia_Validation_and_Benchmark_Strategy_v0.1.1.md)
 - [ADR-0039 - Closed storage capability and descriptor admission boundary](ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md)
 - [ADR-0040 - Normalized logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
+- [RFC-0001 - Storage contract and logical data-model composition](../../rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md)
 - [ADR-0041 storage read/lifetime probe](../../progress/evidence/ADR-0041-storage-read-lifetime-probe.swift)

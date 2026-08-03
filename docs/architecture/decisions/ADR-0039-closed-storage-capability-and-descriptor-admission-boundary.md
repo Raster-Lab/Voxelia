@@ -540,6 +540,10 @@ the logical projection and destination/lifetime contracts, production limits,
 supported-destination builds and designated API, concurrency and security
 reviews.
 
+Draft `RFC-0001` composes this proposal with proposed `ADR-0040` and
+`ADR-0041` and inventories the required corrections. While Draft, it satisfies
+none of those acceptance or source gates.
+
 ### Proposed milestone correction
 
 The following is a proposed controlled correction, not the current approved
@@ -809,4 +813,5 @@ diagnostic status.
 - [ADR-0038 - Closed provenance record and graph admission boundary](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md)
 - [ADR-0040 - Normalized logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
 - [ADR-0041 - Safe storage read transaction and type-erasure lifetime boundary](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md)
+- [RFC-0001 - Storage contract and logical data-model composition](../../rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md)
 - [ADR-0039 storage capability/descriptor admission probe](../../progress/evidence/ADR-0039-storage-capability-descriptor-admission-probe.swift)

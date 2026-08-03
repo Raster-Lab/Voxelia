@@ -379,6 +379,7 @@ docs/releases/v0.1.1/logs/shell_syntax.log
 docs/releases/v0.1.1/logs/yaml_parse.log
 docs/requirements/README.md
 docs/rfcs/README.md
+docs/rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md
 docs/security/README.md
 docs/shaders/README.md
 docs/templates/ADR-Template.md
