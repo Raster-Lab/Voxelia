@@ -300,6 +300,7 @@ docs/architecture/decisions/ADR-0035-versioned-canonical-metadata-json-and-raw-i
 docs/architecture/decisions/ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md
 docs/architecture/decisions/ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md
 docs/architecture/decisions/ADR-0038-closed-provenance-record-and-graph-admission-boundary.md
+docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
@@ -326,6 +327,7 @@ docs/progress/evidence/ADR-0035-canonical-metadata-ingress-probe.swift
 docs/progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift
 docs/progress/evidence/ADR-0037-data-identity-cache-admission-probe.swift
 docs/progress/evidence/ADR-0038-provenance-record-graph-admission-probe.swift
+docs/progress/evidence/ADR-0039-storage-capability-descriptor-admission-probe.swift
 docs/project/README.md
 docs/project/Voxelia_Core_Data_Model_Specification_v0.1.1.md
 docs/project/Voxelia_First_Vertical_Slice_Plan_v0.1.1.md

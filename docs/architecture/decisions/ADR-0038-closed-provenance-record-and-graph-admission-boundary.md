@@ -282,6 +282,11 @@ provenance, asks each owner to validate its boundary and publishes the coherent
 bundle atomically. Storage may report representation integrity; it does not
 author scientific execution history.
 
+Proposed `ADR-0039` supplies the downstream storage closure: an isolated
+builder freezes an unpublished immutable snapshot and any exact representation
+evidence, while the coordinator retains the only authority to publish the
+coherent `ImageData` bundle.
+
 ### Subject and activity completeness
 
 Every published record has exactly one subject `DataIdentityReference`. A
@@ -1006,4 +1011,5 @@ storage integrity, cache keys, privacy policy or distributed transport.
 - [ADR-0028 - Canonical instant boundary](ADR-0028-canonical-instant-boundary.md)
 - [ADR-0036 - Domain-separated complete canonical metadata record identity](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md)
 - [ADR-0037 - Claim-bearing data identity and cache-admission boundary](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md)
+- [ADR-0039 - Closed storage capability and descriptor admission boundary](ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md)
 - [ADR-0038 closed-record and graph-admission probe](../../progress/evidence/ADR-0038-provenance-record-graph-admission-probe.swift)
