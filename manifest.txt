@@ -243,6 +243,7 @@ Tools/Scripts/check_package_graph_static.py
 Tools/Scripts/check_prohibited_imports.py
 Tools/Scripts/check_release_integrity.py
 Tools/Scripts/check_required_files.py
+Tools/Scripts/check_rfc_register.py
 Tools/Scripts/generate-sbom.sh
 Tools/Scripts/generate_requirement_index.py
 Tools/Scripts/generate_sbom.py
@@ -262,6 +263,7 @@ Tools/Tests/Python/test_manifest_paths.py
 Tools/Tests/Python/test_release_integrity.py
 Tools/Tests/Python/test_repository_scripts.py
 Tools/Tests/Python/test_requirement_index.py
+Tools/Tests/Python/test_rfc_register.py
 Tools/Tests/VoxeliaRepositoryToolTests/RepositoryToolTests.swift
 VERSION
 Validation/Datasets/Fetch/README.md

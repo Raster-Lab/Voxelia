@@ -62,6 +62,12 @@ class RepositoryScriptTests(unittest.TestCase):
             timeout=COMMAND_TIMEOUT_SECONDS,
         )
         subprocess.run(
+            ["python3", "Tools/Scripts/check_rfc_register.py"],
+            cwd=ROOT,
+            check=True,
+            timeout=COMMAND_TIMEOUT_SECONDS,
+        )
+        subprocess.run(
             ["python3", "Tools/Scripts/check_document_text.py"],
             cwd=ROOT,
             check=True,
@@ -75,8 +81,10 @@ class RepositoryScriptTests(unittest.TestCase):
         )
         self.assertNotIn("python3 - <<", text)
         self.assertIn("check_adr_register.py", text)
+        self.assertIn("check_rfc_register.py", text)
         self.assertIn("check_document_text.py", text)
         self.assertIn("check_adr_register.py", scaffold)
+        self.assertIn("check_rfc_register.py", scaffold)
 
     def test_validate_docs_wrapper_executes_on_supported_host(self) -> None:
         if platform.system() != "Darwin" or platform.machine() != "arm64":
@@ -103,6 +111,7 @@ class RepositoryScriptTests(unittest.TestCase):
             "check_docc_archives.py",
             "check_document_text.py",
             "check_front_matter.py",
+            "check_rfc_register.py",
             "generate_requirement_index.py",
             "validate-docs.sh",
         ):

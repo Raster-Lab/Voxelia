@@ -201,6 +201,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   cumulative gates and atomic application order. It preserves explicit branches
   for the mapping schedule and M1 structural-versus-M2 public `ImageData`
   staging choices; it amends no controlled baseline and closes no gate.
+- RFC governance tooling now validates every file-backed primary RFC and
+  controlled-correction companion, exact Draft/non-authority metadata,
+  requirement provenance, the primary register, reciprocal live links, numeric
+  allocation, the allocated companion and the ordered `C01`–`C24` crosswalk.
+  It fails closed on non-Draft status until an approval schema is governed; a
+  structural pass grants no approval or source authority. Named ownership and
+  signatory enforcement remain external governance responsibilities.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -3731,6 +3738,72 @@ The ADR-0039 through ADR-0041 probes are not rerun because this Draft changes no
 evidenced invariant. No complete Swift package suite is required: product
 source, package topology, dependencies and runtime behaviour do not change.
 
+The follow-on tooling increment replaces the one-off RFC governance oracle with
+`Tools/Scripts/check_rfc_register.py`. The standard-library checker now:
+
+- classifies every `docs/rfcs/*.md` record from front matter and rejects
+  malformed, zero or duplicate primary/`CCD` identifiers;
+- requires exact RFC/companion metadata, real ISO dates, H1 and required RFC
+  section topology, explicit `Non-authoritative proposal` authority and a
+  live Draft approval table with no effective revision/commit;
+- fails closed on every lifecycle value other than exact `Draft` because the
+  project has not governed a machine-readable Accepted approval schema;
+- validates the one live primary register table, exact status/title/target,
+  gap-free next numeric allocation and the separately allocated
+  `RFC-0001-CCD-01` companion without consuming `RFC-0002`;
+- validates reciprocal rendered inline links, local relative file targets and
+  the exact parent correction-inventory anchor while rejecting link-hiding raw
+  HTML/reference forms in the governed subset;
+- proves the parent/companion requirement lists are identical, unique, known
+  Requirements Baseline IDs and exactly the affected-requirement union of
+  proposed `ADR-0039` through `ADR-0041` plus the three `C17` documentation
+  requirements; and
+- requires one live correction-inventory table and one live proposed-delta
+  section containing only the ordered `RFC-0001-C01` through `C24` values.
+
+Twenty-eight focused positive/negative fixture tests cover the repository
+record, IDs, metadata, dates, filenames/headings, parent/allocation/link drift,
+Draft authority/effectiveness, requirement provenance, missing/duplicate/
+malformed/foreign/reordered correction IDs, table topology and Markdown
+literal/comment/fence/link-hiding cases. A stale ADR regression assertion was
+also made data-driven so record growth cannot silently break the repository
+tooling gate. Independent governance and adversarial parser reviews pass with
+no remaining P0/P1 issue.
+
+The focused validation commands for this documentation-tooling increment are:
+
+```bash
+python3 -m py_compile \
+  Tools/Scripts/check_rfc_register.py \
+  Tools/Scripts/check_required_files.py \
+  Tools/Tests/Python/test_rfc_register.py \
+  Tools/Tests/Python/test_adr_register.py \
+  Tools/Tests/Python/test_repository_scripts.py
+python3 -m unittest \
+  Tools.Tests.Python.test_rfc_register \
+  Tools.Tests.Python.test_adr_register \
+  Tools.Tests.Python.test_repository_scripts
+python3 Tools/Scripts/check_rfc_register.py
+python3 Tools/Scripts/check_required_files.py
+Tools/Scripts/validate-docs.sh
+python3 Tools/Scripts/check_package_graph_static.py
+python3 Tools/Scripts/check_prohibited_imports.py
+git diff --check
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py
+```
+
+The focused checker suite reports 59 passing tests, direct RFC validation
+reports one primary and one companion with both statuses Draft, required-file,
+documentation, graph, import and diff checks pass, and structural validation
+explicitly reports that it confers no authority. The broader repository-script
+suite is not a completion claim for this change: an independent attempt reached
+an unrelated existing 60-second Swift package-dump timeout in the SBOM test.
+No complete Swift build/package suite or ADR Swift probe is required because no
+product source, dependency, package edge, runtime invariant or evidence probe
+changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -4184,10 +4257,12 @@ source, package topology, dependencies and runtime behaviour do not change.
   owners and exact conditional text for all 24 correction/disposition rows.
   Mapping, M1 `ImageData` staging, named approvers, effective `0.1.2` revisions,
   dates and commits remain open; the Draft companion closes none of those gates.
-- Current documentation tooling does not validate RFC companion metadata,
-  parent/register consistency, correction-ID cardinality or `docs/rfcs/` path
-  ownership. Manual focused checks cover this Draft only; automated governance
-  remains the next unblocked tooling gap.
+- RFC tooling now validates companion metadata, parent/register/link
+  consistency, requirement provenance, correction cardinality and the current
+  fail-closed Draft authority surface. It cannot enforce named `docs/rfcs/`
+  owners/signatories or validate an Accepted transition because no governed
+  role assignment or machine-readable approval schema exists. Those remain
+  external governance gaps and the checker deliberately grants no authority.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -4211,26 +4286,23 @@ source, package topology, dependencies and runtime behaviour do not change.
 
 ## Exact next action
 
-Add a focused RFC-governance validator and regression fixtures. It must validate
-unique RFC/companion document IDs, required metadata/status/parent fields,
-primary-register and companion-link consistency, next-number allocation and the
-exact one-to-one `RFC-0001-C01` through `C24` crosswalk without treating a Draft
-as accepted authority. Wire it into `Tools/Scripts/validate-docs.sh` and record
-that role-based `docs/rfcs/` ownership remains an external governance gap. Do
-not select mapping or `ImageData` staging, edit controlled `v0.1.1` baselines,
-start storage source or broaden the complete package test gate.
+Audit the M1 supporting diagnostic/safety surface outside the blocked
+`ImageDescriptor`, metadata, provenance and storage closures. Map the M1
+`VOX-ERR-*`, `VOX-SEC-*`, `VOX-CON-*` and `VOX-VAL-*` requirements to current
+Core source/tests and accepted authority, then select the smallest genuinely
+unblocked implementation criterion or record its exact governance dependency.
+Do not accept Proposed ADRs/RFCs, select mapping or `ImageData` staging, edit
+controlled `v0.1.1` baselines or start a blocked public aggregate.
 
 ## Test policy for the next action
 
-- For the RFC-governance validator, run its focused positive/negative fixture
-  tests, Python syntax/format checks used by this repository, documentation
-  validation and direct manifest/release-integrity checks. Run package-graph/
-  prohibited-import checks only if the wrapper or ownership assertions touch
-  those gates. Do not run ADR probes or the complete Swift package suite for a
-  documentation-tooling-only change. If an independently safe leaf later
-  becomes authorised, run only its focused construction, equality, capability/
-  availability and directly affected dependent tests plus the owning target
-  build and strict format lint.
+- For the M1 supporting-surface audit, run documentation/requirement-index
+  checks only while the increment remains read-only. If it identifies an
+  independently authorised source leaf, run only that leaf's focused typed-
+  error, redaction/privacy, cancellation/concurrency or validation-oracle tests
+  plus the owning target build and strict format lint; add direct dependant
+  compilation only if a shared API changes. Do not run blocked storage/metadata
+  probes or the complete Swift package suite during discovery.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

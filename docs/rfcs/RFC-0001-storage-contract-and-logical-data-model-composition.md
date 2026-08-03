@@ -3,6 +3,15 @@ document_id: "RFC-0001"
 title: "Storage contract and logical data-model composition"
 status: "Draft"
 date: "2026-08-03"
+authority: "Non-authoritative proposal"
+composed_adrs:
+  - "ADR-0039"
+  - "ADR-0040"
+  - "ADR-0041"
+supplemental_affected_requirements:
+  - "VOX-DOC-008"
+  - "VOX-DOC-009"
+  - "VOX-DOC-010"
 authors:
   - "Voxelia Project"
 affected_requirements:

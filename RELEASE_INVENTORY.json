@@ -81,8 +81,8 @@
     },
     {
       "path": ".github/workflows/documentation.yml",
-      "size": 1133,
-      "sha256": "ea74de0c54ad3364748c59a28095c9c027735fccdbcd3f96f4d5dc89f0af768b"
+      "size": 1179,
+      "sha256": "01e20bf9518ecdd13969e34e709cb27c0350c8f325b4ee78983614c1ea04457e"
     },
     {
       "path": ".github/workflows/nightly-benchmarks.yml",
@@ -1136,8 +1136,8 @@
     },
     {
       "path": "Tools/README.md",
-      "size": 1481,
-      "sha256": "3b8cdee42493aac32d87f365e2ef25324ddf9ddd8c92a173bf40891603c861fe"
+      "size": 1666,
+      "sha256": "a5dea858c890980eb94db123dcdd4040e2d442427d843ba4537f45500079f135"
     },
     {
       "path": "Tools/Schemas/VoxeliaSBOM.schema.json",
@@ -1221,8 +1221,13 @@
     },
     {
       "path": "Tools/Scripts/check_required_files.py",
-      "size": 1366,
-      "sha256": "6b783e02e7ff1f0a0f7a13f2e6660e7bce4f0d1b9be83e907fd50a90b0184727"
+      "size": 1405,
+      "sha256": "4ed6fabb144b16b5a65e6ddf49819d32ec317969c9476c7f1f42e590f0972be8"
+    },
+    {
+      "path": "Tools/Scripts/check_rfc_register.py",
+      "size": 47580,
+      "sha256": "204b082d871274953b8359084848714c123561e9ecabda1665da2a7f5261a333"
     },
     {
       "path": "Tools/Scripts/generate-sbom.sh",
@@ -1261,13 +1266,13 @@
     },
     {
       "path": "Tools/Scripts/validate-docs.sh",
-      "size": 323,
-      "sha256": "ea8c50940d31469b9b8916933d74ed4544b0229635da864c10b3c50ac199c15c"
+      "size": 367,
+      "sha256": "338f0ba198283f337411df9ac71ec8a71b0d019da764ab592d64870c31e77176"
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
-      "size": 1006,
-      "sha256": "3630130fd8d574360abb3fde56963a427436ee60807d563ffb7376764acd6790"
+      "size": 1050,
+      "sha256": "819c46196f8a3a2e7a320d260f572cf983ca4cde0995d7b383ac9eaaca104ed2"
     },
     {
       "path": "Tools/Scripts/validation-smoke.sh",
@@ -1286,8 +1291,8 @@
     },
     {
       "path": "Tools/Tests/Python/test_adr_register.py",
-      "size": 14089,
-      "sha256": "2bfcd0b4caaddb2dc7474590676d471c24e21ffb7bd3467dbb413a085de6f020"
+      "size": 14317,
+      "sha256": "df6d7d57c4106d52de562e44e94101fe0c6c1279ac49f30ae4d081480f74e6cc"
     },
     {
       "path": "Tools/Tests/Python/test_docc_archives.py",
@@ -1311,13 +1316,18 @@
     },
     {
       "path": "Tools/Tests/Python/test_repository_scripts.py",
-      "size": 5689,
-      "sha256": "0e6a7b5aeffa4db623948417fa9398e717983e59eb5213ab5d43369d5c3f0c70"
+      "size": 6025,
+      "sha256": "f67be6d4d9744146cb55e7e9c29da9e82775b0350e05466f8cc94bb3178c74bb"
     },
     {
       "path": "Tools/Tests/Python/test_requirement_index.py",
       "size": 4508,
       "sha256": "8f08348cf4b9d2f24f72c7a67a4e3d324d6848d621b49e7aa002109472ecda5e"
+    },
+    {
+      "path": "Tools/Tests/Python/test_rfc_register.py",
+      "size": 33380,
+      "sha256": "7cc6c17491ea9eacc99071def28e5f92c546af2d5fa4023c8f30f6e5d5bd1161"
     },
     {
       "path": "Tools/Tests/VoxeliaRepositoryToolTests/RepositoryToolTests.swift",
@@ -1611,8 +1621,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 296153,
-      "sha256": "8cb2657183bc9493259b73d29cea508612f3d14a46dc0c5e2ef233ad82b14aef"
+      "size": 300154,
+      "sha256": "6dbae1195181c706e15c74b459e0dff5d9753d9640b425bb15706fb84a87cf49"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1901,18 +1911,18 @@
     },
     {
       "path": "docs/rfcs/README.md",
-      "size": 591,
-      "sha256": "26cc7bceca7990a8fd210ae923f582b97784dbbc87897fef6cdabc97a1600139"
+      "size": 1068,
+      "sha256": "1e6c88cd066b5675d0545e645637276bceb87c7b1c04715f4c9658ebe78d4b75"
     },
     {
       "path": "docs/rfcs/RFC-0001-controlled-correction-delta.md",
-      "size": 36496,
-      "sha256": "8ecbfc23bf606cccc4a669d4abc6aaf3d39e419e439e727d7eabcecaf103fb10"
+      "size": 36733,
+      "sha256": "437a80c2660eea85f72fcd33b3240e84f99ad5eedfdaa13d673d56a8f3b60045"
     },
     {
       "path": "docs/rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md",
-      "size": 62622,
-      "sha256": "001ef9cec3a6fcd7ca279fd8c5f5b44e338d44312a921ee66c6346d2604a0ee7"
+      "size": 62812,
+      "sha256": "466507b40912b48ecc3b36edffb00870e45c0fa0bbb9d33c8318909add9f09ac"
     },
     {
       "path": "docs/security/README.md",
@@ -1941,8 +1951,8 @@
     },
     {
       "path": "docs/templates/RFC-Template.md",
-      "size": 460,
-      "sha256": "1defe61a49788e9059a8e23387a335396559ef441ba31abe9957ae1d4938f8ef"
+      "size": 520,
+      "sha256": "a86ea27d934117252bab458f4e5a4a018462354f9abc61ad7a19173dbb965a05"
     },
     {
       "path": "docs/templates/Shader-Specification-Template.md",
@@ -1961,8 +1971,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 18325,
-      "sha256": "473640e4c3b8a2f27c8182192fd44b799e7345f2e0ed683d88aee423eb67c189"
+      "size": 18401,
+      "sha256": "51820f4a9c00846f9f2182f39eb72830c83fc4840504725fd9f0f6017a1471fe"
     }
   ]
 }

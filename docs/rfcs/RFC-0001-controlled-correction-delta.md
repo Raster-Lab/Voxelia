@@ -13,6 +13,14 @@ parent_rfc: "RFC-0001"
 baseline_revision_set: "0.1.1"
 proposed_revision_set: "0.1.2"
 authority: "Non-authoritative proposal"
+composed_adrs:
+  - "ADR-0039"
+  - "ADR-0040"
+  - "ADR-0041"
+supplemental_affected_requirements:
+  - "VOX-DOC-008"
+  - "VOX-DOC-009"
+  - "VOX-DOC-010"
 affected_requirements:
   - "VOX-GOV-003"
   - "VOX-GOV-005"
@@ -788,9 +796,10 @@ rerun for this Draft.
    owners only.
 4. Decide final public names, wires, production ceilings, builder contract and
    verifier/policy authority in their separate gated artefacts.
-5. Extend documentation governance so `docs/rfcs/` companion metadata/register
-   consistency and ownership are automatically checked. Current checks cover
-   text and the primary RFC table but not this companion schema.
+5. Retain named `docs/rfcs/` ownership and signatory enforcement as an external
+   governance gap. The repository validator now checks companion metadata,
+   parent/register links, allocation and correction-ID consistency, but a
+   structural pass does not establish reviewer identity or approval authority.
 
 ## References
 

@@ -16,6 +16,13 @@ Validate file-backed ADR metadata and identifier consistency:
 python3 Tools/Scripts/check_adr_register.py
 ```
 
+Validate RFC metadata, the primary register, correction companions and exact
+crosswalks without conferring approval authority:
+
+```bash
+python3 Tools/Scripts/check_rfc_register.py
+```
+
 Generate the release SBOM profile, including source revision, products,
 targets, licences, checksums, toolchain identity, bundled resources and
 dependency classification:

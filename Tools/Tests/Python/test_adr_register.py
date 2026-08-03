@@ -132,7 +132,14 @@ class ADRRegisterTests(unittest.TestCase):
         )
 
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("passed for 10 records", result.stdout)
+        expected_count = len(
+            [
+                path
+                for path in (ROOT / "docs/architecture/decisions").glob("*.md")
+                if path.name != "README.md"
+            ]
+        )
+        self.assertIn(f"passed for {expected_count} records", result.stdout)
 
     def test_rejects_missing_and_empty_required_fields(self) -> None:
         base = adr_text()

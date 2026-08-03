@@ -3,6 +3,7 @@ document_id: "RFC-0000"
 title: "Proposal title"
 status: "Draft"
 date: "YYYY-MM-DD"
+authority: "Non-authoritative proposal"
 authors:
   - "..."
 affected_requirements:
@@ -10,6 +11,8 @@ affected_requirements:
 ---
 
 # RFC-0000 - Proposal title
+
+## Decision status
 
 ## Summary
 

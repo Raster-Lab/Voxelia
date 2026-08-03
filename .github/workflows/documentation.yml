@@ -14,6 +14,7 @@ on:
       - 'Tools/Scripts/check_docc_archives.py'
       - 'Tools/Scripts/check_document_text.py'
       - 'Tools/Scripts/check_front_matter.py'
+      - 'Tools/Scripts/check_rfc_register.py'
       - 'Tools/Scripts/generate_requirement_index.py'
       - 'Tools/Scripts/validate-docs.sh'
       - 'README.md'
