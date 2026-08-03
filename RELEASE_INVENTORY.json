@@ -1456,8 +1456,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0028-canonical-instant-boundary.md",
-      "size": 20994,
-      "sha256": "5added729fd36b386d06cc0c7c30c2459a6bef13f156c36e83f578ce2cd891ff"
+      "size": 21413,
+      "sha256": "085be0713e099e4d5e4e8973e20d0d38cabf398a59bdae8ef06d2eef659bb108"
     },
     {
       "path": "docs/architecture/decisions/ADR-0029-finite-floating-point-metadata-boundary.md",
@@ -1496,18 +1496,23 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md",
-      "size": 41771,
-      "sha256": "49c0c5ffd02b60bb1a288252bdaf0997527f078544421e95d06491cfdda1736c"
+      "size": 42197,
+      "sha256": "0cc374d73206242fd710db26985f4edab5a2ffd7c29de5e590c8c889f2e414d1"
     },
     {
       "path": "docs/architecture/decisions/ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md",
-      "size": 36451,
-      "sha256": "95921c363cc48ada46dc1e30f672714956673045603701d1324a3981e39e4765"
+      "size": 36805,
+      "sha256": "9bfbb241f7f47ebecaf64d300b5f06fe91b4ddda5286e3175cb3e12c63c8d7b6"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0038-closed-provenance-record-and-graph-admission-boundary.md",
+      "size": 50873,
+      "sha256": "43b9d79c5f0b7a4db4651fbe5bb8998494b6b73f50948bd4746ca1f648a05eea"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 3777,
-      "sha256": "97610378d765b00b6b7cba08ef53754080c368b1eb9ebe9fe60557e02d064cc3"
+      "size": 4012,
+      "sha256": "b93bd2a87cd0aea60b8ec566da7500011b5a9e1181d03bc548ea0a67d2a93b6c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1591,8 +1596,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 238622,
-      "sha256": "4d88585476eb73b6ee13d0bad27ab266f0c69dd9f54aeb1031752830deda62ba"
+      "size": 253304,
+      "sha256": "f95a43219dc1b39e097706c10a0d1386565ed4b037cebd6735c6c49fccbdb8b6"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1628,6 +1633,11 @@
       "path": "docs/progress/evidence/ADR-0037-data-identity-cache-admission-probe.swift",
       "size": 47583,
       "sha256": "ce10ee6746f6ef9438ee54ca7093534db0c478b461292e3c93b95b4778f7013a"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0038-provenance-record-graph-admission-probe.swift",
+      "size": 128113,
+      "sha256": "08dae61a3478d0f091f5e0e750b84188f4260a2dcd09d747210b429b64bf8d97"
     },
     {
       "path": "docs/project/README.md",
@@ -1911,8 +1921,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 17499,
-      "sha256": "f29b43e309bf573a2741a278af727162b4b41997a7de9d09eba775de5f1f6221"
+      "size": 17671,
+      "sha256": "215d8ed70dce4266fc8aa08fbf57bd2f4d3616365f9f1fba4286d90cf2ff2dba"
     }
   ]
 }

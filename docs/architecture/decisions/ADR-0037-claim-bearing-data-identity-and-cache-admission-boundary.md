@@ -445,12 +445,15 @@ interchangeable.
 ### Provenance, integrity and security boundaries
 
 A provenance record preserves claims and how work was asserted to occur. Its
-presence does not verify the claim or grant cache admission. This ADR does not
-select the undefined `ProvenanceReference`, input-role record or graph builder.
-Their later audit must avoid recursive value embedding, preserve explicit
-operation roles and place cycle/resource checks in the owning graph builder;
-the logical `DataIdentityReference` target here is not silent authority to
-implement those provenance contracts.
+presence does not verify the claim or grant cache admission. Proposed
+`ADR-0038` supplies the downstream conceptual boundary: an explicit subject,
+closed origin-or-operation activity, role/occurrence-bearing data inputs,
+non-recursive parent references, bounded transactional graph admission,
+separate runtime assurance and atomic Execution publication. It remains
+Proposed and intentionally leaves the exact `ProvenanceReference`, role,
+record projection, warning, validation-evidence and execution-claim types
+source-blocked. The logical `DataIdentityReference` target here is not silent
+authority to implement those provenance contracts.
 
 Storage checksum verification, canonical logical-content verification,
 authenticated source attestation, diagnostic validation and signature
@@ -713,6 +716,7 @@ claim-versus-assurance separation.
 ## References
 
 - [ADR-0036 - Domain-separated complete canonical metadata record identity](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md)
+- [ADR-0038 - Closed provenance record and graph admission boundary](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md)
 - [Core Data Model Specification sections 5.7-5.8, 32-33, 47-48, 57 and 59](../../project/Voxelia_Core_Data_Model_Specification_v0.1.1.md)
 - [Master Technical Architecture sections 11.3, 15.6, 19.4, 19.8, 20.5 and 21.3-21.5](../../project/Voxelia_Master_Technical_Architecture_v0.1.1.md)
 - [Requirements Baseline `VOX-RGN-007`-`009`, `VOX-CON-007` and `VOX-CCH-004`-`008`](../../project/Voxelia_Requirements_Baseline_v0.1.1.md)

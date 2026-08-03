@@ -227,6 +227,11 @@ Those corrections make the same invalid states unrepresentable at both public
 boundaries. They do not independently authorise `MetadataValue` or
 `ProvenanceRecord`, which retain their separate blockers.
 
+Proposed `ADR-0038` records the downstream provenance blocker explicitly: a
+canonical creation instant is only one claim field in a subject-bound, closed
+activity record. It supplies no operation/execution completeness, graph
+admission, evidence assurance or publication authority.
+
 ## Alternatives considered
 
 ### Retain unrestricted String payloads
@@ -435,6 +440,7 @@ effect.
 - [Voxelia Core Data Model Specification v0.1.1, sections 7.3, 7.7, 34, 36, 55, 64, 72 and Appendix A](../../project/Voxelia_Core_Data_Model_Specification_v0.1.1.md)
 - [Voxelia Master Technical Architecture v0.1.1, sections 8, 9, 12 and 31](../../project/Voxelia_Master_Technical_Architecture_v0.1.1.md)
 - [Voxelia Requirements Baseline v0.1.1, sections 6.5 through 6.7, 6.10, 6.29, 6.34, 6.35, 6.39 and 6.40](../../project/Voxelia_Requirements_Baseline_v0.1.1.md)
+- [ADR-0038 - Closed provenance record and graph admission boundary](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md)
 - [RFC 3339 - Date and Time on the Internet: Timestamps](https://www.rfc-editor.org/rfc/rfc3339.html)
 - [RFC 5234 - Augmented BNF for Syntax Specifications](https://www.rfc-editor.org/rfc/rfc5234.html)
 - [RFC 9557 - Date and Time on the Internet: Timestamps with Additional Information](https://www.rfc-editor.org/rfc/rfc9557.html)

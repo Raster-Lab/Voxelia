@@ -123,6 +123,11 @@ source, derivation and data identity. A structurally valid or decoded
 verification over one pinned immutable snapshot supplies assurance; the value
 never becomes cache authority by presence alone.
 
+Proposed `ADR-0038` applies the same separation to provenance records and graph
+references. This ADR registers no provenance-record projection. Its VCMJ
+metadata tuple cannot bind a parent provenance record, graph manifest or signed
+statement, and must not be reused across those domains.
+
 ## Decision
 
 If `ADR-0028` through `ADR-0036` are accepted and the public API receives the
@@ -827,6 +832,7 @@ decisions.
 - [ADR-0033 - Ordered metadata collection and explicit multiplicity policy](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md)
 - [ADR-0035 - Versioned canonical metadata JSON and raw ingress boundary](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md)
 - [ADR-0037 - Claim-bearing data identity and cache-admission boundary](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md)
+- [ADR-0038 - Closed provenance record and graph admission boundary](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md)
 - [ADR-0036 complete-record identity probe](../../progress/evidence/ADR-0036-metadata-complete-record-identity-probe.swift)
 - [NIST FIPS 180-4 - Secure Hash Standard](https://doi.org/10.6028/NIST.FIPS.180-4)
 - [NIST Cryptographic Algorithm Validation Program - Secure Hashing](https://csrc.nist.gov/projects/cryptographic-algorithm-validation-program/secure-hashing)

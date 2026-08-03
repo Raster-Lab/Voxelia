@@ -144,6 +144,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   from complete Execution result-cache keys. The proposal defines no image or
   parameter digest projection, trust Boolean, intrinsic cache authority by
   value presence, signature or export permission and authorises no source.
+- Proposed `ADR-0038` selects the downstream closed provenance boundary: one
+  exact subject, source-origin or complete operation-plus-execution activity,
+  ordered role/occurrence-bearing data inputs, explicit flat local/external
+  parent tags, complete-versus-compact graph states, iterative bounded
+  transactional graph admission, claim/evidence separation, privacy-redacted
+  diagnostics and one Execution-owned atomic output/identity/provenance/cache
+  publication point. It reconciles Core claim-value ownership with the live
+  dependency graph, defers Rendering-owned typed extensions and authorises no
+  product source while time, identity, record-projection, persistent ID,
+  execution-claim, warning, validation and resource-limit contracts remain
+  Proposed or undefined.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -210,7 +221,7 @@ binding:
 |---|---|---|
 | `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0032` select validated leaves, a bounded recursive value and a required classified entry; Proposed `ADR-0033` selects ordered storage/configured multiplicity/aggregate limits, `ADR-0034` selects closed exact-case typed reads, `ADR-0035` selects the generic versioned canonical envelope/raw ingress and `ADR-0036` selects exact complete-record identity. None is accepted. Schema trust/resolution, custom conversion, semantic collection identity and production ceiling/parser evidence remain open. |
 | `DataIdentity` | Proposed-dependent and contract-blocked | Proposed `ADR-0036` supplies a corrected scope/projection-bearing `ContentID` and one exact metadata-record profile. Proposed `ADR-0037` closes the claim-state lattice, duplicate/order rules, non-recursive reference target, assurance separation, lazy publication and cache-admission boundary. Both are unaccepted; exact source/operation identifiers, `DataObjectID` persistent identity, parameter/derivation/image projections, reference wire/limits, enrichment lifecycle and the complete derivation/cache-key split still block source. |
-| `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf but is not accepted. References, warning severity, validation state and graph invariants remain incomplete, and several paths depend on `ContentID`. Core-owned execution provenance also names unresolved execution-related types that, if Execution-owned, Core cannot import through the live `Execution -> Storage -> Core` graph. |
+| `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf; Proposed `ADR-0036`/`ADR-0037` supply downstream identity-claim dependencies; and Proposed `ADR-0038` closes subject/activity/input state, Core-versus-Execution ownership, flat references, graph admission, evidence, diagnostics and publication conceptually. None is accepted. Exact persistent IDs, parameter/provenance projections, execution claim types, warnings, validation references, hard limits and canonical wires remain undefined, so no aggregate is authorised. |
 | `AnyImageStorage` | Architecture- and contract-blocked | MTA assigns protocols/type erasure to Core while CDMS assigns them to Storage and RPSS fixes the live `Storage -> Core` edge. Storage descriptors, capabilities, base/destination protocols and type erasure remain absent, with bit/Codable semantics, buffer lifetime, cancellation/failure and unchecked-Sendable review unresolved. |
 | `ImageData` | Transitively blocked | Its exact five-field shape is consistent, but construction still needs storage descriptor/shape/scalar/component/byte-order compatibility, geometry/axis compatibility, identity completeness, provenance/source consistency, metadata uniqueness and the Core/Storage ownership decision. |
 
@@ -905,6 +916,84 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
 `VOX-ERR-003`, `VOX-ERR-007`, `VOX-SEC-006`, `VOX-SEC-011`,
 `VOX-VAL-007` and `VOX-VAL-011`.
 
+## M1 provenance record and graph-admission authority audit
+
+The controlled provenance sketch is not an implementable aggregate. It places
+independent optional operation and execution values beside an undefined
+`ProvenanceReference`, undefined execution-profile/backend/approximation and
+warning-severity types, unrestricted warning/evidence/deprecation strings and
+an unbounded raw creation-time string. It does not bind the record to its
+output data identity or state how input identity, role and parent topology
+relate.
+
+The architecture assigns immutable provenance values to Core while assigning
+execution provenance and assembly to Execution. The live graph is
+`Execution -> Storage -> Core -> Spatial`; Core importing live Execution,
+Storage or Validation types would create a cycle. Three independent read-only
+audits converged on the same ownership split and confirmed that no product
+aggregate or undefined leaf is safely authorised.
+
+Proposed `ADR-0038` records the conservative closure:
+
+| Area | Proposed boundary | Deferred or owning work |
+|---|---|---|
+| Ownership | Core owns immutable backend-neutral claim values and pure bounded validation; Execution owns live capture, assembly, cancellation/generation and atomic publication; Storage owns persistence/resolution/integrity; Validation/host own evidence, trust and policy. | No package edge changes. Core-neutral profile/backend/precision/quality/capability/kernel/approximation claims need accepted exact shapes before source. |
+| Subject and activity | Every record binds one exact output `DataIdentityReference`. `.source` is an origin with no operation/execution/input; every other current kind requires one complete operation-plus-execution claim and at least one input. Partial operation/execution combinations are invalid. | Zero-input generators need an explicit registered contract. Kind semantics, source/output reference wire and all upstream identity dependencies remain Proposed. |
+| Inputs | An ordered input carries a unique `(role, occurrence)`, exact data-identity reference and optional parent record. The same input/parent may occupy distinct slots; no sorting, inference or silent deduplication occurs. | Operation-owned role grammar/limits and exact `DataIdentityReference` are unresolved. A resolved parent's subject must match its exact input identity under an explicitly selected comparison profile. |
+| References | Parent cases are explicitly tagged and non-recursive: a same-snapshot graph-node ID or an external ID plus exact provenance-record content claim. Repeated unresolved external IDs must agree on both content and expected subject. Complete provenance is a flat node table, never recursive record embedding. | Current `ProvenanceID` lacks bounded exact-byte persistent semantics. No canonical provenance-record projection or strict tagged wire exists; `ADR-0036`'s metadata projection is not reusable. |
+| Graph admission | Complete mode rejects every missing parent. Compact mode may retain bounded unresolved external references but cannot claim global acyclicity; their separate cap counts input-edge occurrences, while zero explicitly disables them. Iterative visit-once validation rejects duplicate/conflicting IDs, duplicate slots, self/two-/multi-node cycles, mismatched parent content/subject, unrelated nodes outside the exact root closure and node/edge/depth/byte overflow transactionally. Replacement also checks a bounded retained ID registry and rejects changed exact values even after an ID leaves the current root closure. Its immutable owner-selected lifetime cap is separate from per-snapshot limits; exhaustion publishes nothing and evicts nothing. | Production hard ceilings require hostile-input, cancellation, allocation and lowest-resource supported-device evidence. External resolution uses a pinned owner snapshot and reruns admission before replacement while retaining its resolver revision. Durable retention/deletion semantics remain Storage/governance work. |
+| Exact identity | Exact record comparison includes every stored field, order, warning occurrence and all five semantic-version fields. Node ID, canonical record content ID, recipe/derivation identity and graph evidence remain distinct. | Live `SemanticVersion ==` ignores build metadata while coding preserves it, so future records need exact comparison or an exact version-record type. Canonical record/manifest envelopes remain M9 work. |
+| Warnings | Future portable warnings use bounded namespaced machine codes, a closed interpretation severity, explicit occurrence/affected input, typed classified arguments and deterministic order. Exact duplicate structured warning keys fail. Fatal conditions are typed failures. | `WarningSeverity` is undefined. Arbitrary `message` text is not authorised in portable Core provenance; host-rendered/classified detail needs a separate contract. |
+| Validation | Decoded validation cases remain claims. Runtime assurance separately binds evidence/content, operation/implementation, parameters, profile/backend/precision, capability/shader, release, policy, expiry and revocation. Deprecation is an independent lifecycle axis. | Evidence and lifecycle references, trust, revocation and exact wire remain undefined. `deprecated(reason:)` and arbitrary `evidenceID` strings are source-blocked. |
+| Privacy/security | Provenance and its IDs/digests are sensitive-derived. Core errors/descriptions are payload-free and redacted; Core emits no logs/telemetry. Signed manifests remain a separate host-trust contract and signatures prove only signer-controlled bytes. | Host owns storage/log/export/cross-tenant policy, retrieval, credentials, keys, trust anchors and authorisation. Rendering and photorealistic provenance need typed content-addressed extensions owned by their downstream modules, not Core dependencies or untyped blobs. |
+| Publication | Execution stages output, exact identity, admitted provenance root/graph, separately authorised assurance and cache alias, then commits once after final success/cancellation/generation/snapshot/subject checks. This single-output contract requires exactly one graph root. Verified output-identity evidence and owner-held assurance/cache contexts bind the exact record value, admitted graph, purpose, output and policy. Every failure path publishes nothing. | Storage must not invent execution claims. Failure/attempt audit events are separate host records; cache hits require independent owner evidence for the stored exact output/identity/graph and read policy. Multi-output publication needs an explicit output-to-root map. |
+
+The focused strict Swift 6 probe uses deliberately small non-production limits.
+It covers the closed input/operation/execution lattice, denial of every
+currently undeclared zero-input generator, hard-capped limits, exact UTF-8
+identity and build-metadata-sensitive record
+equality, subject/activity/kind completeness, role order, duplicate slots and
+warnings, explicit local/external tags, repeated-external content/subject
+consistency, parent content/subject binding, complete versus compact graphs,
+exact root closure, duplicate/conflicting IDs, disconnected cycle detection,
+depth/node/edge/byte/checked-overflow limits, visit-once diamond behavior and
+transactional graph replacement under current or historical ID conflict,
+lifetime-history exhaustion, cycle, cancellation and a pinned resolver
+revision.
+
+It also proves that a serialised diagnostic-ready claim remains unassured until
+matched exact-record evidence is supplied, that validation and deprecation can
+coexist as independent axes, that optional attached assurance is still checked
+against an owner-held purpose context, and that cache publication/read paths
+require bound owner evidence. Cancellation, failure, target removal, stale
+generation/resolver/snapshot, output-identity mismatch, missing, cross-purpose
+or changed-record assurance, an unmapped extra graph root, changed-graph or
+cross-policy cache evidence, unauthorised cache publication and duplicate
+completion leave the entire output/provenance/cache state unchanged. Sensitive
+sentinel values do not appear in value/error descriptions, reflection or
+`dump` output.
+
+This is isolated evidence only. It is not product API, a canonical parser or
+emitter, cryptography, a resolver/store, a signature system, a validation
+package or production limit/device proof. Proposed `ADR-0028`, `ADR-0036`,
+`ADR-0037` and `ADR-0038`, controlled corrections, the public RFC, exact
+identifier/reference/projection/execution/warning/evidence decisions and
+maintainer reviews remain mandatory. No provenance aggregate, graph builder or
+publication integration is authorised.
+
+Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
+`VOX-GOV-009`, `VOX-GOV-010`, `VOX-ARC-001`, `VOX-ARC-003`,
+`VOX-ARC-004`, `VOX-ARC-005`, `VOX-API-001`, `VOX-API-003`,
+`VOX-API-004`, `VOX-API-010`, `VOX-DAT-014`, `VOX-RGN-007`,
+`VOX-RGN-008`, `VOX-META-003` through `VOX-META-011`,
+`VOX-EXE-002` through `VOX-EXE-004`, `VOX-EXE-006`, `VOX-EXE-007`,
+`VOX-EXE-009`, `VOX-EXE-011` through `VOX-EXE-016`, `VOX-CON-001`, `VOX-CON-006`,
+`VOX-CON-007`, `VOX-CCH-004`, `VOX-CCH-005`, `VOX-CCH-007`,
+`VOX-CCH-008`, `VOX-ERR-001` through `VOX-ERR-003`, `VOX-ERR-005`,
+`VOX-ERR-007`, `VOX-SEC-006`, `VOX-SEC-010`, `VOX-SEC-011`,
+`VOX-VAL-007`, `VOX-VAL-010`, `VOX-VAL-011`, `VOX-VAL-016`,
+`VOX-REL-005`, `VOX-PER-007`, `VOX-VS1-017` and `VOX-VS1-019`.
+
 ## Completed in this increment
 
 - Established the long-running Codex completion goal.
@@ -1514,16 +1603,37 @@ Primary traceability is `VOX-GOV-003`, `VOX-GOV-005`, `VOX-GOV-006`,
   assurance, exact execution-key-bound derivation evidence, every required key
   discriminator, and zero-publication cancellation/failure/existing-claim-
   mismatch/stale-generation paths without adding product source.
+- Audited the Core-owned provenance record and graph boundary across the MTA,
+  CDMS, requirements, vertical-slice plan, package topology and live Core
+  leaves. Three independent read-only reviews covered ownership/authority,
+  closed record/reference/equality shape, and security/privacy/concurrency;
+  all confirmed that product source remains blocked.
+- Added proposed `ADR-0038` with explicit subject binding, a closed
+  source-origin or complete operation-plus-execution activity, ordered
+  role/occurrence-bearing input identities, flat tagged parent references,
+  complete-versus-compact graph authority and bounded iterative transactional
+  admission without adding a prohibited Core dependency.
+- Separated record, graph and validation claims from runtime evidence;
+  separated deprecation lifecycle from validation; excluded free warning text
+  and sensitive diagnostics by default; deferred signed manifests and typed
+  `VoxeliaRendering`/`VoxeliaPhotorealisticRendering` extensions; and assigned
+  one atomic output/identity/provenance/cache publication point to Execution.
+- Added a focused strict Swift 6 actor-safe evidence probe covering structural
+  completeness, exact identity, role/warning duplicates, local/external
+  reference tags, subject/content mismatches, unresolved graphs, cycles,
+  resource ceilings, evidence denial, transactional replacement, cache-hit
+  revalidation, redacted diagnostics and every modeled no-publication fault.
+  No product source or package topology changed.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 383-entry manifest covers every releasable file except its
+- The current 385-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
 - Final release-integrity regeneration and read-only verification passed with
-  382 inventory records and 383 checksums for this increment.
+  384 inventory records and 385 checksums for this increment.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -3004,7 +3114,7 @@ xcrun swiftc -swift-version 6 -strict-concurrency=complete \
 .build/evidence/adr0037-probe
 ```
 
-The final narrow gate for this documentation-only proposal is:
+The final narrow gate for that documentation-only proposal was:
 
 ```bash
 xcrun swift-format lint --strict \
@@ -3015,6 +3125,44 @@ xcrun swiftc -swift-version 6 -strict-concurrency=complete \
   -o .build/evidence/adr0037-probe
 .build/evidence/adr0037-probe
 Tools/Scripts/validate-docs.sh
+git diff --check
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_release_integrity.py
+```
+
+For proposed `ADR-0038`, the isolated strict Swift 6 evidence is stored in
+`docs/progress/evidence/ADR-0038-provenance-record-graph-admission-probe.swift`.
+It models exact claim values, a closed record state, flat graph references,
+bounded iterative admission, runtime assurance and actor-isolated atomic
+publication only. It is not product API, canonical coding, cryptography, a
+resolver/store, a signature system, a validation package or production limits.
+The focused probe command exits successfully and emits no output:
+
+```bash
+mkdir -p .build/evidence
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0038-provenance-record-graph-admission-probe.swift
+xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors -parse-as-library \
+  docs/progress/evidence/ADR-0038-provenance-record-graph-admission-probe.swift \
+  -o .build/evidence/adr0038-probe
+.build/evidence/adr0038-probe
+```
+
+The final narrow gate for this documentation-only proposal is:
+
+```bash
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0038-provenance-record-graph-admission-probe.swift
+xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -warnings-as-errors -parse-as-library \
+  docs/progress/evidence/ADR-0038-provenance-record-graph-admission-probe.swift \
+  -o .build/evidence/adr0038-probe
+.build/evidence/adr0038-probe
+Tools/Scripts/validate-docs.sh
+python3 Tools/Scripts/check_package_graph_static.py
+python3 Tools/Scripts/check_prohibited_imports.py
 git diff --check
 python3 Tools/Scripts/check_manifest_paths.py
 python3 Tools/Scripts/check_release_integrity.py --write
@@ -3271,9 +3419,11 @@ surface.
   resolution require an explicit resolver or ADR.
 - Provenance records, software/operation/execution details, warnings and graph
   references remain blocked by undefined types, identifiers, `ContentID`,
-  validation-state schema and graph invariants. Proposed `ADR-0028` supplies the
-  `createdAt` policy only if accepted; `ProvenanceKind` does not imply that
-  records exist or are verified.
+  validation-state schema and canonical projections. Proposed `ADR-0028`
+  supplies the `createdAt` policy only if accepted, while Proposed `ADR-0038`
+  closes subject/activity/input state, ownership, graph admission, claim versus
+  evidence, privacy and publication conceptually. Neither authorises source;
+  `ProvenanceKind` does not imply that records exist or are verified.
 - Execution quality profiles have four required behavioral categories, but the
   documents provide no normative declaration and alternate between undefined
   `ExecutionProfile` and `ExecutionProfileDescriptor` names with unresolved
@@ -3435,15 +3585,25 @@ surface.
   pinned snapshot and policy context. Its logical reference cases include an
   undefined `DerivationRecordID`, so the displayed target is review material
   rather than an implementable enum.
+- Proposed `ADR-0038` does not authorise provenance records, parent/input
+  references, graph containers/builders, execution snapshots, warning or
+  validation types, canonical record/manifest wire, provenance digest,
+  resolver, signed manifest, assurance bridge, cache integration or atomic
+  publication source. Its probe limits and content claims are deliberately
+  non-production. Acceptance still requires upstream ADRs, the public RFC,
+  controlled corrections, exact persistent identifiers/projections, hostile-
+  input/device/cancellation evidence and designated reviews.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
   and RPSS fixes the live `Storage -> Core` package edge; Core cannot import a
   Storage-owned `AnyImageStorage` without a cycle.
 - Core-owned execution provenance names unresolved execution-profile, backend
-  and approximation types. If they remain Execution-owned, the live
-  `Execution -> Storage -> Core` graph likewise prevents Core from importing
-  them; this boundary is separate from the storage decision.
+  and approximation types. Proposed `ADR-0038` reconciles ownership by keeping
+  only future backend-neutral immutable claim snapshots in Core and assigning
+  live capture/assembly to Execution, but exact snapshot types remain undefined
+  and the proposal is unaccepted. Core still cannot import Execution through
+  the live `Execution -> Storage -> Core` graph.
 - Proposed `ADR-0026` does not authorise the ray/bounds operation until
   accepted. Its binary64-v1 result classifies the specified rounded model, not
   arbitrary exact-rational geometry; a versioned algorithm specification and
@@ -3455,28 +3615,30 @@ surface.
 
 ## Exact next action
 
-Audit the Core-owned provenance record and graph-reference boundary downstream
-of proposed `ADR-0028`, `ADR-0036` and `ADR-0037`. Reconcile Core ownership of
-provenance values with the live dependency graph and the controlled sketches'
-undefined `ProvenanceReference`, `ExecutionProfileDescriptor`,
-`BackendDescriptor`, `ApproximationStatus`, warning severity, validation and
-integrity types. Define or explicitly defer exact record completeness,
-non-recursive references, ordered roles, DAG/cycle/resource invariants,
-claim-versus-evidence semantics, privacy-safe diagnostics and atomic
-publication without importing Execution-owned behavior into Core. Keep
-source/data identity claims distinct from verification and do not add
-provenance aggregate source while prerequisite ADRs or ownership contracts
-remain Proposed or undefined.
+Audit the M1 storage-capability and storage-descriptor boundary before any
+storage protocol or type-erasure implementation. Reconcile the MTA assignment
+of protocols/type erasure to Core with the CDMS/RPSS/live `Storage -> Core`
+ownership, and reconcile the conflicting capability flag vocabularies. Define
+or explicitly defer exact stable bit positions and wire, unknown/reserved-bit
+handling, capability implications, sequential/region-read behavior, writable
+builder semantics, residency, byte order/layout, shape/scalar/component
+binding, integrity/content-digest claims, limits and privacy-safe errors. Keep
+representation integrity distinct from logical content assurance and do not
+add `StorageCapabilities`, `StorageDescriptor`, protocols or erasure source
+while ownership, flags, descriptor dependencies or unchecked-Sendable/lifetime
+contracts remain inconsistent.
 
 ## Test policy for the next action
 
-- For a provenance audit or documentation-only proposal, run only a focused
-  closed-record/graph probe covering missing required claims, explicit
-  non-recursive reference tags, ordered roles, duplicate/self/cycle/depth/count
-  rejection, exact record versus verified-evidence separation, atomic
-  publication and redacted failures, plus document/ADR, manifest and release-
-  integrity checks. If an independently safe leaf becomes authorised, run only
-  its focused construction, Codable, equality, ownership and directly affected
+- For a storage capability/descriptor audit or documentation-only proposal,
+  run only a focused closed-flags/descriptor probe covering exact known and
+  unknown bits, contradictory capability combinations, checked shape/stride/
+  byte counts, byte order and layout, region/sequential access implications,
+  representation-integrity claim versus verified evidence, transactional
+  builder publication, lifetime/Sendable boundary fixtures and redacted
+  failures, plus document/ADR, manifest and release-integrity checks. If an
+  independently safe leaf becomes authorised, run only its focused
+  construction, Codable, equality, bit/wire, ownership and directly affected
   dependent tests plus the owning target build and strict format lint.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.

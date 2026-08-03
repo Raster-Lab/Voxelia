@@ -21,8 +21,9 @@ proposal. `ADR-0034` is allocated to the closed exact-case typed metadata-read
 proposal. `ADR-0035` is allocated to the versioned canonical metadata JSON and
 raw-ingress proposal. `ADR-0036` is allocated to the domain-separated complete
 canonical metadata record-identity proposal. `ADR-0037` is allocated to the
-claim-bearing data-identity and cache-admission proposal. The next unallocated
-numeric identifier is `ADR-0038`.
+claim-bearing data-identity and cache-admission proposal. `ADR-0038` is
+allocated to the closed provenance-record and graph-admission proposal. The
+next unallocated numeric identifier is `ADR-0039`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -43,3 +44,4 @@ numeric identifier is `ADR-0038`.
 | [ADR-0035](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md) | Proposed | Versioned canonical metadata JSON and raw ingress boundary |
 | [ADR-0036](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md) | Proposed | Domain-separated complete canonical metadata record identity |
 | [ADR-0037](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md) | Proposed | Claim-bearing data identity and cache-admission boundary |
+| [ADR-0038](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md) | Proposed | Closed provenance record and graph admission boundary |
