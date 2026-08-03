@@ -172,6 +172,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   persistent content assurance separate; and stages a lossless pre-1.0 Core/
   Geometry migration. General component-role, pixel-padding and complete
   `ImageDescriptor` identity remain blocked. The proposal authorises no source.
+- Proposed `ADR-0041` selects an immutable snapshot-bound complete region-read
+  transaction, one synchronous cancellation/invalidation/commit gate,
+  checked-`Sendable` single-witness erasure and synchronous owner-retaining
+  `Data` owner scopes that derive `Data.span`/`Data.bytes` at the use site. It
+  uses a Core-private exact-capacity monotonic fill target, keeps the frozen
+  candidate outside authority state until exact commit, drains cancelled/stale
+  provider work before releasing capacity, transfers a separate live-token
+  byte budget into retained result ownership, safely recycles terminal
+  tombstones, rejects stale/replayed/substituted completions and requires
+  immutable direct mapped snapshots. The proposal explicitly records the
+  Foundation-versus-Requirements mapped-storage milestone conflict and
+  authorises no product source while the RFC, upstream proposals, controlled
+  corrections, production limits, real mapping evidence and designated
+  reviews remain open.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -239,7 +253,7 @@ binding:
 | `MetadataCollection` | Proposed-dependent and contract-blocked | `MetadataValue`, `MetadataEntry` and the collection are absent. Proposed `ADR-0028` through `ADR-0032` select validated leaves, a bounded recursive value and a required classified entry; Proposed `ADR-0033` selects ordered storage/configured multiplicity/aggregate limits, `ADR-0034` selects closed exact-case typed reads, `ADR-0035` selects the generic versioned canonical envelope/raw ingress and `ADR-0036` selects exact complete-record identity. None is accepted. Schema trust/resolution, custom conversion, semantic collection identity and production ceiling/parser evidence remain open. |
 | `DataIdentity` | Proposed-dependent and contract-blocked | Proposed `ADR-0036` supplies a corrected scope/projection-bearing `ContentID` and one exact metadata-record profile. Proposed `ADR-0037` closes the claim-state lattice, duplicate/order rules, non-recursive reference target, assurance separation, lazy publication and cache-admission boundary. Both are unaccepted; exact source/operation identifiers, `DataObjectID` persistent identity, parameter/derivation/image projections, reference wire/limits, enrichment lifecycle and the complete derivation/cache-key split still block source. |
 | `ProvenanceRecord` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0028` selects the `createdAt` leaf; Proposed `ADR-0036`/`ADR-0037` supply downstream identity-claim dependencies; and Proposed `ADR-0038` closes subject/activity/input state, Core-versus-Execution ownership, flat references, graph admission, evidence, diagnostics and publication conceptually. None is accepted. Exact persistent IDs, parameter/provenance projections, execution claim types, warnings, validation references, hard limits and canonical wires remain undefined, so no aggregate is authorised. |
-| `AnyImageStorage` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0039` preserves `Storage -> Core` by assigning backend-neutral descriptors/protocols/erasure to Core and implementations/resources to Storage. Proposed `ADR-0040` separates decoded logical values/component ordinals from source bit interpretation and physical representation. Both are unaccepted; the complete logical descriptor projection, safe destination/lease lifetime, exact erasure, production limits and independent `@unchecked Sendable` gates still block source. |
+| `AnyImageStorage` | Proposed-dependent, architecture- and contract-blocked | Proposed `ADR-0039` preserves `Storage -> Core` by assigning backend-neutral descriptors/protocols/erasure to Core and implementations/resources to Storage. Proposed `ADR-0040` separates decoded logical values/component ordinals from source bit interpretation and physical representation. Proposed `ADR-0041` supplies the complete owned-read transaction, checked erasure and owner-retaining scoped byte-access proposal without permitting `@unchecked Sendable`. All three are unaccepted; the public RFC, complete logical descriptor projection, controlled milestone/ownership corrections, production limits, actual mapping evidence and designated reviews still block source. |
 | `ImageData` | Transitively blocked | Its exact five-field shape is consistent, but construction still needs accepted storage, identity and provenance boundaries, storage/logical descriptor compatibility, geometry/axis compatibility, metadata uniqueness and the Execution/host atomic publication contract. |
 
 Conclusion: no independently implementable public leaf remains inside this
@@ -3473,6 +3487,105 @@ package topology and dependencies did not change, so the focused probe plus
 document, ADR-register, manifest and release-integrity checks are the affected
 surface.
 
+For proposed `ADR-0041`, the isolated strict Swift 6 evidence is stored in
+`docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift` at SHA-256
+`567fd60ea5e4137499126c7949f564da81c6019513c12def229f0d29f525afe7`.
+Twelve focused groups cover the Core-owned authority and exact binding; checked
+single-witness erasure; exact-capacity monotonic fill; prepare/commit and
+first-terminal-wins behavior; short, overlapping, gapped, overrun, failed,
+unsupported and target-allocation outcomes; cancellation and drain-resident
+capacity; current versus bound-snapshot freshness; replay, foreign, abandoned
+and FIFO-recyclable tombstone cases; concurrency and an independent live-budget
+ledger while a committed result outlives its slot; owner retention and
+exactly-once synchronous release; owner-retaining `Data` scopes that derive
+`Span` and `RawSpan`; immutable-only mapped-access policy; and redacted
+diagnostics. The probe uses toy in-memory identities and limits and copies into
+`Data`. It is not product API, a production nonforgeable provider-admission
+factory, actual file or VM mapping, no-copy or unsafe-memory evidence, a real
+allocator/OOM test, OS cancellation-cadence evidence, arbitrary-provider
+allocation control, production limits, a supported-destination matrix, or
+authentication/production-diagnostic validation.
+
+```bash
+mkdir -p .build/evidence
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift
+xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -strict-memory-safety -warnings-as-errors -parse-as-library \
+  docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift \
+  -o .build/evidence/adr0041-probe
+.build/evidence/adr0041-probe
+```
+
+The focused execution reports:
+
+```text
+binding=coreAuthority+descriptor+owner+snapshot+generation exact=true
+transactionGate=pending+prepared+commit+cancel+stale+drain+budget firstTerminalWins=true
+readPublication=complete-owned-only residentBudgetTransfer=true
+fill=exact-capacity+monotonic poisonOnInvalidCoverage=true
+tombstones=FIFO-recyclable liveBudgetLedger=independent
+erasure=single-checked-witness fallback=false
+leases=borrowing-Data+Span+RawSpan mappedPolicy=immutable-only
+ownerRetention=read+lease deinitExactlyOnce=true
+diagnostics=payload+path+identity+seal+address-redacted
+focusedTestGroups=12
+```
+
+Two full-compilation negative configurations prove only that custom methods
+cannot return owner-derived `Span` or `RawSpan`. Both fail with
+`a method cannot return a ~Escapable result`; separate escaping-closure and task
+capture cases remain future acceptance evidence.
+
+```bash
+if xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -strict-memory-safety -warnings-as-errors -parse-as-library -c \
+  -D ADR0041_SPAN_ESCAPE_SHOULD_FAIL \
+  docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift \
+  -o .build/evidence/adr0041-span-negative.o \
+  2>.build/evidence/adr0041-span-negative.stderr; then
+  exit 1
+fi
+rg -F 'a method cannot return a ~Escapable result' \
+  .build/evidence/adr0041-span-negative.stderr
+
+if xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -strict-memory-safety -warnings-as-errors -parse-as-library -c \
+  -D ADR0041_RAW_SPAN_ESCAPE_SHOULD_FAIL \
+  docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift \
+  -o .build/evidence/adr0041-raw-span-negative.o \
+  2>.build/evidence/adr0041-raw-span-negative.stderr; then
+  exit 1
+fi
+rg -F 'a method cannot return a ~Escapable result' \
+  .build/evidence/adr0041-raw-span-negative.stderr
+```
+
+The final narrow gate for this documentation-and-evidence-only proposal is:
+
+```bash
+xcrun swift-format lint --strict \
+  docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift
+xcrun swiftc -swift-version 6 -strict-concurrency=complete \
+  -strict-memory-safety -warnings-as-errors -parse-as-library \
+  docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift \
+  -o .build/evidence/adr0041-probe
+.build/evidence/adr0041-probe
+# Run both negative full-compilation checks shown above.
+Tools/Scripts/validate-docs.sh
+python3 Tools/Scripts/check_package_graph_static.py
+python3 Tools/Scripts/check_prohibited_imports.py
+git diff --check
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_release_integrity.py
+```
+
+No complete Swift package suite is required for this proposal. Product source,
+package topology and dependencies did not change, so the focused positive and
+negative probe configurations plus document, ADR-register, graph, import,
+manifest and release-integrity checks are the affected surface.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -3909,6 +4022,16 @@ surface.
   projections, production limits and cancellation/device evidence, affected
   Core/Geometry tests, supported Apple destination builds and designated API,
   numerical, storage, security and privacy review.
+- Proposed `ADR-0041` does not authorise storage/read/lease/erasure/result
+  source, actual allocation or mapping, unsafe/no-copy access, mutable
+  destinations/builders, `ImageData` publication or `@unchecked Sendable`.
+  Its toy transaction/lifetime probe is review evidence only. Acceptance still
+  requires the public storage/data-model RFC, acceptance of proposed
+  `ADR-0039`/`ADR-0040`, controlled Foundation/MTA/CDMS/RPSS/Requirements and
+  module-overview corrections, a governed resolution of the M1-versus-Phase-5
+  mapping conflict, final API/errors, production resource limits, real
+  allocation/mapping/fault/device evidence and designated API, concurrency,
+  storage, security, privacy and memory-lifetime review.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -3932,30 +4055,26 @@ surface.
 
 ## Exact next action
 
-Audit and propose `ADR-0041` for the M1 immutable snapshot-bound storage read
-transaction, owner-retaining contiguous/mapped byte leases, checked-`Sendable`
-`AnyImageStorage` erasure, cancellation linearisation and deinitialization
-boundary. Define one-shot private staging/publication states, exact strong
-ownership, late-completion and stale-generation denial, synchronous `Span`/
-`RawSpan` access, mapped external-change policy, bounded resources, typed
-redacted failures and focused lifetime/race evidence. Defer builders, remote/
-callback/sequential providers, unsafe/no-copy implementation, identity/
-provenance publication and Metal residency. Do not change product source while
-proposed `ADR-0039`, proposed `ADR-0040`, proposed `ADR-0041` and their
-controlled corrections/reviews remain unaccepted.
+Draft the public storage/data-model RFC that composes proposed `ADR-0039`,
+`ADR-0040` and `ADR-0041` without treating any proposal as accepted. Reconcile
+Core-owned backend-neutral contracts/erasure with Storage-owned providers,
+carry the normalized logical/representation split and safe complete-read/
+lifetime boundary, inventory every controlled Foundation/MTA/CDMS/RPSS/
+Requirements/FVSP/module-overview correction, and present the M1-versus-
+Phase-5 mapped-storage conflict for governed resolution. Keep final API names,
+production limits and concrete unsafe/mapping implementation explicitly gated.
+Do not change product source, accept an ADR, or claim formal approval.
 
 ## Test policy for the next action
 
-- For the destination/lease/erasure lifetime audit or documentation-only
-  proposal, run only a focused strict Swift probe covering owner retention for
-  the complete scope, non-escaping contiguous/mapped access, provider-instance/
-  snapshot/generation binding, one-shot destination state, exact success/
-  failure/cancellation/stale/deinit publication behavior, actor isolation,
-  erased dispatch and payload-free failures, plus document/ADR, package-graph/
-  import, manifest and release-integrity checks. If an independently safe leaf
-  becomes authorised, run only its focused construction, equality, capability/
-  availability and directly affected dependent tests plus the owning target
-  build and strict format lint.
+- For the public storage/data-model RFC, run documentation/front-matter/link,
+  ADR-register, controlled-ownership/package-graph/import, manifest and
+  release-integrity checks only. Re-run the ADR-0039 through ADR-0041 focused
+  evidence probes only if the RFC changes an evidenced invariant; do not run
+  the complete Swift package suite for a documentation-only composition. If an
+  independently safe leaf later becomes authorised, run only its focused
+  construction, equality, capability/availability and directly affected
+  dependent tests plus the owning target build and strict format lint.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

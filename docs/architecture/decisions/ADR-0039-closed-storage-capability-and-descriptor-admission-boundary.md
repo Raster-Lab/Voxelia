@@ -163,21 +163,23 @@ The storage contract is composite:
 
 1. an immutable snapshot descriptor states logical binding, representation,
    organization, locality/backing and persistence claims;
-2. a provider-authoritative retained callable witness establishes each
-   available operation for one exact opaque provider instance, descriptor,
-   owner, snapshot and generation;
+2. one Core-admitted nonforgeable provider-lineage authority plus the
+   provider-supplied retained callable witness establishes each available
+   operation for one exact descriptor, owner, snapshot and generation;
 3. an admitted optional-operation set mirrors exactly those retained
    witnesses;
 4. runtime results establish complete reads, leases, freezes, checksums or
    residency observations; and
 5. external evidence may separately establish purpose-specific assurance.
 
-An exact provider binding is the provider-issued tuple of opaque provider-
-instance identity, descriptor, owner, snapshot and generation. The instance
-identity is identity-compared and non-caller-mintable; equal value fields from
-another provider do not establish the same binding. It is in-process runtime
-authority only, not canonical wire, persistent identity or logical/
-representation identity.
+Under proposed `ADR-0041`, an exact provider binding is Core-composed from one
+nonforgeable provider-lineage authority identity plus the provider-supplied
+descriptor, retained owner, snapshot, generation and callable witness. Neither
+the caller nor provider can inject or replace the Core authority. Its identity
+is identity-compared; equal value fields from another provider do not establish
+the same binding. It is in-process runtime authority only, not canonical wire,
+persistent identity or logical/representation identity. This refinement does
+not accept either proposal.
 
 A capability is a claim, not evidence. It does not prove a read completed,
 bytes match an identity, a file stayed unchanged, a codec can satisfy one
@@ -387,15 +389,20 @@ Every M1 region-readable witness validates before access:
 - checked expected logical bytes and request limit; and
 - exact opaque provider instance, descriptor, owner, snapshot and generation.
 
-After validating the retained provider witness, the destination issues a
-non-caller-mintable, one-shot request seal. The provider completion carries
-that same seal and exact provider-instance binding, so another provider with
-equal labels cannot substitute its bytes, and old bytes cannot be retagged with
-a newer caller-supplied generation or replayed into another request. Success
-publishes one complete owned destination exactly once. Actual bytes remain
-private redacted staging until their exact expected length is present. Short delivery,
-unsupported access, cancellation, failure, mismatch, replay and stale
-generation publish no bytes. Cancellation is distinct from failure.
+After validating the retained provider witness, the Core-owned coordinator
+issues a non-caller-mintable, one-shot request seal. Under proposed `ADR-0041`,
+the provider never receives that seal or an authoritative binding to echo; it
+receives only a checked bounded fill capability over Core-owned private staging
+and returns an outcome through the exact retained witness. The coordinator
+closes the fill and stamps its own transaction record. Another provider with
+equal labels therefore cannot substitute its bytes, and old bytes cannot be
+retagged with a newer caller-supplied generation or replayed into another
+request. Success publishes one complete owned result exactly once. Actual
+bytes remain private redacted staging until their exact expected length is
+present. Short/overrun delivery, unsupported access, cancellation, failure,
+mismatch, replay and stale current-required generation publish no bytes.
+Cancellation is distinct from failure. This refinement does not accept either
+proposal or authorise source.
 
 Unsafe pointers never escape a scoped lease/destination. The owner retains the
 resource for the whole scope. A mapped lease also binds exact snapshot/file
@@ -452,7 +459,7 @@ relevant operation policy/identity.
 `builderAcquisition` returns a separate actor-isolated unpublished transaction
 through the exact retained provider witness. The builder retains:
 
-- the provider-issued immutable source-authority provider-instance/descriptor/
+- the Core-composed immutable source-authority provider-lineage/descriptor/
   owner/snapshot/generation binding;
 - a bounded non-overlapping partition of expected, shape-bound write regions;
 - exact expected byte count and owned immutable staging for every slot;
@@ -496,8 +503,8 @@ Core imports no Metal type.
 `AnyImageStorage` remains source-blocked until independent review proves:
 
 - immutable logical content per snapshot;
-- retained provider-authoritative provider-instance/descriptor/owner/snapshot/
-  generation-bound callable witnesses;
+- retained Core-lineage-bound provider descriptor/owner/snapshot/generation
+  callable witnesses;
 - typed destination compatibility;
 - backing retention for async reads and views;
 - cancellation/deinitialization safety;
@@ -677,9 +684,9 @@ address arithmetic and resource limits are checked before access.
 It does not authenticate providers or digests. Mapped files need snapshot,
 verified representation or invalidation policy. Remote/compressed inputs remain
 adversarial. Credentials, keys, trust and network policy remain host-owned.
-The provider-instance identity prevents in-process authority substitution
-only; it is not external authentication, a globally stable identifier, a
-signature or a trust assertion.
+The Core-admitted provider-lineage identity prevents in-process authority
+substitution only; it is not external authentication, a globally stable
+identifier, a signature or a trust assertion.
 
 Direct/mapped bytes and digests may be sensitive/linkable. Default diagnostics
 exclude paths, URLs, identities, digests and source metadata. Future unsafe
@@ -708,8 +715,8 @@ Acceptance requires focused evidence for:
 - exact bits, mask, fixed lowercase wire and future opaque forwarding;
 - malformed/future/reserved/oversized ingress rejection without pre-limit
   materialisation;
-- retained provider-authoritative opaque-provider-instance/descriptor/owner/
-  snapshot/generation witness equality, callability and missing/extra/
+- retained Core-authority/provider-witness descriptor/owner/snapshot/generation
+  equality, callability and missing/extra/
   substitution denial;
 - mandatory history-independent read witness;
 - mapping without decoded direct bytes and typed organization metadata;
@@ -719,8 +726,8 @@ Acceptance requires focused evidence for:
 - stride rank/sign, offset, interleaved/planar layout, overlap, overflow,
   span, alignment, endian and packed/storage-defined rejection;
 - cross-shape region substitution rejection;
-- destination-issued one-shot request seals, provider-instance-bound
-  completions, actual redacted staged bytes and no destination publication
+- Core-coordinator-issued one-shot request seals, internally stamped exact-
+  witness completions, actual redacted staged bytes and no result publication
   after short read, cancellation, failure, mismatch, equal-label cross-provider
   substitution, replay or stale generation;
 - non-transplantable claim-free representation-descriptor binding,
@@ -764,7 +771,8 @@ If accepted:
 4. migrate backend-neutral storage taxonomy to Core pre-1.0;
 5. implement closed operations and exact custom wire with focused tests;
 6. implement tagged Core descriptor and checked construction;
-7. accept safe region/destination and scoped owned/mapped lease contracts;
+7. accept proposed `ADR-0041`'s safe complete-read transaction, checked erasure
+   and scoped owner-retaining contiguous/mapped lease contract;
 8. implement protocols/erasure after independent lifetime/`Sendable` review;
 9. implement focused contiguous and mapped providers;
 10. implement builder/freeze without metadata, provenance or publication;
@@ -781,9 +789,12 @@ read, builder and integrity sketches. It does not change the live graph.
 
 It composes with proposed `ADR-0037` for data identity/cache admission and
 proposed `ADR-0038` for provenance/publication, and proposed `ADR-0040` for the
-normalized logical sample projection. It does not define canonical logical
-`ContentID`, final `ImageData`, metadata/provenance, codecs, tile/brick grids,
-remote transport, Metal resources or diagnostic status.
+normalized logical sample projection, and proposed `ADR-0041` for the read
+transaction/type-erasure lifetime boundary. None of those links accepts the
+other proposal or closes the remaining descriptor, identity or source gates.
+It does not define canonical logical `ContentID`, final `ImageData`, metadata/
+provenance, codecs, tile/brick grids, remote transport, Metal resources or
+diagnostic status.
 
 ## References
 
@@ -797,4 +808,5 @@ remote transport, Metal resources or diagnostic status.
 - [ADR-0037 - Claim-bearing data identity and cache-admission boundary](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md)
 - [ADR-0038 - Closed provenance record and graph admission boundary](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md)
 - [ADR-0040 - Normalized logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
+- [ADR-0041 - Safe storage read transaction and type-erasure lifetime boundary](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md)
 - [ADR-0039 storage capability/descriptor admission probe](../../progress/evidence/ADR-0039-storage-capability-descriptor-admission-probe.swift)

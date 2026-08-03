@@ -25,8 +25,9 @@ claim-bearing data-identity and cache-admission proposal. `ADR-0038` is
 allocated to the closed provenance-record and graph-admission proposal.
 `ADR-0039` is allocated to the closed storage capability and descriptor
 admission proposal. `ADR-0040` is allocated to the normalized logical-sample
-and representation-projection proposal. The next unallocated numeric
-identifier is `ADR-0041`.
+and representation-projection proposal. `ADR-0041` is allocated to the safe
+storage read-transaction and type-erasure lifetime-boundary proposal. The next
+unallocated numeric identifier is `ADR-0042`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -50,3 +51,4 @@ identifier is `ADR-0041`.
 | [ADR-0038](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md) | Proposed | Closed provenance record and graph admission boundary |
 | [ADR-0039](ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md) | Proposed | Closed storage capability and descriptor admission boundary |
 | [ADR-0040](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md) | Proposed | Normalized logical sample and representation projection boundary |
+| [ADR-0041](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md) | Proposed | Safe storage read transaction and type-erasure lifetime boundary |

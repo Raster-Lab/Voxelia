@@ -394,7 +394,7 @@ of the following are established:
 | Components | Exact count and complete one-to-one physical-to-logical ordinal mapping. |
 | Layout | Exact bounded addressing proves each logical value is read once without overlap or out-of-bounds access. |
 | Completeness | The provider supplies exactly the requested logical values; no successful prefix. |
-| Snapshot | The retained provider authority, descriptor, owner, snapshot and generation remain current. |
+| Snapshot | The retained provider authority, descriptor, owner, snapshot and generation remain exactly bound. A current-only operation additionally requires the non-forgeable current-generation permit proposed by `ADR-0041`; historical bound-snapshot reads do not silently stale or relabel. |
 
 Different endian order, interleaved/planar strides and initialized physical
 padding can be compatible. Equal byte length, equal labels or equal hashes in a
@@ -480,8 +480,9 @@ Acceptance of this proposal authorises no product source. Product-source
 authorization still requires the public data-model/storage RFC, controlled
 MTA/CDMS/RPSS/Requirements corrections, migration approval, complete logical
 descriptor projection, production limits, safe destination/erasure lifetime
-design, affected Core/Geometry tests, supported Apple-destination builds and
-designated API/concurrency/security reviews.
+design proposed by `ADR-0041`, affected Core/Geometry tests, supported Apple-
+destination builds and designated API/concurrency/security reviews. This link
+does not accept `ADR-0041` or close the remaining source gate.
 
 ## Alternatives considered
 
@@ -673,10 +674,11 @@ If accepted:
 6. accept the complete logical `ImageDescriptor` projection;
 7. implement checked source interpretation in owning adapters;
 8. implement storage compatibility against exact logical bindings;
-9. add generation-pinned streaming logical projection;
-10. integrate content claims only after `ADR-0036`/`ADR-0037` publication and
+9. accept proposed `ADR-0041`'s safe read/lifetime boundary;
+10. add generation-pinned streaming logical projection;
+11. integrate content claims only after `ADR-0036`/`ADR-0037` publication and
    assurance boundaries are accepted; and
-11. run the milestone/release-wide gate only at the applicable boundary.
+12. run the milestone/release-wide gate only at the applicable boundary.
 
 Until then, live scalar/component leaves remain unchanged and no storage,
 logical-content identity or descriptor aggregate source is authorised.
@@ -688,8 +690,10 @@ This proposal refines the normalized logical-binding gate in proposed
 
 It composes with proposed `ADR-0036` for versioned content claim shape,
 proposed `ADR-0037` for assurance/publication, and proposed `ADR-0039` for
-storage admission. It does not define full `ImageDescriptor`, metadata,
-provenance, pixel-padding, value-transform, geometry or cache-key projections.
+storage admission, and proposed `ADR-0041` for safe read/lifetime semantics.
+None of those links accepts the other proposal. It does not define full
+`ImageDescriptor`, metadata, provenance, pixel-padding, value-transform,
+geometry or cache-key projections.
 
 ## References
 
@@ -703,4 +707,5 @@ provenance, pixel-padding, value-transform, geometry or cache-key projections.
 - [ADR-0036 - Domain-separated complete canonical metadata record identity](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md)
 - [ADR-0037 - Claim-bearing data identity and cache-admission boundary](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md)
 - [ADR-0039 - Closed storage capability and descriptor admission boundary](ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md)
+- [ADR-0041 - Safe storage read transaction and type-erasure lifetime boundary](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md)
 - [ADR-0040 logical-sample projection probe](../../progress/evidence/ADR-0040-logical-sample-projection-probe.swift)

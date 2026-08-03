@@ -1511,18 +1511,23 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md",
-      "size": 38302,
-      "sha256": "9391579c7bfa229f70b91304e88f1bc4fab425941524c3ce0b9b268d96b7bcb3"
+      "size": 39244,
+      "sha256": "a2e1d3f9176a28a470e49128d0386ba148c2a352ddd2d108900f2b8cf441e92d"
     },
     {
       "path": "docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md",
-      "size": 33574,
-      "sha256": "923ddf5ebbb14427b7f58498c49f7e3ff397f86ac76783ecd81bbf8e869c2dd4"
+      "size": 34184,
+      "sha256": "977c72edfb95c3aae92a677af37108c83dd4a7b039d1e3436652af6d20ee5d04"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md",
+      "size": 49343,
+      "sha256": "3717e861d108367056f18d55490b383a4f0d32f5d4f19923916ef35134f5ae9c"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 4533,
-      "sha256": "94368b756b842f53b49c7ef4fb311f9e92d5927cb849dd2d535386dc257d367f"
+      "size": 4810,
+      "sha256": "c4988b749ec4f8ae602978040cf2f3cc4825eb0849d53f20f76536459aacde81"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1606,8 +1611,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 279985,
-      "sha256": "d4243130a679700c5420f62959c438799e237cf2e340c25856475c54da5a05b6"
+      "size": 286312,
+      "sha256": "f3ccc01b8778d2c5a0e14f0649762c4114dfbc469619cbc805ebb75c201d4c1a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1658,6 +1663,11 @@
       "path": "docs/progress/evidence/ADR-0040-logical-sample-projection-probe.swift",
       "size": 99598,
       "sha256": "7ae0907e18dab77a144c8559ca1490e5a92693744a2ac8e700fe44be00b89f2b"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift",
+      "size": 107062,
+      "sha256": "567fd60ea5e4137499126c7949f564da81c6019513c12def229f0d29f525afe7"
     },
     {
       "path": "docs/project/README.md",
@@ -1941,8 +1951,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 18030,
-      "sha256": "970c890daa0ba25623c50470643448dcb783827117c574c0f1e5b60449c9574a"
+      "size": 18201,
+      "sha256": "694db8fe4aa871ad8600a49bf663f44e4a03ccf63b6e34aa05fb87ae0f109532"
     }
   ]
 }
