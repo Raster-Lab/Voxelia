@@ -15,14 +15,14 @@ struct ImageShapeTests {
         #expect(try shape.elementCount() == 671_088_640)
     }
 
-    @Test("[Unit][VOX-DAT-003] rejects an empty rank")
+    @Test("[Unit][VOX-DAT-003][VOX-ERR-001] rejects an empty rank")
     func rejectsEmptyRank() {
         #expect(throws: ShapeError.emptyRank) {
             try ImageShape(extents: [Int]())
         }
     }
 
-    @Test("[Unit][VOX-DAT-003] identifies zero and negative extents")
+    @Test("[Unit][VOX-DAT-003][VOX-ERR-001] identifies zero and negative extents")
     func rejectsNonPositiveExtents() {
         #expect(throws: ShapeError.nonPositiveExtent(axis: 1, value: 0)) {
             try ImageShape(extents: [8, 0, 4])
@@ -137,12 +137,29 @@ struct ImageShapeTests {
         #expect(decoded == shape)
     }
 
-    @Test("[Unit] Decoding cannot bypass shape invariants")
+    @Test("[Unit][VOX-DAT-003][VOX-ERR-001] decoding revalidates shape invariants")
     func decodingRejectsInvalidExtents() {
-        let invalidShape = Data(#"{"extents":[8,0,4]}"#.utf8)
+        let invalidShapes: [(json: String, expectedError: ShapeError)] = [
+            (#"{"extents":[]}"#, .emptyRank),
+            (#"{"extents":[8,0,4]}"#, .nonPositiveExtent(axis: 1, value: 0)),
+        ]
 
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(ImageShape.self, from: invalidShape)
+        for invalidShape in invalidShapes {
+            do {
+                _ = try JSONDecoder().decode(
+                    ImageShape.self,
+                    from: Data(invalidShape.json.utf8)
+                )
+                #expect(Bool(false), "Expected invalid shape metadata to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.map(\.stringValue) == ["extents"])
+                #expect(
+                    context.underlyingError as? ShapeError
+                        == invalidShape.expectedError
+                )
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+            }
         }
     }
 }
