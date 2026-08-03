@@ -99,7 +99,7 @@ struct ImageShapeTests {
         #expect(try !shape.contains(ImageIndex(components: [Int.min])))
     }
 
-    @Test("[Unit][CDMS-11.5] index containment reports exact rank mismatch")
+    @Test("[Unit][CDMS-11.5][VOX-ERR-001] index containment reports exact rank mismatch")
     func indexContainmentRejectsRankMismatch() throws {
         let shape = try ImageShape(extents: [3, 5])
 
