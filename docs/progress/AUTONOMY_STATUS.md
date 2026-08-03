@@ -1210,7 +1210,7 @@ the live package graph and Accepted authority before source selection.
 
 | Family | Current accepted evidence | Disposition |
 |---|---|---|
-| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat` evidence now proves direct typed rejection and decoded case/path/underlying-error preservation for invalid valid-bit metadata. | This is invalid-data evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
+| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat` and `ComponentDescriptor` evidence now proves direct typed rejection and decoded case/context/underlying-error preservation for their invalid metadata. | This is invalid-data evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
 | `VOX-SEC-001` | `ImageShape` validates positive external extents and checked element-count multiplication. `ImageRegion` validates ranks, bounds, containment, translation, subtraction and accumulated count arithmetic with focused boundary tests. | Stride, byte-offset, allocation-size and memory-access closure requires the blocked storage/descriptor/read contracts. Current checks support but do not complete the requirement. |
 | `VOX-SEC-002` | Host strict-memory builds of product and test targets, the available Apple destination matrix, manifest/configuration checks and the explicit empty inventory found no compiler-classified unsafe construct, Swift `unsafe` marker, SwiftPM unsafe flag or weakened compiler-safety setting. | The advisory always-green workflow inventory is replaced by a deterministic fail-closed repository gate. The visionOS platform-component gap prevents treating supported-destination evidence or full M1 acceptance as complete. |
 | `VOX-CON-003` | Current canonical Core descriptors are immutable checked-`Sendable` values, strict Swift 6 mode is enabled and representative compile-time transfer assertions exist. | Storage/data descriptor transfer cannot close until the Proposed storage contracts are accepted and implemented. No storage or cancellation API is started here. |
@@ -1955,6 +1955,13 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   `validBitCount` context and underlying `DataModelError.invalidScalarFormat`.
   This is Core invalid-data evidence only, not completion of global
   `VOX-ERR-001`, `VOX-DAT-010` or `VOX-VAL-001`.
+- Closed the existing `ComponentDescriptor` invalid-data evidence leaf without
+  a production change. All three constructor-invariant tests and the decoding
+  test now carry `VOX-ERR-001` traceability; each invalid decoded fixture proves
+  `dataCorrupted`, top-level descriptor context and underlying
+  `DataModelError.invalidComponentDescriptor`. This is Core invalid-data
+  evidence only, not completion of global `VOX-ERR-001`, `VOX-DAT-011` or
+  `VOX-VAL-001`.
 
 ## Verification evidence
 
@@ -3952,6 +3959,14 @@ decoded error case, terminal coding key and underlying typed error assertions.
 test file passed. No production source, public API, direct dependant, complete
 Swift suite, controlled baseline or Proposed/Draft contract changed.
 
+`swift test --filter ComponentDescriptor` executed exactly the eight tests in
+the `ComponentDescriptor` suite. All four `VOX-ERR-001` tests passed, including
+root-context and underlying typed-error assertions for each of the three
+decoded invariant failures. `swift build --target VoxeliaCore` and strict
+format lint for the single changed test file passed. No production source,
+public API, direct dependant, complete Swift suite, controlled baseline or
+Proposed/Draft contract changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -4434,22 +4449,23 @@ Swift suite, controlled baseline or Proposed/Draft contract changed.
 
 ## Exact next action
 
-Close the existing `ComponentDescriptor` invalid-data evidence leaf without
-changing production API. Add `VOX-ERR-001` traceability to its non-positive,
-RGB/RGBA-count, component-name-count and decoded-invalid-descriptor tests.
-Replace the generic decoding assertions with explicit
-`DecodingError.dataCorrupted`, top-level descriptor context and underlying
-`DataModelError.invalidComponentDescriptor` evidence for all three invalid
-fixtures. Record this as Core invalid-data evidence only, not completion of
-global `VOX-ERR-001`, `VOX-DAT-011` or `VOX-VAL-001`. Do not change component
-semantics, production source, controlled `v0.1.1` baselines or Proposed/Draft
-contracts.
+Close the existing `ImageShape` typed-error evidence leaf without changing
+production API. Add `VOX-ERR-001` traceability to its empty-rank,
+non-positive-extent and invalid-extent decoding tests. Exercise both invalid
+constructor invariants through decoding, proving `DecodingError.dataCorrupted`,
+the exact top-level `extents` path and the corresponding underlying
+`ShapeError`. Record this as Core invalid-shape-metadata evidence only, not new
+or global completion of `VOX-ERR-001`, `VOX-DAT-003` or `VOX-VAL-001`. Keep
+element-count overflow and containment rank mismatch as separate operation-
+failure evidence; do not wrap the specialised `ShapeError` in a different
+public error, change shape semantics, edit controlled `v0.1.1` baselines or
+adopt Proposed/Draft contracts.
 
 ## Test policy for the next action
 
-- Run only `swift test --filter ComponentDescriptor`, the owning
+- Run only `swift test --filter ImageShape`, the owning
   `swift build --target VoxeliaCore`, strict format lint for
-  `Tests/VoxeliaCoreTests/ComponentDescriptorTests.swift`, requirement-index and
+  `Tests/VoxeliaCoreTests/ImageShapeTests.swift`, requirement-index and
   release-integrity checks. Add no direct-dependant build because the public API
   is unchanged. Do not run blocked storage/metadata probes or the complete
   Swift package suite.

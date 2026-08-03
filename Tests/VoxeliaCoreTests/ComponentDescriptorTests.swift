@@ -34,7 +34,7 @@ struct ComponentDescriptorTests {
         }
     }
 
-    @Test("[Unit][VOX-DAT-011] rejects non-positive component counts")
+    @Test("[Unit][VOX-DAT-011][VOX-ERR-001] rejects non-positive component counts")
     func rejectsNonPositiveCounts() {
         for count in [0, -1] {
             #expect(throws: DataModelError.invalidComponentDescriptor) {
@@ -47,7 +47,7 @@ struct ComponentDescriptorTests {
         }
     }
 
-    @Test("[Unit][VOX-DAT-011] enforces RGB and RGBA component counts")
+    @Test("[Unit][VOX-DAT-011][VOX-ERR-001] enforces RGB and RGBA component counts")
     func enforcesColourComponentCounts() throws {
         _ = try ComponentDescriptor(count: 3, interpretation: .rgb, layout: .interleaved)
         _ = try ComponentDescriptor(count: 4, interpretation: .rgba, layout: .interleaved)
@@ -72,7 +72,7 @@ struct ComponentDescriptorTests {
         }
     }
 
-    @Test("[Unit][VOX-DAT-011] validates and preserves component names")
+    @Test("[Unit][VOX-DAT-011][VOX-ERR-001] validates and preserves component names")
     func validatesComponentNames() throws {
         let descriptor = try ComponentDescriptor(
             count: 3,
@@ -180,7 +180,7 @@ struct ComponentDescriptorTests {
         #expect(object["layout"] as? String == "storageDefined")
     }
 
-    @Test("[Unit][VOX-DAT-011] decoding rejects invalid descriptors")
+    @Test("[Unit][VOX-DAT-011][VOX-ERR-001] decoding rejects invalid descriptors")
     func decodingRejectsInvalidDescriptors() {
         let invalidDescriptors = [
             #"{"count":0,"interpretation":"vector","layout":"planar"}"#,
@@ -189,11 +189,20 @@ struct ComponentDescriptorTests {
         ]
 
         for invalidDescriptor in invalidDescriptors {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+            do {
+                _ = try JSONDecoder().decode(
                     ComponentDescriptor.self,
                     from: Data(invalidDescriptor.utf8)
                 )
+                #expect(Bool(false), "Expected invalid component metadata to fail.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+                #expect(
+                    context.underlyingError as? DataModelError
+                        == .invalidComponentDescriptor
+                )
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
         }
     }
