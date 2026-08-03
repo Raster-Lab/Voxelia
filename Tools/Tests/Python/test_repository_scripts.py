@@ -86,6 +86,43 @@ class RepositoryScriptTests(unittest.TestCase):
         self.assertIn("check_adr_register.py", scaffold)
         self.assertIn("check_rfc_register.py", scaffold)
 
+    def test_scaffold_and_security_workflows_enforce_swift_safety(self) -> None:
+        scaffold = (ROOT / "Tools/Scripts/validate-scaffold.sh").read_text(
+            encoding="utf-8"
+        )
+        workflow = (ROOT / ".github/workflows/security.yml").read_text(
+            encoding="utf-8"
+        )
+
+        command = "python3 Tools/Scripts/check_swift_safety.py --compile"
+        self.assertIn(command, scaffold)
+        self.assertIn(command, workflow)
+        self.assertNotIn("Unsafe-code inventory placeholder", workflow)
+        self.assertNotIn("|| true", workflow)
+
+    def test_platform_builds_enforce_strict_memory_safety(self) -> None:
+        script = (ROOT / "Tools/Scripts/test-platforms.sh").read_text(
+            encoding="utf-8"
+        )
+        workflow = (
+            ROOT / ".github/workflows/platform-builds.yml"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("SWIFT_STRICT_MEMORY_SAFETY=YES", script)
+        self.assertIn("SWIFT_TREAT_WARNINGS_AS_ERRORS=YES", script)
+        self.assertIn("CODE_SIGNING_ALLOWED=NO", script)
+        self.assertIn("ENABLE_TESTABILITY=YES", script)
+        destination_lines = [
+            line
+            for line in script.splitlines()
+            if line.startswith("build_destination ")
+        ]
+        self.assertEqual(len(destination_lines), 7)
+        self.assertIn("for configuration in Debug Release", script)
+        self.assertIn('"${SAFETY_BUILD_SETTINGS[@]}"', script)
+        self.assertIn("build-for-testing", script)
+        self.assertIn("Tools/Scripts/test-platforms.sh", workflow)
+
     def test_validate_docs_wrapper_executes_on_supported_host(self) -> None:
         if platform.system() != "Darwin" or platform.machine() != "arm64":
             self.skipTest("Apple Silicon macOS execution required")

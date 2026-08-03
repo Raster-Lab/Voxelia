@@ -244,6 +244,7 @@ Tools/Scripts/check_prohibited_imports.py
 Tools/Scripts/check_release_integrity.py
 Tools/Scripts/check_required_files.py
 Tools/Scripts/check_rfc_register.py
+Tools/Scripts/check_swift_safety.py
 Tools/Scripts/generate-sbom.sh
 Tools/Scripts/generate_requirement_index.py
 Tools/Scripts/generate_sbom.py
@@ -264,6 +265,7 @@ Tools/Tests/Python/test_release_integrity.py
 Tools/Tests/Python/test_repository_scripts.py
 Tools/Tests/Python/test_requirement_index.py
 Tools/Tests/Python/test_rfc_register.py
+Tools/Tests/Python/test_swift_safety.py
 Tools/Tests/VoxeliaRepositoryToolTests/RepositoryToolTests.swift
 VERSION
 Validation/Datasets/Fetch/README.md
@@ -384,6 +386,7 @@ docs/rfcs/README.md
 docs/rfcs/RFC-0001-controlled-correction-delta.md
 docs/rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md
 docs/security/README.md
+docs/security/SWIFT_SAFETY_POLICY.md
 docs/shaders/README.md
 docs/templates/ADR-Template.md
 docs/templates/Algorithm-Specification-Template.md

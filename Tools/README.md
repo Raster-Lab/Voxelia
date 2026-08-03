@@ -23,6 +23,17 @@ crosswalks without conferring approval authority:
 python3 Tools/Scripts/check_rfc_register.py
 ```
 
+Reject Swift memory-safety and concurrency-checking escape hatches under the
+current zero-exception policy:
+
+```bash
+python3 Tools/Scripts/check_swift_safety.py --compile
+```
+
+The companion `Tools/Scripts/test-platforms.sh` gate applies strict memory
+safety and warnings-as-errors while building product and test targets for every
+supported Apple destination.
+
 Generate the release SBOM profile, including source revision, products,
 targets, licences, checksums, toolchain identity, bundled resources and
 dependency classification:

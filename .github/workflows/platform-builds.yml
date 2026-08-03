@@ -7,6 +7,7 @@ on:
       - 'Sources/**'
       - 'Tests/**'
       - '.github/workflows/platform-builds.yml'
+      - 'Tools/Scripts/test-platforms.sh'
   push:
     branches: [main]
   workflow_dispatch:

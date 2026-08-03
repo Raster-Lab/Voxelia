@@ -21,5 +21,5 @@ jobs:
       - name: Reject obvious credential files
         run: |
           ! find . -type f \( -name '*.pem' -o -name '*.key' -o -name '.env' \) | grep .
-      - name: Unsafe-code inventory placeholder
-        run: grep -R "@unchecked Sendable\|UnsafeMutableRaw\|UnsafeRaw" Sources Tests || true
+      - name: Enforce Swift safety policy
+        run: python3 Tools/Scripts/check_swift_safety.py --compile

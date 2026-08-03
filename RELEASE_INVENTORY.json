@@ -96,8 +96,8 @@
     },
     {
       "path": ".github/workflows/platform-builds.yml",
-      "size": 729,
-      "sha256": "aa1bc093bed5a4fb6c9a6e541062ac0735087aaf8d4801430990e20bb8ffd238"
+      "size": 771,
+      "sha256": "5450649088008a73a7dc374d99521f0deb75334abc8a69da295efc0c2f114b37"
     },
     {
       "path": ".github/workflows/release.yml",
@@ -111,8 +111,8 @@
     },
     {
       "path": ".github/workflows/security.yml",
-      "size": 716,
-      "sha256": "ee2d0a91742a451a3d2be911ddd9205c71a974047e2589f8a2ff017b66d5a728"
+      "size": 683,
+      "sha256": "aa480d7c1cb692f544bb150776821a8bcd2d74d94703c21694c22923b5d95d35"
     },
     {
       "path": ".github/workflows/validation-smoke.yml",
@@ -1136,8 +1136,8 @@
     },
     {
       "path": "Tools/README.md",
-      "size": 1666,
-      "sha256": "a5dea858c890980eb94db123dcdd4040e2d442427d843ba4537f45500079f135"
+      "size": 2027,
+      "sha256": "af9efacc18250e447954ecbe1557fdb442cf523aa6e2baf377d6150131ca0cf1"
     },
     {
       "path": "Tools/Schemas/VoxeliaSBOM.schema.json",
@@ -1221,13 +1221,18 @@
     },
     {
       "path": "Tools/Scripts/check_required_files.py",
-      "size": 1405,
-      "sha256": "4ed6fabb144b16b5a65e6ddf49819d32ec317969c9476c7f1f42e590f0972be8"
+      "size": 1484,
+      "sha256": "288d1794166d70736dd104caaa1c344e26e9a1ed426e6ebdf56429f8bb1d8642"
     },
     {
       "path": "Tools/Scripts/check_rfc_register.py",
       "size": 47580,
       "sha256": "204b082d871274953b8359084848714c123561e9ecabda1665da2a7f5261a333"
+    },
+    {
+      "path": "Tools/Scripts/check_swift_safety.py",
+      "size": 43768,
+      "sha256": "ebad5f0799faa3d918486a9eb9c6b304f9a6f9c9ca423b7432c1dfa66e8878fa"
     },
     {
       "path": "Tools/Scripts/generate-sbom.sh",
@@ -1251,8 +1256,8 @@
     },
     {
       "path": "Tools/Scripts/test-platforms.sh",
-      "size": 883,
-      "sha256": "a4fa2ed56b9e5af87ed66cc59aa4812917a6aef4ff197b42411122afbc60c0f1"
+      "size": 1042,
+      "sha256": "fec5f120bf4818da039e319a4fa852bc533a4662a8b4026f68426529af554229"
     },
     {
       "path": "Tools/Scripts/test-repository-scripts.sh",
@@ -1271,8 +1276,8 @@
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
-      "size": 1050,
-      "sha256": "819c46196f8a3a2e7a320d260f572cf983ca4cde0995d7b383ac9eaaca104ed2"
+      "size": 1104,
+      "sha256": "7d4f0a403c4d8b079252b8047cb1a6e3ef02dc4200cdacdd1f535c3bb792efb3"
     },
     {
       "path": "Tools/Scripts/validation-smoke.sh",
@@ -1316,8 +1321,8 @@
     },
     {
       "path": "Tools/Tests/Python/test_repository_scripts.py",
-      "size": 6025,
-      "sha256": "f67be6d4d9744146cb55e7e9c29da9e82775b0350e05466f8cc94bb3178c74bb"
+      "size": 7611,
+      "sha256": "df272076cad8a7d4cb3605f67f275215871b80c1f598762896a30f08237aa47d"
     },
     {
       "path": "Tools/Tests/Python/test_requirement_index.py",
@@ -1328,6 +1333,11 @@
       "path": "Tools/Tests/Python/test_rfc_register.py",
       "size": 33380,
       "sha256": "7cc6c17491ea9eacc99071def28e5f92c546af2d5fa4023c8f30f6e5d5bd1161"
+    },
+    {
+      "path": "Tools/Tests/Python/test_swift_safety.py",
+      "size": 31690,
+      "sha256": "02aab077341d96af0cf347d2adc967d5884fc40d5034812ea15b73d9069442c7"
     },
     {
       "path": "Tools/Tests/VoxeliaRepositoryToolTests/RepositoryToolTests.swift",
@@ -1621,8 +1631,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 300154,
-      "sha256": "6dbae1195181c706e15c74b459e0dff5d9753d9640b425bb15706fb84a87cf49"
+      "size": 310457,
+      "sha256": "1bf93b43957f856c9bf36858c6be1d7513f596299a17b718fd21744e41f0b7e0"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1731,8 +1741,8 @@
     },
     {
       "path": "docs/releases/v0.1.1/Apple_Platform_Acceptance_Checklist.md",
-      "size": 3057,
-      "sha256": "ef3833356e2d2399bfd98a3f6c7be0e8c09ed01935c1d1c790cb8653ec25bbad"
+      "size": 3807,
+      "sha256": "6d03e4904cc65fa328400ae76218e206a70506839251116cbfbafc24d685accc"
     },
     {
       "path": "docs/releases/v0.1.1/M0-001_Corrective_Action_Record.md",
@@ -1930,6 +1940,11 @@
       "sha256": "e9c2a173c337841efe35b2ed6345becc37dc14d58cb830f6fd257aeff62d1cb6"
     },
     {
+      "path": "docs/security/SWIFT_SAFETY_POLICY.md",
+      "size": 5711,
+      "sha256": "dd34b69877da3663a2833d258bbf04b11b50119a2dcc780f3c3fd18906fc036f"
+    },
+    {
       "path": "docs/shaders/README.md",
       "size": 80,
       "sha256": "f00eddac666c7a0a0b752339e05ba157d6d3d3544ace0074529b50273b359ca7"
@@ -1971,8 +1986,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 18401,
-      "sha256": "51820f4a9c00846f9f2182f39eb72830c83fc4840504725fd9f0f6017a1471fe"
+      "size": 18514,
+      "sha256": "9f2326d34ea2816d9541570dea98b29287f463c347542f7f3ee1858da1d5923c"
     }
   ]
 }

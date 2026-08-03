@@ -7,6 +7,7 @@ python3 Tools/Scripts/check_required_files.py
 python3 Tools/Scripts/check_manifest_paths.py
 python3 Tools/Scripts/check_release_integrity.py
 python3 Tools/Scripts/check_package_graph_static.py
+python3 Tools/Scripts/check_swift_safety.py --compile
 python3 Tools/Scripts/check_package_graph.py
 python3 Tools/Scripts/check_prohibited_imports.py
 python3 Tools/Scripts/check_apple_platform_policy.py

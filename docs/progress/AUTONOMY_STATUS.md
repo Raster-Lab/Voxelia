@@ -26,6 +26,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   intersection queries, exact shape/index and half-open region/index
   containment, explicit region emptiness and checked region element counts are
   implemented and locally verified.
+- M1 supporting safety status: repository-owned executable Swift currently has
+  no compiler-classified unsafe-memory, unsafe-compiler or concurrency-
+  checking exceptions. A fail-closed, fixture-tested inventory and compiler
+  gate enforces that state in the scaffold and security workflows. Strict
+  product/test builds pass on macOS, iOS device/simulator and tvOS device/
+  simulator; the unavailable visionOS 26.5 Xcode platform component remains an
+  explicit evidence gap. Future exceptions require accepted authority, exact
+  invariants, focused stress/lifetime evidence and independent review.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -1191,6 +1199,40 @@ through `VOX-RGN-008`, `VOX-STO-001` through `VOX-STO-004`,
 `VOX-VS1-005`, `VOX-VS1-006`, `VOX-VS1-008`, `VOX-VS1-014`,
 `VOX-VS1-019` and `VOX-VS1-020`.
 
+## M1 diagnostic, security, concurrency and validation supporting-surface audit
+
+The controlled M1 schedule contains one error requirement, two security
+requirements and two concurrency requirements. No `VOX-VAL-*` requirement is
+newly due at M1: `VOX-VAL-001` is the continuing M0 test-level scaffold, and
+`VOX-VAL-002` through `VOX-VAL-016` target M2 or later. Two independent
+read-only audits mapped those requirements to current Core source and tests,
+the live package graph and Accepted authority before source selection.
+
+| Family | Current accepted evidence | Disposition |
+|---|---|---|
+| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. | This is invalid-data evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
+| `VOX-SEC-001` | `ImageShape` validates positive external extents and checked element-count multiplication. `ImageRegion` validates ranks, bounds, containment, translation, subtraction and accumulated count arithmetic with focused boundary tests. | Stride, byte-offset, allocation-size and memory-access closure requires the blocked storage/descriptor/read contracts. Current checks support but do not complete the requirement. |
+| `VOX-SEC-002` | Host strict-memory builds of product and test targets, the available Apple destination matrix, manifest/configuration checks and the explicit empty inventory found no compiler-classified unsafe construct, Swift `unsafe` marker, SwiftPM unsafe flag or weakened compiler-safety setting. | The advisory always-green workflow inventory is replaced by a deterministic fail-closed repository gate. The visionOS platform-component gap prevents treating supported-destination evidence or full M1 acceptance as complete. |
+| `VOX-CON-003` | Current canonical Core descriptors are immutable checked-`Sendable` values, strict Swift 6 mode is enabled and representative compile-time transfer assertions exist. | Storage/data descriptor transfer cannot close until the Proposed storage contracts are accepted and implemented. No storage or cancellation API is started here. |
+| `VOX-CON-010` | No `@unchecked Sendable`, `@preconcurrency`, unsafe executor inheritance or `nonisolated(unsafe)` declaration exists in executable repository Swift. | The same zero-exception gate now prevents an unreviewed concurrency escape hatch from landing. A future exception needs invariant, owner, rationale, stress/lifetime test and independent-review evidence. |
+| `VOX-VAL-*` | Core has focused automated unit tests and the repository retains the broader validation-level scaffold. | There is no separate M1 validation-family leaf. Kernel, operation, pipeline, integration and system-reference completion remains scheduled work; a premature M1 validation report would not close it. |
+
+The selected gate deliberately excludes the controlled non-product Swift probes
+under `docs/progress/evidence/` and generated build trees. Effective SwiftPM
+descriptions prove both that every compiled source is inventoried and that no
+governed source/test Swift file is orphaned or target-excluded. It scans package
+manifests, product/test Swift, every auxiliary package and active build
+configuration. Exact escape-hatch spellings, including the Swift word
+`unsafe`, remain reserved in comments, strings and regexes; broad checked
+vocabulary such as `free` and explanatory `UnsafePointer` text is allowed.
+Host debug/release compiler builds cover all four packages, and the companion
+platform workflow builds product and test targets with strict memory safety.
+Proposed `ADR-0039` through `ADR-0041` and Draft `RFC-0001` grant no
+unsafe-memory, storage, erasure, no-copy or cancellation source authority.
+
+Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
+`VOX-SEC-001`, `VOX-SEC-002` and `VOX-VAL-001`.
+
 ## Completed in this increment
 
 - Established the long-running Codex completion goal.
@@ -1872,16 +1914,51 @@ through `VOX-RGN-008`, `VOX-STO-001` through `VOX-STO-004`,
   raw platform and field-specific limits now precede every `Int` conversion,
   direct checked arithmetic keeps separate overflow evidence, and both focused
   re-reviews finished clean with unchanged projection goldens.
+- Audited the complete M1 `VOX-ERR-*`, `VOX-SEC-*`, `VOX-CON-*` and
+  `VOX-VAL-*` supporting surface against controlled authority, current Core
+  source/tests and the Proposed storage boundary. The audit separates existing
+  invalid-data/bounds/checked-`Sendable` evidence from later or governance-
+  blocked allocation, storage, cancellation, backend, shader, convergence and
+  multi-level validation work.
+- Replaced the security workflow's always-green unsafe-code placeholder with
+  `check_swift_safety.py`, a fail-closed zero-exception inventory gate wired
+  into the scaffold, required-file and security gates.
+- Added a narrow raw inventory for unchecked/concurrency escape hatches, every
+  Swift `unsafe` marker and strict-safety oracle conditions, plus fail-closed
+  manifest, shell, workflow and Xcode configuration checks. Common checked
+  vocabulary is not reserved. Deterministic diagnostics are bounded per file
+  and repository so hostile input cannot exhaust runner memory or logs.
+- Added effective SwiftPM validation for Swift 6, governed local dependencies,
+  resolved unsafe flags, target language overrides and bidirectional target-
+  source coverage. Unexpected/nested packages, orphan or excluded Swift,
+  non-`.swift` Swift scripts, direct compiler/script execution, non-regular
+  files and file/directory symlinks fail closed.
+- Constrained every executable package manifest to the current deterministic
+  declarative PackageDescription subset, independently rejecting runtime-
+  selected settings and target language-override APIs. SwiftPM metadata output
+  is drained incrementally under a combined 4 MiB ceiling, with process-group
+  termination on output or time bounds.
+- Added bounded, process-group-cleaned strict-memory compiler builds for product
+  and test targets in all four packages in debug and release. SwiftPM metadata
+  evaluation is isolated from mutable repository Git metadata so an unrelated
+  `git describe` traversal cannot hang the self-hosted gate.
+- Upgraded the existing Apple platform matrix to build product and test targets
+  with Xcode strict-memory safety and warnings-as-errors, without requiring
+  signing, and made changes to that wrapper trigger its workflow.
+- Published the current empty unsafe-code inventory and the exact future
+  exception evidence process. Forty-four focused positive, negative, location,
+  package-coverage, configuration, process-scope and adversarial fixtures
+  protect the checker without authorising a product unsafe-memory exception.
 
 ## Verification evidence
 
 - Automation definition reports `status = "ACTIVE"` and `FREQ=MINUTELY;INTERVAL=15`.
 - Local host reports `arm64`, macOS 26.5.1, Xcode 26.6, and Swift 6.3.3.
 - The original imported SHA-256 ledgers passed and all 280 baseline inventory records matched size and digest before development changes.
-- The current 389-entry manifest covers every releasable file except its
+- The current 398-entry manifest covers every releasable file except its
   intentional self-reference exclusion, with no case-folded path collision.
 - Final release-integrity regeneration and read-only verification passed with
-  388 inventory records and 389 checksums for this increment.
+  397 inventory records and 398 checksums for this increment.
 - `Tools/Tests/Python/test_repository_scripts.py`: all 10 current tests passed
   across the M0 and focused runs.
 - Required-file, static package-graph, prohibited-import, Apple-platform, shell-syntax, and Swift package-description checks passed.
@@ -3804,6 +3881,64 @@ No complete Swift build/package suite or ADR Swift probe is required because no
 product source, dependency, package edge, runtime invariant or evidence probe
 changed.
 
+The focused gate for the M1 Swift-safety increment is:
+
+```bash
+python3 -m py_compile \
+  Tools/Scripts/check_swift_safety.py \
+  Tools/Scripts/check_required_files.py \
+  Tools/Tests/Python/test_swift_safety.py \
+  Tools/Tests/Python/test_repository_scripts.py
+python3 -m unittest \
+  Tools.Tests.Python.test_swift_safety \
+  Tools.Tests.Python.test_repository_scripts
+python3 Tools/Scripts/check_swift_safety.py --compile
+python3 Tools/Scripts/check_required_files.py
+Tools/Scripts/validate-docs.sh
+python3 Tools/Scripts/generate_requirement_index.py --check
+git diff --check
+python3 Tools/Scripts/check_release_integrity.py --write
+python3 Tools/Scripts/check_manifest_paths.py
+python3 Tools/Scripts/check_release_integrity.py
+```
+
+The focused Python suites pass 56 tests: 44 direct safety-gate fixtures and 12
+repository/workflow checks. The inventory covers 116 current repository-owned
+Swift files and 44 active configuration files. It admits checked vocabulary
+while rejecting escape-hatch syntax, compiler/configuration weakening,
+unexpected execution scope, orphan/excluded target sources, runtime-selected
+manifest settings and adversarial diagnostic/subprocess-output volume.
+
+The first strict compiler-gate attempt correctly exposed that release
+`--build-tests` does not enable `@testable` imports. The release command now
+adds `-enable-testing`; the final rerun passed product and test compilation for
+the root, Validation, Benchmarks and Tools packages in both debug and release
+with `-strict-memory-safety -warnings-as-errors`. Package metadata/build
+metadata commands use repository-neutral Git metadata, a 60-second bound and a
+4 MiB captured-output limit; streamed build commands use a 300-second bound.
+Both use process-group cleanup after earlier unbounded `git describe`
+inspection attempts were terminated. One final semantic rerun
+correctly failed at the 60-second metadata bound while two separate diagnostic
+SwiftPM help commands held the root build lock; those exact stale process
+groups were terminated, and the clean rerun passed all eight package/
+configuration builds.
+
+The final `Tools/Scripts/test-platforms.sh` wrapper passed strict product/test
+builds in both Debug and Release for macOS, iOS device/simulator and tvOS
+device/simulator. It stopped at the generic visionOS destination because Xcode
+reports the visionOS 26.5 platform component as not installed; a separate
+strict visionOS Simulator `build-for-testing` attempt reported the same
+unavailable destination. Neither is recorded as passing, and installing the
+external component was not attempted. No Swift test case was executed by these
+build-only safety oracles, and no full Swift test suite or blocked storage/
+metadata probe was run.
+
+The security workflow and complete scaffold now invoke the same fail-closed
+host/package gate without an always-success fallback, while the platform
+workflow supplies destination-specific compiler coverage. Required-file,
+documentation, requirement-index, diff and release-ledger checks passed after
+the final independent review and ledger regeneration.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -4286,23 +4421,24 @@ changed.
 
 ## Exact next action
 
-Audit the M1 supporting diagnostic/safety surface outside the blocked
-`ImageDescriptor`, metadata, provenance and storage closures. Map the M1
-`VOX-ERR-*`, `VOX-SEC-*`, `VOX-CON-*` and `VOX-VAL-*` requirements to current
-Core source/tests and accepted authority, then select the smallest genuinely
-unblocked implementation criterion or record its exact governance dependency.
-Do not accept Proposed ADRs/RFCs, select mapping or `ImageData` staging, edit
-controlled `v0.1.1` baselines or start a blocked public aggregate.
+Close the existing `ScalarFormat` invalid-data evidence leaf without changing
+production API. Add `VOX-ERR-001` traceability to its invalid-bit-count
+constructor and decoding tests, then require the decoding assertion to prove
+`DecodingError.dataCorrupted`, a terminal `validBitCount` coding path and
+underlying `DataModelError.invalidScalarFormat`. Record this as Core invalid-
+data evidence only, not completion of global `VOX-ERR-001` or `VOX-VAL-001`.
+Do not add allocation, storage, cancellation, backend, shader or convergence
+cases, accept Proposed ADRs/RFCs, edit controlled `v0.1.1` baselines or start a
+blocked aggregate.
 
 ## Test policy for the next action
 
-- For the M1 supporting-surface audit, run documentation/requirement-index
-  checks only while the increment remains read-only. If it identifies an
-  independently authorised source leaf, run only that leaf's focused typed-
-  error, redaction/privacy, cancellation/concurrency or validation-oracle tests
-  plus the owning target build and strict format lint; add direct dependant
-  compilation only if a shared API changes. Do not run blocked storage/metadata
-  probes or the complete Swift package suite during discovery.
+- Run only `swift test --filter ScalarFormat`, the owning
+  `swift build --target VoxeliaCore`, strict format lint for
+  `Tests/VoxeliaCoreTests/ScalarFormatTests.swift`, requirement-index and
+  release-integrity checks. Add no direct-dependant build because the public API
+  is unchanged. Do not run blocked storage/metadata probes or the complete
+  Swift package suite.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
