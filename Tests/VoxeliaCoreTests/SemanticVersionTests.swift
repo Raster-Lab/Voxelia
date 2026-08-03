@@ -20,7 +20,7 @@ struct SemanticVersionTests {
         #expect((maximum.major, maximum.minor, maximum.patch) == (Int.max, Int.max, Int.max))
     }
 
-    @Test("[Unit][VOX-API-004] rejects negative core values with typed errors")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] rejects negative core values with typed errors")
     func rejectsNegativeCoreValues() {
         #expect(throws: SemanticVersionError.negativeMajor(Int.min)) {
             try SemanticVersion(major: Int.min, minor: 0, patch: 0)
@@ -47,7 +47,7 @@ struct SemanticVersionTests {
         #expect(version.buildMetadata == "001.exp.sha-5114f85")
     }
 
-    @Test("[Unit][VOX-API-004] rejects malformed prerelease identifiers")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] rejects malformed prerelease identifiers")
     func rejectsInvalidPrerelease() {
         let invalidValues = [
             "", ".alpha", "alpha.", "alpha..1", "01", "alpha_1", "alpha+1",
@@ -66,7 +66,7 @@ struct SemanticVersionTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] rejects malformed build identifiers")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] rejects malformed build identifiers")
     func rejectsInvalidBuildMetadata() {
         let invalidValues = [
             "", ".build", "build.", "build..1", "build_1", "build+1", "é",
