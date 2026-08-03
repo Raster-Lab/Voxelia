@@ -1511,8 +1511,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md",
-      "size": 39578,
-      "sha256": "bfc3eadc0a390fe78839814a9ee39886de7bab81adb6adc7602e6deb8bca60c3"
+      "size": 45639,
+      "sha256": "9451f8dc76e7960b181a5f3ed5778e7ecea42023c67c3839dc9e57be9c93b1c5"
     },
     {
       "path": "docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md",
@@ -1611,8 +1611,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 291698,
-      "sha256": "dc56071ac405669f3b4727286538cfc3d182004ff6d3479d7aceb73aed415c73"
+      "size": 296153,
+      "sha256": "8cb2657183bc9493259b73d29cea508612f3d14a46dc0c5e2ef233ad82b14aef"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1901,13 +1901,18 @@
     },
     {
       "path": "docs/rfcs/README.md",
-      "size": 393,
-      "sha256": "68730fff7c8d491c20c1b5398448bc88c707a7ad1bcc415620be63ce954a5c8c"
+      "size": 591,
+      "sha256": "26cc7bceca7990a8fd210ae923f582b97784dbbc87897fef6cdabc97a1600139"
+    },
+    {
+      "path": "docs/rfcs/RFC-0001-controlled-correction-delta.md",
+      "size": 36496,
+      "sha256": "8ecbfc23bf606cccc4a669d4abc6aaf3d39e419e439e727d7eabcecaf103fb10"
     },
     {
       "path": "docs/rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md",
-      "size": 62308,
-      "sha256": "cd019ca62bbe082e0f2d45701eaf86e2436cafde9ce1329925dc21b37ebfb48e"
+      "size": 62622,
+      "sha256": "001ef9cec3a6fcd7ca279fd8c5f5b44e338d44312a921ee66c6346d2604a0ee7"
     },
     {
       "path": "docs/security/README.md",
@@ -1956,8 +1961,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 18275,
-      "sha256": "1511a704bc35e49eac0b547d2ff490f0e2da6bdeb259d66961dbfdfc537b30e3"
+      "size": 18325,
+      "sha256": "473640e4c3b8a2f27c8182192fd44b799e7345f2e0ed683d88aee423eb67c189"
     }
   ]
 }

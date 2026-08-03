@@ -828,6 +828,10 @@ The correction package must cite exact effective document revisions and owners.
 “Addressed by RFC-0001” is not enough; every row requires an actual approved
 change or explicit governed no-change disposition.
 
+Draft companion [`RFC-0001-CCD-01`](RFC-0001-controlled-correction-delta.md)
+expands these rows into proposed target revisions, owners, exact deltas and
+conditional branches. It is review material only and closes no gate.
+
 ### Compatibility rules
 
 No public aggregate storage API exists, so the directional RFC itself changes
@@ -989,6 +993,7 @@ None may be resolved implicitly by the first convenient implementation.
 
 ## References
 
+- [RFC-0001-CCD-01 - Controlled-correction delta](RFC-0001-controlled-correction-delta.md)
 - [Voxelia Project Foundation v0.1.1](../project/Voxelia_Project_Foundation_v0.1.1.md)
 - [Voxelia Master Technical Architecture v0.1.1](../project/Voxelia_Master_Technical_Architecture_v0.1.1.md)
 - [Voxelia Core Data Model Specification v0.1.1](../project/Voxelia_Core_Data_Model_Specification_v0.1.1.md)

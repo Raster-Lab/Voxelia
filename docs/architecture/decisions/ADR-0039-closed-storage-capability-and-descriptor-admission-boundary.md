@@ -11,9 +11,13 @@ affected_requirements:
   - "VOX-GOV-006"
   - "VOX-GOV-009"
   - "VOX-GOV-010"
+  - "VOX-PLT-008"
+  - "VOX-PLT-009"
+  - "VOX-REP-010"
   - "VOX-ARC-001"
   - "VOX-ARC-003"
   - "VOX-ARC-004"
+  - "VOX-ARC-005"
   - "VOX-ARC-011"
   - "VOX-API-001"
   - "VOX-API-003"
@@ -21,6 +25,7 @@ affected_requirements:
   - "VOX-API-005"
   - "VOX-API-007"
   - "VOX-API-010"
+  - "VOX-API-011"
   - "VOX-DAT-004"
   - "VOX-DAT-010"
   - "VOX-DAT-011"
@@ -46,18 +51,30 @@ affected_requirements:
   - "VOX-STO-012"
   - "VOX-BRK-002"
   - "VOX-BRK-005"
+  - "VOX-EXE-007"
+  - "VOX-EXE-009"
+  - "VOX-CON-001"
   - "VOX-CON-003"
   - "VOX-CON-006"
   - "VOX-CON-007"
+  - "VOX-CON-009"
   - "VOX-CON-010"
   - "VOX-ERR-001"
+  - "VOX-ERR-002"
   - "VOX-ERR-003"
   - "VOX-ERR-007"
   - "VOX-SEC-001"
   - "VOX-SEC-002"
   - "VOX-SEC-006"
   - "VOX-SEC-011"
+  - "VOX-VAL-007"
+  - "VOX-VAL-011"
+  - "VOX-VAL-016"
+  - "VOX-PER-007"
+  - "VOX-PER-008"
+  - "VOX-VS1-017"
   - "VOX-VS1-018"
+  - "VOX-VS1-020"
 ---
 
 # ADR-0039 - Closed storage capability and descriptor admission boundary
@@ -145,9 +162,9 @@ If accepted, Voxelia will preserve the live graph and assign:
 
 | Responsibility | Owner | Rule |
 |---|---|---|
-| Backend-neutral storage values, protocols, destination contract and safe erasure | `VoxeliaCore` | Never imports Storage, Execution or Metal. |
-| Pure logical/representation descriptor admission | `VoxeliaCore` | Invalid combinations cannot become published claims. |
-| Concrete providers, builders, mappings, allocation, I/O, codecs, caches and resource lifetime | `VoxeliaStorage` | Implements and witnesses Core contracts. |
+| Backend-neutral logical/representation, operation, snapshot, read-result, lease, error and safe-erasure contracts | `VoxeliaCore` | Never imports Storage, Execution or Metal; owns erasure/witness boxes. |
+| Contract admission, read authority and private result-target adoption | `VoxeliaCore` | Owns exact writable logical capacity, byte-budget reservation/token, stamping and commit. |
+| Concrete providers, builders, mappings, source/mapping allocation, I/O, codecs, caches and resource lifetime | `VoxeliaStorage` | Implements Core witnesses; never controls Core's private result target. |
 | Atomic `ImageData` publication | `VoxeliaExecution` or explicit host/import coordinator | One generation-pinned linearisation point. |
 | Per-device residency | `VoxeliaMetal` with Execution coordination | Dynamic evidence, never a storage bit. |
 | Locators, credentials, transport, privacy, authentication and storage policy | Host | No implied reusable-toolkit authority. |
@@ -161,35 +178,40 @@ migration. Core will not import Storage or add duplicate lookalike types.
 
 The storage contract is composite:
 
-1. an immutable snapshot descriptor states logical binding, representation,
-   organization, locality/backing and persistence claims;
-2. one Core-admitted nonforgeable provider-lineage authority plus the
+1. an exact logical sample-layout binding remains independent of storage;
+2. a tagged representation descriptor states physical addressing or opacity,
+   organization, locality/backing, persistence, length and alignment claims;
+3. one Core-admitted nonforgeable provider-lineage authority plus the
    provider-supplied retained callable witness establishes each available
-   operation for one exact descriptor, owner, snapshot and generation;
-3. an admitted optional-operation set mirrors exactly those retained
+   operation for one exact logical binding, representation descriptor, owner,
+   snapshot and generation;
+4. an admitted optional-operation set mirrors exactly those retained
    witnesses;
-4. runtime results establish complete reads, leases, freezes, checksums or
+5. runtime results establish complete reads, leases, freezes, checksums or
    residency observations; and
-5. external evidence may separately establish purpose-specific assurance.
+6. external evidence may separately establish purpose-specific assurance.
 
-Under proposed `ADR-0041`, an exact provider binding is Core-composed from one
-nonforgeable provider-lineage authority identity plus the provider-supplied
-descriptor, retained owner, snapshot, generation and callable witness. Neither
-the caller nor provider can inject or replace the Core authority. Its identity
-is identity-compared; equal value fields from another provider do not establish
-the same binding. It is in-process runtime authority only, not canonical wire,
-persistent identity or logical/representation identity. This refinement does
-not accept either proposal.
+Under proposed `ADR-0041`, one Core admission of one provider lineage into one
+budget domain mints a nonforgeable authority. Every handle, re-erasure and
+generation derived from that admission shares it; global cross-admission
+uniqueness is not claimed. The authority is composed with the provider-supplied
+exact logical binding, representation descriptor, retained owner, snapshot,
+generation and callable witness. Neither caller nor provider can inject or
+replace it. Equal value fields from another admission do not establish the same
+binding. It is in-process runtime authority only, not canonical wire, persistent
+identity or logical/representation identity. This refinement does not accept
+either proposal.
 
 A capability is a claim, not evidence. It does not prove a read completed,
 bytes match an identity, a file stayed unchanged, a codec can satisfy one
 region, a digest exists or was verified, content is resident, a source is
 reachable or authorised, or an implementation is diagnostic-ready.
 
-The minimal base contract exposes immutable snapshot identity and descriptor.
-Region reading is a separate witness. The initial M1 `ImageData` profile
-requires a complete, bounded, history-independent logical region-read witness.
-Its presence, not `randomRead`, establishes that behavior.
+The minimal base contract exposes immutable snapshot identity plus the exact
+logical and representation descriptors. Region reading is a separate witness.
+The initial M1 storage-read profile requires a complete, bounded, history-
+independent logical region-read witness. Its presence, not `randomRead`,
+establishes that behavior.
 
 A genuine sequential source requires an actor-isolated session defining
 canonical order, cursor ownership, restart, retry, cancellation and concurrent
@@ -198,9 +220,10 @@ the M1 region-readable profile through partial or order-dependent results.
 
 Type erasure exposes only exact retained witnesses. Callers cannot mint them by
 supplying identifiers or requested bits. A bit without a witness, a witness
-without its admitted operation, a different provider instance even when the
-descriptor/owner/snapshot/generation values are equal, any other binding
-substitution or fallback to different logical content is a typed failure.
+without its admitted operation, a different Core admission even when its
+logical/representation/owner/snapshot/generation values are equal, any other
+binding substitution or fallback to different logical content is a typed
+failure.
 
 ### Optional-operation registry
 
@@ -211,9 +234,9 @@ exist only in the exact wire adapter and validated internal admission.
 
 | Bit | Exact operation | Meaning |
 |---:|---|---|
-| 0 | `scopedContiguousByteAccess` | Request a read-only scoped lease over a known decoded strided representation, with exact layout, length, alignment, owner and lifetime. |
-| 1 | `mappedRepresentationAccess` | Request a scoped exact representation mapping bound to snapshot/file identity, offset, length, change policy and lifetime. |
-| 2 | `builderAcquisition` | Acquire a separate unpublished transaction; published storage is not mutated. |
+| 0 | `scopedContiguousByteAccess` | Request a synchronous read-only owner-retaining `Data` scope bound to the exact authority, logical binding, representation, owner, snapshot, generation, layout, length and alignment; no bare view escapes. |
+| 1 | `mappedRepresentationAccess` | Request a scoped exact representation mapping bound to authority, logical binding, representation, owner, snapshot, generation, file identity, offset, length, page/alignment and external-change policy, with a strong mapping owner for the complete synchronous borrowed-`Data` scope. |
+| 2 | `builderAcquisition` | Reserve a candidate category for a separate unpublished transaction; no witness/source is admitted until a builder/freeze contract is accepted. |
 | 3 | `regionEnumeration` | Enumerate supported logical regions through a typed bounded API. |
 | 4 | `nativeTileAccess` | Use a typed tile API with a matching descriptor. |
 | 5 | `nativeBrickAccess` | Use a typed brick API with a matching descriptor. |
@@ -303,9 +326,9 @@ content bytes until that correction is accepted.
 
 Proposed `ADR-0040` supplies that correction: it separates exact decoded
 scalar/component order from source bit interpretation and physical layout,
-defines a fixed-endian logical sample sequence, and keeps the complete
-descriptor-and-samples identity blocked on the canonical full descriptor and
-semantic-role/pixel-padding projections.
+defines a most-significant-byte-first logical sample sequence, and keeps the
+complete descriptor-and-samples identity blocked on the canonical full
+descriptor and semantic-role/pixel-padding projections.
 
 Initial representation tags are:
 
@@ -321,9 +344,12 @@ Initial representation tags are:
 - required addressed decoded span; and
 - exact initialized representation byte length.
 
-Full logical representability, one representation length and one read/allocation
-maximum use independent policy limits. A large remote/tiled logical dataset is
-not rejected merely because one allocation cannot contain it.
+Full logical representability, representation length, one read and one
+authority's active-target-plus-retained-result-backing budget use independent
+policy limits. Independent deep copies, provider scratch allocation and other
+authority domains require separate aggregate host/Execution policy. A large
+remote/tiled logical dataset is not rejected merely because one allocation
+cannot contain it.
 
 An absent opaque length means unknown and cannot plan allocation, mapping,
 direct leasing or full-representation integrity. Decoded strided
@@ -377,36 +403,76 @@ origin may coexist with an owned or mapped local cache, and callback is an
 access mechanism rather than a place. Exact locator, callback and transport
 contracts remain host/M9 work.
 
-### Region reads and destination publication
+### Complete region reads and owned result publication
 
-Every M1 region-readable witness validates before access:
+Every M1 region-readable witness is admitted before provider access against:
 
-- region rank and checked containment against the exact bound storage shape;
-- destination shape against requested extents;
-- logical scalar/component compatibility;
-- an explicit destination layout (the first safe profile is packed
-  interleaved, base offset zero);
-- checked expected logical bytes and request limit; and
-- exact opaque provider instance, descriptor, owner, snapshot and generation.
+- the exact Core authority, logical binding, representation descriptor, owner,
+  snapshot, generation and retained witness;
+- explicit freshness mode and, for `require current`, a valid permit from that
+  same Core authority;
+- region rank, checked non-empty containment and expected logical value/byte
+  counts;
+- the first decoded packed-interleaved result profile with base offset zero,
+  exact scalar/component order and exact checked length; and
+- exact request-count and active-plus-retained-result byte-budget reservation.
 
-After validating the retained provider witness, the Core-owned coordinator
-issues a non-caller-mintable, one-shot request seal. Under proposed `ADR-0041`,
-the provider never receives that seal or an authoritative binding to echo; it
-receives only a checked bounded fill capability over Core-owned private staging
-and returns an outcome through the exact retained witness. The coordinator
-closes the fill and stamps its own transaction record. Another provider with
-equal labels therefore cannot substitute its bytes, and old bytes cannot be
-retagged with a newer caller-supplied generation or replayed into another
-request. Success publishes one complete owned result exactly once. Actual
-bytes remain private redacted staging until their exact expected length is
-present. Short/overrun delivery, unsupported access, cancellation, failure,
-mismatch, replay and stale current-required generation publish no bytes.
-Cancellation is distinct from failure. This refinement does not accept either
-proposal or authorise source.
+The result profile rejects empty regions before reservation. Its bytes are not
+automatically the canonical logical-identity byte stream.
 
-Unsafe pointers never escape a scoped lease/destination. The owner retains the
-resource for the whole scope. A mapped lease also binds exact snapshot/file
-identity, offset, length and external-change policy.
+Invalid request/result profile, absent witness, invalid/absent current permit
+and resource/policy-limit rejection remain unstarted: they create no seal or
+pending slot and invoke neither allocator nor provider.
+
+After the pending reservation is recorded, a safe Core allocator or separately
+admitted allocation service attempts one private backing with exact writable
+logical capacity outside the gate and co-locates the idempotent live-byte token
+with that backing. Recoverable allocation failure invokes no provider,
+terminalises only that transaction and retires its reservation exactly once
+after any partial allocation state is destroyed. On success, the provider
+receives only a weak/non-owning monotonic bounded-fill capability and returns
+only an outcome through the exact retained witness. It never receives the
+request seal, authoritative binding, backing object, budget token or commit
+capability.
+
+The coordinator closes the fill, derives exact count/overrun and alone stamps
+the prepared record. Fill must be contiguous from the current cursor; overlap,
+gap, out-of-order, concurrent out-of-order, after-close, short or overrun fill
+cannot commit. The same Core gate is the sole local linearisation point for
+cancellation, current-required invalidation, preparation and commit. The first
+terminal event wins. A non-commit read returns only after provider drain and
+private-owner retirement; its reservation remains charged until then. Gate
+state retains only bounded records/tombstones, never the private/result buffer,
+and invokes no provider, allocator, callback or destructor while synchronized.
+
+Success releases the request-count reservation, transfers the co-located exact
+backing and independent byte-budget token into one complete immutable result,
+and emits only a coordinator-authenticated non-authoritative source stamp. The
+stamp is not a binding or witness and does not establish persistent/logical
+identity, origin/provenance, `ImageData` publication or current-generation
+authority. Another admission with equal labels cannot substitute bytes, and old
+bytes cannot be retagged or replayed. A bound-snapshot read may finish for its
+retained historical snapshot; a `require current` read must still hold the exact
+non-caller-mintable current permit at commit.
+
+A shared result alias must co-retain the same result-backing owner and byte-
+budget token; otherwise it is a proved independent copy charged to caller
+ownership.
+The source-gated lease candidate synchronously lends an owning immutable
+`Foundation.Data`, from which the caller derives `Data.span` or `Data.bytes` at
+the use site. It returns no bare span, pointer or unsafe buffer. An arbitrary
+generic closure result remains blocked until shared-backing escape accounting
+is proved.
+
+Every mapped scope is admitted from the exact handle's authority, logical
+binding, representation descriptor, owner, snapshot and generation and also
+binds exact file identity, mapped offset/length, page/alignment constraints,
+external-change policy and a strong mapping owner for the complete borrowed-
+`Data` scope. Direct access requires an immutable stable mapping snapshot;
+before/after metadata checks on an externally mutable file are insufficient.
+
+This refinement records proposed `ADR-0041` as the controlling read/lifetime
+candidate. It accepts neither proposal and authorises no source.
 
 ### Representation integrity and logical identity
 
@@ -425,18 +491,19 @@ transplanted to a different same-length descriptor. Its final canonical wire
 remains source-blocked with the broader logical/representation projection.
 
 Verification evidence is constructible only by a trusted verifier that reads
-the exact descriptor-bound initialized representation, computes the selected
-digest under the selected projection, compares it in constant time where
-required and binds the provider's current snapshot and generation. A separate
-policy authority issues the exact current policy snapshot, including validity
-and revocation state; callers cannot obtain assurance by passing booleans or a
-matching policy label. Assurance rechecks that authoritative snapshot. A
-decoded or matching structural claim is not evidence.
+the exact admitted immutable snapshot/generation and representation, computes
+the selected digest under the selected projection and compares it in constant
+time where required. If currentness is required, it uses a permit from the same
+Core authority rather than a provider oracle. The final M5 verifier and policy-
+authority contract remains unresolved. Callers cannot obtain assurance by
+passing booleans or matching labels. A decoded or matching structural claim is
+not evidence.
 
 The structural claim does not carry runtime provider authority. Verification
-evidence additionally retains and revalidates the exact provider binding;
-evidence from another provider instance is not substitutable merely because
-its descriptor, owner, snapshot, generation, claim or digest is value-equal.
+evidence additionally retains and revalidates the exact Core-admitted provider
+binding; evidence from another admission is not substitutable merely because
+its logical/representation descriptor, owner, snapshot, generation, claim or
+digest is value-equal.
 
 Representation verification proves only covered stored bytes. It does not
 prove logical identity, provenance, authenticity, cache authority, clinical
@@ -454,38 +521,26 @@ contract, never normalized by guessing. Pixel-padding semantics are typed
 processing/presentation metadata, not allocation padding, and remain in the
 relevant operation policy/identity.
 
-### Builders and atomic publication
+### Deferred builder and atomic-publication boundary
 
-`builderAcquisition` returns a separate actor-isolated unpublished transaction
-through the exact retained provider witness. The builder retains:
+`builderAcquisition` is a reserved cross-milestone registry category, not an M1
+admitted operation. A separate accepted contract must define builder authority,
+source/target binding, mutation exclusivity, concurrency, bounded write
+coverage, cancellation/failure, allocation accounting, stale/replay behaviour,
+freeze linearisation and synchronous resource retirement before any witness or
+source exists.
 
-- the Core-composed immutable source-authority provider-lineage/descriptor/
-  owner/snapshot/generation binding;
-- a bounded non-overlapping partition of expected, shape-bound write regions;
-- exact expected byte count and owned immutable staging for every slot;
-- duplicate/unknown/overlap rejection;
-- retryable per-write cancellation, explicit terminal transaction
-  cancellation, failed-state and retry rules; and
-- one-shot freeze only after exact complete coverage.
+That later contract may use the isolated probe's actor-backed, bounded,
+non-overlapping complete-fill fixture as review input, but the fixture is not
+normative authority and does not prove production builder semantics. In
+particular, provider-actor currentness must not substitute for Core/Execution
+generation authority.
 
-Non-overlapping bounded regions whose checked logical byte total equals the
-target logical byte total establish full rectangular coverage for the initial
-profile. A cancelled individual write publishes nothing and may be retried;
-explicit transaction cancellation is terminal. Short delivery poisons the
-transaction. Terminally cancelled, failed, incomplete or stale builders expose
-no frozen bytes. Stale generation cannot be replayed by passing an older
-caller-selected number. Freeze revalidates the exact source binding at the
-provider actor, mints a distinct unpublished target snapshot/generation and
-returns both target binding and source authority with the staged snapshot. The
-source authority remains part of target identity, so equal textual target
-labels or ordinals minted by distinct providers cannot collide.
-
-A successful freeze returns an unpublished immutable storage snapshot plus
-separate representation evidence when available. It does not accept/create
+Any accepted freeze may return only an unpublished immutable storage snapshot
+plus separate representation evidence. Storage does not accept/create
 provenance, attach metadata, assert diagnostic assurance, publish a cache alias
-or return `ImageData`. Execution or an explicit host/import coordinator
-performs owner-specific checks and atomically publishes the coherent bundle
-under proposed `ADR-0037` and `ADR-0038`.
+or return `ImageData`. Execution or an explicit host/import coordinator owns
+the later coherent publication after its independent dependencies are accepted.
 
 ### Residency
 
@@ -502,28 +557,31 @@ Core imports no Metal type.
 
 `AnyImageStorage` remains source-blocked until independent review proves:
 
-- immutable logical content per snapshot;
-- retained Core-lineage-bound provider descriptor/owner/snapshot/generation
-  callable witnesses;
-- typed destination compatibility;
-- backing retention for async reads and views;
-- cancellation/deinitialization safety;
-- bounded dispatch/allocation;
+- immutable logical content per exact snapshot/generation binding;
+- one nonforkable Core authority per admitted lineage/budget domain;
+- retained exact logical/representation/owner/snapshot/generation witnesses;
+- checked single-witness dispatch with no fallback;
+- private-result backing and byte-token ownership across suspension and aliases;
+- first-terminal-wins cancellation/invalidation/commit plus explicit provider
+  drain and synchronous reservation retirement;
+- bounded dispatch, allocation, live-result bytes and tombstones;
 - simultaneous-read race freedom; and
-- any `@unchecked Sendable` invariant under stress/fault tests.
+- checked `Sendable` conformance without a Voxelia-authored
+  `@unchecked Sendable` escape hatch.
 
-The preferred design uses owned values, owner-retaining views,
-actor/generation handles or language-enforced borrowing. A caller-chosen
-textual token plus separate owner is not lifetime evidence. The probe retains
-the actor owner inside each view and returns owned snapshots; it does not claim
-no-copy pointer safety.
+The selected candidate uses owned immutable results and synchronous owner-
+retaining `Data` scopes. A caller-chosen textual token plus a separate owner,
+ordinary CoW copying, `RawSpan`'s standard-library unchecked conformance or an
+outer wrapper token is not lifetime/accounting evidence. The older ADR-0039
+probe retains an actor owner and returns copied snapshots; it does not prove the
+composed production read gate, alias-token co-location or no-copy/mapped safety.
 
 ### Source gate
 
 This Proposed ADR authorises documentation and isolated evidence only. It does
 not authorise:
 
-- descriptor, capability, storage/destination protocol, builder or erasure
+- descriptor, operation, storage/read/lease protocol, builder or erasure
   product source;
 - moving/duplicating `StorageKind` or `StoragePersistence`;
 - public raw capability bits or synthesised capability coding;
@@ -536,7 +594,7 @@ not authorise:
 - `@unchecked Sendable`.
 
 Product source requires accepted ADR/RFC and controlled corrections, closure of
-the logical projection and destination/lifetime contracts, production limits,
+the logical projection and read/lifetime contracts, production limits,
 supported-destination builds and designated API, concurrency and security
 reviews.
 
@@ -544,35 +602,51 @@ Draft `RFC-0001` composes this proposal with proposed `ADR-0040` and
 `ADR-0041` and inventories the required corrections. While Draft, it satisfies
 none of those acceptance or source gates.
 
-### Proposed milestone correction
+Draft companion `RFC-0001-CCD-01` proposes exact target revisions, owners and
+conditional correction text. It is non-authoritative and closes no gate.
 
-The following is a proposed controlled correction, not the current approved
-baseline. Until this ADR and the matching Requirements/CDMS/MTA/RPSS changes
-are accepted, the existing documents remain authoritative: `VOX-DAT-014`
-places the data handle in M1, `VOX-STO-002` requires the M1 capability contract
-to cover residency, and the CDMS M1 checklist requires erasure plus a builder
-that returns `ImageData`.
+### Proposed milestone boundary and unresolved mapping choice
 
-- **M1:** Core contract, safe region-readable erasure/destination, structural
-  data-handle/storage binding, contiguous owned storage, mapped immutable
-  storage and transactional freeze. The coordinator, not Storage, constructs
-  any admitted `ImageData` value.
-- **M2:** canonical logical identity and provenance/cache publication
+The Foundation assigns storage abstractions to Phase 1 and memory-mapped
+storage to Phase 5, while `VOX-STO-004`, MTA Stage 3/section 44.5 and the older
+text of this proposal place a mapped implementation in the early storage
+milestone. This Proposed ADR does not settle that controlled conflict.
+
+The governed options are:
+
+1. preserve the Foundation schedule: M1 includes the mapping contract and
+   isolated lifetime evidence but no production mapped provider; M5 owns
+   production mapping, and Requirements/MTA/CDMS are corrected; or
+2. retain production mapping in M1 only after a formal Foundation revision,
+   followed by aligned Requirements/MTA/CDMS/RFC/ADR revisions and evidence.
+
+Subject to that unresolved choice, the proposed responsibility boundary is:
+
+- **M1:** backend-neutral logical/representation, snapshot, operation, complete
+  read and checked-erasure contracts/evidence plus one verified owned
+  contiguous provider; structural storage/data-handle compatibility only after
+  its independent dependencies are accepted.
+- **M2:** canonical logical identity and provenance/cache/publication
   dependencies.
 - **M3:** operational Metal-owned generation-qualified residency evidence. M1
   may name the absence/presence of such separately owned evidence but does not
   encode changing residency as an immutable storage capability.
-- **M5:** tiled/bricked/compressed storage, representation integrity and
-  independent eviction.
+- **M5:** tiled/bricked/compressed/multi-resolution providers, representation
+  integrity, independent eviction and, under option 1, production mapping.
 - **M9:** callback/remote providers and any sequential session, with host-owned
   transport/authentication.
+
+No builder/freeze implementation milestone is selected here. Builder
+acquisition, mutation exclusivity, freeze and hand-off require a separate
+accepted contract and cannot publish `ImageData` from Storage.
 
 Reserving later-operation bits does not claim their implementation or
 validation. In particular, the evidence probe retains only a bounded
 resolution-count characteristic and rejects operational
 `resolutionLevelAccess`; callable per-level descriptors remain M5 work. M1
 does not inherit later digest/integrity completion merely because the CDMS
-checklist says “complete-content digest”.
+checklist says “complete-content digest”. Until the mapping choice is approved
+through the recorded authority route, no mapped product source is authorised.
 
 ## Alternatives considered
 
@@ -647,7 +721,8 @@ Rejected. Comments do not enforce scope, retention or race freedom.
 - Stable bit and unknown-data behavior are fixed before persistence.
 - Layout construction fails closed on rank, overlap, overflow, length,
   alignment and byte-order errors.
-- Reads and builders cannot expose partial or stale bytes.
+- Core-owned reads cannot expose partial, stale, substituted or unaccounted
+  bytes; builders remain separately gated.
 - Representation integrity, logical identity, provenance and diagnostic
   assurance remain distinct.
 - Residency remains downstream device state.
@@ -655,10 +730,11 @@ Rejected. Comments do not enforce scope, retention or race freedom.
 
 ## Affected modules
 
-- `VoxeliaCore`: future contract values, operation vocabulary,
-  region/destination protocols, erasure and logical binding.
-- `VoxeliaStorage`: concrete providers/builders, resource lifetimes,
-  mapping/allocation and representation verification.
+- `VoxeliaCore`: future logical/representation, operation, snapshot, complete-
+  read, owned-result, scoped-lease, error and checked-erasure contracts plus
+  private target admission/adoption.
+- `VoxeliaStorage`: concrete providers/builders, source/mapping allocations,
+  resource lifetimes, I/O and representation verification.
 - `VoxeliaExecution`: generation pinning and atomic publication.
 - `VoxeliaMetal`: per-device residency/GPU state.
 - `VoxeliaValidation`: purpose-specific assurance.
@@ -676,8 +752,9 @@ pre-1.0 migration may be source-breaking and needs explicit compatibility
 notes. They are not moved here.
 
 External prototypes using raw flags, synthesised coding, Storage-owned erasure,
-writable published storage, optional stride bags or builder-returned
-`ImageData` are not compatible Voxelia contracts.
+caller-owned async destinations, provider-stamped completion, writable
+published storage, optional stride bags or builder-returned `ImageData` are not
+compatible Voxelia contracts.
 
 ## Security impact
 
@@ -685,9 +762,12 @@ The decision reduces bounds, overflow, lifetime, TOCTOU, downgrade,
 partial-publication and confused-authority risk. Unknown wire bits fail closed;
 address arithmetic and resource limits are checked before access.
 
-It does not authenticate providers or digests. Mapped files need snapshot,
-verified representation or invalidation policy. Remote/compressed inputs remain
-adversarial. Credentials, keys, trust and network policy remain host-owned.
+It does not authenticate providers or digests. Direct mapping requires an
+immutable stable snapshot for the whole scope. An externally mutable file may
+only use copied private staging plus fail-closed revalidation; verification or
+invalidation alone is not direct mapped-lease evidence. Remote/compressed
+inputs remain adversarial. Credentials, keys, trust and network policy remain
+host-owned.
 The Core-admitted provider-lineage identity prevents in-process authority
 substitution only; it is not external authentication, a globally stable
 identifier, a signature or a trust assertion.
@@ -719,9 +799,10 @@ Acceptance requires focused evidence for:
 - exact bits, mask, fixed lowercase wire and future opaque forwarding;
 - malformed/future/reserved/oversized ingress rejection without pre-limit
   materialisation;
-- retained Core-authority/provider-witness descriptor/owner/snapshot/generation
-  equality, callability and missing/extra/
-  substitution denial;
+- one nonforkable Core authority per admitted lineage/budget domain, co-retained
+  by derived handles, generations and re-erasure, plus exact authority/logical-
+  binding/representation/owner/snapshot/generation/witness callability and
+  missing/extra/substitution denial;
 - mandatory history-independent read witness;
 - mapping without decoded direct bytes and typed organization metadata;
 - explicit source-gating of operational resolution-level access until M5 has
@@ -730,20 +811,23 @@ Acceptance requires focused evidence for:
 - stride rank/sign, offset, interleaved/planar layout, overlap, overflow,
   span, alignment, endian and packed/storage-defined rejection;
 - cross-shape region substitution rejection;
-- Core-coordinator-issued one-shot request seals, internally stamped exact-
-  witness completions, actual redacted staged bytes and no result publication
-  after short read, cancellation, failure, mismatch, equal-label cross-provider
-  substitution, replay or stale generation;
+- Core-owned one-shot seals, pending reservation before fallible private-target
+  construction, monotonic bounded fill, internally stamped preparation, first-
+  terminal-wins commit/cancel/stale/failure/abandonment and drain-before-return;
+- complete owned-result publication with independent live-byte tokens, retained-
+  alias accounting, recyclable tombstones and no publication after short/
+  overrun/invalid fill, cancellation, failure, mismatch, equal-label cross-
+  admission substitution, replay or stale current-required generation;
 - non-transplantable claim-free representation-descriptor binding,
   algorithm-sized representation claims, trusted exact-byte digest
-  computation, authority-issued policy snapshots, restricted evidence,
-  mismatch, policy, expiry and revocation denial;
-- provider-authoritative builder acquisition/freeze, distinct frozen target
-  binding plus exact source authority, bounded non-overlapping coverage, owned
-  staging, retryable write cancellation, terminal transaction cancellation,
-  cross-provider target-collision denial, short-write poison, failure,
-  completeness and non-replayable stale freeze;
-- owner-retaining views, stale denial and bounded sequence ingress;
+  computation, exact admitted-snapshot binding, claim/evidence separation and
+  mismatch denial; final verifier/policy authority, expiry and revocation remain
+  M5-gated;
+- explicit source-gating of builder acquisition/freeze until a separate accepted
+  contract defines authority, binding, exclusivity, cancellation, coverage,
+  allocation, stale/replay and unpublished hand-off semantics;
+- owner-retaining synchronous `Data` scopes, generic CoW-alias escape denial or
+  accounting, complete mapped-scope binding, stale denial and bounded ingress;
 - strict Swift concurrency with no unsafe pointer or `@unchecked Sendable`;
 - exact redacted description, debug description, reflection and dump output for
   byte-bearing values and actors plus PHI/path/digest sentinels; and
@@ -753,11 +837,14 @@ Acceptance requires focused evidence for:
 The probe's opaque forwarding fixture deliberately accepts only the same
 fixed-width capability envelope with a future version. It does not satisfy the
 broader acceptance requirement for arbitrary bounded future-schema
-preservation. The isolated Swift 6 probe covers the remaining listed
-conceptual invariants with toy bytes, an actor-backed fixture provider,
-CryptoKit SHA-256 and non-production limits. It is not product API, canonical
-storage wire, a production provider or integrity implementation, complete
-cryptographic validation, unsafe/no-copy access or production evidence.
+preservation. The isolated Swift 6 probe covers the descriptor/capability,
+integrity, builder and earlier provider-completion/destination fixture with toy
+bytes, an actor-backed provider, CryptoKit SHA-256 and non-production limits.
+It does not demonstrate the composed Core admission factory, private-target
+allocator, monotonic fill/prepare/commit/drain gate, live-result budget ledger,
+safe erasure, CoW-alias accounting, complete mapped binding, production
+provider/integrity implementation, unsafe/no-copy access, full cryptographic
+validation or production limits.
 
 No complete package suite is required because product source, targets and
 dependencies do not change. The focused probe plus document, graph/import,
@@ -767,21 +854,27 @@ manifest and release-integrity gates cover this increment.
 
 If accepted:
 
-1. publish and accept the storage-contract RFC;
-2. correct MTA/CDMS/RPSS/Requirements ownership, inventory, names, M1 data
-   handle/residency/digest wording and builder/publication semantics;
-3. accept proposed `ADR-0040`'s normalized logical sample/component
-   projection and its controlled migration;
-4. migrate backend-neutral storage taxonomy to Core pre-1.0;
-5. implement closed operations and exact custom wire with focused tests;
-6. implement tagged Core descriptor and checked construction;
-7. accept proposed `ADR-0041`'s safe complete-read transaction, checked erasure
-   and scoped owner-retaining contiguous/mapped lease contract;
-8. implement protocols/erasure after independent lifetime/`Sendable` review;
-9. implement focused contiguous and mapped providers;
-10. implement builder/freeze without metadata, provenance or publication;
-11. integrate publication only after identity/provenance boundaries; and
-12. add Metal/M5/M9 contracts only at their milestones.
+1. accept the directional storage-contract RFC and record the governed mapping
+   choice without treating that acceptance as source authority;
+2. make the complete controlled Foundation/MTA/CDMS/RPSS/Requirements/FVSP/
+   overview correction package effective;
+3. reconcile all three storage proposals, then accept `ADR-0039`, `ADR-0040`
+   and `ADR-0041` in that order, with `ADR-0041` controlling the Core-owned
+   read/seal/stamping/drain and lifetime model;
+4. freeze final public names, wires, errors and production limits through their
+   required focused reviews;
+5. introduce lossless Core/Geometry logical/representation compatibility
+   projections before removing or moving an existing declaration;
+6. implement checked Core descriptors, admission authority, operation registry,
+   complete-read transaction, owned result and erasure with focused tests;
+7. implement one owned contiguous Storage provider with bounds, cancellation,
+   allocation-failure, race, lifetime and release tests;
+8. implement direct leases or a mapped provider only after the selected
+   milestone plus platform/lifetime/unsafe evidence gates;
+9. design builder acquisition/freeze under a separate accepted contract;
+10. integrate `ImageData` publication only after identity, metadata, provenance,
+    cache and Execution/import publication dependencies are accepted; and
+11. add Metal/M5/M9 contracts only at their governed milestones.
 
 Until then, storage leaves remain declaration vocabulary and no aggregate is
 source-authorised.
@@ -794,8 +887,11 @@ read, builder and integrity sketches. It does not change the live graph.
 It composes with proposed `ADR-0037` for data identity/cache admission and
 proposed `ADR-0038` for provenance/publication, and proposed `ADR-0040` for the
 normalized logical sample projection, and proposed `ADR-0041` for the read
-transaction/type-erasure lifetime boundary. None of those links accepts the
-other proposal or closes the remaining descriptor, identity or source gates.
+transaction/type-erasure lifetime boundary. If the proposals are accepted in
+their recorded order, `ADR-0041` controls read authority, stamping, allocation,
+drain, result-accounting, erasure and scoped-byte lifetime where the older
+ADR-0039 probe shape differs. None of those links accepts another proposal or
+closes the remaining descriptor, identity or source gates.
 It does not define canonical logical `ContentID`, final `ImageData`, metadata/
 provenance, codecs, tile/brick grids, remote transport, Metal resources or
 diagnostic status.
@@ -814,4 +910,5 @@ diagnostic status.
 - [ADR-0040 - Normalized logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
 - [ADR-0041 - Safe storage read transaction and type-erasure lifetime boundary](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md)
 - [RFC-0001 - Storage contract and logical data-model composition](../../rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md)
+- [RFC-0001-CCD-01 - Controlled-correction delta](../../rfcs/RFC-0001-controlled-correction-delta.md)
 - [ADR-0039 storage capability/descriptor admission probe](../../progress/evidence/ADR-0039-storage-capability-descriptor-admission-probe.swift)

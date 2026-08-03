@@ -159,11 +159,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   Core-composed provider-lineage/descriptor/owner/snapshot/generation-bound
   callable operation witnesses, a closed ten-operation bit
   registry and fixed wire, tagged logical/representation descriptors, checked
-  read/destination staging, representation claim/evidence separation,
-  unpublished actor-isolated builder freeze and Metal-owned dynamic residency.
-  It resolves the conceptual MTA/CDMS/RPSS ownership direction but authorises
-  no source while the ADR/RFC, controlled corrections, logical projection,
-  lifetime/erasure design, limits and reviews remain open.
+  Core-private complete owned-read transaction, drain/alias accounting,
+  representation claim/evidence separation and Metal-owned dynamic residency.
+  It now defers builders to a separate accepted contract and records rather
+  than settles the Foundation Phase-5 versus Requirements M1 mapped-provider
+  conflict. It resolves the conceptual MTA/CDMS/RPSS ownership direction but
+  authorises no source while the ADR/RFC, controlled corrections, logical
+  projection, lifetime/erasure design, limits and reviews remain open.
 - Proposed `ADR-0040` selects a representation-independent logical sample
   sequence: axis-zero-fastest indices, component-fastest ordinals and exact
   fixed-width big-endian decoded scalar bits. It removes byte order, valid-bit
@@ -194,6 +196,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   versus Requirements M1 mapped-provider conflict as a blocking governed
   choice. It recommends preserving the Foundation schedule but does not record
   approval, freeze final API/wire/limits or authorise any source.
+- Draft companion `RFC-0001-CCD-01` expands `C01` through `C24` into proposed
+  `0.1.2` targets, role-based owners/reviewers, exact correction text,
+  cumulative gates and atomic application order. It preserves explicit branches
+  for the mapping schedule and M1 structural-versus-M2 public `ImageData`
+  staging choices; it amends no controlled baseline and closes no gate.
 - The complete `ImageDescriptor` closure has been audited field by field. Five
   of its eight direct field types are implemented, but axes, value transforms
   and every complete spatial-geometry path remain governance- or contract-
@@ -3651,7 +3658,54 @@ gates. Final API/error names, wires, production limits, the complete logical
 descriptor/component-role/pixel-padding projection, builder contract, real
 mapping/no-copy evidence and all human approvals remain open.
 
-The final narrow gate for this documentation-only Draft is:
+The follow-on documentation increment reconciles proposed `ADR-0039` with that
+composition. It removes the settled M1 mapped-provider claim, public async-
+destination/provider-stamped completion implications and normative builder-
+fixture authority. The proposal now records:
+
+- one Core admission authority per provider lineage/budget domain, exact
+  logical/representation/owner/snapshot/generation/witness binding and no
+  provider/caller authority injection;
+- budget reservation before fallible private-target construction, co-located
+  live-byte token, Core-only fill close/stamping/commit and non-commit drain;
+- complete owned results, non-authoritative source stamps, retained alias
+  accounting and source-gated synchronous owner-retaining `Data` scopes;
+- the complete mapped authority/descriptor/resource tuple and immutable stable-
+  snapshot rule;
+- builder acquisition/freeze as a separately gated future contract rather than
+  accepted M1 authority; and
+- mapping option 1/2 as an unresolved governed choice, with one owned contiguous
+  provider retained in M1 under either branch.
+
+Draft companion
+`docs/rfcs/RFC-0001-controlled-correction-delta.md` maps every `C01`–`C24`
+row to the exact current sections, proposed `0.1.2` revision targets, role-based
+owners/reviewers, replacement/addition/no-change text and cumulative `A/S/I/M`
+gates. It defines atomic application order and conditional requirement counts,
+but leaves mapping and M1 structural-versus-M2 public `ImageData` choices open.
+The companion consumes no `RFC-0002` identifier and has no authority of its own.
+
+A focused requirements-table oracle confirmed the controlled baseline counts
+M1 `53`, M2 `57`, M5 `39` and all four conditional branches: mapping option 1
+plus `C24` A is `51/58/40`; option 1 plus `C24` B is `52/57/40`; mapping option
+2 plus `C24` A is `52/58/39`; option 2 plus `C24` B is `53/57/39`. These are
+review arithmetic only; the selected Requirements revision must regenerate its
+own tables/indexes before approval.
+
+Independent lifetime/API and controlled-governance reviews found no P0 issue.
+Their P1 findings added complete authority/descriptor/owner/generation mapping
+bindings, pre-admission freshness checks, result-stamp limits, builder deferral,
+the 17 directly affected ADR-0039 requirement IDs, exact six-file `C17`
+application scope, deterministic `C24` targets/counts and the required accepted-
+RFC-before-effective-corrections approval transition. Post-fix re-reviews pass.
+
+The ADR-0039 probe is not rerun: the proposal now explicitly classifies its
+provider/destination completion and actor-backed builder shapes as older narrow
+fixtures rather than changing that evidence. Product source, package topology,
+dependencies and runtime behaviour remain unchanged.
+
+The final narrow gate for this documentation-only RFC/ADR/correction increment
+is:
 
 ```bash
 Tools/Scripts/validate-docs.sh
@@ -3662,6 +3716,16 @@ python3 Tools/Scripts/check_release_integrity.py --write
 python3 Tools/Scripts/check_manifest_paths.py
 python3 Tools/Scripts/check_release_integrity.py
 ```
+
+The focused gate passes: documentation validation covers 69 Markdown files and
+21 ADR records; static package-graph and prohibited-import checks pass;
+`git diff --check` passes; and release regeneration reports 393 manifest paths, 392
+inventory records and 393 checksums. A Python standard-library inline governance
+oracle parsed the RFC/companion/ADR front matter and links, proved 97 identical
+parent/companion requirement IDs, 69 unique reconciled ADR-0039 IDs, exactly 24
+parent correction IDs and companion headings, RFC-acceptance-before-effective-
+corrections ordering, and the four conditional count branches. Relative targets
+for every modified RFC/ADR link exist.
 
 The ADR-0039 through ADR-0041 probes are not rerun because this Draft changes no
 evidenced invariant. No complete Swift package suite is required: product
@@ -4115,10 +4179,15 @@ source, package topology, dependencies and runtime behaviour do not change.
   storage, security, privacy and memory-lifetime review.
 - Draft `RFC-0001` is not an accepted public contract or controlled correction.
   Its recommended Foundation-preserving mapping schedule remains a governed
-  choice, and proposed `ADR-0039` still contains conflicting M1 mapped-provider
-  wording. All 24 correction/disposition rows need exact controlled owners,
-  effective revisions and recorded review; a reference to the Draft alone
-  closes none of those gates.
+  choice. Proposed `ADR-0039` now records that conflict without selecting it,
+  and Draft `RFC-0001-CCD-01` supplies proposed target revisions, role-based
+  owners and exact conditional text for all 24 correction/disposition rows.
+  Mapping, M1 `ImageData` staging, named approvers, effective `0.1.2` revisions,
+  dates and commits remain open; the Draft companion closes none of those gates.
+- Current documentation tooling does not validate RFC companion metadata,
+  parent/register consistency, correction-ID cardinality or `docs/rfcs/` path
+  ownership. Manual focused checks cover this Draft only; automated governance
+  remains the next unblocked tooling gap.
 - The downstream `ImageData` shape places a storage-erased value beside
   Core-owned descriptor, metadata, provenance and identity values. MTA assigns
   storage protocols/type erasure to Core, whereas CDMS assigns them to Storage
@@ -4142,25 +4211,26 @@ source, package topology, dependencies and runtime behaviour do not change.
 
 ## Exact next action
 
-Reconcile proposed `ADR-0039` with Draft `RFC-0001` and proposed `ADR-0041` by
-removing its settled M1 mapped-provider claim and any remaining public-
-destination/provider-stamped-completion implication. Then prepare a review-ready
-controlled correction delta that maps `RFC-0001-C01` through `C24` to exact
-Foundation no-change/revision disposition and proposed MTA/CDMS/RPSS/
-Requirements/FVSP/module-overview/DocC text changes, owners and gates. Preserve
-Draft/Proposed status, leave the mapping choice for governed approval, and do
-not edit controlled baselines, product source or final API/wire/limit decisions.
+Add a focused RFC-governance validator and regression fixtures. It must validate
+unique RFC/companion document IDs, required metadata/status/parent fields,
+primary-register and companion-link consistency, next-number allocation and the
+exact one-to-one `RFC-0001-C01` through `C24` crosswalk without treating a Draft
+as accepted authority. Wire it into `Tools/Scripts/validate-docs.sh` and record
+that role-based `docs/rfcs/` ownership remains an external governance gap. Do
+not select mapping or `ImageData` staging, edit controlled `v0.1.1` baselines,
+start storage source or broaden the complete package test gate.
 
 ## Test policy for the next action
 
-- For the proposal reconciliation and controlled-correction delta, run
-  documentation/front-matter/link, ADR-register/RFC-table, controlled-ownership/
-  package-graph/import, manifest and release-integrity checks only. Re-run the
-  ADR-0039 through ADR-0041 focused probes only if wording changes an evidenced
-  invariant; do not run the complete Swift package suite for documentation-only
-  work. If an independently safe leaf later becomes authorised, run only its
-  focused construction, equality, capability/availability and directly
-  affected dependent tests plus the owning target build and strict format lint.
+- For the RFC-governance validator, run its focused positive/negative fixture
+  tests, Python syntax/format checks used by this repository, documentation
+  validation and direct manifest/release-integrity checks. Run package-graph/
+  prohibited-import checks only if the wrapper or ownership assertions touch
+  those gates. Do not run ADR probes or the complete Swift package suite for a
+  documentation-tooling-only change. If an independently safe leaf later
+  becomes authorised, run only its focused construction, equality, capability/
+  availability and directly affected dependent tests plus the owning target
+  build and strict format lint.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
