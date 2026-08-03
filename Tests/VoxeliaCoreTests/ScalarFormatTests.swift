@@ -121,7 +121,7 @@ struct ScalarFormatTests {
         }
     }
 
-    @Test("[Unit][VOX-DAT-010] rejects invalid bit counts")
+    @Test("[Unit][VOX-DAT-010][VOX-ERR-001] rejects invalid bit counts")
     func rejectsInvalidBitCounts() {
         for type in ScalarType.allCases {
             #expect(throws: DataModelError.invalidScalarFormat) {
@@ -173,14 +173,23 @@ struct ScalarFormatTests {
         }
     }
 
-    @Test("[Unit][VOX-DAT-010] decoding rejects an invalid bit count")
+    @Test("[Unit][VOX-DAT-010][VOX-ERR-001] decoding rejects an invalid bit count")
     func decodingRejectsInvalidBitCount() {
         let invalidFormat = Data(
             #"{"type":"uint16","validBitCount":17,"byteOrder":"native"}"#.utf8
         )
 
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(ScalarFormat.self, from: invalidFormat)
+        do {
+            _ = try JSONDecoder().decode(ScalarFormat.self, from: invalidFormat)
+            #expect(Bool(false), "Expected invalid validBitCount to fail.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.last?.stringValue == "validBitCount")
+            #expect(
+                context.underlyingError as? DataModelError
+                    == .invalidScalarFormat
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 }
