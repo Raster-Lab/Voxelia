@@ -54,21 +54,32 @@ struct ImageSemanticTests {
             ])
     }
 
-    @Test("[Unit][VOX-API-004] rejects unknown or malformed semantics")
+    @Test("[Unit][VOX-DAT-012][VOX-API-004][VOX-ERR-001] rejects malformed semantics")
     func rejectsInvalidSemanticJSON() {
-        let invalidValues = [
-            #""unknown""#,
-            #"{"generic":{"namespace":"org.voxelia"}}"#,
-            #"{"generic":{"namespace":"org.voxelia","name":"custom","extra":"value"}}"#,
-            #"{"unexpected":{}}"#,
+        let invalidValues: [(json: String, expectedPath: [String])] = [
+            (#""unknown""#, []),
+            (#"{"generic":{"namespace":"org.voxelia"}}"#, ["generic"]),
+            (
+                #"{"generic":{"namespace":"org.voxelia","name":"custom","extra":"value"}}"#,
+                ["generic"]
+            ),
+            (#"{"unexpected":{}}"#, []),
         ]
 
         for invalidValue in invalidValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+            do {
+                _ = try JSONDecoder().decode(
                     ImageSemantic.self,
-                    from: Data(invalidValue.utf8)
+                    from: Data(invalidValue.json.utf8)
                 )
+                #expect(Bool(false), "Expected malformed image semantic to fail.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(
+                    context.codingPath.map(\.stringValue)
+                        == invalidValue.expectedPath
+                )
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
         }
     }

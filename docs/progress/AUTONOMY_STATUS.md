@@ -1210,7 +1210,7 @@ the live package graph and Accepted authority before source selection.
 
 | Family | Current accepted evidence | Disposition |
 |---|---|---|
-| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence proves direct typed rejection and decoded case/context/underlying-error preservation for invalid metadata; `ImageShape` also proves exact typed failure for derived-count overflow and expected/actual rank mismatch at its index-containment boundary. | This is Core invalid-data, typed arithmetic and typed operation-input evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
+| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence proves direct typed rejection and decoded case/context/underlying-error preservation for invalid metadata; `ImageShape` also proves exact typed failure for derived-count overflow and expected/actual rank mismatch at its index-containment boundary. `ImageSemantic` proves exact typed wire-decoding rejection with root-versus-nested coding paths. | This is Core invalid-data, typed arithmetic and typed operation-input evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
 | `VOX-SEC-001` | `ImageShape` validates positive external extents and checked element-count multiplication. `ImageRegion` validates ranks, bounds, containment, translation, subtraction and accumulated count arithmetic with focused boundary tests. | Stride, byte-offset, allocation-size and memory-access closure requires the blocked storage/descriptor/read contracts. Current checks support but do not complete the requirement. |
 | `VOX-SEC-002` | Host strict-memory builds of product and test targets, the available Apple destination matrix, manifest/configuration checks and the explicit empty inventory found no compiler-classified unsafe construct, Swift `unsafe` marker, SwiftPM unsafe flag or weakened compiler-safety setting. | The advisory always-green workflow inventory is replaced by a deterministic fail-closed repository gate. The visionOS platform-component gap prevents treating supported-destination evidence or full M1 acceptance as complete. |
 | `VOX-CON-003` | Current canonical Core descriptors are immutable checked-`Sendable` values, strict Swift 6 mode is enabled and representative compile-time transfer assertions exist. | Storage/data descriptor transfer cannot close until the Proposed storage contracts are accepted and implemented. No storage or cancellation API is started here. |
@@ -1983,6 +1983,14 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   is typed operation-input evidence only, not completion of index bounds/access
   safety, linear-offset safety, global `VOX-ERR-001`, `VOX-SEC-001` or M2
   `VOX-DAT-006`.
+- Closed the existing `ImageSemantic` malformed-wire evidence leaf without a
+  production change. Its four invalid fixtures now carry `VOX-DAT-012`,
+  `VOX-API-004` and `VOX-ERR-001` traceability and prove exact
+  `DecodingError.dataCorrupted` cases plus root or `generic` coding paths. This
+  is typed wire-decoding invalid-data evidence only, not direct generic-string
+  validation, aggregate semantic consistency, canonical JSON,
+  duplicate-key/resource-limit coverage or completion of global
+  `VOX-ERR-001`, `VOX-DAT-012`, `VOX-API-004` or `VOX-VAL-001`.
 
 ## Verification evidence
 
@@ -4010,6 +4018,14 @@ strict format lint for the single changed test file passed. No production
 source, public API, direct dependant, complete Swift suite, controlled baseline
 or Proposed/Draft contract changed.
 
+`swift test --filter VoxeliaCoreTests.ImageSemanticTests` executed exactly the
+three tests in the `ImageSemantic` suite. All four malformed fixtures produced
+the exact `dataCorrupted` case; the unknown simple and unexpected-root forms
+reported the root path, while missing and extra generic keys reported
+`["generic"]`. The owning Core build and strict format lint for the single
+changed test file passed. No production source, public API, direct dependant,
+complete Swift suite, controlled baseline or Proposed/Draft contract changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -4492,23 +4508,24 @@ or Proposed/Draft contract changed.
 
 ## Exact next action
 
-Close the existing `ImageSemantic` malformed-wire evidence leaf without
-changing production API. Add `VOX-DAT-012` and `VOX-ERR-001` traceability to
-its invalid-JSON test and replace the broad decoder-error assertion with exact
-`DecodingError.dataCorrupted` evidence for all four existing fixtures. Prove
-root coding paths for the unknown simple and unexpected-root forms, and the
-single `generic` path for missing or extra nested keys. Record this as typed
-wire-decoding invalid-data evidence only, not direct generic-string validation,
-aggregate semantic consistency, canonical JSON, duplicate-key/resource-limit
-coverage or completion of global `VOX-ERR-001`, `VOX-DAT-012`, `VOX-API-004`
-or `VOX-VAL-001`. Do not invent an underlying domain error, change source/API,
-edit controlled `v0.1.1` baselines or adopt Proposed/Draft contracts.
+Close the existing programmatic `SemanticVersion` constructor-error evidence
+leaf without changing production API. Add `VOX-ERR-001` traceability only to
+the negative-core, malformed-prerelease and malformed-build tests, retaining
+their exact `SemanticVersionError` assertions for all existing fixtures. Record
+this as direct-construction invalid-version evidence only, not decoded
+`dataCorrupted` case/path/underlying-error preservation, canonical SemVer wire
+or JSON, schema-version compatibility, error privacy/redaction, completion of
+`VOX-API-004`, global `VOX-ERR-001` or `VOX-VAL-001`, or M2 provenance and
+execution version requirements. Preserve the recorded fact that the dedicated
+public error vocabulary is an implementation choice rather than a controlled-
+document prescription; do not change source/API, controlled `v0.1.1`
+baselines or Proposed/Draft contracts.
 
 ## Test policy for the next action
 
-- Run only `swift test --filter VoxeliaCoreTests.ImageSemanticTests`, the owning
+- Run only `swift test --filter VoxeliaCoreTests.SemanticVersionTests`, the owning
   `swift build --target VoxeliaCore`, strict format lint for
-  `Tests/VoxeliaCoreTests/ImageSemanticTests.swift`, requirement-index and
+  `Tests/VoxeliaCoreTests/SemanticVersionTests.swift`, requirement-index and
   release-integrity checks. Add no direct-dependant build because the public API
   is unchanged. Do not run blocked storage/metadata probes or the complete
   Swift package suite.
