@@ -1210,7 +1210,7 @@ the live package graph and Accepted authority before source selection.
 
 | Family | Current accepted evidence | Disposition |
 |---|---|---|
-| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence proves direct typed rejection and decoded case/context/underlying-error preservation for invalid metadata; `ImageShape` also proves exact typed failure for derived-count overflow and expected/actual rank mismatch at its index-containment boundary. `ImageSemantic` proves exact typed wire-decoding rejection with root-versus-nested coding paths, and `SemanticVersion` proves exact typed direct-construction rejection across its five specialised error cases. | This is Core invalid-data, typed arithmetic and typed operation-input evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
+| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence proves direct typed rejection and decoded case/context/underlying-error preservation for invalid metadata; `ImageShape` also proves exact typed failure for derived-count overflow and expected/actual rank mismatch at its index-containment boundary. `ImageSemantic` proves exact typed wire-decoding rejection with root-versus-nested coding paths. `SemanticVersion` proves all five direct-construction error cases and decoded root-context cause preservation for one negative component plus both identifier families. | This is Core invalid-data, typed arithmetic and typed operation-input evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
 | `VOX-SEC-001` | `ImageShape` validates positive external extents and checked element-count multiplication. `ImageRegion` validates ranks, bounds, containment, translation, subtraction and accumulated count arithmetic with focused boundary tests. | Stride, byte-offset, allocation-size and memory-access closure requires the blocked storage/descriptor/read contracts. Current checks support but do not complete the requirement. |
 | `VOX-SEC-002` | Host strict-memory builds of product and test targets, the available Apple destination matrix, manifest/configuration checks and the explicit empty inventory found no compiler-classified unsafe construct, Swift `unsafe` marker, SwiftPM unsafe flag or weakened compiler-safety setting. | The advisory always-green workflow inventory is replaced by a deterministic fail-closed repository gate. The visionOS platform-component gap prevents treating supported-destination evidence or full M1 acceptance as complete. |
 | `VOX-CON-003` | Current canonical Core descriptors are immutable checked-`Sendable` values, strict Swift 6 mode is enabled and representative compile-time transfer assertions exist. | Storage/data descriptor transfer cannot close until the Proposed storage contracts are accepted and implemented. No storage or cancellation API is started here. |
@@ -1999,6 +1999,15 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   invalid-version evidence only, not decoded error preservation, canonical
   SemVer wire/JSON, schema compatibility, privacy/redaction, completion of
   `VOX-API-004`, global `VOX-ERR-001` or `VOX-VAL-001`, or M2 version use.
+- Closed the existing `SemanticVersion` Codable-revalidation evidence leaf
+  without a production change. The combined round-trip/revalidation test now
+  carries `VOX-ERR-001` traceability, preserves its valid round trip and proves
+  root-context `DecodingError.dataCorrupted` plus the exact underlying
+  negative-major, invalid-prerelease or invalid-build error for all three
+  malformed fixtures. This is Codable invariant-revalidation evidence only,
+  not field-specific paths, canonical SemVer JSON/wire, duplicate-key handling,
+  resource limits, schema handling, privacy/redaction, exact error vocabulary,
+  global requirement completion or M2 version use.
 
 ## Verification evidence
 
@@ -4041,6 +4050,14 @@ error assertions. The owning Core build and strict format lint for the single
 changed test file passed. No production source, public API, direct dependant,
 complete Swift suite, controlled baseline or Proposed/Draft contract changed.
 
+The same exact `VoxeliaCoreTests.SemanticVersionTests` filter reran all nine
+tests for the Codable-revalidation leaf. The valid five-field round trip passed,
+and all three malformed fixtures produced root-context `dataCorrupted` with the
+corresponding underlying `SemanticVersionError`. The owning Core build and
+strict format lint for the single changed test file passed. No production
+source, public API, direct dependant, complete Swift suite, controlled baseline
+or Proposed/Draft contract changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -4523,24 +4540,25 @@ complete Swift suite, controlled baseline or Proposed/Draft contract changed.
 
 ## Exact next action
 
-Close the existing `SemanticVersion` Codable-revalidation evidence leaf without
-changing production API. Add `VOX-ERR-001` traceability to the combined round-
-trip/revalidation test while keeping its valid round trip intact. Replace only
-the broad invalid-decoding loop with exact `DecodingError.dataCorrupted`, empty
-root coding-path and underlying `SemanticVersionError` assertions for its
-negative-major, invalid-prerelease and invalid-build fixtures. Record this as
-Codable invariant-revalidation evidence only, not field-specific paths,
-canonical SemVer JSON/wire, duplicate-key/resource-limit/schema-version
-handling, privacy/redaction of rejected strings, a controlled exact error
-vocabulary, completion of `VOX-API-004`, global `VOX-ERR-001` or
-`VOX-VAL-001`, or M2 version use. Do not change source/API, controlled `v0.1.1`
-baselines or Proposed/Draft contracts.
+Close only the existing `ImageRegion` lower/upper-rank-mismatch constructor and
+decoder evidence branch without changing production API. Add `VOX-ERR-001`
+traceability to the direct and decoded rank-mismatch tests, retaining the exact
+direct `RegionError.rankMismatch` assertion and replacing the broad decoding
+assertion with root-context `DecodingError.dataCorrupted` plus underlying
+`.rankMismatch` evidence. Record this as lower/upper collection rank
+compatibility evidence only, not expected/actual rank payloads, field-specific
+paths, completion of all `VOX-RGN-002`, storage/access/offset safety,
+`VOX-SEC-001`, global `VOX-ERR-001` or `VOX-VAL-001`, canonical JSON or the
+empty-read policy. Keep inverted bounds, arithmetic overflow, extent construction,
+containment, translation and clipping separate; do not change source/API,
+controlled `v0.1.1` baselines or Proposed/Draft contracts.
 
 ## Test policy for the next action
 
-- Run only `swift test --filter VoxeliaCoreTests.SemanticVersionTests`, the owning
+- Run only `swift test --filter '(rejectsRankMismatch|decodingRejectsRankMismatch)'`,
+  the owning
   `swift build --target VoxeliaCore`, strict format lint for
-  `Tests/VoxeliaCoreTests/SemanticVersionTests.swift`, requirement-index and
+  `Tests/VoxeliaCoreTests/ImageRegionTests.swift`, requirement-index and
   release-integrity checks. Add no direct-dependant build because the public API
   is unchanged. Do not run blocked storage/metadata probes or the complete
   Swift package suite.

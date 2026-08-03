@@ -162,7 +162,7 @@ struct SemanticVersionTests {
         #expect(second.buildMetadata == "build.2")
     }
 
-    @Test("[Unit][VOX-API-004] Codable preserves fields and revalidates input")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] Codable preserves fields and revalidates input")
     func codableRoundTripAndValidation() throws {
         let version = try SemanticVersion(
             major: 1,
@@ -180,17 +180,35 @@ struct SemanticVersionTests {
         #expect(decoded.prerelease == version.prerelease)
         #expect(decoded.buildMetadata == version.buildMetadata)
 
-        let invalidValues = [
-            #"{"major":-1,"minor":0,"patch":0,"prerelease":null,"buildMetadata":null}"#,
-            #"{"major":1,"minor":0,"patch":0,"prerelease":"01","buildMetadata":null}"#,
-            #"{"major":1,"minor":0,"patch":0,"prerelease":null,"buildMetadata":"bad_value"}"#,
+        let invalidValues: [(json: String, expectedError: SemanticVersionError)] = [
+            (
+                #"{"major":-1,"minor":0,"patch":0,"prerelease":null,"buildMetadata":null}"#,
+                .negativeMajor(-1)
+            ),
+            (
+                #"{"major":1,"minor":0,"patch":0,"prerelease":"01","buildMetadata":null}"#,
+                .invalidPrerelease("01")
+            ),
+            (
+                #"{"major":1,"minor":0,"patch":0,"prerelease":null,"buildMetadata":"bad_value"}"#,
+                .invalidBuildMetadata("bad_value")
+            ),
         ]
         for invalidValue in invalidValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+            do {
+                _ = try JSONDecoder().decode(
                     SemanticVersion.self,
-                    from: Data(invalidValue.utf8)
+                    from: Data(invalidValue.json.utf8)
                 )
+                #expect(Bool(false), "Expected invalid semantic version to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+                #expect(
+                    context.underlyingError as? SemanticVersionError
+                        == invalidValue.expectedError
+                )
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
         }
     }
