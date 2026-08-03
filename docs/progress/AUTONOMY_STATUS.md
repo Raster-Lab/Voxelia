@@ -1210,7 +1210,7 @@ the live package graph and Accepted authority before source selection.
 
 | Family | Current accepted evidence | Disposition |
 |---|---|---|
-| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence now proves direct typed rejection and decoded case/context/underlying-error preservation for their invalid metadata. | This is invalid-data evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
+| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence proves direct typed rejection and decoded case/context/underlying-error preservation for invalid metadata; `ImageShape` also proves exact typed failure for derived-count overflow. | This is Core invalid-data and typed arithmetic evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
 | `VOX-SEC-001` | `ImageShape` validates positive external extents and checked element-count multiplication. `ImageRegion` validates ranks, bounds, containment, translation, subtraction and accumulated count arithmetic with focused boundary tests. | Stride, byte-offset, allocation-size and memory-access closure requires the blocked storage/descriptor/read contracts. Current checks support but do not complete the requirement. |
 | `VOX-SEC-002` | Host strict-memory builds of product and test targets, the available Apple destination matrix, manifest/configuration checks and the explicit empty inventory found no compiler-classified unsafe construct, Swift `unsafe` marker, SwiftPM unsafe flag or weakened compiler-safety setting. | The advisory always-green workflow inventory is replaced by a deterministic fail-closed repository gate. The visionOS platform-component gap prevents treating supported-destination evidence or full M1 acceptance as complete. |
 | `VOX-CON-003` | Current canonical Core descriptors are immutable checked-`Sendable` values, strict Swift 6 mode is enabled and representative compile-time transfer assertions exist. | Storage/data descriptor transfer cannot close until the Proposed storage contracts are accepted and implemented. No storage or cancellation API is started here. |
@@ -1968,6 +1968,14 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   `dataCorrupted`, the exact top-level `extents` path and their corresponding
   underlying `ShapeError`. This is Core invalid-shape-metadata evidence only,
   not completion of global `VOX-ERR-001`, `VOX-DAT-003` or `VOX-VAL-001`.
+- Closed the existing `ImageShape.elementCount()` typed-overflow evidence leaf
+  without a production change. The constructible `[Int.max, 2]` shape now
+  carries `VOX-ERR-001` traceability and still proves the exact
+  `ShapeError.elementCountOverflow`, while `[Int.max]` remains the adjacent
+  successful boundary. This is typed derived-count arithmetic evidence only,
+  not recoverable allocation failure, an allocator call, storage
+  pre-allocation validation, global completion of `VOX-ERR-001` or completion
+  of `VOX-SEC-001`.
 
 ## Verification evidence
 
@@ -3981,6 +3989,13 @@ format lint for the single changed test file passed. No production source,
 public API, direct dependant, complete Swift suite, controlled baseline or
 Proposed/Draft contract changed.
 
+The same exact `VoxeliaCoreTests.ImageShapeTests` filter reran all 14 shape
+tests for the derived-count leaf. The typed `elementCountOverflow` assertion
+passed alongside the unchanged maximum non-overflowing `Int` boundary.
+`swift build --target VoxeliaCore` and strict format lint for the single changed
+test file passed. No production source, public API, direct dependant, complete
+Swift suite, controlled baseline or Proposed/Draft contract changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -4463,16 +4478,15 @@ Proposed/Draft contract changed.
 
 ## Exact next action
 
-Close the existing `ImageShape.elementCount()` typed-overflow evidence leaf
+Close the existing `ImageShape.contains(_:)` typed rank-mismatch evidence leaf
 without changing production API. Add `VOX-ERR-001` traceability only to the
-existing `[Int.max, 2]` overflow test, which already proves the exact
-`ShapeError.elementCountOverflow`; retain the `[Int.max]` non-overflow boundary
-unchanged. Record this as typed derived-count arithmetic failure evidence only,
-not recoverable allocation failure, an allocator call, storage pre-allocation
-validation, global completion of `VOX-ERR-001` or completion of `VOX-SEC-001`.
-Keep containment rank mismatch and other `ShapeError` paths separate; do not
-change source, public API, shape semantics, controlled `v0.1.1` baselines or
-Proposed/Draft contracts.
+existing containment-rank test, retaining its exact rank-two-shape failures for
+actual index ranks zero, one and three. Record this as typed operation-input
+evidence only, not completion of index bounds/access safety, linear-offset
+safety, global `VOX-ERR-001`, `VOX-SEC-001` or M2 `VOX-DAT-006`. Keep valid and
+out-of-bounds Boolean containment, `ImageRegion` and other `ShapeError` paths
+separate; do not change source, public API, shape semantics, controlled
+`v0.1.1` baselines or Proposed/Draft contracts.
 
 ## Test policy for the next action
 

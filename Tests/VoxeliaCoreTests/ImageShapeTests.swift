@@ -32,7 +32,7 @@ struct ImageShapeTests {
         }
     }
 
-    @Test("[Unit][VOX-DAT-004] reports element-count overflow")
+    @Test("[Unit][VOX-DAT-004][VOX-ERR-001] reports element-count overflow")
     func reportsElementCountOverflow() throws {
         let shape = try ImageShape(extents: [Int.max, 2])
 
