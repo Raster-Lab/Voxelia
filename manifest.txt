@@ -99,6 +99,7 @@ Sources/VoxeliaCore/Public/ProvenanceKind.swift
 Sources/VoxeliaCore/Public/ScalarFormat.swift
 Sources/VoxeliaCore/Public/SemanticVersion.swift
 Sources/VoxeliaCore/Public/StorageContract.swift
+Sources/VoxeliaCore/Public/StorageRepresentation.swift
 Sources/VoxeliaCore/Public/ValueTransform.swift
 Sources/VoxeliaCore/VoxeliaCore.docc/Architecture.md
 Sources/VoxeliaCore/VoxeliaCore.docc/Requirements.md
@@ -227,6 +228,7 @@ Tests/VoxeliaCoreTests/ProvenanceKindTests.swift
 Tests/VoxeliaCoreTests/ScalarFormatTests.swift
 Tests/VoxeliaCoreTests/SemanticVersionTests.swift
 Tests/VoxeliaCoreTests/StorageContractTests.swift
+Tests/VoxeliaCoreTests/StorageRepresentationTests.swift
 Tests/VoxeliaCoreTests/ValueTransformTests.swift
 Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift
 Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift

@@ -67,6 +67,10 @@ storage semantics.
 ### Storage contract
 
 - ``LogicalSampleBinding``
+- ``StorageRepresentationDescriptor``
+- ``DecodedStridedRepresentation``
+- ``OpaqueRepresentation``
+- ``StorageRepresentationLocality``
 - ``StorageContractError``
 
 ### Content identity

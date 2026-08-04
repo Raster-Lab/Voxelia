@@ -334,6 +334,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `StorageSnapshotHandle` admission authority, the read transaction,
   `RegionReadResult`, `StorageByteLease` and checked `AnyImageStorage`
   erasure) continues as the next increments in this loop.
+- Second autonomous storage increment: `StorageRepresentation.swift`
+  adds the tagged `StorageRepresentationDescriptor`
+  (`decodedStrided`/`opaque`), the checked
+  `DecodedStridedRepresentation` whose first admitted profile accepts
+  exactly the canonical packed interleaved layout for its binding
+  (canonical axis-zero-fastest strides, component stride equal to the
+  scalar byte count, arbitrary checked non-negative base offset, checked
+  addressed span within the initialised length, multi-byte `.native`
+  byte order restricted to process-local owned memory) with the
+  `canonicalPacked` factory, and the bounded non-blank
+  `OpaqueRepresentation` tag record. General permuted/padded strided and
+  packed sub-byte admission remain later increments per the accepted
+  fail-closed rule. Two focused tests cover exact admission, span/offset
+  /stride/rank rejections, the byte-order locality rule and opaque tag
+  bounds.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
