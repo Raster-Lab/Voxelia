@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0034"
 title: "Closed exact-case typed metadata read boundary"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -74,15 +74,18 @@ also fixes single-read missing/multiple/type-mismatch outcomes and ordered
 all-element multi-read validation, but deliberately leaves the mapping and
 public API to this decision.
 
-This proposal selects a Core-owned closed exact-case read surface. It does not
+This record selects a Core-owned closed exact-case read surface. It does not
 define namespace semantics, schema authentication, custom conversions,
 optional/default reads, privacy authorisation, export, canonical bytes,
-persistent identity or write/update APIs. Its Proposed status does not
-authorise recursive metadata or accessor source.
+persistent identity or write/update APIs. It was reviewed and accepted by
+the project owner on 2026-08-04, with its dependencies (`ADR-0028` through
+`ADR-0033`) already accepted and the closed overload family, the
+classified typed result and the count-first cardinality precedence each
+selected through interactive decision review.
 
 ## Decision
 
-If `ADR-0028` through `ADR-0034` are accepted, `VoxeliaCore` will own these
+With `ADR-0028` through `ADR-0034` accepted, `VoxeliaCore` owns these
 additional public declarations:
 
 ```swift
@@ -458,16 +461,19 @@ ceiling evidence required by `ADR-0031` and `ADR-0033` is approved:
 6. update traceability, changelog, API documentation, validation reports and
    release-integrity evidence.
 
-No typed-read migration step may begin while this ADR or any dependency remains
-Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance:
+`ADR-0028` through `ADR-0034` are accepted, step 2's dependent types are
+already implemented, and the recursive/collection ceiling evidence is
+approved on local Apple Silicon with the supported-device matrix recorded
+as an open evidence gap. Step 5 remains governed by its named decisions.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. It depends on the corrected payload table proposed by `ADR-0028` through
+This ADR neither supersedes nor is superseded by another file-backed ADR.
+It depends on the corrected payload table accepted by `ADR-0028` through
 `ADR-0031`, the required classified entry from `ADR-0032` and the ordered
-collection/cardinality boundary from `ADR-0033`. It completes only closed exact-
-case typed reads if accepted.
+collection/cardinality boundary from `ADR-0033`. It completes only closed
+exact-case typed reads.
 
 It does not supersede namespace-schema, multiplicity admission, privacy policy,
 canonical serialisation, persistent identity, provenance, logging/export,

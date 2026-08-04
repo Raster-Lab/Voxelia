@@ -163,9 +163,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   decoding threads remaining aggregate budgets into recursive value
   decoding. The ceilings are accepted on local Apple Silicon boundary
   evidence with the lowest-resource supported-device matrix an explicit
-  open gap. `CCR-0010` records the controlled CDMS corrections. Typed
-  reads, canonical bytes and record identity remain governed by Proposed
-  `ADR-0034` through `ADR-0036`.
+  open gap. `CCR-0010` records the controlled CDMS corrections. Canonical
+  bytes and record identity remain governed by Proposed `ADR-0035` and
+  `ADR-0036`.
+- Governance: `ADR-0034` was accepted by the project owner on 2026-08-04
+  with its dependencies already accepted, and its authorised migration is
+  executed. The closed exact-case typed read boundary is implemented in
+  `VoxeliaCore`: the non-generic payload-free `MetadataReadError`
+  (`missingValue`, `multipleValues`, `typeMismatch`), the classified
+  `TypedMetadataEntry` result retaining typed key, exact payload and the
+  occurrence's exact privacy class with no public initializer or Codable,
+  and the 22 concrete `entry(for:)`/`entries(for:)` overloads covering
+  exactly the eleven corrected value cases. Extraction pattern-matches
+  the stored case with no parsing, bridging, widening or unit
+  conversion; key matching is exact ordered UTF-8; single reads decide
+  exact-key cardinality before inspecting any stored case; plural reads
+  return every match in occurrence order after a complete preflight and
+  fail atomically on any mismatch. Unsupported specialisations such as
+  `MetadataKey<Double>` fail overload resolution at compile time.
+  `CCR-0011` records the controlled CDMS and MTA corrections.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -2666,6 +2682,23 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   project errors. The policy never appears on the wire. Typed reads,
   canonical ingress, persistent identity and any resolver or export API
   remain governed by `ADR-0034` through `ADR-0036` and host policy.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0034` and
+  executed its authorised migration in one change: controlled correction
+  `CCR-0011` (the phantom key's read-boundary role, the accessor surface
+  bound to the closed eleven-case mapping with count-first cardinality
+  and atomic ordered plural reads, the dedicated payload-free read-error
+  vocabulary, the linear-lookup baseline recorded against sections 66/67,
+  expanded validation obligations and the acceptance criterion) and the
+  typed read surface in `VoxeliaCore`. `TypedMetadataEntry` keeps every
+  successful read classified; the shared single-read engine throws
+  `multipleValues` for a repeated key even when exactly one occurrence
+  matches the requested case, and the shared plural engine preflights
+  every match before materialising any result. Eleven private
+  nonthrowing projectors pattern-match the exact cases; the overload
+  family is the entire public conversion authority, so no runtime
+  unsupported-type case exists. Optional reads, custom conversion,
+  canonical ingress, persistent identity and logging/export APIs remain
+  governed by their own decisions and host policy.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -5226,6 +5259,29 @@ static package-graph, prohibited-import and requirement-index checks
 passed. Boundary evidence ran on local Apple Silicon; the
 lowest-resource supported-device matrix remains an explicit open gap.
 
+`swift test --filter MetadataTypedReadTests` executed all six tests in
+the new owning Core suite: exact extraction for all eleven table rows
+under both read families including `Int64.min`, `UInt64.max`, validated
+floating/binary/instant wrappers, unit, code and recursive containers,
+with the classified result retaining typed key, exact payload and the
+occurrence's class; count-first single-read cardinality proving an
+absent key throws `missingValue`, a mixed-case duplicate whose single
+matching occurrence is never selected throws `multipleValues`, and one
+mismatched match throws `typeMismatch`; exact UTF-8 lookup where the
+NFD spelling and a byte prefix of a stored NFC key both miss while the
+byte-identical request matches; ordered atomic plural reads returning
+every occurrence with `technical`/`hostDefined`/`sensitive` classes
+preserved, empty success for zero matches and a late mismatch after a
+valid prefix failing atomically; no-bridging evidence that instant text
+never satisfies a string read and numeric cases never widen or cross;
+and payload-free error rendering with no key, value, requested type or
+match structure under patient-sentinel names. Compile-closure of the
+overload family rests on the checked-in `ADR-0034` probe evidence for
+compile-negative fixtures. The owning `swift build --target
+VoxeliaCore`, strict format lint for the two new Swift files, the
+documentation gate including `CCR-0011`, the static package-graph,
+prohibited-import and requirement-index checks passed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5710,22 +5766,22 @@ lowest-resource supported-device matrix remains an explicit open gap.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0033` are
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0034` are
 accepted and fully executed: the three metadata leaves, the bounded
-recursive `MetadataValue`, the classified general `MetadataEntry` and the
-ordered `MetadataCollection` with explicit multiplicity admission now
-exist with their controlled corrections. The `ImageDescriptor` aggregate
-remains blocked by its other prerequisites: the
-`CoordinateSpaceDescriptor` unit policy and classification, affine shape
-and construction tolerance, rectilinear binding, the remaining frame-set
-collection contracts and canonical JSON. The next unblocked step is
-another governance decision: surface the next Proposed contract the user
-wishes to review (`ADR-0034` closed exact-case typed metadata reads, then
-the canonical-JSON and identity decisions `ADR-0035` through `ADR-0037`)
-with its decision questions, following the established interactive
-acceptance flow. Do not accept ADRs autonomously, implement speculative
-source or run blocked storage/metadata probes while those decisions are
-open.
+recursive `MetadataValue`, the classified general `MetadataEntry`, the
+ordered `MetadataCollection` with explicit multiplicity admission and the
+closed exact-case typed read surface now exist with their controlled
+corrections. The `ImageDescriptor` aggregate remains blocked by its other
+prerequisites: the `CoordinateSpaceDescriptor` unit policy and
+classification, affine shape and construction tolerance, rectilinear
+binding, the remaining frame-set collection contracts and canonical JSON.
+The next unblocked step is another governance decision: surface the next
+Proposed contract the user wishes to review (`ADR-0035` versioned
+canonical metadata JSON and raw ingress, then the identity decisions
+`ADR-0036` and `ADR-0037`) with its decision questions, following the
+established interactive acceptance flow. Do not accept ADRs autonomously,
+implement speculative source or run blocked storage/metadata probes while
+those decisions are open.
 
 ## Test policy for the next action
 
