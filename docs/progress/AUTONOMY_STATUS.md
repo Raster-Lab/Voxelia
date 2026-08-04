@@ -850,6 +850,36 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   exact next action under this profile; `DerivationRecordID`, the
   external parent-reference case, compact graphs and signed manifests
   become possible but each remains its own decision.
+- Twenty-seventh autonomous increment: authored and accepted
+  `ADR-0061` (strict canonical provenance ingress) and implemented
+  `CanonicalProvenanceJSON.decodeRecordDocument` in `VoxeliaCore` as
+  four bounded transactional phases: a caller-supplied input byte
+  ceiling and a string-aware raw pre-scan enforcing the fixed nesting
+  ceiling of 32 before any parser allocates; shape-directed parsing
+  through the platform JSON parser with exact member-set checks,
+  explicit nulls only where the profile places them and exact decimal
+  string tokens; revalidating reconstruction through every accepted
+  constructing initializer, with an empty operation input sequence
+  reconstructing as the declared zero-input generator; and the
+  canonical byte-equality gate — the reconstructed record is
+  re-emitted through the accepted `ADR-0060` emitter and must equal
+  the input byte for byte, so every alias (whitespace, member
+  reordering, escape and number respelling) fails as a typed
+  non-canonical rejection. The byte-equality gate, not the parser, is
+  the canonical authority, which is why the platform parser is
+  admissible; failures use a uniform payload-free five-case taxonomy
+  with no underlying error retained, because reconstruction crosses
+  error domains whose cases carry payloads. Tests round-trip the
+  minimal origin document and a maximal operation document (every
+  tagged case, optional presence, embedded digest and decimal token)
+  to equal records and identities, prove the zero-input generator
+  reconstruction, and reject over-ceiling input, a nesting bomb
+  before parsing (while brackets inside strings stay legitimate),
+  malformed JSON, wrong and extra members, unknown enum tokens and
+  three canonical aliases, all payload-free. The `VCPJ-1` projection
+  is now usable end to end; `DerivationRecordID`, the external parent
+  reference, compact graphs and signed manifests each remain their
+  own decision.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

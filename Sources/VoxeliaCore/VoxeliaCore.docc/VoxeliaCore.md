@@ -145,6 +145,7 @@ storage semantics.
 - ``ProvenanceGraphError``
 - ``CanonicalProvenanceJSON``
 - ``ProvenanceJSONEmissionError``
+- ``ProvenanceJSONIngressError``
 - ``SoftwareIdentity``
 - ``OperationProvenance``
 - ``ProvenanceInputRole``
