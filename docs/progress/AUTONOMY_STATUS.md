@@ -779,6 +779,43 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   provenance-record projection (which also gates the external parent
   reference and `ImageData`'s publication story) are the remaining
   provenance decisions.
+- Twenty-fifth autonomous increment: authored and accepted `ADR-0059`
+  (complete provenance graph admission) and implemented the
+  complete-mode slice of the accepted `ADR-0038` fourteen-step
+  admission in `VoxeliaCore`: `ProvenanceGraphLimits` (mandatory
+  inclusive record-count, parent-edge-count and ancestry-depth
+  ceilings, each at least one, checked arithmetic) and
+  `ProvenanceGraph.admitCompleteGraph`, one transactional static
+  function that validates the candidate table and declared roots and
+  returns an immutable snapshot or publishes nothing. It enforces the
+  ceilings; unique record identifiers with equal-valued duplicates
+  still rejected; a non-empty unique known root set; per-edge
+  self-reference rejection; resolution of every `graphNode` parent;
+  the parent-subject rule (each resolved parent's subject must equal
+  the exact input identity); the exact-closure rule over the declared
+  roots; visit-once iterative cycle detection catching two- and
+  multi-node cycles; and maximum resolved ancestry depth computed by
+  edge-propagating traversal without recursion or diamond
+  re-traversal, exposed as evidence. Tests admit a chain and a diamond
+  with exact depth evidence and prove every typed rejection: all four
+  root rules, duplicate identifiers, self-reference, unresolved
+  parent, subject mismatch, a two-node cycle, all three ceilings,
+  zero limits and payload-free diagnostics. External-record
+  verification, compact-mode retention, the owner's retained-record
+  registry, production hard ceilings and any actor-isolated graph
+  service stay honestly deferred with the registered
+  provenance-record projection and supported-device evidence. THE
+  AUTHORIZED THREE-CLUSTER CONTINUATION IS COMPLETE: eleven accepted
+  decisions (`ADR-0049` through `ADR-0059`) with five controlled
+  corrections (`CCR-0020` through `CCR-0024`) closed the content
+  projections, the content-tier cache, the execution and warning
+  claims, the source/derivation/data identity chain and the complete
+  provenance record and graph. The remaining recorded gates each need
+  either a new governed design (canonical provenance/data-identity/
+  derivation projections and `DerivationRecordID`, the `ImageData`
+  publication coordinator, mutable graph ownership), external
+  evidence (device campaigns, fuzz corpora, oracles, `Data.span`),
+  or a milestone owner decision (M4+ scope).
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

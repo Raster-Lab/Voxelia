@@ -140,6 +140,9 @@ storage semantics.
 - ``ProvenanceRecord``
 - ``ProvenanceActivity``
 - ``ProvenanceRecordError``
+- ``ProvenanceGraph``
+- ``ProvenanceGraphLimits``
+- ``ProvenanceGraphError``
 - ``SoftwareIdentity``
 - ``OperationProvenance``
 - ``ProvenanceInputRole``
