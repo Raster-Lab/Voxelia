@@ -178,6 +178,11 @@ storage semantics.
 - ``DataIdentity``
 - ``DataIdentityError``
 
+### Image data
+
+- ``ImageData``
+- ``ImageDataError``
+
 ### Common errors
 
 - ``DataModelError``

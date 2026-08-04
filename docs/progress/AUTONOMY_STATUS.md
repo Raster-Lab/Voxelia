@@ -919,6 +919,38 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   extended limits profile. Signed external manifests, durable
   provenance storage and `DerivationRecordID` remain their own
   decisions.
+- Twenty-ninth autonomous increment (owner instruction: "build
+  ImageData autonomously"): authored and accepted `ADR-0063` (image
+  data aggregate) with `CCR-0025` recording the controlled corrections
+  to CDMS sections 37.1 through 37.4, and implemented the M1
+  centrepiece aggregate in `VoxeliaCore`. `ImageData` binds the five
+  controlled fields — descriptor, storage-erased provider,
+  unique-keyed metadata, subject-bound provenance and claim-bearing
+  identity — as one immutable validated value. Construction enforces
+  descriptor-storage coherence (shape, scalar type and component count
+  equal to the snapshot's admitted logical binding; the representation
+  must be decoded-strided with the descriptor's scalar byte order, an
+  opaque representation being a typed rejection because it cannot
+  supply logical samples), provenance-identity coherence (the record's
+  subject must be exactly the object reference of the aggregate's own
+  `DataIdentity`, and an origin-activity record requires no derivation
+  recipe plus at least one source identity), and metadata uniqueness
+  (repeated keys reject; repeat-bearing collections exist only through
+  the explicit multiplicity-policy path and belong to other contexts).
+  The aggregate conforms to `Sendable` only per the controlled
+  equality rule — comparison composes from the exposed exact claims —
+  and has no wire: persistence composes the accepted canonical
+  projections, and the atomic staging and publication coordinator
+  remains an Execution/host decision per `ADR-0038`. Tests in the
+  storage target construct a coherent acquired-origin aggregate over
+  the real owned contiguous provider and a derived aggregate with an
+  operation record and derivation recipe, then reject all four
+  descriptor-storage mismatches, an opaque-representation stub
+  admitted through the public snapshot admission, a mismatched
+  provenance subject, an origin with a recipe, an origin without
+  source lineage and a policy-admitted repeated metadata key, all
+  payload-free. Lazy identity enrichment, the publication coordinator
+  and every wire remain recorded gates.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
