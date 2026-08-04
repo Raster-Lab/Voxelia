@@ -1080,6 +1080,19 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   exhaustion with nothing evicted and an insufficient verification
   budget, all typed. Retention and deletion governance remain
   deferred.
+- Thirty-fourth autonomous increment (owner overnight standing
+  mandate): authored and accepted `ADR-0068` (window-level uint16
+  extension) and advanced `VOXELIA-ALG-0002` to revision 1.1. The
+  window-level operation admits `uint16` stored samples — every value
+  converts to binary64 exactly, the two-byte assembly follows the
+  specification's existing byte-order resolution rule, and the model
+  is otherwise untouched — with the operation and implementation
+  versions advanced to `1.2.0` as another compatible admission
+  widening. Tests reproduce the independently computed revision-1.1
+  `uint16` conformance fixture through the full operation, verify the
+  advanced version tokens, move the unsupported-scalar rejection
+  fixture to `int32`, and keep every previously registered fixture
+  passing unchanged.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

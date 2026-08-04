@@ -165,6 +165,28 @@ struct WindowLevelOperationTests {
                 == [0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255]
         )
 
+        // The revision-1.1 uint16 fixture registered by ADR-0068.
+        let uint16Input = try input(
+            scalarType: .uint16,
+            bytes: [
+                0, 0, 100, 0, 244, 1, 232, 3, 208, 7, 160, 15,
+                64, 31, 128, 62, 0, 125, 128, 187, 96, 234, 255, 255,
+            ]
+        )
+        let unsignedWide = try await execute(
+            input: uint16Input,
+            center: 32_000,
+            width: 64_000
+        )
+        #expect(
+            try outputBytes(unsignedWide)
+                == [0, 0, 2, 4, 8, 16, 32, 64, 128, 191, 239, 255]
+        )
+        #expect(
+            unsignedWide.identity.derivation?.operationVersion
+                == (try SemanticVersion(major: 1, minor: 2, patch: 0))
+        )
+
         // The parameter digest reproduces independently from the frozen
         // schema, and the recipe, record and graph bind exactly as in
         // the first operation.
@@ -280,7 +302,7 @@ struct WindowLevelOperationTests {
         )
         #expect(try outputBytes(identity) == (try outputBytes(absent)))
         #expect(identity.identity.contentID == absent.identity.contentID)
-        let advanced = try SemanticVersion(major: 1, minor: 1, patch: 0)
+        let advanced = try SemanticVersion(major: 1, minor: 2, patch: 0)
         let derivation = try #require(hounsfield.identity.derivation)
         #expect(derivation.operationVersion == advanced)
         #expect(derivation.implementation?.version == advanced)
@@ -299,8 +321,8 @@ struct WindowLevelOperationTests {
         do {
             _ = try await execute(
                 input: try input(
-                    scalarType: .uint16,
-                    bytes: Array(repeating: 0, count: 24)
+                    scalarType: .int32,
+                    bytes: Array(repeating: 0, count: 48)
                 ),
                 center: 6,
                 width: 8

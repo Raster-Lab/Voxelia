@@ -54,9 +54,12 @@ public enum WindowLevelOperation {
         software: SoftwareIdentity,
         coordinator: StorageReadCoordinator
     ) async throws -> ImageData {
-        // Version-one admission per ADR-0065.
+        // Registered admission per ADR-0065, extended by ADR-0068.
         let scalarType = input.descriptor.scalarFormat.type
-        guard scalarType == .uint8 || scalarType == .int16 else {
+        guard
+            scalarType == .uint8 || scalarType == .int16
+                || scalarType == .uint16
+        else {
             throw WindowLevelError.unsupportedScalarType
         }
         guard
@@ -146,7 +149,7 @@ public enum WindowLevelOperation {
         // Registered tokens (advanced to 1.1.0 by ADR-0066), derivation
         // recipe, content identity and the subject-bound record with
         // its parent edge.
-        let version = try SemanticVersion(major: 1, minor: 1, patch: 0)
+        let version = try SemanticVersion(major: 1, minor: 2, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )
@@ -278,7 +281,7 @@ public enum WindowLevelOperation {
         }
 
         switch scalarType {
-        case .int16:
+        case .int16, .uint16:
             // Two bytes per sample under the declared byte order; the
             // native declaration resolves to little-endian on every
             // supported Apple-silicon platform per VOXELIA-ALG-0002.
@@ -296,8 +299,13 @@ public enum WindowLevelOperation {
                     high = storedBytes[offset + 1]
                 }
                 let bits = UInt16(high) << 8 | UInt16(low)
-                let sample = Int16(bitPattern: bits)
-                output.append(window(Double(sample)))
+                let sample: Double
+                if scalarType == .int16 {
+                    sample = Double(Int16(bitPattern: bits))
+                } else {
+                    sample = Double(bits)
+                }
+                output.append(window(sample))
                 offset += 2
             }
             return output

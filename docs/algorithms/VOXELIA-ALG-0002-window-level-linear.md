@@ -1,7 +1,7 @@
 ---
 document_id: "VOXELIA-ALG-0002"
 title: "Window-level linear mapping binary64-v1"
-version: "1.0"
+version: "1.1"
 status: "Accepted"
 document_type: "Algorithm Specification"
 project: "Voxelia"
@@ -25,10 +25,11 @@ public receiver is `WindowLevelOperation.execute` in
 
 ## Supported formats
 
-Version one admits stored sample types `uint8` and `int16` with one
-scalar component per sample. All intermediate arithmetic uses IEEE-754
-binary64 (`Double`); every admitted stored sample value converts to
-binary64 exactly. The output sample type is `uint8`.
+The registered format set admits stored sample types `uint8`, `int16`
+and — since revision 1.1 under accepted `ADR-0068` — `uint16`, each
+with one scalar component per sample. All intermediate arithmetic uses
+IEEE-754 binary64 (`Double`); every admitted stored sample value
+converts to binary64 exactly. The output sample type is `uint8`.
 
 ## Inputs and outputs
 
@@ -76,8 +77,8 @@ the model, not an error path.
 
 ## Byte-order resolution
 
-`int16` stored samples are assembled from exactly two bytes under the
-descriptor's declared byte order. The `littleEndian` and `bigEndian`
+`int16` and `uint16` stored samples are assembled from exactly two
+bytes under the descriptor's declared byte order. The `littleEndian` and `bigEndian`
 declarations assemble explicitly; the `native` declaration resolves to
 little-endian on every supported Apple-silicon platform, and this
 resolution is part of the version-one model.
@@ -103,6 +104,10 @@ rounding:
   `[0, 0, 38, 102, 115, 128, 141, 153, 179, 230, 255, 255]`.
 - The same `int16` samples with `c = 40`, `w = 1`:
   `[0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255]`.
+- `uint16` stored samples
+  `[0, 100, 500, 1000, 2000, 4000, 8000, 16000, 32000, 48000, 60000, 65535]`,
+  `c = 32000`, `w = 64000` (revision 1.1):
+  `[0, 0, 2, 4, 8, 16, 32, 64, 128, 191, 239, 255]`.
 
 ## References
 
