@@ -33,6 +33,8 @@ public API is introduced only by reviewed milestone specifications.
 
 - ``RegionExtractionOperation``
 - ``RegionExtractionError``
+- ``WindowLevelOperation``
+- ``WindowLevelError``
 
 ### Project documents
 

@@ -987,6 +987,41 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   geometry, regular sampling, invalid regions and an insufficient
   read budget, all typed. The first vertical value-and-execution
   slice is now exercised end to end.
+- Thirty-first autonomous increment (owner instruction: "build the
+  window-level operation autonomously"): authored and accepted
+  `VOXELIA-ALG-0002` (window-level linear mapping `binary64-v1`) and
+  `ADR-0065` (window-level operation), and implemented the first
+  value-producing operation in `VoxeliaExecution`, registered as
+  `org.voxelia.op.window-level` 1.0.0 with implementation
+  `org.voxelia.impl.window-level.cpu` 1.0.0 — the tokens the claim
+  fixtures have named since `ADR-0051`. The algorithm specification
+  freezes the DICOM-derived linear model with exact binary64
+  evaluation order, `roundTiesToEven` with a modelled clamp, the
+  proof that the degenerate unit-width window is a pure threshold
+  whose interior branch is unreachable (so the division never
+  executes and no special case exists), the byte-order resolution
+  rule (`native` resolves to little-endian on every supported
+  Apple-silicon platform) and three independently computed
+  conformance fixtures. The frozen parameter schema is the `center`
+  and `width` finite metadata floating-point entries digested under
+  the registered operation-parameters projection; a sub-one width is
+  a typed rejection, never a substitution. Version-one admission
+  covers `uint8` and `int16` stored samples with one
+  scalar-interpreted component, intensity semantic and no value
+  transform — windowing over transformed values awaits the
+  transform-composition decision — while geometry, axes, sampling and
+  metadata pass through unchanged because no sample moves; the output
+  is dimensionless eight-bit display intensity. The execution runs
+  through the budgeted coordinator per the `ADR-0064` pattern with
+  the same identity, recipe and subject-bound provenance assembly.
+  Tests reproduce all three conformance fixtures byte for byte
+  through the full operation, reproduce the parameter digest
+  independently, verify the sample-bytes content identity, admit both
+  records into a complete depth-two graph, prove bit-identical
+  repeated execution, and reject a sub-one width, an unsupported
+  scalar type, a non-scalar layout, a non-intensity semantic, a
+  present value transform and an insufficient budget, all
+  payload-free.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

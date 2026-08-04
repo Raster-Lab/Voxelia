@@ -655,6 +655,11 @@
       "sha256": "ef71762cb8c59a18a2364f279bfe7445092a5b881861c51957793bf179ea4f34"
     },
     {
+      "path": "Sources/VoxeliaExecution/Public/WindowLevelOperation.swift",
+      "size": 11930,
+      "sha256": "785feb51402b422b515fbf34350c7e5111ae6c69205adb83759635e2e49d27ec"
+    },
+    {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/Architecture.md",
       "size": 185,
       "sha256": "64e3380b75544bf7c7eecae25b19276f5eaf0b4b019db01b6bfeab4d8e7fd77a"
@@ -666,8 +671,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/VoxeliaExecution.md",
-      "size": 726,
-      "sha256": "d7ef1b451c1dfc3c2f273bcd94960925798dfc5fc157a38b1f67c7179b42e71a"
+      "size": 776,
+      "sha256": "d2a47faea3d1cd877fb75bcdfe83ff216af321e84e543fdc5860d9dd53267a64"
     },
     {
       "path": "Sources/VoxeliaGeometry/ApplePlatformGate.swift",
@@ -1400,6 +1405,11 @@
       "sha256": "4b33d4b1e39a5a3bd7914c273ae35b631929d2caf2aa592cfd8a9ebc81851130"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/WindowLevelOperationTests.swift",
+      "size": 11980,
+      "sha256": "4f7ab80594163d7537f244396da33a365e9b1151a93f3b1a83c4ad50a3e1623b"
+    },
+    {
       "path": "Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift",
       "size": 8891,
       "sha256": "bd6118d4c23658b65aa33e7efb63fa0cd7efa4b95c6aa69c9012958515381343"
@@ -1881,13 +1891,18 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 277,
-      "sha256": "a996419c03fc9e87b4ce167af90abfa3c79203bd06dc3cbcb0de184e1eca7c2e"
+      "size": 396,
+      "sha256": "2cc97c75060cf9e977e8f3e4be079d9464143104c68441c06016a5df2ca6bad5"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
       "size": 9200,
       "sha256": "b5928af200fe163d1ca0d9b195ef91031501daf4e1d39dcdc653bbef6879454f"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0002-window-level-linear.md",
+      "size": 3920,
+      "sha256": "0b0e178901542f57df97d339ce1d190fc4937938e89f93de03c5f0ba3d8a22a8"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -2235,9 +2250,14 @@
       "sha256": "1031676909ae889c0ac32da7c4d9a9d086c8c10dd93cd22fda5bd867cd3e220a"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0065-window-level-operation.md",
+      "size": 5257,
+      "sha256": "969f86b6b07e225a10de6ef7d52393acb60ad21cb11c2690c4ba1de6ceba3a10"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 8884,
-      "sha256": "308870ecb0b6e2cd7f1b8617bf3deba225d569e560447b15313f64e838e5f152"
+      "size": 9026,
+      "sha256": "58386eceb004a4128f9fc5d6d4c87c7a09ead8ddae2f89c4a8cb268f7ad564f3"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2321,8 +2341,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 473494,
-      "sha256": "6282533b780307287168d298375fb6ab98bf7cdb7f9cb6e2dc3442a1cfcb54fb"
+      "size": 475710,
+      "sha256": "de75d4197acbec1866a6aa2648a25686170c1d02ef8eabf7ab6a1228f647e709"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2681,8 +2701,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 27073,
-      "sha256": "26387abac9078375ac91a4aeb8e760ec49dae1b5aa6ef4960571985278065d24"
+      "size": 27311,
+      "sha256": "d0283cedd0e6766bfa60d691e9529b329c718478de0a9366d5ade2bfdbe8114c"
     }
   ]
 }
