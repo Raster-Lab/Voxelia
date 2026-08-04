@@ -164,8 +164,9 @@ public enum ContentIdentityError: Error, Sendable, Equatable {
 /// preimage by the `ADR-0036` frame, so an identity can never be confused
 /// with a raw checksum or another SHA-256 use. There is no public
 /// unchecked initializer: the compiled accepted set holds exactly the
-/// `ADR-0036` complete-metadata-record tuple and the `ADR-0049`
-/// sample-bytes tuple. The digest is sensitive-derived material
+/// `ADR-0036` complete-metadata-record tuple, the `ADR-0049`
+/// sample-bytes tuple and the `ADR-0054` operation-parameters tuple.
+/// The digest is sensitive-derived material
 /// by default — an equality and linkage oracle that proves no authorship,
 /// authenticity, permission or de-identification — and it must not be
 /// interpolated or reflected into logs, telemetry, URLs, filenames or user
@@ -210,6 +211,14 @@ extension ContentID {
         version: ContentProjectionVersion(major: 1, minor: 0)
     )
 
+    /// The version-one operation-parameters projection registered by
+    /// `ADR-0054` over the exact canonical `VCMJ-1` bytes of one
+    /// parameter collection document.
+    public static let operationParametersProjection = ContentProjectionReference(
+        compiledIdentifier: "org.voxelia.operation-parameters",
+        version: ContentProjectionVersion(major: 1, minor: 0)
+    )
+
     /// The exact SHA-256 digest byte count required by the accepted tuple.
     public static let sha256DigestByteCount = 32
 
@@ -233,6 +242,8 @@ extension ContentID {
                 && projection == Self.metadataCompleteRecordProjection)
             || (scope == .sampleBytes
                 && projection == Self.sampleBytesProjection)
+            || (scope == .serialisedObject
+                && projection == Self.operationParametersProjection)
         guard acceptedTuple else {
             throw ContentIdentityError.unsupportedProjection
         }
@@ -307,6 +318,26 @@ extension ContentID {
         try computeIdentity(
             scope: .serialisedObject,
             projection: Self.metadataCompleteRecordProjection,
+            overPayloadBytes: canonicalBytes
+        )
+    }
+
+    /// Computes the operation-parameters identity over the exact complete
+    /// accepted `VCMJ-1` bytes of one parameter collection document.
+    ///
+    /// The caller must supply bytes produced or accepted by the dedicated
+    /// canonical codec for the operation's output-affecting semantic
+    /// parameters. The digest identifies exactly that canonical document;
+    /// it proves neither parameter completeness nor determinism and is
+    /// not by itself a cache key. The framed preimage, chunked hashing,
+    /// cancellation cadence and failure discipline match the other
+    /// registered computations.
+    public static func operationParametersIdentity(
+        overCanonicalBytes canonicalBytes: [UInt8]
+    ) throws -> ContentID {
+        try computeIdentity(
+            scope: .serialisedObject,
+            projection: Self.operationParametersProjection,
             overPayloadBytes: canonicalBytes
         )
     }

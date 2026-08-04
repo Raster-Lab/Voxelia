@@ -659,6 +659,26 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   counts, malformed nested records, over-ceiling fields and crossed
   content tuples. Duplicate-locator rejection, source ordering and
   aggregate limits stay with the future `DataIdentity` decision.
+- Twentieth autonomous increment: authored and accepted `ADR-0054`
+  (operation-parameters content projection) and registered the third
+  compiled `ContentID` tuple: algorithm `sha256`, scope
+  `serialisedObject`, projection `org.voxelia.operation-parameters`
+  version `1.0`, whose payload is the exact complete accepted `VCMJ-1`
+  bytes of one parameter `MetadataCollection` — reusing the accepted
+  canonical codec so one canonical-JSON authority serves both
+  registered `serialisedObject` projections, which stay structurally
+  domain-separated through the length-prefixed 105-byte frame header.
+  `operationParametersIdentity(overCanonicalBytes:)` reuses the shared
+  chunked, cancellation-checked computation, and the accepted set in
+  `validateAcceptedProfile` admits exactly the three registered tuples.
+  Tests reproduce an independently computed golden framed digest over
+  the canonical empty parameter document, reproduce the registered
+  `ADR-0036` golden for the identical payload under the
+  complete-record projection to prove structural separation, pin the
+  105-byte header, round-trip the new wire and reject crossed tuples.
+  This discharges the `ADR-0037` derivation prerequisite "registered
+  parameter projection"; the digest proves neither parameter
+  completeness nor determinism and is not by itself a cache key.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

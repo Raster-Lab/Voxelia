@@ -39,8 +39,9 @@ allocated to the sample-bytes content projection. `ADR-0050` is
 allocated to the content-tier result cache. `ADR-0051` is allocated to
 the execution claim value shapes. `ADR-0052` is allocated to the
 provenance warning schema. `ADR-0053` is allocated to the source
-identity profile and data identity reference. The next unallocated
-numeric identifier is `ADR-0054`.
+identity profile and data identity reference. `ADR-0054` is allocated
+to the operation-parameters content projection. The next unallocated
+numeric identifier is `ADR-0055`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -77,3 +78,4 @@ numeric identifier is `ADR-0054`.
 | [ADR-0051](ADR-0051-execution-claim-value-shapes.md) | Accepted | Execution claim value shapes |
 | [ADR-0052](ADR-0052-provenance-warning-schema.md) | Accepted | Provenance warning schema |
 | [ADR-0053](ADR-0053-source-identity-and-data-identity-reference.md) | Accepted | Source identity profile and data identity reference |
+| [ADR-0054](ADR-0054-operation-parameters-content-projection.md) | Accepted | Operation-parameters content projection |
