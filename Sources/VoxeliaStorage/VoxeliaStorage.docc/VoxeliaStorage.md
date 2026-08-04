@@ -21,6 +21,12 @@ public API is introduced only by reviewed milestone specifications.
 - ``CodecIdentifierError``
 - ``CompressedRegionAccess``
 
+### Canonical document persistence
+
+- ``CanonicalDocumentStore``
+- ``CanonicalDocumentName``
+- ``CanonicalDocumentStoreError``
+
 ### Project documents
 
 - <doc:Architecture>

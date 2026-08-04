@@ -60,7 +60,8 @@ extension. `ADR-0069` is allocated to lookup-table composition. The
 `ADR-0072` is allocated to the canonical derivation record
 projection. `ADR-0073` is allocated to strict canonical derivation
 ingress. `ADR-0074` is allocated to sampling payload slicing. The
-next unallocated numeric identifier is `ADR-0075`.
+`ADR-0075` is allocated to the canonical document store. The next
+unallocated numeric identifier is `ADR-0076`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -118,3 +119,4 @@ next unallocated numeric identifier is `ADR-0075`.
 | [ADR-0072](ADR-0072-canonical-derivation-projection.md) | Accepted | Canonical derivation record projection |
 | [ADR-0073](ADR-0073-strict-derivation-ingress.md) | Accepted | Strict canonical derivation ingress |
 | [ADR-0074](ADR-0074-sampling-payload-slicing.md) | Accepted | Sampling payload slicing |
+| [ADR-0075](ADR-0075-canonical-document-store.md) | Accepted | Canonical document store |

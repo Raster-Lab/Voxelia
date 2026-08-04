@@ -1218,6 +1218,33 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   irregular axis and a categorical axis to the exact expected slices
   in one execution, prove the advanced tokens, and reject a
   misaligned payload and the external case typed.
+- Forty-first autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0075` (canonical document
+  store) and implemented the actor-isolated `CanonicalDocumentStore`
+  in `VoxeliaStorage`, the `ADR-0038` persistence-integrity
+  assignment for canonical documents. Because accepted `ADR-0036`
+  forbids digest material in filenames, content-addressed naming is
+  excluded by governance: documents are addressed by validated
+  `CanonicalDocumentName` labels (single lowercase 1-through-64-byte
+  labels, structurally traversal-free), with the caller owning the
+  name-to-record mapping. The store verifies the supplied identity
+  against the exact bytes timing-safe before anything touches disk,
+  verifies read bytes against the caller's expected identity before
+  returning them, preflights file sizes against the caller's byte
+  ceiling before reading, writes through the platform's documented
+  atomic data write (recorded as the trusted primitive, with
+  independent power-fail evidence an open recorded gap), treats a
+  same-name same-content store as idempotent and a same-name
+  different-content store as typed corruption, and is append-only —
+  no deletion, overwrite or rename exists, so an immutable name can
+  never come to mean different bytes, and retention governance stays
+  deferred. Tests round-trip a real canonical document through a real
+  directory and produce real on-disk corruption evidence: a
+  byte-flipped document rejects on load and on re-store with the
+  corrupted bytes left untouched, a truncated document rejects, a
+  wrong expected identity rejects, plus the unverified-claim,
+  missing-document, byte-ceiling, invalid-name and invalid-directory
+  rejections, all typed and payload-free.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
