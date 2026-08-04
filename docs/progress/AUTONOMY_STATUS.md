@@ -1394,6 +1394,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   presentation-provenance projection decision. Tests prove the
   viewport bounds, both projection admissions and all parameter
   rejections, the space rule and both degeneracy rejections.
+- Forty-ninth autonomous increment (owner broadened standing mandate,
+  rendering arc): authored and accepted `ADR-0083` (rendering
+  transfer function model). `GreyscaleWindowFunction` validates a
+  finite centre and a width of at least one in the input's real value
+  domain — exactly the parameter semantics the registered
+  `VOXELIA-ALG-0002` model froze — as presentation intent whose
+  evaluation belongs to backends against the registered model and its
+  measured GPU approximation; the closed `TransferFunction` holds
+  exactly the greyscale-window case, with colour maps, opacity curves
+  and volume transfer functions deferred as registered extensions
+  (a colour map additionally needs a governed map registry before any
+  token can mean anything). The controlled rule keeping display
+  windows out of the Core `ValueTransform` is honoured by placement.
+  Tests admit valid windows including the degenerate unit width and
+  reject non-finite and sub-one parameters typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

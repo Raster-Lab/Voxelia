@@ -946,8 +946,13 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderCamera.swift",
-      "size": 4293,
-      "sha256": "c839f4d16ced791e235513800499c4d0e581d74301b50bd0ca3c3b3bdae68a72"
+      "size": 4325,
+      "sha256": "4de2a181d6b6f9e071dbe202fce19b7c647d3c29d0328520e0377ddbd5e01add"
+    },
+    {
+      "path": "Sources/VoxeliaRendering/Public/TransferFunction.swift",
+      "size": 1341,
+      "sha256": "16559b180938ce56b50705e9c0ce3a1de10c36fc981f8fa6672d2de30aa98b58"
     },
     {
       "path": "Sources/VoxeliaRendering/VoxeliaRendering.docc/Architecture.md",
@@ -1538,6 +1543,11 @@
       "path": "Tests/VoxeliaRenderingTests/RenderCameraTests.swift",
       "size": 4506,
       "sha256": "31fb2093e768de561febcb01fe706ebd8b372394a7184facf5aa02c60e3f141f"
+    },
+    {
+      "path": "Tests/VoxeliaRenderingTests/TransferFunctionTests.swift",
+      "size": 1793,
+      "sha256": "918da81a6f5968ab0f7e7f13d851941f1da8301f790df56ad7ec69120671480b"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift",
@@ -2465,9 +2475,14 @@
       "sha256": "75493851467e98a4ff37ea06b28cb484efebab17846749da45adb6bf719c3792"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0083-rendering-transfer-function.md",
+      "size": 2801,
+      "sha256": "4ebf0eaa557dc007c9eb1ed3699b66c719498e44f27a0ee6364cc269b95de292"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 11889,
-      "sha256": "a4119c9c36b2537596c18b62eda19a635ce76252f00bcad14b411b29e8f5d155"
+      "size": 12058,
+      "sha256": "de47cfe713a840e0616a65d9db47382c7628c774a960de3cba27b32d76bf3bb4"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2551,8 +2566,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 499776,
-      "sha256": "6eca24ee559a3b34a245d69687fec1d5b65b7495f280b11e852c7a403b32a88c"
+      "size": 500763,
+      "sha256": "c72dbede8926368af17e07bb261093cc6d48467a7a6f982ce3acfae323be88f6"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2911,8 +2926,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 29942,
-      "sha256": "05ce030969a87c0d319e1d2bc469b0d04cc6aef40a5f2ea87d984cbf5f227e00"
+      "size": 30121,
+      "sha256": "2de226716a7060726206e5c32bae017e0ef2a82c5bb0a516ef29c8933fdf44b8"
     }
   ]
 }
