@@ -109,7 +109,7 @@ struct SpatialPrimitivesTests {
         #expect(Set([worldVector, patientVector]).count == 2)
     }
 
-    @Test("[Unit][VOX-API-004] Codable preserves structure and revalidates input")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] Codable preserves structure and revalidates input")
     func codableRoundTripAndValidation() throws {
         let space = try CoordinateSpaceID(validating: "org.voxelia.coordinate.world")
         let point = try Point3D(x: 1, y: 2, z: 3, coordinateSpace: space)
@@ -124,21 +124,8 @@ struct SpatialPrimitivesTests {
         )
         #expect(Set(pointObject.keys) == ["x", "y", "z", "coordinateSpace"])
 
-        let invalidValues = [
-            #"{"x":1,"y":2,"z":3}"#,
-            #"{"x":1,"y":2,"z":3,"coordinateSpace":{"rawValue":" "}}"#,
-            #"{"x":1,"y":2,"z":3,"coordinateSpace":{"rawValue":"world"},"extra":true}"#,
-            #"[1,2,3]"#,
-        ]
-        for invalidValue in invalidValues {
-            let data = Data(invalidValue.utf8)
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(Point3D.self, from: data)
-            }
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(Vector3D.self, from: data)
-            }
-        }
+        expectExactInvalidPrimitiveDecoding(Point3D.self)
+        expectExactInvalidPrimitiveDecoding(Vector3D.self)
 
         let decoder = JSONDecoder()
         decoder.nonConformingFloatDecodingStrategy = .convertFromString(
@@ -179,6 +166,51 @@ struct SpatialPrimitivesTests {
                 field: nonFiniteValue.field,
                 index: nonFiniteValue.index
             )
+        }
+    }
+
+    private func expectExactInvalidPrimitiveDecoding<Value: Decodable>(
+        _ type: Value.Type
+    ) {
+        for wrongKeyValue in [
+            #"{"x":1,"y":2,"z":3}"#,
+            #"{"x":1,"y":2,"z":3,"coordinateSpace":{"rawValue":"world"},"extra":true}"#,
+        ] {
+            do {
+                _ = try JSONDecoder().decode(type, from: Data(wrongKeyValue.utf8))
+                #expect(Bool(false), "Expected a wrong-keyed primitive to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+            }
+        }
+
+        do {
+            _ = try JSONDecoder().decode(
+                type,
+                from: Data(#"{"x":1,"y":2,"z":3,"coordinateSpace":{"rawValue":" "}}"#.utf8)
+            )
+            #expect(Bool(false), "Expected a blank coordinate space to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(
+                context.codingPath.map(\.stringValue) == ["coordinateSpace", "rawValue"]
+            )
+            #expect(
+                context.underlyingError as? VoxeliaStringIdentifierError
+                    == .emptyOrWhitespaceOnly
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+        }
+
+        do {
+            _ = try JSONDecoder().decode(type, from: Data(#"[1,2,3]"#.utf8))
+            #expect(Bool(false), "Expected an array-shaped primitive to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
     }
 
