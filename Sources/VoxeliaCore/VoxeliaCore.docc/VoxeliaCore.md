@@ -52,6 +52,11 @@ storage semantics.
 
 - ``ImageSemantic``
 
+### Image descriptor
+
+- ``ImageDescriptor``
+- ``ImageDescriptorError``
+
 ### Value transformations
 
 - ``ValueTransform``

@@ -79,6 +79,7 @@ Sources/VoxeliaCore/Public/ContentID.swift
 Sources/VoxeliaCore/Public/ContentIdentityTaxonomy.swift
 Sources/VoxeliaCore/Public/DataModelError.swift
 Sources/VoxeliaCore/Public/DataObjectID.swift
+Sources/VoxeliaCore/Public/ImageDescriptor.swift
 Sources/VoxeliaCore/Public/ImageIndex.swift
 Sources/VoxeliaCore/Public/ImageRegion.swift
 Sources/VoxeliaCore/Public/ImageSemantic.swift
@@ -215,6 +216,7 @@ Tests/VoxeliaCoreTests/ComponentDescriptorTests.swift
 Tests/VoxeliaCoreTests/ContentIDTests.swift
 Tests/VoxeliaCoreTests/ContentIdentityTaxonomyTests.swift
 Tests/VoxeliaCoreTests/DataObjectIDTests.swift
+Tests/VoxeliaCoreTests/ImageDescriptorTests.swift
 Tests/VoxeliaCoreTests/ImageIndexTests.swift
 Tests/VoxeliaCoreTests/ImageRegionTests.swift
 Tests/VoxeliaCoreTests/ImageSemanticTests.swift

@@ -426,6 +426,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   coding for the new aggregates is deliberately deferred to a dedicated
   strict-wire increment. Two focused tests cover every rejection path
   and the determinant boundary in both directions.
+- Eighth autonomous increment — the M1 centrepiece: `ImageDescriptor`
+  is implemented in `VoxeliaCore` with the typed payload-free
+  `ImageDescriptorError` and the CDMS section 19.2 invariants validated
+  at construction with no storage access: axis count equals shape rank;
+  axis identifiers unique; colour semantics require RGB/RGBA component
+  interpretations while non-colour semantics reject them; an affine
+  spatial geometry may reference only in-rank image axes; and a present
+  sample unit must not carry the length dimension (spatial-coordinate
+  units live on axes and coordinate spaces). Wire coding is deferred to
+  the dedicated strict-wire increment alongside the spatial aggregates.
+  Two focused tests cover every invariant in both directions. The
+  descriptor was the recorded central blocker of milestone M1; the
+  remaining structural `ImageData` aggregate stays gated on the
+  identity/provenance prerequisites recorded with `ADR-0037`/`ADR-0038`.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
