@@ -1210,7 +1210,7 @@ the live package graph and Accepted authority before source selection.
 
 | Family | Current accepted evidence | Disposition |
 |---|---|---|
-| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence proves direct typed rejection and decoded case/context/underlying-error preservation for invalid metadata; `ImageShape` also proves exact typed failure for derived-count overflow and expected/actual rank mismatch at its index-containment boundary. `ImageSemantic` proves exact typed wire-decoding rejection with root-versus-nested coding paths. `SemanticVersion` proves all five direct-construction error cases and decoded root-context cause preservation for one negative component plus both identifier families. `ImageRegion` proves exact direct typed lower/upper-rank-mismatch rejection at construction and decoded root-context `dataCorrupted` preservation of the same underlying `.rankMismatch` cause, plus exact first-inverted-axis payload rejection directly and through the same decoded root-context path, and exact checked extent-subtraction `.arithmeticOverflow` rejection directly and through that decoded root-context path. The `ComponentInterpretation` generic wire additionally proves strict exact-key rejection of an extra-key payload with a `generic`-path `dataCorrupted` context, and `CodedConcept` proves root-context `dataCorrupted` rejection of missing-key and extra-key objects plus `typeMismatch` rejection of a non-object shape. The `DigestAlgorithm` and `ContentScope` closed vocabularies prove exact wire rejection: root-context `dataCorrupted` for an unknown token, `valueNotFound` for null and `typeMismatch` for number, boolean, object and array shapes. The shared `VoxeliaStringIdentifier` decoder proves, through `DataObjectID` and `ProvenanceID`, `rawValue`-path `dataCorrupted` with underlying `emptyOrWhitespaceOnly` for a blank value, root-context `dataCorrupted` for wrong-keyed objects and `typeMismatch` for non-object shapes. `ProvenanceKind` proves the same exact closed-vocabulary rejection pattern including the wrong-spelling `materialized` token. `MetadataPrivacyClass` proves that all six invalid-wire fixtures collapse to its one fixed empty-path value-redacted `dataCorrupted` failure with no underlying error. `AnyMetadataKey` proves root-context `dataCorrupted` rejection of wrong-keyed objects from its exact two-key guard plus `typeMismatch` rejection of a non-object shape. `LookupTableDescriptor` proves the same exact three-key guard and container-shape rejections plus nested-`outputUnit` revalidation with the `outputUnit`/`namespace` path and underlying `MeasurementUnitError.emptyNamespace`. Every broad `DecodingError` assertion in `VoxeliaCoreTests` is now closed to exact evidence; the remaining broad assertions live in the Spatial, Storage, Geometry and Metal test targets. The owning `VoxeliaSpatialTests` additionally proves the shared identifier decoder's exact blank/wrong-key/shape rejections through `AxisID` and a permissive conformer, showing the protocol-level blank guard fires regardless of concrete-type permissiveness, and proves `MeasurementUnit`'s exact six-key guard, container-shape rejection and field-path `dataCorrupted` revalidation with underlying `emptyNamespace` and `nonFiniteScaleToCanonical` causes. `CoordinateHandedness` and `SpatialTransformKind` prove the same exact closed-vocabulary `dataCorrupted`/`valueNotFound`/`typeMismatch` rejection pattern as the Core taxonomies, and `ExternalFrameReference` proves its exact key guard, container-shape rejection and already-exact blank-field revalidation. `SpatialAxisMapping` proves `imageAxes`-path `dataCorrupted` with all four exact underlying `SpatialAxisMappingError` payloads plus its one-key guard and container-shape rejections. `Point3D` and `Vector3D` prove their exact four-key guard, `coordinateSpace`/`rawValue`-path nested-space revalidation with underlying `emptyOrWhitespaceOnly` and container-shape rejections. `Plane3D` and `Ray3D` prove their exact two-key guard and container-shape rejections alongside their already-exact composite-invariant revalidation, and `AxisAlignedBounds3D` proves the same exact two-key guard and container-shape rejections alongside its already-exact inverted-bounds and space-mismatch revalidation. `Matrix4x4Double` proves `elements`-path `dataCorrupted` with exact underlying `invalidElementCount(actual: 3)` and `nonFiniteElement(index: 0)` payloads plus its one-key guard and container-shape rejections. Every broad `DecodingError` assertion in `VoxeliaSpatialTests` is now closed to exact evidence; the remaining broad assertions live in the Storage, Geometry and Metal test targets. In the owning `VoxeliaStorageTests`, `CodecIdentifier` proves its exact key guard, container-shape rejection and already-exact blank-field revalidation. | This is Core invalid-data, typed arithmetic and typed operation-input evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
+| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence proves direct typed rejection and decoded case/context/underlying-error preservation for invalid metadata; `ImageShape` also proves exact typed failure for derived-count overflow and expected/actual rank mismatch at its index-containment boundary. `ImageSemantic` proves exact typed wire-decoding rejection with root-versus-nested coding paths. `SemanticVersion` proves all five direct-construction error cases and decoded root-context cause preservation for one negative component plus both identifier families. `ImageRegion` proves exact direct typed lower/upper-rank-mismatch rejection at construction and decoded root-context `dataCorrupted` preservation of the same underlying `.rankMismatch` cause, plus exact first-inverted-axis payload rejection directly and through the same decoded root-context path, and exact checked extent-subtraction `.arithmeticOverflow` rejection directly and through that decoded root-context path. The `ComponentInterpretation` generic wire additionally proves strict exact-key rejection of an extra-key payload with a `generic`-path `dataCorrupted` context, and `CodedConcept` proves root-context `dataCorrupted` rejection of missing-key and extra-key objects plus `typeMismatch` rejection of a non-object shape. The `DigestAlgorithm` and `ContentScope` closed vocabularies prove exact wire rejection: root-context `dataCorrupted` for an unknown token, `valueNotFound` for null and `typeMismatch` for number, boolean, object and array shapes. The shared `VoxeliaStringIdentifier` decoder proves, through `DataObjectID` and `ProvenanceID`, `rawValue`-path `dataCorrupted` with underlying `emptyOrWhitespaceOnly` for a blank value, root-context `dataCorrupted` for wrong-keyed objects and `typeMismatch` for non-object shapes. `ProvenanceKind` proves the same exact closed-vocabulary rejection pattern including the wrong-spelling `materialized` token. `MetadataPrivacyClass` proves that all six invalid-wire fixtures collapse to its one fixed empty-path value-redacted `dataCorrupted` failure with no underlying error. `AnyMetadataKey` proves root-context `dataCorrupted` rejection of wrong-keyed objects from its exact two-key guard plus `typeMismatch` rejection of a non-object shape. `LookupTableDescriptor` proves the same exact three-key guard and container-shape rejections plus nested-`outputUnit` revalidation with the `outputUnit`/`namespace` path and underlying `MeasurementUnitError.emptyNamespace`. Every broad `DecodingError` assertion in `VoxeliaCoreTests` is now closed to exact evidence; the remaining broad assertions live in the Spatial, Storage, Geometry and Metal test targets. The owning `VoxeliaSpatialTests` additionally proves the shared identifier decoder's exact blank/wrong-key/shape rejections through `AxisID` and a permissive conformer, showing the protocol-level blank guard fires regardless of concrete-type permissiveness, and proves `MeasurementUnit`'s exact six-key guard, container-shape rejection and field-path `dataCorrupted` revalidation with underlying `emptyNamespace` and `nonFiniteScaleToCanonical` causes. `CoordinateHandedness` and `SpatialTransformKind` prove the same exact closed-vocabulary `dataCorrupted`/`valueNotFound`/`typeMismatch` rejection pattern as the Core taxonomies, and `ExternalFrameReference` proves its exact key guard, container-shape rejection and already-exact blank-field revalidation. `SpatialAxisMapping` proves `imageAxes`-path `dataCorrupted` with all four exact underlying `SpatialAxisMappingError` payloads plus its one-key guard and container-shape rejections. `Point3D` and `Vector3D` prove their exact four-key guard, `coordinateSpace`/`rawValue`-path nested-space revalidation with underlying `emptyOrWhitespaceOnly` and container-shape rejections. `Plane3D` and `Ray3D` prove their exact two-key guard and container-shape rejections alongside their already-exact composite-invariant revalidation, and `AxisAlignedBounds3D` proves the same exact two-key guard and container-shape rejections alongside its already-exact inverted-bounds and space-mismatch revalidation. `Matrix4x4Double` proves `elements`-path `dataCorrupted` with exact underlying `invalidElementCount(actual: 3)` and `nonFiniteElement(index: 0)` payloads plus its one-key guard and container-shape rejections. Every broad `DecodingError` assertion in `VoxeliaSpatialTests` is now closed to exact evidence; the remaining broad assertions live in the Storage, Geometry and Metal test targets. In the owning `VoxeliaStorageTests`, `CodecIdentifier` proves its exact key guard, container-shape rejection and already-exact blank-field revalidation, and `StorageKind`/`StoragePersistence` prove the same exact closed-vocabulary rejection pattern as the Core and Spatial taxonomies. | This is Core invalid-data, typed arithmetic and typed operation-input evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
 | `VOX-SEC-001` | `ImageShape` validates positive external extents and checked element-count multiplication. `ImageRegion` validates ranks, bounds, containment, translation, subtraction and accumulated count arithmetic with focused boundary tests. | Stride, byte-offset, allocation-size and memory-access closure requires the blocked storage/descriptor/read contracts. Current checks support but do not complete the requirement. |
 | `VOX-SEC-002` | Host strict-memory builds of product and test targets, the available Apple destination matrix, manifest/configuration checks and the explicit empty inventory found no compiler-classified unsafe construct, Swift `unsafe` marker, SwiftPM unsafe flag or weakened compiler-safety setting. | The advisory always-green workflow inventory is replaced by a deterministic fail-closed repository gate. The visionOS platform-component gap prevents treating supported-destination evidence or full M1 acceptance as complete. |
 | `VOX-CON-003` | Current canonical Core descriptors are immutable checked-`Sendable` values, strict Swift 6 mode is enabled and representative compile-time transfer assertions exist. | Storage/data descriptor transfer cannot close until the Proposed storage contracts are accepted and implemented. No storage or cancellation API is started here. |
@@ -2257,6 +2257,17 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   not codec semantics or negotiation, canonical JSON bytes, completion of
   `VOX-API-004`, global `VOX-ERR-001` or `VOX-VAL-001`, or any change to the
   accepted wire shape.
+- Closed the `StorageKind`/`StoragePersistence` invalid-wire evidence branch
+  in the owning `VoxeliaStorageTests` without a production change. The
+  invalid-values test now carries `VOX-ERR-001` traceability and proves,
+  through one exact helper applied to both raw-value enums, root-context
+  `DecodingError.dataCorrupted` for the unknown token,
+  `DecodingError.valueNotFound` for null and `DecodingError.typeMismatch` for
+  the number, boolean, object and array shapes, instead of one broad shared
+  loop. This is closed-vocabulary wire-rejection evidence only, not storage
+  capability or persistence semantics, canonical JSON bytes, completion of
+  `VOX-API-004`, global `VOX-ERR-001` or `VOX-VAL-001`, or any change to the
+  accepted raw values.
 
 ## Verification evidence
 
@@ -4512,6 +4523,15 @@ changed test file and the requirement-index check passed. No production
 source, public API, direct dependant, complete Swift suite, controlled
 baseline or Proposed/Draft contract changed.
 
+`swift test --filter StorageTaxonomy` executed all five tests in the owning
+suite. The strengthened invalid-values test proved the exact per-shape
+rejections for both `StorageKind` and `StoragePersistence`; the four
+unchanged vocabulary and raw-string tests passed unchanged. The owning
+`swift build --target VoxeliaStorage`, strict format lint for the single
+changed test file and the requirement-index check passed. No production
+source, public API, direct dependant, complete Swift suite, controlled
+baseline or Proposed/Draft contract changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -4994,29 +5014,35 @@ baseline or Proposed/Draft contract changed.
 
 ## Exact next action
 
-Close only the `StorageKind`/`StoragePersistence` invalid-wire evidence
-branch in the owning `VoxeliaStorageTests` without changing production API.
-Both are synthesized raw-value enums sharing one six-fixture loop, so treat
-them as one tightly related group: add `VOX-ERR-001` traceability to the
-invalid-values test and replace the broad loop with exact evidence for both
-enums — the unknown token must produce root-context
-`DecodingError.dataCorrupted`, `null` must produce
-`DecodingError.valueNotFound`, and the number, boolean, object and array
-shapes must produce `DecodingError.typeMismatch`. Record this as
-closed-vocabulary wire-rejection evidence only, not storage capability or
-persistence semantics, canonical JSON bytes, completion of `VOX-API-004`,
-global `VOX-ERR-001` or `VOX-VAL-001`, or any change to the accepted raw
-values. Do not change source/API, controlled `v0.1.1` baselines or
-Proposed/Draft contracts.
+Close only the existing `CompressedRegionAccess` malformed-representation
+evidence branch in the owning `VoxeliaStorageTests` without changing
+production API. Add `VOX-ERR-001` traceability to the malformed-representation
+test and replace only its broad ten-fixture loop with exact evidence: the
+unknown string token must produce root-context `DecodingError.dataCorrupted`;
+null must produce `DecodingError.valueNotFound` from the keyed-container
+request after the string branch declines; the number and array shapes must
+produce `DecodingError.typeMismatch`; the empty, unexpected-key and
+outer-extra-key objects must produce root-context `dataCorrupted` from the
+exact one-key guard; the missing-`name` and nested-extra-key custom payloads
+must produce `dataCorrupted` with the single-element `custom` coding path;
+and the numeric-`namespace` payload must produce `typeMismatch` with the
+`custom`/`namespace` coding path. Record this as closed-mode and strict
+custom-payload wire evidence only, not compression, region-access or codec
+execution semantics, canonical JSON bytes, completion of `VOX-API-004`,
+global `VOX-ERR-001` or `VOX-VAL-001`, or any change to the accepted wire
+shape. This closes the last broad `DecodingError` assertion in
+`VoxeliaStorageTests`; the remaining broad assertions live in the Geometry
+and Metal test targets. Do not change source/API, controlled `v0.1.1`
+baselines or Proposed/Draft contracts.
 
 ## Test policy for the next action
 
-- Run only `swift test --filter StorageTaxonomy`, the owning
-  `swift build --target VoxeliaStorage`, strict format lint for
-  `Tests/VoxeliaStorageTests/StorageTaxonomyTests.swift`, requirement-index
-  and release-integrity checks. Add no direct-dependant build because the
-  public API is unchanged. Do not run blocked storage/metadata probes or the
-  complete Swift package suite.
+- Run only `swift test --filter malformedRepresentationsAreRejected`, the
+  owning `swift build --target VoxeliaStorage`, strict format lint for
+  `Tests/VoxeliaStorageTests/CompressedRegionAccessTests.swift`,
+  requirement-index and release-integrity checks. Add no direct-dependant
+  build because the public API is unchanged. Do not run blocked
+  storage/metadata probes or the complete Swift package suite.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
