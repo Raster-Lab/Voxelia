@@ -54,6 +54,9 @@ storage semantics.
 
 ### Value transformations
 
+- ``ValueTransform``
+- ``LinearValueTransformDescriptor``
+- ``ValueTransformComposition``
 - ``LookupTableDescriptor``
 
 ### Content identity

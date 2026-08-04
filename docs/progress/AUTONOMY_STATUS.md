@@ -78,6 +78,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `piecewiseLinear` case and all lookup-execution behavior. `CCR-0003`
   records the controlled corrections to MTA section 9.9 and CDMS sections
   18.2/18.4, selecting the empty-composition rejection branch exactly.
+  Migration steps 1-3 and 5 are complete: the three types are implemented in
+  `VoxeliaCore` with validated construction, signed-zero canonicalization,
+  strict revalidating one-tag wires and focused exact-evidence tests; step 4
+  (lookup execution and piecewise-linear specification) remains separate
+  later scope.
 - Proposed `ADR-0027` replaces the cross-module frame-index reference with a
   Spatial-owned, full-rank `FrameAnchorIndex` and defines the minimum full-frame
   logical-anchor semantics needed for stable identity; it is not accepted and
@@ -2422,6 +2427,23 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   limits with the owner approval and introducing commit. No immutable
   `v0.1.1` baseline file was edited; no source changed in the governance
   commit.
+- Implemented accepted `ADR-0023` migration step 2: the validated
+  `ValueTransform` family in its owning `VoxeliaCore` module.
+  `LinearValueTransformDescriptor` rejects every non-finite scale/offset
+  position with `DataModelError.invalidValueTransform`, permits zero scale
+  and canonicalizes signed zero to positive zero for one equality, hashing
+  and encoding representation. `ValueTransformComposition` accepts a generic
+  collection, materializes one immutable `ContiguousArray`, preserves
+  first-to-last order, rejects emptiness with the same typed error and
+  performs no flattening, identity removal or one-element collapse.
+  `ValueTransform` implements the four exact tags with the strict documented
+  payload wire; unknown tags, wrong shapes, missing/extra/multiple-tag
+  fields are rejected with root or case-path `dataCorrupted`, null with
+  `valueNotFound`, non-object shapes with `typeMismatch`, and payload
+  invariants are revalidated on decode through the nested strict decoders.
+  The DocC topics page gained the three types. Lookup execution,
+  piecewise-linear behavior and presentation-stage values remain
+  unimplemented by design.
 
 ## Verification evidence
 
@@ -4772,6 +4794,20 @@ new record, and the requirement-index check passed. The release manifest
 gained exactly the one new correction record. No `v0.1.1` baseline file,
 product source or package edge changed.
 
+`swift test --filter ValueTransform` executed all seven tests in the new
+owning Core suite: finite extreme, subnormal, zero-scale and every
+non-finite linear position; signed-zero canonicalization with one sorted-key
+encoded representation; nonempty/ordered/nested/one-element/1,024-element
+compositions and empty rejection; exact documented tags and round trips;
+exact root/`linear`/`composed`-path `dataCorrupted`, `valueNotFound` and
+`typeMismatch` rejections; decode-time revalidation with underlying
+`DataModelError.invalidValueTransform`; and Sendable/Hashable checks. The
+owning `swift build --target VoxeliaCore`, the direct-dependant
+`swift build --target VoxeliaImaging`, strict format lint for the new source
+and test files, the static package-graph and prohibited-import checks and
+the requirement-index check passed. No controlled baseline or other
+Proposed contract changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5258,34 +5294,31 @@ product source or package edge changed.
 
 ## Exact next action
 
-Execute accepted `ADR-0023` migration step 2: implement
-`LinearValueTransformDescriptor`, `ValueTransformComposition` and
-`ValueTransform` in their owning `VoxeliaCore` module exactly as the ADR and
-`CCR-0003` define. The linear descriptor's throwing initializer rejects
-non-finite scale or offset with `DataModelError.invalidValueTransform`,
-permits zero scale and canonicalizes signed zero to positive zero. The
-composition accepts a generic collection, materializes one immutable
-`ContiguousArray`, preserves first-to-last order, rejects an empty
-collection with the same error and performs no flattening, identity removal
-or one-element collapse. The enum uses the four exact tags with the strict
-documented payload wire, rejects unknown tags, wrong shapes, missing fields
-and distinct extra fields, and revalidates every descriptor invariant on
-decode. Add focused Core tests with exact invariant, identity and wire
-evidence in the established style, covering finite extremes, subnormals,
-signed zero, zero scale, every non-finite position, nonempty/ordered/
-nested/one-element compositions, empty-composition rejection and exact
-decode rejections. Do not implement lookup execution, piecewise-linear
-behavior or presentation-stage values.
+Accepted `ADR-0023` migration is complete except its step 4 (separate lookup
+execution and piecewise-linear specification), which remains later scope.
+The three shape-conflict decisions (`ADR-0021` through `ADR-0023`) are now
+accepted and implemented. The `ImageDescriptor` aggregate remains blocked by
+its other prerequisites: the `CoordinateSpaceDescriptor` unit policy and
+classification, affine shape and construction tolerance, rectilinear
+binding, frame-set binding (Proposed `ADR-0027`) and canonical JSON. The
+next unblocked step is another governance decision: surface the next
+Proposed contract the user wishes to review (candidates: `ADR-0024`
+decision-register reconciliation, `ADR-0026` ray/bounds intersection,
+`ADR-0027` frame anchor-index boundary, or the metadata chain `ADR-0028`
+onward) with its decision questions, following the established interactive
+acceptance flow. Do not accept ADRs autonomously, implement speculative
+source or run blocked storage/metadata probes while those decisions are
+open.
 
 ## Test policy for the next action
 
-- Run `swift test --filter ValueTransform`, the owning
-  `swift build --target VoxeliaCore`, one direct-dependant build of a Core
-  consumer (`swift build --target VoxeliaImaging`) because Core gains public
-  API, strict format lint for the new source and test files, the
-  requirement-index and release-integrity checks, and the static
-  package-graph and prohibited-import checks. Do not run blocked
-  storage/metadata probes or the complete Swift package suite.
+- A governance decision has no test surface. When the next accepted decision
+  authorises work, derive its policy from the smallest owning target as in
+  prior increments, plus documentation, requirement-index and
+  release-integrity checks and the package-graph checks whenever ownership
+  or module boundaries are affected. Do not rerun the complete scaffold
+  suite unless a cross-cutting change affects its gate or a release
+  candidate is being accepted.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
