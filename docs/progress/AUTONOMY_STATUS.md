@@ -57,9 +57,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   (Core-owned descriptor-binding validation) remains blocked behind the
   other `ImageDescriptor` prerequisites; steps 4 and 5 are satisfied for the
   Spatial half by the new tests and regenerated evidence ledgers.
-- Proposed `ADR-0022` selects a namespaced six-case `CoordinateConvention`
-  shape and explicit type-level tags while preserving the separate descriptor
-  unit-policy blocker; it is not accepted and does not unblock code.
+- Governance: `ADR-0022` was accepted by the project owner on 2026-08-04,
+  selecting the namespaced six-case `CoordinateConvention` shape with exact
+  built-in string tags and the strict namespaced custom object, owned by
+  `VoxeliaSpatial`. Its migration steps (controlled MTA section-10.2
+  correction, Spatial implementation with focused tests, traceability and
+  release evidence) are authorised; the separate `CoordinateSpaceDescriptor`
+  unit policy remains an open approval.
 - Proposed `ADR-0023` selects four common `ValueTransform` cases with validated
   linear and composition payloads while deferring undefined piecewise and
   lookup-execution behavior; it is not accepted and does not unblock code.
@@ -2369,6 +2373,20 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   The DocC topics page gained the axis-model section. Extent-dependent
   binding invariants stay in blocked Core `ImageDescriptor` work; no other
   Proposed contract, package edge or baseline changed.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0022`. The ADR
+  file status, acceptance record and body tense were updated and the
+  decision register table row moved to Accepted. This acceptance selects the
+  six-case namespaced `CoordinateConvention` owned by `VoxeliaSpatial` and
+  authorises its migration steps in order; it does not resolve the separate
+  `CoordinateSpaceDescriptor` unit policy, edit any `v0.1.1` baseline or
+  accept any other Proposed ADR.
+- Recorded controlled correction `CCR-0002` executing accepted `ADR-0022`
+  migration step 1. The record quotes the exact four-case MTA section-10.2
+  baseline sketch, states the corrected six-case namespaced sketch matching
+  CDMS section 21.3, restates the wire, opacity, no-inference and
+  open-unit-policy limits, and records the owner approval with the
+  introducing commit as its effective commit. No immutable `v0.1.1` baseline
+  file was edited.
 
 ## Verification evidence
 
@@ -4696,6 +4714,12 @@ prohibited-import checks (proving Spatial still depends on nothing) and the
 requirement-index check passed. No controlled baseline or other Proposed
 contract changed.
 
+For the `ADR-0022` acceptance and controlled correction `CCR-0002`, the
+complete documentation gate passed for all 72 Markdown files including the
+new record, and the requirement-index check passed. The release manifest
+gained exactly the one new correction record. No `v0.1.1` baseline file,
+product source or package edge changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5052,11 +5076,12 @@ contract changed.
   for `VoxeliaSpatial` implementation once the controlled CDMS/FVSP
   correction is recorded; binding validation still waits on the complete
   `ImageDescriptor`, whose other prerequisites remain blocked.
-- Proposed `ADR-0022` likewise does not resolve the convention conflict until
-  accepted. Even after acceptance, `CoordinateSpaceDescriptor` remains blocked
-  because its exact five fields do not classify physical versus logical
-  Cartesian/custom/display spaces. The enum must not imply a unit, transform,
-  display-axis policy or external frame identity.
+- `ADR-0022` is Accepted (2026-08-04), resolving the convention-shape
+  conflict. `CoordinateSpaceDescriptor` remains blocked even so, because its
+  exact five fields do not classify physical versus logical
+  Cartesian/custom/display spaces and its unit policy is unapproved. The
+  enum must not imply a unit, transform, display-axis policy or external
+  frame identity.
 - Proposed `ADR-0023` does not resolve the transform conflict until accepted.
   Piecewise-linear transforms remain undefined, and lookup declarations do not
   establish interpolation, missing-entry or extrapolation behavior.
@@ -5180,27 +5205,27 @@ contract changed.
 
 ## Exact next action
 
-Accepted `ADR-0021` migration is complete except Core-owned
-descriptor-binding validation, which is transitively blocked behind the
-remaining `ImageDescriptor` prerequisites (coordinate-space descriptor
-policy, affine shape and tolerance, rectilinear and frame-set binding,
-canonical JSON). The next unblocked step is another governance decision:
-surface Proposed `ADR-0022` (coordinate-convention public shape) to the
-user with its decision questions, following the same interactive acceptance
-flow used for `ADR-0021`; `ADR-0023` (value-transform shape) is the
-subsequent candidate. Do not accept ADRs autonomously, implement speculative
-source or run blocked storage/metadata probes while those decisions are
-open.
+Execute accepted `ADR-0022` migration step 2: implement
+`CoordinateConvention` in its owning `VoxeliaSpatial` module exactly as the
+ADR and `CCR-0002` define — the six cases, exact built-in string tags, the
+strict `{"custom":{namespace,name}}` object with rejection of unknown tags,
+wrong shapes, missing fields and distinct extra fields, exact UTF-8 custom
+identity, and no inferred handedness, unit, transform or frame for
+`imageDisplay` or `custom`. Add focused Spatial tests with exact taxonomy,
+wire, strict-rejection and built-in handedness-matrix evidence in the
+established style. Do not implement `CoordinateSpaceDescriptor`, unit
+policy, conversion transforms or any registry.
 
 ## Test policy for the next action
 
-- A governance decision has no test surface. When the next accepted decision
-  authorises work, derive its policy from the smallest owning target as in
-  prior increments, plus documentation, requirement-index and
-  release-integrity checks and the package-graph checks whenever ownership
-  or module boundaries are affected. Do not rerun the complete scaffold
-  suite unless a cross-cutting change affects its gate or a release
-  candidate is being accepted.
+- Run `swift test --filter CoordinateConvention`, the owning
+  `swift build --target VoxeliaSpatial`, one direct-dependant
+  `swift build --target VoxeliaCore` because Spatial gains public API,
+  strict format lint for the new source and test files, the
+  requirement-index and release-integrity checks, and the static
+  package-graph and prohibited-import checks confirming Spatial ownership.
+  Do not run blocked storage/metadata probes or the complete Swift package
+  suite.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

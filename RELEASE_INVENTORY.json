@@ -1475,6 +1475,11 @@
       "sha256": "4991b9bf9263224330a52c58042402de108ec13412fbbaf7594fae277be4c101"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md",
+      "size": 3206,
+      "sha256": "dc0d7173de596c68c259dfb6bc101585e69f502d225c1d952a6b32f5443990b0"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md",
       "size": 3783,
       "sha256": "f58112f15cf15254ee1822ed990b96a7ed0af1039fe3286cced3de109e9a1262"
@@ -1486,8 +1491,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md",
-      "size": 8538,
-      "sha256": "1f118956ae1f7e250155d7ab1c4dd22b46459b193e9b999b13ba4e346a1802d6"
+      "size": 8633,
+      "sha256": "2f3d655428403d9c72ef3ba10e058a0c36496818e705c73480f6bdd9c4431a56"
     },
     {
       "path": "docs/architecture/decisions/ADR-0023-value-transform-shape.md",
@@ -1582,7 +1587,7 @@
     {
       "path": "docs/architecture/decisions/README.md",
       "size": 4810,
-      "sha256": "e2275810540c393945cbd3cde1725f9aab3772ef5eee14eaa9d0a1b57934c831"
+      "sha256": "9c899649f9a8e2ff46ee5be2c784fd8177bdf2723359d18279ec2011752e2646"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1666,8 +1671,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 367976,
-      "sha256": "115518c024eb34488226f262c3c75825b033012d43cbf10763340c7dd7d1e578"
+      "size": 369507,
+      "sha256": "e6c6ff5c55da2e6bee1cc546d5b891b4da9125cdb2699eafaf57174893dcf215"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2021,8 +2026,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 18887,
-      "sha256": "3a201785f94945e069f805ebadca6414de7ba70674e2cb604d9df4d661d946c2"
+      "size": 18966,
+      "sha256": "ebda5cd824f44918796eab45361c0eeaf96803c034efa26cbd13bb64325266a6"
     }
   ]
 }

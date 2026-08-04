@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0022"
 title: "Coordinate convention public shape"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -34,13 +34,13 @@ including DICOM LPS and application-defined spaces. Validation must detect
 accidental LPS/RAS and image/display reversal. The conflict therefore cannot be
 hidden behind undocumented flips or an unqualified custom string.
 
-This proposal selects one enum shape and its type-level encoding for review.
-Its Proposed status does not authorize implementation or resolve the separate
-`CoordinateSpaceDescriptor` unit policy.
+This record selects one enum shape and its type-level encoding. It was
+reviewed and accepted by the project owner on 2026-08-04. Acceptance does not
+resolve the separate `CoordinateSpaceDescriptor` unit policy.
 
 ## Decision
 
-If this ADR is accepted, `VoxeliaSpatial` will own this public vocabulary:
+`VoxeliaSpatial` owns this public vocabulary:
 
 ```swift
 public enum CoordinateConvention: Sendable, Hashable, Codable {
@@ -88,9 +88,10 @@ The built-in handedness implications are:
 that requires resolved handedness must reject it explicitly. No handedness or
 unit will be inferred for `imageDisplay` or `custom`.
 
-Acceptance will require a controlled correction to Master Technical
-Architecture section 10.2. No implementation may rely on this proposal while
-its status remains Proposed.
+Acceptance requires a controlled correction to Master Technical Architecture
+section 10.2; that correction is authorised by this acceptance and is
+recorded through the project's controlled-correction process without editing
+any immutable `v0.1.1` baseline file.
 
 ## Alternatives considered
 
@@ -140,16 +141,16 @@ M1 scope.
 
 ## Affected modules
 
-If accepted, this decision affects `VoxeliaSpatial` as owner and implementation
-site of `CoordinateConvention`. Existing downstream modules are affected only
-as consumers through current dependency edges; no dependency edge or other
-module ownership changes. This proposal does not authorize the blocked
+This decision affects `VoxeliaSpatial` as owner and implementation site of
+`CoordinateConvention`. Existing downstream modules are affected only as
+consumers through current dependency edges; no dependency edge or other
+module ownership changes. This decision does not authorize the blocked
 `CoordinateSpaceDescriptor`.
 
 ## Compatibility impact
 
-No public `CoordinateConvention` implementation exists, so accepting this
-proposal would not migrate a released symbol. The chosen wire tags will become
+No public `CoordinateConvention` implementation existed at acceptance, so
+this decision does not migrate a released symbol. The chosen wire tags become
 a compatibility contract once implemented and must not be changed casually.
 
 ## Security impact
@@ -189,15 +190,16 @@ After acceptance:
 4. approve the remaining `CoordinateSpaceDescriptor` unit policy; and
 5. update traceability and release-integrity evidence.
 
-No migration step may begin while this ADR remains Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance and are
+executed in order through the progress ledger; step 4 remains a separate open
+approval.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. If accepted, it resolves the cited coordinate-convention conflict through
-the controlled architecture correction in the Migration section without
-replacing either governing document. While Proposed, it has no supersession
-effect.
+This ADR neither supersedes nor is superseded by another file-backed ADR. It
+resolves the cited coordinate-convention conflict through the controlled
+architecture correction in the Migration section without replacing either
+governing document.
 
 ## References
 
