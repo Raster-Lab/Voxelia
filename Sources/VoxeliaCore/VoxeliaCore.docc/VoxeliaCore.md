@@ -142,7 +142,10 @@ storage semantics.
 - ``ProvenanceRecordError``
 - ``ProvenanceGraph``
 - ``ProvenanceGraphLimits``
+- ``ProvenanceGraphAdmissionMode``
+- ``ProvenanceGraphAuthority``
 - ``ProvenanceGraphError``
+- ``ExternalProvenanceRecordReference``
 - ``CanonicalProvenanceJSON``
 - ``ProvenanceJSONEmissionError``
 - ``ProvenanceJSONIngressError``

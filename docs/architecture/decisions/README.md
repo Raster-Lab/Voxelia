@@ -47,8 +47,9 @@ provenance claim leaf shapes. `ADR-0058` is allocated to the
 provenance record aggregate. `ADR-0059` is allocated to complete
 provenance graph admission. `ADR-0060` is allocated to the canonical
 provenance record projection. `ADR-0061` is allocated to strict
-canonical provenance ingress. The next unallocated numeric identifier
-is `ADR-0062`.
+canonical provenance ingress. `ADR-0062` is allocated to the external
+provenance reference and compact graph admission. The next unallocated
+numeric identifier is `ADR-0063`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -93,3 +94,4 @@ is `ADR-0062`.
 | [ADR-0059](ADR-0059-complete-graph-admission.md) | Accepted | Complete provenance graph admission |
 | [ADR-0060](ADR-0060-canonical-provenance-record-projection.md) | Accepted | Canonical provenance record projection |
 | [ADR-0061](ADR-0061-strict-provenance-ingress.md) | Accepted | Strict canonical provenance ingress |
+| [ADR-0062](ADR-0062-external-reference-and-compact-graphs.md) | Accepted | External provenance reference and compact graph admission |

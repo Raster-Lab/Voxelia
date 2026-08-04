@@ -880,6 +880,45 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   is now usable end to end; `DerivationRecordID`, the external parent
   reference, compact graphs and signed manifests each remain their
   own decision.
+- Twenty-eighth autonomous increment (owner instruction: "build the
+  external reference and compact graphs autonomously"): authored and
+  accepted `ADR-0062` (external provenance reference and compact graph
+  admission) and implemented it in `VoxeliaCore`.
+  `ExternalProvenanceRecordReference` binds one parent identifier to a
+  record-content claim constrained to the registered
+  provenance-record tuple, and `ProvenanceParentReference` gains
+  exactly the `externalRecord` case; the `VCPJ-1` parent union is
+  completed in the emitter and strict ingress before any release, so
+  existing documents' bytes and digests are unchanged and the tuple
+  stays version `1.0`. Graph admission gains the explicit
+  `complete`/`compact` mode policy of the accepted `ADR-0038` table:
+  both modes reject unresolved local parents; complete mode rejects
+  every unresolved external parent; compact mode retains them under a
+  mandatory per-input-edge-occurrence cap for which zero permitted
+  means none, with exact repeated-claim consistency — every retained
+  occurrence of one identifier must carry the same record-content
+  claim and the same expected subject, a disagreement being one typed
+  conflicting claim. An available external parent is resolved only
+  after its candidate record's canonical bytes are re-emitted under
+  the new mandatory resolution byte ceiling and the claim compares
+  timing-safe, each distinct claim verified once; resolved external
+  edges join closure, cycle and depth exactly like local edges;
+  self-naming references reject regardless of tag; and the admitted
+  snapshot reports its resulting authority (complete exactly when
+  nothing was retained) plus the retained occurrence count as
+  evidence. Resolution happens only through a new transaction whose
+  table supplies the formerly external record, rechecking both
+  bindings. Tests reproduce the independently computed 1,995-byte
+  golden document whose external claim is the registered origin
+  golden digest (framed digest `01ae…e2af`), round-trip it through
+  ingress, and prove available verification and mismatch rejection,
+  both mode policies, the zero and nonzero caps, both consistency
+  rejections, self-reference rejection, the resolution byte ceiling,
+  compact authority with later complete re-admission and payload-free
+  diagnostics; the prior graph and codec suites re-passed with the
+  extended limits profile. Signed external manifests, durable
+  provenance storage and `DerivationRecordID` remain their own
+  decisions.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

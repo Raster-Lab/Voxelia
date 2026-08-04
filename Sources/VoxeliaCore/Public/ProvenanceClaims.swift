@@ -13,6 +13,7 @@ public enum ProvenanceClaimError: Error, Sendable, Equatable {
     case roleByteLimitExceeded
     case invalidOccurrence
     case unsupportedParameterProjection
+    case unsupportedRecordProjection
 }
 
 /// A stable identity for separately governed validation evidence.
@@ -296,14 +297,43 @@ public struct ProvenanceInputRole: Sendable, Hashable {
     }
 }
 
+/// One validated externally stored parent-record claim per `ADR-0062`.
+///
+/// The claim binds one parent identifier to the exact registered
+/// provenance-record digest of that parent's canonical bytes; any other
+/// tuple is a typed rejection. The claim proves neither that the
+/// external record exists nor that it is authentic — resolution
+/// verifies the digest timing-safe against supplied canonical bytes.
+public struct ExternalProvenanceRecordReference: Sendable, Hashable {
+    public let id: ProvenanceID
+    public let recordContentID: ContentID
+
+    /// Creates a validated external record claim.
+    ///
+    /// - Throws: ``ProvenanceClaimError/unsupportedRecordProjection``
+    ///   when the digest is not the registered provenance-record tuple.
+    public init(id: ProvenanceID, recordContentID: ContentID) throws {
+        guard
+            recordContentID.scope == .serialisedObject,
+            recordContentID.projection == ContentID.provenanceRecordProjection
+        else {
+            throw ProvenanceClaimError.unsupportedRecordProjection
+        }
+        self.id = id
+        self.recordContentID = recordContentID
+    }
+}
+
 /// The non-recursive reference from one provenance record to a parent.
 ///
-/// Version one holds exactly the in-graph node case. The
-/// external-record case is deferred until a registered
-/// provenance-record digest projection exists; it must not be
-/// improvised from the metadata-record projection.
+/// The in-graph case names a record in the same candidate table; the
+/// external case claims an externally stored record by identifier and
+/// registered record-content digest per `ADR-0062`. Neither case embeds
+/// a record, so cycles and unbounded decoding stay structurally
+/// impossible.
 public enum ProvenanceParentReference: Sendable, Hashable {
     case graphNode(ProvenanceID)
+    case externalRecord(ExternalProvenanceRecordReference)
 }
 
 /// One role-bearing provenance input claim per `ADR-0038` and

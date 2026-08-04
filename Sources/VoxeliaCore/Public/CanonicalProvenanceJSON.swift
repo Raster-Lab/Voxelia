@@ -191,6 +191,12 @@ public enum CanonicalProvenanceJSON {
                 try sink.write(ascii: #"{"graphNode":"#)
                 try emitKeyedIdentifier(identifier.rawValue, into: &sink)
                 try sink.write(ascii: "}")
+            case .externalRecord(let reference):
+                try sink.write(ascii: #"{"externalRecord":{"id":"#)
+                try emitKeyedIdentifier(reference.id.rawValue, into: &sink)
+                try sink.write(ascii: #","recordContentID":"#)
+                try emitContentID(reference.recordContentID, into: &sink)
+                try sink.write(ascii: "}}")
             }
         } else {
             try sink.write(ascii: "null")

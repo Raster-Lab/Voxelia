@@ -303,10 +303,36 @@ extension CanonicalProvenanceJSON {
             parent = nil
         } else {
             let (tag, body) = try taggedMember(members["parent"])
-            guard tag == "graphNode" else {
+            switch tag {
+            case "graphNode":
+                parent = .graphNode(
+                    try keyedIdentifier(body, as: ProvenanceID.self)
+                )
+            case "externalRecord":
+                let externalMembers = try object(
+                    body,
+                    keys: ["id", "recordContentID"]
+                )
+                do {
+                    parent = .externalRecord(
+                        try ExternalProvenanceRecordReference(
+                            id: try keyedIdentifier(
+                                externalMembers["id"],
+                                as: ProvenanceID.self
+                            ),
+                            recordContentID: try reconstructContentID(
+                                externalMembers["recordContentID"]
+                            )
+                        )
+                    )
+                } catch let error as ProvenanceJSONIngressError {
+                    throw error
+                } catch {
+                    throw ProvenanceJSONIngressError.invalidDocument
+                }
+            default:
                 throw ProvenanceJSONIngressError.invalidDocument
             }
-            parent = .graphNode(try keyedIdentifier(body, as: ProvenanceID.self))
         }
         return try ProvenanceInput(
             role: try ProvenanceInputRole(rawValue: try string(members["role"])),

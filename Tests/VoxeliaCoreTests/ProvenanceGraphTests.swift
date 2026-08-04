@@ -14,7 +14,9 @@ struct ProvenanceGraphTests {
         try ProvenanceGraphLimits(
             maximumRecordCount: records,
             maximumParentEdgeCount: edges,
-            maximumAncestryDepth: depth
+            maximumAncestryDepth: depth,
+            maximumUnresolvedExternalReferenceCount: 0,
+            maximumExternalResolutionByteCount: 4_096
         )
     }
 
@@ -283,7 +285,9 @@ struct ProvenanceGraphTests {
             _ = try ProvenanceGraphLimits(
                 maximumRecordCount: 0,
                 maximumParentEdgeCount: 1,
-                maximumAncestryDepth: 1
+                maximumAncestryDepth: 1,
+                maximumUnresolvedExternalReferenceCount: 0,
+                maximumExternalResolutionByteCount: 1
             )
             #expect(Bool(false), "Expected a zero limit to be rejected.")
         } catch let error as ProvenanceGraphError {
