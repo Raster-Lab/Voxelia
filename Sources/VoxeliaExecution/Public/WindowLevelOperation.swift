@@ -12,6 +12,7 @@ public enum WindowLevelError: Error, Sendable, Equatable {
     case unsupportedComponentLayout
     case unsupportedSemantic
     case unsupportedValueTransform
+    case emptyLookupTable
     case invalidWindowWidth
 }
 
@@ -71,14 +72,20 @@ public enum WindowLevelOperation {
         guard input.descriptor.semantic == .intensity else {
             throw WindowLevelError.unsupportedSemantic
         }
-        // ADR-0066 composable set: absent, identity and linear only.
-        let storedToReal: LinearValueTransformDescriptor?
+        // The composable set of ADR-0066 extended by ADR-0069: absent,
+        // identity, linear and non-empty lookup table.
+        let storedToReal: StoredToRealMapping
         switch input.descriptor.valueTransform {
         case nil, .identity:
-            storedToReal = nil
+            storedToReal = .identity
         case .linear(let descriptor):
-            storedToReal = descriptor
-        case .lookupTable, .composed:
+            storedToReal = .linear(descriptor)
+        case .lookupTable(let table):
+            guard !table.values.isEmpty else {
+                throw WindowLevelError.emptyLookupTable
+            }
+            storedToReal = .table(table)
+        case .composed:
             throw WindowLevelError.unsupportedValueTransform
         }
         guard width.value >= 1.0 else {
@@ -149,7 +156,7 @@ public enum WindowLevelOperation {
         // Registered tokens (advanced to 1.1.0 by ADR-0066), derivation
         // recipe, content identity and the subject-bound record with
         // its parent edge.
-        let version = try SemanticVersion(major: 1, minor: 2, patch: 0)
+        let version = try SemanticVersion(major: 1, minor: 3, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )
@@ -243,13 +250,21 @@ public enum WindowLevelOperation {
         ])
     }
 
+    /// One stored-to-real mapping admitted by the composable set.
+    private enum StoredToRealMapping {
+        case identity
+        case linear(LinearValueTransformDescriptor)
+        case table(LookupTableDescriptor)
+    }
+
     /// The exact `VOXELIA-ALG-0002` mapping pass over real values
-    /// produced by the exact `VOXELIA-ALG-0003` stored-to-real step.
+    /// produced by the exact `VOXELIA-ALG-0003` or `VOXELIA-ALG-0004`
+    /// stored-to-real step.
     private static func mapSamples(
         storedBytes: [UInt8],
         scalarType: ScalarType,
         byteOrder: ByteOrder,
-        storedToReal: LinearValueTransformDescriptor?,
+        storedToReal: StoredToRealMapping,
         center: Double,
         width: Double
     ) -> [UInt8] {
@@ -259,14 +274,34 @@ public enum WindowLevelOperation {
         let upperEdge = threshold + halfSpan
 
         func window(_ storedValue: Double) -> UInt8 {
-            // One correctly rounded multiplication then one correctly
-            // rounded addition; a fused multiply-add would change the
-            // rounding count the registered model requires.
             let sample: Double
-            if let storedToReal {
-                sample = (storedValue * storedToReal.scale) + storedToReal.offset
-            } else {
+            switch storedToReal {
+            case .identity:
                 sample = storedValue
+            case .linear(let descriptor):
+                // One correctly rounded multiplication then one
+                // correctly rounded addition; a fused multiply-add
+                // would change the rounding count the registered model
+                // requires.
+                sample = (storedValue * descriptor.scale) + descriptor.offset
+            case .table(let table):
+                // The 64-bit clamped index with the frozen
+                // overflow-clamp rule of VOXELIA-ALG-0004; admitted
+                // stored types convert to Int64 exactly.
+                let storedInteger = Int64(storedValue)
+                let (difference, overflow) =
+                    storedInteger.subtractingReportingOverflow(
+                        table.firstMappedValue
+                    )
+                let index: Int
+                if overflow {
+                    index = table.firstMappedValue < 0 ? table.values.count - 1 : 0
+                } else {
+                    index = Int(
+                        min(max(difference, 0), Int64(table.values.count - 1))
+                    )
+                }
+                sample = table.values[index]
             }
             if sample <= lowerEdge {
                 return 0

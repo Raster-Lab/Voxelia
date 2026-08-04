@@ -661,8 +661,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/Public/WindowLevelOperation.swift",
-      "size": 13393,
-      "sha256": "46e4ab13a7ab76e58f3d214fe882e17118fff4d60e69bc7a04dc41a8ba58966e"
+      "size": 14808,
+      "sha256": "946ac6cd348e39d9a77ef4e589c3a7d129c52e48ab065cb9f9e5352d812e8d54"
     },
     {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/Architecture.md",
@@ -1416,8 +1416,8 @@
     },
     {
       "path": "Tests/VoxeliaExecutionTests/WindowLevelOperationTests.swift",
-      "size": 15235,
-      "sha256": "6d12808df0b7da55cd29aa32fc6b255e66f5715c3bdec419c47a911b421c9407"
+      "size": 16387,
+      "sha256": "0fd37eb47d376ccec7058154bcc00f9bc1e41474a2ff00cca05bf0c6277399a7"
     },
     {
       "path": "Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift",
@@ -1901,8 +1901,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 526,
-      "sha256": "82e6f8b054cde543d728082da17d67f19827ffa9c915faf1f4377f344429d7b6"
+      "size": 668,
+      "sha256": "c637d1e2bbb1c4ed83072dbe14c1a5dda4f2b0fda5394971d00d1ea01184c949"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -1918,6 +1918,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0003-linear-value-transform.md",
       "size": 3201,
       "sha256": "bf66e842cbd566b5105ace622af4a9716bd55794295c84d279da6ea129dccd68"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0004-lookup-table-value-transform.md",
+      "size": 3110,
+      "sha256": "96afe6482566d2d4654589d44de06ff03d215cce3d0af1b38441ca041c87353c"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -2285,9 +2290,14 @@
       "sha256": "aacd5212b989c523bd8a9a57025a0d1cd7fe742f5656dfa62b56176b306a2a69"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0069-lookup-table-composition.md",
+      "size": 3135,
+      "sha256": "b8062a3ac0b077e494401fe40c58ac24161bbab0e2cb775a71d1eb2665347f47"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 9490,
-      "sha256": "c08276bfc0bea4e3e7afd3ad8fbac7e5867d05dac7c88a51bd25c668f5e6dc70"
+      "size": 9634,
+      "sha256": "7d0e7bb37489a5dcb11db8c8a63869657befcf4fedc07559ab7e4eb7e033e3bc"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2371,8 +2381,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 480284,
-      "sha256": "c727d0dd4511a95d381b37f6ab026eea0a0ec044a1f6c4b986f6045f2043456e"
+      "size": 481473,
+      "sha256": "cde6d51b7b1fa9cea5be24fd57684094b31696f5c305120deca3c0cde6221a46"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2731,8 +2741,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 27696,
-      "sha256": "09619f1e1a84554b1ae200761ad0422519ee6e2f27eb57f28eba80258e4ce9b9"
+      "size": 27826,
+      "sha256": "d44cacb9a39ec139f0987d5230c0f18f263787ed393625144066acd7a4be0c06"
     }
   ]
 }

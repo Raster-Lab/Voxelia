@@ -1093,6 +1093,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   advanced version tokens, move the unsupported-scalar rejection
   fixture to `int32`, and keep every previously registered fixture
   passing unchanged.
+- Thirty-fifth autonomous increment (owner overnight standing
+  mandate): authored and accepted `VOXELIA-ALG-0004` (lookup-table
+  stored-to-real value mapping `binary64-v1`) and `ADR-0069`
+  (lookup-table composition), discharging the `ADR-0066` table
+  deferral. The registered model is a 64-bit clamped index from the
+  stored integer value and the table's first mapped value under the
+  DICOM-derived out-of-range rule — below the table takes the first
+  output, beyond it the last — with a frozen overflow-clamp rule, no
+  interpolation, and the window parameters expressed in the table's
+  output domain whose optional unit is never converted. The
+  window-level composable set gains non-empty lookup tables (an empty
+  table defines no output and is its own typed rejection), the
+  `composed` case stays deferred to the chain decision, and the
+  operation and implementation versions advance to `1.3.0`. Tests
+  reproduce the conformance fixture — below-clamp, in-range including
+  a fractional output mapping to 150, above-clamp — through the full
+  operation, prove the advanced tokens, reject the empty table typed
+  and keep every previously registered fixture passing.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

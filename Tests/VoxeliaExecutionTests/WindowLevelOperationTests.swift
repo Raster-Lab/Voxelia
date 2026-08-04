@@ -184,7 +184,7 @@ struct WindowLevelOperationTests {
         )
         #expect(
             unsignedWide.identity.derivation?.operationVersion
-                == (try SemanticVersion(major: 1, minor: 2, patch: 0))
+                == (try SemanticVersion(major: 1, minor: 3, patch: 0))
         )
 
         // The parameter digest reproduces independently from the frozen
@@ -302,7 +302,27 @@ struct WindowLevelOperationTests {
         )
         #expect(try outputBytes(identity) == (try outputBytes(absent)))
         #expect(identity.identity.contentID == absent.identity.contentID)
-        let advanced = try SemanticVersion(major: 1, minor: 2, patch: 0)
+        // The ADR-0069 lookup-table fixture: below-clamp, in-range
+        // including a fractional output, and above-clamp, windowed in
+        // the table's output domain.
+        let tableMapped = try await execute(
+            input: try input(
+                valueTransform: .lookupTable(
+                    try LookupTableDescriptor(
+                        firstMappedValue: 2,
+                        values: [-100, 0, 50.5, 200]
+                    )
+                )
+            ),
+            center: 25,
+            width: 300
+        )
+        #expect(
+            try outputBytes(tableMapped)
+                == [21, 21, 21, 107, 150, 255, 255, 255, 255, 255, 255, 255]
+        )
+
+        let advanced = try SemanticVersion(major: 1, minor: 3, patch: 0)
         let derivation = try #require(hounsfield.identity.derivation)
         #expect(derivation.operationVersion == advanced)
         #expect(derivation.implementation?.version == advanced)
@@ -361,6 +381,18 @@ struct WindowLevelOperationTests {
             )
             #expect(Bool(false), "Expected a composed transform to be rejected.")
         } catch WindowLevelError.unsupportedValueTransform {}
+        do {
+            _ = try await execute(
+                input: try input(
+                    valueTransform: .lookupTable(
+                        try LookupTableDescriptor(firstMappedValue: 0, values: [])
+                    )
+                ),
+                center: 6,
+                width: 8
+            )
+            #expect(Bool(false), "Expected an empty table to be rejected.")
+        } catch WindowLevelError.emptyLookupTable {}
 
         // The coordinator budget stays authoritative, and rejections
         // stay payload-free.

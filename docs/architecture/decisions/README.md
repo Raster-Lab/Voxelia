@@ -54,7 +54,8 @@ exact region extraction operation. `ADR-0065` is allocated to the
 window-level operation. `ADR-0066` is allocated to transform
 composition. `ADR-0067` is allocated to the result publication
 coordinator. `ADR-0068` is allocated to the window-level uint16
-extension. The next unallocated numeric identifier is `ADR-0069`.
+extension. `ADR-0069` is allocated to lookup-table composition. The
+next unallocated numeric identifier is `ADR-0070`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -106,3 +107,4 @@ extension. The next unallocated numeric identifier is `ADR-0069`.
 | [ADR-0066](ADR-0066-transform-composition.md) | Accepted | Transform composition |
 | [ADR-0067](ADR-0067-result-publication-coordinator.md) | Accepted | Result publication coordinator |
 | [ADR-0068](ADR-0068-window-level-uint16-extension.md) | Accepted | Window-level uint16 extension |
+| [ADR-0069](ADR-0069-lookup-table-composition.md) | Accepted | Lookup-table composition |
