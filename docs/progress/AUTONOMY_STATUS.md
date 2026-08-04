@@ -471,6 +471,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   behaviour, redacted over-ceiling decode rejection and the exact wire
   round trip; the full suite re-passed, proving no existing evidence
   relied on the loosened domains.
+- Eleventh autonomous increment: authored and accepted `ADR-0045`
+  (integrity state claim boundary) with `CCR-0019`, resolving the CDMS
+  section 59 conflict that accepted `ADR-0037` explicitly left open:
+  `failed(reason: String)` is corrected to a payload-free `failed`
+  case, the verified cases are documented as claims whose decoded
+  presence proves nothing (assurance stays runtime evidence under the
+  accepted vocabulary), no ordering or upgrade exists between cases,
+  and no `DataIntegrityState` source is authorised until an owning
+  aggregate decision needs it. Documentation-only; no source changed.
+  With this record the recorded documentation-level correction queue is
+  drained: the remaining open gates all require either external
+  evidence (device campaigns, `Data.span` platform behaviour,
+  fuzz/differential oracles, the universal raw ceiling, the
+  `VOX-ERR-001` allocation disposition) or future consumers (identifier
+  profiles for `SourceIdentity`, registered parameter/derivation
+  projections, `DataIdentityReference` lifecycle, execution/cache
+  contracts, the `ImageData` publication authority).
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -30,8 +30,9 @@ storage read-transaction and type-erasure lifetime-boundary proposal.
 `ADR-0042` is allocated to the storage API name, wire and limit freeze
 completing `RFC-0001` approval-order step 4. `ADR-0043` is allocated to
 the spatial descriptor admission boundary. `ADR-0044` is allocated to
-the persistent identifier exactness boundary. The next unallocated
-numeric identifier is `ADR-0045`.
+the persistent identifier exactness boundary. `ADR-0045` is allocated
+to the integrity state claim boundary. The next unallocated numeric
+identifier is `ADR-0046`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -59,3 +60,4 @@ numeric identifier is `ADR-0045`.
 | [ADR-0042](ADR-0042-storage-api-name-wire-and-limit-freeze.md) | Accepted | Storage API name, wire and limit freeze |
 | [ADR-0043](ADR-0043-spatial-descriptor-admission-boundary.md) | Accepted | Spatial descriptor admission boundary |
 | [ADR-0044](ADR-0044-persistent-identifier-exactness-boundary.md) | Accepted | Persistent identifier exactness boundary |
+| [ADR-0045](ADR-0045-integrity-state-claim-boundary.md) | Accepted | Integrity state claim boundary |

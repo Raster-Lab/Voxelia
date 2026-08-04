@@ -1810,6 +1810,11 @@
       "sha256": "c04ed13ebe9920154da3451315fe5810708bd193e1ba9b097bbf26c347c81f7e"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0019-adr-0045-integrity-state-claims.md",
+      "size": 1748,
+      "sha256": "6c23315d8ed6aaba88817ffbd4dd7173626619732604afffde6f08139b7c0702"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
       "size": 7006,
       "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
@@ -1930,9 +1935,14 @@
       "sha256": "d8cf322bb1723b3171b4e8e5a2d078d9c6d2c924261ed2d94525384aabfad7a1"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0045-integrity-state-claim-boundary.md",
+      "size": 3348,
+      "sha256": "c02c4961f346094a8ed07bc9ef783bd14c4081d4107a38a3decf67d0751621ba"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 5433,
-      "sha256": "a2595a1bd833f4b784a48ebb5926793f8335338808d672a6d57ff7234e2084f6"
+      "size": 5599,
+      "sha256": "70454fd47aef1b979ba0363e100081ac2cf2f27f96bba9c774043842d4108d31"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2016,8 +2026,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 439560,
-      "sha256": "6645e4d903057dec015202a49b638852aa4fc7d42da34911ace36ab9e60b3cbd"
+      "size": 440689,
+      "sha256": "450768a134e63cda2b3e8b6656138179eb6f048837c173998232942e313aa805"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2376,8 +2386,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 23244,
-      "sha256": "5d759463a1ebe225e944a4e5a9bb7aeb8f9a96f1e9a35a81eee6d5889803b094"
+      "size": 23389,
+      "sha256": "1d6fd34e33c2268a25633c9414d7d9da360fd1cd0fc2c9ef4723b8ac65fcf2f7"
     }
   ]
 }
