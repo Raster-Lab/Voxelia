@@ -236,7 +236,7 @@ struct MeasurementUnitTests {
         #expect(decodedNegativeZero.offsetToCanonical?.bitPattern == Double(0).bitPattern)
     }
 
-    @Test("[Unit][VOX-API-004] Codable preserves fields and revalidates input")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] Codable preserves fields and revalidates input")
     func codableRoundTripAndValidation() throws {
         let source = Data(
             #"{"namespace":"UCUM","code":"mm","displayName":"millimetre","dimension":"length","scaleToCanonical":0.001,"offsetToCanonical":0.0}"#
@@ -275,26 +275,47 @@ struct MeasurementUnitTests {
         #expect(absentObject["scaleToCanonical"] is NSNull)
         #expect(absentObject["offsetToCanonical"] is NSNull)
 
-        let malformedShapes = [
+        let wrongKeyShapes = [
             #"{"namespace":"UCUM","code":"mm"}"#,
             #"{"namespace":"UCUM","code":"mm","displayName":null,"dimension":null,"scaleToCanonical":null,"offsetToCanonical":null,"extra":true}"#,
-            #"[]"#,
         ]
-        for malformedShape in malformedShapes {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        for wrongKeyShape in wrongKeyShapes {
+            do {
+                _ = try JSONDecoder().decode(
                     MeasurementUnit.self,
-                    from: Data(malformedShape.utf8)
+                    from: Data(wrongKeyShape.utf8)
                 )
+                #expect(Bool(false), "Expected a wrong-keyed unit to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
+        }
+
+        do {
+            _ = try JSONDecoder().decode(MeasurementUnit.self, from: Data(#"[]"#.utf8))
+            #expect(Bool(false), "Expected an array-shaped unit to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
 
         let invalidIdentity = Data(
             #"{"namespace":" ","code":"mm","displayName":null,"dimension":"length","scaleToCanonical":0.001,"offsetToCanonical":0.0}"#
                 .utf8
         )
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(MeasurementUnit.self, from: invalidIdentity)
+        do {
+            _ = try JSONDecoder().decode(MeasurementUnit.self, from: invalidIdentity)
+            #expect(Bool(false), "Expected a blank namespace to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == ["namespace"])
+            #expect(
+                context.underlyingError as? MeasurementUnitError == .emptyNamespace
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
 
         let nonFinite = Data(
@@ -307,8 +328,17 @@ struct MeasurementUnitTests {
             negativeInfinity: "-Infinity",
             nan: "NaN"
         )
-        #expect(throws: DecodingError.self) {
-            try decoder.decode(MeasurementUnit.self, from: nonFinite)
+        do {
+            _ = try decoder.decode(MeasurementUnit.self, from: nonFinite)
+            #expect(Bool(false), "Expected a non-finite scale to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == ["scaleToCanonical"])
+            #expect(
+                context.underlyingError as? MeasurementUnitError
+                    == .nonFiniteScaleToCanonical
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 }
