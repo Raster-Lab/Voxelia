@@ -122,11 +122,27 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   elements, 64 MiB logical variable payload per recursive root) are
   accepted on local Apple Silicon boundary evidence; measured
   lowest-resource supported-device evidence remains an explicit open gap.
-  `CCR-0008` records the controlled CDMS corrections. Proposed `ADR-0032`
-  (classified general entry), `ADR-0033` (ordered collection and
-  multiplicity), `ADR-0034` (closed typed reads), `ADR-0035` (versioned
-  canonical document and raw ingress) and `ADR-0036` (complete-record
-  identity) remain unaccepted and authorise no source.
+  `CCR-0008` records the controlled CDMS corrections. Proposed `ADR-0033`
+  (ordered collection and multiplicity), `ADR-0034` (closed typed reads),
+  `ADR-0035` (versioned canonical document and raw ingress) and `ADR-0036`
+  (complete-record identity) remain unaccepted and authorise no source.
+- Governance: `ADR-0032` was accepted by the project owner on 2026-08-04
+  with its value dependencies already accepted, and its authorised
+  migration is executed. The general `MetadataEntry` is implemented in
+  `VoxeliaCore` with the required nondefaulted three-field initializer:
+  every entry carries exactly one explicit immutable
+  `MetadataPrivacyClass` governing the whole record (both key fields and
+  the entire recursive value subtree), there is no valid unclassified
+  entry in source or on the wire, and no implicit entry/member conversion
+  exists. Identity includes the exact declared class, so equal key/value
+  pairs under distinct classes never collapse. The class gains no
+  severity order or aggregation helper; one-to-one transformations
+  preserve the exact declaration, `hostDefined` stays unresolved and
+  fails closed, and unknown wire tokens are rejected, never coerced. The
+  strict three-field Codable rejects missing, null, distinct-extra and
+  wrong-shaped fields with value-redacted errors whose model-relative
+  paths name only the fixed fields and retain only audited payload-free
+  project errors. `CCR-0009` records the controlled CDMS corrections.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -2578,6 +2594,28 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   entry, collection, multiplicity, typed reads, privacy attachment,
   canonical document bytes and record identity remain governed by
   `ADR-0032` through `ADR-0036`.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0032` and
+  executed its authorised migration in one change: controlled correction
+  `CCR-0009` (the required three-field entry, the required-attachment and
+  class-sensitive-identity invariants, the corrected "carries exactly one
+  explicit classification" phrase with its fail-closed handling rules, the
+  expanded privacy-validation obligations and the Appendix A
+  `MetadataEntry` row) and the general entry in `VoxeliaCore`.
+  `MetadataEntry` pairs `AnyMetadataKey`, `MetadataValue` and a required
+  immutable `MetadataPrivacyClass` through a nonthrowing nondefaulted
+  three-argument initializer; no unclassified entry exists in source or on
+  the wire, and no implicit conversion to or from the privacy-neutral
+  object member is published. Equality and hashing include the exact
+  declared class alongside exact key identity and semantic value identity.
+  The manual Codable encodes exactly three fixed fields and rejects
+  missing, null, distinct-extra, unknown and wrong-shaped fields; child
+  failures are replaced at each fixed field boundary with value-redacted
+  errors whose model-relative coding paths name only `key`, `value` or
+  `privacyClass` and retain only audited payload-free project errors,
+  and unknown class tokens are never coerced to `hostDefined`. The
+  collection, multiplicity, typed reads, canonical document bytes,
+  record identity and any resolver or export API remain governed by
+  `ADR-0033` through `ADR-0036` and host policy.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -5084,6 +5122,26 @@ package-graph and prohibited-import checks and the requirement-index
 check passed. Boundary evidence ran on local Apple Silicon; the
 lowest-resource supported-device matrix remains an explicit open gap.
 
+`swift test --filter MetadataEntryTests` executed all seven tests in the
+new owning Core suite: explicit construction under every class with the
+compile-level proof that no default, optional or two-argument initializer
+exists; class-sensitive equality, hashing and set behaviour for equal
+key/value pairs under all five classes with ADR-0031 semantic value
+identity participating unchanged; exact three-field wire round trips for
+all five classes with a byte-exact sorted-keys fixture; `hostDefined`
+round-tripping without generic resolution; whole-entry scope over a
+nested object/array/code value with exactly one classification field on
+the wire; rejection of missing, null, distinct-extra, unknown-token,
+wrong-shaped and non-object entry documents; and value-redaction
+evidence that a rejected class token beneath a sentinel caller key names
+only `privacyClass` with no underlying error, a duplicate-member value
+failure names only `value` while retaining the audited typed
+`duplicateObjectKey` cause, and a blank key field names only `key` with
+the audited typed `emptyNamespace` cause, none leaking sentinel or
+member text. The owning `swift build --target VoxeliaCore`, strict
+format lint for the two new Swift files, the documentation gate
+including `CCR-0009`, and the requirement-index check passed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5568,20 +5626,21 @@ lowest-resource supported-device matrix remains an explicit open gap.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0031` are
-accepted and fully executed: the three metadata leaves and the bounded
-recursive `MetadataValue` now exist with their controlled corrections. The
-`ImageDescriptor` aggregate remains blocked by its other prerequisites:
-the `CoordinateSpaceDescriptor` unit policy and classification, affine
-shape and construction tolerance, rectilinear binding, the remaining
-frame-set collection contracts and canonical JSON. The next unblocked step
-is another governance decision: surface the next Proposed contract the
-user wishes to review (`ADR-0032` required metadata-entry privacy
-attachment, then the collection, read, canonical-JSON and identity
-decisions `ADR-0033` through `ADR-0037`) with its decision questions,
-following the established interactive acceptance flow. Do not accept ADRs
-autonomously, implement speculative source or run blocked
-storage/metadata probes while those decisions are open.
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0032` are
+accepted and fully executed: the three metadata leaves, the bounded
+recursive `MetadataValue` and the classified general `MetadataEntry` now
+exist with their controlled corrections. The `ImageDescriptor` aggregate
+remains blocked by its other prerequisites: the
+`CoordinateSpaceDescriptor` unit policy and classification, affine shape
+and construction tolerance, rectilinear binding, the remaining frame-set
+collection contracts and canonical JSON. The next unblocked step is
+another governance decision: surface the next Proposed contract the user
+wishes to review (`ADR-0033` ordered metadata collection and explicit
+multiplicity policy, then the read, canonical-JSON and identity decisions
+`ADR-0034` through `ADR-0037`) with its decision questions, following the
+established interactive acceptance flow. Do not accept ADRs autonomously,
+implement speculative source or run blocked storage/metadata probes while
+those decisions are open.
 
 ## Test policy for the next action
 

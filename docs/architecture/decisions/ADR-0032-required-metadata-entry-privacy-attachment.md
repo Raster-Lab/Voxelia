@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0032"
 title: "Required metadata-entry privacy attachment"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -82,13 +82,16 @@ context-dependent. Apple logging privacy is a sink-specific redaction choice,
 not a portable metadata-classification lattice. This ADR claims no conformance
 or direct mapping to any of those systems.
 
-This proposal decides only the general entry's privacy attachment, local
+This record decides only the general entry's privacy attachment, local
 identity/wire semantics, whole-entry scope and the minimum fail-closed rules
 that prohibit implicit library reclassification. It does not decide collection
 multiplicity or indexing, typed access, a public host-policy resolver,
 authentication, export workflows, audit storage, canonical byte ingress or a
-persistent data digest. Its Proposed status does not authorise
-`MetadataEntry` source or controlled-document changes.
+persistent data digest. It was reviewed and accepted by the project owner on
+2026-08-04, with its value dependencies (`ADR-0028` through `ADR-0031`)
+already accepted, the required third field, exact preservation without a
+privacy lattice and full migration each selected through interactive
+decision review.
 
 Proposed `ADR-0034` now selects a separate typed-read result that retains the
 typed key, exact payload and this required class. It depends on this proposal,
@@ -96,8 +99,8 @@ remains unaccepted and does not change the entry attachment selected here.
 
 ## Decision
 
-If this ADR and its value dependencies are accepted, `VoxeliaCore` will own
-the following general entry:
+With this ADR and its value dependencies accepted, `VoxeliaCore` owns the
+following general entry:
 
 ```swift
 public struct MetadataEntry: Sendable, Hashable, Codable {
@@ -550,15 +553,18 @@ evidence is approved:
 
 The `MetadataPrivacyClass` decoder hardening already in source is an independent
 compatibility-preserving privacy defect fix, not partial implementation of this
-entry proposal. No `MetadataEntry` migration step may begin while this ADR or
-`ADR-0028` through `ADR-0031` remains Proposed.
+entry record. These migration steps are authorised as of the 2026-08-04
+acceptance: `ADR-0028` through `ADR-0032` are accepted and the `ADR-0031`
+ceiling evidence is approved on local Apple Silicon with the supported-device
+matrix recorded as an open evidence gap. Step 5 remains governed by its named
+decisions.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. It depends on the semantic value selected by Proposed `ADR-0031` and
-completes only the general entry's privacy attachment if accepted. It does not
-supersede recursive-value, collection, provenance, canonical JSON, host policy,
+This ADR neither supersedes nor is superseded by another file-backed ADR. It
+depends on the semantic value selected by accepted `ADR-0031` and completes
+only the general entry's privacy attachment. It does not supersede
+recursive-value, collection, provenance, canonical JSON, host policy,
 logging, export, authentication or audit decisions.
 
 ## References

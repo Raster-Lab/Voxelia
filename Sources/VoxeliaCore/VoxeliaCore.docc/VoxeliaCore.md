@@ -82,6 +82,7 @@ storage semantics.
 - ``MetadataValueError``
 - ``MetadataArray``
 - ``MetadataObject``
+- ``MetadataEntry``
 - ``CodedConcept``
 - ``CodedConceptError``
 
