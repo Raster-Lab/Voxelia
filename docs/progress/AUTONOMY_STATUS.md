@@ -1360,6 +1360,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   not a universal claim. Remaining M3 scope: the shared-resource
   residency strategy over the existing `ResidencyPolicy` vocabulary
   and the broader shader-identity governance as families grow.
+- Forty-seventh autonomous increment (owner broadened standing
+  mandate, M3): authored and accepted `ADR-0081` (Metal residency
+  strategy) and implemented `MetalResidencyManager`, giving the M0
+  `ResidencyPolicy` vocabulary its fulfilment contract. The closed
+  version-one mapping selects shared storage for `automatic` and
+  `shared` on the detected unified-memory capability — checked, not
+  assumed — and private device storage for `gpuOptimised`; a
+  device-buffer request under `cpuOnly` is a contradiction and its
+  own typed rejection; `streamed` and `sparse` stay typed rejections
+  pending their own contracts; and the manager never upgrades,
+  downgrades or substitutes a policy, so declared intent is never
+  silently rewritten. Buffer handles stay module-internal. The suite
+  fulfilled the policies against real device buffers — a shared
+  buffer round-tripping CPU writes and a private buffer allocating at
+  the requested length — and proved every typed rejection.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -66,8 +66,9 @@ evidence. `ADR-0077` is allocated to the retention and enrichment
 lifecycle. `ADR-0078` is allocated to the signed record manifest
 contract. `ADR-0079` is allocated to the Metal execution context
 boundary opening milestone M3. `ADR-0080` is allocated to the
-window-level Metal kernel and differential harness. The next
-unallocated numeric identifier is `ADR-0081`.
+window-level Metal kernel and differential harness. `ADR-0081` is
+allocated to the Metal residency strategy. The next unallocated
+numeric identifier is `ADR-0082`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -131,3 +132,4 @@ unallocated numeric identifier is `ADR-0081`.
 | [ADR-0078](ADR-0078-signed-record-manifest.md) | Accepted | Signed record manifest contract |
 | [ADR-0079](ADR-0079-metal-execution-context-boundary.md) | Accepted | Metal execution context boundary |
 | [ADR-0080](ADR-0080-window-level-metal-kernel.md) | Accepted | Window-level Metal kernel and differential harness |
+| [ADR-0081](ADR-0081-metal-residency-strategy.md) | Accepted | Metal residency strategy |
