@@ -26,8 +26,10 @@ allocated to the closed provenance-record and graph-admission proposal.
 `ADR-0039` is allocated to the closed storage capability and descriptor
 admission proposal. `ADR-0040` is allocated to the normalized logical-sample
 and representation-projection proposal. `ADR-0041` is allocated to the safe
-storage read-transaction and type-erasure lifetime-boundary proposal. The next
-unallocated numeric identifier is `ADR-0042`.
+storage read-transaction and type-erasure lifetime-boundary proposal.
+`ADR-0042` is allocated to the storage API name, wire and limit freeze
+completing `RFC-0001` approval-order step 4. The next unallocated numeric
+identifier is `ADR-0043`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -52,3 +54,4 @@ unallocated numeric identifier is `ADR-0042`.
 | [ADR-0039](ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md) | Accepted | Closed storage capability and descriptor admission boundary |
 | [ADR-0040](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md) | Accepted | Normalized logical sample and representation projection boundary |
 | [ADR-0041](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md) | Accepted | Safe storage read transaction and type-erasure lifetime boundary |
+| [ADR-0042](ADR-0042-storage-api-name-wire-and-limit-freeze.md) | Accepted | Storage API name, wire and limit freeze |

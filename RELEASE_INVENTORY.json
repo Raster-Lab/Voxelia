@@ -1810,9 +1810,14 @@
       "sha256": "c4e38a01e3fd34fc00f7143d0bcfaf3eeb1dd7900e0498d13b0ea5a2a6197f41"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0042-storage-api-name-wire-and-limit-freeze.md",
+      "size": 7866,
+      "sha256": "6d7ca414deb19f1fba7a8ca594d993e32f8aa6cee0776bf33883dfdf765dadc9"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 4814,
-      "sha256": "c09311fca485f21b1058547cdd65b8e0c7f3d9e56190a2cb6cd9bdd5eb11e19a"
+      "size": 5050,
+      "sha256": "cad5c841f2619e72c9f2652829e2ccd0808c51c1ca247a80cddf57978dbc7fca"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1896,8 +1901,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 428228,
-      "sha256": "88e7366ec4cf3945dbabab2ad224a3aff3e74ee0aa621c86520415d3bde19dd3"
+      "size": 429448,
+      "sha256": "cc2e779f0b24d6b36f4089e02be1068275cd497fe47a4a3a58499480b5f59125"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2256,8 +2261,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 21810,
-      "sha256": "cf4108bb4fcdded900768232b141588b942abf94638d88ee3a3fdb02be040c67"
+      "size": 21889,
+      "sha256": "1ee5478e4cd748ec9c0b74db3bd4372614dd522c9eb1307eb9fa35e14ac266aa"
     }
   ]
 }

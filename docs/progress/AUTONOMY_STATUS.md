@@ -302,6 +302,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   unresolved questions recorded as explicit approval gates. The ADR
   register now holds no Proposed records: `ADR-0001` through `ADR-0041`
   are all Accepted.
+- Governance: `ADR-0042` was accepted by the project owner on 2026-08-04
+  as the `RFC-0001` step-4 freeze artefact, closing unresolved questions
+  2, 3, 5 and 7. Frozen: the public storage vocabulary
+  (`LogicalSampleBinding`, `StorageRepresentationDescriptor`,
+  `StorageSnapshotHandle`, `StorageOperation` with retained witnesses,
+  `RegionReadResult`, `StorageByteLease`, the retained `AnyImageStorage`
+  erased-handle name and the closed payload-free nine-case
+  `StorageContractError` family with `ADR-0041` precedence); the no-wire
+  policy (no persistent operational wire at M1, no convenience Codable);
+  and the caller-limits policy (explicit inclusive checked `UInt64`
+  ceilings with no permissive defaults, hard implementation maxima
+  deferred to the recorded device-evidence campaign). Steps 5 through 7
+  (compatibility projections, Core contracts, one owned contiguous
+  provider) are now unblocked as separate user-requested increments;
+  steps 8 through 11 and unresolved questions 4, 6 and 8 through 14
+  remain gated. Documentation-only: no storage source was added.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -6087,14 +6103,16 @@ prerequisites: the `CoordinateSpaceDescriptor` unit policy and
 classification, affine shape and construction tolerance, rectilinear
 binding and the remaining frame-set collection contracts; its
 canonical-JSON prerequisite is now satisfied for the metadata record.
-With the `RFC-0001` directional approval recorded and `ADR-0039` through
-`ADR-0041` accepted, the ADR register holds no Proposed records:
-`ADR-0001` through `ADR-0041` are all Accepted, and the governance
-backlog inherited from the original autonomous loop is exhausted. The
-next unblocked steps are the recorded open gates, each requiring its own
-user-requested decision: the `RFC-0001` approval-order steps 4 through
-11 (final storage API names, wires and ceilings, then gated
-implementation), the `ADR-0037`/`ADR-0038` source-gate prerequisites
+With the `RFC-0001` directional approval recorded, `ADR-0039` through
+`ADR-0041` accepted and the step-4 freeze closed by accepted `ADR-0042`,
+the ADR register holds no Proposed records: `ADR-0001` through
+`ADR-0042` are all Accepted, and the governance backlog inherited from
+the original autonomous loop is exhausted. The next unblocked steps are
+the recorded open gates, each requiring its own user-requested decision:
+the `RFC-0001` approval-order steps 5 through 11 (compatibility
+projections, then the checked Core storage contracts under the frozen
+names, then one owned contiguous provider, then the later gated steps),
+the `ADR-0037`/`ADR-0038` source-gate prerequisites
 (`DataObjectID` persistent identity, bounded `ProvenanceID`, identifier
 profiles, registered parameter/derivation projections, execution/cache
 contracts), the CDMS section 59 integrity-state correction, and the

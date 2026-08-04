@@ -360,6 +360,7 @@ docs/architecture/decisions/ADR-0038-closed-provenance-record-and-graph-admissio
 docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md
 docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md
 docs/architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md
+docs/architecture/decisions/ADR-0042-storage-api-name-wire-and-limit-freeze.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
