@@ -1760,6 +1760,11 @@
       "sha256": "6ef1f97e13669a352007109333a6ac7c30331f120bac01ba1bbe046b2e559427"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0017-adr-0043-spatial-descriptor-admission.md",
+      "size": 2997,
+      "sha256": "f7814f45778350ede857613dcb8c1c67d2cd489454a020aa8c0d9cb74842aee5"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
       "size": 7006,
       "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
@@ -1870,9 +1875,14 @@
       "sha256": "6d7ca414deb19f1fba7a8ca594d993e32f8aa6cee0776bf33883dfdf765dadc9"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0043-spatial-descriptor-admission-boundary.md",
+      "size": 6281,
+      "sha256": "586650de80da84d419b684391535f7f68eb861cb97c0c8abd078742b2137e10b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 5050,
-      "sha256": "cad5c841f2619e72c9f2652829e2ccd0808c51c1ca247a80cddf57978dbc7fca"
+      "size": 5237,
+      "sha256": "cb7c6b3f62d90f2bd2d6030b3e3d6ff5cf4d52d5723cd213ed93cea84d36255b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1956,8 +1966,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 434680,
-      "sha256": "da1be46b1711a213439ed03f7a340a2e8872326a9eb66bb9c507394a30f98626"
+      "size": 435718,
+      "sha256": "a95260a4259c94a510e0d4ca61dc5bea3e9d9edea6c8a4d9eefe2658cdb41360"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2316,8 +2326,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 22494,
-      "sha256": "eff3909abaa86d5c79a54f8a14005b8e65fa65bea151902c6fd31a6eda1fc3c1"
+      "size": 22652,
+      "sha256": "9d41628ed30fd8fa16673b741b50b4aae49712296237950ca2003fa8cadaf651"
     }
   ]
 }

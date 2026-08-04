@@ -28,8 +28,9 @@ admission proposal. `ADR-0040` is allocated to the normalized logical-sample
 and representation-projection proposal. `ADR-0041` is allocated to the safe
 storage read-transaction and type-erasure lifetime-boundary proposal.
 `ADR-0042` is allocated to the storage API name, wire and limit freeze
-completing `RFC-0001` approval-order step 4. The next unallocated numeric
-identifier is `ADR-0043`.
+completing `RFC-0001` approval-order step 4. `ADR-0043` is allocated to
+the spatial descriptor admission boundary. The next unallocated numeric
+identifier is `ADR-0044`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -55,3 +56,4 @@ identifier is `ADR-0043`.
 | [ADR-0040](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md) | Accepted | Normalized logical sample and representation projection boundary |
 | [ADR-0041](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md) | Accepted | Safe storage read transaction and type-erasure lifetime boundary |
 | [ADR-0042](ADR-0042-storage-api-name-wire-and-limit-freeze.md) | Accepted | Storage API name, wire and limit freeze |
+| [ADR-0043](ADR-0043-spatial-descriptor-admission-boundary.md) | Accepted | Spatial descriptor admission boundary |

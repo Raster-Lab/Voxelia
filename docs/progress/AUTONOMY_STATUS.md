@@ -397,6 +397,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   source-gated on the recorded `Data.span` platform-evidence question
   (RFC unresolved question 8), and the asynchronous coordinator/budget
   ledger remains the Execution-facing later work.
+- Sixth autonomous increment: authored and accepted `ADR-0043` (spatial
+  descriptor admission boundary) under the recorded owner delegation,
+  closing the four `ImageDescriptor` blockers with conservative
+  fail-closed rules: coordinate-space units must carry
+  `UnitDimension.length` (non-physical classifications need a future
+  decision); affine admission requires finite entries, the exact
+  homogeneous bottom row and an upper-left determinant magnitude of at
+  least `Double.leastNormalMagnitude` with no epsilon parameter;
+  rectilinear binding (strictly increasing finite per-axis arrays with
+  exact extent counts) and frame-set coverage (exactly one transform
+  per `FrameAnchorIndex`) are frozen as admission rules with their
+  implementations deferred to the recorded M1/M7 and M1/M4 windows.
+  `CCR-0017` records the CDMS section 19.2/21/22 corrections.
+  Implementation of `CoordinateSpaceDescriptor`, the affine geometry,
+  the version-one `SpatialGeometry` surface and `ImageDescriptor`
+  follows as the next increments.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
