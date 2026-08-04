@@ -81,6 +81,7 @@ Sources/VoxeliaCore/Public/ImageSemantic.swift
 Sources/VoxeliaCore/Public/ImageShape.swift
 Sources/VoxeliaCore/Public/LookupTableDescriptor.swift
 Sources/VoxeliaCore/Public/MetadataBinary.swift
+Sources/VoxeliaCore/Public/MetadataCollection.swift
 Sources/VoxeliaCore/Public/MetadataEntry.swift
 Sources/VoxeliaCore/Public/MetadataFloatingPoint.swift
 Sources/VoxeliaCore/Public/MetadataKey.swift
@@ -204,6 +205,7 @@ Tests/VoxeliaCoreTests/ImageSemanticTests.swift
 Tests/VoxeliaCoreTests/ImageShapeTests.swift
 Tests/VoxeliaCoreTests/LookupTableDescriptorTests.swift
 Tests/VoxeliaCoreTests/MetadataBinaryTests.swift
+Tests/VoxeliaCoreTests/MetadataCollectionTests.swift
 Tests/VoxeliaCoreTests/MetadataEntryTests.swift
 Tests/VoxeliaCoreTests/MetadataFloatingPointTests.swift
 Tests/VoxeliaCoreTests/MetadataKeyTests.swift
@@ -320,6 +322,7 @@ docs/architecture/corrections/CCR-0006-adr-0029-finite-floating-point-metadata.m
 docs/architecture/corrections/CCR-0007-adr-0030-owned-binary-metadata.md
 docs/architecture/corrections/CCR-0008-adr-0031-bounded-recursive-metadata-value.md
 docs/architecture/corrections/CCR-0009-adr-0032-required-entry-privacy-attachment.md
+docs/architecture/corrections/CCR-0010-adr-0033-ordered-collection-multiplicity.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
 docs/architecture/decisions/ADR-0023-value-transform-shape.md

@@ -83,6 +83,9 @@ storage semantics.
 - ``MetadataArray``
 - ``MetadataObject``
 - ``MetadataEntry``
+- ``MetadataCollection``
+- ``MetadataCollectionError``
+- ``MetadataMultiplicityPolicy``
 - ``CodedConcept``
 - ``CodedConceptError``
 

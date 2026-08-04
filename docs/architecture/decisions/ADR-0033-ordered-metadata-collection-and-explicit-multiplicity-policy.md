@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0033"
 title: "Ordered metadata collection and explicit multiplicity policy"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -85,16 +85,21 @@ proposal can settle ordered storage, construction, multiplicity admission,
 identity, type-level wire, limits, privacy preservation and the cardinality
 failure rule without inventing that conversion protocol.
 
-This proposal does not define a portable namespace-schema identity, a mutable
+This record does not define a portable namespace-schema identity, a mutable
 registry, namespace-specific key equivalence, typed conversion, canonical raw
 JSON, persistent digest identity, logging/export authorisation or a privacy
-aggregate. Its Proposed status does not authorise source or controlled-document
-changes.
+aggregate. It was reviewed and accepted by the project owner on 2026-08-04,
+with its value and entry dependencies (`ADR-0028` through `ADR-0032`)
+already accepted, the explicit bounded admission snapshot, the ordered
+no-deduplication semantics and the collection/policy ceiling values each
+selected through interactive decision review; the ceilings are accepted on
+local Apple Silicon boundary evidence with the lowest-resource
+supported-device matrix recorded as an explicit open gap.
 
 ## Decision
 
-If this ADR and its value/entry dependencies are accepted, `VoxeliaCore` will
-own this public boundary:
+With this ADR and its value/entry dependencies accepted, `VoxeliaCore` owns
+this public boundary:
 
 ```swift
 public enum MetadataCollectionError: Error, Sendable, Equatable {
@@ -584,19 +589,24 @@ collection ceiling evidence is approved:
 6. update traceability, changelog, API documentation, validation reports and
    release-integrity evidence.
 
-No recursive metadata, entry or collection migration step may begin while a
-dependency remains Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance:
+`ADR-0028` through `ADR-0033` are accepted, the recursive ceiling evidence
+was approved with `ADR-0031`, and the collection ceiling evidence is
+approved on local Apple Silicon with the supported-device matrix recorded
+as an open evidence gap alongside the recursive one. Step 5 remains
+governed by its named decisions.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. It depends on the leaves and bounded recursive value proposed by
-`ADR-0028` through `ADR-0031` and the classified entry proposed by `ADR-0032`.
-It completes only ordered collection construction and type-level multiplicity
-admission if accepted. It does not supersede canonical serialisation, typed
-access, privacy policy, provenance, persistent identity or host-authorisation
-decisions. Proposed `ADR-0034` depends on this cardinality boundary but does not
-change collection construction or multiplicity admission.
+This ADR neither supersedes nor is superseded by another file-backed ADR.
+It depends on the leaves and bounded recursive value accepted by
+`ADR-0028` through `ADR-0031` and the classified entry accepted by
+`ADR-0032`. It completes only ordered collection construction and
+type-level multiplicity admission. It does not supersede canonical
+serialisation, typed access, privacy policy, provenance, persistent
+identity or host-authorisation decisions. Proposed `ADR-0034` depends on
+this cardinality boundary but does not change collection construction or
+multiplicity admission.
 
 ## References
 

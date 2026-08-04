@@ -415,6 +415,11 @@
       "sha256": "b1d14a34f0df3d10fc8b29ab596bb00a1761f58dee7270de1ee7e79d1a2dcc49"
     },
     {
+      "path": "Sources/VoxeliaCore/Public/MetadataCollection.swift",
+      "size": 18604,
+      "sha256": "ed2299a051e6ba1afa1860b90f76cbbbbefb9c84e733c6d2c3d8b084936ca215"
+    },
+    {
       "path": "Sources/VoxeliaCore/Public/MetadataEntry.swift",
       "size": 7018,
       "sha256": "4fb6d05e3a85e3c885592d9bad8ac85e55071cd3995b27058f354afc30923f43"
@@ -436,8 +441,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/MetadataValue.swift",
-      "size": 27234,
-      "sha256": "9d502d36185b1f7d5ad8a70949417d461b2daa8d5d489f2db8c0cb0d96c2daf3"
+      "size": 28089,
+      "sha256": "8b3e873d91436a76013e8e806a95b2dede54e3bd2d47afdf8a32a7b72ee0d125"
     },
     {
       "path": "Sources/VoxeliaCore/Public/ProvenanceID.swift",
@@ -476,8 +481,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md",
-      "size": 1810,
-      "sha256": "4d70193ebbe9b60923b320cbc152460c0e04070a93f9abd1454516fdce4bc788"
+      "size": 1898,
+      "sha256": "8a22912a65cf888426ef80af3ee0d0796e742289da8ca1e5288cc077e7ad3933"
     },
     {
       "path": "Sources/VoxeliaExecution/ApplePlatformGate.swift",
@@ -1028,6 +1033,11 @@
       "path": "Tests/VoxeliaCoreTests/MetadataBinaryTests.swift",
       "size": 10381,
       "sha256": "a8a502727df84a4528dfba129daa715ad91791027d307a66ab9c469030d36ac1"
+    },
+    {
+      "path": "Tests/VoxeliaCoreTests/MetadataCollectionTests.swift",
+      "size": 20403,
+      "sha256": "c408c8f35f4397ad3cf1b39ee55b4b5365f518475c06357c8870721ad154ad56"
     },
     {
       "path": "Tests/VoxeliaCoreTests/MetadataEntryTests.swift",
@@ -1610,6 +1620,11 @@
       "sha256": "c7f8e3356582b3875f56cacc7eec93d7d8f15e733a3f4af9ede4546fc7b2e497"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0010-adr-0033-ordered-collection-multiplicity.md",
+      "size": 10082,
+      "sha256": "2fbd084a1ec9e3fceb17526e4ea52f03d2a6b748dc7fa0cb9edbedb4b3a2fa83"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
       "size": 7006,
       "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
@@ -1671,8 +1686,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md",
-      "size": 31601,
-      "sha256": "6e5db47ec15a5df3c44a4cedc660fdb1fe5f1add99a43439595e47b8197380a1"
+      "size": 32253,
+      "sha256": "a100caf6c63af3a4a66023ccef77ece44c5d08bbbff6f01fcd08ddf76e54f61b"
     },
     {
       "path": "docs/architecture/decisions/ADR-0034-closed-exact-case-typed-metadata-read-boundary.md",
@@ -1717,7 +1732,7 @@
     {
       "path": "docs/architecture/decisions/README.md",
       "size": 4814,
-      "sha256": "64c6497521b00d856dd2dd59d9861742ba99ac6d095a6d06133d5c0bf8b57894"
+      "sha256": "4567c90e56fbb57bfa745b2cabc0f32f3197bb68920b25464d79aabeacc977fb"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1801,8 +1816,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 397794,
-      "sha256": "3ff686db482eb49f960e8769ee01281ce4105c23ad61378d21f796a4ecb23a88"
+      "size": 403399,
+      "sha256": "b8b51ada60911b8511bfb200e17e080f52b2e859828534c33d5dad2d1421aeb4"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2156,8 +2171,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 20552,
-      "sha256": "7bc69d05d636725661fea63eeb94456c8a840a4de6b05a27bfab1058cbde9c86"
+      "size": 20740,
+      "sha256": "1f99c6ab7fe07eeb03e8d59746d06b483d1e05f84af19304fc5a64928f9f430b"
     }
   ]
 }

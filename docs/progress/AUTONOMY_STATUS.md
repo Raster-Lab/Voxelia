@@ -143,6 +143,29 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   wrong-shaped fields with value-redacted errors whose model-relative
   paths name only the fixed fields and retain only audited payload-free
   project errors. `CCR-0009` records the controlled CDMS corrections.
+- Governance: `ADR-0033` was accepted by the project owner on 2026-08-04
+  with its value and entry dependencies already accepted, and its
+  authorised migration is executed. The ordered `MetadataCollection` is
+  implemented in `VoxeliaCore` with the payload-free
+  `MetadataCollectionError` vocabulary and the bounded immutable
+  `MetadataMultiplicityPolicy` exact-key allow-list. Ordinary
+  construction and coding are unique-only by exact key; repeats require
+  the explicit policy at the initializer or the configured
+  `CodableWithConfiguration` call site, the policy is never serialised
+  or stored, and every admitted occurrence and privacy declaration is
+  retained in exact input order with order-sensitive equality and
+  hashing. The five hard ceilings (1,048,576 entries, 1,048,576
+  aggregate structural elements, 64 MiB aggregate logical payload,
+  1,048,576 supplied policy keys, 64 MiB supplied policy key bytes) use
+  checked accounting charged per occurrence, ordinary encoding of a
+  repeat-bearing value fails typed before an encoder container exists,
+  configured encoding revalidates under the exact supplied snapshot, and
+  decoding threads remaining aggregate budgets into recursive value
+  decoding. The ceilings are accepted on local Apple Silicon boundary
+  evidence with the lowest-resource supported-device matrix an explicit
+  open gap. `CCR-0010` records the controlled CDMS corrections. Typed
+  reads, canonical bytes and record identity remain governed by Proposed
+  `ADR-0034` through `ADR-0036`.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -2616,6 +2639,33 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   collection, multiplicity, typed reads, canonical document bytes,
   record identity and any resolver or export API remain governed by
   `ADR-0033` through `ADR-0036` and host policy.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0033` and
+  executed its authorised migration in one change: controlled correction
+  `CCR-0010` (the accepted collection boundary in section 34.5, the
+  admission-bound duplicate invariant, the fixed typed-read cardinality
+  rule, structural-only admission scope, the corrected binding-validation
+  item, the type-level/canonical layer split, the dedicated collection
+  error surface, expanded validation obligations and the acceptance
+  criterion) and the ordered collection family in `VoxeliaCore`.
+  `MetadataMultiplicityPolicy` bounds every supplied key occurrence
+  against the policy count and byte ceilings before deduplicating and
+  privately caches retained metrics that never join identity.
+  `MetadataCollection` preserves exact input order with order-sensitive
+  equality and hashing, rejects the second occurrence of an exact key
+  under ordinary construction, admits repeats of exactly the
+  allow-listed keys while retaining every occurrence and privacy
+  declaration, and charges entry, aggregate-element and
+  aggregate-payload budgets through checked arithmetic before accepting
+  each occurrence. Ordinary encoding of a repeat-bearing value throws
+  the typed policy-required failure before requesting an encoder
+  container; configured encoding revalidates under exactly the supplied
+  snapshot; decoding prechecks the advertised count, threads remaining
+  aggregate element/payload budgets into the recursive value decoder
+  through scoped task-local ceilings, and emits value-redacted failures
+  on the fixed `entries` path retaining only audited payload-free
+  project errors. The policy never appears on the wire. Typed reads,
+  canonical ingress, persistent identity and any resolver or export API
+  remain governed by `ADR-0034` through `ADR-0036` and host policy.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -5142,6 +5192,40 @@ member text. The owning `swift build --target VoxeliaCore`, strict
 format lint for the two new Swift files, the documentation gate
 including `CCR-0009`, and the requirement-index check passed.
 
+`swift test --filter MetadataCollectionTests` executed all ten tests in
+the new owning Core suite: exact input-order preservation with
+order-sensitive equality, hashing and set behaviour plus valid empty
+collections; ordinary exact-key duplicate rejection covering equal
+whole entries, differently valued and classified duplicates, and
+NFC/NFD-distinct plus byte-prefix keys as non-duplicates; configured
+admission retaining every allow-listed occurrence and privacy
+declaration in order (including unresolved `hostDefined`) while
+unlisted keys stay unique-only; policy ceilings charging every supplied
+occurrence before deduplication at the 2^20+1 count and 65-mebibyte
+byte boundaries with the 63-occurrence acceptance; exact collection
+ceilings at 2^20 entries, 2^20 aggregate structural elements from
+262,144 shared four-element values, and 64 MiB aggregate payload from
+eight 8 MiB strings plus key bytes, each with one-over typed rejection;
+the byte-exact unique-only one-field wire fixture and empty round trip;
+ordinary encoding of a repeat-bearing value throwing the typed
+policy-required failure with configured round trips, wrong/narrower
+snapshot revalidation failures, ordinary fail-closed decoding of
+configured bytes and proof the policy is absent from the wire;
+malformed field-set rejection with fixed empty outer and fixed
+`entries` paths; threaded-budget evidence that a second entry's
+recursive value is rejected inside value decoding once a prior entry
+consumes the aggregate element budget, while a fitting leaf still
+decodes; and structure redaction with no caller key, metadata key,
+index or count in decode contexts or construction errors. The
+regression-critical `MetadataValueTests` (twelve) and
+`MetadataEntryTests` (seven) suites re-passed after the decoder gained
+scoped aggregate-ceiling task-locals. The owning
+`swift build --target VoxeliaCore`, strict format lint for the three
+touched Swift files, the documentation gate including `CCR-0010`, the
+static package-graph, prohibited-import and requirement-index checks
+passed. Boundary evidence ran on local Apple Silicon; the
+lowest-resource supported-device matrix remains an explicit open gap.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5626,21 +5710,22 @@ including `CCR-0009`, and the requirement-index check passed.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0032` are
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0033` are
 accepted and fully executed: the three metadata leaves, the bounded
-recursive `MetadataValue` and the classified general `MetadataEntry` now
+recursive `MetadataValue`, the classified general `MetadataEntry` and the
+ordered `MetadataCollection` with explicit multiplicity admission now
 exist with their controlled corrections. The `ImageDescriptor` aggregate
 remains blocked by its other prerequisites: the
 `CoordinateSpaceDescriptor` unit policy and classification, affine shape
 and construction tolerance, rectilinear binding, the remaining frame-set
 collection contracts and canonical JSON. The next unblocked step is
 another governance decision: surface the next Proposed contract the user
-wishes to review (`ADR-0033` ordered metadata collection and explicit
-multiplicity policy, then the read, canonical-JSON and identity decisions
-`ADR-0034` through `ADR-0037`) with its decision questions, following the
-established interactive acceptance flow. Do not accept ADRs autonomously,
-implement speculative source or run blocked storage/metadata probes while
-those decisions are open.
+wishes to review (`ADR-0034` closed exact-case typed metadata reads, then
+the canonical-JSON and identity decisions `ADR-0035` through `ADR-0037`)
+with its decision questions, following the established interactive
+acceptance flow. Do not accept ADRs autonomously, implement speculative
+source or run blocked storage/metadata probes while those decisions are
+open.
 
 ## Test policy for the next action
 

@@ -487,6 +487,16 @@ extension MetadataValue {
     /// decoded, threaded through one root traversal.
     @TaskLocal private static var decodeContainerAncestorCount = 0
 
+    /// The remaining enclosing-aggregate structural-element decode budget
+    /// threaded by a collection decoder; `nil` applies per-root ceilings
+    /// alone.
+    @TaskLocal static var decodeAggregateElementCeiling: UInt64?
+
+    /// The remaining enclosing-aggregate logical-payload decode budget
+    /// threaded by a collection decoder; `nil` applies per-root ceilings
+    /// alone.
+    @TaskLocal static var decodeAggregatePayloadCeiling: UInt64?
+
     /// Decodes the strict externally tagged one-member representation,
     /// enforcing the hard ceilings before accepting further children:
     /// descent depth is tracked exactly through one root traversal and an
@@ -543,7 +553,9 @@ extension MetadataValue {
                         let child = try unkeyed.decode(MetadataValue.self)
                         let metrics = child.metrics
                         elements = try Self.addingElements(elements, metrics.elements)
-                        guard elements < Self.maximumLogicalStructuralElementCount
+                        guard
+                            elements < Self.maximumLogicalStructuralElementCount,
+                            elements <= (Self.decodeAggregateElementCeiling ?? .max)
                         else {
                             throw MetadataValueError.structuralElementLimitExceeded
                         }
@@ -551,7 +563,8 @@ extension MetadataValue {
                         guard
                             payload
                                 <= Self
-                                .maximumRecursiveContainerLogicalVariablePayloadByteCount
+                                .maximumRecursiveContainerLogicalVariablePayloadByteCount,
+                            payload <= (Self.decodeAggregatePayloadCeiling ?? .max)
                         else {
                             throw MetadataValueError.logicalPayloadByteLimitExceeded
                         }
@@ -597,7 +610,9 @@ extension MetadataValue {
                             elements,
                             metrics.elements &+ 1
                         )
-                        guard elements < Self.maximumLogicalStructuralElementCount
+                        guard
+                            elements < Self.maximumLogicalStructuralElementCount,
+                            elements <= (Self.decodeAggregateElementCeiling ?? .max)
                         else {
                             throw MetadataValueError.structuralElementLimitExceeded
                         }
@@ -610,7 +625,8 @@ extension MetadataValue {
                         guard
                             payload
                                 <= Self
-                                .maximumRecursiveContainerLogicalVariablePayloadByteCount
+                                .maximumRecursiveContainerLogicalVariablePayloadByteCount,
+                            payload <= (Self.decodeAggregatePayloadCeiling ?? .max)
                         else {
                             throw MetadataValueError.logicalPayloadByteLimitExceeded
                         }

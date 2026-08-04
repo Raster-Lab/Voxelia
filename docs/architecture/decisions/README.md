@@ -43,7 +43,7 @@ unallocated numeric identifier is `ADR-0042`.
 | [ADR-0030](ADR-0030-owned-binary-metadata-boundary.md) | Accepted | Owned binary metadata boundary |
 | [ADR-0031](ADR-0031-bounded-recursive-metadata-value-boundary.md) | Accepted | Bounded recursive metadata value boundary |
 | [ADR-0032](ADR-0032-required-metadata-entry-privacy-attachment.md) | Accepted | Required metadata-entry privacy attachment |
-| [ADR-0033](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md) | Proposed | Ordered metadata collection and explicit multiplicity policy |
+| [ADR-0033](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md) | Accepted | Ordered metadata collection and explicit multiplicity policy |
 | [ADR-0034](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md) | Proposed | Closed exact-case typed metadata read boundary |
 | [ADR-0035](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md) | Proposed | Versioned canonical metadata JSON and raw ingress boundary |
 | [ADR-0036](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md) | Proposed | Domain-separated complete canonical metadata record identity |
