@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0040"
 title: "Normalized logical sample and representation projection boundary"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -131,7 +131,9 @@ source.
 
 ## Decision
 
-If accepted, Voxelia will separate four non-interchangeable layers:
+With this ADR accepted by the project owner on 2026-08-04 under the
+`RFC-0001` directional review, Voxelia separates four non-interchangeable
+layers:
 
 | Layer | Meaning | Owner |
 |---|---|---|

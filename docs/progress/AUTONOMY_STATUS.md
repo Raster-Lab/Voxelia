@@ -274,6 +274,34 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   references, canonical projections, hard ceilings, publication and
   cache contracts and controlled reconciliation receive their own
   decisions.
+- Governance: the `RFC-0001` storage-contract and logical-data-model
+  composition received the project owner's directional approval on
+  2026-08-04, selecting the Foundation-preserving mapped-storage
+  schedule (production mapping at M5 via the corrected `VOX-STO-004`
+  reading; M1 keeps contract semantics, isolated lifetime evidence and
+  one verified owned contiguous provider), and its three composed ADRs
+  were accepted in dependency order: `ADR-0039` (Core owns
+  backend-neutral contracts, admission authority and the private result
+  target; Storage owns concrete providers and I/O; Execution/host owns
+  atomic `ImageData` publication; Metal owns residency as dynamic
+  evidence; capability bag split into characteristics, witnessed
+  operations, runtime evidence and dynamic state), `ADR-0040` (four
+  non-interchangeable layers separating logical sample identity from
+  source-bit interpretation, physical representation and
+  identity/evidence) and `ADR-0041` (owned complete region-read
+  transaction with monotonic fill and one commit linearisation point,
+  checked erasure and owner-retaining `Data` lease scopes, its
+  seal/stamping and drain model authoritative over `ADR-0039`'s older
+  read-probe shape). `CCR-0016` records the correction package. The
+  `RFC-0001` file remains register-`Draft` under the fail-closed
+  validator with the approval recorded in the accepted ADRs, `CCR-0016`
+  and this ledger. No storage source was implemented: the accepted
+  source gates and the RFC's approval-order steps 4 through 11 (final
+  API names, wires, ceilings, admission factory, platform evidence,
+  builder and publication contracts) remain closed, with its fourteen
+  unresolved questions recorded as explicit approval gates. The ADR
+  register now holds no Proposed records: `ADR-0001` through `ADR-0041`
+  are all Accepted.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -2866,6 +2894,20 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   identifier migration), and the remaining governance queue is the
   `RFC-0001` storage-contract Draft chain composing `ADR-0039` through
   `ADR-0041`.
+- Recorded the project owner's 2026-08-04 directional approval of
+  `RFC-0001` and executed the resulting documentation-only migration in
+  one change: acceptance of `ADR-0039`, `ADR-0040` and `ADR-0041` in
+  dependency order with the `ADR-0041` seal/drain model recorded as
+  authoritative over `ADR-0039`'s older read-probe shape, and controlled
+  correction `CCR-0016` (storage-ownership reconciliation without a
+  `Core -> Storage` edge, the capability-taxonomy replacement, the
+  four-layer logical/representation separation, the owned
+  read-transaction target replacing the mutable unsafe-buffer sketch,
+  and the Foundation-preserving `VOX-STO-004` M1-to-M5 mapped-storage
+  schedule correction selected by the owner). The `RFC-0001` file stays
+  register-`Draft` per the fail-closed validator; approval lives in the
+  accepted ADRs, `CCR-0016` and this ledger. No storage source was added
+  or authorised.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -5537,6 +5579,16 @@ re-ran green as the pre-push gate. The eleven-item provenance source
 gate's prerequisites are recorded as open decisions alongside the
 `ADR-0037` identity gate and the CDMS section 59 correction.
 
+The `RFC-0001` review increment is likewise documentation-only, so its
+verification surface is the documentation gate: the front-matter,
+ADR-register, RFC-governance and documentation-text checks passed over
+the three newly accepted storage-composition ADRs, `CCR-0016` and the
+updated register; the requirement-index check passed; and
+release-integrity regeneration plus the read-only check passed. No Swift
+source changed; the full suite re-ran green as the pre-push gate. The
+RFC's fourteen unresolved questions and its approval-order steps 4
+through 11 are recorded as the open gates blocking storage source.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -6035,18 +6087,21 @@ prerequisites: the `CoordinateSpaceDescriptor` unit policy and
 classification, affine shape and construction tolerance, rectilinear
 binding and the remaining frame-set collection contracts; its
 canonical-JSON prerequisite is now satisfied for the metadata record.
-With `ADR-0038` accepted, the ADR register holds no Proposed records:
-`ADR-0001` through `ADR-0038` are all Accepted. The next unblocked step
-is the remaining governance queue: surface the `RFC-0001`
-storage-contract and logical-data-model composition Draft (composing
-`ADR-0039` through `ADR-0041`) to the user for review under the RFC
-process, or begin closing the recorded source-gate prerequisites
+With the `RFC-0001` directional approval recorded and `ADR-0039` through
+`ADR-0041` accepted, the ADR register holds no Proposed records:
+`ADR-0001` through `ADR-0041` are all Accepted, and the governance
+backlog inherited from the original autonomous loop is exhausted. The
+next unblocked steps are the recorded open gates, each requiring its own
+user-requested decision: the `RFC-0001` approval-order steps 4 through
+11 (final storage API names, wires and ceilings, then gated
+implementation), the `ADR-0037`/`ADR-0038` source-gate prerequisites
 (`DataObjectID` persistent identity, bounded `ProvenanceID`, identifier
-profiles, registered projections, execution/cache contracts) and the
-`ADR-0035` evidence gaps as separately scoped decisions the user
-requests. Do not accept RFCs or ADRs autonomously, implement speculative
-source or run blocked storage/metadata/identity/provenance probes while
-those decisions and gates are open.
+profiles, registered parameter/derivation projections, execution/cache
+contracts), the CDMS section 59 integrity-state correction, and the
+`ADR-0035` evidence gaps (device latency campaign, fuzz corpora,
+external differential oracles, universal raw ceiling, `VOX-ERR-001`
+allocation disposition). Do not accept records autonomously, implement
+speculative source or run blocked probes while those gates are open.
 
 ## Test policy for the next action
 

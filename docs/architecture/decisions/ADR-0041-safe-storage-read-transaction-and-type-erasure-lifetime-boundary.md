@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0041"
 title: "Safe storage read transaction and type-erasure lifetime boundary"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -137,9 +137,12 @@ provider before mapped product source is authorised.
 
 ## Decision
 
-If accepted, Voxelia will use an immutable snapshot-bound erased handle, a
-complete owned region-read transaction and synchronous owner-retaining byte
-lease scopes. The initial safe profile favours explicit ownership and one
+With this ADR accepted by the project owner on 2026-08-04 under the
+`RFC-0001` directional review, Voxelia uses an immutable snapshot-bound
+erased handle, a complete owned region-read transaction and synchronous
+owner-retaining byte lease scopes; this record's Core-owned seal/stamping
+and drain model is authoritative over `ADR-0039`'s older
+provider/destination read-probe shape. The initial safe profile favours explicit ownership and one
 linearisation point over caller-owned mutable destinations.
 
 ### Authority and ownership
@@ -642,9 +645,11 @@ library conformances do not replace the lifetime proof.
 M1 owns the immutable snapshot/read/lease/erasure contract and focused
 contract evidence. The Requirements Baseline also names initial contiguous and
 memory-mapped implementations at M1, but the Foundation places memory-mapped
-storage in Phase 5. This Proposed ADR does not override that higher-authority
-conflict: the acceptance package must adopt a controlled correction or an
-approved interpretation that distinguishes the M1 semantic/evidence boundary
+storage in Phase 5. This ADR does not override that higher-authority
+conflict: the acceptance package adopted the Foundation-preserving
+controlled correction in `CCR-0016` (`VOX-STO-004` production mapping moves
+to M5; M1 retains the semantic/evidence boundary and one verified owned
+contiguous implementation), distinguishing the M1 boundary
 from any later production large-volume mapping provider. Until that happens,
 no mapped product source is authorised.
 

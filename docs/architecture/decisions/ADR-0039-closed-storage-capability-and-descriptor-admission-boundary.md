@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0039"
 title: "Closed storage capability and descriptor admission boundary"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -158,7 +158,12 @@ contracts remain unaccepted or undefined.
 
 ## Decision
 
-If accepted, Voxelia will preserve the live graph and assign:
+With this ADR accepted by the project owner on 2026-08-04 under the
+`RFC-0001` directional review (which also selected the
+Foundation-preserving mapped-storage schedule and made accepted
+`ADR-0041`'s Core-owned seal/stamping and drain model authoritative over
+this record's older provider/destination read-probe shape), Voxelia
+preserves the live graph and assigns:
 
 | Responsibility | Owner | Rule |
 |---|---|---|
@@ -578,7 +583,8 @@ composed production read gate, alias-token co-location or no-copy/mapped safety.
 
 ### Source gate
 
-This Proposed ADR authorises documentation and isolated evidence only. It does
+This ADR, although accepted, authorises documentation, the `CCR-0016`
+controlled corrections and isolated evidence only. It does
 not authorise:
 
 - descriptor, operation, storage/read/lease protocol, builder or erasure

@@ -1700,6 +1700,11 @@
       "sha256": "188c835278105a72ae949cd98a7ae627c6622b5dec3157f08875619888b27eec"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0016-rfc-0001-storage-composition-corrections.md",
+      "size": 8963,
+      "sha256": "6ef1f97e13669a352007109333a6ac7c30331f120bac01ba1bbe046b2e559427"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
       "size": 7006,
       "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
@@ -1791,23 +1796,23 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md",
-      "size": 45639,
-      "sha256": "9451f8dc76e7960b181a5f3ed5778e7ecea42023c67c3839dc9e57be9c93b1c5"
+      "size": 45993,
+      "sha256": "4a8a5083af9fbf7d703705b3574a0035eca8ba759f9e5b9b387282cb60239d94"
     },
     {
       "path": "docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md",
-      "size": 34510,
-      "sha256": "e504ed5594e2d9a66f0c230644256241838d5f78ff6da9f70f68ca277709fa27"
+      "size": 34592,
+      "sha256": "966c107a02f18ff3546522724ffc96da65b7039032431a142021426cba9e501b"
     },
     {
       "path": "docs/architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md",
-      "size": 49709,
-      "sha256": "471b47e0b913938da86367af4f200f229b239d72992b28ac93b49349db341e4c"
+      "size": 50040,
+      "sha256": "c4e38a01e3fd34fc00f7143d0bcfaf3eeb1dd7900e0498d13b0ea5a2a6197f41"
     },
     {
       "path": "docs/architecture/decisions/README.md",
       "size": 4814,
-      "sha256": "67e1a0348043e63feac6e8e4d62a81852fff94c40db70b3cad4bf824669966cd"
+      "sha256": "c09311fca485f21b1058547cdd65b8e0c7f3d9e56190a2cb6cd9bdd5eb11e19a"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1891,8 +1896,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 424610,
-      "sha256": "58e7d1e1c2846b8b8d617bf121100fcc3d40ae6b728b08baf6d5039b55a2f172"
+      "size": 428228,
+      "sha256": "88e7366ec4cf3945dbabab2ad224a3aff3e74ee0aa621c86520415d3bde19dd3"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2251,8 +2256,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 21727,
-      "sha256": "930d5bd0b0c41262b9c50c8b594e2c3f4d1b54e8a88c316d727b79302f316558"
+      "size": 21810,
+      "sha256": "cf4108bb4fcdded900768232b141588b942abf94638d88ee3a3fdb02be040c67"
     }
   ]
 }
