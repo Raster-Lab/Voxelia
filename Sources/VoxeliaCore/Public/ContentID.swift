@@ -165,7 +165,8 @@ public enum ContentIdentityError: Error, Sendable, Equatable {
 /// with a raw checksum or another SHA-256 use. There is no public
 /// unchecked initializer: the compiled accepted set holds exactly the
 /// `ADR-0036` complete-metadata-record tuple, the `ADR-0049`
-/// sample-bytes tuple and the `ADR-0054` operation-parameters tuple.
+/// sample-bytes tuple, the `ADR-0054` operation-parameters tuple and
+/// the `ADR-0060` provenance-record tuple.
 /// The digest is sensitive-derived material
 /// by default — an equality and linkage oracle that proves no authorship,
 /// authenticity, permission or de-identification — and it must not be
@@ -219,6 +220,14 @@ extension ContentID {
         version: ContentProjectionVersion(major: 1, minor: 0)
     )
 
+    /// The version-one provenance-record projection registered by
+    /// `ADR-0060` over the exact canonical `VCPJ-1` bytes of one
+    /// provenance record document.
+    public static let provenanceRecordProjection = ContentProjectionReference(
+        compiledIdentifier: "org.voxelia.provenance-record",
+        version: ContentProjectionVersion(major: 1, minor: 0)
+    )
+
     /// The exact SHA-256 digest byte count required by the accepted tuple.
     public static let sha256DigestByteCount = 32
 
@@ -244,6 +253,8 @@ extension ContentID {
                 && projection == Self.sampleBytesProjection)
             || (scope == .serialisedObject
                 && projection == Self.operationParametersProjection)
+            || (scope == .serialisedObject
+                && projection == Self.provenanceRecordProjection)
         guard acceptedTuple else {
             throw ContentIdentityError.unsupportedProjection
         }
@@ -338,6 +349,25 @@ extension ContentID {
         try computeIdentity(
             scope: .serialisedObject,
             projection: Self.operationParametersProjection,
+            overPayloadBytes: canonicalBytes
+        )
+    }
+
+    /// Computes the provenance-record identity over the exact complete
+    /// canonical `VCPJ-1` bytes of one provenance record document.
+    ///
+    /// The caller must supply bytes produced or accepted by the dedicated
+    /// canonical provenance emitter. The identity is an envelope claim
+    /// about exactly those bytes — never a field inside them — and
+    /// proves neither record truth nor graph membership. The framed
+    /// preimage, chunked hashing, cancellation cadence and failure
+    /// discipline match the other registered computations.
+    public static func provenanceRecordIdentity(
+        overCanonicalBytes canonicalBytes: [UInt8]
+    ) throws -> ContentID {
+        try computeIdentity(
+            scope: .serialisedObject,
+            projection: Self.provenanceRecordProjection,
             overPayloadBytes: canonicalBytes
         )
     }

@@ -816,6 +816,40 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   publication coordinator, mutable graph ownership), external
   evidence (device campaigns, fuzz corpora, oracles, `Data.span`),
   or a milestone owner decision (M4+ scope).
+- Twenty-sixth autonomous increment (owner instruction: "design the
+  canonical provenance projection autonomously"): authored and
+  accepted `ADR-0060` (canonical provenance record projection) and
+  implemented the `VCPJ-1` profile in `VoxeliaCore` with the fourth
+  compiled `ContentID` tuple (`sha256`, `serialisedObject`,
+  `org.voxelia.provenance-record` version `1.0`, 102-byte frame
+  header). The profile is a fixed-schema UTF-8 JSON envelope
+  (`documentSchema` plus `payload`) with no whitespace, members in
+  ascending UTF-8 byte order, explicit nulls, one-member tagged
+  unions, the accepted keyed identifier and embedded
+  `ContentID`/`SourceIdentity`/`DataIdentityReference` wire shapes,
+  the shared `VCMJ-1` RFC 8785 string-token authority, 32-bit-bounded
+  fields as exact JSON integers and wider profile-native integers
+  (semantic-version components, warning occurrence counts) as decimal
+  string tokens so no binary64 boundary can corrupt exactness. The
+  record's own identity is an envelope claim about the bytes, never a
+  field inside them. `CanonicalProvenanceJSON.encodeRecordDocument`
+  validates explicit inclusive ceilings of 65,536 inputs and 65,536
+  warnings before writing any byte, honours the caller-supplied
+  output byte ceiling with checked arithmetic and observes the
+  established cancellation cadence;
+  `ContentID.provenanceRecordIdentity(overCanonicalBytes:)` reuses
+  the shared chunked computation. Tests reproduce two independently
+  computed golden documents byte for byte — a 476-byte origin record
+  (framed digest `ed85…3fb5`) and a 1,747-byte operation record
+  exercising the activity, input, warning, validation and embedded
+  digest shapes (framed digest `8f4d…c0e9`) — prove determinism, the
+  102-byte header, count-ceiling-before-emission precedence, the
+  exact output byte boundary, wire round-trip and crossed-tuple
+  rejection; the existing `ContentID` suites re-passed unchanged.
+  Strict `VCPJ-1` ingress (bytes back to a validated record) is the
+  exact next action under this profile; `DerivationRecordID`, the
+  external parent-reference case, compact graphs and signed manifests
+  become possible but each remains its own decision.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

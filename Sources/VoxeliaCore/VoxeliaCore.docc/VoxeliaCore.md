@@ -143,6 +143,8 @@ storage semantics.
 - ``ProvenanceGraph``
 - ``ProvenanceGraphLimits``
 - ``ProvenanceGraphError``
+- ``CanonicalProvenanceJSON``
+- ``ProvenanceJSONEmissionError``
 - ``SoftwareIdentity``
 - ``OperationProvenance``
 - ``ProvenanceInputRole``

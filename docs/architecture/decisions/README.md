@@ -45,8 +45,9 @@ allocated to the derivation identity record. `ADR-0056` is allocated
 to the data identity aggregate. `ADR-0057` is allocated to the
 provenance claim leaf shapes. `ADR-0058` is allocated to the
 provenance record aggregate. `ADR-0059` is allocated to complete
-provenance graph admission. The next unallocated numeric identifier
-is `ADR-0060`.
+provenance graph admission. `ADR-0060` is allocated to the canonical
+provenance record projection. The next unallocated numeric identifier
+is `ADR-0061`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -89,3 +90,4 @@ is `ADR-0060`.
 | [ADR-0057](ADR-0057-provenance-claim-leaf-shapes.md) | Accepted | Provenance claim leaf shapes |
 | [ADR-0058](ADR-0058-provenance-record-aggregate.md) | Accepted | Provenance record aggregate |
 | [ADR-0059](ADR-0059-complete-graph-admission.md) | Accepted | Complete provenance graph admission |
+| [ADR-0060](ADR-0060-canonical-provenance-record-projection.md) | Accepted | Canonical provenance record projection |
