@@ -61,7 +61,8 @@ extension. `ADR-0069` is allocated to lookup-table composition. The
 projection. `ADR-0073` is allocated to strict canonical derivation
 ingress. `ADR-0074` is allocated to sampling payload slicing. The
 `ADR-0075` is allocated to the canonical document store. The next
-unallocated numeric identifier is `ADR-0076`.
+`ADR-0076` is allocated to recorded fuzz and differential oracle
+evidence. The next unallocated numeric identifier is `ADR-0077`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -120,3 +121,4 @@ unallocated numeric identifier is `ADR-0076`.
 | [ADR-0073](ADR-0073-strict-derivation-ingress.md) | Accepted | Strict canonical derivation ingress |
 | [ADR-0074](ADR-0074-sampling-payload-slicing.md) | Accepted | Sampling payload slicing |
 | [ADR-0075](ADR-0075-canonical-document-store.md) | Accepted | Canonical document store |
+| [ADR-0076](ADR-0076-recorded-fuzz-and-oracle-evidence.md) | Accepted | Recorded fuzz and differential oracle evidence |

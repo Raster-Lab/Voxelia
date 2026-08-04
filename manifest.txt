@@ -234,6 +234,7 @@ Tests/Support/TestSupport.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationIngressTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationJSONTests.swift
+Tests/VoxeliaCoreTests/CanonicalFuzzEvidenceTests.swift
 Tests/VoxeliaCoreTests/CanonicalInstantTests.swift
 Tests/VoxeliaCoreTests/CanonicalMetadataJSONTests.swift
 Tests/VoxeliaCoreTests/CanonicalProvenanceIngressTests.swift
@@ -471,6 +472,7 @@ docs/architecture/decisions/ADR-0072-canonical-derivation-projection.md
 docs/architecture/decisions/ADR-0073-strict-derivation-ingress.md
 docs/architecture/decisions/ADR-0074-sampling-payload-slicing.md
 docs/architecture/decisions/ADR-0075-canonical-document-store.md
+docs/architecture/decisions/ADR-0076-recorded-fuzz-and-oracle-evidence.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

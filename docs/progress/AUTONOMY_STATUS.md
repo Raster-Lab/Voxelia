@@ -1245,6 +1245,26 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   wrong expected identity rejects, plus the unverified-claim,
   missing-document, byte-ceiling, invalid-name and invalid-directory
   rejections, all typed and payload-free.
+- Forty-second autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0076` (recorded fuzz and
+  differential oracle evidence) and implemented both campaigns as
+  deterministic suites. The mutation campaign drives two thousand
+  seeded byte mutations — flips, insertions and deletions at
+  generated positions — across the five registered golden corpus
+  documents (`VCMJ-1` empty envelope, both `VCPJ-1` goldens, both
+  `VCDJ-1` goldens) with the invariant that every mutant is either
+  rejected by throwing or accepted as a record whose canonical
+  re-emission equals the mutant byte for byte: no crash, no hang
+  within budgets, no acceptance of a non-canonical document. The
+  oracle campaign feeds the canonical number tokens of 256
+  deterministically generated finite binary64 values to the host
+  `python3` interpreter, whose independent parser round-trips every
+  token to the bit-identical value, as does Swift's own parser. The
+  ADR records honestly that this narrows but does not close the
+  `ADR-0035` gaps: external Ryu and V8 token-for-token oracles,
+  sustained corpus-guided random fuzzing, the supported-device
+  matrix, the universal raw ceiling and the `VOX-ERR-001` allocation
+  disposition remain open.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

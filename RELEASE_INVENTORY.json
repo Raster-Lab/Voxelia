@@ -1180,6 +1180,11 @@
       "sha256": "103f7cd77522485fd13daec20270167718104c84c8f084cfbe6c857fed0c6165"
     },
     {
+      "path": "Tests/VoxeliaCoreTests/CanonicalFuzzEvidenceTests.swift",
+      "size": 13373,
+      "sha256": "ea2a9c10d2b5ba29aaeebf160561086ebe67c994f12d4683cdc92939d8733f64"
+    },
+    {
       "path": "Tests/VoxeliaCoreTests/CanonicalInstantTests.swift",
       "size": 11289,
       "sha256": "9e76761d0e32aec0bc68ed0219be2cb7c90e1023aa95d7235eb55e3d884b844a"
@@ -2365,9 +2370,14 @@
       "sha256": "fb54bb0d67bf5d4b5d51cba31f223ab3c7d4bf8300c935665047af32a5682f2c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0076-recorded-fuzz-and-oracle-evidence.md",
+      "size": 3750,
+      "sha256": "9c536371407a9edb14e04dbee3406b3dd8683c82c4b9a658fcaa5e5858e5fe93"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 10626,
-      "sha256": "6f0d2b2d0ff7fb8e92007c10a946667d740388b9deaec01923b0b2faf275c27f"
+      "size": 10832,
+      "sha256": "98e79c43cdaa8632eb6ac014fe320c556b88752b9d76b3dddad921be13e24b9f"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2451,8 +2461,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 490164,
-      "sha256": "87b5e2871018ca9ebd3cfcfaa442dcb7d508fa0ae2bd8ec65047d09fc869f83a"
+      "size": 491425,
+      "sha256": "c3f015c2c7b42af3d4ba597162acdf7f940293958a61f0a125974a6bd88978ff"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2811,8 +2821,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 28717,
-      "sha256": "762052a9eae41e36fe9a15d9504d51a6e4b48f51e7363743c5abb996f54b6ced"
+      "size": 28847,
+      "sha256": "910c3af567511461e71f4afbcde185f74478f6c1ee3122369cc091163864fa66"
     }
   ]
 }
