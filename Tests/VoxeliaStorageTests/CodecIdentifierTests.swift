@@ -137,20 +137,32 @@ struct CodecIdentifierTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] decoding is strict and contextual")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] decoding is strict and contextual")
     func decodingIsStrictAndContextual() {
-        let malformedValues = [
+        let wrongKeyValues = [
             #"{"namespace":"org.example","name":"codec"}"#,
             #"{"namespace":"org.example","name":"codec","version":null,"profile":null,"extra":true}"#,
-            #"[]"#,
         ]
-        for malformedValue in malformedValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        for wrongKeyValue in wrongKeyValues {
+            do {
+                _ = try JSONDecoder().decode(
                     CodecIdentifier.self,
-                    from: Data(malformedValue.utf8)
+                    from: Data(wrongKeyValue.utf8)
                 )
+                #expect(Bool(false), "Expected a wrong-keyed codec to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
+        }
+        do {
+            _ = try JSONDecoder().decode(CodecIdentifier.self, from: Data(#"[]"#.utf8))
+            #expect(Bool(false), "Expected an array-shaped codec to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
 
         expectBlankDecoding(
