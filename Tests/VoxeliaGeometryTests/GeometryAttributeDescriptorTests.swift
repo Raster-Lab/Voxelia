@@ -124,17 +124,31 @@ struct GeometryAttributeDescriptorTests {
                 from: Data(validJSON.utf8)
             ).elementCount == 4
         )
-        for invalidJSON in [
-            missingFieldJSON,
-            extraFieldJSON,
-            invalidNestedFormatJSON,
-            invalidNestedComponentsJSON,
-        ] {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        let corruptedFixtures: [(json: String, pathPrefix: [String])] = [
+            (missingFieldJSON, []),
+            (extraFieldJSON, []),
+            (invalidNestedFormatJSON, ["scalarFormat"]),
+            (invalidNestedComponentsJSON, ["components"]),
+        ]
+        for corruptedFixture in corruptedFixtures {
+            do {
+                _ = try JSONDecoder().decode(
                     GeometryAttributeDescriptor.self,
-                    from: Data(invalidJSON.utf8)
+                    from: Data(corruptedFixture.json.utf8)
                 )
+                #expect(Bool(false), "Expected a malformed descriptor to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(
+                    Array(
+                        context.codingPath.map(\.stringValue)
+                            .prefix(corruptedFixture.pathPrefix.count)
+                    ) == corruptedFixture.pathPrefix
+                )
+                if corruptedFixture.pathPrefix.isEmpty {
+                    #expect(context.codingPath.isEmpty)
+                }
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
         }
 
