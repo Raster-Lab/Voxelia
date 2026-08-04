@@ -94,10 +94,16 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   numerical suite including an independent evaluator cross-check.
   Ray-plane, oriented-bounds, transformed-space and point-evaluation
   operations remain deferred.
-- Proposed `ADR-0027` replaces the cross-module frame-index reference with a
-  Spatial-owned, full-rank `FrameAnchorIndex` and defines the minimum full-frame
-  logical-anchor semantics needed for stable identity; it is not accepted and
-  does not authorise source.
+- Governance: `ADR-0027` was accepted by the project owner on 2026-08-04,
+  replacing the cross-module frame-index reference with a Spatial-owned,
+  full-rank validated `FrameAnchorIndex` and the minimum full-frame
+  logical-anchor semantics needed for stable identity. `CCR-0004` records
+  the controlled CDMS section-26.2 field correction
+  (`frameAnchorIndex: FrameAnchorIndex`) and the Appendix A additions. The
+  leaf and its strict wire are implemented in `VoxeliaSpatial`;
+  `FrameGeometry`, frame-set ordering, sparse/enhanced coverage,
+  coordinate-space compatibility and Core descriptor binding remain blocked
+  by their own contracts.
 - The existing `MeasurementUnit` leaf now has coherent semantic identity and
   type-level encoding: exact UTF-8 namespace/code spelling, display-text-
   independent equality and hashing, signed-zero normalization, and an exact
@@ -2469,6 +2475,21 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   canonicalizes to positive zero; the earliest axis retains tie provenance.
   The algorithms index and Spatial DocC topics were extended. No renderer,
   Metal, plane, oriented-bounds or point-evaluation work was started.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0027` and
+  executed its authorised migration in one change: controlled correction
+  `CCR-0004` (CDMS section-26.2 `frameAnchorIndex: FrameAnchorIndex` field
+  correction plus the Appendix A Spatial additions, with `ImageIndex`
+  ownership unchanged) and the `FrameAnchorIndex`/`FrameAnchorIndexError`
+  leaf in `VoxeliaSpatial`. The validated initializer materialises any
+  integer collection once, rejects the empty collection with `.emptyRank`
+  and rejects the first component outside `0..<Int.max` in axis order with
+  `.componentOutsidePossibleImageRange(axis:value:)`. The strict one-key
+  `{"components":[...]}` wire never encodes the derived rank, rejects
+  missing/extra/null keys and wrong shapes, and revalidates on decode with
+  the `components` coding path and typed underlying cause. The DocC topics
+  page gained the frame-geometry section. `FrameGeometry`,
+  `FrameSetGeometry`, frame-set ordering, sparse/enhanced coverage and Core
+  shape-bound binding remain blocked by their own contracts.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -4878,6 +4899,23 @@ strict format lint for the three changed Swift files, the documentation
 gate including the new algorithm specification, the static package-graph
 and prohibited-import checks and the requirement-index check passed.
 
+`swift test --filter FrameAnchorIndex` executed all seven tests in the new
+owning Spatial suite: rank-one/all-zero/multi-rank/1,024-rank and
+`Int.max - 1` construction; exact axis-ordered rejection of empty,
+negative, `Int.max`, `Int.min` and mixed-invalid components at first,
+middle and last positions; generic slice and repeat-element
+materialisation with exact order identity and Sendable/hashing checks; the
+exact one-key wire without a rank field; strict root-key, null,
+wrong-shape and multiple-extra-field rejections; exact element-type
+rejections for string, Boolean, null, fractional and out-of-`Int` values;
+and decode-time revalidation with the `components` path and typed
+underlying causes. The owning `swift build --target VoxeliaSpatial`, the
+direct-dependant `swift build --target VoxeliaCore`, strict format lint
+for the two new Swift files, the documentation gate including `CCR-0004`,
+the static package-graph check proving Spatial still has no target
+dependency, the prohibited-import check and the requirement-index check
+passed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5251,9 +5289,9 @@ and prohibited-import checks and the requirement-index check passed.
 - Spatial-owned `FrameGeometry` is specified with Core-owned `ImageIndex`, but
   the approved dependency direction is `Core -> Spatial`; implementing that
   shape in Spatial would create a prohibited reverse edge or cycle.
-- Proposed `ADR-0027` does not resolve that boundary until accepted. It may
-  authorise only the standalone `FrameAnchorIndex` leaf and controlled CDMS
-  correction; `FrameGeometry`, frame-set ordering, sparse/enhanced coverage,
+- `ADR-0027` is Accepted (2026-08-04) and its authorised scope is executed:
+  the standalone `FrameAnchorIndex` leaf and controlled CDMS correction.
+  `FrameGeometry`, frame-set ordering, sparse/enhanced coverage,
   coordinate-space compatibility and regularity assessment remain blocked.
 - Proposed `ADR-0028` does not authorise `CanonicalInstant` until accepted. It
   may authorise only the standalone Core leaf and replacement of the two
@@ -5363,18 +5401,19 @@ and prohibited-import checks and the requirement-index check passed.
 ## Exact next action
 
 The shape-conflict decisions (`ADR-0021` through `ADR-0023`), the register
-reconciliation (`ADR-0024`) and the ray/bounds intersection contract
-(`ADR-0026`) are accepted and fully executed. The `ImageDescriptor`
-aggregate remains blocked by its other prerequisites: the
-`CoordinateSpaceDescriptor` unit policy and classification, affine shape
-and construction tolerance, rectilinear binding, frame-set binding
-(Proposed `ADR-0027`) and canonical JSON. The next unblocked step is
-another governance decision: surface the next Proposed contract the user
-wishes to review (candidates: `ADR-0027` frame anchor-index boundary, or
-the metadata chain `ADR-0028` onward) with its decision questions,
-following the established interactive acceptance flow. Do not accept ADRs
-autonomously, implement speculative source or run blocked storage/metadata
-probes while those decisions are open.
+reconciliation (`ADR-0024`), the ray/bounds intersection contract
+(`ADR-0026`) and the frame anchor-index boundary (`ADR-0027`) are accepted
+and fully executed. The `ImageDescriptor` aggregate remains blocked by its
+other prerequisites: the `CoordinateSpaceDescriptor` unit policy and
+classification, affine shape and construction tolerance, rectilinear
+binding, the remaining frame-set collection contracts and canonical JSON.
+The next unblocked step is another governance decision: surface the next
+Proposed contract the user wishes to review (the metadata chain `ADR-0028`
+onward, whose canonical-instant, floating-point and binary leaves also gate
+canonical JSON) with its decision questions, following the established
+interactive acceptance flow. Do not accept ADRs autonomously, implement
+speculative source or run blocked storage/metadata probes while those
+decisions are open.
 
 ## Test policy for the next action
 

@@ -67,6 +67,11 @@ None.
 - ``RayAxisAlignedBoundsIntersection3D``
 - ``RayIntersectionParameterFailureReason``
 
+### Frame geometry
+
+- ``FrameAnchorIndex``
+- ``FrameAnchorIndexError``
+
 ### Project documents
 
 - <doc:Architecture>

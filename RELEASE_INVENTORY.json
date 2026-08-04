@@ -785,6 +785,11 @@
       "sha256": "02c65f3e021d6f759b70027c70e8f4af6ee2203bedf6f35abb2a09214dd8b8bb"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/FrameAnchorIndex.swift",
+      "size": 4533,
+      "sha256": "ecdbacbfd942278626729702ed54bac11c356ebc0c1f51de37de03beaf2884c6"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/Matrix4x4Double.swift",
       "size": 4693,
       "sha256": "afb0401cb295a119c0a0369b3fda5316ae40e4beae297c88d718c85790848b26"
@@ -831,8 +836,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 1272,
-      "sha256": "5748fc7a518542e632d0068858b2ca377dac499da4c18cb68ee4ca9f6d685b68"
+      "size": 1344,
+      "sha256": "6d767e2194afe140f213a97a82545b82839c328c62908c4215a4405d483bcd97"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -1108,6 +1113,11 @@
       "path": "Tests/VoxeliaSpatialTests/ExternalFrameReferenceTests.swift",
       "size": 6400,
       "sha256": "0a15523ee121a1497386250a43aab25c1617c7c657d80bf201842ef74e3ab94b"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/FrameAnchorIndexTests.swift",
+      "size": 8361,
+      "sha256": "32be3f416faceb94c1b390d540a86b351533768c4bd5c9464f7fef60f143a7ac"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/Matrix4x4DoubleTests.swift",
@@ -1520,6 +1530,11 @@
       "sha256": "ac2ea27e98262808bf0ac296913294cf43c7f9d72a582240a18a49596acf557e"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0004-adr-0027-frame-anchor-index-boundary.md",
+      "size": 4039,
+      "sha256": "18f0ddbbc4c2e944c4509a10cd40626f381c0076e96a2e0aee624c509ff4a659"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
       "size": 7006,
       "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
@@ -1551,8 +1566,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0027-frame-geometry-anchor-index-boundary.md",
-      "size": 16953,
-      "sha256": "3f99c69d2b2f2fe55ebf5a51b826e0a9042076bacbc14f6f89c4489ddf8b2cfb"
+      "size": 17101,
+      "sha256": "d9689ed0d34b3556fbc5118c85f4a201d5066bcbd8f97026cd569055f73c79cb"
     },
     {
       "path": "docs/architecture/decisions/ADR-0028-canonical-instant-boundary.md",
@@ -1627,7 +1642,7 @@
     {
       "path": "docs/architecture/decisions/README.md",
       "size": 4814,
-      "sha256": "164299c6d6644d0ca3d216c366a5efacadb4114dfcfd2f506089fad11e7bf98d"
+      "sha256": "36df2bcded2e09ff1dbea19b4926f14abbe2905554bb8d1b8edf33756e53bc23"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1711,8 +1726,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 380082,
-      "sha256": "d1808aa61f36682ddd7686155d2362e607f6c78ff8ce267f3499dc096dfb11a7"
+      "size": 382653,
+      "sha256": "ddeaca25e345746b879f301c385fcd8cc45289d01501abc8aa48d7ee30b7de14"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2066,8 +2081,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 19465,
-      "sha256": "e25ad538442cc1ad37aa10c4646feb5b6d606166d1858a2b65932a856f38a3cd"
+      "size": 19651,
+      "sha256": "3e85b0758a592002b5e91066138df657e6f2c004b6292367dadb9fa6c2f7a5e2"
     }
   ]
 }

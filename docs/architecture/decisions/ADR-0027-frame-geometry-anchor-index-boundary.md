@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0027"
 title: "Frame geometry anchor-index boundary"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -52,16 +52,16 @@ other dimensions that the architecture requires enhanced multi-frame adapters
 to preserve. A source DICOM frame number is provenance identity and must not be
 repurposed as a logical image coordinate.
 
-This proposal selects one full-rank, role-specific boundary value and the
-minimum canonical anchor meaning needed for stable value identity. It does not
-select frame-set ordering, sparse coverage, enhanced dimension tuples,
+This record selects one full-rank, role-specific boundary value and the
+minimum canonical anchor meaning needed for stable value identity. It does
+not select frame-set ordering, sparse coverage, enhanced dimension tuples,
 coordinate-space compatibility, regularity assessment or full geometry
-construction. Its Proposed status does not authorise implementation or
-controlled-document changes.
+construction. It was reviewed and accepted by the project owner on
+2026-08-04.
 
 ## Decision
 
-If this ADR is accepted, `VoxeliaSpatial` will own these public values:
+`VoxeliaSpatial` owns these public values:
 
 ```swift
 public enum FrameAnchorIndexError: Error, Sendable, Equatable {
@@ -179,10 +179,12 @@ duplicate keys or accepted equivalent numeric spellings such as `1.0` and
 information. If the value is serialised as a top-level artefact, the later
 canonical serializer must provide the required schema-version wrapper.
 
-Acceptance will require controlled corrections to Core Data Model
-Specification sections 26 and Appendix A. Core's existing `ImageIndex`, shape
-and region APIs remain unchanged. No public type alias, implicit conversion or
-new dependency edge is authorised.
+Acceptance requires controlled corrections to Core Data Model Specification
+section 26 and Appendix A; those corrections are authorised by this
+acceptance and are recorded through the project's controlled-correction
+process without editing any immutable `v0.1.1` baseline file. Core's
+existing `ImageIndex`, shape and region APIs remain unchanged. No public
+type alias, implicit conversion or new dependency edge is authorised.
 
 ## Alternatives considered
 
@@ -344,15 +346,17 @@ After acceptance:
    Core descriptor-binding contracts before implementing `FrameGeometry`; and
 5. update traceability, changelog and release-integrity evidence.
 
-No migration step may begin while this ADR remains Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance and are
+executed in order through the progress ledger; step 4 remains separate open
+scope.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. If accepted, it resolves only the cited frame-index dependency boundary
-through the controlled data-model correction in the Migration section. It does
-not replace the MTA's accepted decision to preserve irregular data as frame
-sets. While Proposed, it has no supersession effect.
+This ADR neither supersedes nor is superseded by another file-backed ADR. It
+resolves only the cited frame-index dependency boundary through the
+controlled data-model correction in the Migration section. It does not
+replace the MTA's accepted decision to preserve irregular data as frame
+sets.
 
 ## References
 
