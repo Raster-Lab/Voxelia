@@ -37,7 +37,7 @@ struct ProvenanceIDTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] Codable uses the strict keyed identifier shape")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] Codable uses the strict keyed identifier shape")
     func codableRoundTripAndValidation() throws {
         let identifier = try ProvenanceID(
             validating: "org.voxelia.provenance.example"
@@ -51,19 +51,47 @@ struct ProvenanceIDTests {
         #expect(Set(object.keys) == ["rawValue"])
         #expect(object["rawValue"] as? String == identifier.rawValue)
 
-        let invalidValues = [
-            #"{"rawValue":" "}"#,
-            #"{}"#,
-            #"{"rawValue":"provenance","extra":true}"#,
-            #""provenance""#,
-            #"[]"#,
-        ]
-        for invalidValue in invalidValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        do {
+            _ = try JSONDecoder().decode(
+                ProvenanceID.self,
+                from: Data(#"{"rawValue":" "}"#.utf8)
+            )
+            #expect(Bool(false), "Expected a blank raw value to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == ["rawValue"])
+            #expect(
+                context.underlyingError as? VoxeliaStringIdentifierError
+                    == .emptyOrWhitespaceOnly
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+        }
+
+        for wrongKeyValue in [#"{}"#, #"{"rawValue":"provenance","extra":true}"#] {
+            do {
+                _ = try JSONDecoder().decode(
                     ProvenanceID.self,
-                    from: Data(invalidValue.utf8)
+                    from: Data(wrongKeyValue.utf8)
                 )
+                #expect(Bool(false), "Expected a wrong-keyed object to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+            }
+        }
+
+        for wrongShape in [#""provenance""#, #"[]"#] {
+            do {
+                _ = try JSONDecoder().decode(
+                    ProvenanceID.self,
+                    from: Data(wrongShape.utf8)
+                )
+                #expect(Bool(false), "Expected a wrong-shaped value to fail decoding.")
+            } catch DecodingError.typeMismatch {
+                // The keyed-container request rejects non-object shapes.
+            } catch {
+                #expect(Bool(false), "Expected typeMismatch, received \(error).")
             }
         }
     }
