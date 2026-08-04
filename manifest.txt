@@ -80,6 +80,7 @@ Sources/VoxeliaCore/Public/ContentIdentityTaxonomy.swift
 Sources/VoxeliaCore/Public/DataModelError.swift
 Sources/VoxeliaCore/Public/DataObjectID.swift
 Sources/VoxeliaCore/Public/ImageDescriptor.swift
+Sources/VoxeliaCore/Public/ImageDescriptorCoding.swift
 Sources/VoxeliaCore/Public/ImageIndex.swift
 Sources/VoxeliaCore/Public/ImageRegion.swift
 Sources/VoxeliaCore/Public/ImageSemantic.swift
@@ -180,6 +181,7 @@ Sources/VoxeliaSpatial/Public/MeasurementUnit.swift
 Sources/VoxeliaSpatial/Public/RayAxisAlignedBoundsIntersection.swift
 Sources/VoxeliaSpatial/Public/SpatialAxisMapping.swift
 Sources/VoxeliaSpatial/Public/SpatialGeometry.swift
+Sources/VoxeliaSpatial/Public/SpatialGeometryCoding.swift
 Sources/VoxeliaSpatial/Public/SpatialPrimitives.swift
 Sources/VoxeliaSpatial/Public/SpatialTransformKind.swift
 Sources/VoxeliaSpatial/Public/StringIdentifier.swift
@@ -216,6 +218,7 @@ Tests/VoxeliaCoreTests/ComponentDescriptorTests.swift
 Tests/VoxeliaCoreTests/ContentIDTests.swift
 Tests/VoxeliaCoreTests/ContentIdentityTaxonomyTests.swift
 Tests/VoxeliaCoreTests/DataObjectIDTests.swift
+Tests/VoxeliaCoreTests/ImageDescriptorCodingTests.swift
 Tests/VoxeliaCoreTests/ImageDescriptorTests.swift
 Tests/VoxeliaCoreTests/ImageIndexTests.swift
 Tests/VoxeliaCoreTests/ImageRegionTests.swift

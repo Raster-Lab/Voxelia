@@ -440,6 +440,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   descriptor was the recorded central blocker of milestone M1; the
   remaining structural `ImageData` aggregate stays gated on the
   identity/provenance prerequisites recorded with `ADR-0037`/`ADR-0038`.
+- Ninth autonomous increment — the deferred strict wire: manual
+  exact-key `Codable` for `CoordinateSpaceDescriptor` (five fields),
+  `AffineGridGeometry` (three fields), the externally tagged one-member
+  `SpatialGeometry` wire and the eight-field `ImageDescriptor` wire with
+  explicit nulls for its three optionals. Every decoder checks the exact
+  key set, decodes strict children and revalidates through the
+  constructing initializer, mapping invariant violations to fixed
+  value-redacted `dataCorrupted` failures with empty model-relative
+  paths. Tests cover the full nested round trip (including an affine
+  geometry with an external frame reference and a `validBitCount`
+  scalar format), explicit-null emission, missing/extra-field and
+  unknown-tag rejections, an invariant violation surfaced through the
+  wire (duplicated axis identifier) and redaction of space identifiers
+  from the failure context.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

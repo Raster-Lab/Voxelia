@@ -410,6 +410,11 @@
       "sha256": "f95893bfe374bf7aa31d7bf7386fb9541d6b478c5833f5a50039769310e095e1"
     },
     {
+      "path": "Sources/VoxeliaCore/Public/ImageDescriptorCoding.swift",
+      "size": 4224,
+      "sha256": "c116c60d8a3128ac7b01f60452d6eab54961916775f7c7b028ed679e0d55a494"
+    },
+    {
       "path": "Sources/VoxeliaCore/Public/ImageIndex.swift",
       "size": 1324,
       "sha256": "8b98ead92e562bf8a6f97bf70af79f3cf8166b6c97fc5fc7bafe4b3ab0066a93"
@@ -910,6 +915,11 @@
       "sha256": "2d7d32a34ac056527739f39eec325cb14c28b4779ae4f2412a835602db3288c2"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/SpatialGeometryCoding.swift",
+      "size": 6075,
+      "sha256": "6ccd08f9ac3260931d136af6d6417495da0d497ebd3709ffc58ad5e494e8a899"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/SpatialPrimitives.swift",
       "size": 14441,
       "sha256": "0e09e12ddb7f59c0f27dab5c4ce4725e312c05c241b78af883ddbdd37dbbeaac"
@@ -1088,6 +1098,11 @@
       "path": "Tests/VoxeliaCoreTests/DataObjectIDTests.swift",
       "size": 4024,
       "sha256": "496cf66761149362528798a23895d7008c0ccdbcdae04da6d7ec5fa93be36ffb"
+    },
+    {
+      "path": "Tests/VoxeliaCoreTests/ImageDescriptorCodingTests.swift",
+      "size": 5412,
+      "sha256": "9c4542a31b10cc066a4fc7a763b5118b7837e0a07ef0d5bf666b59052ed2854d"
     },
     {
       "path": "Tests/VoxeliaCoreTests/ImageDescriptorTests.swift",
@@ -1986,8 +2001,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 437529,
-      "sha256": "ead960716dc36424de5f9a4bbd85afe6393010cf146e4261bec7ba965b67b680"
+      "size": 438449,
+      "sha256": "f53800d65c6ab87f68a515d837b27ec6b0cbe59000d61c74fa03086ae304a1b0"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2346,8 +2361,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 22856,
-      "sha256": "50163d9f5aba3f44aa0cf29e10d5a951bbaa75b1c3ca415f341142253857f558"
+      "size": 23025,
+      "sha256": "5ead78637b45d1deb541ce34a7ef1f8a602bec753d9ce54c140f4774db6656e5"
     }
   ]
 }
