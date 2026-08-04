@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0036"
 title: "Domain-separated complete canonical metadata record identity"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -110,12 +110,19 @@ Schema trust, multiplicity-policy authenticity, privacy/export authorisation,
 MACs, signatures, encryption and host audit policy must stay outside this
 identity result.
 
-This proposal selects one exact complete-record projection and the minimum
+This record selects one exact complete-record projection and the minimum
 logical record needed to name it. It deliberately does not select semantic
 `MetadataCollection` identity, order-insensitive identity, schema-normalised
 identity, image `descriptorAndSamples` identity, source/derivation identity,
-signature input, keyed pseudonymisation or a generic algorithm registry. Its
-Proposed status authorises documentation and isolated evidence only.
+signature input, keyed pseudonymisation or a generic algorithm registry. It
+was reviewed and accepted by the project owner on 2026-08-04, with its
+dependencies (`ADR-0028` through `ADR-0035`) already accepted; the
+public-data-model RFC is recorded as `RFC-0002` in the RFC register (held
+at the register's fail-closed `Draft` status pending a governed approval
+schema), and the required maintainer approval is the project owner's
+2026-08-04 interactive decision recorded here, in `CCR-0013` and in the
+progress ledger. The `ADR-0035` evidence-closure items remain the explicit
+open gaps recorded in the ledger.
 
 Proposed `ADR-0037` defines the downstream claim-versus-assurance boundary for
 source, derivation and data identity. A structurally valid or decoded
@@ -130,10 +137,11 @@ statement, and must not be reused across those domains.
 
 ## Decision
 
-If `ADR-0028` through `ADR-0036` are accepted and the public API receives the
-required RFC and maintainer approval, `VoxeliaCore` will own a versioned content
-projection reference and a scoped `ContentID` value. `ADR-0036` initially
-registers exactly one generation and verification tuple:
+With `ADR-0028` through `ADR-0036` accepted and the public API's RFC
+recorded with the project owner's maintainer approval, `VoxeliaCore` owns a
+versioned content projection reference and a scoped `ContentID` value.
+`ADR-0036` initially registers exactly one generation and verification
+tuple:
 
 | Field | Exact value |
 |---|---|
@@ -808,15 +816,19 @@ Acceptance and implementation proceed in this order:
 9. leave semantic collection, image/data, source/derivation, signature and
    keyed-identity work under their own decisions.
 
-Until all prerequisite decisions and approvals are accepted, no `ContentID`,
-CryptoKit digest helper, verifier, cache key, provenance record, recursive
-metadata type, canonical parser or canonical emitter source is authorised.
+These migration steps are authorised as of the 2026-08-04 acceptance:
+`ADR-0028` through `ADR-0036` are accepted, `RFC-0002` records the public
+data-model change with the project owner's maintainer approval, and the
+`ADR-0035` evidence-closure items (raw ceiling derivation, device
+cancellation latency, fuzz corpora, external differential oracles and the
+allocation-failure disposition) remain explicit open gaps recorded in the
+progress ledger. Steps 8 and 9 remain governed by their named decisions.
 
 ## Supersession
 
-This proposal does not supersede an accepted ADR. If accepted, it resolves only
+This ADR does not supersede an accepted ADR. It resolves only
 the complete canonical metadata record's persistent identity and supplies the
-candidate correction for the controlled `ContentID` record. It does not
+accepted correction for the controlled `ContentID` record. It does not
 supersede the semantic identity of metadata values/collections, VCMJ grammar,
 schema policy, source/derivation identity, image identity, storage checksum,
 privacy/export policy, provenance, authentication, signature or encryption

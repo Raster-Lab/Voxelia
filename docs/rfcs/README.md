@@ -3,7 +3,9 @@
 Use `docs/templates/RFC-Template.md`.
 
 `RFC-0001` is allocated to the storage-contract and logical-data-model
-composition Draft. The next unallocated numeric identifier is `RFC-0002`.
+composition Draft. `RFC-0002` is allocated to the scoped, projected content
+identifier record Draft recorded for accepted `ADR-0036`'s migration gate.
+The next unallocated numeric identifier is `RFC-0003`.
 
 [`RFC-0001-CCD-01`](RFC-0001-controlled-correction-delta.md) is its Draft
 controlled-correction companion. It consumes no additional RFC number and has
@@ -20,3 +22,4 @@ every status other than `Draft`.
 | ID | Status | Proposal |
 |---|---|---|
 | [RFC-0001](RFC-0001-storage-contract-and-logical-data-model-composition.md) | Draft | Storage contract and logical data-model composition |
+| [RFC-0002](RFC-0002-scoped-projected-content-identifier-record.md) | Draft | Scoped, projected content identifier record |

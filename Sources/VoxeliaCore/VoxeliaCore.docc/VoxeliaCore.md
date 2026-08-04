@@ -68,6 +68,11 @@ storage semantics.
 
 - ``DigestAlgorithm``
 - ``ContentScope``
+- ``ContentID``
+- ``ContentProjectionReference``
+- ``ContentProjectionVersion``
+- ``ContentProjectionReferenceError``
+- ``ContentIdentityError``
 
 ### Metadata
 

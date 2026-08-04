@@ -208,6 +208,26 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   differential oracles, universal raw-ceiling derivation and the
   `VOX-ERR-001` allocation-failure disposition. Record identity remains
   governed by Proposed `ADR-0036`.
+- Governance: `ADR-0036` was accepted by the project owner on 2026-08-04
+  with its dependencies already accepted, and its authorised migration is
+  executed. `VoxeliaCore` owns the complete canonical metadata record
+  identity: the corrected scoped, projected `ContentID` (typed algorithm,
+  required scope, bounded `ContentProjectionReference`, owned 32-byte
+  digest, no public unchecked initializer), one compiled accepted tuple
+  (`sha256`/`serialisedObject`/`org.voxelia.metadata-complete-record`
+  v1.0 via CryptoKit), the fixed 109-byte `VOXELIA-CONTENT-ID` digest
+  frame binding purpose into the preimage, strict 64-character lowercase
+  hexadecimal type-level coding, timing-safe `timingsafe_bcmp` direct
+  verification and payload-free identity errors. The pre-registered
+  golden fixtures reproduced exactly: the emitter's 148-byte empty
+  document hashes to the registered raw and framed digests, byte for
+  byte. The public data-model change is recorded as `RFC-0002` (register
+  fail-closed `Draft`) with the project owner's maintainer approval
+  recorded in the accepted ADR, `CCR-0013` and this ledger. The digest
+  remains sensitive-derived linkage material with no logging, export or
+  authenticity claim; semantic collection identity, image/data identity
+  and signatures remain future decisions under Proposed `ADR-0037` and
+  later records.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -2747,6 +2767,27 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   Core and Spatial with cross-module fixtures. Persistent digests,
   signatures, export and permissive import remain governed by
   `ADR-0036` and later decisions.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0036` and
+  executed its authorised migration in one change: `RFC-0002` recorded
+  in the RFC register for the public `ContentID` data-model change (held
+  at the register's fail-closed `Draft` status, with the owner's
+  maintainer approval recorded in the accepted ADR, `CCR-0013` and this
+  ledger); controlled correction `CCR-0013` (the one corrected record
+  replacing both conflicting baseline sketches, the strict digest text,
+  the version-one accepted profile and framing, and the source-identity
+  claim/assurance precedence); and the identity surface in `VoxeliaCore`
+  (`ContentProjectionVersion`, `ContentProjectionReference` with
+  byte-limit-before-grammar precedence and no unbounded copies,
+  `ContentIdentityError`, the validated `ContentID` with owned digest
+  storage and synthesized four-component identity, the 109-byte framed
+  CryptoKit SHA-256 computation with bounded 4,096-byte update slices
+  and cancellation at every required point, timing-safe direct
+  verification and the strict manual four-field wire). Golden evidence:
+  the registered raw `a27e…ee50` and framed `8dde…7432` empty-document
+  digests reproduced exactly over the emitter's 148-byte envelope,
+  cross-checking the accepted `VCMJ-1` emitter independently. Cache
+  admission, provenance integration, semantic identity and signatures
+  remain governed by Proposed `ADR-0037` and later decisions.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -5373,6 +5414,27 @@ fuzz/mutation corpora, external Ryu/V8 differential oracles, the
 universal raw-ceiling derivation and the `VOX-ERR-001`
 allocation-failure disposition.
 
+`swift test --filter ContentIDTests` executed all six tests in the new
+owning Core suite: the golden fixtures pinning the frame (the emitter's
+148-byte empty envelope byte-compared, its raw SHA-256 matching the
+registered `a27e…ee50` negative control, the framed identity matching
+`8dde…7432`, the exact 109-byte header with its length suffix, and the
+NIST FIPS 180-4 `abc` known-answer vector); deterministic domain-bound
+identity with payload-mutation divergence, timing-safe match/mismatch
+verification including first/middle/last digest-byte flips and
+owned-byte snapshots; the byte-exact sorted-keys four-field wire round
+trip; malformed-record rejection distinguishing `unsupportedAlgorithm`
+(`sha512`/`blake3`/`custom`), `invalidRecord` (unknown tokens, digest
+length/case/prefix aliases, missing and extra fields) and
+`unsupportedProjection` (wrong scope, identifier or version);
+projection-identifier byte-limit-before-grammar precedence at the
+63/64-label and 255/256-total boundaries with grammar rejections; and
+payload-free failures under patient sentinels. The owning
+`swift build --target VoxeliaCore`, strict format lint for the two new
+Swift files, the documentation gate including `RFC-0002` and `CCR-0013`,
+the static package-graph, prohibited-import and requirement-index checks
+passed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5857,23 +5919,25 @@ allocation-failure disposition.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0035` are
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0036` are
 accepted and fully executed: the three metadata leaves, the bounded
 recursive `MetadataValue`, the classified general `MetadataEntry`, the
 ordered `MetadataCollection` with explicit multiplicity admission, the
-closed exact-case typed read surface and the `VCMJ-1` canonical codec
-with strict raw ingress now exist with their controlled corrections. The
+closed exact-case typed read surface, the `VCMJ-1` canonical codec with
+strict raw ingress and the framed complete canonical metadata record
+identity (`ContentID`) now exist with their controlled corrections. The
 `ImageDescriptor` aggregate remains blocked by its remaining
 prerequisites: the `CoordinateSpaceDescriptor` unit policy and
 classification, affine shape and construction tolerance, rectilinear
 binding and the remaining frame-set collection contracts; its
 canonical-JSON prerequisite is now satisfied for the metadata record.
 The next unblocked step is another governance decision: surface the next
-Proposed contract the user wishes to review (`ADR-0036` domain-separated
-complete canonical metadata record identity, then `ADR-0037`) with its
-decision questions, following the established interactive acceptance
-flow. Do not accept ADRs autonomously, implement speculative source or
-run blocked storage/metadata probes while those decisions are open.
+Proposed contract the user wishes to review (`ADR-0037` claim-bearing
+data identity and cache admission, then `ADR-0038` and the `RFC-0001`
+storage-contract chain) with its decision questions, following the
+established interactive acceptance flow. Do not accept ADRs
+autonomously, implement speculative source or run blocked
+storage/metadata probes while those decisions are open.
 
 ## Test policy for the next action
 
