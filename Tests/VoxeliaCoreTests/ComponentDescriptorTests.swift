@@ -124,7 +124,7 @@ struct ComponentDescriptorTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] enums use the documented stable JSON schema")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] enums use the documented stable JSON schema")
     func enumJSONSchema() throws {
         let encoder = JSONEncoder()
 
@@ -151,11 +151,16 @@ struct ComponentDescriptorTests {
         let malformedGeneric = Data(
             #"{"generic":{"namespace":"org.voxelia","name":"custom","extra":"value"}}"#.utf8
         )
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(
+        do {
+            _ = try JSONDecoder().decode(
                 ComponentInterpretation.self,
                 from: malformedGeneric
             )
+            #expect(Bool(false), "Expected extra-key generic payload to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == ["generic"])
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 
