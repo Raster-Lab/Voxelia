@@ -36,6 +36,7 @@ None.
 ### Coordinate spaces
 
 - ``CoordinateSpaceID``
+- ``CoordinateConvention``
 - ``CoordinateHandedness``
 - ``ExternalFrameReference``
 - ``ExternalFrameReferenceError``

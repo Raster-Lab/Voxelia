@@ -63,7 +63,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `VoxeliaSpatial`. Its migration steps (controlled MTA section-10.2
   correction, Spatial implementation with focused tests, traceability and
   release evidence) are authorised; the separate `CoordinateSpaceDescriptor`
-  unit policy remains an open approval.
+  unit policy remains an open approval. Migration steps 1-3 and 5 are
+  complete: `CCR-0002` records the MTA correction, and
+  `CoordinateConvention` is implemented in `VoxeliaSpatial` with the exact
+  six-case wire, exact UTF-8 custom identity, a documented
+  `impliedHandedness` projection that resolves nothing for `imageDisplay`
+  or `custom`, and focused exact-evidence tests including the complete
+  built-in handedness matrix.
 - Proposed `ADR-0023` selects four common `ValueTransform` cases with validated
   linear and composition payloads while deferring undefined piecewise and
   lookup-execution behavior; it is not accepted and does not unblock code.
@@ -2387,6 +2393,19 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   open-unit-policy limits, and records the owner approval with the
   introducing commit as its effective commit. No immutable `v0.1.1` baseline
   file was edited.
+- Implemented accepted `ADR-0022` migration step 2: `CoordinateConvention`
+  in its owning `VoxeliaSpatial` module, mirroring the established
+  string-or-strict-object wire pattern. Built-ins encode as the five exact
+  tags; the custom case uses the strict namespaced two-key object; unknown
+  tags, wrong shapes, missing fields and distinct extra fields are rejected
+  with root or `custom`-path `dataCorrupted`, null with `valueNotFound` and
+  non-object shapes with `typeMismatch`. The documented `impliedHandedness`
+  projection encodes exactly the ADR's built-in matrix (right-handed for
+  `cartesianRightHanded`/`dicomPatientLPS`/`neuroimagingRAS`, left-handed
+  for `cartesianLeftHanded`, nil for `imageDisplay`/`custom` so callers
+  must reject unresolved handedness explicitly rather than infer it). The
+  DocC topics page gained the type. No unit policy, conversion transform,
+  registry or `CoordinateSpaceDescriptor` work was started.
 
 ## Verification evidence
 
@@ -4720,6 +4739,17 @@ new record, and the requirement-index check passed. The release manifest
 gained exactly the one new correction record. No `v0.1.1` baseline file,
 product source or package edge changed.
 
+`swift test --filter CoordinateConvention` executed all six tests in the new
+owning Spatial suite: exact six-case taxonomy, exact case-sensitive UTF-8
+custom identity, the complete built-in handedness matrix, exact built-in
+tag and custom-object round trips, exact root/`custom`-path
+`dataCorrupted`, `valueNotFound` and `typeMismatch` rejections, and
+Sendable/Hashable checks. The owning `swift build --target VoxeliaSpatial`,
+the direct-dependant `swift build --target VoxeliaCore`, strict format lint
+for the new source and test files, the static package-graph and
+prohibited-import checks and the requirement-index check passed. No
+controlled baseline or other Proposed contract changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5205,27 +5235,24 @@ product source or package edge changed.
 
 ## Exact next action
 
-Execute accepted `ADR-0022` migration step 2: implement
-`CoordinateConvention` in its owning `VoxeliaSpatial` module exactly as the
-ADR and `CCR-0002` define — the six cases, exact built-in string tags, the
-strict `{"custom":{namespace,name}}` object with rejection of unknown tags,
-wrong shapes, missing fields and distinct extra fields, exact UTF-8 custom
-identity, and no inferred handedness, unit, transform or frame for
-`imageDisplay` or `custom`. Add focused Spatial tests with exact taxonomy,
-wire, strict-rejection and built-in handedness-matrix evidence in the
-established style. Do not implement `CoordinateSpaceDescriptor`, unit
-policy, conversion transforms or any registry.
+Accepted `ADR-0022` migration is complete except its step 4, the separate
+`CoordinateSpaceDescriptor` unit-policy approval, which remains open. The
+next unblocked step is another governance decision: surface Proposed
+`ADR-0023` (value-transform public shape) to the user with its decision
+questions, following the same interactive acceptance flow used for
+`ADR-0021` and `ADR-0022`. Do not accept ADRs autonomously, implement
+speculative source or run blocked storage/metadata probes while those
+decisions are open.
 
 ## Test policy for the next action
 
-- Run `swift test --filter CoordinateConvention`, the owning
-  `swift build --target VoxeliaSpatial`, one direct-dependant
-  `swift build --target VoxeliaCore` because Spatial gains public API,
-  strict format lint for the new source and test files, the
-  requirement-index and release-integrity checks, and the static
-  package-graph and prohibited-import checks confirming Spatial ownership.
-  Do not run blocked storage/metadata probes or the complete Swift package
-  suite.
+- A governance decision has no test surface. When the next accepted decision
+  authorises work, derive its policy from the smallest owning target as in
+  prior increments, plus documentation, requirement-index and
+  release-integrity checks and the package-graph checks whenever ownership
+  or module boundaries are affected. Do not rerun the complete scaffold
+  suite unless a cross-cutting change affects its gate or a release
+  candidate is being accepted.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

@@ -765,6 +765,11 @@
       "sha256": "65c42454ac65a3565acc1680b367b5ea1f77916c03740f614f00886a2a4eb6d3"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/CoordinateConvention.swift",
+      "size": 5627,
+      "sha256": "2901a55bd71c17f61a7110968a6d6892f79b9ef79fc3bd1ee0b17a773eedc90d"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/CoordinateHandedness.swift",
       "size": 220,
       "sha256": "8fc012cccdbcee2d26d1447b7d2bdec211b093cbb1d55da089852206ba996231"
@@ -816,8 +821,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 1137,
-      "sha256": "484d9ca24138802576fa3271bab2f4e8004aafaeb27b156585552ac88fddc28f"
+      "size": 1164,
+      "sha256": "fa264686556e1d99a12fe7974c0a2adf4c011f6188dd441c84871836f45081cb"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -1073,6 +1078,11 @@
       "path": "Tests/VoxeliaSpatialTests/AxisSemanticTests.swift",
       "size": 5622,
       "sha256": "a6573bdf4be23f36bed99ad6d770f6d74177c3f408964f9f41a72c6b29ce3029"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/CoordinateConventionTests.swift",
+      "size": 6817,
+      "sha256": "065cd88e97980503a54be9bb968c93e93d16a089fef13e0099fe66688413969f"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/CoordinateHandednessTests.swift",
@@ -1671,8 +1681,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 369507,
-      "sha256": "e6c6ff5c55da2e6bee1cc546d5b891b4da9125cdb2699eafaf57174893dcf215"
+      "size": 371350,
+      "sha256": "31584846d9027b82e8d0a862ce8df050686023bc5a61cb9a63e1a404619be08a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2026,8 +2036,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 18966,
-      "sha256": "ebda5cd824f44918796eab45361c0eeaf96803c034efa26cbd13bb64325266a6"
+      "size": 19081,
+      "sha256": "616f0c5c96136793b00ceafdabc747b9430e7b75260d52a98b94673aaa6c883c"
     }
   ]
 }

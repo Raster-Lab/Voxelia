@@ -151,6 +151,7 @@ Sources/VoxeliaSpatial/Public/AxisDescriptor.swift
 Sources/VoxeliaSpatial/Public/AxisSampling.swift
 Sources/VoxeliaSpatial/Public/AxisSemantic.swift
 Sources/VoxeliaSpatial/Public/Bounds3D.swift
+Sources/VoxeliaSpatial/Public/CoordinateConvention.swift
 Sources/VoxeliaSpatial/Public/CoordinateHandedness.swift
 Sources/VoxeliaSpatial/Public/ExternalFrameReference.swift
 Sources/VoxeliaSpatial/Public/Matrix4x4Double.swift
@@ -213,6 +214,7 @@ Tests/VoxeliaSpatialTests/AxisAlignedBounds3DTests.swift
 Tests/VoxeliaSpatialTests/AxisDescriptorTests.swift
 Tests/VoxeliaSpatialTests/AxisSamplingTests.swift
 Tests/VoxeliaSpatialTests/AxisSemanticTests.swift
+Tests/VoxeliaSpatialTests/CoordinateConventionTests.swift
 Tests/VoxeliaSpatialTests/CoordinateHandednessTests.swift
 Tests/VoxeliaSpatialTests/ExternalFrameReferenceTests.swift
 Tests/VoxeliaSpatialTests/Matrix4x4DoubleTests.swift
