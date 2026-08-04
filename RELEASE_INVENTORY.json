@@ -941,8 +941,8 @@
     },
     {
       "path": "Tests/VoxeliaCoreTests/ImageRegionTests.swift",
-      "size": 27218,
-      "sha256": "5ed7dcc781cb0fbdeec94d8633de7409a29c447af5a4f258fe40ac2af5df36d7"
+      "size": 27583,
+      "sha256": "934d9ede97d615279386f22abf0958601e225e7bf8935f7eba0e8c508fb99609"
     },
     {
       "path": "Tests/VoxeliaCoreTests/ImageSemanticTests.swift",
@@ -1631,8 +1631,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 319352,
-      "sha256": "170e2f15eb78f6559db7c69db17a4ea58f5efa565705a0964fcc931c09dcac72"
+      "size": 321091,
+      "sha256": "3addc0486966e863f93bb1b8c20c916c6746a58530bf60fcae8097024f5b9d9a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",

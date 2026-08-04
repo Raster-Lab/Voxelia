@@ -680,7 +680,7 @@ struct ImageRegionTests {
         #expect(clipped.upperBounds.allSatisfy { $0 == 4 })
     }
 
-    @Test("[Unit][VOX-RGN-002] rejects a rank mismatch")
+    @Test("[Unit][VOX-RGN-002][VOX-ERR-001] rejects a rank mismatch")
     func rejectsRankMismatch() {
         #expect(throws: RegionError.rankMismatch) {
             try ImageRegion(lowerBounds: [0, 0], upperBounds: [1])
@@ -745,14 +745,20 @@ struct ImageRegionTests {
         #expect(decoded == region)
     }
 
-    @Test("[Unit][VOX-RGN-002] decoding rejects a rank mismatch")
+    @Test("[Unit][VOX-RGN-002][VOX-ERR-001] decoding rejects a rank mismatch")
     func decodingRejectsRankMismatch() {
         let invalidRegion = Data(
             #"{"lowerBounds":[0,0],"upperBounds":[1]}"#.utf8
         )
 
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(ImageRegion.self, from: invalidRegion)
+        do {
+            _ = try JSONDecoder().decode(ImageRegion.self, from: invalidRegion)
+            #expect(Bool(false), "Expected rank-mismatched region to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.isEmpty)
+            #expect(context.underlyingError as? RegionError == .rankMismatch)
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 

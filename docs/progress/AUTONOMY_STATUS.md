@@ -1,6 +1,6 @@
 # Voxelia autonomous progress ledger
 
-Last updated: 2026-08-03 (Asia/Kolkata)
+Last updated: 2026-08-04 (Asia/Kolkata)
 
 ## Goal
 
@@ -1210,7 +1210,7 @@ the live package graph and Accepted authority before source selection.
 
 | Family | Current accepted evidence | Disposition |
 |---|---|---|
-| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence proves direct typed rejection and decoded case/context/underlying-error preservation for invalid metadata; `ImageShape` also proves exact typed failure for derived-count overflow and expected/actual rank mismatch at its index-containment boundary. `ImageSemantic` proves exact typed wire-decoding rejection with root-versus-nested coding paths. `SemanticVersion` proves all five direct-construction error cases and decoded root-context cause preservation for one negative component plus both identifier families. | This is Core invalid-data, typed arithmetic and typed operation-input evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
+| `VOX-ERR-001` | The controlled `DataModelError` sketch is implemented exactly, while `ShapeError`, `RegionError` and other specialised typed errors carry the invalid-data behavior already exercised by focused Core tests. `ScalarFormat`, `ComponentDescriptor` and `ImageShape` evidence proves direct typed rejection and decoded case/context/underlying-error preservation for invalid metadata; `ImageShape` also proves exact typed failure for derived-count overflow and expected/actual rank mismatch at its index-containment boundary. `ImageSemantic` proves exact typed wire-decoding rejection with root-versus-nested coding paths. `SemanticVersion` proves all five direct-construction error cases and decoded root-context cause preservation for one negative component plus both identifier families. `ImageRegion` proves exact direct typed lower/upper-rank-mismatch rejection at construction and decoded root-context `dataCorrupted` preservation of the same underlying `.rankMismatch` cause. | This is Core invalid-data, typed arithmetic and typed operation-input evidence only. Allocation, live storage-capability, cancellation, backend, shader and convergence failure paths do not yet exist in their owning layers or remain behind Proposed contracts. Expanding a speculative global error enum is not authorised. |
 | `VOX-SEC-001` | `ImageShape` validates positive external extents and checked element-count multiplication. `ImageRegion` validates ranks, bounds, containment, translation, subtraction and accumulated count arithmetic with focused boundary tests. | Stride, byte-offset, allocation-size and memory-access closure requires the blocked storage/descriptor/read contracts. Current checks support but do not complete the requirement. |
 | `VOX-SEC-002` | Host strict-memory builds of product and test targets, the available Apple destination matrix, manifest/configuration checks and the explicit empty inventory found no compiler-classified unsafe construct, Swift `unsafe` marker, SwiftPM unsafe flag or weakened compiler-safety setting. | The advisory always-green workflow inventory is replaced by a deterministic fail-closed repository gate. The visionOS platform-component gap prevents treating supported-destination evidence or full M1 acceptance as complete. |
 | `VOX-CON-003` | Current canonical Core descriptors are immutable checked-`Sendable` values, strict Swift 6 mode is enabled and representative compile-time transfer assertions exist. | Storage/data descriptor transfer cannot close until the Proposed storage contracts are accepted and implemented. No storage or cancellation API is started here. |
@@ -2008,6 +2008,18 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   not field-specific paths, canonical SemVer JSON/wire, duplicate-key handling,
   resource limits, schema handling, privacy/redaction, exact error vocabulary,
   global requirement completion or M2 version use.
+- Closed the existing `ImageRegion` lower/upper-rank-mismatch constructor and
+  decoder evidence branch without a production change. The direct and decoded
+  rank-mismatch tests now carry `VOX-ERR-001` traceability; the direct test
+  retains its exact `RegionError.rankMismatch` assertion and the decoding test
+  now proves root-context `DecodingError.dataCorrupted` with the same
+  underlying `.rankMismatch` cause instead of a broad `DecodingError` match.
+  This is lower/upper collection rank-compatibility evidence only, not
+  expected/actual rank payloads, field-specific paths, completion of all
+  `VOX-RGN-002`, storage/access/offset safety, `VOX-SEC-001`, global
+  `VOX-ERR-001` or `VOX-VAL-001`, canonical JSON or the empty-read policy.
+  Inverted bounds, arithmetic overflow, extent construction, containment,
+  translation and clipping evidence remains separate and unchanged.
 
 ## Verification evidence
 
@@ -4058,6 +4070,16 @@ strict format lint for the single changed test file passed. No production
 source, public API, direct dependant, complete Swift suite, controlled baseline
 or Proposed/Draft contract changed.
 
+`swift test --filter '(rejectsRankMismatch|decodingRejectsRankMismatch)'`
+executed exactly the two `ImageRegion` rank-mismatch tests. The direct
+constructor test passed its exact `RegionError.rankMismatch` assertion, and the
+decoding test proved root-context `DecodingError.dataCorrupted` with an empty
+coding path and the same underlying `.rankMismatch` cause. The owning
+`swift build --target VoxeliaCore`, strict format lint for the single changed
+test file and the requirement-index check passed. No production source, public
+API, direct dependant, complete Swift suite, controlled baseline or
+Proposed/Draft contract changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -4540,22 +4562,23 @@ or Proposed/Draft contract changed.
 
 ## Exact next action
 
-Close only the existing `ImageRegion` lower/upper-rank-mismatch constructor and
-decoder evidence branch without changing production API. Add `VOX-ERR-001`
-traceability to the direct and decoded rank-mismatch tests, retaining the exact
-direct `RegionError.rankMismatch` assertion and replacing the broad decoding
-assertion with root-context `DecodingError.dataCorrupted` plus underlying
-`.rankMismatch` evidence. Record this as lower/upper collection rank
-compatibility evidence only, not expected/actual rank payloads, field-specific
-paths, completion of all `VOX-RGN-002`, storage/access/offset safety,
-`VOX-SEC-001`, global `VOX-ERR-001` or `VOX-VAL-001`, canonical JSON or the
-empty-read policy. Keep inverted bounds, arithmetic overflow, extent construction,
-containment, translation and clipping separate; do not change source/API,
-controlled `v0.1.1` baselines or Proposed/Draft contracts.
+Close only the existing `ImageRegion` inverted-bounds constructor and decoder
+evidence branch without changing production API. Add `VOX-ERR-001` traceability
+to the direct and decoded inverted-bounds tests, retaining the exact direct
+`RegionError.invertedBounds(axis:lower:upper:)` payload assertion and replacing
+the broad decoding assertion with root-context `DecodingError.dataCorrupted`
+plus the same underlying `.invertedBounds` payload evidence. Record this as
+per-axis bound-ordering evidence only, not exhaustive multi-axis ordering,
+field-specific paths, completion of all `VOX-RGN-002`, storage/access/offset
+safety, `VOX-SEC-001`, global `VOX-ERR-001` or `VOX-VAL-001`, canonical JSON or
+the empty-read policy. Keep rank mismatch, arithmetic overflow, extent
+construction, containment, translation and clipping separate; do not change
+source/API, controlled `v0.1.1` baselines or Proposed/Draft contracts.
 
 ## Test policy for the next action
 
-- Run only `swift test --filter '(rejectsRankMismatch|decodingRejectsRankMismatch)'`,
+- Run only
+  `swift test --filter '(rejectsInvertedBounds|decodingRejectsInvertedBounds)'`,
   the owning
   `swift build --target VoxeliaCore`, strict format lint for
   `Tests/VoxeliaCoreTests/ImageRegionTests.swift`, requirement-index and
