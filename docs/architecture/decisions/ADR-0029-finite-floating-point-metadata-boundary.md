@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0029"
 title: "Finite floating-point metadata boundary"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -62,16 +62,15 @@ boundary because not every use of `Double` in the library necessarily shares
 that policy, and a generic public finite-number primitive would exceed the
 governed metadata correction.
 
-This proposal selects one independently valid Core leaf and the minimum
+This record selects one independently valid Core leaf and the minimum
 controlled correction required to use it. It does not authorise the recursive
 `MetadataValue`, metadata entries or collections, a canonical JSON byte
 ingress, a decimal-number type, arithmetic, unit semantics or source-metadata
-conversion. Its Proposed status does not authorise source or controlled-
-document changes.
+conversion. It was reviewed and accepted by the project owner on 2026-08-04.
 
 ## Decision
 
-If this ADR is accepted, `VoxeliaCore` will own these public values:
+`VoxeliaCore` owns these public values:
 
 ```swift
 public enum MetadataFloatingPointError: Error, Sendable, Equatable {
@@ -358,16 +357,17 @@ After acceptance:
    evidence; and
 6. update traceability, changelog and release-integrity evidence.
 
-No migration step may begin while this ADR remains Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance and are
+executed in order through the progress ledger; steps 4 and 5 remain gated on
+their named decisions.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. If accepted, it resolves only the raw floating-point metadata policy and
-payload correction through the controlled migration above. It does not select
-a complete metadata schema, canonical JSON algorithm, floating-point execution
-environment or exceptional-value vocabulary. While Proposed, it has no
-supersession effect.
+This ADR neither supersedes nor is superseded by another file-backed ADR. It
+resolves only the raw floating-point metadata policy and payload correction
+through the controlled migration above. It does not select a complete
+metadata schema, canonical JSON algorithm, floating-point execution
+environment or exceptional-value vocabulary.
 
 ## References
 

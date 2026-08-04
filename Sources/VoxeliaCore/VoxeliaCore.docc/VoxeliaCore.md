@@ -75,6 +75,8 @@ storage semantics.
 - ``MetadataKey``
 - ``AnyMetadataKey``
 - ``MetadataKeyError``
+- ``MetadataFloatingPoint``
+- ``MetadataFloatingPointError``
 - ``CodedConcept``
 - ``CodedConceptError``
 

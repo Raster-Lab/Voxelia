@@ -39,7 +39,7 @@ unallocated numeric identifier is `ADR-0042`.
 | [ADR-0026](ADR-0026-ray-axis-aligned-bounds-intersection.md) | Accepted | Ray to axis-aligned bounds intersection |
 | [ADR-0027](ADR-0027-frame-geometry-anchor-index-boundary.md) | Accepted | Frame geometry anchor-index boundary |
 | [ADR-0028](ADR-0028-canonical-instant-boundary.md) | Accepted | Canonical instant boundary |
-| [ADR-0029](ADR-0029-finite-floating-point-metadata-boundary.md) | Proposed | Finite floating-point metadata boundary |
+| [ADR-0029](ADR-0029-finite-floating-point-metadata-boundary.md) | Accepted | Finite floating-point metadata boundary |
 | [ADR-0030](ADR-0030-owned-binary-metadata-boundary.md) | Proposed | Owned binary metadata boundary |
 | [ADR-0031](ADR-0031-bounded-recursive-metadata-value-boundary.md) | Proposed | Bounded recursive metadata value boundary |
 | [ADR-0032](ADR-0032-required-metadata-entry-privacy-attachment.md) | Proposed | Required metadata-entry privacy attachment |

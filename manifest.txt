@@ -80,6 +80,7 @@ Sources/VoxeliaCore/Public/ImageRegion.swift
 Sources/VoxeliaCore/Public/ImageSemantic.swift
 Sources/VoxeliaCore/Public/ImageShape.swift
 Sources/VoxeliaCore/Public/LookupTableDescriptor.swift
+Sources/VoxeliaCore/Public/MetadataFloatingPoint.swift
 Sources/VoxeliaCore/Public/MetadataKey.swift
 Sources/VoxeliaCore/Public/MetadataPrivacyClass.swift
 Sources/VoxeliaCore/Public/ProvenanceID.swift
@@ -199,6 +200,7 @@ Tests/VoxeliaCoreTests/ImageRegionTests.swift
 Tests/VoxeliaCoreTests/ImageSemanticTests.swift
 Tests/VoxeliaCoreTests/ImageShapeTests.swift
 Tests/VoxeliaCoreTests/LookupTableDescriptorTests.swift
+Tests/VoxeliaCoreTests/MetadataFloatingPointTests.swift
 Tests/VoxeliaCoreTests/MetadataKeyTests.swift
 Tests/VoxeliaCoreTests/MetadataPrivacyClassTests.swift
 Tests/VoxeliaCoreTests/ProvenanceIDTests.swift
@@ -308,6 +310,7 @@ docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
 docs/architecture/corrections/CCR-0004-adr-0027-frame-anchor-index-boundary.md
 docs/architecture/corrections/CCR-0005-adr-0028-canonical-instant-boundary.md
+docs/architecture/corrections/CCR-0006-adr-0029-finite-floating-point-metadata.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
 docs/architecture/decisions/ADR-0023-value-transform-shape.md

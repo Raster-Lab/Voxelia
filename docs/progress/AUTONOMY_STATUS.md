@@ -133,11 +133,16 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   implemented in `VoxeliaCore`; the recursive `MetadataValue`,
   `ProvenanceRecord`, canonical JSON bytes, clock acquisition, arithmetic
   and ordering remain blocked by their own contracts.
-- Proposed `ADR-0029` selects a Core-owned `MetadataFloatingPoint` for the raw
-  metadata `Double`: finite binary64 only, positive-zero canonical identity,
-  exact preservation of every other finite bit pattern and scalar-number
-  Codable without claiming canonical JSON bytes. It is not accepted and does
-  not authorise source or the recursive metadata aggregate.
+- Governance: `ADR-0029` was accepted by the project owner on 2026-08-04,
+  selecting the Core-owned `MetadataFloatingPoint` for the raw metadata
+  `Double`: finite binary64 only, positive-zero canonical identity, exact
+  preservation of every other finite bit pattern and strict scalar-number
+  Codable without claiming canonical JSON bytes. `CCR-0006` records the
+  controlled CDMS corrections (the `floatingPoint(MetadataFloatingPoint)`
+  case, the resolved section-34.6 finiteness invariant and Appendix A). The
+  wrapper and its value-redacted typed error are implemented in
+  `VoxeliaCore`; the recursive metadata aggregate and canonical JSON remain
+  blocked by their own contracts.
 - Proposed `ADR-0030` selects a Core-owned `MetadataBinary` for the raw
   metadata `Data`: one owned `ContiguousArray<UInt8>` snapshot, exact ordered-
   byte identity and strict padded standard-Base64 scalar Codable. It assigns
@@ -2510,6 +2515,22 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   topics page gained the canonical-time section. `MetadataValue`,
   `ProvenanceRecord`, canonical JSON bytes, clock acquisition, arithmetic
   and ordering remain blocked or deferred by design.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0029` and
+  executed its authorised migration in one change: controlled correction
+  `CCR-0006` (the corrected metadata case, the resolved finiteness
+  invariant and Appendix A additions) and the
+  `MetadataFloatingPoint`/`MetadataFloatingPointError` leaf in
+  `VoxeliaCore`. The initializer classifies through the binary64 bit
+  pattern: NaN of any sign or payload and both infinities are rejected
+  with the one value-redacted error, negative zero stores as the exact
+  positive-zero bit pattern and every other finite pattern, including
+  subnormals, is preserved unchanged with no arithmetic that could flush
+  it. Equality and hashing are exact stored-bit identity. The strict
+  single-number Codable revalidates on decode, so even a decoder
+  configured with non-conforming float strings cannot create a non-finite
+  wrapper. The DocC metadata topics gained both types. The recursive
+  aggregate, entries, collections, privacy attachment and canonical JSON
+  bytes remain blocked by their own contracts.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -4952,6 +4973,22 @@ Swift files, the documentation gate including `CCR-0005`, the static
 package-graph and prohibited-import checks and the requirement-index
 check passed.
 
+`swift test --filter MetadataFloatingPoint` executed all six tests in the
+new owning Core suite: exact bit-pattern preservation for representative
+extremes, subnormals and 512 deterministically generated finite patterns;
+exact `.nonFiniteValue` rejection of quiet and signalling NaNs across
+signs and payloads and both infinities; signed-zero canonicalisation with
+one equality, hashing, set and sorted-key encoded representation;
+reflexive equality with coherent set behaviour and Sendable evidence;
+exact scalar round trips plus integer/fraction/exponent/negative-zero
+alias decoding without canonical-spelling claims; and strict wrong-shape
+rejections plus non-conforming-float revalidation with the nested coding
+path, typed underlying cause and no wrapper-originated value disclosure.
+The owning `swift build --target VoxeliaCore`, strict format lint for the
+two new Swift files, the documentation gate including `CCR-0006`, the
+static package-graph and prohibited-import checks and the
+requirement-index check passed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5436,19 +5473,19 @@ check passed.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0028` are
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0029` are
 accepted and fully executed. The `ImageDescriptor` aggregate remains
 blocked by its other prerequisites: the `CoordinateSpaceDescriptor` unit
 policy and classification, affine shape and construction tolerance,
 rectilinear binding, the remaining frame-set collection contracts and
 canonical JSON. The next unblocked step is another governance decision:
 surface the next Proposed contract the user wishes to review (the metadata
-chain continues with `ADR-0029` `MetadataFloatingPoint` and `ADR-0030`
-`MetadataBinary`, then the recursive-value, privacy, collection, read,
-canonical-JSON and identity decisions `ADR-0031` through `ADR-0037`) with
-its decision questions, following the established interactive acceptance
-flow. Do not accept ADRs autonomously, implement speculative source or run
-blocked storage/metadata probes while those decisions are open.
+chain continues with `ADR-0030` `MetadataBinary`, then the
+recursive-value, privacy, collection, read, canonical-JSON and identity
+decisions `ADR-0031` through `ADR-0037`) with its decision questions,
+following the established interactive acceptance flow. Do not accept ADRs
+autonomously, implement speculative source or run blocked
+storage/metadata probes while those decisions are open.
 
 ## Test policy for the next action
 
