@@ -42,14 +42,24 @@ struct MetadataPrivacyClassTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] decoding rejects unknown and wrong-shaped values")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] decoding rejects unknown and wrong-shaped values")
     func decodingRejectsInvalidValues() {
         for json in [#""unknown""#, "1", "true", "null", "{}", "[]"] {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+            do {
+                _ = try JSONDecoder().decode(
                     MetadataPrivacyClass.self,
                     from: Data(json.utf8)
                 )
+                #expect(Bool(false), "Expected an invalid classification to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+                #expect(
+                    context.debugDescription
+                        == "A recognised metadata privacy classification is required."
+                )
+                #expect(context.underlyingError == nil)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
         }
     }
