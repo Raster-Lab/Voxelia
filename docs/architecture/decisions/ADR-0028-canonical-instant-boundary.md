@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0028"
 title: "Canonical instant boundary"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -50,15 +50,15 @@ oracle: their accepted forms and fractional parsing have varied by platform
 release, and `Date` cannot preserve the exact decimal spelling or full
 nanosecond precision across the selected year domain.
 
-This proposal selects one independently valid Core leaf and the minimum
-controlled corrections required to use it. It does not authorise the recursive
-metadata model, provenance record, a canonical JSON envelope, clock acquisition,
-date arithmetic or external timestamp normalisation. Its Proposed status does
-not authorise implementation or controlled-document changes.
+This record selects one independently valid Core leaf and the minimum
+controlled corrections required to use it. It does not authorise the
+recursive metadata model, provenance record, a canonical JSON envelope,
+clock acquisition, date arithmetic or external timestamp normalisation. It
+was reviewed and accepted by the project owner on 2026-08-04.
 
 ## Decision
 
-If this ADR is accepted, `VoxeliaCore` will own these public values:
+`VoxeliaCore` owns these public values:
 
 ```swift
 public enum CanonicalInstantError: Error, Sendable, Equatable {
@@ -215,8 +215,9 @@ this instant's exact ASCII characters to appear unescaped in canonical record
 bytes. It remains unaccepted and does not change this leaf's ordinary scalar-
 string Codable.
 
-After acceptance, the controlled metadata case and provenance field will be
-corrected to:
+With acceptance, the controlled metadata case and provenance field are
+corrected through the project's controlled-correction process, without
+editing any immutable `v0.1.1` baseline file, to:
 
 ```swift
 case instant(CanonicalInstant)
@@ -424,16 +425,17 @@ After acceptance:
    accepted; and
 6. update traceability, changelog and release-integrity evidence.
 
-No migration step may begin while this ADR remains Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance and are
+executed in order through the progress ledger; step 5 remains gated on its
+named decisions.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. If accepted, it resolves only the two raw instant-string boundaries and
-their shared leaf contract through the controlled corrections in the Migration
-section. It does not supersede canonical JSON, metadata, provenance, execution,
-privacy or distributed-format decisions. While Proposed, it has no supersession
-effect.
+This ADR neither supersedes nor is superseded by another file-backed ADR. It
+resolves only the two raw instant-string boundaries and their shared leaf
+contract through the controlled corrections in the Migration section. It
+does not supersede canonical JSON, metadata, provenance, execution, privacy
+or distributed-format decisions.
 
 ## References
 

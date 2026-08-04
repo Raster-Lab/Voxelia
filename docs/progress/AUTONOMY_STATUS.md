@@ -122,10 +122,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   leaf uses exact accepted UTF-8 pair identity without claiming canonical-
   digest normalisation. None of the proposals authorises aggregate or digest
   source.
-- Proposed `ADR-0028` selects a shared Core-owned `CanonicalInstant` for the raw
-  metadata and provenance strings: one bounded uppercase zero-offset RFC 3339-
-  derived profile, typed value-redacted errors and strict scalar-string Codable.
-  It is not accepted and does not authorise source or either aggregate.
+- Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
+  selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
+  provenance strings: one bounded uppercase zero-offset RFC 3339-derived
+  profile on a leap-unaware 86,400-second grid, ten payload-free typed
+  errors with fixed precedence and strict scalar-string Codable. `CCR-0005`
+  records the controlled CDMS corrections (section 7.7 profile binding, the
+  `instant(CanonicalInstant)` case, the `createdAt: CanonicalInstant` field
+  and Appendix A). The leaf and its manual bounded ASCII parser are
+  implemented in `VoxeliaCore`; the recursive `MetadataValue`,
+  `ProvenanceRecord`, canonical JSON bytes, clock acquisition, arithmetic
+  and ordering remain blocked by their own contracts.
 - Proposed `ADR-0029` selects a Core-owned `MetadataFloatingPoint` for the raw
   metadata `Double`: finite binary64 only, positive-zero canonical identity,
   exact preservation of every other finite bit pattern and scalar-number
@@ -2490,6 +2497,19 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   page gained the frame-geometry section. `FrameGeometry`,
   `FrameSetGeometry`, frame-set ordering, sparse/enhanced coverage and Core
   shape-bound binding remain blocked by their own contracts.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0028` and
+  executed its authorised migration in one change: controlled correction
+  `CCR-0005` (CDMS section-7.7 profile binding, the corrected metadata
+  case and provenance field, Appendix A additions) and the
+  `CanonicalInstant`/`CanonicalInstantError` leaf in `VoxeliaCore`. The
+  manual parser materialises at most 31 UTF-8 bytes, validates the exact
+  version-one grammar with proleptic Gregorian dates and the documented
+  error precedence, canonicalises nothing, rejects rather than rewrites
+  every alias and never echoes the supplied text. The strict single-string
+  Codable revalidates on decode with the typed underlying cause. The DocC
+  topics page gained the canonical-time section. `MetadataValue`,
+  `ProvenanceRecord`, canonical JSON bytes, clock acquisition, arithmetic
+  and ordering remain blocked or deferred by design.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -4916,6 +4936,22 @@ the static package-graph check proving Spatial still has no target
 dependency, the prohibited-import check and the requirement-index check
 passed.
 
+`swift test --filter CanonicalInstant` executed all eight tests in the new
+owning Core suite: the exact canonical profile including year boundaries
+and all nine fractional widths; a 400-year proleptic Gregorian cycle
+oracle over 4,800 months plus the 1900/2000/2100 century fixtures; exact
+typed out-of-range, syntax, length and fraction rejections including
+offsets, lowercase separators, week dates, RFC 9557 suffixes and Unicode
+digits; the deterministic error precedence over multiply defective
+fixtures; a deterministic ~2,600-case ASCII pseudo-fuzz through the
+maximum boundary and oversized prefixes proving totality without text
+leakage; exact single-string round trips; and strict decode rejections
+plus revalidation with payload-free underlying causes. The owning
+`swift build --target VoxeliaCore`, strict format lint for the two new
+Swift files, the documentation gate including `CCR-0005`, the static
+package-graph and prohibited-import checks and the requirement-index
+check passed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5400,20 +5436,19 @@ passed.
 
 ## Exact next action
 
-The shape-conflict decisions (`ADR-0021` through `ADR-0023`), the register
-reconciliation (`ADR-0024`), the ray/bounds intersection contract
-(`ADR-0026`) and the frame anchor-index boundary (`ADR-0027`) are accepted
-and fully executed. The `ImageDescriptor` aggregate remains blocked by its
-other prerequisites: the `CoordinateSpaceDescriptor` unit policy and
-classification, affine shape and construction tolerance, rectilinear
-binding, the remaining frame-set collection contracts and canonical JSON.
-The next unblocked step is another governance decision: surface the next
-Proposed contract the user wishes to review (the metadata chain `ADR-0028`
-onward, whose canonical-instant, floating-point and binary leaves also gate
-canonical JSON) with its decision questions, following the established
-interactive acceptance flow. Do not accept ADRs autonomously, implement
-speculative source or run blocked storage/metadata probes while those
-decisions are open.
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0028` are
+accepted and fully executed. The `ImageDescriptor` aggregate remains
+blocked by its other prerequisites: the `CoordinateSpaceDescriptor` unit
+policy and classification, affine shape and construction tolerance,
+rectilinear binding, the remaining frame-set collection contracts and
+canonical JSON. The next unblocked step is another governance decision:
+surface the next Proposed contract the user wishes to review (the metadata
+chain continues with `ADR-0029` `MetadataFloatingPoint` and `ADR-0030`
+`MetadataBinary`, then the recursive-value, privacy, collection, read,
+canonical-JSON and identity decisions `ADR-0031` through `ADR-0037`) with
+its decision questions, following the established interactive acceptance
+flow. Do not accept ADRs autonomously, implement speculative source or run
+blocked storage/metadata probes while those decisions are open.
 
 ## Test policy for the next action
 

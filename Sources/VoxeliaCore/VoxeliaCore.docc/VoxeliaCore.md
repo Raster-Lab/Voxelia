@@ -59,6 +59,11 @@ storage semantics.
 - ``ValueTransformComposition``
 - ``LookupTableDescriptor``
 
+### Canonical time
+
+- ``CanonicalInstant``
+- ``CanonicalInstantError``
+
 ### Content identity
 
 - ``DigestAlgorithm``
