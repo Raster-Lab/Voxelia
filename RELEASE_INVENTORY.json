@@ -386,8 +386,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/ContentID.swift",
-      "size": 22088,
-      "sha256": "a98b7ad85b9dae020b1a2ee0dd0f611aef55ef90b6a7c158563b8b4a6168f93d"
+      "size": 24806,
+      "sha256": "f02ac7b7521156c83c0df07010103ecdd56d659143fb0bb2ba4ef9bbb2515d85"
     },
     {
       "path": "Sources/VoxeliaCore/Public/ContentIdentityTaxonomy.swift",
@@ -1093,6 +1093,11 @@
       "path": "Tests/VoxeliaCoreTests/ComponentDescriptorTests.swift",
       "size": 7707,
       "sha256": "175d19997031f8f6611c0aae37ea1b203823e9365d83cc0b6aac8db0f6057d00"
+    },
+    {
+      "path": "Tests/VoxeliaCoreTests/ContentIDSampleBytesTests.swift",
+      "size": 5677,
+      "sha256": "0705d16d9cd55740338b572a84e4b6f7a881bdef4fb6061c37a4fe2c4b6131d4"
     },
     {
       "path": "Tests/VoxeliaCoreTests/ContentIDTests.swift",
@@ -1975,9 +1980,14 @@
       "sha256": "bf978db126b578182aec84ebb34cc73768029de49fdc8678409b41589eeb6320"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0049-sample-bytes-content-projection.md",
+      "size": 4535,
+      "sha256": "298cc509783060e25e68781f959e38d99c19fe5f537389371a906e1598156f62"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 6162,
-      "sha256": "976a315f516dbbd255319a8aa886c6a892f37801b4cc74b214a9b3cfa6319392"
+      "size": 6331,
+      "sha256": "004b53259ef68b511d1580d4f6ce7d037f279076a999c6d01563c29ff41c27bb"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2061,8 +2071,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 444502,
-      "sha256": "5d73dc0f22c33d662ce5bd585bacf11a8a6cce72833dd1a7268e947592f674ef"
+      "size": 446199,
+      "sha256": "3b31bb9465b8a8b3cd90691864860be4fd28765ee8213acea4c1e64710e4e94e"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2421,8 +2431,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 23874,
-      "sha256": "90fbecda61d78e9b03e22cd5b6c88f956fe78f1c2cd508c4f7909a9bc3bcc68b"
+      "size": 24001,
+      "sha256": "a87c879b4dd18baa5adfbe0ed093f135fcfc48c88b550c4b7dd3f32ac3fb4f1b"
     }
   ]
 }

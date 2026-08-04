@@ -163,8 +163,9 @@ public enum ContentIdentityError: Error, Sendable, Equatable {
 /// owned digest bytes; the same discriminators are bound into the digest
 /// preimage by the `ADR-0036` frame, so an identity can never be confused
 /// with a raw checksum or another SHA-256 use. There is no public
-/// unchecked initializer: version one compiles exactly one accepted
-/// generation/verification tuple. The digest is sensitive-derived material
+/// unchecked initializer: the compiled accepted set holds exactly the
+/// `ADR-0036` complete-metadata-record tuple and the `ADR-0049`
+/// sample-bytes tuple. The digest is sensitive-derived material
 /// by default — an equality and linkage oracle that proves no authorship,
 /// authenticity, permission or de-identification — and it must not be
 /// interpolated or reflected into logs, telemetry, URLs, filenames or user
@@ -201,6 +202,14 @@ extension ContentID {
         version: ContentProjectionVersion(major: 1, minor: 0)
     )
 
+    /// The version-one sample-bytes projection registered by `ADR-0049`
+    /// over the exact canonical packed interleaved decoded logical bytes
+    /// of one complete binding.
+    public static let sampleBytesProjection = ContentProjectionReference(
+        compiledIdentifier: "org.voxelia.sample-bytes",
+        version: ContentProjectionVersion(major: 1, minor: 0)
+    )
+
     /// The exact SHA-256 digest byte count required by the accepted tuple.
     public static let sha256DigestByteCount = 32
 
@@ -219,10 +228,12 @@ extension ContentID {
         guard algorithm == .sha256 else {
             throw ContentIdentityError.unsupportedAlgorithm
         }
-        guard
-            scope == .serialisedObject,
-            projection == Self.metadataCompleteRecordProjection
-        else {
+        let acceptedTuple =
+            (scope == .serialisedObject
+                && projection == Self.metadataCompleteRecordProjection)
+            || (scope == .sampleBytes
+                && projection == Self.sampleBytesProjection)
+        guard acceptedTuple else {
             throw ContentIdentityError.unsupportedProjection
         }
         guard digestByteCount == Self.sha256DigestByteCount else {
@@ -243,25 +254,40 @@ extension ContentID {
         }
     }
 
-    /// The exact 109-byte version-one identity frame header.
-    static func completeRecordFrameHeader(payloadByteCount: UInt64) -> [UInt8] {
+    /// The exact version-one identity frame header, length-prefixing the
+    /// algorithm token, scope token and projection identifier so the two
+    /// registered preimages can never collide by construction.
+    static func frameHeader(
+        scope: ContentScope,
+        projection: ContentProjectionReference,
+        payloadByteCount: UInt64
+    ) -> [UInt8] {
+        let scopeBytes = Array(scope.rawValue.utf8)
+        let projectionBytes = Array(projection.identifier.utf8)
         var header = [UInt8]()
-        header.reserveCapacity(109)
+        header.reserveCapacity(57 + scopeBytes.count + projectionBytes.count)
         header.append(contentsOf: Array(Self.frameMagic.utf8))
         header.append(0)
         appendUInt32BigEndian(Self.frameVersion, to: &header)
         appendUInt32BigEndian(6, to: &header)
         header.append(contentsOf: Array("sha256".utf8))
-        appendUInt32BigEndian(16, to: &header)
-        header.append(contentsOf: Array("serialisedObject".utf8))
-        appendUInt32BigEndian(36, to: &header)
-        header.append(
-            contentsOf: Array("org.voxelia.metadata-complete-record".utf8)
-        )
-        appendUInt32BigEndian(1, to: &header)
-        appendUInt32BigEndian(0, to: &header)
+        appendUInt32BigEndian(UInt32(scopeBytes.count), to: &header)
+        header.append(contentsOf: scopeBytes)
+        appendUInt32BigEndian(UInt32(projectionBytes.count), to: &header)
+        header.append(contentsOf: projectionBytes)
+        appendUInt32BigEndian(projection.version.major, to: &header)
+        appendUInt32BigEndian(projection.version.minor, to: &header)
         appendUInt64BigEndian(payloadByteCount, to: &header)
         return header
+    }
+
+    /// The exact 109-byte version-one complete-record frame header.
+    static func completeRecordFrameHeader(payloadByteCount: UInt64) -> [UInt8] {
+        frameHeader(
+            scope: .serialisedObject,
+            projection: Self.metadataCompleteRecordProjection,
+            payloadByteCount: payloadByteCount
+        )
     }
 
     /// Computes the complete canonical metadata record identity over the
@@ -278,23 +304,60 @@ extension ContentID {
     public static func completeMetadataRecordIdentity(
         overCanonicalBytes canonicalBytes: [UInt8]
     ) throws -> ContentID {
+        try computeIdentity(
+            scope: .serialisedObject,
+            projection: Self.metadataCompleteRecordProjection,
+            overPayloadBytes: canonicalBytes
+        )
+    }
+
+    /// Computes the sample-bytes identity over the exact canonical packed
+    /// interleaved decoded logical bytes of one complete binding.
+    ///
+    /// The caller must supply bytes conforming to the accepted `ADR-0040`
+    /// and `ADR-0042` decoded profile; the identity covers exactly those
+    /// bytes and proves nothing about the descriptor, shape, provenance
+    /// or any encoded representation. The framed preimage, chunked
+    /// hashing, cancellation cadence and failure discipline match the
+    /// complete-record computation.
+    public static func sampleBytesIdentity(
+        overCanonicalPackedBytes packedBytes: [UInt8]
+    ) throws -> ContentID {
+        try computeIdentity(
+            scope: .sampleBytes,
+            projection: Self.sampleBytesProjection,
+            overPayloadBytes: packedBytes
+        )
+    }
+
+    private static func computeIdentity(
+        scope: ContentScope,
+        projection: ContentProjectionReference,
+        overPayloadBytes payloadBytes: [UInt8]
+    ) throws -> ContentID {
         if Task.isCancelled {
             throw ContentIdentityError.cancelled
         }
-        let payloadByteCount = UInt64(canonicalBytes.count)
-        let (frameByteCount, overflow) = payloadByteCount.addingReportingOverflow(109)
+        let payloadByteCount = UInt64(payloadBytes.count)
+        let header = frameHeader(
+            scope: scope,
+            projection: projection,
+            payloadByteCount: payloadByteCount
+        )
+        let (frameByteCount, overflow) = payloadByteCount.addingReportingOverflow(
+            UInt64(header.count)
+        )
         guard !overflow, frameByteCount <= Self.sha256FrameInputLimit else {
             throw ContentIdentityError.resourceLimitExceeded
         }
 
         var hasher = SHA256()
-        let header = completeRecordFrameHeader(payloadByteCount: payloadByteCount)
         header.withUnsafeBytes { hasher.update(bufferPointer: $0) }
 
         var offset = 0
-        while offset < canonicalBytes.count {
-            let end = min(offset + Self.hashChunkByteCount, canonicalBytes.count)
-            canonicalBytes[offset..<end].withUnsafeBytes {
+        while offset < payloadBytes.count {
+            let end = min(offset + Self.hashChunkByteCount, payloadBytes.count)
+            payloadBytes[offset..<end].withUnsafeBytes {
                 hasher.update(bufferPointer: $0)
             }
             offset = end
@@ -312,13 +375,14 @@ extension ContentID {
         }
         return ContentID(
             validatedAlgorithm: .sha256,
-            scope: .serialisedObject,
-            projection: Self.metadataCompleteRecordProjection,
+            scope: scope,
+            projection: projection,
             digestBytes: ContiguousArray(digest)
         )
     }
 
-    /// Verifies this identity against candidate canonical bytes.
+    /// Verifies this identity against candidate canonical bytes under
+    /// this record's own registered scope and projection.
     ///
     /// The complete candidate digest is calculated first; the fixed 32
     /// digest bytes are then compared with the platform timing-safe byte
@@ -327,8 +391,10 @@ extension ContentID {
     public func matchesDigest(
         ofCanonicalBytes canonicalBytes: [UInt8]
     ) throws -> Bool {
-        let candidate = try Self.completeMetadataRecordIdentity(
-            overCanonicalBytes: canonicalBytes
+        let candidate = try Self.computeIdentity(
+            scope: scope,
+            projection: projection,
+            overPayloadBytes: canonicalBytes
         )
         return storage.withUnsafeBufferPointer { expected in
             candidate.storage.withUnsafeBufferPointer { computed in

@@ -546,6 +546,32 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   increment the unblocked M2 queue is drained: result caching stays
   gated on a registered bytes-scope projection, and provenance capture
   stays gated on the `ADR-0038` prerequisites.
+- Fifteenth autonomous increment: authored and accepted `ADR-0049`
+  (sample-bytes content projection), the first record of the owner's
+  authorised three-decision-cluster continuation, and registered the
+  second compiled `ContentID` tuple in `VoxeliaCore`: algorithm
+  `sha256`, scope `sampleBytes`, projection `org.voxelia.sample-bytes`
+  version `1.0`, whose payload is the exact canonical packed
+  interleaved decoded logical bytes of one complete binding under the
+  accepted `ADR-0040`/`ADR-0042` profile. The version-one
+  `VOXELIA-CONTENT-ID` frame builder is generalised over the
+  length-prefixed scope token and projection identifier (92-byte header
+  for the new tuple, the unchanged 109-byte header for the complete
+  record), `validateAcceptedProfile` admits exactly the two registered
+  tuples with every crossed combination rejected as an unsupported
+  projection, `sampleBytesIdentity(overCanonicalPackedBytes:)` reuses
+  the shared chunked, cancellation-checked computation, and
+  `matchesDigest` now verifies under the record's own registered tuple.
+  Tests reproduce independently computed golden fixtures (24-byte
+  payload framed digest `6f57…2111`, raw negative control, the
+  identical payload under the complete-record frame, and the
+  empty-payload digest), pin the 92-byte header layout, prove
+  structural domain separation between the two projections, round-trip
+  the new wire and reject four crossed tuples; the existing `ContentID`
+  and coordinator suites re-passed unchanged. The
+  `descriptorAndSamples` scope stays honestly deferred because no
+  canonical descriptor byte projection exists, and ordinary `Codable`
+  output is not canonical under `ADR-0036`.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
