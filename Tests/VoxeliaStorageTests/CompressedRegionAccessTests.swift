@@ -97,28 +97,76 @@ struct CompressedRegionAccessTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] malformed representations are rejected")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] malformed representations are rejected")
     func malformedRepresentationsAreRejected() {
-        let invalidValues = [
+        let rootCorruptedValues = [
             #""unknown""#,
-            #"null"#,
-            #"1"#,
-            #"[]"#,
             #"{}"#,
             #"{"unexpected":{}}"#,
+            #"{"custom":{"namespace":"org.voxelia","name":"codec"},"extra":true}"#,
+        ]
+        for rootCorruptedValue in rootCorruptedValues {
+            expectDataCorruptedDecoding(json: rootCorruptedValue, path: [])
+        }
+
+        let customCorruptedValues = [
             #"{"custom":{"namespace":"org.voxelia"}}"#,
             #"{"custom":{"namespace":"org.voxelia","name":"codec","extra":true}}"#,
-            #"{"custom":{"namespace":"org.voxelia","name":"codec"},"extra":true}"#,
-            #"{"custom":{"namespace":1,"name":"codec"}}"#,
         ]
+        for customCorruptedValue in customCorruptedValues {
+            expectDataCorruptedDecoding(json: customCorruptedValue, path: ["custom"])
+        }
 
-        for invalidValue in invalidValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        do {
+            _ = try JSONDecoder().decode(
+                CompressedRegionAccess.self,
+                from: Data("null".utf8)
+            )
+            #expect(Bool(false), "Expected null to fail decoding.")
+        } catch DecodingError.valueNotFound {
+            // The keyed-container request rejects null after the string branch.
+        } catch {
+            #expect(Bool(false), "Expected valueNotFound, received \(error).")
+        }
+
+        for wrongShape in [#"1"#, #"[]"#] {
+            do {
+                _ = try JSONDecoder().decode(
                     CompressedRegionAccess.self,
-                    from: Data(invalidValue.utf8)
+                    from: Data(wrongShape.utf8)
                 )
+                #expect(Bool(false), "Expected a wrong-shaped value to fail decoding.")
+            } catch DecodingError.typeMismatch {
+                // The keyed-container request rejects non-object shapes.
+            } catch {
+                #expect(Bool(false), "Expected typeMismatch, received \(error).")
             }
+        }
+
+        do {
+            _ = try JSONDecoder().decode(
+                CompressedRegionAccess.self,
+                from: Data(#"{"custom":{"namespace":1,"name":"codec"}}"#.utf8)
+            )
+            #expect(Bool(false), "Expected a numeric namespace to fail decoding.")
+        } catch DecodingError.typeMismatch(_, let context) {
+            #expect(context.codingPath.map(\.stringValue) == ["custom", "namespace"])
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
+        }
+    }
+
+    private func expectDataCorruptedDecoding(json: String, path: [String]) {
+        do {
+            _ = try JSONDecoder().decode(
+                CompressedRegionAccess.self,
+                from: Data(json.utf8)
+            )
+            #expect(Bool(false), "Expected a malformed representation to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == path)
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 
