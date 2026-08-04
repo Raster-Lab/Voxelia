@@ -62,6 +62,11 @@ None.
 - ``SpatialBoundsError``
 - ``SpatialTransformKind``
 
+### Ray intersection
+
+- ``RayAxisAlignedBoundsIntersection3D``
+- ``RayIntersectionParameterFailureReason``
+
 ### Project documents
 
 - <doc:Architecture>

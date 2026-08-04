@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0026"
 title: "Ray to axis-aligned bounds intersection"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -46,15 +46,14 @@ miss with a failed numerical evaluation. Introducing an epsilon would make
 classification scale-dependent and would conflict with the project's explicit
 tolerance governance.
 
-This proposal selects one bounded public operation and a deterministic
-binary64 reference policy for review. It does not define ray-plane,
+This record selects one bounded public operation and a deterministic
+binary64 reference policy. It does not define ray-plane,
 ray-oriented-bounds, plane-plane, clipping or coordinate-transform overloads.
-Its Proposed status does not authorise implementation.
+It was reviewed and accepted by the project owner on 2026-08-04.
 
 ## Decision
 
-If this ADR is accepted, `VoxeliaSpatial` will add this computed result and
-query:
+`VoxeliaSpatial` adds this computed result and query:
 
 ```swift
 public struct RayAxisAlignedBoundsIntersection3D: Sendable, Hashable {
@@ -224,9 +223,9 @@ policy requires a distinct public API or an explicitly breaking compatibility
 change. This method remains permanently bound to `binary64-v1`; a wider test
 tolerance cannot silently turn it into a later version.
 
-Acceptance will establish the contract only for `Ray3D` and
-`AxisAlignedBounds3D`. No implementation may rely on this proposal while its
-status remains Proposed.
+Acceptance establishes the contract only for `Ray3D` and
+`AxisAlignedBounds3D`; the migration steps below are authorised as of the
+2026-08-04 acceptance and are executed through the progress ledger.
 
 ## Alternatives considered
 
@@ -399,18 +398,16 @@ After architecture and maintainer approval:
 7. run the affected formatting, build, documentation and test checks; and
 8. update traceability, progress and release-integrity evidence.
 
-No operation source, Swift regression test or implementation migration step may
-begin while this ADR remains Proposed. Proposal validation and repository-tool
-tests remain permitted and required.
+These migration steps are authorised as of the 2026-08-04 acceptance and are
+executed in order through the progress ledger.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. If accepted, it refines an intersection contract left unspecified by the
-governing documents without replacing those documents or any other decision.
-It is independent of proposed ADR-0024 and retains `ADR-0026` if that registry
-reconciliation is later accepted or rejected. While Proposed, it has no
-supersession effect.
+This ADR neither supersedes nor is superseded by another file-backed ADR. It
+refines an intersection contract left unspecified by the governing documents
+without replacing those documents or any other decision. It is independent
+of accepted ADR-0024 and retained `ADR-0026` through that registry
+reconciliation.
 
 ## References
 

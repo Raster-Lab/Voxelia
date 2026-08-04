@@ -15,6 +15,22 @@ public enum SpatialBoundsError: Error, Sendable, Equatable {
         minimum: Double,
         maximum: Double
     )
+
+    /// The selected ray-intersection entry parameter was not representable
+    /// as a finite binary64 value. Indices 0, 1, and 2 correspond to X, Y,
+    /// and Z respectively.
+    case rayIntersectionEntryParameterNotRepresentable(
+        axis: Int,
+        reason: RayIntersectionParameterFailureReason
+    )
+
+    /// The selected ray-intersection exit parameter was not representable
+    /// as a finite binary64 value. Indices 0, 1, and 2 correspond to X, Y,
+    /// and Z respectively.
+    case rayIntersectionExitParameterNotRepresentable(
+        axis: Int,
+        reason: RayIntersectionParameterFailureReason
+    )
 }
 
 /// Finite axis-aligned bounds in an explicit coordinate space.
@@ -206,6 +222,10 @@ private func invalidSpatialBoundsDecodingError(
         case .invertedBounds(let axis, _, _) where (0..<3).contains(axis):
             codingPath.append(SpatialBoundsCodingKey(["x", "y", "z"][axis]))
         case .invertedBounds:
+            break
+        case .rayIntersectionEntryParameterNotRepresentable,
+            .rayIntersectionExitParameterNotRepresentable:
+            // Intersection failures are query results, never decode causes.
             break
         }
     }

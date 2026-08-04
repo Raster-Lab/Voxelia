@@ -36,7 +36,7 @@ unallocated numeric identifier is `ADR-0042`.
 | [ADR-0023](ADR-0023-value-transform-shape.md) | Accepted | Value transform public shape |
 | [ADR-0024](ADR-0024-decision-register-reconciliation.md) | Accepted | Architecture decision register reconciliation |
 | [ADR-0025](ADR-0025-apple-ecosystem-only.md) | Accepted | Apple Silicon and Apple operating systems only (formerly ADR-0001) |
-| [ADR-0026](ADR-0026-ray-axis-aligned-bounds-intersection.md) | Proposed | Ray to axis-aligned bounds intersection |
+| [ADR-0026](ADR-0026-ray-axis-aligned-bounds-intersection.md) | Accepted | Ray to axis-aligned bounds intersection |
 | [ADR-0027](ADR-0027-frame-geometry-anchor-index-boundary.md) | Proposed | Frame geometry anchor-index boundary |
 | [ADR-0028](ADR-0028-canonical-instant-boundary.md) | Proposed | Canonical instant boundary |
 | [ADR-0029](ADR-0029-finite-floating-point-metadata-boundary.md) | Proposed | Finite floating-point metadata boundary |

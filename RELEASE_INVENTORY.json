@@ -766,8 +766,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/Bounds3D.swift",
-      "size": 8227,
-      "sha256": "65c42454ac65a3565acc1680b367b5ea1f77916c03740f614f00886a2a4eb6d3"
+      "size": 9072,
+      "sha256": "e8b2e71eca2dd198960d94d6813df78fd8dc15d4936cf8bf5a355f0ebbf69c9a"
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/CoordinateConvention.swift",
@@ -793,6 +793,11 @@
       "path": "Sources/VoxeliaSpatial/Public/MeasurementUnit.swift",
       "size": 9243,
       "sha256": "df88473fd65ae7f79aa620508df68531fb0ee23684f77612589833ca97495ff0"
+    },
+    {
+      "path": "Sources/VoxeliaSpatial/Public/RayAxisAlignedBoundsIntersection.swift",
+      "size": 8628,
+      "sha256": "ed10f5ebb9df1ed1beae843fcc9729683393679902b40f07fbf0af0c69258a2a"
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/SpatialAxisMapping.swift",
@@ -826,8 +831,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 1164,
-      "sha256": "fa264686556e1d99a12fe7974c0a2adf4c011f6188dd441c84871836f45081cb"
+      "size": 1272,
+      "sha256": "5748fc7a518542e632d0068858b2ca377dac499da4c18cb68ee4ca9f6d685b68"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -1118,6 +1123,11 @@
       "path": "Tests/VoxeliaSpatialTests/PlaneAndRayTests.swift",
       "size": 9577,
       "sha256": "5a576254d9c687e50e6552f806811af4a517053540a6ac0cc2ccb3baaef91601"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/RayAxisAlignedBoundsIntersection3DTests.swift",
+      "size": 19475,
+      "sha256": "a10abc4d6c175324e39fc94473d1899edbd28bb6606c033b89015ed86e198ce5"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/SpatialAxisMappingTests.swift",
@@ -1486,8 +1496,13 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 86,
-      "sha256": "e070fb7510a4733c7a3c3e5b325fb50aacca8603df4d94eae865bf0662b6c45b"
+      "size": 277,
+      "sha256": "a996419c03fc9e87b4ce167af90abfa3c79203bd06dc3cbcb0de184e1eca7c2e"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
+      "size": 9200,
+      "sha256": "b5928af200fe163d1ca0d9b195ef91031501daf4e1d39dcdc653bbef6879454f"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -1531,8 +1546,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0026-ray-axis-aligned-bounds-intersection.md",
-      "size": 19711,
-      "sha256": "0dda1d9436a29f5f23d69af375f4d5b867f0ac1fe5bdf995c516bc670b5243e5"
+      "size": 19551,
+      "sha256": "810472b8f2534854bcd2a91e98a1acdebe4d279f4f10ff5d66b2a075ad9825fd"
     },
     {
       "path": "docs/architecture/decisions/ADR-0027-frame-geometry-anchor-index-boundary.md",
@@ -1612,7 +1627,7 @@
     {
       "path": "docs/architecture/decisions/README.md",
       "size": 4814,
-      "sha256": "0ccd0ae10025aba2e266328c7b9c56077621fc64c832eda0a29c224b8f9f8d47"
+      "sha256": "164299c6d6644d0ca3d216c366a5efacadb4114dfcfd2f506089fad11e7bf98d"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1696,8 +1711,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 377307,
-      "sha256": "18c35ae977715f7ebe0ce72ed4fd4c1bd36d14babc11827a94d775db9659ba81"
+      "size": 380082,
+      "sha256": "d1808aa61f36682ddd7686155d2362e607f6c78ff8ce267f3499dc096dfb11a7"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2051,8 +2066,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 19251,
-      "sha256": "65e15157b90d7760c7ac5494961ea20270f4451de2843f5e979a2cf53c884c3f"
+      "size": 19465,
+      "sha256": "e25ad538442cc1ad37aa10c4646feb5b6d606166d1858a2b65932a856f38a3cd"
     }
   ]
 }

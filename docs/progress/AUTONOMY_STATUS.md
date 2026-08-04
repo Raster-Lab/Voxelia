@@ -83,6 +83,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   strict revalidating one-tag wires and focused exact-evidence tests; step 4
   (lookup execution and piecewise-linear specification) remains separate
   later scope.
+- Governance: `ADR-0026` was accepted by the project owner on 2026-08-04,
+  selecting the versioned `ray-axis-aligned-bounds-intersection/binary64-v1`
+  contract with typed representability failures. Its complete migration is
+  executed: algorithm specification `VOXELIA-ALG-0001` under
+  `docs/algorithms/`, the `RayAxisAlignedBoundsIntersection3D` transient
+  result, `RayIntersectionParameterFailureReason`, two new
+  `SpatialBoundsError` cases and the reference query on
+  `AxisAlignedBounds3D` in `VoxeliaSpatial`, with the focused analytic and
+  numerical suite including an independent evaluator cross-check.
+  Ray-plane, oriented-bounds, transformed-space and point-evaluation
+  operations remain deferred.
 - Proposed `ADR-0027` replaces the cross-module frame-index reference with a
   Spatial-owned, full-rank `FrameAnchorIndex` and defines the minimum full-frame
   logical-anchor semantics needed for stable identity; it is not accepted and
@@ -2444,6 +2455,20 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   The DocC topics page gained the three types. Lookup execution,
   piecewise-linear behavior and presentation-stage values remain
   unimplemented by design.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0026` and
+  executed its full migration. The versioned algorithm specification
+  `VOXELIA-ALG-0001` records the binary64-v1 identifier, closed-set and
+  parallel rules, half-scaling overflow fallback, signed
+  overflow/underflow token order, normative evaluation sequence, typed
+  failure policy and bit-exact conformance rule. The `VoxeliaSpatial`
+  implementation follows that sequence exactly: coordinate-space mismatch
+  before arithmetic, parallel-outside miss before quotient work, token
+  selection without early exit, empty-interval nil before selected
+  representability failures and entry-failure precedence over exit. The
+  transient result has no public initializer and no `Codable`; signed zero
+  canonicalizes to positive zero; the earliest axis retains tie provenance.
+  The algorithms index and Spatial DocC topics were extended. No renderer,
+  Metal, plane, oriented-bounds or point-evaluation work was started.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -4834,6 +4859,25 @@ confirmed no active link or policy script references the former platform
 path; remaining `ADR-0001` texts are the immutable `v0.1.1` baselines,
 historical release records and this ledger's preserved historical entries.
 
+`swift test --filter RayAxisAlignedBoundsIntersection3DTests` executed all
+seventeen tests in the new owning Spatial suite: analytic positive- and
+negative-axis parameters, inverse parameter rescaling with invariant dyadic
+points, behind-origin and separated-axis misses, inside/face/corner origins
+with `[0, 0]` outward evidence, corner-tangency and degenerate point/line/
+plane singleton and coincident intervals, per-axis parallel
+inside/on/outside classification, signed-zero-parallel and
+subnormal-not-parallel evidence, exact coordinate-space mismatch, the
+representable half-scaling overflow fallback, selected entry-overflow and
+exit-underflow typed failures, unselected-token harmlessness,
+parallel-outside and empty-interval precedence, earliest-axis tie
+provenance and a fifty-five-fixture bit-exact cross-check against an
+independently structured `binary64-v1` evaluator. The owning
+`swift build --target VoxeliaSpatial`, direct-consumer
+`swift build --target VoxeliaCore` and `swift build --target Voxelia`,
+strict format lint for the three changed Swift files, the documentation
+gate including the new algorithm specification, the static package-graph
+and prohibited-import checks and the requirement-index check passed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5318,21 +5362,19 @@ historical release records and this ledger's preserved historical entries.
 
 ## Exact next action
 
-Accepted `ADR-0023` migration is complete except its step 4 (separate lookup
-execution and piecewise-linear specification), which remains later scope.
-The three shape-conflict decisions (`ADR-0021` through `ADR-0023`) are now
-accepted and implemented. The `ImageDescriptor` aggregate remains blocked by
-its other prerequisites: the `CoordinateSpaceDescriptor` unit policy and
-classification, affine shape and construction tolerance, rectilinear
-binding, frame-set binding (Proposed `ADR-0027`) and canonical JSON. The
-next unblocked step is another governance decision: surface the next
-Proposed contract the user wishes to review (candidates: `ADR-0026`
-ray/bounds intersection, `ADR-0027` frame anchor-index boundary, or the
-metadata chain `ADR-0028` onward) with its decision questions, following
-the established interactive acceptance flow. `ADR-0024` is accepted and its
-register reconciliation is complete. Do not accept ADRs autonomously,
-implement speculative source or run blocked storage/metadata probes while
-those decisions are open.
+The shape-conflict decisions (`ADR-0021` through `ADR-0023`), the register
+reconciliation (`ADR-0024`) and the ray/bounds intersection contract
+(`ADR-0026`) are accepted and fully executed. The `ImageDescriptor`
+aggregate remains blocked by its other prerequisites: the
+`CoordinateSpaceDescriptor` unit policy and classification, affine shape
+and construction tolerance, rectilinear binding, frame-set binding
+(Proposed `ADR-0027`) and canonical JSON. The next unblocked step is
+another governance decision: surface the next Proposed contract the user
+wishes to review (candidates: `ADR-0027` frame anchor-index boundary, or
+the metadata chain `ADR-0028` onward) with its decision questions,
+following the established interactive acceptance flow. Do not accept ADRs
+autonomously, implement speculative source or run blocked storage/metadata
+probes while those decisions are open.
 
 ## Test policy for the next action
 
