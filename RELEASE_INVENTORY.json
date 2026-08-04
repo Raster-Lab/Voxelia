@@ -575,6 +575,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaExecution/Public/StorageReadCoordinator.swift",
+      "size": 4984,
+      "sha256": "200a46ffa20f8b3cd601a20e0a4dd9d7611cbba0d46d6b4da0a3bde5199a6279"
+    },
+    {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/Architecture.md",
       "size": 185,
       "sha256": "64e3380b75544bf7c7eecae25b19276f5eaf0b4b019db01b6bfeab4d8e7fd77a"
@@ -1228,6 +1233,11 @@
       "path": "Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift",
       "size": 300,
       "sha256": "f197a2e5173aaa457f326f50ef9415ffbfdf6a7b60ceee49c142bbfd217773f5"
+    },
+    {
+      "path": "Tests/VoxeliaExecutionTests/StorageReadCoordinatorTests.swift",
+      "size": 5250,
+      "sha256": "30502705832bd42864b2210b3a68a4c58eb52774a7e6b5f9ccdab578344e3024"
     },
     {
       "path": "Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift",
@@ -1940,9 +1950,14 @@
       "sha256": "c02c4961f346094a8ed07bc9ef783bd14c4081d4107a38a3decf67d0751621ba"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0046-execution-read-coordination-boundary.md",
+      "size": 4062,
+      "sha256": "7c03d479ec42d80efff9c0229a85196d953310007df810f11ed8b6c3820fb591"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 5599,
-      "sha256": "70454fd47aef1b979ba0363e100081ac2cf2f27f96bba9c774043842d4108d31"
+      "size": 5804,
+      "sha256": "d284cbbe8418b54a10093a2b778a5904312015fc1144cceef0a8624f31617488"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2026,8 +2041,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 440689,
-      "sha256": "450768a134e63cda2b3e8b6656138179eb6f048837c173998232942e313aa805"
+      "size": 441916,
+      "sha256": "f78cc731bfe32418ddbba11e2c887a8cdfa592ef79eb82062eee3d5d5d33b616"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2386,8 +2401,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 23389,
-      "sha256": "1d6fd34e33c2268a25633c9414d7d9da360fd1cd0fc2c9ef4723b8ac65fcf2f7"
+      "size": 23589,
+      "sha256": "a73a277347238db2ef558f1b82fc7a9563b31306f21c04ee621416e88b3e8db1"
     }
   ]
 }

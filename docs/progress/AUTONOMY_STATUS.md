@@ -488,6 +488,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   profiles for `SourceIdentity`, registered parameter/derivation
   projections, `DataIdentityReference` lifecycle, execution/cache
   contracts, the `ImageData` publication authority).
+- Twelfth autonomous increment — milestone M2 opened on the project
+  owner's explicit instruction: authored and accepted `ADR-0046`
+  (execution read coordination boundary) and implemented
+  `StorageReadCoordinator` in `VoxeliaExecution`, the actor-isolated
+  active-plus-retained result-byte ledger. The Core transaction is
+  admitted before any budget work; the checked inclusive reservation is
+  charged before the provider is invoked (an over-budget request never
+  reaches the provider and mutates nothing); provider fill and commit
+  run outside the actor's isolation; failure, foreign errors and
+  observed cancellation release the reservation exactly once with typed
+  causes; and a committed result's charge is retained until its
+  identity-based `ReadRetentionToken` is explicitly released, with
+  double release a typed `contractViolation`. Two focused async tests
+  cover exact charge/release accounting, over-budget rejection with an
+  unchanged ledger, provider-failure and pre-admission paths,
+  cancellation, and concurrent reads accounting exactly. Single-flight
+  deduplication, result caching, lazy identity computation and
+  provenance capture remain the next M2 increments under their recorded
+  gates.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
