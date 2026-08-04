@@ -1111,6 +1111,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   a fractional output mapping to 150, above-clamp — through the full
   operation, prove the advanced tokens, reject the empty table typed
   and keep every previously registered fixture passing.
+- Thirty-sixth autonomous increment (owner overnight standing
+  mandate): authored and accepted `VOXELIA-ALG-0005` (composed
+  value-transform chain `binary64-v1`) and `ADR-0070` (composed chain
+  composition), discharging the remaining `ADR-0066` deferral. Chains
+  evaluate sequentially in declared order over binary64: identity
+  stages are exact no-ops, linear stages apply the registered
+  `VOXELIA-ALG-0003` arithmetic to their input, and a lookup-table
+  stage is admissible only while every earlier stage is an identity,
+  because its clamped index is defined on the exact stored integer
+  and no registered model supplies an input-rounding rule for tables
+  over arithmetic outputs. Admission bounds: at most 8 declared
+  stages, no nesting (flattening changes rounding behaviour), empty
+  tables reject as before, and an all-identity chain is exactly the
+  identity mapping. Versions advance to `1.4.0`. Tests reproduce both
+  conformance fixtures — a two-stage linear chain and an
+  identity-table-linear chain — prove the advanced tokens, and reject
+  a nested chain, a table after arithmetic and a nine-stage chain,
+  all typed. The window-level composable set now covers every
+  `ValueTransform` case within registered bounds.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

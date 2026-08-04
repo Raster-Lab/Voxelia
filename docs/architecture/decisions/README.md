@@ -55,7 +55,8 @@ window-level operation. `ADR-0066` is allocated to transform
 composition. `ADR-0067` is allocated to the result publication
 coordinator. `ADR-0068` is allocated to the window-level uint16
 extension. `ADR-0069` is allocated to lookup-table composition. The
-next unallocated numeric identifier is `ADR-0070`.
+`ADR-0070` is allocated to composed chain composition. The next
+unallocated numeric identifier is `ADR-0071`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -108,3 +109,4 @@ next unallocated numeric identifier is `ADR-0070`.
 | [ADR-0067](ADR-0067-result-publication-coordinator.md) | Accepted | Result publication coordinator |
 | [ADR-0068](ADR-0068-window-level-uint16-extension.md) | Accepted | Window-level uint16 extension |
 | [ADR-0069](ADR-0069-lookup-table-composition.md) | Accepted | Lookup-table composition |
+| [ADR-0070](ADR-0070-composed-chain-composition.md) | Accepted | Composed chain composition |

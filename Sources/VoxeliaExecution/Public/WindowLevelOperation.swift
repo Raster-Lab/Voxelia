@@ -13,6 +13,8 @@ public enum WindowLevelError: Error, Sendable, Equatable {
     case unsupportedSemantic
     case unsupportedValueTransform
     case emptyLookupTable
+    case unsupportedChainStage
+    case chainStageLimitExceeded
     case invalidWindowWidth
 }
 
@@ -85,8 +87,33 @@ public enum WindowLevelOperation {
                 throw WindowLevelError.emptyLookupTable
             }
             storedToReal = .table(table)
-        case .composed:
-            throw WindowLevelError.unsupportedValueTransform
+        case .composed(let composition):
+            // The ADR-0070 chain bounds: at most eight declared stages,
+            // no nesting, and a table only while every earlier stage is
+            // an identity.
+            guard composition.transforms.count <= 8 else {
+                throw WindowLevelError.chainStageLimitExceeded
+            }
+            var stages = ContiguousArray<ChainStage>()
+            for stage in composition.transforms {
+                switch stage {
+                case .identity:
+                    continue
+                case .linear(let descriptor):
+                    stages.append(.linear(descriptor))
+                case .lookupTable(let table):
+                    guard stages.isEmpty else {
+                        throw WindowLevelError.unsupportedChainStage
+                    }
+                    guard !table.values.isEmpty else {
+                        throw WindowLevelError.emptyLookupTable
+                    }
+                    stages.append(.table(table))
+                case .composed:
+                    throw WindowLevelError.unsupportedChainStage
+                }
+            }
+            storedToReal = stages.isEmpty ? .identity : .chain(stages)
         }
         guard width.value >= 1.0 else {
             throw WindowLevelError.invalidWindowWidth
@@ -156,7 +183,7 @@ public enum WindowLevelOperation {
         // Registered tokens (advanced to 1.1.0 by ADR-0066), derivation
         // recipe, content identity and the subject-bound record with
         // its parent edge.
-        let version = try SemanticVersion(major: 1, minor: 3, patch: 0)
+        let version = try SemanticVersion(major: 1, minor: 4, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )
@@ -255,6 +282,31 @@ public enum WindowLevelOperation {
         case identity
         case linear(LinearValueTransformDescriptor)
         case table(LookupTableDescriptor)
+        case chain(ContiguousArray<ChainStage>)
+    }
+
+    /// One effective chain stage after identity elision.
+    private enum ChainStage {
+        case linear(LinearValueTransformDescriptor)
+        case table(LookupTableDescriptor)
+    }
+
+    /// The exact `VOXELIA-ALG-0004` clamped table lookup; admitted
+    /// stored types convert to `Int64` exactly.
+    private static func tableOutput(
+        _ table: LookupTableDescriptor,
+        for storedValue: Double
+    ) -> Double {
+        let storedInteger = Int64(storedValue)
+        let (difference, overflow) =
+            storedInteger.subtractingReportingOverflow(table.firstMappedValue)
+        let index: Int
+        if overflow {
+            index = table.firstMappedValue < 0 ? table.values.count - 1 : 0
+        } else {
+            index = Int(min(max(difference, 0), Int64(table.values.count - 1)))
+        }
+        return table.values[index]
     }
 
     /// The exact `VOXELIA-ALG-0002` mapping pass over real values
@@ -285,23 +337,20 @@ public enum WindowLevelOperation {
                 // requires.
                 sample = (storedValue * descriptor.scale) + descriptor.offset
             case .table(let table):
-                // The 64-bit clamped index with the frozen
-                // overflow-clamp rule of VOXELIA-ALG-0004; admitted
-                // stored types convert to Int64 exactly.
-                let storedInteger = Int64(storedValue)
-                let (difference, overflow) =
-                    storedInteger.subtractingReportingOverflow(
-                        table.firstMappedValue
-                    )
-                let index: Int
-                if overflow {
-                    index = table.firstMappedValue < 0 ? table.values.count - 1 : 0
-                } else {
-                    index = Int(
-                        min(max(difference, 0), Int64(table.values.count - 1))
-                    )
+                sample = tableOutput(table, for: storedValue)
+            case .chain(let stages):
+                // Sequential VOXELIA-ALG-0005 evaluation: each stage's
+                // registered model over the previous stage's output.
+                var value = storedValue
+                for stage in stages {
+                    switch stage {
+                    case .linear(let descriptor):
+                        value = (value * descriptor.scale) + descriptor.offset
+                    case .table(let table):
+                        value = tableOutput(table, for: value)
+                    }
                 }
-                sample = table.values[index]
+                sample = value
             }
             if sample <= lowerEdge {
                 return 0

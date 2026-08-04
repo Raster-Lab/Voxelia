@@ -184,7 +184,7 @@ struct WindowLevelOperationTests {
         )
         #expect(
             unsignedWide.identity.derivation?.operationVersion
-                == (try SemanticVersion(major: 1, minor: 3, patch: 0))
+                == (try SemanticVersion(major: 1, minor: 4, patch: 0))
         )
 
         // The parameter digest reproduces independently from the frozen
@@ -322,7 +322,50 @@ struct WindowLevelOperationTests {
                 == [21, 21, 21, 107, 150, 255, 255, 255, 255, 255, 255, 255]
         )
 
-        let advanced = try SemanticVersion(major: 1, minor: 3, patch: 0)
+        // The ADR-0070 chain fixtures: a two-stage linear chain and an
+        // identity-table-linear chain, evaluated sequentially.
+        let linearChain = try await execute(
+            input: try input(
+                valueTransform: .composed(
+                    try ValueTransformComposition(transforms: [
+                        .linear(try LinearValueTransformDescriptor(scale: 2, offset: -3)),
+                        .linear(
+                            try LinearValueTransformDescriptor(scale: 0.5, offset: 10)
+                        ),
+                    ])
+                )
+            ),
+            center: 12,
+            width: 10
+        )
+        #expect(
+            try outputBytes(linearChain)
+                == [43, 71, 99, 128, 156, 184, 212, 241, 255, 255, 255, 255]
+        )
+        let tableChain = try await execute(
+            input: try input(
+                valueTransform: .composed(
+                    try ValueTransformComposition(transforms: [
+                        .identity,
+                        .lookupTable(
+                            try LookupTableDescriptor(
+                                firstMappedValue: 2,
+                                values: [-100, 0, 50.5, 200]
+                            )
+                        ),
+                        .linear(try LinearValueTransformDescriptor(scale: 2, offset: 0)),
+                    ])
+                )
+            ),
+            center: 50,
+            width: 600
+        )
+        #expect(
+            try outputBytes(tableChain)
+                == [21, 21, 21, 106, 149, 255, 255, 255, 255, 255, 255, 255]
+        )
+
+        let advanced = try SemanticVersion(major: 1, minor: 4, patch: 0)
         let derivation = try #require(hounsfield.identity.derivation)
         #expect(derivation.operationVersion == advanced)
         #expect(derivation.implementation?.version == advanced)
@@ -373,14 +416,54 @@ struct WindowLevelOperationTests {
             _ = try await execute(
                 input: try input(
                     valueTransform: .composed(
-                        try ValueTransformComposition(transforms: [.identity])
+                        try ValueTransformComposition(transforms: [
+                            .composed(
+                                try ValueTransformComposition(transforms: [.identity])
+                            )
+                        ])
                     )
                 ),
                 center: 6,
                 width: 8
             )
-            #expect(Bool(false), "Expected a composed transform to be rejected.")
-        } catch WindowLevelError.unsupportedValueTransform {}
+            #expect(Bool(false), "Expected a nested chain to be rejected.")
+        } catch WindowLevelError.unsupportedChainStage {}
+        do {
+            _ = try await execute(
+                input: try input(
+                    valueTransform: .composed(
+                        try ValueTransformComposition(transforms: [
+                            .linear(
+                                try LinearValueTransformDescriptor(scale: 2, offset: 0)
+                            ),
+                            .lookupTable(
+                                try LookupTableDescriptor(
+                                    firstMappedValue: 0,
+                                    values: [1]
+                                )
+                            ),
+                        ])
+                    )
+                ),
+                center: 6,
+                width: 8
+            )
+            #expect(Bool(false), "Expected a table after arithmetic to be rejected.")
+        } catch WindowLevelError.unsupportedChainStage {}
+        do {
+            _ = try await execute(
+                input: try input(
+                    valueTransform: .composed(
+                        try ValueTransformComposition(
+                            transforms: Array(repeating: ValueTransform.identity, count: 9)
+                        )
+                    )
+                ),
+                center: 6,
+                width: 8
+            )
+            #expect(Bool(false), "Expected an over-ceiling chain to be rejected.")
+        } catch WindowLevelError.chainStageLimitExceeded {}
         do {
             _ = try await execute(
                 input: try input(

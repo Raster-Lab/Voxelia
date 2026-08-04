@@ -8,3 +8,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0002](VOXELIA-ALG-0002-window-level-linear.md) | Accepted | Window-level linear mapping `binary64-v1` |
 | [VOXELIA-ALG-0003](VOXELIA-ALG-0003-linear-value-transform.md) | Accepted | Linear stored-to-real value mapping `binary64-v1` |
 | [VOXELIA-ALG-0004](VOXELIA-ALG-0004-lookup-table-value-transform.md) | Accepted | Lookup-table stored-to-real value mapping `binary64-v1` |
+| [VOXELIA-ALG-0005](VOXELIA-ALG-0005-composed-value-transform-chain.md) | Accepted | Composed value-transform chain `binary64-v1` |
