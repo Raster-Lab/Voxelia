@@ -714,7 +714,7 @@ struct ImageRegionTests {
         }
     }
 
-    @Test("[Unit][VOX-RGN-002] rejects extent overflow during construction")
+    @Test("[Unit][VOX-RGN-002][VOX-ERR-001] rejects extent overflow during construction")
     func rejectsExtentOverflowDuringConstruction() {
         #expect(throws: RegionError.arithmeticOverflow) {
             try ImageRegion(
@@ -782,14 +782,20 @@ struct ImageRegionTests {
         }
     }
 
-    @Test("[Unit][VOX-RGN-002] decoding rejects extent overflow")
+    @Test("[Unit][VOX-RGN-002][VOX-ERR-001] decoding rejects extent overflow")
     func decodingRejectsExtentOverflow() {
         let invalidRegion = Data(
             "{\"lowerBounds\":[\(Int.min)],\"upperBounds\":[\(Int.max)]}".utf8
         )
 
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(ImageRegion.self, from: invalidRegion)
+        do {
+            _ = try JSONDecoder().decode(ImageRegion.self, from: invalidRegion)
+            #expect(Bool(false), "Expected overflowing region to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.isEmpty)
+            #expect(context.underlyingError as? RegionError == .arithmeticOverflow)
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 }
