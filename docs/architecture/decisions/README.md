@@ -62,7 +62,8 @@ projection. `ADR-0073` is allocated to strict canonical derivation
 ingress. `ADR-0074` is allocated to sampling payload slicing. The
 `ADR-0075` is allocated to the canonical document store. The next
 `ADR-0076` is allocated to recorded fuzz and differential oracle
-evidence. The next unallocated numeric identifier is `ADR-0077`.
+evidence. `ADR-0077` is allocated to the retention and enrichment
+lifecycle. The next unallocated numeric identifier is `ADR-0078`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -122,3 +123,4 @@ evidence. The next unallocated numeric identifier is `ADR-0077`.
 | [ADR-0074](ADR-0074-sampling-payload-slicing.md) | Accepted | Sampling payload slicing |
 | [ADR-0075](ADR-0075-canonical-document-store.md) | Accepted | Canonical document store |
 | [ADR-0076](ADR-0076-recorded-fuzz-and-oracle-evidence.md) | Accepted | Recorded fuzz and differential oracle evidence |
+| [ADR-0077](ADR-0077-retention-and-enrichment-lifecycle.md) | Accepted | Retention and enrichment lifecycle |

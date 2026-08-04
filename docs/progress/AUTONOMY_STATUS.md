@@ -1265,6 +1265,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   sustained corpus-guided random fuzzing, the supported-device
   matrix, the universal raw ceiling and the `VOX-ERR-001` allocation
   disposition remain open.
+- Forty-third autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0077` (retention and
+  enrichment lifecycle) with `CCR-0026`, a documentation-and-
+  governance increment discharging the `ADR-0037` enrichment and
+  `objectID` lifecycle gate item. A `DataObjectID` binds to at most
+  one published immutable bundle forever, with publication the
+  binding event and no future deletion legitimising rebinding;
+  enrichment before publication is ordinary value construction;
+  enrichment after publication publishes a new immutable bundle under
+  new identifiers whose shared verified content identity is the
+  cross-bundle linkage claim; and version-one retention across the
+  published registry and document store is append-only, with ceiling
+  exhaustion a typed transactional failure and any future deletion
+  decision owing audit obligations and the never-rebind rule. No code
+  changed: the accepted implementations already behave exactly as the
+  policy requires, and the decision is that they are the policy.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

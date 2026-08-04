@@ -2095,6 +2095,11 @@
       "sha256": "f96e8cb19faea96da86147b8c4fa21becee464de5411fd1ed2fef3dbdc93d90a"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0026-adr-0077-retention-and-enrichment.md",
+      "size": 1999,
+      "sha256": "e947400e511b6115bc46c17dc4ae661bbf4e0486ad2fc8debe8fe6903b1c254d"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
       "size": 7006,
       "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
@@ -2375,9 +2380,14 @@
       "sha256": "9c536371407a9edb14e04dbee3406b3dd8683c82c4b9a658fcaa5e5858e5fe93"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0077-retention-and-enrichment-lifecycle.md",
+      "size": 4360,
+      "sha256": "c6a0dfdf31f187a2e897243c6c4a7462281ad77296114352000682410a4d06aa"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 10832,
-      "sha256": "98e79c43cdaa8632eb6ac014fe320c556b88752b9d76b3dddad921be13e24b9f"
+      "size": 11010,
+      "sha256": "24e5987dd26413518caace03b561a1c6fde1ce458f618769d254bead92afc7d9"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2461,8 +2471,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 491425,
-      "sha256": "c3f015c2c7b42af3d4ba597162acdf7f940293958a61f0a125974a6bd88978ff"
+      "size": 492473,
+      "sha256": "c5c3915bf8c0c4580dcbdbe557a98ee85cd359fb98b791059c0daf02a06ad62b"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2821,8 +2831,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 28847,
-      "sha256": "910c3af567511461e71f4afbcde185f74478f6c1ee3122369cc091163864fa66"
+      "size": 28998,
+      "sha256": "6d728730a6fb87a6f9ccd6edff3bfd1c1936c8fbf8b226caa7efa1fb12e064fd"
     }
   ]
 }
