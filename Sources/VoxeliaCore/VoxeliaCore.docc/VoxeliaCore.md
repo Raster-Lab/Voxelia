@@ -143,6 +143,13 @@ storage semantics.
 - ``ProvenanceWarning``
 - ``ProvenanceWarningError``
 
+### Data identity
+
+- ``SourceIdentity``
+- ``SourceIdentityError``
+- ``DataIdentityReference``
+- ``DataIdentityReferenceError``
+
 ### Common errors
 
 - ``DataModelError``

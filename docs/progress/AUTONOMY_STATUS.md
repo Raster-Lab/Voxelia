@@ -635,6 +635,30 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   payload-free diagnostics. The provenance record, subject binding and
   graph admission remain gated pending the source-identity and
   parameter-projection decisions ordered next.
+- Nineteenth autonomous increment: authored and accepted `ADR-0053`
+  (source identity profile and data identity reference) with `CCR-0020`
+  recording the controlled corrections `ADR-0037` required before any
+  public initializer, and implemented both values in `VoxeliaCore`.
+  `SourceIdentity` gains the selected field profile — each of
+  `namespace`, `identifier` and a present `version` at most 255 UTF-8
+  bytes inclusive checked before content rules, then control-scalar
+  rejection (C0, DEL, C1), then the frozen blank-text oracle — with
+  exact accepted UTF-8 tuple identity (absent version distinct, the
+  optional source-content claim participating) and a strict four-field
+  wire with explicit nulls. `DataIdentityReference` is declared with
+  exactly the `object`/`content`/`source` cases and a strict one-member
+  tagged wire; the `derivation` case stays deferred until
+  `DerivationRecordID` and its registered projection exist, and the
+  reference never embeds aggregates, so cycles are structurally
+  impossible. Nested decoders retain only audited payload-free project
+  errors; everything else maps to a typed value-free rejection. Tests
+  prove ceiling-before-content precedence, control and blank rejection
+  without disclosure, byte-distinct canonically equivalent spellings
+  staying distinct, exact golden wires for all three cases, and typed
+  rejection of unknown tags (including `derivation`), wrong member
+  counts, malformed nested records, over-ceiling fields and crossed
+  content tuples. Duplicate-locator rejection, source ordering and
+  aggregate limits stay with the future `DataIdentity` decision.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

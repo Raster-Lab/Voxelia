@@ -77,6 +77,7 @@ Sources/VoxeliaCore/Public/CodedConcept.swift
 Sources/VoxeliaCore/Public/ComponentDescriptor.swift
 Sources/VoxeliaCore/Public/ContentID.swift
 Sources/VoxeliaCore/Public/ContentIdentityTaxonomy.swift
+Sources/VoxeliaCore/Public/DataIdentityReference.swift
 Sources/VoxeliaCore/Public/DataModelError.swift
 Sources/VoxeliaCore/Public/DataObjectID.swift
 Sources/VoxeliaCore/Public/ExecutionProvenanceClaim.swift
@@ -104,6 +105,7 @@ Sources/VoxeliaCore/Public/ProvenanceWarning.swift
 Sources/VoxeliaCore/Public/RegionReadTransaction.swift
 Sources/VoxeliaCore/Public/ScalarFormat.swift
 Sources/VoxeliaCore/Public/SemanticVersion.swift
+Sources/VoxeliaCore/Public/SourceIdentity.swift
 Sources/VoxeliaCore/Public/StorageContract.swift
 Sources/VoxeliaCore/Public/StorageRepresentation.swift
 Sources/VoxeliaCore/Public/StorageSnapshotHandle.swift
@@ -223,6 +225,7 @@ Tests/VoxeliaCoreTests/ComponentDescriptorTests.swift
 Tests/VoxeliaCoreTests/ContentIDSampleBytesTests.swift
 Tests/VoxeliaCoreTests/ContentIDTests.swift
 Tests/VoxeliaCoreTests/ContentIdentityTaxonomyTests.swift
+Tests/VoxeliaCoreTests/DataIdentityReferenceTests.swift
 Tests/VoxeliaCoreTests/DataObjectIDTests.swift
 Tests/VoxeliaCoreTests/ExecutionProvenanceClaimTests.swift
 Tests/VoxeliaCoreTests/ImageDescriptorCodingTests.swift
@@ -372,6 +375,7 @@ docs/architecture/corrections/CCR-0016-rfc-0001-storage-composition-corrections.
 docs/architecture/corrections/CCR-0017-adr-0043-spatial-descriptor-admission.md
 docs/architecture/corrections/CCR-0018-adr-0044-persistent-identifier-exactness.md
 docs/architecture/corrections/CCR-0019-adr-0045-integrity-state-claims.md
+docs/architecture/corrections/CCR-0020-adr-0053-source-identity-and-reference.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
 docs/architecture/decisions/ADR-0023-value-transform-shape.md
@@ -404,6 +408,7 @@ docs/architecture/decisions/ADR-0049-sample-bytes-content-projection.md
 docs/architecture/decisions/ADR-0050-content-tier-result-cache.md
 docs/architecture/decisions/ADR-0051-execution-claim-value-shapes.md
 docs/architecture/decisions/ADR-0052-provenance-warning-schema.md
+docs/architecture/decisions/ADR-0053-source-identity-and-data-identity-reference.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
