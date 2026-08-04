@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0031"
 title: "Bounded recursive metadata value boundary"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -90,16 +90,19 @@ attachment remain separate decisions. Proposed `ADR-0032` now selects a
 required direct entry classification and whole-entry privacy scope, but remains
 unaccepted and does not change this value proposal's independent member.
 
-This proposal selects the bounded semantic value model and its type-level
+This record selects the bounded semantic value model and its type-level
 Codable shape only. It does not select complete canonical JSON bytes, raw
 duplicate-member detection, a schema-version document, adapter mapping,
-collection policy, privacy policy or a persistent digest. Its Proposed status
-does not authorise implementation or controlled-document changes.
+collection policy, privacy policy or a persistent digest. It was reviewed
+and accepted by the project owner on 2026-08-04, with its three leaf
+dependencies (`ADR-0028` through `ADR-0030`) already accepted, the ceiling
+values accepted on local Apple Silicon boundary evidence and the
+low-resource supported-device matrix recorded as an explicit evidence gap.
 
 ## Decision
 
-If this ADR and its three leaf dependencies are accepted, `VoxeliaCore` will
-own the following public shape:
+With this ADR and its three leaf dependencies accepted, `VoxeliaCore` owns
+the following public shape:
 
 ```swift
 public enum MetadataValueError: Error, Sendable, Equatable {
@@ -620,17 +623,18 @@ After all four required ADRs are accepted and the ceiling evidence is approved:
 6. update traceability, changelog, API documentation and release-integrity
    evidence.
 
-No migration step may begin while this ADR, `ADR-0028`, `ADR-0029` or
-`ADR-0030` remains Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance: all
+four required ADRs are accepted and the ceiling evidence is approved on
+local Apple Silicon with the supported-device matrix recorded as an open
+evidence gap. Step 5 remains governed by its named decisions.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. It coordinates three Proposed leaf migrations but has no authority over
-them while Proposed. If all are accepted, it governs only recursive semantic
-value construction, identity, type-level Codable and hard container ceilings.
-It does not supersede general metadata collection, privacy, canonical JSON,
-adapter, provenance or persistent-identity decisions.
+This ADR neither supersedes nor is superseded by another file-backed ADR.
+With its three leaf migrations accepted, it governs only recursive semantic
+value construction, identity, type-level Codable and hard container
+ceilings. It does not supersede general metadata collection, privacy,
+canonical JSON, adapter, provenance or persistent-identity decisions.
 
 ## References
 

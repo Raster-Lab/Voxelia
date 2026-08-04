@@ -41,7 +41,7 @@ unallocated numeric identifier is `ADR-0042`.
 | [ADR-0028](ADR-0028-canonical-instant-boundary.md) | Accepted | Canonical instant boundary |
 | [ADR-0029](ADR-0029-finite-floating-point-metadata-boundary.md) | Accepted | Finite floating-point metadata boundary |
 | [ADR-0030](ADR-0030-owned-binary-metadata-boundary.md) | Accepted | Owned binary metadata boundary |
-| [ADR-0031](ADR-0031-bounded-recursive-metadata-value-boundary.md) | Proposed | Bounded recursive metadata value boundary |
+| [ADR-0031](ADR-0031-bounded-recursive-metadata-value-boundary.md) | Accepted | Bounded recursive metadata value boundary |
 | [ADR-0032](ADR-0032-required-metadata-entry-privacy-attachment.md) | Proposed | Required metadata-entry privacy attachment |
 | [ADR-0033](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md) | Proposed | Ordered metadata collection and explicit multiplicity policy |
 | [ADR-0034](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md) | Proposed | Closed exact-case typed metadata read boundary |

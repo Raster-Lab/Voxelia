@@ -109,19 +109,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   independent equality and hashing, signed-zero normalization, and an exact
   six-key explicit-null wire shape. This does not define unit conversion or
   coordinate-space unit admissibility.
-- The recursive metadata model has been audited and remains source-blocked:
-  proposed `ADR-0031` replaces its bypassable array/object payloads with
-  validated bounded containers and a privacy-neutral nested object member.
-  Proposed `ADR-0032` separately adds the required classified general entry,
-  and Proposed `ADR-0033` adds the ordered collection plus explicit configured
-  multiplicity admission. Proposed `ADR-0034` adds privacy-preserving closed
-  exact-case typed reads. Proposed `ADR-0035` separately adds the versioned
-  canonical-document and raw-ingress boundary, and Proposed `ADR-0036` adds a
-  domain-separated SHA-256 identity for the exact complete canonical record,
-  not semantic collection identity. The independently implemented metadata-key
-  leaf uses exact accepted UTF-8 pair identity without claiming canonical-
-  digest normalisation. None of the proposals authorises aggregate or digest
-  source.
+- Governance: `ADR-0031` was accepted by the project owner on 2026-08-04
+  with all three leaf dependencies already accepted, and its authorised
+  migration is executed. The bounded recursive `MetadataValue` is
+  implemented in `VoxeliaCore` with validated `MetadataArray` and
+  `MetadataObject` containers, the privacy-neutral nested object member,
+  exact UTF-8 string identity, canonical unsigned-UTF-8 object member order
+  with exact-key duplicate rejection, cached checked metrics, iterative
+  equality and hashing, and the strict externally tagged one-member wire
+  with exact decode-time depth tracking and incremental element/payload
+  budgets. The three hard ceilings (depth 64, 1,048,576 logical structural
+  elements, 64 MiB logical variable payload per recursive root) are
+  accepted on local Apple Silicon boundary evidence; measured
+  lowest-resource supported-device evidence remains an explicit open gap.
+  `CCR-0008` records the controlled CDMS corrections. Proposed `ADR-0032`
+  (classified general entry), `ADR-0033` (ordered collection and
+  multiplicity), `ADR-0034` (closed typed reads), `ADR-0035` (versioned
+  canonical document and raw ingress) and `ADR-0036` (complete-record
+  identity) remain unaccepted and authorise no source.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -2553,6 +2558,26 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   gained the type. The recursive aggregate, entries, collections, privacy
   attachment, canonical document bytes and content identity remain blocked
   by their own contracts.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0031` and
+  executed its authorised migration in one change: controlled correction
+  `CCR-0008` (validated recursive cases, the resolved uniqueness/order
+  invariant with the three hard ceilings, the exact tag vocabulary and
+  Appendix A additions) and the bounded recursive value family in
+  `VoxeliaCore`. `MetadataArray` preserves exact semantic order;
+  `MetadataObject` sorts members canonically by unsigned UTF-8 key bytes
+  after the resource preflight and rejects exact-key duplicates with a
+  value-redacted error; both cache depth/element/payload metrics privately
+  through checked `UInt64` arithmetic that maps overflow to the
+  corresponding typed limit. Equality and hashing are iterative with
+  explicit cursor frames and exact UTF-8 string identity. The strict
+  one-tag wire decodes with an exact task-local container-ancestor guard
+  (rejecting adversarially deep documents at level 65 before unbounded
+  recursion) plus incremental element and payload budgets before accepting
+  further children, and model-originated failures are value-redacted with
+  contexts that never copy a caller-supplied coding path. The general
+  entry, collection, multiplicity, typed reads, privacy attachment,
+  canonical document bytes and record identity remain governed by
+  `ADR-0032` through `ADR-0036`.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -5031,6 +5056,34 @@ Swift files, the documentation gate including `CCR-0007`, the static
 package-graph and prohibited-import checks and the requirement-index
 check passed.
 
+`swift test --filter MetadataValueTests` executed all twelve tests in the
+new owning Core suite: exact case-tag and NFC/NFD-distinct string
+identity; depth 64 acceptance with iterative maximum-depth equality,
+hashing and destruction plus depth-65 typed rejection; the exact
+structural-element limit and one-over rejection over a 1,048,575-leaf
+array; the copy-on-write amplification oracle accepting 1,048,575 and
+rejecting 2,097,151 logical occurrences from linear physical storage; the
+exact 64 MiB embedded-payload boundary with the oversized standalone leaf
+still round-tripping; checked-counter overflow rejection near
+`UInt64.max` without allocation; canonical object ordering with prefix
+and canonically equivalent distinct keys, caller-order-independent
+equality/hash/encoding and duplicate rejection for equal and unequal
+values; source-mutation snapshot evidence; every tag round trip including
+both `Int64` extrema and `UInt64.max` with the exact member wire;
+malformed-tag, null and wrong-shape rejections; decode-side depth 64
+acceptance, depth-65 and adversarial depth-120 typed rejection through
+the exact task-local guard, the beyond-parser-tolerance
+decoder-originated failure documented as outside the wrapper's redaction
+guarantee, and duplicate-key rejection beneath a sentinel dictionary key
+with no sentinel in the context; and incremental element-budget rejection
+of an oversized flat document. The owning
+`swift build --target VoxeliaCore`, the direct-dependant
+`swift build --target VoxeliaImaging`, strict format lint for the two new
+Swift files, the documentation gate including `CCR-0008`, the static
+package-graph and prohibited-import checks and the requirement-index
+check passed. Boundary evidence ran on local Apple Silicon; the
+lowest-resource supported-device matrix remains an explicit open gap.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5515,20 +5568,19 @@ check passed.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0030` are
-accepted and fully executed: all three metadata leaves (`CanonicalInstant`,
-`MetadataFloatingPoint`, `MetadataBinary`) now exist with their controlled
-corrections. The `ImageDescriptor` aggregate remains blocked by its other
-prerequisites: the `CoordinateSpaceDescriptor` unit policy and
-classification, affine shape and construction tolerance, rectilinear
-binding, the remaining frame-set collection contracts and canonical JSON.
-The next unblocked step is another governance decision: surface the next
-Proposed contract the user wishes to review (the bounded recursive-value
-decision `ADR-0031`, whose leaf dependencies `ADR-0028` through `ADR-0030`
-are now all accepted, then the privacy, collection, read, canonical-JSON
-and identity decisions `ADR-0032` through `ADR-0037`) with its decision
-questions, following the established interactive acceptance flow. Do not
-accept ADRs autonomously, implement speculative source or run blocked
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0031` are
+accepted and fully executed: the three metadata leaves and the bounded
+recursive `MetadataValue` now exist with their controlled corrections. The
+`ImageDescriptor` aggregate remains blocked by its other prerequisites:
+the `CoordinateSpaceDescriptor` unit policy and classification, affine
+shape and construction tolerance, rectilinear binding, the remaining
+frame-set collection contracts and canonical JSON. The next unblocked step
+is another governance decision: surface the next Proposed contract the
+user wishes to review (`ADR-0032` required metadata-entry privacy
+attachment, then the collection, read, canonical-JSON and identity
+decisions `ADR-0033` through `ADR-0037`) with its decision questions,
+following the established interactive acceptance flow. Do not accept ADRs
+autonomously, implement speculative source or run blocked
 storage/metadata probes while those decisions are open.
 
 ## Test policy for the next action

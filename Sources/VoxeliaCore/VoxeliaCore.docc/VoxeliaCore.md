@@ -78,6 +78,10 @@ storage semantics.
 - ``MetadataFloatingPoint``
 - ``MetadataFloatingPointError``
 - ``MetadataBinary``
+- ``MetadataValue``
+- ``MetadataValueError``
+- ``MetadataArray``
+- ``MetadataObject``
 - ``CodedConcept``
 - ``CodedConceptError``
 

@@ -430,6 +430,11 @@
       "sha256": "54ef576621495caade4d3cf6626f42dd66375b23515103618862598e0703e4af"
     },
     {
+      "path": "Sources/VoxeliaCore/Public/MetadataValue.swift",
+      "size": 27234,
+      "sha256": "9d502d36185b1f7d5ad8a70949417d461b2daa8d5d489f2db8c0cb0d96c2daf3"
+    },
+    {
       "path": "Sources/VoxeliaCore/Public/ProvenanceID.swift",
       "size": 622,
       "sha256": "75f2d22e37cba8a926bbac15392640f223dacbc7defa1a5d66da506a45fcea1c"
@@ -466,8 +471,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md",
-      "size": 1704,
-      "sha256": "cb3aa3a3af607e2d8ec89fdf43dc64403a5bca9cb6f9fcd87a2ce580d3bc2d9c"
+      "size": 1790,
+      "sha256": "618dd2b6ef48d472a5145a5d9932c53feb9d00d85da60038cf2c0322a556bf8c"
     },
     {
       "path": "Sources/VoxeliaExecution/ApplePlatformGate.swift",
@@ -1035,6 +1040,11 @@
       "sha256": "66a742315cd1d4534fd3c3dada4d5d72068585a664c418818b915ba5de47c9cc"
     },
     {
+      "path": "Tests/VoxeliaCoreTests/MetadataValueTests.swift",
+      "size": 16896,
+      "sha256": "db48422c27f1ff2f05af3fc0abc1cb293ae816c832c6347e8096f70fce2bfcd9"
+    },
+    {
       "path": "Tests/VoxeliaCoreTests/ProvenanceIDTests.swift",
       "size": 3971,
       "sha256": "34b5d0390ff7a9b652cc054d1c44e627109c0d2a481d505c2d656d8cc9a198c2"
@@ -1580,6 +1590,11 @@
       "sha256": "8491f840e70750ee603281f581150c78f69fa61bc052ed57cd83f8a5ecd3558b"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0008-adr-0031-bounded-recursive-metadata-value.md",
+      "size": 5875,
+      "sha256": "e12a8fbb87386526dae372e818c9442cbc856554ff6584fd08c83e390eb8ed6a"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
       "size": 7006,
       "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
@@ -1631,8 +1646,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0031-bounded-recursive-metadata-value-boundary.md",
-      "size": 34204,
-      "sha256": "b652f1388b696b7b595d8ae279bcc53e43ede080805eb16fda0eb6daffbe3787"
+      "size": 34510,
+      "sha256": "90b5af4c554cb3be8adc85807490be5d24b789b190c5940895559f0de345449c"
     },
     {
       "path": "docs/architecture/decisions/ADR-0032-required-metadata-entry-privacy-attachment.md",
@@ -1687,7 +1702,7 @@
     {
       "path": "docs/architecture/decisions/README.md",
       "size": 4814,
-      "sha256": "e233a48c97009682b026c9aa9e6b626c3a839f4efb0dec768fa8f026c387b0d1"
+      "sha256": "4735aead6faaa2218855df8e9b80ff208d363dcb6ee3c84bb1050ed953a3ffc2"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1771,8 +1786,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 390336,
-      "sha256": "a97af61554554bc8c5541cff725a1c5601b779dfd85461baca5fbd2f6bf974a3"
+      "size": 393765,
+      "sha256": "5aa76512a718fa2dfda1ecb83362017002f1b3f3307a6ff33c5a3882598ae21d"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2126,8 +2141,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 20193,
-      "sha256": "c42d62f691bcf9c58b3e7f40c6f20c08b7c11480a68db9824f3359dd3f37d9e7"
+      "size": 20372,
+      "sha256": "b7a962bf4f3f4e2e574086ea518277e38e10f0ea09f3db93a9ab2262a7a8e788"
     }
   ]
 }
