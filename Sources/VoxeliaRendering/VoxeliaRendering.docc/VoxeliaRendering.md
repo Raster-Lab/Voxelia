@@ -13,6 +13,26 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Topics
 
+### Rendering models
+
+- ``ViewportSize``
+- ``CameraProjection``
+- ``RenderCamera``
+- ``GreyscaleWindowFunction``
+- ``TransferFunction``
+- ``RenderQuality``
+- ``RenderLayer``
+- ``SceneSnapshot``
+- ``RenderRequest``
+- ``PresentationProvenance``
+- ``RenderResult``
+- ``RenderMode``
+- ``ColourOutputConfiguration``
+- ``AccumulationState``
+- ``DenoisingState``
+- ``SliceRenderer``
+- ``RenderModelError``
+
 ### Project documents
 
 - <doc:Architecture>

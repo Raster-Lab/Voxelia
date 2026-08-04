@@ -1424,6 +1424,29 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   embedding pixel data, keeping the publication registry
   authoritative. Tests admit a single-layer scene, prove order
   identity, and reject the empty scene and the ceiling typed.
+- Fifty-first autonomous increment (owner broadened standing mandate,
+  closing the rendering model arc): authored and accepted `ADR-0085`
+  (render request, result and renderer protocol). `RenderRequest`
+  composes the validated scene, viewport and quality; the closed
+  version-one presentation states register exactly one case each
+  (`slice`, `greyscale8`, accumulation `none`, denoising `none`);
+  `PresentationProvenance` carries the honest CDMS section 12.4
+  subset — camera, viewport size, transfer function, render mode,
+  colour output, accumulation and denoising — with the presentation
+  transform deferred behind the `VOX-SPA-004` float-bounds gate,
+  clipping and cropping awaiting their own model, and the random seed
+  field arriving only with the first stochastic mode, because a
+  deterministic pipeline recording a seed would be a false claim.
+  `RenderResult` binds the published output object identifier to its
+  presentation provenance, and the backend-neutral `SliceRenderer`
+  protocol closes the `VOX-ARC-008` version-one model surface. The
+  recorded conformance assessment: oblique and perspective GPU slice
+  rendering stays blocked by `VOX-SPA-004`, while an exact
+  axis-aligned CPU slice presenter composing the accepted
+  region-extraction and window-level operations is the natural first
+  conformer as its own increment. Tests compose a full request from
+  validated members, prove result and provenance identity across
+  every field, and exercise the protocol through a conforming stub.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
