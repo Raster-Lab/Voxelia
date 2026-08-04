@@ -58,7 +58,8 @@ extension. `ADR-0069` is allocated to lookup-table composition. The
 `ADR-0070` is allocated to composed chain composition. The next
 `ADR-0071` is allocated to geometry-preserving region extraction.
 `ADR-0072` is allocated to the canonical derivation record
-projection. The next unallocated numeric identifier is `ADR-0073`.
+projection. `ADR-0073` is allocated to strict canonical derivation
+ingress. The next unallocated numeric identifier is `ADR-0074`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -114,3 +115,4 @@ projection. The next unallocated numeric identifier is `ADR-0073`.
 | [ADR-0070](ADR-0070-composed-chain-composition.md) | Accepted | Composed chain composition |
 | [ADR-0071](ADR-0071-geometry-preserving-region-extraction.md) | Accepted | Geometry-preserving region extraction |
 | [ADR-0072](ADR-0072-canonical-derivation-projection.md) | Accepted | Canonical derivation record projection |
+| [ADR-0073](ADR-0073-strict-derivation-ingress.md) | Accepted | Strict canonical derivation ingress |

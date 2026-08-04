@@ -1179,6 +1179,29 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   is a derivation reference through the accepted `VCPJ-1` codec; the
   reference and provenance suites re-passed unchanged. The
   `ADR-0037` reference union is complete.
+- Thirty-ninth autonomous increment (owner instruction: "build the
+  VCDJ ingress autonomously"): authored and accepted `ADR-0073`
+  (strict canonical derivation ingress) and implemented
+  `CanonicalDerivationJSON.decodeRecordDocument` as the same four
+  transactional phases as the accepted provenance ingress — input
+  ceiling and shared pre-parse nesting scan, shape-directed platform
+  parsing with exact member sets, revalidating reconstruction with an
+  empty input array reconstructing as the declared zero-input
+  generator, and the canonical byte-equality gate through the
+  accepted emitter. Because the `VCDJ-1` member forms are by
+  definition the `VCPJ-1` member forms, the shape-directed extraction
+  primitives and shared member reconstructors became one internal
+  authority reused by both strict ingresses — two copies decoding one
+  registered form could drift silently, so reuse is the conservative
+  option — with cross-domain failures mapped into the derivation
+  ingress's own payload-free five-case taxonomy. Tests round-trip the
+  full record, the zero-input generator and a record exercising every
+  identity-reference case to equal records and identities, and reject
+  over-ceiling input, a pre-parse nesting bomb, malformed JSON, the
+  wrong schema identifier, an extra member, a foreign
+  parameter-digest tuple and whitespace and number aliases, all
+  payload-free; the provenance codec suites re-passed unchanged. The
+  `VCDJ-1` projection is now usable end to end.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

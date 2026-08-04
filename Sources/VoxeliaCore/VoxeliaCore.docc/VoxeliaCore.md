@@ -178,6 +178,7 @@ storage semantics.
 - ``DerivationRecordID``
 - ``CanonicalDerivationJSON``
 - ``DerivationJSONEmissionError``
+- ``DerivationJSONIngressError``
 - ``DataIdentity``
 - ``DataIdentityError``
 

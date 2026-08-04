@@ -83,7 +83,7 @@ extension CanonicalProvenanceJSON {
 
     // MARK: - Bounded pre-scan
 
-    private static func prescanRawNesting(_ bytes: [UInt8]) throws {
+    static func prescanRawNesting(_ bytes: [UInt8]) throws {
         var depth = 0
         var inString = false
         var escaped = false
@@ -423,7 +423,7 @@ extension CanonicalProvenanceJSON {
         )
     }
 
-    private static func reconstructSemanticVersion(
+    static func reconstructSemanticVersion(
         _ value: Any?
     ) throws -> SemanticVersion {
         let members = try object(
@@ -450,7 +450,7 @@ extension CanonicalProvenanceJSON {
         }
     }
 
-    private static func reconstructReference(
+    static func reconstructReference(
         _ value: Any?
     ) throws -> DataIdentityReference {
         let (tag, body) = try taggedMember(value)
@@ -481,7 +481,7 @@ extension CanonicalProvenanceJSON {
         }
     }
 
-    private static func reconstructSourceIdentity(
+    static func reconstructSourceIdentity(
         _ value: Any?
     ) throws -> SourceIdentity {
         let members = try object(
@@ -502,7 +502,7 @@ extension CanonicalProvenanceJSON {
         )
     }
 
-    private static func reconstructContentID(_ value: Any?) throws -> ContentID {
+    static func reconstructContentID(_ value: Any?) throws -> ContentID {
         let members = try object(
             value,
             keys: ["algorithm", "digest", "projection", "scope"]
@@ -556,7 +556,7 @@ extension CanonicalProvenanceJSON {
 
     // MARK: - Extraction primitives
 
-    private static func object(
+    static func object(
         _ value: Any?,
         keys: Set<String>
     ) throws -> [String: Any] {
@@ -568,7 +568,7 @@ extension CanonicalProvenanceJSON {
         return dictionary
     }
 
-    private static func taggedMember(_ value: Any?) throws -> (String, Any) {
+    static func taggedMember(_ value: Any?) throws -> (String, Any) {
         guard let dictionary = value as? [String: Any],
             dictionary.count == 1,
             let member = dictionary.first
@@ -578,35 +578,35 @@ extension CanonicalProvenanceJSON {
         return member
     }
 
-    private static func array(_ value: Any?) throws -> [Any] {
+    static func array(_ value: Any?) throws -> [Any] {
         guard let elements = value as? [Any] else {
             throw ProvenanceJSONIngressError.invalidDocument
         }
         return elements
     }
 
-    private static func string(_ value: Any?) throws -> String {
+    static func string(_ value: Any?) throws -> String {
         guard let text = value as? String else {
             throw ProvenanceJSONIngressError.invalidDocument
         }
         return text
     }
 
-    private static func optionalString(_ value: Any?) throws -> String? {
+    static func optionalString(_ value: Any?) throws -> String? {
         if value is NSNull {
             return nil
         }
         return try string(value)
     }
 
-    private static func uint32Number(_ value: Any?) throws -> UInt32 {
+    static func uint32Number(_ value: Any?) throws -> UInt32 {
         guard let number = value as? NSNumber, !(value is String) else {
             throw ProvenanceJSONIngressError.invalidDocument
         }
         return number.uint32Value
     }
 
-    private static func keyedIdentifier<Identifier: VoxeliaStringIdentifier>(
+    static func keyedIdentifier<Identifier: VoxeliaStringIdentifier>(
         _ value: Any?,
         as type: Identifier.Type
     ) throws -> Identifier {
