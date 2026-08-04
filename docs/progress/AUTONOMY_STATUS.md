@@ -1375,6 +1375,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fulfilled the policies against real device buffers — a shared
   buffer round-tripping CPU writes and a private buffer allocating at
   the requested length — and proved every typed rejection.
+- Forty-eighth autonomous increment (owner broadened standing
+  mandate, opening the rendering model arc): authored and accepted
+  `ADR-0082` (rendering camera and viewport models) and implemented
+  the first backend-neutral `VoxeliaRendering` values per
+  `VOX-ARC-008`. `ViewportSize` admits positive pixel dimensions
+  under an inclusive 16,384 ceiling — a hard admission bound, not a
+  device claim. `CameraProjection` is the closed
+  orthographic/perspective description, and `RenderCamera` validates
+  the look-at intent exactly in binary64: one shared coordinate
+  space, a non-degenerate view direction, and an up direction whose
+  cross product with the view direction meets the accepted no-epsilon
+  smallest-normal rule; projection parameters admit at the owning
+  aggregate per the axis-sampling precedent. No float-precision
+  transform derivation happens in the model, because `VOX-SPA-004`
+  admits rendering float transforms only after verified error bounds,
+  which remain a recorded gate; stable coding is owned by a future
+  presentation-provenance projection decision. Tests prove the
+  viewport bounds, both projection admissions and all parameter
+  rejections, the space rule and both degeneracy rejections.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
