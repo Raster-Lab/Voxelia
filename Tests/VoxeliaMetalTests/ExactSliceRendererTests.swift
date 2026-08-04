@@ -1,0 +1,211 @@
+// SPDX-License-Identifier: MIT
+
+import Testing
+import VoxeliaCore
+import VoxeliaExecution
+import VoxeliaRendering
+import VoxeliaSpatial
+import VoxeliaStorage
+
+@testable import VoxeliaMetal
+
+@Suite("ExactSliceRenderer")
+struct ExactSliceRendererTests {
+    private func software() throws -> SoftwareIdentity {
+        try SoftwareIdentity(
+            name: "Voxelia",
+            version: try SemanticVersion(major: 1, minor: 0, patch: 0),
+            commit: nil,
+            buildIdentifier: nil
+        )
+    }
+
+    private func axis(_ id: String) throws -> AxisDescriptor {
+        try AxisDescriptor(
+            id: try #require(AxisID(rawValue: id)),
+            name: id,
+            semantic: .spatialX,
+            unit: nil,
+            sampling: .indexOnly
+        )
+    }
+
+    private func originImage() throws -> ImageData {
+        let binding = try LogicalSampleBinding(
+            shape: try ImageShape(extents: [4, 3]),
+            scalarType: .uint8,
+            componentCount: 1
+        )
+        return try ImageData(
+            descriptor: try ImageDescriptor(
+                shape: try ImageShape(extents: [4, 3]),
+                scalarFormat: try ScalarFormat(
+                    type: .uint8,
+                    validBitCount: nil,
+                    byteOrder: .native
+                ),
+                components: try ComponentDescriptor(
+                    count: 1,
+                    interpretation: .scalar,
+                    layout: .interleaved,
+                    componentNames: nil
+                ),
+                semantic: .intensity,
+                axes: [try axis("x"), try axis("y")],
+                spatialGeometry: nil,
+                valueTransform: nil,
+                units: nil
+            ),
+            storage: AnyImageStorage(
+                erasing: try ContiguousImageStorage(
+                    binding: binding,
+                    bytes: Array(0..<12)
+                )
+            ),
+            metadata: try MetadataCollection(entries: []),
+            provenance: try ProvenanceRecord(
+                id: try #require(ProvenanceID(rawValue: "record-in")),
+                kind: .source,
+                createdAt: try CanonicalInstant(utcString: "2026-08-05T04:00:00Z"),
+                subject: .object(try #require(DataObjectID(rawValue: "series-7"))),
+                software: try software(),
+                activity: .origin,
+                inputs: [],
+                warnings: [],
+                validationClaim: .unknown,
+                declaresZeroInputGenerator: false
+            ),
+            identity: try DataIdentity(
+                objectID: try #require(DataObjectID(rawValue: "series-7")),
+                contentID: try ContentID.sampleBytesIdentity(
+                    overCanonicalPackedBytes: Array(0..<12)
+                ),
+                sourceIdentities: [
+                    try SourceIdentity(
+                        namespace: "dicom.sop-instance-uid",
+                        identifier: "1.2.840.113619.2",
+                        version: nil,
+                        contentID: nil
+                    )
+                ],
+                derivation: nil
+            )
+        )
+    }
+
+    private func makeRenderer(
+        publisher: PublicationCoordinator
+    ) throws -> ExactSliceRenderer {
+        ExactSliceRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            software: try software(),
+            naming: {
+                (
+                    outputObjectID: DataObjectID(rawValue: "render-1")!,
+                    provenanceID: ProvenanceID(rawValue: "record-render")!,
+                    createdAt: try CanonicalInstant(
+                        utcString: "2026-08-05T04:05:00Z"
+                    )
+                )
+            }
+        )
+    }
+
+    private func publisher() throws -> PublicationCoordinator {
+        PublicationCoordinator(
+            maximumPublishedObjectCount: 8,
+            graphLimits: try ProvenanceGraphLimits(
+                maximumRecordCount: 8,
+                maximumParentEdgeCount: 8,
+                maximumAncestryDepth: 8,
+                maximumUnresolvedExternalReferenceCount: 0,
+                maximumExternalResolutionByteCount: 8_192
+            ),
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            resultCache: nil
+        )
+    }
+
+    private func scene(_ objectName: String = "series-7") throws -> SceneSnapshot {
+        let space = try #require(CoordinateSpaceID(rawValue: "patient"))
+        return try SceneSnapshot(
+            layers: [
+                RenderLayer(
+                    imageObjectID: try #require(DataObjectID(rawValue: objectName)),
+                    transferFunction: .greyscaleWindow(
+                        try GreyscaleWindowFunction(center: 6, width: 8)
+                    )
+                )
+            ],
+            camera: try RenderCamera(
+                position: try Point3D(x: 0, y: 0, z: -100, coordinateSpace: space),
+                target: try Point3D(x: 0, y: 0, z: 0, coordinateSpace: space),
+                up: try Vector3D(x: 0, y: 1, z: 0, coordinateSpace: space),
+                projection: .orthographic(planeHeight: 250)
+            )
+        )
+    }
+
+    @Test("[Unit][VOX-VS1-017][VOX-VS1-019] the first vertical slice renders end to end")
+    func firstVerticalSliceRendersEndToEnd() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher)
+
+        // Rendering a published single-layer scene produces exactly the
+        // registered window-level fixture, published with depth-two
+        // complete provenance and full presentation claims.
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: try scene(),
+                viewport: try ViewportSize(width: 4, height: 3),
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "render-1")
+        #expect(result.presentation.renderMode == .slice)
+        #expect(result.presentation.colourOutput == .greyscale8)
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let outputBytes = try published.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 3])
+        ).bytes
+        #expect(outputBytes == [0, 0, 0, 36, 73, 109, 146, 182, 219, 255, 255, 255])
+        #expect(published.provenance.inputs.count == 1)
+        #expect(await publisher.publishedObjectCount == 2)
+
+        // Admission rejections: an unpublished image and a mismatched
+        // viewport are typed.
+        do {
+            _ = try await renderer.render(
+                RenderRequest(
+                    scene: try scene("series-9"),
+                    viewport: try ViewportSize(width: 4, height: 3),
+                    quality: .full
+                )
+            )
+            #expect(Bool(false), "Expected an unpublished image to be rejected.")
+        } catch SliceRendererError.imageNotPublished {}
+        do {
+            _ = try await renderer.render(
+                RenderRequest(
+                    scene: try scene(),
+                    viewport: try ViewportSize(width: 8, height: 6),
+                    quality: .full
+                )
+            )
+            #expect(Bool(false), "Expected a viewport mismatch to be rejected.")
+        } catch SliceRendererError.viewportMismatch {}
+
+        requireSendable(ExactSliceRenderer.self)
+        requireSendable(SliceRendererError.self)
+    }
+
+    private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
+}

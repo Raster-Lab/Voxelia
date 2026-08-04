@@ -1447,6 +1447,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   conformer as its own increment. Tests compose a full request from
   validated members, prove result and provenance identity across
   every field, and exercise the protocol through a conforming stub.
+- Fifty-second autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0086` (exact diagnostic slice
+  renderer) and implemented `ExactSliceRenderer` in `VoxeliaMetal` —
+  placed there by the MTA's explicit diagnostic-renderer ownership
+  and existing dependency edges, with no package-graph change. The
+  first `SliceRenderer` conformer admits exactly one published layer
+  with identity presentation (the request viewport must equal the
+  image extents, because resampling is a numeric model gated with
+  `VOX-SPA-004`), executes the accepted window-level operation as its
+  entire numeric path, publishes the output through the accepted
+  publication coordinator in complete mode with host-supplied naming
+  and instant, and returns the result with its presentation
+  provenance. THE FIRST VERTICAL SLICE RUNS END TO END: a published
+  image renders to the registered window-level fixture bytes,
+  published with depth-two complete provenance — every stage an
+  accepted, evidence-carrying contract. Tests verify the exact output
+  bytes, the provenance and registry state, and the typed
+  unpublished-image and viewport-mismatch rejections.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

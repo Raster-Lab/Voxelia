@@ -26,6 +26,8 @@ milestone specifications introduce its substantive public API incrementally.
 - ``MetalResidencyManager``
 - ``MetalResidencySelection``
 - ``MetalResidencyError``
+- ``ExactSliceRenderer``
+- ``SliceRendererError``
 
 ### Project documents
 
