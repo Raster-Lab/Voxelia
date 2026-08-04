@@ -77,6 +77,7 @@ Sources/VoxeliaCore/Public/CodedConcept.swift
 Sources/VoxeliaCore/Public/ComponentDescriptor.swift
 Sources/VoxeliaCore/Public/ContentID.swift
 Sources/VoxeliaCore/Public/ContentIdentityTaxonomy.swift
+Sources/VoxeliaCore/Public/DataIdentity.swift
 Sources/VoxeliaCore/Public/DataIdentityReference.swift
 Sources/VoxeliaCore/Public/DataModelError.swift
 Sources/VoxeliaCore/Public/DataObjectID.swift
@@ -228,6 +229,7 @@ Tests/VoxeliaCoreTests/ContentIDSampleBytesTests.swift
 Tests/VoxeliaCoreTests/ContentIDTests.swift
 Tests/VoxeliaCoreTests/ContentIdentityTaxonomyTests.swift
 Tests/VoxeliaCoreTests/DataIdentityReferenceTests.swift
+Tests/VoxeliaCoreTests/DataIdentityTests.swift
 Tests/VoxeliaCoreTests/DataObjectIDTests.swift
 Tests/VoxeliaCoreTests/DerivationIdentityTests.swift
 Tests/VoxeliaCoreTests/ExecutionProvenanceClaimTests.swift
@@ -380,6 +382,7 @@ docs/architecture/corrections/CCR-0018-adr-0044-persistent-identifier-exactness.
 docs/architecture/corrections/CCR-0019-adr-0045-integrity-state-claims.md
 docs/architecture/corrections/CCR-0020-adr-0053-source-identity-and-reference.md
 docs/architecture/corrections/CCR-0021-adr-0055-derivation-identity.md
+docs/architecture/corrections/CCR-0022-adr-0056-data-identity-aggregate.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
 docs/architecture/decisions/ADR-0023-value-transform-shape.md
@@ -415,6 +418,7 @@ docs/architecture/decisions/ADR-0052-provenance-warning-schema.md
 docs/architecture/decisions/ADR-0053-source-identity-and-data-identity-reference.md
 docs/architecture/decisions/ADR-0054-operation-parameters-content-projection.md
 docs/architecture/decisions/ADR-0055-derivation-identity-record.md
+docs/architecture/decisions/ADR-0056-data-identity-aggregate.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

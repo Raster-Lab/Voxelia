@@ -41,8 +41,9 @@ the execution claim value shapes. `ADR-0052` is allocated to the
 provenance warning schema. `ADR-0053` is allocated to the source
 identity profile and data identity reference. `ADR-0054` is allocated
 to the operation-parameters content projection. `ADR-0055` is
-allocated to the derivation identity record. The next unallocated
-numeric identifier is `ADR-0056`.
+allocated to the derivation identity record. `ADR-0056` is allocated
+to the data identity aggregate. The next unallocated numeric
+identifier is `ADR-0057`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -81,3 +82,4 @@ numeric identifier is `ADR-0056`.
 | [ADR-0053](ADR-0053-source-identity-and-data-identity-reference.md) | Accepted | Source identity profile and data identity reference |
 | [ADR-0054](ADR-0054-operation-parameters-content-projection.md) | Accepted | Operation-parameters content projection |
 | [ADR-0055](ADR-0055-derivation-identity-record.md) | Accepted | Derivation identity record |
+| [ADR-0056](ADR-0056-data-identity-aggregate.md) | Accepted | Data identity aggregate |

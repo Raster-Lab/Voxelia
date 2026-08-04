@@ -704,6 +704,32 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   coding, input-count ceiling and `DerivationRecordID` stay with the
   future canonical derivation-record projection decision; determinism
   and input assurance remain runtime evidence under `ADR-0037`.
+- Twenty-second autonomous increment: authored and accepted `ADR-0056`
+  (data identity aggregate) with `CCR-0022` recording the controlled
+  correction, and implemented the closed `DataIdentity` aggregate in
+  `VoxeliaCore`: required `DataObjectID`, optional top-level content
+  claim that must not carry the operation-parameters projection,
+  ordered `SourceIdentity` lineage and optional `DerivationIdentity`.
+  Construction rejects exactly the accepted state model's object-only
+  state; an exact repeated source record and a repeated locator with a
+  different content claim are distinct typed rejections detected in
+  one linear pass over the exact accepted UTF-8 locator keys with no
+  normalisation, deduplication or last-write-wins; accepted source
+  order is preserved as lineage record order and participates in
+  identity. Tests exercise all eight content/source/derivation
+  combinations rejecting only the object-only state, prove both source
+  rejection modes, admit byte-distinct canonically equivalent locators
+  as distinct, distinguish absent from present versions, prove order
+  participation and confirm distinct source and top-level scopes are
+  admitted without comparison. With this the `ADR-0037` claim-bearing
+  identity chain is complete as values; the stable coding and
+  source-count ceiling stay with the future canonical data-identity
+  projection decision, and cache admission, lazy enrichment and
+  `objectID` lifecycle remain gated. Structural `ImageData` assessment:
+  the aggregate's Core dependencies (`ImageDescriptor`,
+  `AnyImageStorage`, `MetadataCollection`, `DataIdentity`) now all
+  exist; the remaining blocker is the `ProvenanceRecord` target,
+  which is the next ordered decision.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

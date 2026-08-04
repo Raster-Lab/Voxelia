@@ -155,6 +155,8 @@ storage semantics.
 - ``DerivationImplementationReference``
 - ``DerivationIdentity``
 - ``DerivationIdentityError``
+- ``DataIdentity``
+- ``DataIdentityError``
 
 ### Common errors
 
