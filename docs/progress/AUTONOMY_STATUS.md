@@ -1536,6 +1536,31 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   window-level fixture duplicated into 2-by-2 blocks with both stages
   published and the resampled record's parent edge bound to the
   intermediate record.
+- Fifty-sixth autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0009` (layered linear
+  blend `binary64-v1`) and `ADR-0090`, and implemented the fourth
+  operation, `org.voxelia.op.composite-layers` 1.0.0. The registered
+  model composites two through 64 ordered greyscale eight-bit layers
+  over a black background: for every element the accumulator starts
+  at exactly positive zero and each layer applies the frozen binary64
+  sequence — transparency subtraction, retained and contributed
+  multiplications, one addition, no fused multiply-add — with the
+  final value rounded half to even under a modelled clamp; the
+  uniform rule has no distinguished base case because a first layer
+  at opacity one reproduces its values exactly. The frozen parameter
+  schema is one `opacities` floating-point array digested under the
+  registered operation-parameters projection; admission requires
+  equal-extent rank-two single-component `uint8` intensity layers
+  with index-only sampling and no geometry or value transform, and
+  the output carries empty metadata because element-wise blended
+  metadata has no defined meaning — history flows through the
+  provenance chain, which binds every layer with the `layer` role at
+  its occurrence and a graph-node parent edge. Tests reproduce all
+  three fixtures including exact reproduction through a fully
+  transparent overlay, reproduce the parameter digest independently,
+  admit the output with both layer parents into a complete graph and
+  reject bad layer counts, unequal extents, transformed layers,
+  regular sampling and malformed opacity lists typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

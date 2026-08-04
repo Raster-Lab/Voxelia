@@ -37,6 +37,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``WindowLevelError``
 - ``ResampleNearestOperation``
 - ``ResampleError``
+- ``CompositeLayersOperation``
+- ``CompositeError``
 
 ### Publication
 

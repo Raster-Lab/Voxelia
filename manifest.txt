@@ -128,6 +128,7 @@ Sources/VoxeliaExecution/ApplePlatformGate.swift
 Sources/VoxeliaExecution/Internal/.gitkeep
 Sources/VoxeliaExecution/Module.swift
 Sources/VoxeliaExecution/Public/.gitkeep
+Sources/VoxeliaExecution/Public/CompositeLayersOperation.swift
 Sources/VoxeliaExecution/Public/ContentResultCache.swift
 Sources/VoxeliaExecution/Public/MetadataIdentityCoordinator.swift
 Sources/VoxeliaExecution/Public/PublicationCoordinator.swift
@@ -294,6 +295,7 @@ Tests/VoxeliaCoreTests/StorageRepresentationTests.swift
 Tests/VoxeliaCoreTests/StorageSnapshotHandleTests.swift
 Tests/VoxeliaCoreTests/ValueTransformTests.swift
 Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift
+Tests/VoxeliaExecutionTests/CompositeLayersOperationTests.swift
 Tests/VoxeliaExecutionTests/ContentResultCacheTests.swift
 Tests/VoxeliaExecutionTests/MetadataIdentityCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/PublicationCoordinatorTests.swift
@@ -417,6 +419,7 @@ docs/algorithms/VOXELIA-ALG-0005-composed-value-transform-chain.md
 docs/algorithms/VOXELIA-ALG-0006-region-origin-shift.md
 docs/algorithms/VOXELIA-ALG-0007-camera-relative-float-transform.md
 docs/algorithms/VOXELIA-ALG-0008-nearest-neighbour-resampling.md
+docs/algorithms/VOXELIA-ALG-0009-layered-linear-blend.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -512,6 +515,7 @@ docs/architecture/decisions/ADR-0086-exact-diagnostic-slice-renderer.md
 docs/architecture/decisions/ADR-0087-float-transform-error-bounds.md
 docs/architecture/decisions/ADR-0088-nearest-neighbour-resampling.md
 docs/architecture/decisions/ADR-0089-renderer-viewport-resampling.md
+docs/architecture/decisions/ADR-0090-layer-compositing-operation.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
