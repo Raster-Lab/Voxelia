@@ -745,6 +745,21 @@
       "sha256": "85f04d7159fe4b0e4b9eac5672526440e45ed8c6c145b2fca27f95107642d1f2"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/AxisDescriptor.swift",
+      "size": 6785,
+      "sha256": "9371c62249c3ab50c6b1107172f6cbba1b8dbf28d0537dc1d577b07fd007a99d"
+    },
+    {
+      "path": "Sources/VoxeliaSpatial/Public/AxisSampling.swift",
+      "size": 9033,
+      "sha256": "b3f988d4df4f114cb36271808b5619e79df570294a79b457c83901d4ff0b0920"
+    },
+    {
+      "path": "Sources/VoxeliaSpatial/Public/AxisSemantic.swift",
+      "size": 5482,
+      "sha256": "65f44e3dc0879b29cfae4ca3a95ba0ecdc79c0ef89aaa5e708294145263e7669"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/Bounds3D.swift",
       "size": 8227,
       "sha256": "65c42454ac65a3565acc1680b367b5ea1f77916c03740f614f00886a2a4eb6d3"
@@ -801,8 +816,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 1011,
-      "sha256": "d1a9e7827c1cfbed65dbc04ec9a25ec3a62ec80470422c0886b2d7daef84c280"
+      "size": 1137,
+      "sha256": "484d9ca24138802576fa3271bab2f4e8004aafaeb27b156585552ac88fddc28f"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -1043,6 +1058,21 @@
       "path": "Tests/VoxeliaSpatialTests/AxisAlignedBounds3DTests.swift",
       "size": 19094,
       "sha256": "92024775693e3024cb7c3c8e724795a8a0aaf507213201d7d4991696dd635097"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/AxisDescriptorTests.swift",
+      "size": 10128,
+      "sha256": "cc56dc7c018d405191acddb2f554731db7436cb89840b4d108016d02405e9005"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/AxisSamplingTests.swift",
+      "size": 8996,
+      "sha256": "d7bb68eb39c47ab3de941f0a8f091733ad0648a749ddc8be88a80d68c56b59b9"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/AxisSemanticTests.swift",
+      "size": 5622,
+      "sha256": "a6573bdf4be23f36bed99ad6d770f6d74177c3f408964f9f41a72c6b29ce3029"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/CoordinateHandednessTests.swift",
@@ -1636,8 +1666,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 365991,
-      "sha256": "11f787553d124317b6628fbdf703986210a2a533129f0c198e8d45892ffb9f00"
+      "size": 367976,
+      "sha256": "115518c024eb34488226f262c3c75825b033012d43cbf10763340c7dd7d1e578"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1991,8 +2021,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 18586,
-      "sha256": "aad7d12012e694f06e41b5c617eac3f836a3af04b3331bde216f200744ecd850"
+      "size": 18887,
+      "sha256": "3a201785f94945e069f805ebadca6414de7ba70674e2cb604d9df4d661d946c2"
     }
   ]
 }

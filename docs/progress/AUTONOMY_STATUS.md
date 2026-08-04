@@ -49,7 +49,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   section-6/Appendix-A and FVSP section-14 baseline rows, states the
   corrected ownership rows and records the owner approval; the immutable
   `v0.1.1` files are unedited and a future `v0.1.2` revision set must
-  incorporate the corrected rows verbatim.
+  incorporate the corrected rows verbatim. Migration step 2 is complete: the
+  CDMS section-14 axis model (`AxisSemantic`, `AxisSampling`,
+  `AxisDescriptor`, joining the existing `AxisID`) is implemented in its
+  owning `VoxeliaSpatial` module with validated construction, strict
+  revalidating wires and focused exact-evidence tests. Migration step 3
+  (Core-owned descriptor-binding validation) remains blocked behind the
+  other `ImageDescriptor` prerequisites; steps 4 and 5 are satisfied for the
+  Spatial half by the new tests and regenerated evidence ledgers.
 - Proposed `ADR-0022` selects a namespaced six-case `CoordinateConvention`
   shape and explicit type-level tags while preserving the separate descriptor
   unit-policy blocker; it is not accepted and does not unblock code.
@@ -254,7 +261,7 @@ binding validation before `ImageDescriptor` can be constructed.
 | `scalarFormat` | `ScalarFormat` | Implemented | Semantic compatibility is descriptor-level; storage compatibility is deferred to `ImageData`/storage binding and must not cause descriptor construction to access storage. |
 | `components` | `ComponentDescriptor` | Implemented | The semantic/component/scalar compatibility matrix is not fully specified. |
 | `semantic` | `ImageSemantic` | Implemented | The detailed namespaced generic form is implemented; older MTA drift and descriptor-level consistency remain recorded. |
-| `axes` | `ContiguousArray<AxisDescriptor>` | Ownership resolved; contract work authorised | Accepted `ADR-0021` (2026-08-04) assigns the axis model to `VoxeliaSpatial` with Core binding validation; the controlled CDMS/FVSP correction and the sampling/name/unit validation plus wire rules are in-progress migration work. |
+| `axes` | `ContiguousArray<AxisDescriptor>` | Spatial leaves implemented; binding blocked | Accepted `ADR-0021` (2026-08-04) assigned the axis model to `VoxeliaSpatial`; `CCR-0001` recorded the corrections and the three axis types are implemented with validated construction and strict wires. Core-owned axis-collection binding validation waits on the remaining `ImageDescriptor` prerequisites. |
 | `spatialGeometry` | `SpatialGeometry?` | Proposed-dependent and contract-blocked | Coordinate-space policy, affine shape and tolerance, rectilinear binding, and the frame-index dependency cycle all remain unresolved. |
 | `valueTransform` | `ValueTransform?` | Proposed-dependent | Proposed `ADR-0023` must be accepted and its controlled-document corrections completed before its bounded four-case declaration is authorised. Piecewise extension and lookup execution are explicitly later scope, not blockers to that declaration. |
 | `units` | `MeasurementUnit?` | Implemented and conformance-hardened | The unit must describe authoritative sample values; semantic and transform compatibility policy is still required. |
@@ -263,7 +270,7 @@ The blocked axis and spatial branch expands as follows:
 
 | Prerequisite | Implemented leaves | Blocking contract |
 |---|---|---|
-| `AxisDescriptor` | `AxisID`, `MeasurementUnit` | Accepted `ADR-0021` authorises Spatial ownership; implementation must still resolve the recorded design constraints: direct enum payloads cannot enforce finite, non-zero regular spacing, and origin/irregular-coordinate finiteness, generic and external string validity, categorical-label policy, duplicate-semantic support and descriptor binding require validated construction. |
+| `AxisDescriptor` | `AxisID`, `AxisSemantic`, `AxisSampling`, `AxisDescriptor`, `MeasurementUnit` | Implemented in owning `VoxeliaSpatial` under accepted `ADR-0021`/`CCR-0001`. The descriptor's validated initializer and revalidating wire enforce the value-intrinsic invariants (finite non-zero regular spacing, finite origin and irregular coordinates, non-blank name, generic strings, categorical labels and external identifier). Extent-dependent invariants, duplicate-semantic policy and spatial-axis consistency remain Core binding validation behind the blocked `ImageDescriptor`. |
 | `CoordinateSpaceDescriptor` | `CoordinateSpaceID`, `CoordinateHandedness`, `ExternalFrameReference`, `MeasurementUnit` | Its implemented leaves now have coherent local identity and wire behavior, but proposed `ADR-0022` is not accepted. The descriptor still cannot classify physical versus logical Cartesian/custom/display spaces, so unit admissibility, handedness authority, external-reference ordering and construction errors remain incomplete. |
 | `AffineGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. MTA also uses fixed `SIMD3<Int>` axes while CDMS uses one-to-three `SpatialAxisMapping` entries. Affine-final-row validation has no declared tolerance; singularity and near-singularity policy separately block inverse operations. |
 | `RectilinearGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. Coordinate-count binding, monotonicity/coincident-sample policy, orientation and invertibility semantics are incomplete. |
@@ -2346,6 +2353,22 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   approval with the introducing commit as its effective commit. No immutable
   `v0.1.1` baseline file was edited; no package edge, requirement row or
   source changed; no other Proposed ADR or correction is affected.
+- Implemented accepted `ADR-0021` migration step 2: the axis model in its
+  owning `VoxeliaSpatial` module. `AxisSemantic` mirrors the implemented
+  `ImageSemantic` wire pattern with the twelve CDMS named cases plus the
+  namespaced generic object. `AxisSampling` implements the five CDMS cases
+  with an internal value-intrinsic validator (finite non-zero regular
+  spacing per CDMS 14.4; finite origin and irregular coordinates following
+  the `MeasurementUnit` non-finite precedent; non-blank categorical labels
+  and external identifier following the blank-string precedent) and a strict
+  one-tag revalidating wire with typed `AxisSamplingError` causes.
+  `AxisDescriptor` implements the five CDMS fields with a validated throwing
+  initializer (blank name and blank generic-semantic components rejected
+  with typed `AxisDescriptorError`; sampling revalidated), a strict
+  five-key explicit-null wire and field-path `dataCorrupted` revalidation.
+  The DocC topics page gained the axis-model section. Extent-dependent
+  binding invariants stay in blocked Core `ImageDescriptor` work; no other
+  Proposed contract, package edge or baseline changed.
 
 ## Verification evidence
 
@@ -4660,6 +4683,19 @@ requirement-index check passed. The release manifest gained exactly the one
 new correction record. No `v0.1.1` baseline file, product source or package
 edge changed.
 
+`swift test --filter '(AxisSemantic|AxisSampling|AxisDescriptor)'` executed
+all seventeen tests in the three new owning Spatial suites: exact taxonomy
+and wire round trips, exact typed construction rejections, exact
+strict-decode rejections with root, case and field coding paths and exact
+underlying `AxisSamplingError`/`AxisDescriptorError`/
+`VoxeliaStringIdentifierError` causes, and Sendable/Hashable checks. The
+owning `swift build --target VoxeliaSpatial`, the direct-dependant
+`swift build --target VoxeliaCore`, strict format lint for the three new
+source and three new test files, the static package-graph and
+prohibited-import checks (proving Spatial still depends on nothing) and the
+requirement-index check passed. No controlled baseline or other Proposed
+contract changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5144,36 +5180,27 @@ edge changed.
 
 ## Exact next action
 
-Execute accepted `ADR-0021` migration step 2: implement the axis model in
-its owning `VoxeliaSpatial` module. Implement exactly the CDMS section-14
-shapes as corrected by `CCR-0001`: `AxisSemantic` with the twelve named
-cases plus validated `generic(namespace:name:)` following the implemented
-`ImageSemantic` wire pattern; `AxisSampling` with the five CDMS cases
-(`indexOnly`, `regular(origin:spacing:)`, `irregular(coordinates:)`,
-`categorical(labels:)`, `externallyDefined(identifier:)`) and a strict
-one-tag wire; and the five-field `AxisDescriptor` with a validated throwing
-initializer and revalidating strict five-key Codable. Enforce at the Spatial
-level only value-intrinsic invariants with existing house precedent: finite
-non-zero regular spacing (CDMS 14.4), finite origin and irregular
-coordinates (MeasurementUnit non-finite precedent), non-blank descriptor
-name, generic namespace/name, categorical labels and external identifier
-(blank-string precedent). Leave extent-dependent invariants (axis count
-versus rank, unique identifiers, per-axis coordinate/label counts,
-duplicate-semantic policy, spatial-axis consistency) to Core binding
-validation, which stays blocked behind the remaining `ImageDescriptor`
-prerequisites. Add focused Spatial tests with exact typed-error and exact
-decode-rejection evidence in the established style.
+Accepted `ADR-0021` migration is complete except Core-owned
+descriptor-binding validation, which is transitively blocked behind the
+remaining `ImageDescriptor` prerequisites (coordinate-space descriptor
+policy, affine shape and tolerance, rectilinear and frame-set binding,
+canonical JSON). The next unblocked step is another governance decision:
+surface Proposed `ADR-0022` (coordinate-convention public shape) to the
+user with its decision questions, following the same interactive acceptance
+flow used for `ADR-0021`; `ADR-0023` (value-transform shape) is the
+subsequent candidate. Do not accept ADRs autonomously, implement speculative
+source or run blocked storage/metadata probes while those decisions are
+open.
 
 ## Test policy for the next action
 
-- Run `swift test --filter '(AxisSemantic|AxisSampling|AxisDescriptor)'`, the
-  owning `swift build --target VoxeliaSpatial`, one direct-dependant
-  `swift build --target VoxeliaCore` because Spatial gains public API, strict
-  format lint for the new source and test files, the requirement-index and
-  release-integrity checks, and the static package-graph check because the
-  ADR's validation impact requires proof that Spatial does not depend on
-  Core. Do not run blocked storage/metadata probes or the complete Swift
-  package suite.
+- A governance decision has no test surface. When the next accepted decision
+  authorises work, derive its policy from the smallest owning target as in
+  prior increments, plus documentation, requirement-index and
+  release-integrity checks and the package-graph checks whenever ownership
+  or module boundaries are affected. Do not rerun the complete scaffold
+  suite unless a cross-cutting change affects its gate or a release
+  candidate is being accepted.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

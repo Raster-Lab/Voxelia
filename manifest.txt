@@ -147,6 +147,9 @@ Sources/VoxeliaRendering/VoxeliaRendering.docc/VoxeliaRendering.md
 Sources/VoxeliaSpatial/ApplePlatformGate.swift
 Sources/VoxeliaSpatial/Internal/.gitkeep
 Sources/VoxeliaSpatial/Module.swift
+Sources/VoxeliaSpatial/Public/AxisDescriptor.swift
+Sources/VoxeliaSpatial/Public/AxisSampling.swift
+Sources/VoxeliaSpatial/Public/AxisSemantic.swift
 Sources/VoxeliaSpatial/Public/Bounds3D.swift
 Sources/VoxeliaSpatial/Public/CoordinateHandedness.swift
 Sources/VoxeliaSpatial/Public/ExternalFrameReference.swift
@@ -207,6 +210,9 @@ Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift
 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
 Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift
 Tests/VoxeliaSpatialTests/AxisAlignedBounds3DTests.swift
+Tests/VoxeliaSpatialTests/AxisDescriptorTests.swift
+Tests/VoxeliaSpatialTests/AxisSamplingTests.swift
+Tests/VoxeliaSpatialTests/AxisSemanticTests.swift
 Tests/VoxeliaSpatialTests/CoordinateHandednessTests.swift
 Tests/VoxeliaSpatialTests/ExternalFrameReferenceTests.swift
 Tests/VoxeliaSpatialTests/Matrix4x4DoubleTests.swift

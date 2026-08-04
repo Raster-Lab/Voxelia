@@ -25,6 +25,14 @@ None.
 - ``VoxeliaStringIdentifierError``
 - ``AxisID``
 
+### Axis model
+
+- ``AxisSemantic``
+- ``AxisSampling``
+- ``AxisSamplingError``
+- ``AxisDescriptor``
+- ``AxisDescriptorError``
+
 ### Coordinate spaces
 
 - ``CoordinateSpaceID``
