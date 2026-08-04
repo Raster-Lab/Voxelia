@@ -572,6 +572,28 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `descriptorAndSamples` scope stays honestly deferred because no
   canonical descriptor byte projection exists, and ordinary `Codable`
   output is not canonical under `ADR-0036`.
+- Sixteenth autonomous increment: authored and accepted `ADR-0050`
+  (content-tier result cache) and implemented `ContentResultCache` in
+  `VoxeliaExecution` — exactly the content tier of the accepted
+  `ADR-0037` admission order, unblocked by the `ADR-0049` bytes-scope
+  projection. Admission recomputes the supplied record's digest under
+  its own registered tuple and compares timing-safe outside the actor's
+  isolation before anything is published; every hit revalidates the
+  stored bytes before returning them, with a revalidation failure
+  purging the entry, counting evidence and reporting a miss; the
+  initializer requires inclusive entry-count and total-byte ceilings
+  with no permissive defaults and checked arithmetic; duplicate
+  admission of a cached identity is an idempotent success; removal is
+  explicit with unknown removal a typed rejection; and no implicit
+  eviction policy exists — selecting one is recorded as a governed
+  decision deferred until usage evidence exists. Tests prove mismatched
+  admission publishes nothing, both registered tuples round-trip
+  through verified admission and revalidated lookup, both ceilings
+  reject with unchanged state, duplicates are idempotent, removal frees
+  the budget exactly once, returned copies are owned, the evidence
+  counter stays zero across healthy operations and the payload-free
+  error discipline holds. Source-tier and derivation-tier admission
+  stay gated on their `ADR-0037` prerequisites.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
