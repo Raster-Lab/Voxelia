@@ -178,6 +178,7 @@ Sources/VoxeliaSpatial/Public/Matrix4x4Double.swift
 Sources/VoxeliaSpatial/Public/MeasurementUnit.swift
 Sources/VoxeliaSpatial/Public/RayAxisAlignedBoundsIntersection.swift
 Sources/VoxeliaSpatial/Public/SpatialAxisMapping.swift
+Sources/VoxeliaSpatial/Public/SpatialGeometry.swift
 Sources/VoxeliaSpatial/Public/SpatialPrimitives.swift
 Sources/VoxeliaSpatial/Public/SpatialTransformKind.swift
 Sources/VoxeliaSpatial/Public/StringIdentifier.swift
@@ -259,6 +260,7 @@ Tests/VoxeliaSpatialTests/MeasurementUnitTests.swift
 Tests/VoxeliaSpatialTests/PlaneAndRayTests.swift
 Tests/VoxeliaSpatialTests/RayAxisAlignedBoundsIntersection3DTests.swift
 Tests/VoxeliaSpatialTests/SpatialAxisMappingTests.swift
+Tests/VoxeliaSpatialTests/SpatialGeometryTests.swift
 Tests/VoxeliaSpatialTests/SpatialPrimitivesTests.swift
 Tests/VoxeliaSpatialTests/SpatialTransformKindTests.swift
 Tests/VoxeliaSpatialTests/StringIdentifierTests.swift

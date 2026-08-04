@@ -900,6 +900,11 @@
       "sha256": "1b0fb71a3ad3435b2cfb4af28b799bc4999233444fb82955ebddac255220e086"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/SpatialGeometry.swift",
+      "size": 4157,
+      "sha256": "2d7d32a34ac056527739f39eec325cb14c28b4779ae4f2412a835602db3288c2"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/SpatialPrimitives.swift",
       "size": 14441,
       "sha256": "0e09e12ddb7f59c0f27dab5c4ce4725e312c05c241b78af883ddbdd37dbbeaac"
@@ -926,8 +931,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 1344,
-      "sha256": "6d767e2194afe140f213a97a82545b82839c328c62908c4215a4405d483bcd97"
+      "size": 1500,
+      "sha256": "934d1ecb557d2cbdfb972d7a9d2b3e7cbd2379208a5ed3718505dc129ee0f11c"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -1303,6 +1308,11 @@
       "path": "Tests/VoxeliaSpatialTests/SpatialAxisMappingTests.swift",
       "size": 5131,
       "sha256": "88eeea691a8eaa15f77d5a3a1911897764116677cf04911fe1a35086e6d2bd8f"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/SpatialGeometryTests.swift",
+      "size": 5926,
+      "sha256": "22142368825fe852a7d9756497ed2d01150252f902f5124b721b2fc4cfa8d36d"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/SpatialPrimitivesTests.swift",
@@ -1966,8 +1976,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 435718,
-      "sha256": "a95260a4259c94a510e0d4ca61dc5bea3e9d9edea6c8a4d9eefe2658cdb41360"
+      "size": 436556,
+      "sha256": "0d6489fa47fa96686fb256d0e1cd342fba7e5ca9538844a5018756d8087bf714"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2326,8 +2336,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 22652,
-      "sha256": "9d41628ed30fd8fa16673b741b50b4aae49712296237950ca2003fa8cadaf651"
+      "size": 22757,
+      "sha256": "f6598232284a33f5ee42046c0ea3c0dba530b057ff649ce8693d778666884b3d"
     }
   ]
 }

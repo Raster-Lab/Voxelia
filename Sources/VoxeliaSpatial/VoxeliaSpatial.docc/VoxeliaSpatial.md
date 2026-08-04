@@ -13,6 +13,14 @@ None.
 
 ## Topics
 
+### Spatial geometry
+
+- ``CoordinateSpaceDescriptor``
+- ``CoordinateSpaceError``
+- ``AffineGridGeometry``
+- ``SpatialGeometry``
+- ``SpatialGeometryError``
+
 ### Units
 
 - ``MeasurementUnit``

@@ -413,6 +413,19 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   Implementation of `CoordinateSpaceDescriptor`, the affine geometry,
   the version-one `SpatialGeometry` surface and `ImageDescriptor`
   follows as the next increments.
+- Seventh autonomous increment: `SpatialGeometry.swift` in
+  `VoxeliaSpatial` implements the accepted `ADR-0043` admission rules:
+  `CoordinateSpaceDescriptor` (reusing the existing `CoordinateSpaceID`
+  leaf) rejects non-length or missing unit dimensions, duplicate exact
+  external references and declared handedness contradicting a
+  convention's implied handedness; `AffineGridGeometry` enforces the
+  exact homogeneous bottom row and the
+  `Double.leastNormalMagnitude` determinant boundary (zero and
+  subnormal determinants rejected, the exact boundary admitted); and
+  the version-one `SpatialGeometry` enum admits the affine case. Wire
+  coding for the new aggregates is deliberately deferred to a dedicated
+  strict-wire increment. Two focused tests cover every rejection path
+  and the determinant boundary in both directions.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
