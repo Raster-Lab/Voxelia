@@ -6950,37 +6950,39 @@ through 11 are recorded as the open gates blocking storage source.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0037` are
-accepted and executed: the three metadata leaves, the bounded recursive
-`MetadataValue`, the classified general `MetadataEntry`, the ordered
-`MetadataCollection` with explicit multiplicity admission, the closed
-exact-case typed read surface, the `VCMJ-1` canonical codec with strict
-raw ingress and the framed complete canonical metadata record identity
-(`ContentID`) exist with their controlled corrections, and `ADR-0037`'s
-claim/assurance, state-model and cache-admission boundary is recorded
-through `CCR-0014` with its source gate deliberately closed. The
-`ImageDescriptor` aggregate remains blocked by its remaining
-prerequisites: the `CoordinateSpaceDescriptor` unit policy and
-classification, affine shape and construction tolerance, rectilinear
-binding and the remaining frame-set collection contracts; its
-canonical-JSON prerequisite is now satisfied for the metadata record.
-With the `RFC-0001` directional approval recorded, `ADR-0039` through
-`ADR-0041` accepted and the step-4 freeze closed by accepted `ADR-0042`,
-the ADR register holds no Proposed records: `ADR-0001` through
-`ADR-0042` are all Accepted, and the governance backlog inherited from
-the original autonomous loop is exhausted. The next unblocked steps are
-the recorded open gates, each requiring its own user-requested decision:
-the `RFC-0001` approval-order steps 5 through 11 (compatibility
-projections, then the checked Core storage contracts under the frozen
-names, then one owned contiguous provider, then the later gated steps),
-the `ADR-0037`/`ADR-0038` source-gate prerequisites
-(`DataObjectID` persistent identity, bounded `ProvenanceID`, identifier
-profiles, registered parameter/derivation projections, execution/cache
-contracts), the CDMS section 59 integrity-state correction, and the
-`ADR-0035` evidence gaps (device latency campaign, fuzz corpora,
-external differential oracles, universal raw ceiling, `VOX-ERR-001`
-allocation disposition). Do not accept records autonomously, implement
-speculative source or run blocked probes while those gates are open.
+The autonomous continuation of 2026-08-04 has executed `ADR-0043`
+through `ADR-0072` and algorithm specifications `VOXELIA-ALG-0002`
+through `VOXELIA-ALG-0006`, all Accepted and implemented: the spatial
+and image descriptors, the persistent-identifier and integrity claim
+boundaries, the M2 execution coordinators with single-flight
+deduplication, the four content projections beyond the metadata record
+(sample bytes, operation parameters, provenance record, derivation
+record) with their canonical `VCPJ-1`/`VCDJ-1` emitters and strict
+`VCPJ-1` ingress, the content-tier result cache, the complete
+claim-bearing identity chain (`SourceIdentity`,
+`DataIdentityReference` with all four cases, `DerivationIdentity`,
+`DerivationRecordID`, `DataIdentity`), the complete provenance chain
+(claims, warnings, record, complete and compact graph admission with
+verified external references), the `ImageData` aggregate, the result
+publication coordinator, and two operations — exact geometry-preserving
+region extraction (1.1.0) and window-level (1.4.0) with the full
+transform-composition set — every increment pushed with independently
+computed golden fixtures.
+
+The remaining recorded gates each require either a new owner
+authorization, external evidence that must not be fabricated, or both:
+strict `VCDJ-1` ingress (the next natural codec increment, following
+the accepted `ADR-0061` pattern); slicing models for irregular,
+categorical and externally defined sampling; durable provenance and
+image persistence (gated on format, atomicity, corruption and
+output-integrity evidence per `ADR-0037`); signed external manifests
+(gated on a signature contract); retention and deletion governance for
+the append-only publication registry; lazy identity enrichment and the
+`objectID` lifecycle; the `ADR-0035` evidence campaigns (device
+latency, fuzz corpora, external differential oracles, universal raw
+ceiling, the `VOX-ERR-001` allocation disposition); the visionOS
+platform component; and the M4+ milestone scopes. Do not fabricate
+external evidence or begin gated persistence work autonomously.
 
 ## Test policy for the next action
 
