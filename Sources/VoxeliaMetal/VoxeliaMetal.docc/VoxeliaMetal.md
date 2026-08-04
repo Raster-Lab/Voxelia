@@ -17,6 +17,11 @@ milestone specifications introduce its substantive public API incrementally.
 
 - ``ResidencyPolicy``
 
+### Execution context
+
+- ``MetalExecutionContext``
+- ``MetalContextError``
+
 ### Project documents
 
 - <doc:Architecture>

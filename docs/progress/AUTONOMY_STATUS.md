@@ -1307,6 +1307,32 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   tampered-signature, wrong-manifest, wrong-key and
   malformed-encoding outcomes. This discharges the `ADR-0038`
   signed-manifest deferral.
+- Forty-fifth autonomous increment (owner broadened standing mandate,
+  OPENING MILESTONE M3): authored and accepted `ADR-0079` (Metal
+  execution context boundary) and implemented `MetalExecutionContext`
+  in `VoxeliaMetal`. The context acquires the system default device
+  and a command queue at construction with typed payload-free
+  rejections and no fallback; no API accepts or exposes a device
+  name, commercial model or named Metal generation, honouring the
+  `VOX-PLT-013`/`VOX-PLT-014` capability-detection requirements.
+  Version one detects the closed Metal 3 capability class through the
+  platform's family query, mapped to the token
+  `org.voxelia.capability.metal3` — which parses as the accepted
+  `ADR-0051` execution-claim capability class, so GPU-executed claims
+  plug into the existing provenance discipline unchanged — and
+  exposes the unified-memory flag and opaque registry identifier as
+  runtime evidence while device and queue handles stay
+  module-internal for the kernel and residency increments. The class
+  is unchecked-`Sendable` with the recorded justification that the
+  platform documents `MTLDevice` and `MTLCommandQueue` as
+  thread-safe. The suite acquired a real device on this Apple-silicon
+  host — real GPU evidence, with an environment lacking a device
+  failing loudly rather than skipping silently. The window-level MSL
+  kernel and the CPU-Metal differential harness are the next M3
+  increments, with the recorded constraint that MSL has no binary64,
+  so GPU precision claims must carry honest binary32-device policy
+  tokens and measured differential evidence, never a false
+  binary64-strict claim.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
