@@ -1409,6 +1409,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   windows out of the Core `ValueTransform` is honoured by placement.
   Tests admit valid windows including the degenerate unit width and
   reject non-finite and sub-one parameters typed.
+- Fiftieth autonomous increment (owner broadened standing mandate,
+  rendering arc): authored and accepted `ADR-0084` (render quality,
+  layer and scene snapshot models). `RenderQuality` is the closed
+  `interactive`/`full` description — accumulation and denoising are
+  result-provenance states, and version-one renderers are
+  deterministic single-pass; `RenderLayer` references one published
+  immutable bundle by `DataObjectID` with its transfer function
+  (opacity and blending arrive with multi-layer compositing as their
+  own registered model); and `SceneSnapshot` binds a non-empty
+  ordered layer list under an inclusive 64-layer ceiling to one
+  camera, with order as compositing order participating in identity.
+  Scenes reference published bundles by identifier rather than
+  embedding pixel data, keeping the publication registry
+  authoritative. Tests admit a single-layer scene, prove order
+  identity, and reject the empty scene and the ceiling typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

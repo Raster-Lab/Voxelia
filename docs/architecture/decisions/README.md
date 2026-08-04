@@ -69,8 +69,9 @@ boundary opening milestone M3. `ADR-0080` is allocated to the
 window-level Metal kernel and differential harness. `ADR-0081` is
 allocated to the Metal residency strategy. `ADR-0082` is allocated
 to the rendering camera and viewport models. `ADR-0083` is allocated
-to the rendering transfer function model. The next unallocated numeric
-identifier is `ADR-0084`.
+to the rendering transfer function model. `ADR-0084` is allocated to
+the render quality, layer and scene snapshot models. The next
+unallocated numeric identifier is `ADR-0085`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -137,3 +138,4 @@ identifier is `ADR-0084`.
 | [ADR-0081](ADR-0081-metal-residency-strategy.md) | Accepted | Metal residency strategy |
 | [ADR-0082](ADR-0082-rendering-camera-and-viewport.md) | Accepted | Rendering camera and viewport models |
 | [ADR-0083](ADR-0083-rendering-transfer-function.md) | Accepted | Rendering transfer function model |
+| [ADR-0084](ADR-0084-render-quality-layer-and-scene.md) | Accepted | Render quality, layer and scene snapshot models |

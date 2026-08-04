@@ -13,6 +13,8 @@ public enum RenderModelError: Error, Sendable, Equatable {
     case degenerateUpDirection
     case invalidProjectionParameter
     case invalidWindowParameter
+    case emptyScene
+    case layerLimitExceeded
 }
 
 /// One validated positive pixel viewport size per `ADR-0082`.
