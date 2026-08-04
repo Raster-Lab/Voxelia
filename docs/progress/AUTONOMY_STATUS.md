@@ -1638,6 +1638,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   implementation over a native `int16` image with the 1.1.0
   implementation reference, and unsupported scalar types and odd byte
   counts reject typed.
+- Sixtieth autonomous increment (owner broadened standing mandate):
+  authored and accepted `ADR-0094` and admitted the single-layer
+  fade. The registered `VOXELIA-ALG-0009` model already defines the
+  one-layer case — the uniform black-background rule has no minimum —
+  so the compositing operation widens to one through 64 layers at the
+  1.1.0 versions under the established
+  compatible-domain-widening rule, with an empty layer list still the
+  typed rejection. The renderer now composites whenever more than one
+  layer is declared or a single layer carries a non-unit opacity,
+  publishing the composite stage, while a single layer at opacity one
+  keeps its accepted single-publication shape because an opacity-one
+  composite would mint a value-identical object with no presentation
+  meaning; the now-dead `unsupportedLayerOpacity` case is removed per
+  the `ADR-0071` precedent. Tests reproduce the half-opacity
+  single-layer fade against an independently computed fixture through
+  the operation and end to end through the renderer with the
+  composite stage published, verify the widened versions in the
+  recipe, and keep the empty-list rejection typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

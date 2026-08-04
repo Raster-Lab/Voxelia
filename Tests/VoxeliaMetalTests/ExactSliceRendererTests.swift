@@ -199,8 +199,7 @@ struct ExactSliceRendererTests {
         #expect(published.provenance.inputs.count == 1)
         #expect(await publisher.publishedObjectCount == 2)
 
-        // Admission rejections: an unpublished image and a
-        // reduced-opacity single layer are typed.
+        // Admission rejection: an unpublished image is typed.
         do {
             _ = try await renderer.render(
                 RenderRequest(
@@ -211,16 +210,27 @@ struct ExactSliceRendererTests {
             )
             #expect(Bool(false), "Expected an unpublished image to be rejected.")
         } catch SliceRendererError.imageNotPublished {}
-        do {
-            _ = try await renderer.render(
-                RenderRequest(
-                    scene: try scene([try layer("series-7", opacity: 0.5)]),
-                    viewport: try ViewportSize(width: 4, height: 3),
-                    quality: .full
-                )
+
+        // The ADR-0094 single-layer fade routes through the published
+        // composite stage: the registered fixture at half opacity over
+        // the black background.
+        let fadeRenderer = try makeRenderer(publisher: publisher, prefix: "render-1f")
+        let faded = try await fadeRenderer.render(
+            RenderRequest(
+                scene: try scene([try layer("series-7", opacity: 0.5)]),
+                viewport: try ViewportSize(width: 4, height: 3),
+                quality: .full
             )
-            #expect(Bool(false), "Expected a single-layer fade to be rejected.")
-        } catch SliceRendererError.unsupportedLayerOpacity {}
+        )
+        #expect(faded.outputObjectID.rawValue == "render-1f-cp")
+        let fadedImage = try #require(
+            await publisher.publishedImage(for: faded.outputObjectID)
+        )
+        let fadedBytes = try fadedImage.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 3])
+        ).bytes
+        #expect(fadedBytes == [0, 0, 0, 18, 36, 54, 73, 91, 110, 128, 128, 128])
+        #expect(await publisher.publishedObjectCount == 4)
 
         requireSendable(ExactSliceRenderer.self)
         requireSendable(SliceRendererError.self)

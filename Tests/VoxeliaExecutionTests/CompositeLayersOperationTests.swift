@@ -150,6 +150,18 @@ struct CompositeLayersOperationTests {
         )
         #expect(try bytes(reproduced) == Self.layerA)
 
+        // The ADR-0094 single-layer fade: one layer at half opacity
+        // over the black background, and the widened versions carried
+        // in the recipe.
+        let faded = try await execute(layers: [first], opacities: [0.5])
+        #expect(
+            try bytes(faded) == [0, 0, 0, 18, 36, 54, 73, 91, 110, 128, 128, 128]
+        )
+        #expect(
+            faded.identity.derivation?.operationVersion
+                == (try SemanticVersion(major: 1, minor: 1, patch: 0))
+        )
+
         // The parameter digest reproduces independently, and the
         // output admits into a complete graph with both layer parents.
         let expectedDigest = try ContentID.operationParametersIdentity(
@@ -184,11 +196,11 @@ struct CompositeLayersOperationTests {
         let first = try layer(bytes: Self.layerA, name: "series-a")
         let second = try layer(bytes: Self.layerB, name: "series-b")
 
-        // A single layer, unequal extents, a value transform, regular
-        // sampling and malformed opacity lists reject typed.
+        // An empty layer list, unequal extents, a value transform,
+        // regular sampling and malformed opacity lists reject typed.
         do {
-            _ = try await execute(layers: [first], opacities: [1.0])
-            #expect(Bool(false), "Expected a single layer to be rejected.")
+            _ = try await execute(layers: [], opacities: [])
+            #expect(Bool(false), "Expected an empty layer list to be rejected.")
         } catch CompositeError.invalidLayerCount {}
         do {
             let narrow = try layer(

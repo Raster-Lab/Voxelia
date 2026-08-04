@@ -11,7 +11,6 @@ import VoxeliaRendering
 public enum SliceRendererError: Error, Sendable, Equatable {
     case unsupportedSceneShape
     case imageNotPublished
-    case unsupportedLayerOpacity
 }
 
 /// The closed set of published stages one render can produce; the
@@ -110,15 +109,6 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
     /// - Throws: ``SliceRendererError``, or the audited typed errors
     ///   of the execution and publication contracts.
     public func render(_ request: RenderRequest) async throws -> RenderResult {
-        // A single-layer scene keeps its accepted single-publication
-        // shape, so it requires full opacity — a single-layer fade
-        // would widen the compositing admission, its own decision.
-        if request.scene.layers.count == 1,
-            request.scene.layers[0].opacity != 1
-        {
-            throw SliceRendererError.unsupportedLayerOpacity
-        }
-
         // Window-level every published greyscale layer in scene order
         // — the value model consumes the stored domain — publishing
         // each stage, so the ancestry closure stays complete in the
@@ -143,10 +133,13 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             windowLevelled.append(staged)
         }
 
-        // More than one layer blends through the registered
-        // compositing operation, also published.
+        // More than one layer, or a single-layer fade per ADR-0094,
+        // blends through the registered compositing operation, also
+        // published; a single layer at opacity one is already
+        // presented, and an opacity-one composite would mint a
+        // value-identical object with no presentation meaning.
         let presented: ImageData
-        if windowLevelled.count == 1 {
+        if windowLevelled.count == 1, request.scene.layers[0].opacity == 1 {
             presented = windowLevelled[0]
         } else {
             let names = try naming(.composited)

@@ -80,7 +80,8 @@ is allocated to the nearest-neighbour resampling operation.
 `ADR-0091` is allocated to multi-layer scene presentation.
 `ADR-0092` is allocated to the GPU slice presentation path.
 `ADR-0093` is allocated to the sixteen-bit device window-level paths.
-The next unallocated numeric identifier is `ADR-0094`.
+`ADR-0094` is allocated to single-layer fade admission. The next
+unallocated numeric identifier is `ADR-0095`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -157,3 +158,4 @@ The next unallocated numeric identifier is `ADR-0094`.
 | [ADR-0091](ADR-0091-multi-layer-scene-presentation.md) | Accepted | Multi-layer scene presentation |
 | [ADR-0092](ADR-0092-gpu-slice-presentation-path.md) | Accepted | GPU slice presentation path |
 | [ADR-0093](ADR-0093-sixteen-bit-device-window-level.md) | Accepted | Sixteen-bit device window-level paths |
+| [ADR-0094](ADR-0094-single-layer-fade.md) | Accepted | Single-layer fade admission |

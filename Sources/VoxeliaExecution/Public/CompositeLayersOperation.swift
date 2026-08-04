@@ -30,8 +30,9 @@ public enum CompositeLayersOperation {
     /// The registered implementation token spelling.
     public static let implementationIdentifier = "org.voxelia.impl.composite-layers.cpu"
 
-    /// The inclusive layer-count bounds, matching the scene ceiling.
-    public static let minimumLayerCount = 2
+    /// The inclusive layer-count bounds, widened to a single layer by
+    /// `ADR-0094`; the ceiling matches the scene ceiling.
+    public static let minimumLayerCount = 1
     public static let maximumLayerCount = 64
 
     private static let parameterDocumentByteCeiling: UInt64 = 65_536
@@ -165,7 +166,7 @@ public enum CompositeLayersOperation {
         // Registered tokens, derivation recipe, content identity and
         // the subject-bound record with one parent edge per layer, per
         // the accepted operation pattern.
-        let version = try SemanticVersion(major: 1, minor: 0, patch: 0)
+        let version = try SemanticVersion(major: 1, minor: 1, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )
