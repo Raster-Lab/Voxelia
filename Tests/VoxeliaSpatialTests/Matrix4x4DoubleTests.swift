@@ -77,7 +77,7 @@ struct Matrix4x4DoubleTests {
         #expect(!String(decoding: try JSONEncoder().encode(matrix), as: UTF8.self).contains("-0"))
     }
 
-    @Test("[Unit][VOX-API-004] Codable preserves structure and revalidates input")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] Codable preserves structure and revalidates input")
     func codableRoundTripAndValidation() throws {
         let matrix = try Matrix4x4Double(
             elements: ContiguousArray((0..<16).map(Double.init))
@@ -90,18 +90,47 @@ struct Matrix4x4DoubleTests {
         #expect(Set(object.keys) == ["elements"])
         #expect(try #require(object["elements"] as? [Double]) == Array(matrix.elements))
 
-        let invalidValues = [
-            #"{"elements":[0,1,2]}"#,
-            #"{"elements":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"extra":true}"#,
-            #"[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]"#,
-        ]
-        for invalidValue in invalidValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
-                    Matrix4x4Double.self,
-                    from: Data(invalidValue.utf8)
+        do {
+            _ = try JSONDecoder().decode(
+                Matrix4x4Double.self,
+                from: Data(#"{"elements":[0,1,2]}"#.utf8)
+            )
+            #expect(Bool(false), "Expected a three-element matrix to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == ["elements"])
+            #expect(
+                context.underlyingError as? Matrix4x4DoubleError
+                    == .invalidElementCount(actual: 3)
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+        }
+
+        do {
+            _ = try JSONDecoder().decode(
+                Matrix4x4Double.self,
+                from: Data(
+                    #"{"elements":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"extra":true}"#
+                        .utf8
                 )
-            }
+            )
+            #expect(Bool(false), "Expected an extra-key matrix to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.isEmpty)
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+        }
+
+        do {
+            _ = try JSONDecoder().decode(
+                Matrix4x4Double.self,
+                from: Data(#"[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]"#.utf8)
+            )
+            #expect(Bool(false), "Expected an array-shaped matrix to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
 
         let nonFinite = Data(
@@ -113,8 +142,17 @@ struct Matrix4x4DoubleTests {
             negativeInfinity: "-Infinity",
             nan: "NaN"
         )
-        #expect(throws: DecodingError.self) {
-            try decoder.decode(Matrix4x4Double.self, from: nonFinite)
+        do {
+            _ = try decoder.decode(Matrix4x4Double.self, from: nonFinite)
+            #expect(Bool(false), "Expected a non-finite element to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == ["elements"])
+            #expect(
+                context.underlyingError as? Matrix4x4DoubleError
+                    == .nonFiniteElement(index: 0)
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 }
