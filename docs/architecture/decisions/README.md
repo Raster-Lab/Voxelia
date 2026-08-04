@@ -48,7 +48,7 @@ unallocated numeric identifier is `ADR-0042`.
 | [ADR-0035](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md) | Accepted | Versioned canonical metadata JSON and raw ingress boundary |
 | [ADR-0036](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md) | Accepted | Domain-separated complete canonical metadata record identity |
 | [ADR-0037](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md) | Accepted | Claim-bearing data identity and cache-admission boundary |
-| [ADR-0038](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md) | Proposed | Closed provenance record and graph admission boundary |
+| [ADR-0038](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md) | Accepted | Closed provenance record and graph admission boundary |
 | [ADR-0039](ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md) | Proposed | Closed storage capability and descriptor admission boundary |
 | [ADR-0040](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md) | Proposed | Normalized logical sample and representation projection boundary |
 | [ADR-0041](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md) | Proposed | Safe storage read transaction and type-erasure lifetime boundary |

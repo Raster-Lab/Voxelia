@@ -1695,6 +1695,11 @@
       "sha256": "950fff985bfcfda1f279bac1d7b269b5dbcf341a538af0c6d44943ec3f31d720"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0015-adr-0038-closed-provenance-boundary.md",
+      "size": 9200,
+      "sha256": "188c835278105a72ae949cd98a7ae627c6622b5dec3157f08875619888b27eec"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
       "size": 7006,
       "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
@@ -1781,8 +1786,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0038-closed-provenance-record-and-graph-admission-boundary.md",
-      "size": 51277,
-      "sha256": "d4fd53dee1eb65bcf72e3294cc6a5ef4dda26964d944cb47be0fb501e8191ba4"
+      "size": 51893,
+      "sha256": "8a5e92feaf92999b5d893bb2f0f0e6142412a084397aee48d7ab60162a58c053"
     },
     {
       "path": "docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md",
@@ -1802,7 +1807,7 @@
     {
       "path": "docs/architecture/decisions/README.md",
       "size": 4814,
-      "sha256": "0d969817f949be7a86ac7304a303d883a6a2697a37d7b50512088a6ce4988728"
+      "sha256": "67e1a0348043e63feac6e8e4d62a81852fff94c40db70b3cad4bf824669966cd"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1886,8 +1891,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 420862,
-      "sha256": "9719369c68995e3c99fd21c71d788457910454165f3c34ea0024956c197d994c"
+      "size": 424610,
+      "sha256": "58e7d1e1c2846b8b8d617bf121100fcc3d40ae6b728b08baf6d5039b55a2f172"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2246,8 +2251,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 21649,
-      "sha256": "1638f791f1b66b342a5024157c306411635935073a25ada519f25f66b15107ab"
+      "size": 21727,
+      "sha256": "930d5bd0b0c41262b9c50c8b594e2c3f4d1b54e8a88c316d727b79302f316558"
     }
   ]
 }

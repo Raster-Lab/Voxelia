@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0038"
 title: "Closed provenance record and graph admission boundary"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -156,19 +156,26 @@ identify a patient, dataset, site, device or confidential build. Permission to
 retain provenance does not imply permission to log, export, put it in a URL or
 deduplicate it across privacy domains.
 
-This proposal defines the closed conceptual state, ownership and admission
+This record defines the closed conceptual state, ownership and admission
 rules needed before the aggregate can become product source. It does not
 approve a public record, graph builder, canonical codec, digest, signature,
 resolver or validation-evidence implementation while its dependencies and
-controlled corrections remain Proposed or undefined.
+controlled corrections remain undefined. It was reviewed and accepted by
+the project owner on 2026-08-04, with `ADR-0028`, `ADR-0036` and
+`ADR-0037` already accepted; the Core-claims/Execution-behaviour ownership
+split, the closed subject-bound record target and the bounded
+transactional graph admission were each selected through interactive
+decision review, and this acceptance authorises the controlled
+corrections recorded in `CCR-0015` and no provenance aggregate source.
 
 ## Decision
 
-If accepted, Voxelia will interpret “Core owns provenance types” as ownership
-of immutable backend-neutral **claim records** only. It will interpret
-“Execution owns execution provenance” as ownership of runtime capture,
-projection from live Execution state, assembly and atomic publication. No
-dependency from Core to Execution, Storage or Validation will be added.
+With this ADR accepted, Voxelia interprets “Core owns provenance types” as
+ownership of immutable backend-neutral **claim records** only. It
+interprets “Execution owns execution provenance” as ownership of runtime
+capture, projection from live Execution state, assembly and atomic
+publication. No dependency from Core to Execution, Storage or Validation
+is added.
 
 The displayed `ProvenanceRecord` will be replaced by a closed logical target
 that binds its subject, uses an explicit activity state and carries ordered
@@ -698,9 +705,10 @@ claim.
 
 ### Source gate
 
-This proposal authorises documentation and isolated evidence only. Product
-source remains blocked until every dependency actually retained by the target
-is accepted. An accepted controlled correction may remove a dependency from
+This ADR, although accepted, authorises documentation, the `CCR-0015`
+controlled corrections and isolated evidence only. Product source remains
+blocked until every dependency actually retained by the target is
+accepted. An accepted controlled correction may remove a dependency from
 scope; merely deferring it continues to block every dependent field and type:
 
 1. `ADR-0028` and the `CanonicalInstant` controlled correction;
@@ -960,7 +968,9 @@ surface.
 
 ## Migration
 
-If accepted:
+As of the 2026-08-04 acceptance, step 1 through step 3 are executed
+through `CCR-0015`; steps 4 through 12 remain gated on their named
+prerequisite decisions:
 
 1. correct the MTA and CDMS ownership language to distinguish Core claim values
    from Execution capture/assembly behavior;
@@ -990,7 +1000,7 @@ bridge or publication integration source is authorised.
 
 ## Supersession
 
-This proposal refines the incomplete provenance record and graph sketches in
+This ADR refines the incomplete provenance record and graph sketches in
 the MTA and CDMS. It does not supersede `ADR-0028`'s time profile,
 `ADR-0036`'s metadata-record identity or `ADR-0037`'s data-identity claim and
 cache-admission boundary. It composes downstream of them and records additional

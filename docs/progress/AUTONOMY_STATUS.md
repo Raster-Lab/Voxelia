@@ -250,6 +250,30 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   lifecycle and execution/cache contracts receive their own decisions.
   The CDMS section 59 `DataIntegrityState` conflict is recorded and
   remains unresolved.
+- Governance: `ADR-0038` was accepted by the project owner on 2026-08-04
+  as a documentation-and-corrections boundary. Its accepted content: the
+  Core-claims/Execution-behaviour ownership split preserving the live
+  dependency graph (Core owns immutable backend-neutral claim values;
+  Execution owns capture, assembly and the single atomic publication of
+  output, identity, matching provenance root and authorised cache
+  aliases; Storage owns persistence integrity; Validation evaluates
+  evidence; hosts own trust, signatures and privacy); the closed
+  subject-bound `ProvenanceRecord` target (explicit subject reference,
+  closed origin-versus-operation activity with the eleven-kind table,
+  ordered role/occurrence-unique inputs, flat non-recursive
+  graphNode/externalRecord references, bounded machine-readable
+  warnings, validation cases documented as claims); and the bounded
+  transactional graph admission with explicit complete-versus-compact
+  authority and byte-for-byte rollback on failure. `CCR-0015` records
+  the MTA section 12.2/12.4 ownership corrections and the CDMS section
+  36 record/activity/validation/graph corrections plus the
+  `ProvenanceID` durable-use restriction. Deliberately, no provenance
+  source was implemented: the accepted eleven-item source gate keeps
+  every aggregate blocked until the persistent `ProvenanceID`, reference
+  wire, execution claim shapes, warning schemas, validation-evidence
+  references, canonical projections, hard ceilings, publication and
+  cache contracts and controlled reconciliation receive their own
+  decisions.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -2822,6 +2846,26 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   every identity value record blocked until its enumerated
   prerequisites receive separate decisions, and this increment records
   that boundary rather than implementing around it.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0038` and
+  executed its authorised documentation-only migration in one change:
+  controlled correction `CCR-0015` (the MTA ownership-language
+  correction distinguishing Core claim values from Execution
+  capture/assembly behaviour with the presentation-provenance and
+  storage-coordinator boundaries, the closed subject-bound record
+  target replacing the open-optional CDMS section 36.1 sketch, the
+  eleven-kind activity binding, the validation-claim and
+  warning-boundary corrections including the `deprecated(reason:)` and
+  free-text `message` restrictions, and the bounded transactional
+  graph-admission interpretation with the `ProvenanceID` durable-use
+  restriction). No Swift source was added or authorised: the accepted
+  decision's own source gate keeps the provenance aggregate, graph
+  builder, canonical codec, digest, resolver, signature and publication
+  integrations blocked pending their enumerated prerequisite decisions.
+  With this acceptance the ADR register holds no Proposed records:
+  `ADR-0001` through `ADR-0038` are all Accepted (with the `ADR-0025`
+  identifier migration), and the remaining governance queue is the
+  `RFC-0001` storage-contract Draft chain composing `ADR-0039` through
+  `ADR-0041`.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -5483,6 +5527,16 @@ enrichment lifecycle and the execution/cache contracts) are recorded as
 the open decisions blocking any identity value source, alongside the
 still-open CDMS section 59 integrity-state correction.
 
+The `ADR-0038` increment is likewise documentation-only, so its
+verification surface is the documentation gate: the front-matter,
+ADR-register, RFC-governance and documentation-text checks passed over
+the accepted `ADR-0038`, `CCR-0015` and the updated register; the
+requirement-index check passed; and release-integrity regeneration plus
+the read-only check passed. No Swift source changed; the full suite
+re-ran green as the pre-push gate. The eleven-item provenance source
+gate's prerequisites are recorded as open decisions alongside the
+`ADR-0037` identity gate and the CDMS section 59 correction.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5981,14 +6035,18 @@ prerequisites: the `CoordinateSpaceDescriptor` unit policy and
 classification, affine shape and construction tolerance, rectilinear
 binding and the remaining frame-set collection contracts; its
 canonical-JSON prerequisite is now satisfied for the metadata record.
-The next unblocked step is another governance decision: surface the next
-Proposed contract the user wishes to review (`ADR-0038` closed
-provenance record and graph admission, then the `RFC-0001`
-storage-contract chain composing `ADR-0039` through `ADR-0041`) with its
-decision questions, following the established interactive acceptance
-flow. Do not accept ADRs autonomously, implement speculative source or
-run blocked storage/metadata/identity probes while those decisions and
-the `ADR-0037` source-gate prerequisites are open.
+With `ADR-0038` accepted, the ADR register holds no Proposed records:
+`ADR-0001` through `ADR-0038` are all Accepted. The next unblocked step
+is the remaining governance queue: surface the `RFC-0001`
+storage-contract and logical-data-model composition Draft (composing
+`ADR-0039` through `ADR-0041`) to the user for review under the RFC
+process, or begin closing the recorded source-gate prerequisites
+(`DataObjectID` persistent identity, bounded `ProvenanceID`, identifier
+profiles, registered projections, execution/cache contracts) and the
+`ADR-0035` evidence gaps as separately scoped decisions the user
+requests. Do not accept RFCs or ADRs autonomously, implement speculative
+source or run blocked storage/metadata/identity/provenance probes while
+those decisions and gates are open.
 
 ## Test policy for the next action
 

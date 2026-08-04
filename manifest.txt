@@ -337,6 +337,7 @@ docs/architecture/corrections/CCR-0011-adr-0034-closed-typed-read-boundary.md
 docs/architecture/corrections/CCR-0012-adr-0035-canonical-metadata-json.md
 docs/architecture/corrections/CCR-0013-adr-0036-content-identifier-record.md
 docs/architecture/corrections/CCR-0014-adr-0037-claim-bearing-data-identity.md
+docs/architecture/corrections/CCR-0015-adr-0038-closed-provenance-boundary.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
 docs/architecture/decisions/ADR-0023-value-transform-shape.md
