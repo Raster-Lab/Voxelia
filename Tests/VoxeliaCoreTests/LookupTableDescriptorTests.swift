@@ -129,20 +129,35 @@ struct LookupTableDescriptorTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] decoding is strict and revalidates nested values")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] decoding is strict and revalidates nested values")
     func decodingIsStrictAndRevalidates() {
-        let malformedValues = [
+        let wrongKeyValues = [
             #"{"firstMappedValue":0,"values":[]}"#,
             #"{"firstMappedValue":0,"values":[],"outputUnit":null,"extra":true}"#,
-            #"[]"#,
         ]
-        for malformedValue in malformedValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        for wrongKeyValue in wrongKeyValues {
+            do {
+                _ = try JSONDecoder().decode(
                     LookupTableDescriptor.self,
-                    from: Data(malformedValue.utf8)
+                    from: Data(wrongKeyValue.utf8)
                 )
+                #expect(Bool(false), "Expected a wrong-keyed table to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
+        }
+        do {
+            _ = try JSONDecoder().decode(
+                LookupTableDescriptor.self,
+                from: Data(#"[]"#.utf8)
+            )
+            #expect(Bool(false), "Expected an array-shaped table to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
 
         let nonFinite =
@@ -168,11 +183,19 @@ struct LookupTableDescriptorTests {
 
         let invalidUnit =
             #"{"firstMappedValue":0,"values":[1],"outputUnit":{"namespace":" ","code":"1","displayName":null,"dimension":null,"scaleToCanonical":null,"offsetToCanonical":null}}"#
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(
+        do {
+            _ = try JSONDecoder().decode(
                 LookupTableDescriptor.self,
                 from: Data(invalidUnit.utf8)
             )
+            #expect(Bool(false), "Expected a blank-namespace unit to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == ["outputUnit", "namespace"])
+            #expect(
+                context.underlyingError as? MeasurementUnitError == .emptyNamespace
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 }
