@@ -55,14 +55,42 @@ struct ProvenanceKindTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] decoding rejects unknown and wrong-shaped values")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] decoding rejects unknown and wrong-shaped values")
     func decodingRejectsInvalidValues() {
-        for json in [#""unknown""#, #""materialized""#, "1", "true", "null", "{}", "[]"] {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        for unknownToken in [#""unknown""#, #""materialized""#] {
+            do {
+                _ = try JSONDecoder().decode(
                     ProvenanceKind.self,
-                    from: Data(json.utf8)
+                    from: Data(unknownToken.utf8)
                 )
+                #expect(Bool(false), "Expected an unknown token to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+            }
+        }
+
+        do {
+            _ = try JSONDecoder().decode(ProvenanceKind.self, from: Data("null".utf8))
+            #expect(Bool(false), "Expected null to fail decoding.")
+        } catch DecodingError.valueNotFound {
+            // Null is rejected for the non-optional raw value.
+        } catch {
+            #expect(Bool(false), "Expected valueNotFound, received \(error).")
+        }
+
+        for wrongShape in ["1", "true", "{}", "[]"] {
+            do {
+                _ = try JSONDecoder().decode(
+                    ProvenanceKind.self,
+                    from: Data(wrongShape.utf8)
+                )
+                #expect(Bool(false), "Expected a wrong-shaped value to fail decoding.")
+            } catch DecodingError.typeMismatch {
+                // Non-string shapes are rejected before raw-value lookup.
+            } catch {
+                #expect(Bool(false), "Expected typeMismatch, received \(error).")
             }
         }
     }
