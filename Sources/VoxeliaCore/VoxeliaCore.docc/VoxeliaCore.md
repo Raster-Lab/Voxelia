@@ -137,6 +137,14 @@ storage semantics.
 - ``ExecutionApproximationStatus``
 - ``ExecutionProvenanceClaim``
 - ``ExecutionClaimError``
+- ``SoftwareIdentity``
+- ``OperationProvenance``
+- ``ProvenanceInputRole``
+- ``ProvenanceInput``
+- ``ProvenanceParentReference``
+- ``ProvenanceValidationClaim``
+- ``ValidationEvidenceID``
+- ``ProvenanceClaimError``
 - ``ProvenanceWarningCode``
 - ``ProvenanceWarningSchemaVersion``
 - ``ProvenanceWarningSeverity``

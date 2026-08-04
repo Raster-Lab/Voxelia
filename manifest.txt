@@ -101,6 +101,7 @@ Sources/VoxeliaCore/Public/MetadataPrivacyClass.swift
 Sources/VoxeliaCore/Public/MetadataSchemaReference.swift
 Sources/VoxeliaCore/Public/MetadataTypedRead.swift
 Sources/VoxeliaCore/Public/MetadataValue.swift
+Sources/VoxeliaCore/Public/ProvenanceClaims.swift
 Sources/VoxeliaCore/Public/ProvenanceID.swift
 Sources/VoxeliaCore/Public/ProvenanceKind.swift
 Sources/VoxeliaCore/Public/ProvenanceWarning.swift
@@ -249,6 +250,7 @@ Tests/VoxeliaCoreTests/MetadataPrivacyClassTests.swift
 Tests/VoxeliaCoreTests/MetadataTypedReadTests.swift
 Tests/VoxeliaCoreTests/MetadataValueTests.swift
 Tests/VoxeliaCoreTests/PersistentIdentifierTests.swift
+Tests/VoxeliaCoreTests/ProvenanceClaimsTests.swift
 Tests/VoxeliaCoreTests/ProvenanceIDTests.swift
 Tests/VoxeliaCoreTests/ProvenanceKindTests.swift
 Tests/VoxeliaCoreTests/ProvenanceWarningTests.swift
@@ -383,6 +385,7 @@ docs/architecture/corrections/CCR-0019-adr-0045-integrity-state-claims.md
 docs/architecture/corrections/CCR-0020-adr-0053-source-identity-and-reference.md
 docs/architecture/corrections/CCR-0021-adr-0055-derivation-identity.md
 docs/architecture/corrections/CCR-0022-adr-0056-data-identity-aggregate.md
+docs/architecture/corrections/CCR-0023-adr-0057-provenance-claim-leaves.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
 docs/architecture/decisions/ADR-0023-value-transform-shape.md
@@ -419,6 +422,7 @@ docs/architecture/decisions/ADR-0053-source-identity-and-data-identity-reference
 docs/architecture/decisions/ADR-0054-operation-parameters-content-projection.md
 docs/architecture/decisions/ADR-0055-derivation-identity-record.md
 docs/architecture/decisions/ADR-0056-data-identity-aggregate.md
+docs/architecture/decisions/ADR-0057-provenance-claim-leaf-shapes.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

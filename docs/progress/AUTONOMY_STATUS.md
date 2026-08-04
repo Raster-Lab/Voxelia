@@ -730,6 +730,30 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `AnyImageStorage`, `MetadataCollection`, `DataIdentity`) now all
   exist; the remaining blocker is the `ProvenanceRecord` target,
   which is the next ordered decision.
+- Twenty-third autonomous increment: authored and accepted `ADR-0057`
+  (provenance claim leaf shapes) with `CCR-0023` recording the
+  controlled corrections to CDMS sections 36.3 through 36.7 —
+  including the late warning-record correction the `ADR-0052`
+  increment omitted — and implemented every leaf the `ADR-0038` record
+  target names, in `VoxeliaCore`: `SoftwareIdentity` (identity field
+  profile on name/commit/buildIdentifier, exact version comparison
+  including build metadata), `OperationProvenance` (shared
+  semantic-operation tokens with a required implementation and the
+  parameter digest constrained to the registered operation-parameters
+  tuple), `ProvenanceInputRole` and `ProvenanceInput` (bounded
+  single-label role, checked occurrence ordinal starting at one,
+  identity reference and optional parent), `ProvenanceParentReference`
+  (exactly the `graphNode` case; the external-record case stays
+  honestly deferred until a registered provenance-record digest
+  projection exists), and `ProvenanceValidationClaim` with
+  `ValidationEvidenceID` (the corrected validation claim whose
+  free-text deprecation reason is removed and whose cases carry no
+  ordering). Tests prove the field profile with limit precedence, the
+  role grammar, zero-occurrence rejection, foreign-tuple rejection,
+  build-metadata-exact software and operation comparison, exact
+  evidence identity and payload-free diagnostics. The record
+  aggregate, its structural rules, graph admission and every wire
+  remain the next ordered decisions.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
