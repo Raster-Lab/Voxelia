@@ -467,6 +467,7 @@ docs/architecture/decisions/ADR-0070-composed-chain-composition.md
 docs/architecture/decisions/ADR-0071-geometry-preserving-region-extraction.md
 docs/architecture/decisions/ADR-0072-canonical-derivation-projection.md
 docs/architecture/decisions/ADR-0073-strict-derivation-ingress.md
+docs/architecture/decisions/ADR-0074-sampling-payload-slicing.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

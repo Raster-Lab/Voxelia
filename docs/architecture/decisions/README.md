@@ -59,7 +59,8 @@ extension. `ADR-0069` is allocated to lookup-table composition. The
 `ADR-0071` is allocated to geometry-preserving region extraction.
 `ADR-0072` is allocated to the canonical derivation record
 projection. `ADR-0073` is allocated to strict canonical derivation
-ingress. The next unallocated numeric identifier is `ADR-0074`.
+ingress. `ADR-0074` is allocated to sampling payload slicing. The
+next unallocated numeric identifier is `ADR-0075`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -116,3 +117,4 @@ ingress. The next unallocated numeric identifier is `ADR-0074`.
 | [ADR-0071](ADR-0071-geometry-preserving-region-extraction.md) | Accepted | Geometry-preserving region extraction |
 | [ADR-0072](ADR-0072-canonical-derivation-projection.md) | Accepted | Canonical derivation record projection |
 | [ADR-0073](ADR-0073-strict-derivation-ingress.md) | Accepted | Strict canonical derivation ingress |
+| [ADR-0074](ADR-0074-sampling-payload-slicing.md) | Accepted | Sampling payload slicing |

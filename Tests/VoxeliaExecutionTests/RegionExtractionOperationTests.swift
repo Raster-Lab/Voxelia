@@ -24,7 +24,8 @@ struct RegionExtractionOperationTests {
 
     private func descriptor(
         geometry: SpatialGeometry? = nil,
-        sampling: AxisSampling = .indexOnly
+        sampling: AxisSampling = .indexOnly,
+        samplingY: AxisSampling = .indexOnly
     ) throws -> ImageDescriptor {
         try ImageDescriptor(
             shape: try ImageShape(extents: [4, 3]),
@@ -40,7 +41,10 @@ struct RegionExtractionOperationTests {
                 componentNames: nil
             ),
             semantic: .intensity,
-            axes: [try axis("x", sampling: sampling), try axis("y")],
+            axes: [
+                try axis("x", sampling: sampling),
+                try axis("y", sampling: samplingY),
+            ],
             spatialGeometry: geometry,
             valueTransform: nil,
             units: nil
@@ -49,7 +53,8 @@ struct RegionExtractionOperationTests {
 
     private func input(
         geometry: SpatialGeometry? = nil,
-        sampling: AxisSampling = .indexOnly
+        sampling: AxisSampling = .indexOnly,
+        samplingY: AxisSampling = .indexOnly
     ) throws -> ImageData {
         let binding = try LogicalSampleBinding(
             shape: try ImageShape(extents: [4, 3]),
@@ -57,7 +62,11 @@ struct RegionExtractionOperationTests {
             componentCount: 1
         )
         return try ImageData(
-            descriptor: try descriptor(geometry: geometry, sampling: sampling),
+            descriptor: try descriptor(
+                geometry: geometry,
+                sampling: sampling,
+                samplingY: samplingY
+            ),
             storage: AnyImageStorage(
                 erasing: try ContiguousImageStorage(
                     binding: binding,
@@ -295,10 +304,35 @@ struct RegionExtractionOperationTests {
         #expect(calibrated.descriptor.axes[1].sampling == .indexOnly)
         #expect(
             calibrated.identity.derivation?.operationVersion
-                == (try SemanticVersion(major: 1, minor: 1, patch: 0))
+                == (try SemanticVersion(major: 1, minor: 2, patch: 0))
         )
 
-        // Slicing other sampling payloads is a different model.
+        // The ADR-0074 payload slices: irregular coordinates and
+        // categorical labels crop to exact element copies when aligned
+        // with the source extents.
+        let sliced = try await execute(
+            input: try input(
+                sampling: .irregular(coordinates: [0.5, 1.5, 3.0, 7.25]),
+                samplingY: .categorical(labels: ["a", "b", "c"])
+            ),
+            region: region
+        )
+        #expect(
+            sliced.descriptor.axes[0].sampling
+                == .irregular(coordinates: [1.5, 3.0])
+        )
+        #expect(
+            sliced.descriptor.axes[1].sampling == .categorical(labels: ["a", "b"])
+        )
+
+        // A misaligned payload and an external definition reject typed.
+        do {
+            _ = try await execute(
+                input: try input(sampling: .irregular(coordinates: [0.5, 1.5, 3.0])),
+                region: region
+            )
+            #expect(Bool(false), "Expected a misaligned payload to be rejected.")
+        } catch RegionExtractionError.samplingPayloadMismatch {}
         do {
             _ = try await execute(
                 input: try input(sampling: .externallyDefined(identifier: "ext-1")),

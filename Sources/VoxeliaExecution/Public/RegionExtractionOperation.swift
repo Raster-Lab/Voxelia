@@ -11,6 +11,7 @@ import VoxeliaStorage
 /// contract.
 public enum RegionExtractionError: Error, Sendable, Equatable {
     case unsupportedAxisSampling
+    case samplingPayloadMismatch
 }
 
 /// The exact region extraction operation registered by `ADR-0064` —
@@ -50,14 +51,25 @@ public enum RegionExtractionOperation {
         software: SoftwareIdentity,
         coordinator: StorageReadCoordinator
     ) async throws -> ImageData {
-        // Admission per ADR-0064 lifted by ADR-0071: index-only and
-        // regular sampling; slicing other sampling payloads is a
-        // different model.
-        for axis in input.descriptor.axes {
+        // Admission per ADR-0064 lifted by ADR-0071 and ADR-0074:
+        // irregular and categorical payloads slice exactly when aligned
+        // with the source extent; an external definition's slicing
+        // semantics are not knowable here.
+        for (axisIndex, axis) in input.descriptor.axes.enumerated() {
             switch axis.sampling {
             case .indexOnly, .regular:
                 continue
-            case .irregular, .categorical, .externallyDefined:
+            case .irregular(let coordinates):
+                guard coordinates.count == input.descriptor.shape.extents[axisIndex]
+                else {
+                    throw RegionExtractionError.samplingPayloadMismatch
+                }
+            case .categorical(let labels):
+                guard labels.count == input.descriptor.shape.extents[axisIndex]
+                else {
+                    throw RegionExtractionError.samplingPayloadMismatch
+                }
+            case .externallyDefined:
                 throw RegionExtractionError.unsupportedAxisSampling
             }
         }
@@ -84,16 +96,34 @@ public enum RegionExtractionOperation {
         var outputAxes = ContiguousArray<AxisDescriptor>()
         outputAxes.reserveCapacity(input.descriptor.axes.count)
         for (axisIndex, axis) in input.descriptor.axes.enumerated() {
-            if case .regular(let origin, let spacing) = axis.sampling {
-                let shiftedOrigin =
-                    origin + (Double(region.lowerBounds[axisIndex]) * spacing)
+            let lower = region.lowerBounds[axisIndex]
+            let upper = region.upperBounds[axisIndex]
+            let croppedSampling: AxisSampling?
+            switch axis.sampling {
+            case .regular(let origin, let spacing):
+                croppedSampling = .regular(
+                    origin: origin + (Double(lower) * spacing),
+                    spacing: spacing
+                )
+            case .irregular(let coordinates):
+                croppedSampling = .irregular(
+                    coordinates: ContiguousArray(coordinates[lower..<upper])
+                )
+            case .categorical(let labels):
+                croppedSampling = .categorical(
+                    labels: ContiguousArray(labels[lower..<upper])
+                )
+            case .indexOnly, .externallyDefined:
+                croppedSampling = nil
+            }
+            if let croppedSampling {
                 outputAxes.append(
                     try AxisDescriptor(
                         id: axis.id,
                         name: axis.name,
                         semantic: axis.semantic,
                         unit: axis.unit,
-                        sampling: .regular(origin: shiftedOrigin, spacing: spacing)
+                        sampling: croppedSampling
                     )
                 )
             } else {
@@ -141,9 +171,9 @@ public enum RegionExtractionOperation {
             )
         )
 
-        // Registered tokens (advanced to 1.1.0 by ADR-0071), derivation
+        // Registered tokens (advanced to 1.2.0 by ADR-0074), derivation
         // recipe and content identity.
-        let version = try SemanticVersion(major: 1, minor: 1, patch: 0)
+        let version = try SemanticVersion(major: 1, minor: 2, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )

@@ -1202,6 +1202,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   parameter-digest tuple and whitespace and number aliases, all
   payload-free; the provenance codec suites re-passed unchanged. The
   `VCDJ-1` projection is now usable end to end.
+- Fortieth autonomous increment (owner broadened standing mandate:
+  complete the work autonomously without per-gate authorization):
+  authored and accepted `ADR-0074` (sampling payload slicing),
+  discharging the `ADR-0071` slicing deferral for the two knowable
+  samplings. Because nothing in the accepted descriptors binds a
+  sampling payload count to its axis extent, slicing is defined only
+  when the payload count equals the source extent — a mismatch is its
+  own typed rejection, never a guessed alignment — and aligned
+  irregular coordinates and categorical labels crop to the exact
+  element copies at the region bounds, revalidated through their
+  accepted initializers. Externally defined sampling stays a typed
+  rejection because an external definition's slicing semantics are
+  not knowable here. Versions advance to `1.2.0`. Tests crop an
+  irregular axis and a categorical axis to the exact expected slices
+  in one execution, prove the advanced tokens, and reject a
+  misaligned payload and the external case typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
