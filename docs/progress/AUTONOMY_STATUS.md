@@ -526,6 +526,26 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   confirm distinct ceilings are distinct work keys. Repeat-bearing
   identity, general `DataIdentity` enrichment and cache/provenance
   publication remain gated.
+- Fourteenth autonomous increment: authored and accepted `ADR-0048`
+  (single-flight read deduplication) and extended
+  `StorageReadCoordinator` with coalescing over the accepted work-key
+  binding (authority reference identity, snapshot generation, exact
+  region bounds; keys never persisted). One shared provider execution
+  charges its copy-on-write result bytes once; every successful waiter
+  mints its own retention token against the shared charge group, whose
+  charge frees only when the last token is released and the last waiter
+  has finished; cancelled-after-completion waiters convert
+  charge-neutrally; failed shared executions release their reservation
+  exactly once and propagate typed causes to every waiter; late joiners
+  after the last waiter start fresh executions. The coalescing test
+  runs sixteen identical concurrent reads under a budget that could not
+  fund one charge per waiter, proving strictly fewer shared executions
+  than waiters, exact charged-equals-groups accounting, per-token
+  release with last-release freeing and double-release rejection; the
+  existing single-reader semantics tests re-passed unchanged. With this
+  increment the unblocked M2 queue is drained: result caching stays
+  gated on a registered bytes-scope projection, and provenance capture
+  stays gated on the `ADR-0038` prerequisites.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

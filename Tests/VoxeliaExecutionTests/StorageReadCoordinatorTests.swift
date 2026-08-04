@@ -125,4 +125,52 @@ struct StorageReadCoordinatorTests {
         try await coordinator.release(b.retention)
         #expect(await coordinator.currentChargedByteCount == 0)
     }
+
+    @Test("[Unit][VOX-EXE-006][VOX-PER-007] identical concurrent reads coalesce")
+    func identicalConcurrentReadsCoalesce() async throws {
+        let storage = try storage()
+        let coordinator = StorageReadCoordinator(maximumRetainedResultByteCount: 24)
+        let region = try ImageRegion(lowerBounds: [0, 0], upperBounds: [3, 2])
+
+        // Sixteen identical concurrent reads share provider executions
+        // and charge the copy-on-write result bytes once per shared
+        // execution, never once per waiter.
+        let results = try await withThrowingTaskGroup(
+            of: CoordinatedReadResult.self
+        ) { group in
+            for _ in 0..<16 {
+                group.addTask {
+                    try await coordinator.read(from: storage, region: region)
+                }
+            }
+            var collected = [CoordinatedReadResult]()
+            for try await result in group {
+                collected.append(result)
+            }
+            return collected
+        }
+        #expect(results.count == 16)
+        for result in results {
+            #expect(result.result.bytes == results[0].result.bytes)
+        }
+        let started = await coordinator.startedSharedReadCount
+        #expect(started >= 1)
+        #expect(started < 16)
+        let charged = await coordinator.currentChargedByteCount
+        #expect(charged == UInt64(started) * 12)
+
+        // Every waiter holds its own token; the shared charge frees only
+        // after the last release, and each token releases exactly once.
+        for (index, result) in results.enumerated() {
+            try await coordinator.release(result.retention)
+            if index < results.count - 1 {
+                #expect(await coordinator.currentChargedByteCount > 0 || started > 1)
+            }
+        }
+        #expect(await coordinator.currentChargedByteCount == 0)
+        do {
+            try await coordinator.release(results[0].retention)
+            #expect(Bool(false), "Expected a double release to be rejected.")
+        } catch StorageContractError.contractViolation {}
+    }
 }

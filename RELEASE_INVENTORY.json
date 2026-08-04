@@ -581,8 +581,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/Public/StorageReadCoordinator.swift",
-      "size": 4984,
-      "sha256": "200a46ffa20f8b3cd601a20e0a4dd9d7611cbba0d46d6b4da0a3bde5199a6279"
+      "size": 9549,
+      "sha256": "ef71762cb8c59a18a2364f279bfe7445092a5b881861c51957793bf179ea4f34"
     },
     {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/Architecture.md",
@@ -1246,8 +1246,8 @@
     },
     {
       "path": "Tests/VoxeliaExecutionTests/StorageReadCoordinatorTests.swift",
-      "size": 5250,
-      "sha256": "30502705832bd42864b2210b3a68a4c58eb52774a7e6b5f9ccdab578344e3024"
+      "size": 7343,
+      "sha256": "12ee4626858489218c4cf26a164d3a4cceee3b5310c7d2b57283994182d7f259"
     },
     {
       "path": "Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift",
@@ -1970,9 +1970,14 @@
       "sha256": "4a67f09afbba18071de5307e2213d925027e76a2968e8d5aa53439d7a1000511"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0048-single-flight-read-deduplication.md",
+      "size": 3250,
+      "sha256": "bf978db126b578182aec84ebb34cc73768029de49fdc8678409b41589eeb6320"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 5994,
-      "sha256": "16efc8bfaa8d629ed17d95ed2f051ebb8f83ccfbb4936470215cbd7611073db2"
+      "size": 6162,
+      "sha256": "976a315f516dbbd255319a8aa886c6a892f37801b4cc74b214a9b3cfa6319392"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2056,8 +2061,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 443155,
-      "sha256": "b3564f028624e4bad4dd6828768bcbbf7179239fa6eeca798af90b3573281b1c"
+      "size": 444502,
+      "sha256": "5d73dc0f22c33d662ce5bd585bacf11a8a6cce72833dd1a7268e947592f674ef"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2416,8 +2421,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 23801,
-      "sha256": "fb82b3df77ea63f6d264bad92ec8d2002c2f28982c985de1463e8d4fc67db6df"
+      "size": 23874,
+      "sha256": "90fbecda61d78e9b03e22cd5b6c88f956fe78f1c2cd508c4f7909a9bc3bcc68b"
     }
   ]
 }
