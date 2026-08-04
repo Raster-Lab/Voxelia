@@ -1586,6 +1586,34 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   parent edges on the composite record, keep the single-layer and
   resampled renders exact, and reject out-of-range opacities and
   single-layer fades typed.
+- Fifty-eighth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0092` and delivered the GPU
+  slice presentation path. `MetalWindowLevelOperation` implements the
+  registered window-level operation at its current contract version
+  with the new `org.voxelia.impl.window-level.metal` 1.0.0
+  implementation: the accepted digest-pinned kernel executes over one
+  budgeted coordinated read and the output carries the identical
+  descriptor, sample-bytes identity, derivation recipe and
+  subject-bound provenance with the honest device claim — metal
+  backend, `binary32-device` precision, `approximate` status, the
+  kernel component reference and the detected capability class,
+  because `MSL` has no 64-bit floating type and `binary64-strict`
+  would be false. The operation-parameters builder of the CPU
+  implementation became public and is reused, so both implementations
+  digest one frozen schema authority per the `ADR-0073`
+  shared-authority rule, and device admission — `uint8` samples with
+  an absent or identity transform, the plain registered model —
+  rejects typed through the operation's own error surface. The exact
+  slice renderer's orchestration became the single internal pipeline
+  authority with an injected window stage, and the new
+  `MetalSliceRenderer` conformer injects the device stage while
+  composite and resample stay the accepted CPU operations; backend
+  choice is the host's explicit decision with no silent fallback per
+  the `ADR-0081` rule. The device test measured and printed the
+  differential — twelve of twelve rendered samples exactly match the
+  registered binary64 model on this device, single-device evidence —
+  verified every published claim member and rejected a linear
+  transform on the device path typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

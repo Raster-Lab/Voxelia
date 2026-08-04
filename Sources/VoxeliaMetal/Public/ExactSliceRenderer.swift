@@ -43,23 +43,66 @@ public typealias RenderPublicationNaming =
 /// Oblique and perspective presentation stay pending their own
 /// models, and a GPU path may later arrive behind this same contract.
 public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
+    /// One injected window stage per `ADR-0092`: the single pipeline
+    /// orchestration authority admits exactly one window executor, so
+    /// backend choice is explicit and never a silent fallback.
+    typealias WindowStageExecutor =
+        @Sendable (
+            _ input: ImageData,
+            _ window: GreyscaleWindowFunction,
+            _ names: (
+                outputObjectID: DataObjectID,
+                provenanceID: ProvenanceID,
+                createdAt: CanonicalInstant
+            )
+        ) async throws -> ImageData
+
     private let publisher: PublicationCoordinator
     private let readCoordinator: StorageReadCoordinator
     private let software: SoftwareIdentity
     private let naming: RenderPublicationNaming
+    private let windowStage: WindowStageExecutor
 
     /// Creates a renderer over accepted coordinators with host-owned
-    /// naming.
-    public init(
+    /// naming and the exact CPU window stage.
+    public convenience init(
         publisher: PublicationCoordinator,
         readCoordinator: StorageReadCoordinator,
         software: SoftwareIdentity,
         naming: @escaping RenderPublicationNaming
     ) {
+        self.init(
+            publisher: publisher,
+            readCoordinator: readCoordinator,
+            software: software,
+            naming: naming,
+            windowStage: { input, window, names in
+                try await WindowLevelOperation.execute(
+                    input: input,
+                    center: try MetadataFloatingPoint(value: window.center),
+                    width: try MetadataFloatingPoint(value: window.width),
+                    outputObjectID: names.outputObjectID,
+                    outputProvenanceID: names.provenanceID,
+                    createdAt: names.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
+            }
+        )
+    }
+
+    init(
+        publisher: PublicationCoordinator,
+        readCoordinator: StorageReadCoordinator,
+        software: SoftwareIdentity,
+        naming: @escaping RenderPublicationNaming,
+        windowStage: @escaping WindowStageExecutor
+    ) {
         self.publisher = publisher
         self.readCoordinator = readCoordinator
         self.software = software
         self.naming = naming
+        self.windowStage = windowStage
     }
 
     /// Renders one request exactly.
@@ -95,16 +138,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                 throw SliceRendererError.unsupportedSceneShape
             }
             let names = try naming(.windowLevelled(layerIndex: index))
-            let staged = try await WindowLevelOperation.execute(
-                input: input,
-                center: try MetadataFloatingPoint(value: window.center),
-                width: try MetadataFloatingPoint(value: window.width),
-                outputObjectID: names.outputObjectID,
-                outputProvenanceID: names.provenanceID,
-                createdAt: names.createdAt,
-                software: software,
-                coordinator: readCoordinator
-            )
+            let staged = try await windowStage(input, window, names)
             _ = try await publisher.publish(staged, mode: .complete)
             windowLevelled.append(staged)
         }

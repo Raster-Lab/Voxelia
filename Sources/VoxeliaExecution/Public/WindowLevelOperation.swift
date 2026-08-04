@@ -253,7 +253,10 @@ public enum WindowLevelOperation {
     }
 
     /// Builds the frozen parameter collection for one window.
-    static func parameterCollection(
+    ///
+    /// Public per `ADR-0092` so every implementation of the registered
+    /// operation digests the one frozen schema authority.
+    public static func parameterCollection(
         center: MetadataFloatingPoint,
         width: MetadataFloatingPoint
     ) throws -> MetadataCollection {

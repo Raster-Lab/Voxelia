@@ -172,7 +172,9 @@ Sources/VoxeliaMetal/Module.swift
 Sources/VoxeliaMetal/Public/ExactSliceRenderer.swift
 Sources/VoxeliaMetal/Public/MetalExecutionContext.swift
 Sources/VoxeliaMetal/Public/MetalResidencyManager.swift
+Sources/VoxeliaMetal/Public/MetalSliceRenderer.swift
 Sources/VoxeliaMetal/Public/MetalWindowLevelKernel.swift
+Sources/VoxeliaMetal/Public/MetalWindowLevelOperation.swift
 Sources/VoxeliaMetal/Public/ResidencyPolicy.swift
 Sources/VoxeliaMetal/Resources/ShaderManifest.yaml
 Sources/VoxeliaMetal/Resources/Shaders/Common/README.md
@@ -312,6 +314,7 @@ Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift
 Tests/VoxeliaMetalTests/ExactSliceRendererTests.swift
 Tests/VoxeliaMetalTests/MetalExecutionContextTests.swift
 Tests/VoxeliaMetalTests/MetalResidencyManagerTests.swift
+Tests/VoxeliaMetalTests/MetalSliceRendererTests.swift
 Tests/VoxeliaMetalTests/MetalWindowLevelKernelTests.swift
 Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift
 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
@@ -517,6 +520,7 @@ docs/architecture/decisions/ADR-0088-nearest-neighbour-resampling.md
 docs/architecture/decisions/ADR-0089-renderer-viewport-resampling.md
 docs/architecture/decisions/ADR-0090-layer-compositing-operation.md
 docs/architecture/decisions/ADR-0091-multi-layer-scene-presentation.md
+docs/architecture/decisions/ADR-0092-gpu-slice-presentation-path.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

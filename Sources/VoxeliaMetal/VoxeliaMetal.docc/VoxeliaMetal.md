@@ -29,6 +29,8 @@ milestone specifications introduce its substantive public API incrementally.
 - ``ExactSliceRenderer``
 - ``SliceRendererError``
 - ``RenderPublicationStage``
+- ``MetalWindowLevelOperation``
+- ``MetalSliceRenderer``
 
 ### Project documents
 

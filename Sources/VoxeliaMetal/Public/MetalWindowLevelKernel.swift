@@ -45,7 +45,7 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
     /// claims.
     public let kernelReference: ExecutionComponentReference
 
-    private let context: MetalExecutionContext
+    let context: MetalExecutionContext
     private let pipeline: any MTLComputePipelineState
 
     /// Compiles the embedded source and builds the compute pipeline on
