@@ -1,5 +1,5 @@
 ---
-document_id: "ADR-0001"
+document_id: "ADR-0025"
 title: "Apple Silicon and Apple operating systems only"
 status: "Accepted"
 date: "2026-08-02"
@@ -15,7 +15,20 @@ affected_requirements:
   - "VOX-PLT-007"
 ---
 
-# ADR-0001 - Apple Silicon and Apple operating systems only
+# ADR-0025 - Apple Silicon and Apple operating systems only
+
+## Identifier migration record
+
+This accepted decision was originally recorded as `ADR-0001` at the exact
+former path `docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md`
+under the title "Apple Silicon and Apple operating systems only". It was
+re-identified as `ADR-0025` on 2026-08-04 under the authority of accepted
+[`ADR-0024`](ADR-0024-decision-register-reconciliation.md), because the
+Master Technical Architecture Appendix A register canonically assigns
+`ADR-0001` to its independent canonical-data-model decision. The substantive
+decision, Accepted status, original date, owners and affected-requirement
+mapping are unchanged. Historical v0.1.1 release records continue to refer
+to this decision as `ADR-0001`.
 
 ## Context
 
@@ -68,16 +81,16 @@ through package platform declarations, compile-time platform gates,
 Apple-Silicon-only repository scripts, self-hosted ARM64 workflow
 configuration, platform documentation and static policy checks. It requires no
 source, binary, wire-format or persisted-data migration.
-Proposed [ADR-0024](ADR-0024-decision-register-reconciliation.md) would only
-re-identify this same accepted record as `ADR-0025`; no filename, identifier or
-reference migration is authorized while that proposal remains Proposed. A
-future platform-policy change would require a formal Project Foundation
-revision and its own controlled migration.
+Accepted [ADR-0024](ADR-0024-decision-register-reconciliation.md)
+re-identified this same accepted record as `ADR-0025` on 2026-08-04; the
+identifier migration changed no platform policy. A future platform-policy
+change would require a formal Project Foundation revision and its own
+controlled migration.
 
 ## Supersession
 
 This ADR does not supersede another file-backed ADR and has not been
 superseded. It supersedes only earlier non-normative wording that described
-non-Apple support as a possible future direction. Proposed
+non-Apple support as a possible future direction. Accepted
 [ADR-0024](ADR-0024-decision-register-reconciliation.md) reconciles identifiers
 and does not supersede this platform decision.

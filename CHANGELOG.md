@@ -12,7 +12,11 @@ The project uses Semantic Versioning. During the `0.x` series, breaking public A
 
 ### Changed
 
-- None.
+- Accepted ADR-0024: the accepted Apple-platform decision formerly filed as
+  ADR-0001 is re-identified as ADR-0025 to resolve its identifier collision
+  with the Master Technical Architecture Appendix A register. The platform
+  decision, its Accepted status and its requirements are unchanged; v0.1.1
+  release records retain the former identifier as historical text.
 
 ### Fixed
 

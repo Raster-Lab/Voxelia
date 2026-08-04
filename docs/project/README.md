@@ -10,4 +10,4 @@ The corrective-release governing baseline comprises:
 6. `Voxelia_Core_Data_Model_Specification_v0.1.1.md`
 7. `Voxelia_First_Vertical_Slice_Plan_v0.1.1.md`
 
-ADR-0001 is the accepted platform decision. Voxelia is exclusively an Apple Silicon ARM64 and Apple operating-system project. No alternate processor, operating system, hosted Swift toolchain or renderer target is permitted by this baseline.
+ADR-0025 (formerly ADR-0001) is the accepted platform decision. Voxelia is exclusively an Apple Silicon ARM64 and Apple operating-system project. No alternate processor, operating system, hosted Swift toolchain or renderer target is permitted by this baseline.

@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0024"
 title: "Architecture decision register reconciliation"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -25,33 +25,34 @@ systems as the exclusive platform baseline. The two decisions are both
 substantive, were imported in the same repository baseline and do not supersede
 one another, but they currently share one identifier.
 
-The repository has since allocated proposed `ADR-0021` through `ADR-0023`
-without changing either existing decision. Leaving the duplicate identifier in
-place would make links, review records and future supersession statements
-ambiguous. This proposal records a one-time reconciliation for review; its
-Proposed status does not authorise any rename or reference migration.
+The repository had since allocated `ADR-0021` through `ADR-0023` without
+changing either existing decision. Leaving the duplicate identifier in place
+would make links, review records and future supersession statements
+ambiguous. This record was reviewed and accepted by the project owner on
+2026-08-04, and its one-time reconciliation was performed in the same atomic
+change.
 
 ## Decision
 
-If this ADR is accepted:
+As accepted:
 
 1. The Master Technical Architecture Appendix A assignments `ADR-0001`
-   through `ADR-0020` will remain the canonical initial register.
-2. Proposed `ADR-0021` through `ADR-0023` and this reconciliation record will
-   keep their existing identifiers.
-3. The accepted Apple-platform record will be re-identified as `ADR-0025`
+   through `ADR-0020` remain the canonical initial register.
+2. `ADR-0021` through `ADR-0023` and this reconciliation record keep their
+   existing identifiers.
+3. The accepted Apple-platform record is re-identified as `ADR-0025`
    without changing its decision, Accepted status, original date, owners or
    affected-requirement mapping.
-4. The platform record will state its former identifier, exact former path
+4. The platform record states its former identifier, exact former path
    `docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md`, title and
-   migration effective date, and will link to `ADR-0024` as the authority for
+   migration effective date, and links to `ADR-0024` as the authority for
    the migration.
-5. Live links, repository checks and the decision index will move to
-   `ADR-0025` in the same change as the record rename. Release-integrity ledgers
-   will be regenerated rather than edited as independent source data.
+5. Live links, repository checks and the decision index moved to `ADR-0025`
+   in the same change as the record rename. Release-integrity ledgers were
+   regenerated rather than edited as independent source data.
 6. The v0.1.1 entry in `CHANGELOG.md`, the v0.1.1 Corrective Release Notes and
-   the v0.1.1 Static Verification Report will remain unchanged as records of
-   the identifier used at that release.
+   the v0.1.1 Static Verification Report remain unchanged as records of the
+   identifier used at that release.
 
 After migration, an unqualified current reference to `ADR-0001` will mean the
 Master Technical Architecture's canonical-data-model decision. Historical
@@ -59,12 +60,10 @@ references to the exact former platform path, or to `ADR-0001` specifically in
 the Apple-platform sections of the preserved v0.1.1 records, will mean the
 platform decision re-identified as `ADR-0025`.
 
-While this ADR remains Proposed, `ADR-0025` is an allocator hold only. It is
-not an existing or accepted decision, and no platform record, live link or
-policy check may be renamed. `ADR-0026` is independently allocated to the
-ray/axis-aligned-bounds intersection proposal, so any new proposal created
-before this one is resolved must begin at `ADR-0027` or later. Rejection of
-this proposal releases only the `ADR-0025` hold.
+With the migration complete, `ADR-0025` is the accepted Apple-platform
+decision. `ADR-0026` remains independently allocated to the
+ray/axis-aligned-bounds intersection proposal, and new proposals continue
+from the next unallocated identifier recorded in the decision index.
 
 This decision does not revise the platform policy, the Project Foundation, the
 Master Technical Architecture decision text or any Swift API.
@@ -197,4 +196,4 @@ history and establishes the platform record's mapping to `ADR-0025`.
 - [Voxelia Requirements Baseline v0.1.1, VOX-REP-004](../../project/Voxelia_Requirements_Baseline_v0.1.1.md)
 - [Voxelia Repository and Package Scaffold Specification v0.1.1, section 9.2](../../project/Voxelia_Repository_and_Package_Scaffold_Specification_v0.1.1.md)
 - [Current architecture decision index](README.md)
-- [Accepted Apple-platform decision with the conflicting local identifier](ADR-0001-apple-ecosystem-only.md)
+- [Accepted Apple-platform decision, re-identified as ADR-0025](ADR-0025-apple-ecosystem-only.md)

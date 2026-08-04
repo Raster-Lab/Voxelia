@@ -12,7 +12,7 @@ errors: list[str] = []
 required = [
     ROOT / "PLATFORM_SUPPORT.md",
     ROOT / "Tools/Scripts/assert-apple-platform.sh",
-    ROOT / "docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md",
+    ROOT / "docs/architecture/decisions/ADR-0025-apple-ecosystem-only.md",
 ]
 for path in required:
     if not path.exists():

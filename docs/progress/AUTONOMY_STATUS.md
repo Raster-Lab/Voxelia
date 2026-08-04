@@ -2444,6 +2444,21 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   The DocC topics page gained the three types. Lookup execution,
   piecewise-linear behavior and presentation-stage values remain
   unimplemented by design.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
+  performed its one-time register reconciliation in the same atomic change.
+  The platform record was Git-renamed from
+  `ADR-0001-apple-ecosystem-only.md` to `ADR-0025-apple-ecosystem-only.md`
+  with its identifier, heading and an identifier-migration record updated
+  while its decision text, Accepted status, original 2026-08-02 date, owners
+  and requirements stayed unchanged. Live references migrated in the same
+  change: the decision index prose and table, the root README, the
+  contributing guide, the governing-document index, this ledger's
+  current-facing entries, the required-file check and the Apple
+  platform-policy check. An Unreleased changelog entry records the
+  correction; the v0.1.1 changelog entry, Corrective Release Notes and
+  Static Verification Report remain unchanged as historical records. The
+  MTA file, its Appendix A register and `ADR-0021` through `ADR-0023` are
+  untouched.
 
 ## Verification evidence
 
@@ -4808,6 +4823,17 @@ and test files, the static package-graph and prohibited-import checks and
 the requirement-index check passed. No controlled baseline or other
 Proposed contract changed.
 
+For the `ADR-0024` reconciliation, the ADR's prescribed focused checks
+passed after the atomic migration: the complete documentation gate
+(including the file-backed ADR-register checker proving identifier,
+filename and heading consistency with no duplicate identifiers), the
+required-file check and Apple-platform-policy check against the new
+`ADR-0025` path, the manifest-path check, release-integrity regeneration
+and verification, and the requirement-index check. A repository-wide search
+confirmed no active link or policy script references the former platform
+path; remaining `ADR-0001` texts are the immutable `v0.1.1` baselines,
+historical release records and this ledger's preserved historical entries.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5144,18 +5170,16 @@ Proposed contract changed.
   synthesized `Codable` wire representation is not claimed as canonical, and a
   case does not prove device capability, resource allocation, fallback,
   residency-manager state or memory-pressure behavior.
-- MTA Appendix A already assigns `ADR-0001` through `ADR-0020`, while the
-  scaffold contains a different accepted platform `ADR-0001`. New proposals
-  start at `ADR-0021`; proposed `ADR-0024` recommends re-identifying only the
-  platform record as `ADR-0025`, but the collision remains until that proposal
-  is accepted and its atomic migration is completed.
-- `ADR-0025` is not an existing or accepted decision. While `ADR-0024` remains
-  Proposed, the current platform filename, identifier, links and policy-script
-  paths must not change.
-- The ADR checker intentionally validates file-backed records only. It does not
-  compare them with MTA Appendix A while the known `ADR-0001` collision remains
-  unresolved, and it does not treat body mentions or the `ADR-0025` allocator
-  hold as record assignments.
+- The `ADR-0001` identifier collision is resolved: accepted `ADR-0024`
+  (2026-08-04) performed the atomic reconciliation, re-identifying the
+  platform record as `ADR-0025` with live links and the required-file and
+  Apple-platform-policy scripts migrated in the same change. An unqualified
+  current `ADR-0001` reference now means the MTA's canonical-data-model
+  decision; historical v0.1.1 release records retain the former identifier.
+- The ADR checker intentionally validates file-backed records only. It does
+  not compare them with MTA Appendix A and does not treat body mentions as
+  record assignments; after the reconciliation every file-backed identifier
+  is repository-unique and outside the MTA `ADR-0001`-`ADR-0020` reserve.
 - The checked-in template and all seventeen file-backed ADRs now contain the RPSS
   section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
   meaningful bodies. It intentionally does not infer decision quality, status
@@ -5302,13 +5326,13 @@ its other prerequisites: the `CoordinateSpaceDescriptor` unit policy and
 classification, affine shape and construction tolerance, rectilinear
 binding, frame-set binding (Proposed `ADR-0027`) and canonical JSON. The
 next unblocked step is another governance decision: surface the next
-Proposed contract the user wishes to review (candidates: `ADR-0024`
-decision-register reconciliation, `ADR-0026` ray/bounds intersection,
-`ADR-0027` frame anchor-index boundary, or the metadata chain `ADR-0028`
-onward) with its decision questions, following the established interactive
-acceptance flow. Do not accept ADRs autonomously, implement speculative
-source or run blocked storage/metadata probes while those decisions are
-open.
+Proposed contract the user wishes to review (candidates: `ADR-0026`
+ray/bounds intersection, `ADR-0027` frame anchor-index boundary, or the
+metadata chain `ADR-0028` onward) with its decision questions, following
+the established interactive acceptance flow. `ADR-0024` is accepted and its
+register reconciliation is complete. Do not accept ADRs autonomously,
+implement speculative source or run blocked storage/metadata probes while
+those decisions are open.
 
 ## Test policy for the next action
 

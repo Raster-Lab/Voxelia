@@ -196,8 +196,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size": 1923,
-      "sha256": "2039f92339c0b5d408a4261b876139d09c6961a2e48e4ddb25b1cddb7ca0f99d"
+      "size": 2284,
+      "sha256": "1f2d2068706036b17cbc628de4e56859a3300bd20cc3ad3b6473ce9999a80cdd"
     },
     {
       "path": "CODE_OF_CONDUCT.md",
@@ -207,7 +207,7 @@
     {
       "path": "CONTRIBUTING.md",
       "size": 2724,
-      "sha256": "dccd6ec0ac804476a45104cd5ce1edaba74683f60de5b1349feb7f5222615069"
+      "sha256": "c492290f61ca1db2014361fe5ee8f85d66d1566a5ff3ec3107b6221accc3d5dc"
     },
     {
       "path": "DCO.txt",
@@ -252,7 +252,7 @@
     {
       "path": "README.md",
       "size": 2845,
-      "sha256": "7be63f0314d4090353c7233595b4ebec92e1533443278cbd9cce9c082480a38f"
+      "sha256": "f2a5ebe875fe071647a095b25ee289c11620b0037c7c97e75ac1e4b4461d594d"
     },
     {
       "path": "RELEASE.json",
@@ -1227,7 +1227,7 @@
     {
       "path": "Tools/Scripts/check_apple_platform_policy.py",
       "size": 3559,
-      "sha256": "03e18c70c0f6b373eee796f40b3dc55d016c9f0eb2b427d5135e0a19de9d82df"
+      "sha256": "b70e54990bc6736655e6a0f1f79874b2d20e191bab42b35a063ab8805a941318"
     },
     {
       "path": "Tools/Scripts/check_docc_archives.py",
@@ -1272,7 +1272,7 @@
     {
       "path": "Tools/Scripts/check_required_files.py",
       "size": 1484,
-      "sha256": "288d1794166d70736dd104caaa1c344e26e9a1ed426e6ebdf56429f8bb1d8642"
+      "sha256": "79a92639724d71c119d9026dfb444861fb54dcfcca97bb96c00f76b64c025aeb"
     },
     {
       "path": "Tools/Scripts/check_rfc_register.py",
@@ -1505,11 +1505,6 @@
       "sha256": "ac2ea27e98262808bf0ac296913294cf43c7f9d72a582240a18a49596acf557e"
     },
     {
-      "path": "docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md",
-      "size": 3783,
-      "sha256": "f58112f15cf15254ee1822ed990b96a7ed0af1039fe3286cced3de109e9a1262"
-    },
-    {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
       "size": 7006,
       "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
@@ -1526,8 +1521,13 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0024-decision-register-reconciliation.md",
-      "size": 9522,
-      "sha256": "b7e1ecfd2a89c28de5af5b4db42066ccb4fa3b127f6113e4375ef705c256395c"
+      "size": 9307,
+      "sha256": "4169147fdaef5872a3b3107439445acae2b66b95487af7131335bf0c2bd43b0f"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0025-apple-ecosystem-only.md",
+      "size": 4471,
+      "sha256": "812483c1aeb50c2917ae6438f5d61ab3b2e019ab075518e6a7e57c00828306a4"
     },
     {
       "path": "docs/architecture/decisions/ADR-0026-ray-axis-aligned-bounds-intersection.md",
@@ -1611,8 +1611,8 @@
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 4810,
-      "sha256": "a43660f02db0565c0824d07002b8cbee0fdb83bfe427973d54e09e75c94886b3"
+      "size": 4814,
+      "sha256": "0ccd0ae10025aba2e266328c7b9c56077621fc64c832eda0a29c224b8f9f8d47"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1696,8 +1696,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 375657,
-      "sha256": "806c124d51a9b04b6883773cf2999064ab50b597409fd55ea05ce96c9f0fa1b6"
+      "size": 377307,
+      "sha256": "18c35ae977715f7ebe0ce72ed4fd4c1bd36d14babc11827a94d775db9659ba81"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1756,8 +1756,8 @@
     },
     {
       "path": "docs/project/README.md",
-      "size": 695,
-      "sha256": "d061861861573883c06fe35e69a2c365649bdfd93f7eb08ffbafbd7650cea55e"
+      "size": 715,
+      "sha256": "73272d6e3ff2ba4bb7a98196de6db6bdabe40d07450aef5ca847af5bbb3251e0"
     },
     {
       "path": "docs/project/Voxelia_Core_Data_Model_Specification_v0.1.1.md",
@@ -2052,7 +2052,7 @@
     {
       "path": "manifest.txt",
       "size": 19251,
-      "sha256": "dfc206d35db762d0ca42794c4a6a2e477eab2974a5f987ffa7bfe9e99467ad76"
+      "sha256": "65e15157b90d7760c7ac5494961ea20270f4451de2843f5e979a2cf53c884c3f"
     }
   ]
 }

@@ -60,7 +60,7 @@ The governing documents are stored in [`docs/project`](docs/project/README.md). 
 6. Core Data Model Specification v0.1.1
 7. First Vertical Slice Plan v0.1.1
 
-The accepted platform decision is recorded in [`ADR-0001`](docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md).
+The accepted platform decision is recorded in [`ADR-0025`](docs/architecture/decisions/ADR-0025-apple-ecosystem-only.md).
 
 ## Diagnostic-use statement
 

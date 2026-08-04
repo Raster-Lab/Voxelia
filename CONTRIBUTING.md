@@ -5,7 +5,7 @@ Thank you for contributing to Voxelia. The project accepts code, tests, validati
 ## Before starting
 
 - Read the documents in `docs/project/`.
-- Read `PLATFORM_SUPPORT.md` and ADR-0001.
+- Read `PLATFORM_SUPPORT.md` and ADR-0025.
 - Open or link an issue for material work.
 - Use an RFC for significant API, data-model, execution, storage or diagnostic behaviour changes.
 - Use an ADR for an architectural decision.
