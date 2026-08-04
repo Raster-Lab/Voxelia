@@ -362,18 +362,32 @@ struct AxisAlignedBounds3DTests {
 
     @Test("[Unit][VOX-ERR-001] decoding is strict and revalidates bounds")
     func decodingIsStrictAndRevalidatesBounds() throws {
-        let malformedValues = [
+        for wrongKeyValue in [
             #"{"minimum":{}}"#,
             #"{"minimum":{},"maximum":{},"extra":true}"#,
-            #"[]"#,
-        ]
-        for malformedValue in malformedValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        ] {
+            do {
+                _ = try JSONDecoder().decode(
                     AxisAlignedBounds3D.self,
-                    from: Data(malformedValue.utf8)
+                    from: Data(wrongKeyValue.utf8)
                 )
+                #expect(Bool(false), "Expected wrong-keyed bounds to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
+        }
+        do {
+            _ = try JSONDecoder().decode(
+                AxisAlignedBounds3D.self,
+                from: Data(#"[]"#.utf8)
+            )
+            #expect(Bool(false), "Expected array-shaped bounds to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
 
         let inverted =
