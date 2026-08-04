@@ -50,17 +50,24 @@ struct ResidencyPolicyTests {
         }
     }
 
-    @Test("[Unit][MTA-18.2] Codable rejects non-policy values")
+    @Test("[Unit][MTA-18.2][VOX-ERR-001] Codable rejects non-policy values")
     func codableRejectsMalformedValues() {
-        let malformed = [
-            Data("null".utf8),
-            Data("1".utf8),
-        ]
+        do {
+            _ = try JSONDecoder().decode(ResidencyPolicy.self, from: Data("null".utf8))
+            #expect(Bool(false), "Expected null to fail decoding.")
+        } catch DecodingError.valueNotFound {
+            // The keyed-container request rejects null.
+        } catch {
+            #expect(Bool(false), "Expected valueNotFound, received \(error).")
+        }
 
-        for data in malformed {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(ResidencyPolicy.self, from: data)
-            }
+        do {
+            _ = try JSONDecoder().decode(ResidencyPolicy.self, from: Data("1".utf8))
+            #expect(Bool(false), "Expected a number to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
     }
 
