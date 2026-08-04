@@ -379,6 +379,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   tests cover the monotonic happy path with tombstone behaviour,
   pre-admission rejection including the opaque case, and
   poison/incomplete/cancel/provider-failure fail-closed paths.
+- Fifth autonomous storage increment closing the `RFC-0001` step-6/7
+  value chain: `ImageStorageContract.swift` in `VoxeliaCore` adds the
+  backend-neutral provider protocol and the checked `AnyImageStorage`
+  erasure box (single witness dispatch; `unerased(as:)` recovers exactly
+  the erased concrete type and fails typed with no fallback), and
+  `ContiguousImageStorage.swift` in `VoxeliaStorage` implements the
+  first verified owned contiguous provider: an immutable process-local
+  packed backing admitted through Core snapshot authority, byte-count
+  admission, and complete owned region reads that copy contiguous
+  axis-zero runs monotonically through the Core transaction. Focused
+  tests prove byte-exact full and sub-region reads, short-backing
+  rejection, erased forwarding with authority identity and checked
+  foreign-unerase failure. The static package-graph and
+  prohibited-import checks confirm the dependency direction is
+  unchanged. The `StorageByteLease` closure-result shape remains
+  source-gated on the recorded `Data.span` platform-evidence question
+  (RFC unresolved question 8), and the asynchronous coordinator/budget
+  ledger remains the Execution-facing later work.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

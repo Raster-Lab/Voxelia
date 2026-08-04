@@ -76,6 +76,8 @@ storage semantics.
 - ``RegionReadTransaction``
 - ``RegionReadResult``
 - ``RegionFillCapability``
+- ``ImageStorageContract``
+- ``AnyImageStorage``
 - ``StorageContractError``
 
 ### Content identity

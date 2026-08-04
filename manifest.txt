@@ -83,6 +83,7 @@ Sources/VoxeliaCore/Public/ImageIndex.swift
 Sources/VoxeliaCore/Public/ImageRegion.swift
 Sources/VoxeliaCore/Public/ImageSemantic.swift
 Sources/VoxeliaCore/Public/ImageShape.swift
+Sources/VoxeliaCore/Public/ImageStorageContract.swift
 Sources/VoxeliaCore/Public/LookupTableDescriptor.swift
 Sources/VoxeliaCore/Public/MetadataBinary.swift
 Sources/VoxeliaCore/Public/MetadataCollection.swift
@@ -189,6 +190,7 @@ Sources/VoxeliaStorage/Module.swift
 Sources/VoxeliaStorage/Public/.gitkeep
 Sources/VoxeliaStorage/Public/CodecIdentifier.swift
 Sources/VoxeliaStorage/Public/CompressedRegionAccess.swift
+Sources/VoxeliaStorage/Public/ContiguousImageStorage.swift
 Sources/VoxeliaStorage/Public/StorageTaxonomy.swift
 Sources/VoxeliaStorage/VoxeliaStorage.docc/Architecture.md
 Sources/VoxeliaStorage/VoxeliaStorage.docc/Requirements.md
@@ -263,6 +265,7 @@ Tests/VoxeliaSpatialTests/StringIdentifierTests.swift
 Tests/VoxeliaSpatialTests/VoxeliaSpatialTests.swift
 Tests/VoxeliaStorageTests/CodecIdentifierTests.swift
 Tests/VoxeliaStorageTests/CompressedRegionAccessTests.swift
+Tests/VoxeliaStorageTests/ContiguousImageStorageTests.swift
 Tests/VoxeliaStorageTests/StorageTaxonomyTests.swift
 Tests/VoxeliaStorageTests/VoxeliaStorageTests.swift
 Tests/VoxeliaTests/VoxeliaTests.swift
