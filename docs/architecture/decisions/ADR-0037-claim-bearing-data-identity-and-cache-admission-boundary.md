@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0037"
 title: "Claim-bearing data identity and cache-admission boundary"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -115,15 +115,21 @@ be sensitive. None of these records grants permission to log, export, compare
 across tenants or privacy domains, resolve a schema, de-identify data, or treat
 an unkeyed digest as a MAC or signature.
 
-This proposal closes the conceptual state and admission rules needed before a
+This record closes the conceptual state and admission rules needed before a
 public record can be reviewed. It deliberately does not approve product source
-while `ADR-0036`, the required projections, exact identifier profiles and the
-execution/cache contracts remain unresolved.
+while the required projections, exact identifier profiles and the
+execution/cache contracts remain unresolved. It was reviewed and accepted by
+the project owner on 2026-08-04, with `ADR-0036` already accepted; the
+claim/assurance split, the explicit tiered cache admission and the deferral
+of the displayed derivation/reference sketches behind the source gate were
+each selected through interactive decision review, and this acceptance
+authorises the controlled corrections recorded in `CCR-0014` and no
+identity value source.
 
 ## Decision
 
-If accepted, the controlled MTA sentence will be interpreted and corrected to
-say:
+With this ADR accepted, the controlled MTA sentence is interpreted and
+corrected to say:
 
 > Every immutable data object shall have a stable data identity. A data
 > identity contains object identity plus at least one content, source or
@@ -497,8 +503,9 @@ reported as completion of those M2 requirements.
 
 ### Source gate
 
-This ADR is Proposed and authorises documentation plus isolated evidence only.
-It authorises no `SourceIdentity`, `DerivationIdentity`, `DataIdentity`,
+This ADR, although accepted, authorises documentation, the `CCR-0014`
+controlled corrections and isolated evidence only. It authorises no
+`SourceIdentity`, `DerivationIdentity`, `DataIdentity`,
 `DataIdentityReference`, trust, cache or lazy-digest production source.
 
 Before any identity value source is added:
@@ -705,8 +712,8 @@ add the blocked aggregate source.
 
 ## Supersession
 
-This ADR does not supersede an accepted decision. If accepted, it refines
-proposed `ADR-0036` downstream and supplies the proposed correction for MTA
+This ADR does not supersede an accepted decision. It refines
+accepted `ADR-0036` downstream and supplies the accepted correction for MTA
 section 11.3, CDMS sections 32.5 and 33 and Requirements `VOX-RGN-007`/
 `VOX-RGN-008`. It records but does not select the CDMS section 59 correction.
 A later accepted identity-lifecycle, derivation-projection, integrity or cache-

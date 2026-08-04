@@ -228,6 +228,28 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   authenticity claim; semantic collection identity, image/data identity
   and signatures remain future decisions under Proposed `ADR-0037` and
   later records.
+- Governance: `ADR-0037` was accepted by the project owner on 2026-08-04
+  as a documentation-and-corrections boundary. Its accepted content: the
+  claim-versus-assurance split (identity values are always claims;
+  assurance is host-validated runtime evidence bound to exact snapshot,
+  purpose and policy, never a serialised Boolean), the closed `C/S/D`
+  state model rejecting only the object-only state, the exact
+  source-locator invariants with duplicate rejection and preserved
+  order, the explicit three-tier cache-admission order with partitioned
+  key spaces, and the deferral of the displayed `DerivationIdentity`
+  and undeclared `DataIdentityReference` sketches behind the source
+  gate. `CCR-0014` records the MTA section 11.3 corrected identity
+  sentence, the CDMS section 32.5/33 state-model binding, the
+  `VOX-RGN-007`/`VOX-RGN-008` readings and the cache-admission
+  interpretation. Deliberately, no identity value source was
+  implemented: the accepted source gate forbids `SourceIdentity`,
+  `DerivationIdentity`, `DataIdentity`, `DataIdentityReference`, trust,
+  cache and lazy-digest source until the identifier profiles,
+  `DataObjectID` persistent-identity resolution, reference lifecycle,
+  registered parameter/derivation projections, `objectID` enrichment
+  lifecycle and execution/cache contracts receive their own decisions.
+  The CDMS section 59 `DataIntegrityState` conflict is recorded and
+  remains unresolved.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -2788,6 +2810,18 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   cross-checking the accepted `VCMJ-1` emitter independently. Cache
   admission, provenance integration, semantic identity and signatures
   remain governed by Proposed `ADR-0037` and later decisions.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0037` and
+  executed its authorised documentation-only migration in one change:
+  controlled correction `CCR-0014` (the corrected MTA section 11.3
+  identity sentence with the claim/assurance vocabulary, the CDMS
+  section 32.5/33 closed-state and source-invariant binding, the
+  deferred derivation/reference sketch record with the `DataObjectID`
+  persistent-identity blocker, the `VOX-RGN-007`/`VOX-RGN-008` readings
+  and the tiered cache-admission interpretation). No Swift source was
+  added or authorised: the accepted decision's own source gate keeps
+  every identity value record blocked until its enumerated
+  prerequisites receive separate decisions, and this increment records
+  that boundary rather than implementing around it.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -5435,6 +5469,20 @@ Swift files, the documentation gate including `RFC-0002` and `CCR-0013`,
 the static package-graph, prohibited-import and requirement-index checks
 passed.
 
+The `ADR-0037` increment is documentation-only, so its verification
+surface is the documentation gate: the front-matter, ADR-register,
+RFC-governance and documentation-text checks passed over the accepted
+`ADR-0037`, `CCR-0014` and the updated register; the requirement-index
+check passed; and release-integrity regeneration plus the read-only
+check passed. No Swift source changed, so no new package tests were
+added; the full suite re-ran green as the pre-push gate. The accepted
+source gate's prerequisites (bounded identifier profiles, `DataObjectID`
+persistent identity and byte ceiling, `DataIdentityReference` lifecycle
+and wire, registered parameter/derivation projections, `objectID`
+enrichment lifecycle and the execution/cache contracts) are recorded as
+the open decisions blocking any identity value source, alongside the
+still-open CDMS section 59 integrity-state correction.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5919,25 +5967,28 @@ passed.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0036` are
-accepted and fully executed: the three metadata leaves, the bounded
-recursive `MetadataValue`, the classified general `MetadataEntry`, the
-ordered `MetadataCollection` with explicit multiplicity admission, the
-closed exact-case typed read surface, the `VCMJ-1` canonical codec with
-strict raw ingress and the framed complete canonical metadata record
-identity (`ContentID`) now exist with their controlled corrections. The
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0037` are
+accepted and executed: the three metadata leaves, the bounded recursive
+`MetadataValue`, the classified general `MetadataEntry`, the ordered
+`MetadataCollection` with explicit multiplicity admission, the closed
+exact-case typed read surface, the `VCMJ-1` canonical codec with strict
+raw ingress and the framed complete canonical metadata record identity
+(`ContentID`) exist with their controlled corrections, and `ADR-0037`'s
+claim/assurance, state-model and cache-admission boundary is recorded
+through `CCR-0014` with its source gate deliberately closed. The
 `ImageDescriptor` aggregate remains blocked by its remaining
 prerequisites: the `CoordinateSpaceDescriptor` unit policy and
 classification, affine shape and construction tolerance, rectilinear
 binding and the remaining frame-set collection contracts; its
 canonical-JSON prerequisite is now satisfied for the metadata record.
 The next unblocked step is another governance decision: surface the next
-Proposed contract the user wishes to review (`ADR-0037` claim-bearing
-data identity and cache admission, then `ADR-0038` and the `RFC-0001`
-storage-contract chain) with its decision questions, following the
-established interactive acceptance flow. Do not accept ADRs
-autonomously, implement speculative source or run blocked
-storage/metadata probes while those decisions are open.
+Proposed contract the user wishes to review (`ADR-0038` closed
+provenance record and graph admission, then the `RFC-0001`
+storage-contract chain composing `ADR-0039` through `ADR-0041`) with its
+decision questions, following the established interactive acceptance
+flow. Do not accept ADRs autonomously, implement speculative source or
+run blocked storage/metadata/identity probes while those decisions and
+the `ADR-0037` source-gate prerequisites are open.
 
 ## Test policy for the next action
 
