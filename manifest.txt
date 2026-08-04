@@ -96,6 +96,7 @@ Sources/VoxeliaCore/Public/MetadataTypedRead.swift
 Sources/VoxeliaCore/Public/MetadataValue.swift
 Sources/VoxeliaCore/Public/ProvenanceID.swift
 Sources/VoxeliaCore/Public/ProvenanceKind.swift
+Sources/VoxeliaCore/Public/RegionReadTransaction.swift
 Sources/VoxeliaCore/Public/ScalarFormat.swift
 Sources/VoxeliaCore/Public/SemanticVersion.swift
 Sources/VoxeliaCore/Public/StorageContract.swift
@@ -226,6 +227,7 @@ Tests/VoxeliaCoreTests/MetadataTypedReadTests.swift
 Tests/VoxeliaCoreTests/MetadataValueTests.swift
 Tests/VoxeliaCoreTests/ProvenanceIDTests.swift
 Tests/VoxeliaCoreTests/ProvenanceKindTests.swift
+Tests/VoxeliaCoreTests/RegionReadTransactionTests.swift
 Tests/VoxeliaCoreTests/ScalarFormatTests.swift
 Tests/VoxeliaCoreTests/SemanticVersionTests.swift
 Tests/VoxeliaCoreTests/StorageContractTests.swift

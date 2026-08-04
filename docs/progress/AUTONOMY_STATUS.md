@@ -361,6 +361,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `staleSnapshot` and the original handle stays immutable. Two focused
   tests cover authority nonforgeability, foreign-binding rejection,
   successor co-retention and stale-generation rejection.
+- Fourth autonomous storage increment: `RegionReadTransaction.swift`
+  implements the `ADR-0041` safe first read profile as a single-owner
+  synchronous transaction: pre-admission rejections (opaque
+  representation unsupported, rank/containment/empty-region invalidity,
+  checked expected-byte overflow) throw from construction and create no
+  transaction; the provider receives only the weak bounded
+  `RegionFillCapability` whose monotonic cursor poisons on overrun or
+  after-close writes; cancellation blocks commit immediately and
+  permanently; a throwing provider terminalises as `providerFailure`
+  without retaining its error; and `commit()` mints the owned immutable
+  packed `RegionReadResult` (region-shaped binding, exact expected
+  bytes) exactly once, with poisoned or incomplete fills failing closed
+  and committed/failed transactions remaining tombstones. The
+  asynchronous coordinator, byte-budget ledger and provider-drain
+  accounting remain the Execution-facing later increments. Three focused
+  tests cover the monotonic happy path with tombstone behaviour,
+  pre-admission rejection including the opaque case, and
+  poison/incomplete/cancel/provider-failure fail-closed paths.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

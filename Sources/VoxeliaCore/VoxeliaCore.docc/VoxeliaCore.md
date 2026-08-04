@@ -73,6 +73,9 @@ storage semantics.
 - ``StorageRepresentationLocality``
 - ``StorageSnapshotHandle``
 - ``StorageReadAuthority``
+- ``RegionReadTransaction``
+- ``RegionReadResult``
+- ``RegionFillCapability``
 - ``StorageContractError``
 
 ### Content identity
