@@ -679,6 +679,31 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   This discharges the `ADR-0037` derivation prerequisite "registered
   parameter projection"; the digest proves neither parameter
   completeness nor determinism and is not by itself a cache key.
+- Twenty-first autonomous increment: authored and accepted `ADR-0055`
+  (derivation identity record) with `CCR-0021` recording the controlled
+  correction, and implemented the closed derivation shapes in
+  `VoxeliaCore`: `DerivationOperationToken` (own reverse-domain
+  nominal with limit-before-grammar precedence),
+  `DerivationInputRole` (bounded single lowercase label),
+  `DerivationInput` (role plus `DataIdentityReference`, positional
+  with exact repeats preserved), `DerivationImplementationReference`
+  (token plus version in which build metadata is admitted), and
+  `DerivationIdentity` binding the operation token, exact operation
+  version, optional implementation, positional inputs and a
+  `parameterDigest` constrained to the registered `ADR-0054`
+  operation-parameters tuple with every foreign tuple a typed
+  rejection. An empty input sequence is admitted only under the
+  explicit zero-input generator declaration, which is not stored
+  because it is derivable; equality and hashing compare every stored
+  field exactly, including `SemanticVersion.buildMetadata` through an
+  explicit exact-version comparison. Tests prove both grammars with
+  limit precedence, both zero-input rules, foreign-tuple rejection,
+  build-metadata-distinct implementations comparing distinct while
+  their semantic versions compare equal, repeats, order and roles
+  participating in identity, and payload-free diagnostics. The stable
+  coding, input-count ceiling and `DerivationRecordID` stay with the
+  future canonical derivation-record projection decision; determinism
+  and input assurance remain runtime evidence under `ADR-0037`.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

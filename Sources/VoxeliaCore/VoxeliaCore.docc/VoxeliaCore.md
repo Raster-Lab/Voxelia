@@ -149,6 +149,12 @@ storage semantics.
 - ``SourceIdentityError``
 - ``DataIdentityReference``
 - ``DataIdentityReferenceError``
+- ``DerivationOperationToken``
+- ``DerivationInputRole``
+- ``DerivationInput``
+- ``DerivationImplementationReference``
+- ``DerivationIdentity``
+- ``DerivationIdentityError``
 
 ### Common errors
 
