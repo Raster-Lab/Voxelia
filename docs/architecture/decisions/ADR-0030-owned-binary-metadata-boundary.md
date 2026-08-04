@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0030"
 title: "Owned binary metadata boundary"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -66,16 +66,15 @@ would reject previously permitted source metadata without evidence, and a
 limit checked by type-level `Decodable` would run only after a general JSON
 decoder had already allocated the source string.
 
-This proposal selects one independently valid Core leaf and the minimum
+This record selects one independently valid Core leaf and the minimum
 controlled corrections required to use it. It does not authorise recursive
 `MetadataValue`, metadata entries or collections, source-attribute mapping,
-privacy attachment, canonical document bytes or a generic resource-limit API.
-Its Proposed status does not authorise implementation or controlled-document
-changes.
+privacy attachment, canonical document bytes or a generic resource-limit
+API. It was reviewed and accepted by the project owner on 2026-08-04.
 
 ## Decision
 
-If this ADR is accepted, `VoxeliaCore` will own this public value:
+`VoxeliaCore` owns this public value:
 
 ```swift
 public struct MetadataBinary: Sendable, Hashable, Codable {
@@ -399,17 +398,19 @@ After acceptance:
    hard recursive ceilings proposed by `ADR-0031`; and
 7. update traceability, changelog and release-integrity evidence.
 
-No migration step may begin while this ADR remains Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance and are
+executed in order through the progress ledger; steps 5 and 6 remain gated on
+their named decisions.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. If accepted, it resolves only direct `Data` ownership and the binary
-leaf's semantic JSON string through the controlled migration above. It does not
-select a complete metadata schema, recursive resource policy, canonical JSON
-document algorithm, content identity or privacy model. Proposed `ADR-0031`
-governs only whether and how the standalone leaf may be embedded in a bounded
-recursive value. While Proposed, neither record has supersession effect.
+This ADR neither supersedes nor is superseded by another file-backed ADR. It
+resolves only direct `Data` ownership and the binary leaf's semantic JSON
+string through the controlled migration above. It does not select a complete
+metadata schema, recursive resource policy, canonical JSON document
+algorithm, content identity or privacy model. Proposed `ADR-0031` governs
+only whether and how the standalone leaf may be embedded in a bounded
+recursive value.
 
 ## References
 

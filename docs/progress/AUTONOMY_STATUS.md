@@ -143,12 +143,18 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   wrapper and its value-redacted typed error are implemented in
   `VoxeliaCore`; the recursive metadata aggregate and canonical JSON remain
   blocked by their own contracts.
-- Proposed `ADR-0030` selects a Core-owned `MetadataBinary` for the raw
-  metadata `Data`: one owned `ContiguousArray<UInt8>` snapshot, exact ordered-
-  byte identity and strict padded standard-Base64 scalar Codable. It assigns
-  host-selected limits to raw and standalone-leaf ingress without inventing an
-  intrinsic leaf cap; proposed `ADR-0031` separately bounds recursive
-  embedding. Neither is accepted or authorises source.
+- Governance: `ADR-0030` was accepted by the project owner on 2026-08-04,
+  selecting the Core-owned `MetadataBinary` for the raw metadata `Data`: one
+  owned `ContiguousArray<UInt8>` snapshot, exact ordered-byte identity and
+  strict padded standard-Base64 scalar Codable with canonical unused-bit
+  rejection. It assigns host-selected limits to raw and standalone-leaf
+  ingress without inventing an intrinsic leaf cap; proposed `ADR-0031`
+  separately bounds recursive embedding. `CCR-0007` records the controlled
+  CDMS corrections (the `binary(MetadataBinary)` case, the resolved
+  section-55.3 Base64 selection, the closed section-72 direct-`Data` open
+  decision and Appendix A). The wrapper and its manual codec are implemented
+  in `VoxeliaCore`; the recursive aggregate and canonical document bytes
+  remain blocked by their own contracts.
 - The raw metadata `String` audit retains `case string(String)`: every valid
   Swift string remains admissible. It recommends exact UTF-8 branch identity
   over Swift's canonical-equivalence relation; proposed `ADR-0031` accepts that
@@ -2531,6 +2537,22 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   wrapper. The DocC metadata topics gained both types. The recursive
   aggregate, entries, collections, privacy attachment and canonical JSON
   bytes remain blocked by their own contracts.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0030` and
+  executed its authorised migration in one change: controlled correction
+  `CCR-0007` (the corrected binary case, the selected strict padded
+  standard-Base64 profile, the closed direct-`Data` open decision and
+  Appendix A) and the `MetadataBinary` leaf in `VoxeliaCore`. The generic
+  initialiser materialises one owned snapshot so caller-managed no-copy
+  memory cannot change a stored value after hashing; identity is the exact
+  ordered bytes with a valid empty value. The manual codec validates ASCII
+  grammar, exact padding placement and zero unused bits before allocating
+  through checked count preflight, decodes directly into the owned array,
+  emits the one canonical string and never consults a Foundation data
+  strategy; malformed semantic strings become one value-redacted
+  `dataCorrupted` with no public error type. The DocC metadata topics
+  gained the type. The recursive aggregate, entries, collections, privacy
+  attachment, canonical document bytes and content identity remain blocked
+  by their own contracts.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -4989,6 +5011,26 @@ two new Swift files, the documentation gate including `CCR-0006`, the
 static package-graph and prohibited-import checks and the
 requirement-index check passed.
 
+`swift test --filter MetadataBinary` executed all nine tests in the new
+owning Core suite: the adversarial `Data(bytesNoCopy:)` backing mutation
+proving snapshot construction and preserved set membership; ordinary
+`Data` and copy-on-write source independence; exact count-and-order
+identity over empty, all-256-value, reordered and length-differing bytes;
+the complete RFC 4648 vector set plus `+` and `/` exercises with exact
+encoded-object evidence; bit-exact generated round trips across every
+length zero through ninety-six with preflighted encoded counts; exact
+rejection of missing/excess/misplaced padding, non-zero unused bits,
+whitespace, line breaks, non-ASCII, Base64URL and embedded-padding
+aliases with value-redacted root diagnostics; wrong-shape rejections and
+independence from both Foundation data-decoding strategies; overflow-safe
+near-`Int.max` count preflight without allocation; and a deterministic
+~2,400-case codec fuzz proving totality and the canonical
+re-encoding property for every accepted string. The owning
+`swift build --target VoxeliaCore`, strict format lint for the two new
+Swift files, the documentation gate including `CCR-0007`, the static
+package-graph and prohibited-import checks and the requirement-index
+check passed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5473,18 +5515,20 @@ requirement-index check passed.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0029` are
-accepted and fully executed. The `ImageDescriptor` aggregate remains
-blocked by its other prerequisites: the `CoordinateSpaceDescriptor` unit
-policy and classification, affine shape and construction tolerance,
-rectilinear binding, the remaining frame-set collection contracts and
-canonical JSON. The next unblocked step is another governance decision:
-surface the next Proposed contract the user wishes to review (the metadata
-chain continues with `ADR-0030` `MetadataBinary`, then the
-recursive-value, privacy, collection, read, canonical-JSON and identity
-decisions `ADR-0031` through `ADR-0037`) with its decision questions,
-following the established interactive acceptance flow. Do not accept ADRs
-autonomously, implement speculative source or run blocked
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0030` are
+accepted and fully executed: all three metadata leaves (`CanonicalInstant`,
+`MetadataFloatingPoint`, `MetadataBinary`) now exist with their controlled
+corrections. The `ImageDescriptor` aggregate remains blocked by its other
+prerequisites: the `CoordinateSpaceDescriptor` unit policy and
+classification, affine shape and construction tolerance, rectilinear
+binding, the remaining frame-set collection contracts and canonical JSON.
+The next unblocked step is another governance decision: surface the next
+Proposed contract the user wishes to review (the bounded recursive-value
+decision `ADR-0031`, whose leaf dependencies `ADR-0028` through `ADR-0030`
+are now all accepted, then the privacy, collection, read, canonical-JSON
+and identity decisions `ADR-0032` through `ADR-0037`) with its decision
+questions, following the established interactive acceptance flow. Do not
+accept ADRs autonomously, implement speculative source or run blocked
 storage/metadata probes while those decisions are open.
 
 ## Test policy for the next action
