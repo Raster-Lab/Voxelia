@@ -507,6 +507,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   deduplication, result caching, lazy identity computation and
   provenance capture remain the next M2 increments under their recorded
   gates.
+- Thirteenth autonomous increment: authored and accepted `ADR-0047`
+  (coordinated metadata identity boundary) and implemented
+  `MetadataIdentityCoordinator` in `VoxeliaExecution` — the unblocked
+  slice of the accepted lazy-identity machinery, since an immutable
+  `MetadataCollection` value is itself the pinned snapshot and the
+  complete-record projection is registered. The actor coalesces
+  concurrent identical requests (work key: collection value plus output
+  ceiling, in-process only) onto one shared detached computation that
+  publishes the exact canonical `VCMJ-1` bytes and their framed
+  `ContentID` atomically; a cancelled caller receives the typed outcome
+  without cancelling shared work; the in-flight table drains after
+  completion; and typed emission/identity failures propagate. Tests
+  reproduce the registered golden pair (148-byte envelope and the
+  `8dde…7432` framed digest) through the coordinator, verify
+  self-consistency via timing-safe `matchesDigest`, prove sixteen
+  concurrent identical requests start strictly fewer computations, and
+  confirm distinct ceilings are distinct work keys. Repeat-bearing
+  identity, general `DataIdentity` enrichment and cache/provenance
+  publication remain gated.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

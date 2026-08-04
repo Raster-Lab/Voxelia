@@ -32,8 +32,9 @@ completing `RFC-0001` approval-order step 4. `ADR-0043` is allocated to
 the spatial descriptor admission boundary. `ADR-0044` is allocated to
 the persistent identifier exactness boundary. `ADR-0045` is allocated
 to the integrity state claim boundary. `ADR-0046` is allocated to the
-execution read coordination boundary opening milestone M2. The next
-unallocated numeric identifier is `ADR-0047`.
+execution read coordination boundary opening milestone M2. `ADR-0047`
+is allocated to the coordinated metadata identity boundary. The next
+unallocated numeric identifier is `ADR-0048`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -63,3 +64,4 @@ unallocated numeric identifier is `ADR-0047`.
 | [ADR-0044](ADR-0044-persistent-identifier-exactness-boundary.md) | Accepted | Persistent identifier exactness boundary |
 | [ADR-0045](ADR-0045-integrity-state-claim-boundary.md) | Accepted | Integrity state claim boundary |
 | [ADR-0046](ADR-0046-execution-read-coordination-boundary.md) | Accepted | Execution read coordination boundary |
+| [ADR-0047](ADR-0047-coordinated-metadata-identity-boundary.md) | Accepted | Coordinated metadata identity boundary |

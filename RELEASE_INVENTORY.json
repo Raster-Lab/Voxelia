@@ -575,6 +575,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaExecution/Public/MetadataIdentityCoordinator.swift",
+      "size": 3509,
+      "sha256": "914fb121bea1a931b37eaf338c5ffd9d5e96743bdb127a61de01058a23f98fc9"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Public/StorageReadCoordinator.swift",
       "size": 4984,
       "sha256": "200a46ffa20f8b3cd601a20e0a4dd9d7611cbba0d46d6b4da0a3bde5199a6279"
@@ -1233,6 +1238,11 @@
       "path": "Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift",
       "size": 300,
       "sha256": "f197a2e5173aaa457f326f50ef9415ffbfdf6a7b60ceee49c142bbfd217773f5"
+    },
+    {
+      "path": "Tests/VoxeliaExecutionTests/MetadataIdentityCoordinatorTests.swift",
+      "size": 3994,
+      "sha256": "c193964ce6bdb051fbf37a7358e675fb8b6b78df790f36d0f17bcc8e6a94153a"
     },
     {
       "path": "Tests/VoxeliaExecutionTests/StorageReadCoordinatorTests.swift",
@@ -1955,9 +1965,14 @@
       "sha256": "7c03d479ec42d80efff9c0229a85196d953310007df810f11ed8b6c3820fb591"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0047-coordinated-metadata-identity-boundary.md",
+      "size": 3784,
+      "sha256": "4a67f09afbba18071de5307e2213d925027e76a2968e8d5aa53439d7a1000511"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 5804,
-      "sha256": "d284cbbe8418b54a10093a2b778a5904312015fc1144cceef0a8624f31617488"
+      "size": 5994,
+      "sha256": "16efc8bfaa8d629ed17d95ed2f051ebb8f83ccfbb4936470215cbd7611073db2"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2041,8 +2056,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 441916,
-      "sha256": "f78cc731bfe32418ddbba11e2c887a8cdfa592ef79eb82062eee3d5d5d33b616"
+      "size": 443155,
+      "sha256": "b3564f028624e4bad4dd6828768bcbbf7179239fa6eeca798af90b3573281b1c"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2401,8 +2416,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 23589,
-      "sha256": "a73a277347238db2ef558f1b82fc7a9563b31306f21c04ee621416e88b3e8db1"
+      "size": 23801,
+      "sha256": "fb82b3df77ea63f6d264bad92ec8d2002c2f28982c985de1463e8d4fc67db6df"
     }
   ]
 }
