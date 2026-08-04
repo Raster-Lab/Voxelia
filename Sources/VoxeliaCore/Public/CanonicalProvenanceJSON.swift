@@ -303,6 +303,10 @@ public enum CanonicalProvenanceJSON {
             try sink.write(ascii: #"{"source":"#)
             try emitSourceIdentity(source, into: &sink)
             try sink.write(ascii: "}")
+        case .derivation(let record):
+            try sink.write(ascii: #"{"derivation":{"recordContentID":"#)
+            try emitContentID(record.recordContentID, into: &sink)
+            try sink.write(ascii: "}}")
         }
     }
 

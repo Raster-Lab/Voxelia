@@ -69,6 +69,7 @@ Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md
 Sources/VoxeliaCore/ApplePlatformGate.swift
 Sources/VoxeliaCore/Internal/.gitkeep
 Sources/VoxeliaCore/Module.swift
+Sources/VoxeliaCore/Public/CanonicalDerivationJSON.swift
 Sources/VoxeliaCore/Public/CanonicalInstant.swift
 Sources/VoxeliaCore/Public/CanonicalMetadataDocument.swift
 Sources/VoxeliaCore/Public/CanonicalMetadataIngress.swift
@@ -229,6 +230,7 @@ Tests/Support/ApplePlatformGate.swift
 Tests/Support/Resources/README.md
 Tests/Support/TestSupport.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
+Tests/VoxeliaCoreTests/CanonicalDerivationJSONTests.swift
 Tests/VoxeliaCoreTests/CanonicalInstantTests.swift
 Tests/VoxeliaCoreTests/CanonicalMetadataJSONTests.swift
 Tests/VoxeliaCoreTests/CanonicalProvenanceIngressTests.swift
@@ -461,6 +463,7 @@ docs/architecture/decisions/ADR-0068-window-level-uint16-extension.md
 docs/architecture/decisions/ADR-0069-lookup-table-composition.md
 docs/architecture/decisions/ADR-0070-composed-chain-composition.md
 docs/architecture/decisions/ADR-0071-geometry-preserving-region-extraction.md
+docs/architecture/decisions/ADR-0072-canonical-derivation-projection.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

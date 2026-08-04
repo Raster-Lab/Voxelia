@@ -57,7 +57,8 @@ coordinator. `ADR-0068` is allocated to the window-level uint16
 extension. `ADR-0069` is allocated to lookup-table composition. The
 `ADR-0070` is allocated to composed chain composition. The next
 `ADR-0071` is allocated to geometry-preserving region extraction.
-The next unallocated numeric identifier is `ADR-0072`.
+`ADR-0072` is allocated to the canonical derivation record
+projection. The next unallocated numeric identifier is `ADR-0073`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -112,3 +113,4 @@ The next unallocated numeric identifier is `ADR-0072`.
 | [ADR-0069](ADR-0069-lookup-table-composition.md) | Accepted | Lookup-table composition |
 | [ADR-0070](ADR-0070-composed-chain-composition.md) | Accepted | Composed chain composition |
 | [ADR-0071](ADR-0071-geometry-preserving-region-extraction.md) | Accepted | Geometry-preserving region extraction |
+| [ADR-0072](ADR-0072-canonical-derivation-projection.md) | Accepted | Canonical derivation record projection |

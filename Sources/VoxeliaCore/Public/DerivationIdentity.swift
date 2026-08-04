@@ -12,6 +12,33 @@ public enum DerivationIdentityError: Error, Sendable, Equatable {
     case emptyInputSequence
     case unexpectedInputSequence
     case unsupportedParameterProjection
+    case unsupportedRecordProjection
+}
+
+/// One validated content-addressed derivation record claim per
+/// `ADR-0072`.
+///
+/// The claim wraps the registered derivation-record digest of one
+/// canonical `VCDJ-1` document; any other tuple is a typed rejection.
+/// It identifies a recipe by content and proves neither determinism
+/// nor input assurance.
+public struct DerivationRecordID: Sendable, Hashable {
+    public let recordContentID: ContentID
+
+    /// Creates a validated derivation record claim.
+    ///
+    /// - Throws:
+    ///   ``DerivationIdentityError/unsupportedRecordProjection`` when
+    ///   the digest is not the registered derivation-record tuple.
+    public init(recordContentID: ContentID) throws {
+        guard
+            recordContentID.scope == .serialisedObject,
+            recordContentID.projection == ContentID.derivationRecordProjection
+        else {
+            throw DerivationIdentityError.unsupportedRecordProjection
+        }
+        self.recordContentID = recordContentID
+    }
 }
 
 /// One bounded, descriptive derivation operation or implementation token.

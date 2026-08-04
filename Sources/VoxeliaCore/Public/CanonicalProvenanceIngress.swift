@@ -461,6 +461,21 @@ extension CanonicalProvenanceJSON {
             return .content(try reconstructContentID(body))
         case "source":
             return .source(try reconstructSourceIdentity(body))
+        case "derivation":
+            let members = try object(body, keys: ["recordContentID"])
+            do {
+                return .derivation(
+                    try DerivationRecordID(
+                        recordContentID: try reconstructContentID(
+                            members["recordContentID"]
+                        )
+                    )
+                )
+            } catch let error as ProvenanceJSONIngressError {
+                throw error
+            } catch {
+                throw ProvenanceJSONIngressError.invalidDocument
+            }
         default:
             throw ProvenanceJSONIngressError.invalidDocument
         }

@@ -175,6 +175,9 @@ storage semantics.
 - ``DerivationImplementationReference``
 - ``DerivationIdentity``
 - ``DerivationIdentityError``
+- ``DerivationRecordID``
+- ``CanonicalDerivationJSON``
+- ``DerivationJSONEmissionError``
 - ``DataIdentity``
 - ``DataIdentityError``
 

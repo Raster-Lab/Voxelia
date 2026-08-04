@@ -8,21 +8,23 @@ public enum DataIdentityReferenceError: Error, Sendable, Equatable {
     case invalidRecord
 }
 
-/// One closed, non-recursive data identity reference per `ADR-0037` and
-/// `ADR-0053`.
+/// One closed, non-recursive data identity reference per `ADR-0037`,
+/// `ADR-0053` and `ADR-0072`.
 ///
 /// The cases carry deliberately different authority: `object` names a
 /// local or explicitly resolved immutable record and is not a persistent
 /// cache key; `content` is a content claim until associated assurance
-/// verifies that exact tuple; and `source` is admissible only under
-/// explicit host source policy. A `derivation` case stays deferred until
-/// `DerivationRecordID` and its registered canonical projection exist.
-/// The reference never embeds `DataIdentity` or `DerivationIdentity`, so
-/// cycles and unbounded decoding are structurally impossible.
+/// verifies that exact tuple; `source` is admissible only under
+/// explicit host source policy; and `derivation` identifies a canonical
+/// derivation record by its registered content digest without proving
+/// determinism or input assurance. The reference never embeds
+/// `DataIdentity` or `DerivationIdentity`, so cycles and unbounded
+/// decoding are structurally impossible.
 public enum DataIdentityReference: Sendable, Hashable, Codable {
     case object(DataObjectID)
     case content(ContentID)
     case source(SourceIdentity)
+    case derivation(DerivationRecordID)
 
     private struct ArbitraryCodingKey: CodingKey {
         let stringValue: String
@@ -80,6 +82,35 @@ public enum DataIdentityReference: Sendable, Hashable, Codable {
             } catch {
                 throw DataIdentityReferenceError.invalidRecord
             }
+        case "derivation":
+            do {
+                let nested = try container.nestedContainer(
+                    keyedBy: ArbitraryCodingKey.self,
+                    forKey: key
+                )
+                guard
+                    nested.allKeys.count == 1,
+                    nested.allKeys.first?.stringValue == "recordContentID"
+                else {
+                    throw DataIdentityReferenceError.invalidRecord
+                }
+                self = .derivation(
+                    try DerivationRecordID(
+                        recordContentID: try nested.decode(
+                            ContentID.self,
+                            forKey: ArbitraryCodingKey("recordContentID")
+                        )
+                    )
+                )
+            } catch let error as DataIdentityReferenceError {
+                throw error
+            } catch let error as ContentIdentityError {
+                throw error
+            } catch let error as DerivationIdentityError {
+                throw error
+            } catch {
+                throw DataIdentityReferenceError.invalidRecord
+            }
         default:
             throw DataIdentityReferenceError.invalidRecord
         }
@@ -95,6 +126,15 @@ public enum DataIdentityReference: Sendable, Hashable, Codable {
             try container.encode(contentID, forKey: ArbitraryCodingKey("content"))
         case .source(let sourceIdentity):
             try container.encode(sourceIdentity, forKey: ArbitraryCodingKey("source"))
+        case .derivation(let record):
+            var nested = container.nestedContainer(
+                keyedBy: ArbitraryCodingKey.self,
+                forKey: ArbitraryCodingKey("derivation")
+            )
+            try nested.encode(
+                record.recordContentID,
+                forKey: ArbitraryCodingKey("recordContentID")
+            )
         }
     }
 }

@@ -1152,6 +1152,33 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   unchanged non-translation elements and the regular-origin shift to
   `7.5` — prove byte-exact samples, the advanced tokens and the
   externally-defined rejection.
+- Thirty-eighth autonomous increment (owner overnight standing
+  mandate): authored and accepted `ADR-0072` (canonical derivation
+  record projection) and implemented the `VCDJ-1` profile, the fifth
+  compiled `ContentID` tuple (`sha256`, `serialisedObject`,
+  `org.voxelia.derivation-record` version `1.0`, 102-byte frame),
+  `DerivationRecordID` (a validated content-addressed derivation
+  record claim constrained to the registered tuple) and the
+  completing `derivation` case of `DataIdentityReference` with its
+  one-member wire — updating the `ADR-0053` strict wire, the `VCPJ-1`
+  emitter and the strict ingress before any release, so existing
+  documents' bytes and digests are unchanged. The profile reuses the
+  accepted member forms (bare tokens, decimal-string semantic
+  versions with exact build metadata, the reference and `ContentID`
+  wires, the shared string-token authority), an empty input array is
+  the canonical form of a declared zero-input generator, the emitter
+  enforces the input ceiling before writing with the established
+  cancellation cadence, and strict `VCDJ-1` ingress is recorded as
+  the next codec increment under the `ADR-0061` pattern. Tests
+  reproduce both independently computed goldens (the 721-byte full
+  record with build metadata, framed `3943…2b72`, and the 522-byte
+  zero-input generator, framed `e4e0…5ccc`), prove determinism and
+  the exact byte ceiling, reject the crossed record-claim tuple,
+  round-trip the widened reference wire with a malformed-nested
+  rejection, and round-trip a provenance record whose input identity
+  is a derivation reference through the accepted `VCPJ-1` codec; the
+  reference and provenance suites re-passed unchanged. The
+  `ADR-0037` reference union is complete.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

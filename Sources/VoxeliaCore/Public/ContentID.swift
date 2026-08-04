@@ -228,6 +228,14 @@ extension ContentID {
         version: ContentProjectionVersion(major: 1, minor: 0)
     )
 
+    /// The version-one derivation-record projection registered by
+    /// `ADR-0072` over the exact canonical `VCDJ-1` bytes of one
+    /// derivation record document.
+    public static let derivationRecordProjection = ContentProjectionReference(
+        compiledIdentifier: "org.voxelia.derivation-record",
+        version: ContentProjectionVersion(major: 1, minor: 0)
+    )
+
     /// The exact SHA-256 digest byte count required by the accepted tuple.
     public static let sha256DigestByteCount = 32
 
@@ -255,6 +263,8 @@ extension ContentID {
                 && projection == Self.operationParametersProjection)
             || (scope == .serialisedObject
                 && projection == Self.provenanceRecordProjection)
+            || (scope == .serialisedObject
+                && projection == Self.derivationRecordProjection)
         guard acceptedTuple else {
             throw ContentIdentityError.unsupportedProjection
         }
@@ -368,6 +378,25 @@ extension ContentID {
         try computeIdentity(
             scope: .serialisedObject,
             projection: Self.provenanceRecordProjection,
+            overPayloadBytes: canonicalBytes
+        )
+    }
+
+    /// Computes the derivation-record identity over the exact complete
+    /// canonical `VCDJ-1` bytes of one derivation record document.
+    ///
+    /// The caller must supply bytes produced or accepted by the dedicated
+    /// canonical derivation emitter. The identity is an envelope claim
+    /// about exactly those bytes and proves neither determinism nor
+    /// input assurance. The framed preimage, chunked hashing,
+    /// cancellation cadence and failure discipline match the other
+    /// registered computations.
+    public static func derivationRecordIdentity(
+        overCanonicalBytes canonicalBytes: [UInt8]
+    ) throws -> ContentID {
+        try computeIdentity(
+            scope: .serialisedObject,
+            projection: Self.derivationRecordProjection,
             overPayloadBytes: canonicalBytes
         )
     }
