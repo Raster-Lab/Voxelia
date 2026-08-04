@@ -1046,8 +1046,8 @@
     },
     {
       "path": "Tests/VoxeliaSpatialTests/CoordinateHandednessTests.swift",
-      "size": 1797,
-      "sha256": "ae88b96136afd3e192b214d71a975e2aa0622b6d9ad327f9bccebf01bfc57192"
+      "size": 2978,
+      "sha256": "83a00830971f5c675d9eb042287cb38f485eb123f0673f4a22177b1b06d6a365"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/ExternalFrameReferenceTests.swift",
@@ -1081,8 +1081,8 @@
     },
     {
       "path": "Tests/VoxeliaSpatialTests/SpatialTransformKindTests.swift",
-      "size": 1970,
-      "sha256": "5a00e152fca2ec4de3cb32ff8f5b7f7e8c14eeee7bc90339d6fbab8834dce7bc"
+      "size": 3151,
+      "sha256": "78d376fc688f08c24b0154805e0a4cf184c55a078fc1e00e78c432b62a82d0a3"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/StringIdentifierTests.swift",
@@ -1631,8 +1631,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 341388,
-      "sha256": "963ab959124a0de633647a59c484c45927440bbb7cae0b91e3d85c91c478b348"
+      "size": 342679,
+      "sha256": "f1c0a399a6297d5091f1a3e758592d2e48a605e8b49818c2ff713f3a1f7fbd52"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
