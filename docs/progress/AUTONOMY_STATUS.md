@@ -1049,6 +1049,37 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   transform with equal content identities, verify the advanced
   version tokens in the recipe, and reject the composed case typed;
   the existing fixtures re-passed unchanged.
+- Thirty-third autonomous increment (owner instruction: "build the
+  publication coordinator autonomously"): authored and accepted
+  `ADR-0067` (result publication coordinator) and implemented the
+  `ADR-0038` publication contract in `VoxeliaExecution`. The
+  actor-isolated `PublicationCoordinator` takes an explicit
+  published-object ceiling, a full graph-limits profile, a read
+  coordinator and an optional content-tier cache. Publication runs in
+  three phases: first, a sample-bytes content claim is verified
+  against actually read bytes through the budgeted read coordinator
+  with the retention released after staging and a timing-safe digest
+  comparison, a mismatch being a typed rejection; second, one
+  non-suspending actor section linearises the identifier-reuse checks
+  (reuse rejected even for equal values — enrichment publishes a new
+  immutable record, never an update), the append-only ceiling (a
+  transactional failure that evicts nothing), the ancestry-closure
+  walk over the published registry across both parent-reference
+  cases, the accepted `ADR-0062` graph admission under the caller's
+  explicit mode policy and the registry mutation — so reentrant
+  publishes cannot interleave the decision and the mutation; third,
+  a configured cache receives the verified bytes as a best-effort
+  authorised alias whose failure never unwinds a completed
+  publication and is reported honestly in the returned receipt
+  (authority, ancestry depth, verification and alias evidence).
+  Tests publish a real origin bundle and a real window-level output
+  end to end — depth-one and depth-two complete receipts, the cached
+  bytes retrievable under the claim, registry lookups — and reject a
+  corrupted claim, an unpublished parent in both modes, provenance
+  identifier reuse under a fresh object identifier, ceiling
+  exhaustion with nothing evicted and an insufficient verification
+  budget, all typed. Retention and deletion governance remain
+  deferred.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

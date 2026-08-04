@@ -36,6 +36,12 @@ public API is introduced only by reviewed milestone specifications.
 - ``WindowLevelOperation``
 - ``WindowLevelError``
 
+### Publication
+
+- ``PublicationCoordinator``
+- ``PublicationReceipt``
+- ``PublicationError``
+
 ### Project documents
 
 - <doc:Architecture>

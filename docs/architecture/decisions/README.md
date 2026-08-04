@@ -52,7 +52,8 @@ provenance reference and compact graph admission. `ADR-0063` is
 allocated to the image data aggregate. `ADR-0064` is allocated to the
 exact region extraction operation. `ADR-0065` is allocated to the
 window-level operation. `ADR-0066` is allocated to transform
-composition. The next unallocated numeric identifier is `ADR-0067`.
+composition. `ADR-0067` is allocated to the result publication
+coordinator. The next unallocated numeric identifier is `ADR-0068`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -102,3 +103,4 @@ composition. The next unallocated numeric identifier is `ADR-0067`.
 | [ADR-0064](ADR-0064-exact-region-extraction-operation.md) | Accepted | Exact region extraction operation |
 | [ADR-0065](ADR-0065-window-level-operation.md) | Accepted | Window-level operation |
 | [ADR-0066](ADR-0066-transform-composition.md) | Accepted | Transform composition |
+| [ADR-0067](ADR-0067-result-publication-coordinator.md) | Accepted | Result publication coordinator |
