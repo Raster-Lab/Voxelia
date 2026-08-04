@@ -349,6 +349,18 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fail-closed rule. Two focused tests cover exact admission, span/offset
   /stride/rank rejections, the byte-order locality rule and opaque tag
   bounds.
+- Third autonomous storage increment: `StorageSnapshotHandle.swift` adds
+  the Core-minted nonforgeable `StorageReadAuthority` (internal-only
+  initializer, reference identity, one fresh authority per admission
+  with no cross-admission aliasing) and the immutable
+  `StorageSnapshotHandle` binding authority, exact logical binding,
+  representation descriptor, retained owner and snapshot generation.
+  Admission validates that a decoded representation carries exactly the
+  admitted binding; `successor` derives strictly-newer generations that
+  co-retain the same authority while non-increasing generations fail as
+  `staleSnapshot` and the original handle stays immutable. Two focused
+  tests cover authority nonforgeability, foreign-binding rejection,
+  successor co-retention and stale-generation rejection.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

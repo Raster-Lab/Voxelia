@@ -71,6 +71,8 @@ storage semantics.
 - ``DecodedStridedRepresentation``
 - ``OpaqueRepresentation``
 - ``StorageRepresentationLocality``
+- ``StorageSnapshotHandle``
+- ``StorageReadAuthority``
 - ``StorageContractError``
 
 ### Content identity
