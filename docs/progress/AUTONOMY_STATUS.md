@@ -1614,6 +1614,30 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   registered binary64 model on this device, single-device evidence —
   verified every published claim member and rejected a linear
   transform on the device path typed.
+- Fifty-ninth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0093` and delivered the
+  sixteen-bit device window-level paths. The embedded kernel source
+  gains the `int16` and `uint16` entry points with all three entry
+  points calling one shared inline mapping helper — the `MSL` model
+  exists exactly once — and the shader manifest repins the new source
+  digest with the family advanced to 1.1.0 and every entry point
+  listed, verified by the pinned-digest suite. The kernel builds one
+  pipeline per entry point and gains the typed scalar surface with
+  new `unsupportedScalarType` and `invalidSampleByteCount`
+  rejections; the device operation's admission widens to the three
+  scalar types at implementation version 1.1.0, with 16-bit device
+  reads native little-endian. The differential harness measured the
+  device against the frozen binary64 model over deterministic
+  seeded-LCG corpora — 4096 `int16` samples across five windows and
+  4096 `uint16` samples across four — recording 36,864 of 36,864
+  comparisons exact on this device within the asserted
+  one-display-level bound, printed as single-device evidence and
+  measured, never assumed; claims stay `binary32-device` with
+  `approximate` status. The operation anchor proved the device
+  implementation within one display level of the registered CPU
+  implementation over a native `int16` image with the 1.1.0
+  implementation reference, and unsupported scalar types and odd byte
+  counts reject typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -12,7 +12,8 @@ import VoxeliaStorage
 /// device claim: `binary32-device` precision, `approximate` status,
 /// the kernel component reference and the detected capability class —
 /// `MSL` has no 64-bit floating type, so `binary64-strict` is
-/// prohibited. Version-one device admission is `uint8` samples with an
+/// prohibited. Device admission — widened to the 16-bit scalar types
+/// by `ADR-0093` — is `uint8`, `int16` or `uint16` samples with an
 /// absent or identity value transform, because the kernel implements
 /// the plain registered model. The operation mints no identifiers and
 /// acquires no clock.
@@ -39,9 +40,22 @@ public enum MetalWindowLevelOperation {
         coordinator: StorageReadCoordinator,
         kernel: MetalWindowLevelKernel
     ) async throws -> ImageData {
-        // Device admission per ADR-0092: the kernel implements the
-        // plain registered model over uint8 samples.
-        guard input.descriptor.scalarFormat.type == .uint8 else {
+        // Device admission per ADR-0092 widened by ADR-0093: the
+        // kernel implements the plain registered model over uint8,
+        // int16 and uint16 samples; 16-bit device reads are native
+        // little-endian, so a non-native declared order is outside
+        // the admitted scalar formats.
+        let scalarType = input.descriptor.scalarFormat.type
+        guard
+            scalarType == .uint8 || scalarType == .int16
+                || scalarType == .uint16
+        else {
+            throw WindowLevelError.unsupportedScalarType
+        }
+        guard
+            scalarType == .uint8
+                || input.descriptor.scalarFormat.byteOrder == .native
+        else {
             throw WindowLevelError.unsupportedScalarType
         }
         guard
@@ -76,7 +90,8 @@ public enum MetalWindowLevelOperation {
 
         // The accepted kernel is the entire device numeric path.
         let mappedBytes = try kernel.mapSamples(
-            storedBytes,
+            storedBytes: storedBytes,
+            scalarType: scalarType,
             center: center.value,
             width: width.value
         )
@@ -126,7 +141,7 @@ public enum MetalWindowLevelOperation {
         // The registered operation at its current contract version
         // with the device implementation reference and honest claim.
         let operationVersion = try SemanticVersion(major: 1, minor: 4, patch: 0)
-        let implementationVersion = try SemanticVersion(major: 1, minor: 0, patch: 0)
+        let implementationVersion = try SemanticVersion(major: 1, minor: 1, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: WindowLevelOperation.operationIdentifier
         )

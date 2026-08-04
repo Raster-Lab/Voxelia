@@ -1,15 +1,17 @@
 schema_version: "0.2"
 shader_families:
   - family: "window-level"
-    semantic_version: "1.0.0"
+    semantic_version: "1.1.0"
     entry_points:
       - "voxelia_window_level_u8"
+      - "voxelia_window_level_i16"
+      - "voxelia_window_level_u16"
     source: "embedded (Sources/VoxeliaMetal/Internal/WindowLevelKernelSource.swift)"
-    source_digest_sha256: "302cd86e30ac67c064b9ce20833bb61585a46d636de3e952c3e95cc3504f7cbd"
+    source_digest_sha256: "e97eb8c7ac120b9d592827be29c3bf127256784328e9ee53139b01d9111a5197"
     kernel_token: "org.voxelia.kernel.window-level"
     precision_policy: "org.voxelia.precision.binary32-device"
     approximation_status: "approximate"
-    validation_evidence: "MetalWindowLevelKernelTests differential harness (ADR-0080)"
+    validation_evidence: "MetalWindowLevelKernelTests differential harnesses (ADR-0080, ADR-0093)"
 notes:
   - "Each family records source digest, semantic version, entry points and validation evidence."
   - "The suite verifies each embedded source digest against this manifest so the two can never drift silently."

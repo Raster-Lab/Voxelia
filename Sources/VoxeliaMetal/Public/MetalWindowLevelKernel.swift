@@ -14,6 +14,8 @@ public enum MetalKernelError: Error, Sendable, Equatable {
     case bufferAllocationFailed
     case executionFailed
     case invalidWindowWidth
+    case unsupportedScalarType
+    case invalidSampleByteCount
 }
 
 /// The first Voxelia-owned Metal kernel per `ADR-0080`: the `float32`
@@ -46,10 +48,12 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
     public let kernelReference: ExecutionComponentReference
 
     let context: MetalExecutionContext
-    private let pipeline: any MTLComputePipelineState
+    private let uint8Pipeline: any MTLComputePipelineState
+    private let int16Pipeline: any MTLComputePipelineState
+    private let uint16Pipeline: any MTLComputePipelineState
 
-    /// Compiles the embedded source and builds the compute pipeline on
-    /// one acquired context.
+    /// Compiles the embedded source and builds one compute pipeline
+    /// per manifest entry point on one acquired context.
     ///
     /// - Throws: ``MetalKernelError``.
     public init(context: MetalExecutionContext) throws {
@@ -63,29 +67,28 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         } catch {
             throw MetalKernelError.compilationFailed
         }
-        guard
-            let function = library.makeFunction(name: "voxelia_window_level_u8")
-        else {
-            throw MetalKernelError.pipelineUnavailable
+        func pipeline(_ name: String) throws -> any MTLComputePipelineState {
+            guard let function = library.makeFunction(name: name) else {
+                throw MetalKernelError.pipelineUnavailable
+            }
+            do {
+                return try context.device.makeComputePipelineState(
+                    function: function
+                )
+            } catch {
+                throw MetalKernelError.pipelineUnavailable
+            }
         }
-        do {
-            self.pipeline = try context.device.makeComputePipelineState(
-                function: function
-            )
-        } catch {
-            throw MetalKernelError.pipelineUnavailable
-        }
+        self.uint8Pipeline = try pipeline("voxelia_window_level_u8")
+        self.int16Pipeline = try pipeline("voxelia_window_level_i16")
+        self.uint16Pipeline = try pipeline("voxelia_window_level_u16")
         self.kernelReference = try ExecutionComponentReference(
             identifier: try ExecutionClaimToken(rawValue: Self.kernelIdentifier),
-            version: try SemanticVersion(major: 1, minor: 0, patch: 0)
+            version: try SemanticVersion(major: 1, minor: 1, patch: 0)
         )
     }
 
     /// Maps `uint8` stored samples to display samples on the device.
-    ///
-    /// Window edges are precomputed once from the binary64 parameters
-    /// and converted to `float32`; the kernel bounds every thread by
-    /// the explicit sample count.
     ///
     /// - Throws: ``MetalKernelError``.
     public func mapSamples(
@@ -93,10 +96,52 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         center: Double,
         width: Double
     ) throws -> [UInt8] {
+        try mapSamples(
+            storedBytes: storedSamples,
+            scalarType: .uint8,
+            center: center,
+            width: width
+        )
+    }
+
+    /// Maps stored sample bytes of one admitted scalar type to display
+    /// samples on the device per `ADR-0093`.
+    ///
+    /// Window edges are precomputed once from the binary64 parameters
+    /// and converted to `float32`; 16-bit samples are read in the
+    /// platform's native little-endian order, and the kernel bounds
+    /// every thread by the explicit sample count.
+    ///
+    /// - Throws: ``MetalKernelError``.
+    public func mapSamples(
+        storedBytes: [UInt8],
+        scalarType: ScalarType,
+        center: Double,
+        width: Double
+    ) throws -> [UInt8] {
+        let pipeline: any MTLComputePipelineState
+        let bytesPerSample: Int
+        switch scalarType {
+        case .uint8:
+            pipeline = uint8Pipeline
+            bytesPerSample = 1
+        case .int16:
+            pipeline = int16Pipeline
+            bytesPerSample = 2
+        case .uint16:
+            pipeline = uint16Pipeline
+            bytesPerSample = 2
+        default:
+            throw MetalKernelError.unsupportedScalarType
+        }
         guard width >= 1.0 else {
             throw MetalKernelError.invalidWindowWidth
         }
-        guard !storedSamples.isEmpty else {
+        guard storedBytes.count % bytesPerSample == 0 else {
+            throw MetalKernelError.invalidSampleByteCount
+        }
+        let sampleCount = storedBytes.count / bytesPerSample
+        guard sampleCount > 0 else {
             return []
         }
 
@@ -107,17 +152,17 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
             lowerEdge: Float(threshold - halfSpan),
             upperEdge: Float(threshold + halfSpan),
             widthMinusOne: Float(width - 1.0),
-            sampleCount: UInt32(storedSamples.count)
+            sampleCount: UInt32(sampleCount)
         )
 
         guard
             let inputBuffer = context.device.makeBuffer(
-                bytes: storedSamples,
-                length: storedSamples.count,
+                bytes: storedBytes,
+                length: storedBytes.count,
                 options: [.storageModeShared]
             ),
             let outputBuffer = context.device.makeBuffer(
-                length: storedSamples.count,
+                length: sampleCount,
                 options: [.storageModeShared]
             )
         else {
@@ -140,10 +185,10 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         )
         let threadWidth = min(
             pipeline.maxTotalThreadsPerThreadgroup,
-            storedSamples.count
+            sampleCount
         )
         encoder.dispatchThreads(
-            MTLSize(width: storedSamples.count, height: 1, depth: 1),
+            MTLSize(width: sampleCount, height: 1, depth: 1),
             threadsPerThreadgroup: MTLSize(width: threadWidth, height: 1, depth: 1)
         )
         encoder.endEncoding()
@@ -154,8 +199,8 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         }
 
         let output = outputBuffer.contents()
-            .bindMemory(to: UInt8.self, capacity: storedSamples.count)
-        return Array(UnsafeBufferPointer(start: output, count: storedSamples.count))
+            .bindMemory(to: UInt8.self, capacity: sampleCount)
+        return Array(UnsafeBufferPointer(start: output, count: sampleCount))
     }
 
     private struct KernelParameters {
