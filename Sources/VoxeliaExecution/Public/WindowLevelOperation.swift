@@ -16,11 +16,15 @@ public enum WindowLevelError: Error, Sendable, Equatable {
 }
 
 /// The window-level operation registered by `ADR-0065` under the
-/// `window-level-linear/binary64-v1` model of `VOXELIA-ALG-0002`.
+/// `window-level-linear/binary64-v1` model of `VOXELIA-ALG-0002`,
+/// extended by `ADR-0066` with real-domain composition.
 ///
-/// Stored intensity samples map through the DICOM-derived linear window
-/// function to the eight-bit display range with frozen binary64
-/// evaluation order and ties-to-even rounding; the degenerate
+/// Stored intensity samples map — through the input's absent, identity
+/// or linear value transform per `VOXELIA-ALG-0003` — to their real
+/// values, and the DICOM-derived linear window function maps those to
+/// the eight-bit display range with frozen binary64 evaluation order
+/// and ties-to-even rounding; the window centre and width are
+/// expressed in the input's real value domain. The degenerate
 /// unit-width window is a pure threshold with no special case. No
 /// sample moves, so geometry, axes, sampling and metadata pass through
 /// unchanged; the output display range is dimensionless, so units and
@@ -64,7 +68,14 @@ public enum WindowLevelOperation {
         guard input.descriptor.semantic == .intensity else {
             throw WindowLevelError.unsupportedSemantic
         }
-        guard input.descriptor.valueTransform == nil else {
+        // ADR-0066 composable set: absent, identity and linear only.
+        let storedToReal: LinearValueTransformDescriptor?
+        switch input.descriptor.valueTransform {
+        case nil, .identity:
+            storedToReal = nil
+        case .linear(let descriptor):
+            storedToReal = descriptor
+        case .lookupTable, .composed:
             throw WindowLevelError.unsupportedValueTransform
         }
         guard width.value >= 1.0 else {
@@ -88,6 +99,7 @@ public enum WindowLevelOperation {
             storedBytes: storedBytes,
             scalarType: scalarType,
             byteOrder: input.descriptor.scalarFormat.byteOrder,
+            storedToReal: storedToReal,
             center: center.value,
             width: width.value
         )
@@ -131,9 +143,10 @@ public enum WindowLevelOperation {
             )
         )
 
-        // Registered tokens, derivation recipe, content identity and
-        // the subject-bound record with its parent edge.
-        let version = try SemanticVersion(major: 1, minor: 0, patch: 0)
+        // Registered tokens (advanced to 1.1.0 by ADR-0066), derivation
+        // recipe, content identity and the subject-bound record with
+        // its parent edge.
+        let version = try SemanticVersion(major: 1, minor: 1, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )
@@ -227,11 +240,13 @@ public enum WindowLevelOperation {
         ])
     }
 
-    /// The exact `VOXELIA-ALG-0002` mapping pass.
+    /// The exact `VOXELIA-ALG-0002` mapping pass over real values
+    /// produced by the exact `VOXELIA-ALG-0003` stored-to-real step.
     private static func mapSamples(
         storedBytes: [UInt8],
         scalarType: ScalarType,
         byteOrder: ByteOrder,
+        storedToReal: LinearValueTransformDescriptor?,
         center: Double,
         width: Double
     ) -> [UInt8] {
@@ -240,7 +255,16 @@ public enum WindowLevelOperation {
         let lowerEdge = threshold - halfSpan
         let upperEdge = threshold + halfSpan
 
-        func window(_ sample: Double) -> UInt8 {
+        func window(_ storedValue: Double) -> UInt8 {
+            // One correctly rounded multiplication then one correctly
+            // rounded addition; a fused multiply-add would change the
+            // rounding count the registered model requires.
+            let sample: Double
+            if let storedToReal {
+                sample = (storedValue * storedToReal.scale) + storedToReal.offset
+            } else {
+                sample = storedValue
+            }
             if sample <= lowerEdge {
                 return 0
             }

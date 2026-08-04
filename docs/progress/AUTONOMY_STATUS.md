@@ -1022,6 +1022,33 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   scalar type, a non-scalar layout, a non-intensity semantic, a
   present value transform and an insufficient budget, all
   payload-free.
+- Thirty-second autonomous increment (owner instruction: "build the
+  transform-composition decision autonomously"): authored and
+  accepted `VOXELIA-ALG-0003` (linear stored-to-real value mapping
+  `binary64-v1`) and `ADR-0066` (transform composition), and extended
+  the window-level operation to the real value domain. The
+  composition rule is layered: the stored sample maps to its real
+  value first — for the linear case one correctly rounded binary64
+  multiplication then one correctly rounded addition in frozen
+  association, with fused multiply-add explicitly forbidden because
+  it changes the rounding count — and the downstream window model
+  consumes the real value unchanged, its centre and width thereby
+  expressed in the input's real domain (the DICOM-derived modality
+  rescale then window layering). The version-one composable set is
+  exactly the absent, `identity` and `linear` transforms; the
+  `lookupTable` and `composed` cases stay typed rejections pending
+  their own registered evaluation models. The operation and
+  implementation versions advance to `1.1.0` so recipes and claims
+  distinguish the extended contract, while previously admitted inputs
+  stay bit-identical and every output invariant (dimensionless
+  eight-bit display, no transform, no units) is unchanged. Tests
+  reproduce both conformance fixtures through the full operation —
+  the CT rescale windowed at `c = 40`, `w = 400` in Hounsfield units
+  reproducing the exact real-domain outputs, and a fractional-scale
+  mapping — prove the identity transform bit-identical to the absent
+  transform with equal content identities, verify the advanced
+  version tokens in the recipe, and reject the composed case typed;
+  the existing fixtures re-passed unchanged.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

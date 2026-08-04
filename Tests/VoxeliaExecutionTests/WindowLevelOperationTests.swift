@@ -227,6 +227,65 @@ struct WindowLevelOperationTests {
         requireSendable(WindowLevelError.self)
     }
 
+    @Test("[Unit][VOX-EXE-002][VOX-DAT-014] the composition rule reproduces real-domain fixtures")
+    func compositionRuleReproducesRealDomainFixtures() async throws {
+        // The VOXELIA-ALG-0003 CT rescale fixture: rescaled stored
+        // values windowed in the Hounsfield domain reproduce the exact
+        // VOXELIA-ALG-0002 real-domain outputs.
+        let rescale = ValueTransform.linear(
+            try LinearValueTransformDescriptor(scale: 1, offset: -1024)
+        )
+        let ctStored: [UInt8] = [
+            0, 0, 56, 3, 156, 3, 0, 4, 20, 4, 40, 4,
+            60, 4, 80, 4, 120, 4, 200, 4, 232, 7, 184, 15,
+        ]
+        let hounsfield = try await execute(
+            input: try input(
+                scalarType: .int16,
+                bytes: ctStored,
+                valueTransform: rescale
+            ),
+            center: 40,
+            width: 400
+        )
+        #expect(
+            try outputBytes(hounsfield)
+                == [0, 0, 38, 102, 115, 128, 141, 153, 179, 230, 255, 255]
+        )
+
+        // The fractional-scale fixture exercises non-integral real
+        // values.
+        let fractional = try await execute(
+            input: try input(
+                valueTransform: .linear(
+                    try LinearValueTransformDescriptor(scale: 0.5, offset: -2)
+                )
+            ),
+            center: 1,
+            width: 4
+        )
+        #expect(
+            try outputBytes(fractional)
+                == [0, 0, 0, 43, 85, 128, 170, 212, 255, 255, 255, 255]
+        )
+
+        // The identity transform is bit-identical to the absent
+        // transform, and the extended contract carries the advanced
+        // version tokens.
+        let absent = try await execute(input: try input(), center: 6, width: 8)
+        let identity = try await execute(
+            input: try input(valueTransform: .identity),
+            center: 6,
+            width: 8
+        )
+        #expect(try outputBytes(identity) == (try outputBytes(absent)))
+        #expect(identity.identity.contentID == absent.identity.contentID)
+        let advanced = try SemanticVersion(major: 1, minor: 1, patch: 0)
+        let derivation = try #require(hounsfield.identity.derivation)
+        #expect(derivation.operationVersion == advanced)
+        #expect(derivation.implementation?.version == advanced)
+    }
+
     @Test("[Unit][VOX-EXE-006][VOX-ERR-001] admission and budgets reject typed")
     func admissionAndBudgetsRejectTyped() async throws {
         // A width below one is a typed rejection, never a substitution.
@@ -270,11 +329,15 @@ struct WindowLevelOperationTests {
         } catch WindowLevelError.unsupportedSemantic {}
         do {
             _ = try await execute(
-                input: try input(valueTransform: .identity),
+                input: try input(
+                    valueTransform: .composed(
+                        try ValueTransformComposition(transforms: [.identity])
+                    )
+                ),
                 center: 6,
                 width: 8
             )
-            #expect(Bool(false), "Expected a value transform to be rejected.")
+            #expect(Bool(false), "Expected a composed transform to be rejected.")
         } catch WindowLevelError.unsupportedValueTransform {}
 
         // The coordinator budget stays authoritative, and rejections

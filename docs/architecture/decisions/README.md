@@ -51,8 +51,8 @@ canonical provenance ingress. `ADR-0062` is allocated to the external
 provenance reference and compact graph admission. `ADR-0063` is
 allocated to the image data aggregate. `ADR-0064` is allocated to the
 exact region extraction operation. `ADR-0065` is allocated to the
-window-level operation. The next unallocated numeric identifier is
-`ADR-0066`.
+window-level operation. `ADR-0066` is allocated to transform
+composition. The next unallocated numeric identifier is `ADR-0067`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -101,3 +101,4 @@ window-level operation. The next unallocated numeric identifier is
 | [ADR-0063](ADR-0063-image-data-aggregate.md) | Accepted | Image data aggregate |
 | [ADR-0064](ADR-0064-exact-region-extraction-operation.md) | Accepted | Exact region extraction operation |
 | [ADR-0065](ADR-0065-window-level-operation.md) | Accepted | Window-level operation |
+| [ADR-0066](ADR-0066-transform-composition.md) | Accepted | Transform composition |
