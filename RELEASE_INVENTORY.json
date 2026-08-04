@@ -1440,6 +1440,11 @@
       "sha256": "e070fb7510a4733c7a3c3e5b325fb50aacca8603df4d94eae865bf0662b6c45b"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
+      "size": 4115,
+      "sha256": "4991b9bf9263224330a52c58042402de108ec13412fbbaf7594fae277be4c101"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md",
       "size": 3783,
       "sha256": "f58112f15cf15254ee1822ed990b96a7ed0af1039fe3286cced3de109e9a1262"
@@ -1631,8 +1636,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 363841,
-      "sha256": "8671447f6bf143c43f54d2a9afa6c0dcc8658c95c3f4fb0a86dd5ad38b8f9eae"
+      "size": 365991,
+      "sha256": "11f787553d124317b6628fbdf703986210a2a533129f0c198e8d45892ffb9f00"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -1986,8 +1991,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 18514,
-      "sha256": "9f2326d34ea2816d9541570dea98b29287f463c347542f7f3ee1858da1d5923c"
+      "size": 18586,
+      "sha256": "aad7d12012e694f06e41b5c617eac3f836a3af04b3331bde216f200744ecd850"
     }
   ]
 }

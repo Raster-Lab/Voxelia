@@ -286,6 +286,7 @@ Validation/Sources/voxelia-validation/VoxeliaValidationCommand.swift
 Validation/Tests/VoxeliaValidationToolTests/ValidationToolTests.swift
 Validation/Tolerances/scaffold.yaml
 docs/algorithms/README.md
+docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md

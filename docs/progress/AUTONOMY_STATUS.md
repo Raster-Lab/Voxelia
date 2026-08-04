@@ -43,7 +43,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   with Core-owned image-descriptor binding validation. Its migration steps
   (controlled CDMS/FVSP corrections, Spatial implementation with focused
   tests, Core binding validation, traceability and release evidence) are now
-  authorised and tracked through this ledger.
+  authorised and tracked through this ledger. Migration step 1 is complete:
+  controlled-correction record `CCR-0001` under
+  `docs/architecture/corrections/` quotes the exact conflicting CDMS
+  section-6/Appendix-A and FVSP section-14 baseline rows, states the
+  corrected ownership rows and records the owner approval; the immutable
+  `v0.1.1` files are unedited and a future `v0.1.2` revision set must
+  incorporate the corrected rows verbatim.
 - Proposed `ADR-0022` selects a namespaced six-case `CoordinateConvention`
   shape and explicit type-level tags while preserving the separate descriptor
   unit-policy blocker; it is not accepted and does not unblock code.
@@ -2331,6 +2337,15 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   binding validation and authorises the ADR's migration steps in order. It
   does not itself change controlled `v0.1.1` baselines, implement source or
   accept any other Proposed ADR.
+- Recorded controlled correction `CCR-0001` executing accepted `ADR-0021`
+  migration step 1. The record cites the accepted ADR as authority, quotes
+  the exact conflicting baseline rows (CDMS section 6 ownership table, CDMS
+  Appendix A `AxisDescriptor` allocation, FVSP section 14 module
+  participation), states the corrected Spatial-ownership rows with Core
+  binding validation retained, and records the project owner's 2026-08-04
+  approval with the introducing commit as its effective commit. No immutable
+  `v0.1.1` baseline file was edited; no package edge, requirement row or
+  source changed; no other Proposed ADR or correction is affected.
 
 ## Verification evidence
 
@@ -4639,6 +4654,12 @@ and document text) passed for all 70 Markdown files after the status change,
 and the requirement-index check passed. No `v0.1.1` baseline file, product
 source or package manifest changed in the acceptance commit.
 
+For controlled correction `CCR-0001`, the same complete documentation gate
+passed for all 71 Markdown files including the new record, and the
+requirement-index check passed. The release manifest gained exactly the one
+new correction record. No `v0.1.1` baseline file, product source or package
+edge changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5123,25 +5144,36 @@ source or package manifest changed in the acceptance commit.
 
 ## Exact next action
 
-Execute accepted `ADR-0021` migration step 1: record the controlled
-correction for the Core Data Model Specification's module-ownership table
-and type-allocation appendix and the First Vertical Slice Plan's axis
-ownership statements. Create one controlled-correction record under
-`docs/architecture/corrections/` that cites accepted `ADR-0021` as
-authority, quotes the exact conflicting `v0.1.1` baseline statements, states
-the exact corrected ownership text (Spatial owns `AxisID`, `AxisSemantic`,
-`AxisSampling`, `AxisDescriptor`; Core owns image-descriptor binding
-validation), and records the project owner's 2026-08-04 approval with its
-effective commit. Do not edit any immutable `v0.1.1` baseline file, change
-the package graph or implement axis source in this step.
+Execute accepted `ADR-0021` migration step 2: implement the axis model in
+its owning `VoxeliaSpatial` module. Implement exactly the CDMS section-14
+shapes as corrected by `CCR-0001`: `AxisSemantic` with the twelve named
+cases plus validated `generic(namespace:name:)` following the implemented
+`ImageSemantic` wire pattern; `AxisSampling` with the five CDMS cases
+(`indexOnly`, `regular(origin:spacing:)`, `irregular(coordinates:)`,
+`categorical(labels:)`, `externallyDefined(identifier:)`) and a strict
+one-tag wire; and the five-field `AxisDescriptor` with a validated throwing
+initializer and revalidating strict five-key Codable. Enforce at the Spatial
+level only value-intrinsic invariants with existing house precedent: finite
+non-zero regular spacing (CDMS 14.4), finite origin and irregular
+coordinates (MeasurementUnit non-finite precedent), non-blank descriptor
+name, generic namespace/name, categorical labels and external identifier
+(blank-string precedent). Leave extent-dependent invariants (axis count
+versus rank, unique identifiers, per-axis coordinate/label counts,
+duplicate-semantic policy, spatial-axis consistency) to Core binding
+validation, which stays blocked behind the remaining `ImageDescriptor`
+prerequisites. Add focused Spatial tests with exact typed-error and exact
+decode-rejection evidence in the established style.
 
 ## Test policy for the next action
 
-- Run only `Tools/Scripts/validate-docs.sh` (front matter, ADR register, RFC
-  register and document text), the requirement-index check and
-  release-integrity regeneration/verification. No Swift build or test is
-  required because no source changes. Do not run blocked storage/metadata
-  probes or the complete scaffold suite.
+- Run `swift test --filter '(AxisSemantic|AxisSampling|AxisDescriptor)'`, the
+  owning `swift build --target VoxeliaSpatial`, one direct-dependant
+  `swift build --target VoxeliaCore` because Spatial gains public API, strict
+  format lint for the new source and test files, the requirement-index and
+  release-integrity checks, and the static package-graph check because the
+  ADR's validation impact requires proof that Spatial does not depend on
+  Core. Do not run blocked storage/metadata probes or the complete Swift
+  package suite.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
