@@ -88,29 +88,52 @@ struct StringIdentifierTests {
         #expect(try JSONDecoder().decode(AxisID.self, from: axisJSON) == axis)
     }
 
-    @Test("[Unit][VOX-API-004] decoding rejects invalid identifier objects")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] decoding rejects invalid identifier objects")
     func decodingRejectsInvalidObjects() {
-        let invalidValues = [
-            #"{"rawValue":" "}"#,
-            #"{"rawValue":"axis","extra":true}"#,
-            #"{}"#,
-            #""axis""#,
-        ]
+        expectBlankRawValueDecoding(AxisID.self)
+        expectBlankRawValueDecoding(PermissiveIdentifier.self)
 
-        for invalidValue in invalidValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        for wrongKeyValue in [#"{"rawValue":"axis","extra":true}"#, #"{}"#] {
+            do {
+                _ = try JSONDecoder().decode(
                     AxisID.self,
-                    from: Data(invalidValue.utf8)
+                    from: Data(wrongKeyValue.utf8)
                 )
+                #expect(Bool(false), "Expected a wrong-keyed object to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
         }
 
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(
-                PermissiveIdentifier.self,
+        do {
+            _ = try JSONDecoder().decode(AxisID.self, from: Data(#""axis""#.utf8))
+            #expect(Bool(false), "Expected a plain string to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
+        }
+    }
+
+    private func expectBlankRawValueDecoding<Value: VoxeliaStringIdentifier>(
+        _ type: Value.Type
+    ) {
+        do {
+            _ = try JSONDecoder().decode(
+                type,
                 from: Data(#"{"rawValue":" "}"#.utf8)
             )
+            #expect(Bool(false), "Expected a blank raw value to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == ["rawValue"])
+            #expect(
+                context.underlyingError as? VoxeliaStringIdentifierError
+                    == .emptyOrWhitespaceOnly
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 
