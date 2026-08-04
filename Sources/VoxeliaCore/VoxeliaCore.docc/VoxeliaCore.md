@@ -88,6 +88,18 @@ storage semantics.
 - ``MetadataMultiplicityPolicy``
 - ``TypedMetadataEntry``
 - ``MetadataReadError``
+
+### Canonical metadata JSON
+
+- ``CanonicalMetadataJSON``
+- ``CanonicalMetadataDocument``
+- ``CanonicalMetadataIngressLimits``
+- ``CanonicalMultiplicityContext``
+- ``MetadataSchemaVersion``
+- ``MetadataSchemaReference``
+- ``MetadataSchemaReferenceError``
+- ``MetadataJSONIngressError``
+- ``MetadataJSONEmissionError``
 - ``CodedConcept``
 - ``CodedConceptError``
 

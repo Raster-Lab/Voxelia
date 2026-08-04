@@ -70,6 +70,9 @@ Sources/VoxeliaCore/ApplePlatformGate.swift
 Sources/VoxeliaCore/Internal/.gitkeep
 Sources/VoxeliaCore/Module.swift
 Sources/VoxeliaCore/Public/CanonicalInstant.swift
+Sources/VoxeliaCore/Public/CanonicalMetadataDocument.swift
+Sources/VoxeliaCore/Public/CanonicalMetadataIngress.swift
+Sources/VoxeliaCore/Public/CanonicalMetadataJSON.swift
 Sources/VoxeliaCore/Public/CodedConcept.swift
 Sources/VoxeliaCore/Public/ComponentDescriptor.swift
 Sources/VoxeliaCore/Public/ContentIdentityTaxonomy.swift
@@ -84,8 +87,10 @@ Sources/VoxeliaCore/Public/MetadataBinary.swift
 Sources/VoxeliaCore/Public/MetadataCollection.swift
 Sources/VoxeliaCore/Public/MetadataEntry.swift
 Sources/VoxeliaCore/Public/MetadataFloatingPoint.swift
+Sources/VoxeliaCore/Public/MetadataIdentityWhitespace.swift
 Sources/VoxeliaCore/Public/MetadataKey.swift
 Sources/VoxeliaCore/Public/MetadataPrivacyClass.swift
+Sources/VoxeliaCore/Public/MetadataSchemaReference.swift
 Sources/VoxeliaCore/Public/MetadataTypedRead.swift
 Sources/VoxeliaCore/Public/MetadataValue.swift
 Sources/VoxeliaCore/Public/ProvenanceID.swift
@@ -196,6 +201,7 @@ Tests/Support/Resources/README.md
 Tests/Support/TestSupport.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
 Tests/VoxeliaCoreTests/CanonicalInstantTests.swift
+Tests/VoxeliaCoreTests/CanonicalMetadataJSONTests.swift
 Tests/VoxeliaCoreTests/CodedConceptTests.swift
 Tests/VoxeliaCoreTests/ComponentDescriptorTests.swift
 Tests/VoxeliaCoreTests/ContentIdentityTaxonomyTests.swift
@@ -326,6 +332,7 @@ docs/architecture/corrections/CCR-0008-adr-0031-bounded-recursive-metadata-value
 docs/architecture/corrections/CCR-0009-adr-0032-required-entry-privacy-attachment.md
 docs/architecture/corrections/CCR-0010-adr-0033-ordered-collection-multiplicity.md
 docs/architecture/corrections/CCR-0011-adr-0034-closed-typed-read-boundary.md
+docs/architecture/corrections/CCR-0012-adr-0035-canonical-metadata-json.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
 docs/architecture/decisions/ADR-0023-value-transform-shape.md

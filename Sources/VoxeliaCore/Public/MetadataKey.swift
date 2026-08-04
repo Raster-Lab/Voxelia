@@ -144,10 +144,10 @@ private struct MetadataKeyCodingKey: CodingKey {
 }
 
 private func validateMetadataKey(namespace: String, name: String) throws {
-    guard namespace.contains(where: { !$0.isWhitespace }) else {
+    guard !metadataIdentityFieldIsBlank(namespace) else {
         throw MetadataKeyError.emptyNamespace
     }
-    guard name.contains(where: { !$0.isWhitespace }) else {
+    guard !metadataIdentityFieldIsBlank(name) else {
         throw MetadataKeyError.emptyName
     }
 }

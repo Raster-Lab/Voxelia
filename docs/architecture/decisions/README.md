@@ -45,7 +45,7 @@ unallocated numeric identifier is `ADR-0042`.
 | [ADR-0032](ADR-0032-required-metadata-entry-privacy-attachment.md) | Accepted | Required metadata-entry privacy attachment |
 | [ADR-0033](ADR-0033-ordered-metadata-collection-and-explicit-multiplicity-policy.md) | Accepted | Ordered metadata collection and explicit multiplicity policy |
 | [ADR-0034](ADR-0034-closed-exact-case-typed-metadata-read-boundary.md) | Accepted | Closed exact-case typed metadata read boundary |
-| [ADR-0035](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md) | Proposed | Versioned canonical metadata JSON and raw ingress boundary |
+| [ADR-0035](ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md) | Accepted | Versioned canonical metadata JSON and raw ingress boundary |
 | [ADR-0036](ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md) | Proposed | Domain-separated complete canonical metadata record identity |
 | [ADR-0037](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md) | Proposed | Claim-bearing data identity and cache-admission boundary |
 | [ADR-0038](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md) | Proposed | Closed provenance record and graph admission boundary |

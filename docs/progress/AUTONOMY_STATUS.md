@@ -182,6 +182,32 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fail atomically on any mismatch. Unsupported specialisations such as
   `MetadataKey<Double>` fail overload resolution at compile time.
   `CCR-0011` records the controlled CDMS and MTA corrections.
+- Governance: `ADR-0035` was accepted by the project owner on 2026-08-04
+  with its semantic dependencies already accepted, and its authorised
+  migration is executed. `VoxeliaCore` owns Voxelia Canonical Metadata
+  JSON version 1 (`VCMJ-1`): a JCS-derived UTF-8 record profile with
+  decimal-string 64-bit integers, RFC 8785 escaping/property-order/
+  shortest-round-trip binary64 tokens, preservation of all valid Swift
+  scalars including noncharacters, the fixed three-member envelope, and
+  the out-of-band trusted multiplicity binding whose policy never
+  appears on the wire. The dedicated iterative ingress state machine
+  (never Foundation) charges raw document/token/string/binary/count/
+  depth budgets before growth, admits keys before values, rejects
+  duplicates, aliases, BOM, whitespace and order violations, enforces
+  the grammar-derived raw depth 198 and semantic depth 64, polls
+  cancellation at the 4,096-work-unit cadence and publishes one
+  immutable `CanonicalMetadataDocument` after complete validation.
+  Emission preflights admission and exact checked output sizing before
+  allocating, shares one sizing/writing fragment primitive and never
+  publishes bytes on failure. The frozen scalar whitespace oracle
+  replaced `Character.isWhitespace` in the Core metadata-key and
+  coded-concept constructors and Spatial's `MeasurementUnit` — the
+  documented pre-1.0 blank-domain broadening. `CCR-0012` records the
+  controlled corrections. Open evidence gaps recorded: lowest-resource
+  device cancellation latency, fuzz corpora, external Ryu/V8
+  differential oracles, universal raw-ceiling derivation and the
+  `VOX-ERR-001` allocation-failure disposition. Record identity remains
+  governed by Proposed `ADR-0036`.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -2699,6 +2725,28 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   unsupported-type case exists. Optional reads, custom conversion,
   canonical ingress, persistent identity and logging/export APIs remain
   governed by their own decisions and host policy.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0035` and
+  executed its authorised migration in one change: controlled correction
+  `CCR-0012` (the `VCMJ-1` naming of section 55.2, the itemised section
+  55.3 profile binding, version-one closure in 55.5, the frozen
+  whitespace-oracle domain correction, the raw ingress obligations
+  against sections 66/67, the validation obligations and the Appendix A
+  types) and the canonical codec in `VoxeliaCore`. New source:
+  `MetadataSchemaVersion`/`MetadataSchemaReference` with the bounded
+  lowercase reverse-domain grammar validated character-before-charge;
+  `CanonicalMetadataDocument` with no public initializer;
+  `CanonicalMetadataIngressLimits` and `CanonicalMultiplicityContext`
+  as immutable caller snapshots with no permissive defaults; the
+  iterative `VCMJIngress` state machine with explicit semantic frames,
+  strict UTF-8/escape/number/Base64 lexers, canonical-order key-first
+  admission and payload-free error mapping; and the
+  `CanonicalMetadataJSON` emitter with the shared sizing/writing
+  fragment primitive and the ECMAScript number formatter derived from
+  the standard library's shortest-digit conversion. The frozen
+  whitespace oracle landed as private module-local implementations in
+  Core and Spatial with cross-module fixtures. Persistent digests,
+  signatures, export and permissive import remain governed by
+  `ADR-0036` and later decisions.
 - Recorded the project owner's 2026-08-04 acceptance of `ADR-0024` and
   performed its one-time register reconciliation in the same atomic change.
   The platform record was Git-renamed from
@@ -5282,6 +5330,49 @@ VoxeliaCore`, strict format lint for the two new Swift files, the
 documentation gate including `CCR-0011`, the static package-graph,
 prohibited-import and requirement-index checks passed.
 
+`swift test --filter CanonicalMetadataJSONTests` executed all eleven
+tests in the new owning Core suite: the byte-exact empty envelope in
+both directions; a golden ten-entry document covering every value case
+with exact token spot checks (decimal-string integer extrema, canonical
+`0.001`, the escaped vertical-tab control, `Zg==`, the six-member unit and
+four-member code objects with explicit nulls), semantic decode equality,
+byte-identical re-emission and NFC/NFD byte-distinct survival; RFC 8785
+number vectors including both zeros, `5e-324`,
+`1.7976931348623157e+308`, the `1e+21`/`100000000000000000000`
+threshold pair, `0.000001` versus `1e-7` and the shortest-digit
+`333333333.3333332`, plus 512 deterministic random-bit patterns
+re-parsing identically within the analytic 25-byte maximum; a
+thirty-five-document malformed corpus (BOM, whitespace, trailing data,
+reordered/duplicate/escape-alias members, unknown tags and privacy
+tokens, numeric-integer payloads, every integer-string alias and
+one-over range, floating aliases `-0`/`1.0`/`1e0`, noncanonical escapes
+including uppercase hex and unpaired surrogates, Base64 aliases and pad
+bits, unsorted/duplicate object members, unpermitted repeats, blank
+identity fields, raw control/overlong/surrogate/truncated UTF-8) each
+rejected as `invalidDocument`, with version 1.1/2.0 short-circuiting as
+`unsupportedSchemaVersion` and the U+FFFF noncharacter deliberately
+preserved; fail-closed multiplicity binding (missing, unexpected and
+mismatched context, policy absent from wire, context preflight
+rejecting before the first input byte); symmetric emission preflight
+with the inclusive exact output ceiling; exact raw-document,
+decoded-string, raw-depth and direct-member charges; the generated
+64-level chain hitting raw depth exactly 198 with 197 rejected and a
+65-level chain rejected by the semantic guard; the frozen whitespace
+oracle accepting the documented broadened edge strings while every
+enumerated scalar and their concatenation stay blank across Core and
+Spatial constructors; bounded ASCII schema references at every grammar
+and 63/64/255/256-byte boundary; and payload-free failures under
+patient sentinels. The five affected regression suites (metadata key,
+coded concept, measurement unit, value, collection — 42 tests) re-passed
+after the whitespace-oracle replacement. The owning Core and Spatial
+builds, strict format lint for the nine touched Swift files, the
+documentation gate including `CCR-0012`, the static package-graph,
+prohibited-import and requirement-index checks passed. Recorded open
+gaps: lowest-resource device cancellation-latency campaign,
+fuzz/mutation corpora, external Ryu/V8 differential oracles, the
+universal raw-ceiling derivation and the `VOX-ERR-001`
+allocation-failure disposition.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5766,22 +5857,23 @@ prohibited-import and requirement-index checks passed.
 
 ## Exact next action
 
-`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0034` are
+`ADR-0021` through `ADR-0024` and `ADR-0026` through `ADR-0035` are
 accepted and fully executed: the three metadata leaves, the bounded
 recursive `MetadataValue`, the classified general `MetadataEntry`, the
-ordered `MetadataCollection` with explicit multiplicity admission and the
-closed exact-case typed read surface now exist with their controlled
-corrections. The `ImageDescriptor` aggregate remains blocked by its other
+ordered `MetadataCollection` with explicit multiplicity admission, the
+closed exact-case typed read surface and the `VCMJ-1` canonical codec
+with strict raw ingress now exist with their controlled corrections. The
+`ImageDescriptor` aggregate remains blocked by its remaining
 prerequisites: the `CoordinateSpaceDescriptor` unit policy and
 classification, affine shape and construction tolerance, rectilinear
-binding, the remaining frame-set collection contracts and canonical JSON.
+binding and the remaining frame-set collection contracts; its
+canonical-JSON prerequisite is now satisfied for the metadata record.
 The next unblocked step is another governance decision: surface the next
-Proposed contract the user wishes to review (`ADR-0035` versioned
-canonical metadata JSON and raw ingress, then the identity decisions
-`ADR-0036` and `ADR-0037`) with its decision questions, following the
-established interactive acceptance flow. Do not accept ADRs autonomously,
-implement speculative source or run blocked storage/metadata probes while
-those decisions are open.
+Proposed contract the user wishes to review (`ADR-0036` domain-separated
+complete canonical metadata record identity, then `ADR-0037`) with its
+decision questions, following the established interactive acceptance
+flow. Do not accept ADRs autonomously, implement speculative source or
+run blocked storage/metadata probes while those decisions are open.
 
 ## Test policy for the next action
 

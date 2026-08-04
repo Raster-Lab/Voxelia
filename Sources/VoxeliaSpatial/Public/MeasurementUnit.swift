@@ -73,10 +73,10 @@ public struct MeasurementUnit: Sendable, Hashable, Codable {
         scaleToCanonical: Double? = nil,
         offsetToCanonical: Double? = nil
     ) throws {
-        guard namespace.contains(where: { !$0.isWhitespace }) else {
+        guard !measurementUnitIdentityFieldIsBlank(namespace) else {
             throw MeasurementUnitError.emptyNamespace
         }
-        guard code.contains(where: { !$0.isWhitespace }) else {
+        guard !measurementUnitIdentityFieldIsBlank(code) else {
             throw MeasurementUnitError.emptyCode
         }
         if let scaleToCanonical, !scaleToCanonical.isFinite {
@@ -203,6 +203,25 @@ public struct MeasurementUnit: Sendable, Hashable, Codable {
         try container.encode(dimension, forKey: dimensionKey)
         try container.encode(scaleToCanonical, forKey: scaleKey)
         try container.encode(offsetToCanonical, forKey: offsetKey)
+    }
+}
+
+/// The frozen `VCMJ-1` identity-field whitespace oracle selected by
+/// `ADR-0035`, generated from the same controlled scalar table as the
+/// private `VoxeliaCore` implementation; Spatial deliberately does not
+/// import a Core helper upstream, and cross-module fixtures keep the two
+/// in agreement. A field is blank exactly when it contains no scalar
+/// outside U+0009 through U+000D, U+0020, U+0085, U+00A0, U+1680, U+2000
+/// through U+200A, U+2028, U+2029, U+202F, U+205F and U+3000.
+private func measurementUnitIdentityFieldIsBlank(_ value: String) -> Bool {
+    !value.unicodeScalars.contains { scalar in
+        switch scalar.value {
+        case 0x09...0x0D, 0x20, 0x85, 0xA0, 0x1680, 0x2000...0x200A, 0x2028,
+            0x2029, 0x202F, 0x205F, 0x3000:
+            false
+        default:
+            true
+        }
     }
 }
 

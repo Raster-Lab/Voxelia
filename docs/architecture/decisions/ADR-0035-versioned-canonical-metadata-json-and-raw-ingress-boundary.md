@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0035"
 title: "Versioned canonical metadata JSON and raw ingress boundary"
-status: "Proposed"
-date: "2026-08-03"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -103,16 +103,23 @@ syntax is repeated per structural element and a generic decoder can allocate a
 token before model validation. Raw byte, token and nesting limits plus
 incremental parsing and cancellation are therefore part of this boundary.
 
-This proposal selects deterministic record bytes and strict raw ingress only.
+This record selects deterministic record bytes and strict raw ingress only.
 It does not select a persistent digest, content identifier, signature, schema
 authentication mechanism, privacy filter, export authorisation, semantic
-normalisation or permissive JSON import. Its Proposed status does not authorise
-recursive metadata or canonical-codec source.
+normalisation or permissive JSON import. It was reviewed and accepted by the
+project owner on 2026-08-04, with its semantic dependencies (`ADR-0028`
+through `ADR-0033`) already accepted and the JCS-derived profile, the
+out-of-band multiplicity binding and the dedicated iterative parser each
+selected through interactive decision review; acceptance rests on local
+Apple Silicon evidence, with the lowest-resource device latency, fuzz,
+external differential-oracle, universal raw-ceiling derivation and
+allocation-failure dispositions recorded as explicit open gaps in the
+progress ledger.
 
 ## Decision
 
-If `ADR-0028` through `ADR-0033` and this ADR are accepted, `VoxeliaCore` will
-own **Voxelia Canonical Metadata JSON version 1**, abbreviated `VCMJ-1`.
+With `ADR-0028` through `ADR-0033` and this ADR accepted, `VoxeliaCore` owns
+**Voxelia Canonical Metadata JSON version 1**, abbreviated `VCMJ-1`.
 `VCMJ-1` is a JCS-derived UTF-8 record profile with Voxelia-specific semantic
 shapes, decimal-string 64-bit integers and preservation of all valid Swift
 Unicode-scalar strings. It must not be described as unmodified JCS or I-JSON.
@@ -1129,21 +1136,25 @@ revision) are complete:
    decision defines the projection and authority; proposed `ADR-0036` supplies
    only the complete-record identity candidate and remains unaccepted.
 
-While this ADR or any semantic dependency remains Proposed, do not add public
-recursive metadata, canonical-parser or canonical-emitter source. The next
-independent audit may study persistent metadata identity, but it must treat
-`VCMJ-1` as proposed complete-record bytes rather than an already accepted
-digest projection. Proposed `ADR-0036` records the audit outcome but authorises
-no source.
+These migration steps are authorised as of the 2026-08-04 acceptance:
+`ADR-0028` through `ADR-0033` and this ADR are accepted on local Apple
+Silicon evidence. The lowest-resource device cancellation-latency
+campaign, fuzz/mutation corpora, the external Ryu/V8 differential
+oracles, the universal raw-ceiling derivation and the `VOX-ERR-001`
+allocation-failure disposition remain explicit open evidence gaps
+recorded in the progress ledger; the typed `resourceLimitExceeded`
+coverage remains partial for that clause exactly as stated above.
+Proposed `ADR-0036` records the identity candidate but authorises no
+digest source.
 
 ## Supersession
 
-This ADR supersedes no accepted decision. If accepted, it refines the raw
+This ADR supersedes no accepted decision. It refines the raw
 canonical-JSON and schema-version obligations left open by `ADR-0028` through
 `ADR-0033`; ordinary type-level Codable wire shape and emitted values for
 previously accepted inputs remain intact, while the documented blank-domain
-broadening applies to construction and decode. `ADR-0034` stays an independent
-post-ingress typed-read proposal.
+broadening applies to construction and decode. Accepted `ADR-0034` stays an
+independent post-ingress typed-read decision.
 
 ## References
 

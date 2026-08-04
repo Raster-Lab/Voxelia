@@ -36,10 +36,10 @@ public struct CodedConcept: Sendable, Hashable, Codable {
         meaning: String? = nil,
         version: String? = nil
     ) throws {
-        guard scheme.contains(where: { !$0.isWhitespace }) else {
+        guard !metadataIdentityFieldIsBlank(scheme) else {
             throw CodedConceptError.emptyScheme
         }
-        guard value.contains(where: { !$0.isWhitespace }) else {
+        guard !metadataIdentityFieldIsBlank(value) else {
             throw CodedConceptError.emptyValue
         }
 
