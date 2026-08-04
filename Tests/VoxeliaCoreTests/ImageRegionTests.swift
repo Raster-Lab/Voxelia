@@ -687,7 +687,7 @@ struct ImageRegionTests {
         }
     }
 
-    @Test("[Unit][VOX-RGN-002] reports the first inverted axis")
+    @Test("[Unit][VOX-RGN-002][VOX-ERR-001] reports the first inverted axis")
     func rejectsInvertedBounds() {
         #expect(throws: RegionError.invertedBounds(axis: 1, lower: 5, upper: 4)) {
             try ImageRegion(
@@ -762,14 +762,23 @@ struct ImageRegionTests {
         }
     }
 
-    @Test("[Unit][VOX-RGN-002] decoding rejects inverted bounds")
+    @Test("[Unit][VOX-RGN-002][VOX-ERR-001] decoding rejects inverted bounds")
     func decodingRejectsInvertedBounds() {
         let invalidRegion = Data(
             #"{"lowerBounds":[0,4],"upperBounds":[1,3]}"#.utf8
         )
 
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(ImageRegion.self, from: invalidRegion)
+        do {
+            _ = try JSONDecoder().decode(ImageRegion.self, from: invalidRegion)
+            #expect(Bool(false), "Expected inverted-bounds region to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.isEmpty)
+            #expect(
+                context.underlyingError as? RegionError
+                    == .invertedBounds(axis: 1, lower: 4, upper: 3)
+            )
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 
