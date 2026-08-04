@@ -1446,8 +1446,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
-      "size": 6964,
-      "sha256": "aa24803a9e0ec121a2f354df427f34ec25f728642a753ff9561d95ced5faeaca"
+      "size": 7006,
+      "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
     },
     {
       "path": "docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md",
@@ -1547,7 +1547,7 @@
     {
       "path": "docs/architecture/decisions/README.md",
       "size": 4810,
-      "sha256": "c4988b749ec4f8ae602978040cf2f3cc4825eb0849d53f20f76536459aacde81"
+      "sha256": "e2275810540c393945cbd3cde1725f9aab3772ef5eee14eaa9d0a1b57934c831"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1631,8 +1631,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 362697,
-      "sha256": "e696c649b02d4e443814061a744e107cdc00d302b3d9b0fb9c1e6a8d1bdfaf58"
+      "size": 363841,
+      "sha256": "8671447f6bf143c43f54d2a9afa6c0dcc8658c95c3f4fb0a86dd5ad38b8f9eae"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",

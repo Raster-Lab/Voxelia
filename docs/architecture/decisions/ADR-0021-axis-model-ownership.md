@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0021"
 title: "Axis model ownership"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -33,28 +33,30 @@ that graph: `AxisID` and `MeasurementUnit`, both referenced by the canonical
 `AxisDescriptor` shape, are already owned by `VoxeliaSpatial`.
 
 The Core Data Model Specification requires this discrepancy to be corrected or
-resolved by an approved ADR before implementation. This proposal records a
-resolution for review; its Proposed status does not authorize code or
-controlled-document changes.
+resolved by an approved ADR before implementation. This record was reviewed
+and accepted by the project owner on 2026-08-04, resolving the conflict in
+favour of Spatial ownership.
 
 ## Decision
 
-If this ADR is accepted, `VoxeliaSpatial` will own:
+`VoxeliaSpatial` owns:
 
 - `AxisID`;
 - `AxisSemantic`;
 - `AxisSampling`; and
 - `AxisDescriptor`.
 
-`VoxeliaCore.ImageDescriptor` will reference those public Spatial values.
+`VoxeliaCore.ImageDescriptor` references those public Spatial values.
 Validation that binds an axis collection to an image shape—including rank,
 unique identifiers, coordinate counts and descriptor-level semantic
-and spatial-axis consistency—will remain in `VoxeliaCore` because it requires
+and spatial-axis consistency—remains in `VoxeliaCore` because it requires
 the complete image descriptor.
 
-Acceptance will require a controlled correction to the Core Data Model
-Specification's module-ownership table and type-allocation appendix. No
-implementation may rely on this proposal while its status remains Proposed.
+Acceptance requires a controlled correction to the Core Data Model
+Specification's module-ownership table and type-allocation appendix; that
+correction is authorised by this acceptance and is recorded through the
+project's controlled-correction process without editing any immutable
+`v0.1.1` baseline file.
 
 ## Alternatives considered
 
@@ -99,7 +101,7 @@ expand the package graph and release surface without a demonstrated need.
 
 ## Affected modules
 
-If accepted, this decision affects `VoxeliaSpatial` as owner of `AxisID`,
+This decision affects `VoxeliaSpatial` as owner of `AxisID`,
 `AxisSemantic`, `AxisSampling` and `AxisDescriptor`, and `VoxeliaCore` as their
 consumer and the owner of image-descriptor binding validation. Other modules
 are affected only as downstream API consumers through existing dependency
@@ -108,9 +110,9 @@ edges; no dependency edge changes.
 ## Compatibility impact
 
 No public `AxisDescriptor`, `AxisSemantic` or `AxisSampling` implementation
-exists, so accepting this proposal would not move a released symbol. Before
-1.0, any later ownership change would still require changelog and migration
-documentation.
+existed at acceptance, so this decision does not move a released symbol.
+Before 1.0, any later ownership change would still require changelog and
+migration documentation.
 
 ## Security impact
 
@@ -145,14 +147,15 @@ After acceptance:
 4. add focused Spatial and Core tests; and
 5. update traceability and release-integrity evidence.
 
-No migration step may begin while this ADR remains Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance and are
+executed in order through the progress ledger.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. If accepted, it resolves the cited module-allocation conflict through the
-controlled document corrections in the Migration section without replacing
-either governing document. While Proposed, it has no supersession effect.
+This ADR neither supersedes nor is superseded by another file-backed ADR. It
+resolves the cited module-allocation conflict through the controlled document
+corrections in the Migration section without replacing either governing
+document.
 
 ## References
 

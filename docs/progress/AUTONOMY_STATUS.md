@@ -37,9 +37,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
-- Governance preparation: proposed `ADR-0021` documents the axis-model
-  ownership conflict and recommends Spatial ownership with Core binding
-  validation; it is not accepted and does not unblock implementation.
+- Governance: `ADR-0021` was accepted by the project owner on 2026-08-04,
+  resolving the axis-model ownership conflict in favour of `VoxeliaSpatial`
+  ownership of `AxisID`, `AxisSemantic`, `AxisSampling` and `AxisDescriptor`
+  with Core-owned image-descriptor binding validation. Its migration steps
+  (controlled CDMS/FVSP corrections, Spatial implementation with focused
+  tests, Core binding validation, traceability and release evidence) are now
+  authorised and tracked through this ledger.
 - Proposed `ADR-0022` selects a namespaced six-case `CoordinateConvention`
   shape and explicit type-level tags while preserving the separate descriptor
   unit-policy blocker; it is not accepted and does not unblock code.
@@ -244,7 +248,7 @@ binding validation before `ImageDescriptor` can be constructed.
 | `scalarFormat` | `ScalarFormat` | Implemented | Semantic compatibility is descriptor-level; storage compatibility is deferred to `ImageData`/storage binding and must not cause descriptor construction to access storage. |
 | `components` | `ComponentDescriptor` | Implemented | The semantic/component/scalar compatibility matrix is not fully specified. |
 | `semantic` | `ImageSemantic` | Implemented | The detailed namespaced generic form is implemented; older MTA drift and descriptor-level consistency remain recorded. |
-| `axes` | `ContiguousArray<AxisDescriptor>` | Proposed-dependent and contract-blocked | MTA ownership conflicts with CDMS/FVSP ownership; proposed `ADR-0021` is not accepted, and sampling/name/unit validation plus wire rules remain incomplete. |
+| `axes` | `ContiguousArray<AxisDescriptor>` | Ownership resolved; contract work authorised | Accepted `ADR-0021` (2026-08-04) assigns the axis model to `VoxeliaSpatial` with Core binding validation; the controlled CDMS/FVSP correction and the sampling/name/unit validation plus wire rules are in-progress migration work. |
 | `spatialGeometry` | `SpatialGeometry?` | Proposed-dependent and contract-blocked | Coordinate-space policy, affine shape and tolerance, rectilinear binding, and the frame-index dependency cycle all remain unresolved. |
 | `valueTransform` | `ValueTransform?` | Proposed-dependent | Proposed `ADR-0023` must be accepted and its controlled-document corrections completed before its bounded four-case declaration is authorised. Piecewise extension and lookup execution are explicitly later scope, not blockers to that declaration. |
 | `units` | `MeasurementUnit?` | Implemented and conformance-hardened | The unit must describe authoritative sample values; semantic and transform compatibility policy is still required. |
@@ -253,7 +257,7 @@ The blocked axis and spatial branch expands as follows:
 
 | Prerequisite | Implemented leaves | Blocking contract |
 |---|---|---|
-| `AxisDescriptor` | `AxisID`, `MeasurementUnit` | Proposed `ADR-0021` recommends Spatial ownership but does not authorise it. Direct enum payloads cannot enforce finite, non-zero regular spacing; origin/irregular-coordinate finiteness, generic and external string validity, categorical-label policy, duplicate-semantic support and descriptor binding are incomplete. |
+| `AxisDescriptor` | `AxisID`, `MeasurementUnit` | Accepted `ADR-0021` authorises Spatial ownership; implementation must still resolve the recorded design constraints: direct enum payloads cannot enforce finite, non-zero regular spacing, and origin/irregular-coordinate finiteness, generic and external string validity, categorical-label policy, duplicate-semantic support and descriptor binding require validated construction. |
 | `CoordinateSpaceDescriptor` | `CoordinateSpaceID`, `CoordinateHandedness`, `ExternalFrameReference`, `MeasurementUnit` | Its implemented leaves now have coherent local identity and wire behavior, but proposed `ADR-0022` is not accepted. The descriptor still cannot classify physical versus logical Cartesian/custom/display spaces, so unit admissibility, handedness authority, external-reference ordering and construction errors remain incomplete. |
 | `AffineGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. MTA also uses fixed `SIMD3<Int>` axes while CDMS uses one-to-three `SpatialAxisMapping` entries. Affine-final-row validation has no declared tolerance; singularity and near-singularity policy separately block inverse operations. |
 | `RectilinearGridGeometry` | `SpatialAxisMapping`, `Matrix4x4Double` | It depends on the blocked coordinate-space descriptor. Coordinate-count binding, monotonicity/coincident-sample policy, orientation and invertibility semantics are incomplete. |
@@ -2319,6 +2323,14 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   wire-rejection evidence only, not allocation, capability or residency
   behaviour, canonical JSON bytes, completion of `VOX-API-004`, global
   `VOX-ERR-001` or `VOX-VAL-001`, or any change to the accepted wire shape.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0021`. The ADR
+  file status, acceptance record and body tense were updated, the decision
+  register table row moved to Accepted, and the ledger's current-state,
+  prerequisite-matrix and known-blocker entries were reconciled. This
+  acceptance selects Spatial ownership of the four axis types with Core-owned
+  binding validation and authorises the ADR's migration steps in order. It
+  does not itself change controlled `v0.1.1` baselines, implement source or
+  accept any other Proposed ADR.
 
 ## Verification evidence
 
@@ -4621,6 +4633,12 @@ cross-cutting gate for the wire-error campaign, the complete package suite
 ran once: all 248 tests in 31 suites passed. No production source, public
 API, controlled baseline or Proposed/Draft contract changed.
 
+For the `ADR-0021` acceptance, the complete documentation gate
+(`Tools/Scripts/validate-docs.sh`: front matter, ADR register, RFC register
+and document text) passed for all 70 Markdown files after the status change,
+and the requirement-index check passed. No `v0.1.1` baseline file, product
+source or package manifest changed in the acceptance commit.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -4973,9 +4991,10 @@ API, controlled baseline or Proposed/Draft contract changed.
   section 9.2 areas, and the ADR checker enforces their presence, uniqueness and
   meaningful bodies. It intentionally does not infer decision quality, status
   transitions, module validity or supersession semantics from prose.
-- Proposed `ADR-0021` is review material only. Until its status becomes
-  Accepted and subordinate documents are corrected, the axis-model public API
-  remains blocked and no implementation may rely on its recommendation.
+- `ADR-0021` is Accepted (2026-08-04). The axis-model public API is unblocked
+  for `VoxeliaSpatial` implementation once the controlled CDMS/FVSP
+  correction is recorded; binding validation still waits on the complete
+  `ImageDescriptor`, whose other prerequisites remain blocked.
 - Proposed `ADR-0022` likewise does not resolve the convention conflict until
   accepted. Even after acceptance, `CoordinateSpaceDescriptor` remains blocked
   because its exact five fields do not classify physical versus logical
@@ -4984,11 +5003,12 @@ API, controlled baseline or Proposed/Draft contract changed.
 - Proposed `ADR-0023` does not resolve the transform conflict until accepted.
   Piecewise-linear transforms remain undefined, and lookup declarations do not
   establish interpolation, missing-entry or extrapolation behavior.
-- The exact in-memory `ImageDescriptor` declaration remains transitively blocked
-  even if proposed `ADR-0021` through `ADR-0023` were accepted: coordinate-
-  space descriptor policy, affine shape and construction tolerance,
-  rectilinear binding and frame-set binding are still incomplete. Full M1
-  descriptor acceptance is additionally blocked by canonical JSON.
+- The exact in-memory `ImageDescriptor` declaration remains transitively
+  blocked despite accepted `ADR-0021` and even if proposed `ADR-0022`/
+  `ADR-0023` were accepted: coordinate-space descriptor policy, affine shape
+  and construction tolerance, rectilinear binding and frame-set binding are
+  still incomplete. Full M1 descriptor acceptance is additionally blocked by
+  canonical JSON.
 - Spatial-owned `FrameGeometry` is specified with Core-owned `ImageIndex`, but
   the approved dependency direction is `Core -> Spatial`; implementing that
   shape in Spatial would create a prohibited reverse edge or cycle.
@@ -5103,28 +5123,25 @@ API, controlled baseline or Proposed/Draft contract changed.
 
 ## Exact next action
 
-The strict-wire error-evidence campaign is complete: no broad `DecodingError`
-assertion remains in any repository test target and the complete 248-test
-package suite passes. Every remaining M1 implementation slice is
-source-blocked on unaccepted Proposed contracts (`ADR-0021` through
-`ADR-0037`) or on external gaps (visionOS 26.5 platform component, remote
-repository governance and push authorisation) that require user or
-governance decisions. The next turn must therefore surface the Proposed ADR
-acceptance decision to the user before selecting further implementation
-work, and must not invent speculative source, accept ADRs autonomously or
-run blocked storage/metadata probes. If the user provides no decision, the
-only safe autonomous work is maintenance of existing evidence (regenerating
-ledgers after user changes) or newly identified defects with reproductions.
+Execute accepted `ADR-0021` migration step 1: record the controlled
+correction for the Core Data Model Specification's module-ownership table
+and type-allocation appendix and the First Vertical Slice Plan's axis
+ownership statements. Create one controlled-correction record under
+`docs/architecture/corrections/` that cites accepted `ADR-0021` as
+authority, quotes the exact conflicting `v0.1.1` baseline statements, states
+the exact corrected ownership text (Spatial owns `AxisID`, `AxisSemantic`,
+`AxisSampling`, `AxisDescriptor`; Core owns image-descriptor binding
+validation), and records the project owner's 2026-08-04 approval with its
+effective commit. Do not edit any immutable `v0.1.1` baseline file, change
+the package graph or implement axis source in this step.
 
 ## Test policy for the next action
 
-- No implementation action is queued. When a next action is authorised,
-  derive its test policy from the smallest owning target as in prior
-  increments, plus requirement-index and release-integrity checks. Do not
-  rerun the complete scaffold suite unless a cross-cutting change affects
-  its gate or a release candidate is being accepted. Keep unavailable SDKs,
-  signing contexts, repository settings and human approvals recorded as
-  explicit evidence gaps rather than treating them as passing.
+- Run only `Tools/Scripts/validate-docs.sh` (front matter, ADR register, RFC
+  register and document text), the requirement-index check and
+  release-integrity regeneration/verification. No Swift build or test is
+  required because no source changes. Do not run blocked storage/metadata
+  probes or the complete scaffold suite.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
