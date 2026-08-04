@@ -72,8 +72,9 @@ to the rendering camera and viewport models. `ADR-0083` is allocated
 to the rendering transfer function model. `ADR-0084` is allocated to
 the render quality, layer and scene snapshot models. `ADR-0085` is
 allocated to the render request, result and renderer protocol.
-`ADR-0086` is allocated to the exact diagnostic slice renderer. The
-next unallocated numeric identifier is `ADR-0087`.
+`ADR-0086` is allocated to the exact diagnostic slice renderer.
+`ADR-0087` is allocated to float transform error bounds. The next
+unallocated numeric identifier is `ADR-0088`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -143,3 +144,4 @@ next unallocated numeric identifier is `ADR-0087`.
 | [ADR-0084](ADR-0084-render-quality-layer-and-scene.md) | Accepted | Render quality, layer and scene snapshot models |
 | [ADR-0085](ADR-0085-render-request-result-and-protocol.md) | Accepted | Render request, result and renderer protocol |
 | [ADR-0086](ADR-0086-exact-diagnostic-slice-renderer.md) | Accepted | Exact diagnostic slice renderer |
+| [ADR-0087](ADR-0087-float-transform-error-bounds.md) | Accepted | Float transform error bounds |

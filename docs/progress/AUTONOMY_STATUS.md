@@ -1465,6 +1465,29 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   accepted, evidence-carrying contract. Tests verify the exact output
   bytes, the provenance and registry state, and the typed
   unpublished-image and viewport-mismatch rejections.
+- Fifty-third autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0007` (camera-relative
+  float transform derivation `binary32-v1`) and `ADR-0087` (float
+  transform error bounds), discharging the `VOX-SPA-004` gate for the
+  registered derivation. The frozen model performs the
+  camera-relative subtraction in binary64 before one demotion
+  rounding per element — removing the large-coordinate cancellation
+  that makes naive binary32 world transforms unusable — applies the
+  transform in binary32 with frozen association and no fused
+  multiply-add, and states the standard Higham-style forward error
+  bound: per row, gamma-5 times the binary64 row magnitude sum, valid
+  wherever intermediates stay within the binary32 normal range.
+  `CameraRelativeFloatTransform` in `VoxeliaRendering` exposes the
+  derivation, the binary64 reference and the per-index bound. The
+  measured harness verified the bound on 15,000 rows across small-
+  and large-coordinate regimes with a maximum observed bound ratio of
+  0.621 — thirty-eight percent analytical headroom — proved
+  bit-identical repeated derivation, and demonstrated that the naive
+  world-space demotion order violates the same bound in the realistic
+  near-content camera regime where the registered order satisfies it.
+  Oblique and perspective presentation and resampling models can now
+  be designed against a verified error budget; any float transform
+  other than this registered derivation remains gated.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

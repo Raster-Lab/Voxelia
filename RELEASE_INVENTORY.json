@@ -950,6 +950,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaRendering/Public/CameraRelativeFloatTransform.swift",
+      "size": 4290,
+      "sha256": "1645661e6b90d355013d85ac02511276113e2102bf46336789ea2deca8126f23"
+    },
+    {
       "path": "Sources/VoxeliaRendering/Public/RenderCamera.swift",
       "size": 4373,
       "sha256": "4c4252d1129318e7e269cf24e1351a547b5fe571d305f04751c7ffff173395a4"
@@ -981,8 +986,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/VoxeliaRendering.docc/VoxeliaRendering.md",
-      "size": 782,
-      "sha256": "4c669fa5e376aed21ec6c27cb4c1a8ec4c778b9cd34fc8833b34544dc1e233a2"
+      "size": 817,
+      "sha256": "2e985a30f123d7100391e9b65da7bd8535b96bacb4cd3bef7f8a731dbf5689ce"
     },
     {
       "path": "Sources/VoxeliaSpatial/ApplePlatformGate.swift",
@@ -1560,6 +1565,11 @@
       "sha256": "b85d8ee3379797e194c144dc9f8e0d5268402e594ed95f9d85cd86ec236f3600"
     },
     {
+      "path": "Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift",
+      "size": 8547,
+      "sha256": "d1f1798ac287dc02a5589e2465f2f5cc86185325f4e4bfae865f3e1a8aac38c8"
+    },
+    {
       "path": "Tests/VoxeliaRenderingTests/RenderCameraTests.swift",
       "size": 4506,
       "sha256": "31fb2093e768de561febcb01fe706ebd8b372394a7184facf5aa02c60e3f141f"
@@ -2031,8 +2041,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 912,
-      "sha256": "9ea4f4e0d8fa28dec7f33792c465fb32ad4b8c478a7a8c1686b8165a9fdbb659"
+      "size": 1058,
+      "sha256": "788b891a385bbf00aff8075dc284a66ead72c6d6fbbff6967aa39d7df50ad821"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2063,6 +2073,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0006-region-origin-shift.md",
       "size": 2811,
       "sha256": "7a87188d47a9eea1a2509bc9d54169be1e261ac139f515423dbb0b3b9f14b382"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0007-camera-relative-float-transform.md",
+      "size": 3381,
+      "sha256": "a696f0e4a2d88f414884665f0a6e83ddb52c20d1e4cb9fc22718bb13ec9ff3e5"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -2525,9 +2540,14 @@
       "sha256": "155786312d40c3d1e9f8c98b9bd4b714ee6c25c53291a177889e20025aa34a27"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0087-float-transform-error-bounds.md",
+      "size": 3907,
+      "sha256": "93f8bd56c0e18f1ad25cfa9a47fa79507c0672970a3b55501abb50a9a19fbd58"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 12625,
-      "sha256": "b33f1053207853e270d2f58a51fb8d705910d3549ecbce896a1501e10fecdfdc"
+      "size": 12781,
+      "sha256": "03c067c1ede1546cded76dff82a4bbbfeb1705d16b48a94de1b8785b5f3a0dee"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2611,8 +2631,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 504440,
-      "sha256": "08d74c6521f76335bfef6d6afc81095d1e59d5ec44eb1225df5b27b7d9cb095d"
+      "size": 505960,
+      "sha256": "a91e4434089fb78ca0c848d51bfb181a6a1508c4d0b94477584c21b46b525e4f"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2971,8 +2991,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 30656,
-      "sha256": "a600dd7cb98cc836147ecc4dff42869d637b77911560b079fad3afd60aa4ef20"
+      "size": 30928,
+      "sha256": "752e00e105eef1692e236f14bda8dd93cb9e3d6f4b828caa32851dd9e9328592"
     }
   ]
 }

@@ -188,6 +188,7 @@ Sources/VoxeliaRendering/ApplePlatformGate.swift
 Sources/VoxeliaRendering/Internal/.gitkeep
 Sources/VoxeliaRendering/Module.swift
 Sources/VoxeliaRendering/Public/.gitkeep
+Sources/VoxeliaRendering/Public/CameraRelativeFloatTransform.swift
 Sources/VoxeliaRendering/Public/RenderCamera.swift
 Sources/VoxeliaRendering/Public/RenderRequest.swift
 Sources/VoxeliaRendering/Public/SceneSnapshot.swift
@@ -310,6 +311,7 @@ Tests/VoxeliaMetalTests/MetalResidencyManagerTests.swift
 Tests/VoxeliaMetalTests/MetalWindowLevelKernelTests.swift
 Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift
 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
+Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift
 Tests/VoxeliaRenderingTests/RenderCameraTests.swift
 Tests/VoxeliaRenderingTests/RenderRequestTests.swift
 Tests/VoxeliaRenderingTests/SceneSnapshotTests.swift
@@ -411,6 +413,7 @@ docs/algorithms/VOXELIA-ALG-0003-linear-value-transform.md
 docs/algorithms/VOXELIA-ALG-0004-lookup-table-value-transform.md
 docs/algorithms/VOXELIA-ALG-0005-composed-value-transform-chain.md
 docs/algorithms/VOXELIA-ALG-0006-region-origin-shift.md
+docs/algorithms/VOXELIA-ALG-0007-camera-relative-float-transform.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -503,6 +506,7 @@ docs/architecture/decisions/ADR-0083-rendering-transfer-function.md
 docs/architecture/decisions/ADR-0084-render-quality-layer-and-scene.md
 docs/architecture/decisions/ADR-0085-render-request-result-and-protocol.md
 docs/architecture/decisions/ADR-0086-exact-diagnostic-slice-renderer.md
+docs/architecture/decisions/ADR-0087-float-transform-error-bounds.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
