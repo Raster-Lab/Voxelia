@@ -951,6 +951,42 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   source lineage and a policy-admitted repeated metadata key, all
   payload-free. Lazy identity enrichment, the publication coordinator
   and every wire remain recorded gates.
+- Thirtieth autonomous increment (owner instruction: "build the first
+  operation implementation autonomously"): authored and accepted
+  `ADR-0064` (exact region extraction operation) and implemented the
+  first executable operation in `VoxeliaExecution`, registered as
+  `org.voxelia.op.extract-region` 1.0.0 with implementation
+  `org.voxelia.impl.extract-region.cpu` 1.0.0. The semantic is a
+  byte-exact copy of one full-rank half-open region of the input's
+  canonical packed decoded bytes — no sample value is created,
+  altered, rounded or interpreted, so no algorithm specification with
+  rounding semantics is required and the frozen execution claim
+  carries the exact-approximation tokens. The frozen parameter schema
+  is one metadata collection with exactly the `lower-bounds` and
+  `upper-bounds` signed-integer arrays, digested under the registered
+  operation-parameters projection. Version-one admission rejects
+  spatial geometry and non-index axis sampling typed, because origin
+  arithmetic is deferred to its own decision; region validity stays
+  owned by the read-transaction rules. The read runs through the
+  budgeted coalescing `StorageReadCoordinator` — `AnyImageStorage`
+  gained the `ImageStorageContract` conformance it already implements
+  member for member — with the retention released once the owned
+  bytes are staged into a fresh contiguous provider. The operation
+  mints no identifiers and acquires no clock: the caller supplies the
+  output object identifier, provenance identifier, instant and
+  software identity, and receives a fully validated `ImageData` whose
+  identity binds the sample-bytes content identity of the exact
+  output bytes and the derivation recipe, and whose transformed-kind
+  provenance record binds the output subject, the input edge and a
+  graph-node parent edge to the input's own record. Tests prove the
+  crop byte-exact end to end — output bytes, preserved per-sample
+  properties and metadata, the content identity, the parameter digest
+  reproduced independently from the frozen schema, the recipe and the
+  record — then admit both records into one complete graph of depth
+  two, prove determinism across repeated execution, and reject
+  geometry, regular sampling, invalid regions and an insufficient
+  read budget, all typed. The first vertical value-and-execution
+  slice is now exercised end to end.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

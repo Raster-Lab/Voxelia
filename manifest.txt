@@ -127,6 +127,7 @@ Sources/VoxeliaExecution/Module.swift
 Sources/VoxeliaExecution/Public/.gitkeep
 Sources/VoxeliaExecution/Public/ContentResultCache.swift
 Sources/VoxeliaExecution/Public/MetadataIdentityCoordinator.swift
+Sources/VoxeliaExecution/Public/RegionExtractionOperation.swift
 Sources/VoxeliaExecution/Public/StorageReadCoordinator.swift
 Sources/VoxeliaExecution/VoxeliaExecution.docc/Architecture.md
 Sources/VoxeliaExecution/VoxeliaExecution.docc/Requirements.md
@@ -274,6 +275,7 @@ Tests/VoxeliaCoreTests/ValueTransformTests.swift
 Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift
 Tests/VoxeliaExecutionTests/ContentResultCacheTests.swift
 Tests/VoxeliaExecutionTests/MetadataIdentityCoordinatorTests.swift
+Tests/VoxeliaExecutionTests/RegionExtractionOperationTests.swift
 Tests/VoxeliaExecutionTests/StorageReadCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift
 Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift
@@ -442,6 +444,7 @@ docs/architecture/decisions/ADR-0060-canonical-provenance-record-projection.md
 docs/architecture/decisions/ADR-0061-strict-provenance-ingress.md
 docs/architecture/decisions/ADR-0062-external-reference-and-compact-graphs.md
 docs/architecture/decisions/ADR-0063-image-data-aggregate.md
+docs/architecture/decisions/ADR-0064-exact-region-extraction-operation.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

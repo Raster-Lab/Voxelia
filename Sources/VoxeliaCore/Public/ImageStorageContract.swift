@@ -51,3 +51,8 @@ public struct AnyImageStorage: Sendable {
         return concrete
     }
 }
+
+/// The erasure already implements the contract member for member; the
+/// conformance lets erased storage flow through contract-generic paths
+/// such as the coordinated read boundary (`ADR-0064`).
+extension AnyImageStorage: ImageStorageContract {}

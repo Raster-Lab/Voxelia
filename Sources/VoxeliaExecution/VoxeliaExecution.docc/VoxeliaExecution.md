@@ -13,6 +13,27 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Topics
 
+### Coordinated reads
+
+- ``StorageReadCoordinator``
+- ``CoordinatedReadResult``
+- ``ReadRetentionToken``
+
+### Coordinated identity
+
+- ``MetadataIdentityCoordinator``
+- ``CoordinatedMetadataIdentity``
+
+### Result caching
+
+- ``ContentResultCache``
+- ``ContentResultCacheError``
+
+### Operations
+
+- ``RegionExtractionOperation``
+- ``RegionExtractionError``
+
 ### Project documents
 
 - <doc:Architecture>
