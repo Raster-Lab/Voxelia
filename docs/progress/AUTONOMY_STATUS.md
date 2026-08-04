@@ -754,6 +754,31 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   evidence identity and payload-free diagnostics. The record
   aggregate, its structural rules, graph admission and every wire
   remain the next ordered decisions.
+- Twenty-fourth autonomous increment: authored and accepted `ADR-0058`
+  (provenance record aggregate) with `CCR-0024` recording the
+  controlled correction, and implemented the `ADR-0038` record target
+  in `VoxeliaCore`: `ProvenanceActivity` (exactly `origin` and
+  `operation` carrying both the operation claim and the execution
+  claim, so an execution without an operation — and an origin silently
+  carrying an execution — are structurally impossible) and
+  `ProvenanceRecord` (the nine accepted fields with `CanonicalInstant`
+  replacing the raw string and the subject bound through
+  `DataIdentityReference`). Construction enforces kind coherence in
+  both directions (`kind == .source` exactly for origin activity), the
+  origin no-input rule, the operation zero-input declaration rules
+  mirroring `ADR-0055` with the derivable declaration not stored,
+  unique `(role, occurrence)` input pairs and unique
+  `(code, schema version, severity)` warning keys in one linear pass
+  each — repetition belongs in the occurrence count, and the
+  constructor never silently aggregates. Tests prove both coherence
+  directions, all input rules, both duplicate rejections with counts
+  differing, input order participating in identity, a cached-kind
+  record carrying its claims unchanged and payload-free diagnostics.
+  With this the `ADR-0038` provenance value chain is complete: the
+  bounded transactional graph admission contract and the canonical
+  provenance-record projection (which also gates the external parent
+  reference and `ImageData`'s publication story) are the remaining
+  provenance decisions.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
