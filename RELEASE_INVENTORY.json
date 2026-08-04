@@ -1490,6 +1490,11 @@
       "sha256": "dc0d7173de596c68c259dfb6bc101585e69f502d225c1d952a6b32f5443990b0"
     },
     {
+      "path": "docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md",
+      "size": 4746,
+      "sha256": "ac2ea27e98262808bf0ac296913294cf43c7f9d72a582240a18a49596acf557e"
+    },
+    {
       "path": "docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md",
       "size": 3783,
       "sha256": "f58112f15cf15254ee1822ed990b96a7ed0af1039fe3286cced3de109e9a1262"
@@ -1506,8 +1511,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0023-value-transform-shape.md",
-      "size": 9476,
-      "sha256": "c6d672597fd463a8972131867c9fec134215404b63e086dba709b408ebda5425"
+      "size": 9569,
+      "sha256": "b82d0368b9bb483642a313f2ee1a60e5ae93f14b3e91eb455a8e34d563653c55"
     },
     {
       "path": "docs/architecture/decisions/ADR-0024-decision-register-reconciliation.md",
@@ -1597,7 +1602,7 @@
     {
       "path": "docs/architecture/decisions/README.md",
       "size": 4810,
-      "sha256": "9c899649f9a8e2ff46ee5be2c784fd8177bdf2723359d18279ec2011752e2646"
+      "sha256": "a43660f02db0565c0824d07002b8cbee0fdb83bfe427973d54e09e75c94886b3"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -1681,8 +1686,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 371350,
-      "sha256": "31584846d9027b82e8d0a862ce8df050686023bc5a61cb9a63e1a404619be08a"
+      "size": 373518,
+      "sha256": "424dd44fe9d60057d1fd479ad13d21a2bf59cb0e12a23c49f40ad635b323fc9a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2036,8 +2041,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 19081,
-      "sha256": "616f0c5c96136793b00ceafdabc747b9430e7b75260d52a98b94673aaa6c883c"
+      "size": 19154,
+      "sha256": "b8657451709683f312b332d0cb73ce675185623f49462192a5cd01da6afea1be"
     }
   ]
 }

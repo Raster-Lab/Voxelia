@@ -1,8 +1,8 @@
 ---
 document_id: "ADR-0023"
 title: "Value transform public shape"
-status: "Proposed"
-date: "2026-08-02"
+status: "Accepted"
+date: "2026-08-04"
 owners:
   - "Voxelia Project"
 affected_requirements:
@@ -36,14 +36,14 @@ continuity, endpoint inclusion, extrapolation, units, identity or wire format.
 No baseline requirement specifically mandates piecewise-linear support.
 
 Directly constructible enum payloads also cannot enforce the required finite
-linear parameters or nonempty composition invariant. This proposal selects a
-validated declaration model for review while leaving transform execution and
-undefined piecewise behavior outside the decision. Its Proposed status does not
-authorize implementation.
+linear parameters or nonempty composition invariant. This record selects a
+validated declaration model while leaving transform execution and undefined
+piecewise behavior outside the decision. It was reviewed and accepted by the
+project owner on 2026-08-04.
 
 ## Decision
 
-If this ADR is accepted, `VoxeliaCore` will own these public value types:
+`VoxeliaCore` owns these public value types:
 
 ```swift
 public struct LinearValueTransformDescriptor:
@@ -112,9 +112,10 @@ evaluation contract define every material behavior. Display windows, VOI LUTs,
 transfer functions and colour maps remain presentation-stage values and must
 not enter `ValueTransform`.
 
-Acceptance will require controlled corrections to both conflicting transform
-declarations. No implementation may rely on this proposal while its status
-remains Proposed.
+Acceptance requires controlled corrections to both conflicting transform
+declarations; those corrections are authorised by this acceptance and are
+recorded through the project's controlled-correction process without editing
+any immutable `v0.1.1` baseline file.
 
 ## Alternatives considered
 
@@ -165,8 +166,8 @@ four-case intersection provides a bounded path after approval.
 
 ## Affected modules
 
-If accepted, this decision affects `VoxeliaCore` as owner and implementation
-site of `LinearValueTransformDescriptor`, `ValueTransformComposition` and
+This decision affects `VoxeliaCore` as owner and implementation site of
+`LinearValueTransformDescriptor`, `ValueTransformComposition` and
 `ValueTransform`. Existing downstream modules are affected only as consumers
 through current dependency edges; no dependency edge or backend-module
 ownership changes.
@@ -174,8 +175,9 @@ ownership changes.
 ## Compatibility impact
 
 No public `ValueTransform`, `LinearValueTransformDescriptor` or
-`ValueTransformComposition` implementation exists. Once implemented, the case
-tags, payload field names and composition order become compatibility contracts.
+`ValueTransformComposition` implementation existed at acceptance. Once
+implemented, the case tags, payload field names and composition order become
+compatibility contracts.
 
 ## Security impact
 
@@ -218,14 +220,16 @@ After acceptance:
 4. specify lookup execution and piecewise-linear behavior separately; and
 5. update traceability and release-integrity evidence.
 
-No migration step may begin while this ADR remains Proposed.
+These migration steps are authorised as of the 2026-08-04 acceptance and are
+executed in order through the progress ledger; step 4 remains separate later
+scope.
 
 ## Supersession
 
-This Proposed ADR neither supersedes nor is superseded by another file-backed
-ADR. If accepted, it resolves the cited value-transform declaration conflict
-through the controlled corrections in the Migration section without replacing
-either governing document. While Proposed, it has no supersession effect.
+This ADR neither supersedes nor is superseded by another file-backed ADR. It
+resolves the cited value-transform declaration conflict through the
+controlled corrections in the Migration section without replacing either
+governing document.
 
 ## References
 

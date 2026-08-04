@@ -70,9 +70,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `impliedHandedness` projection that resolves nothing for `imageDisplay`
   or `custom`, and focused exact-evidence tests including the complete
   built-in handedness matrix.
-- Proposed `ADR-0023` selects four common `ValueTransform` cases with validated
-  linear and composition payloads while deferring undefined piecewise and
-  lookup-execution behavior; it is not accepted and does not unblock code.
+- Governance: `ADR-0023` was accepted by the project owner on 2026-08-04,
+  selecting the validated four-case `ValueTransform` intersection owned by
+  `VoxeliaCore` (`identity`, `linear` with a validated finite descriptor,
+  `lookupTable` reusing the existing validated descriptor, `composed` with a
+  validated nonempty ordered composition) while deferring the undefined
+  `piecewiseLinear` case and all lookup-execution behavior. `CCR-0003`
+  records the controlled corrections to MTA section 9.9 and CDMS sections
+  18.2/18.4, selecting the empty-composition rejection branch exactly.
 - Proposed `ADR-0027` replaces the cross-module frame-index reference with a
   Spatial-owned, full-rank `FrameAnchorIndex` and defines the minimum full-frame
   logical-anchor semantics needed for stable identity; it is not accepted and
@@ -273,7 +278,7 @@ binding validation before `ImageDescriptor` can be constructed.
 | `semantic` | `ImageSemantic` | Implemented | The detailed namespaced generic form is implemented; older MTA drift and descriptor-level consistency remain recorded. |
 | `axes` | `ContiguousArray<AxisDescriptor>` | Spatial leaves implemented; binding blocked | Accepted `ADR-0021` (2026-08-04) assigned the axis model to `VoxeliaSpatial`; `CCR-0001` recorded the corrections and the three axis types are implemented with validated construction and strict wires. Core-owned axis-collection binding validation waits on the remaining `ImageDescriptor` prerequisites. |
 | `spatialGeometry` | `SpatialGeometry?` | Proposed-dependent and contract-blocked | Coordinate-space policy, affine shape and tolerance, rectilinear binding, and the frame-index dependency cycle all remain unresolved. |
-| `valueTransform` | `ValueTransform?` | Proposed-dependent | Proposed `ADR-0023` must be accepted and its controlled-document corrections completed before its bounded four-case declaration is authorised. Piecewise extension and lookup execution are explicitly later scope, not blockers to that declaration. |
+| `valueTransform` | `ValueTransform?` | Authorised; implementation in progress | Accepted `ADR-0023` (2026-08-04) and `CCR-0003` authorise the bounded four-case declaration with validated payload types in `VoxeliaCore`. Piecewise extension and lookup execution remain explicitly later scope. |
 | `units` | `MeasurementUnit?` | Implemented and conformance-hardened | The unit must describe authoritative sample values; semantic and transform compatibility policy is still required. |
 
 The blocked axis and spatial branch expands as follows:
@@ -2406,6 +2411,17 @@ Primary traceability is `VOX-CON-003`, `VOX-CON-010`, `VOX-ERR-001`,
   must reject unresolved handedness explicitly rather than infer it). The
   DocC topics page gained the type. No unit policy, conversion transform,
   registry or `CoordinateSpaceDescriptor` work was started.
+- Recorded the project owner's 2026-08-04 acceptance of `ADR-0023` and
+  controlled correction `CCR-0003`. The ADR file status, acceptance record
+  and body tense were updated and the decision register table row moved to
+  Accepted. `CCR-0003` quotes the exact conflicting MTA section-9.9 and CDMS
+  section-18.2 transform sketches and the CDMS section-18.4
+  empty-composition alternative, states the corrected validated four-case
+  declaration and the exact rejection branch, and restates the wire,
+  zero-scale, signed-zero, deferred-piecewise and presentation-separation
+  limits with the owner approval and introducing commit. No immutable
+  `v0.1.1` baseline file was edited; no source changed in the governance
+  commit.
 
 ## Verification evidence
 
@@ -4750,6 +4766,12 @@ for the new source and test files, the static package-graph and
 prohibited-import checks and the requirement-index check passed. No
 controlled baseline or other Proposed contract changed.
 
+For the `ADR-0023` acceptance and controlled correction `CCR-0003`, the
+complete documentation gate passed for all 73 Markdown files including the
+new record, and the requirement-index check passed. The release manifest
+gained exactly the one new correction record. No `v0.1.1` baseline file,
+product source or package edge changed.
+
 ## Known blockers and risks
 
 - The Drive baseline encoded separate `Logs/` and `logs/` directories, which are incompatible with standard case-insensitive macOS volumes; the local repository now uses one lowercase directory and corrected ledgers.
@@ -5112,9 +5134,10 @@ controlled baseline or other Proposed contract changed.
   Cartesian/custom/display spaces and its unit policy is unapproved. The
   enum must not imply a unit, transform, display-axis policy or external
   frame identity.
-- Proposed `ADR-0023` does not resolve the transform conflict until accepted.
-  Piecewise-linear transforms remain undefined, and lookup declarations do not
-  establish interpolation, missing-entry or extrapolation behavior.
+- `ADR-0023` is Accepted (2026-08-04), resolving the transform-declaration
+  conflict. Piecewise-linear transforms remain deferred and undefined, and
+  lookup declarations still do not establish interpolation, missing-entry or
+  extrapolation behavior.
 - The exact in-memory `ImageDescriptor` declaration remains transitively
   blocked despite accepted `ADR-0021` and even if proposed `ADR-0022`/
   `ADR-0023` were accepted: coordinate-space descriptor policy, affine shape
@@ -5235,24 +5258,34 @@ controlled baseline or other Proposed contract changed.
 
 ## Exact next action
 
-Accepted `ADR-0022` migration is complete except its step 4, the separate
-`CoordinateSpaceDescriptor` unit-policy approval, which remains open. The
-next unblocked step is another governance decision: surface Proposed
-`ADR-0023` (value-transform public shape) to the user with its decision
-questions, following the same interactive acceptance flow used for
-`ADR-0021` and `ADR-0022`. Do not accept ADRs autonomously, implement
-speculative source or run blocked storage/metadata probes while those
-decisions are open.
+Execute accepted `ADR-0023` migration step 2: implement
+`LinearValueTransformDescriptor`, `ValueTransformComposition` and
+`ValueTransform` in their owning `VoxeliaCore` module exactly as the ADR and
+`CCR-0003` define. The linear descriptor's throwing initializer rejects
+non-finite scale or offset with `DataModelError.invalidValueTransform`,
+permits zero scale and canonicalizes signed zero to positive zero. The
+composition accepts a generic collection, materializes one immutable
+`ContiguousArray`, preserves first-to-last order, rejects an empty
+collection with the same error and performs no flattening, identity removal
+or one-element collapse. The enum uses the four exact tags with the strict
+documented payload wire, rejects unknown tags, wrong shapes, missing fields
+and distinct extra fields, and revalidates every descriptor invariant on
+decode. Add focused Core tests with exact invariant, identity and wire
+evidence in the established style, covering finite extremes, subnormals,
+signed zero, zero scale, every non-finite position, nonempty/ordered/
+nested/one-element compositions, empty-composition rejection and exact
+decode rejections. Do not implement lookup execution, piecewise-linear
+behavior or presentation-stage values.
 
 ## Test policy for the next action
 
-- A governance decision has no test surface. When the next accepted decision
-  authorises work, derive its policy from the smallest owning target as in
-  prior increments, plus documentation, requirement-index and
-  release-integrity checks and the package-graph checks whenever ownership
-  or module boundaries are affected. Do not rerun the complete scaffold
-  suite unless a cross-cutting change affects its gate or a release
-  candidate is being accepted.
+- Run `swift test --filter ValueTransform`, the owning
+  `swift build --target VoxeliaCore`, one direct-dependant build of a Core
+  consumer (`swift build --target VoxeliaImaging`) because Core gains public
+  API, strict format lint for the new source and test files, the
+  requirement-index and release-integrity checks, and the static
+  package-graph and prohibited-import checks. Do not run blocked
+  storage/metadata probes or the complete Swift package suite.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

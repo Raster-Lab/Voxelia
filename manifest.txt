@@ -296,6 +296,7 @@ Validation/Tolerances/scaffold.yaml
 docs/algorithms/README.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
+docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
 docs/architecture/decisions/ADR-0001-apple-ecosystem-only.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
