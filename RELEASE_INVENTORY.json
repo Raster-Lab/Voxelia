@@ -1516,8 +1516,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift",
-      "size": 801,
-      "sha256": "3cfc888e1fc6455280c8a7eb0b56c3fd146e6cc13b4162d79182f39807bc8f90"
+      "size": 942,
+      "sha256": "b85d8ee3379797e194c144dc9f8e0d5268402e594ed95f9d85cd86ec236f3600"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift",

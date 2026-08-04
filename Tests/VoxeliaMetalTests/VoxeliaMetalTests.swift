@@ -2,8 +2,9 @@
 
 import Foundation
 import Testing
-@testable import VoxeliaMetal
 import VoxeliaTestSupport
+
+@testable import VoxeliaMetal
 
 @Test("VoxeliaMetal M0 target is linked")
 func targetIsLinked() {
@@ -24,6 +25,11 @@ func shaderManifestIsBundled() throws {
         as: UTF8.self
     )
 
-    #expect(manifest.contains(#"schema_version: "0.1""#))
-    #expect(manifest.contains("shader_families: []"))
+    #expect(manifest.contains(#"schema_version: "0.2""#))
+    #expect(manifest.contains(#"family: "window-level""#))
+    #expect(
+        manifest.contains(
+            "302cd86e30ac67c064b9ce20833bb61585a46d636de3e952c3e95cc3504f7cbd"
+        )
+    )
 }
