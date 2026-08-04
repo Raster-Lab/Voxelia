@@ -68,7 +68,7 @@ struct SpatialAxisMappingTests {
         #expect(mapping.imageAxes == [0, Int.max, 42])
     }
 
-    @Test("[Unit][VOX-API-004] Codable preserves structure and revalidates input")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] Codable preserves structure and revalidates input")
     func codableRoundTripAndValidation() throws {
         let mapping = try SpatialAxisMapping(imageAxes: [2, 0, 4])
         let encoded = try JSONEncoder().encode(mapping)
@@ -79,21 +79,55 @@ struct SpatialAxisMappingTests {
         #expect(Set(object.keys) == ["imageAxes"])
         #expect(try #require(object["imageAxes"] as? [Int]) == [2, 0, 4])
 
-        let invalidValues = [
-            #"{"imageAxes":[]}"#,
-            #"{"imageAxes":[0,1,2,3]}"#,
-            #"{"imageAxes":[0,-1]}"#,
-            #"{"imageAxes":[0,1,0]}"#,
-            #"{"imageAxes":[0,1],"extra":true}"#,
-            #"[0,1]"#,
+        let invalidPayloads: [(json: String, expectedError: SpatialAxisMappingError)] = [
+            (#"{"imageAxes":[]}"#, .invalidAxisCount(actual: 0)),
+            (#"{"imageAxes":[0,1,2,3]}"#, .invalidAxisCount(actual: 4)),
+            (#"{"imageAxes":[0,-1]}"#, .negativeAxis(position: 1, value: -1)),
+            (
+                #"{"imageAxes":[0,1,0]}"#,
+                .duplicateAxis(axis: 0, firstPosition: 0, duplicatePosition: 2)
+            ),
         ]
-        for invalidValue in invalidValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        for invalidPayload in invalidPayloads {
+            do {
+                _ = try JSONDecoder().decode(
                     SpatialAxisMapping.self,
-                    from: Data(invalidValue.utf8)
+                    from: Data(invalidPayload.json.utf8)
                 )
+                #expect(Bool(false), "Expected an invalid mapping to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.map(\.stringValue) == ["imageAxes"])
+                #expect(
+                    context.underlyingError as? SpatialAxisMappingError
+                        == invalidPayload.expectedError
+                )
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
+        }
+
+        do {
+            _ = try JSONDecoder().decode(
+                SpatialAxisMapping.self,
+                from: Data(#"{"imageAxes":[0,1],"extra":true}"#.utf8)
+            )
+            #expect(Bool(false), "Expected an extra-key mapping to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.isEmpty)
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+        }
+
+        do {
+            _ = try JSONDecoder().decode(
+                SpatialAxisMapping.self,
+                from: Data(#"[0,1]"#.utf8)
+            )
+            #expect(Bool(false), "Expected an array-shaped mapping to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
     }
 }
