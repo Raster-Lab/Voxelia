@@ -1130,6 +1130,28 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   a nested chain, a table after arithmetic and a nine-stage chain,
   all typed. The window-level composable set now covers every
   `ValueTransform` case within registered bounds.
+- Thirty-seventh autonomous increment (owner overnight standing
+  mandate): authored and accepted `VOXELIA-ALG-0006` (region origin
+  shift `binary64-v1`) and `ADR-0071` (geometry-preserving region
+  extraction), discharging the `ADR-0064` origin-shift deferral. The
+  registered model updates the affine translation column — each
+  element gains the ascending-order sum of rotation-scale products
+  with the mapped lower bounds, separately and correctly rounded, no
+  fused multiply-add — and the regular sampling origin
+  (`origin + lower * spacing`), so every extracted sample keeps the
+  exact world position and axis coordinate it had in the source; the
+  rotation-scale block, mapped axes, coordinate space, spacing and
+  determinant admission hold by construction, and rebuilt values
+  revalidate through their accepted initializers. The extraction
+  operation now admits affine geometry and regular sampling
+  (irregular, categorical and externally defined samplings stay typed
+  rejections as different slicing models), the dead geometry
+  rejection case is removed before any release, and versions advance
+  to `1.1.0`. Tests reproduce both fixtures through the full
+  operation — the rotated translation update `(10, 22, 30)` with
+  unchanged non-translation elements and the regular-origin shift to
+  `7.5` — prove byte-exact samples, the advanced tokens and the
+  externally-defined rejection.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -243,8 +243,10 @@ struct RegionExtractionOperationTests {
     func admissionAndBudgetsRejectTyped() async throws {
         let region = try ImageRegion(lowerBounds: [1, 0], upperBounds: [3, 2])
 
-        // Version one rejects geometry-bearing descriptors and
-        // non-index sampling; origin arithmetic is deferred.
+        // The ADR-0071 origin shifts: the affine translation and the
+        // regular origin update per VOXELIA-ALG-0006 so every extracted
+        // sample keeps its source position; the rotation-scale block,
+        // spacing, mapped axes and coordinate space are unchanged.
         let space = try CoordinateSpaceDescriptor(
             id: try #require(CoordinateSpaceID(rawValue: "patient")),
             convention: .dicomPatientLPS,
@@ -254,22 +256,55 @@ struct RegionExtractionOperationTests {
         )
         let affine = try AffineGridGeometry(
             spatialAxes: try SpatialAxisMapping(imageAxes: [0, 1]),
-            indexToWorld: .identity,
+            indexToWorld: try Matrix4x4Double(elements: [
+                0, -2, 0, 10,
+                2, 0, 0, 20,
+                0, 0, 1, 30,
+                0, 0, 0, 1,
+            ]),
             coordinateSpace: space
         )
+        let calibrated = try await execute(
+            input: try input(
+                geometry: .affine(affine),
+                sampling: .regular(origin: 5, spacing: 2.5)
+            ),
+            region: region
+        )
+        guard
+            case .affine(let shifted)? = calibrated.descriptor.spatialGeometry
+        else {
+            #expect(Bool(false), "Expected the affine geometry to be preserved.")
+            return
+        }
+        #expect(
+            shifted.indexToWorld.elements
+                == [
+                    0, -2, 0, 10,
+                    2, 0, 0, 22,
+                    0, 0, 1, 30,
+                    0, 0, 0, 1,
+                ]
+        )
+        #expect(shifted.spatialAxes == affine.spatialAxes)
+        #expect(shifted.coordinateSpace == affine.coordinateSpace)
+        #expect(
+            calibrated.descriptor.axes[0].sampling
+                == .regular(origin: 7.5, spacing: 2.5)
+        )
+        #expect(calibrated.descriptor.axes[1].sampling == .indexOnly)
+        #expect(
+            calibrated.identity.derivation?.operationVersion
+                == (try SemanticVersion(major: 1, minor: 1, patch: 0))
+        )
+
+        // Slicing other sampling payloads is a different model.
         do {
             _ = try await execute(
-                input: try input(geometry: .affine(affine)),
+                input: try input(sampling: .externallyDefined(identifier: "ext-1")),
                 region: region
             )
-            #expect(Bool(false), "Expected geometry to be rejected.")
-        } catch RegionExtractionError.unsupportedGeometry {}
-        do {
-            _ = try await execute(
-                input: try input(sampling: .regular(origin: 0, spacing: 1)),
-                region: region
-            )
-            #expect(Bool(false), "Expected regular sampling to be rejected.")
+            #expect(Bool(false), "Expected external sampling to be rejected.")
         } catch RegionExtractionError.unsupportedAxisSampling {}
 
         // Region validity stays owned by the read-transaction rules,

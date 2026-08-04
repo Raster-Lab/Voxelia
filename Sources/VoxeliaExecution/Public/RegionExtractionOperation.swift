@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MIT
 
 import VoxeliaCore
+import VoxeliaSpatial
 import VoxeliaStorage
 
-/// An error raised by version-one region-extraction admission.
+/// An error raised by region-extraction admission.
 ///
-/// Cases deliberately carry no payload; every other failure surfaces as
-/// the audited typed error of the underlying accepted contract.
+/// The single case deliberately carries no payload; every other failure
+/// surfaces as the audited typed error of the underlying accepted
+/// contract.
 public enum RegionExtractionError: Error, Sendable, Equatable {
-    case unsupportedGeometry
     case unsupportedAxisSampling
 }
 
@@ -49,12 +50,14 @@ public enum RegionExtractionOperation {
         software: SoftwareIdentity,
         coordinator: StorageReadCoordinator
     ) async throws -> ImageData {
-        // Version-one admission: no geometry, index-only sampling.
-        guard input.descriptor.spatialGeometry == nil else {
-            throw RegionExtractionError.unsupportedGeometry
-        }
+        // Admission per ADR-0064 lifted by ADR-0071: index-only and
+        // regular sampling; slicing other sampling payloads is a
+        // different model.
         for axis in input.descriptor.axes {
-            guard case .indexOnly = axis.sampling else {
+            switch axis.sampling {
+            case .indexOnly, .regular:
+                continue
+            case .irregular, .categorical, .externallyDefined:
                 throw RegionExtractionError.unsupportedAxisSampling
             }
         }
@@ -70,19 +73,61 @@ public enum RegionExtractionOperation {
         )
 
         // The output descriptor keeps every per-sample property with
-        // the region's shape.
+        // the region's shape; regular origins and the affine
+        // translation shift per the registered VOXELIA-ALG-0006 model
+        // so every extracted sample keeps its source position.
         var extents = [Int]()
         extents.reserveCapacity(region.rank)
         for axis in 0..<region.rank {
             extents.append(region.upperBounds[axis] - region.lowerBounds[axis])
+        }
+        var outputAxes = ContiguousArray<AxisDescriptor>()
+        outputAxes.reserveCapacity(input.descriptor.axes.count)
+        for (axisIndex, axis) in input.descriptor.axes.enumerated() {
+            if case .regular(let origin, let spacing) = axis.sampling {
+                let shiftedOrigin =
+                    origin + (Double(region.lowerBounds[axisIndex]) * spacing)
+                outputAxes.append(
+                    try AxisDescriptor(
+                        id: axis.id,
+                        name: axis.name,
+                        semantic: axis.semantic,
+                        unit: axis.unit,
+                        sampling: .regular(origin: shiftedOrigin, spacing: spacing)
+                    )
+                )
+            } else {
+                outputAxes.append(axis)
+            }
+        }
+        var outputGeometry: SpatialGeometry?
+        if case .affine(let affine) = input.descriptor.spatialGeometry {
+            var elements = Array(affine.indexToWorld.elements)
+            for row in 0...2 {
+                var translation = elements[4 * row + 3]
+                for (slot, imageAxis) in affine.spatialAxes.imageAxes.enumerated() {
+                    translation =
+                        translation
+                        + (elements[4 * row + slot]
+                            * Double(region.lowerBounds[imageAxis]))
+                }
+                elements[4 * row + 3] = translation
+            }
+            outputGeometry = .affine(
+                try AffineGridGeometry(
+                    spatialAxes: affine.spatialAxes,
+                    indexToWorld: try Matrix4x4Double(elements: elements),
+                    coordinateSpace: affine.coordinateSpace
+                )
+            )
         }
         let outputDescriptor = try ImageDescriptor(
             shape: try ImageShape(extents: extents),
             scalarFormat: input.descriptor.scalarFormat,
             components: input.descriptor.components,
             semantic: input.descriptor.semantic,
-            axes: input.descriptor.axes,
-            spatialGeometry: nil,
+            axes: outputAxes,
+            spatialGeometry: outputGeometry,
             valueTransform: input.descriptor.valueTransform,
             units: input.descriptor.units
         )
@@ -96,8 +141,9 @@ public enum RegionExtractionOperation {
             )
         )
 
-        // Registered tokens, derivation recipe and content identity.
-        let version = try SemanticVersion(major: 1, minor: 0, patch: 0)
+        // Registered tokens (advanced to 1.1.0 by ADR-0071), derivation
+        // recipe and content identity.
+        let version = try SemanticVersion(major: 1, minor: 1, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )
