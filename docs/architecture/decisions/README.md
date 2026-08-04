@@ -36,8 +36,9 @@ execution read coordination boundary opening milestone M2. `ADR-0047`
 is allocated to the coordinated metadata identity boundary. `ADR-0048`
 is allocated to single-flight read deduplication. `ADR-0049` is
 allocated to the sample-bytes content projection. `ADR-0050` is
-allocated to the content-tier result cache. The next unallocated
-numeric identifier is `ADR-0051`.
+allocated to the content-tier result cache. `ADR-0051` is allocated to
+the execution claim value shapes. The next unallocated numeric
+identifier is `ADR-0052`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -71,3 +72,4 @@ numeric identifier is `ADR-0051`.
 | [ADR-0048](ADR-0048-single-flight-read-deduplication.md) | Accepted | Single-flight read deduplication |
 | [ADR-0049](ADR-0049-sample-bytes-content-projection.md) | Accepted | Sample-bytes content projection |
 | [ADR-0050](ADR-0050-content-tier-result-cache.md) | Accepted | Content-tier result cache |
+| [ADR-0051](ADR-0051-execution-claim-value-shapes.md) | Accepted | Execution claim value shapes |

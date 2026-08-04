@@ -594,6 +594,27 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   counter stays zero across healthy operations and the payload-free
   error discipline holds. Source-tier and derivation-tier admission
   stay gated on their `ADR-0037` prerequisites.
+- Seventeenth autonomous increment: authored and accepted `ADR-0051`
+  (execution claim value shapes) and implemented the Core-neutral
+  execution claim leg of the accepted `ADR-0038` provenance target in
+  `VoxeliaCore`: `ExecutionClaimToken` (bounded lowercase reverse-domain
+  grammar with byte-limit-before-grammar precedence as its own nominal
+  authority, exact-byte identity), `ExecutionComponentReference` (token
+  plus exact `SemanticVersion` with build metadata rejected typed
+  because it does not participate in version equality),
+  `ExecutionApproximationStatus` (closed frozen `exact`/`approximate`),
+  and `ExecutionProvenanceClaim` (required profile, backend, precision
+  policy and quality policy, required approximation status, optional
+  capability class and kernel with no defaults; every field
+  participates in identity). No `Codable` is declared: the stable
+  coding of every claim shape is owned by the future canonical
+  provenance-record projection decision, so no ad-hoc non-canonical
+  encoding can leak into persistence. Tests prove ceiling-before-
+  grammar precedence, exact token classification, typed build-metadata
+  rejection, per-field claim identity across seven variants, optional
+  absence and payload-free diagnostics. The provenance record, warning
+  schema, subject binding and graph admission remain gated on their own
+  decisions.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

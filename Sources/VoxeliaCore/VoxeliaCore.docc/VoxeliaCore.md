@@ -132,6 +132,11 @@ storage semantics.
 ### Provenance
 
 - ``ProvenanceKind``
+- ``ExecutionClaimToken``
+- ``ExecutionComponentReference``
+- ``ExecutionApproximationStatus``
+- ``ExecutionProvenanceClaim``
+- ``ExecutionClaimError``
 
 ### Common errors
 
