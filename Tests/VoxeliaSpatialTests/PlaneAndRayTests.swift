@@ -116,26 +116,14 @@ struct PlaneAndRayTests {
 
     @Test("[Unit][VOX-ERR-001] decoding revalidates every composite invariant")
     func decodingRevalidatesInvariants() throws {
-        let invalidShapes: [(Plane3D.Type, String)] = [
-            (Plane3D.self, #"{"origin":{}}"#),
-            (Plane3D.self, #"{"origin":{},"normal":{},"extra":true}"#),
-            (Plane3D.self, #"[]"#),
-        ]
-        for (type, json) in invalidShapes {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(type, from: Data(json.utf8))
-            }
-        }
-        let invalidRayShapes: [(Ray3D.Type, String)] = [
-            (Ray3D.self, #"{"origin":{}}"#),
-            (Ray3D.self, #"{"origin":{},"direction":{},"extra":true}"#),
-            (Ray3D.self, #"[]"#),
-        ]
-        for (type, json) in invalidRayShapes {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(type, from: Data(json.utf8))
-            }
-        }
+        expectExactWrongShapeDecoding(
+            Plane3D.self,
+            extraKeyJSON: #"{"origin":{},"normal":{},"extra":true}"#
+        )
+        expectExactWrongShapeDecoding(
+            Ray3D.self,
+            extraKeyJSON: #"{"origin":{},"direction":{},"extra":true}"#
+        )
 
         let zeroPlane =
             #"{"origin":{"x":1,"y":2,"z":3,"coordinateSpace":{"rawValue":"world"}},"normal":{"x":0,"y":0,"z":0,"coordinateSpace":{"rawValue":"world"}}}"#
@@ -196,6 +184,31 @@ struct PlaneAndRayTests {
             )
         } catch {
             #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+        }
+    }
+
+    private func expectExactWrongShapeDecoding<Value: Decodable>(
+        _ type: Value.Type,
+        extraKeyJSON: String
+    ) {
+        for wrongKeyValue in [#"{"origin":{}}"#, extraKeyJSON] {
+            do {
+                _ = try JSONDecoder().decode(type, from: Data(wrongKeyValue.utf8))
+                #expect(Bool(false), "Expected a wrong-keyed composite to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+            }
+        }
+
+        do {
+            _ = try JSONDecoder().decode(type, from: Data(#"[]"#.utf8))
+            #expect(Bool(false), "Expected an array-shaped composite to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
     }
 
