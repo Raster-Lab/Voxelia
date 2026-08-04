@@ -146,44 +146,106 @@ struct GeometryTaxonomyTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] rejects unknown or malformed taxonomy values")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] rejects unknown or malformed taxonomy values")
     func rejectsUnknownOrMalformedValues() {
-        let rawInvalidValues = [#""unknown""#, "1", "true", "null", "{}", "[]"]
-        for json in rawInvalidValues {
-            let data = Data(json.utf8)
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(GeometryKind.self, from: data)
-            }
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(MeshPrimitive.self, from: data)
-            }
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(IndexType.self, from: data)
-            }
-        }
+        expectExactInvalidRawValueDecoding(GeometryKind.self)
+        expectExactInvalidRawValueDecoding(MeshPrimitive.self)
+        expectExactInvalidRawValueDecoding(IndexType.self)
 
-        let semanticInvalidValues = [
+        let rootCorruptedValues = [
             #""Position""#,
             #""custom""#,
-            "1",
-            "true",
-            "null",
-            "[]",
-            "{}",
+            #"{}"#,
             #"{"unexpected":{"namespace":"org.voxelia","name":"value"}}"#,
-            #"{"custom":"value"}"#,
+            #"{"custom":{"namespace":"org.voxelia","name":"value"},"extra":true}"#,
+        ]
+        for rootCorruptedValue in rootCorruptedValues {
+            expectSemanticDataCorruptedDecoding(json: rootCorruptedValue, path: [])
+        }
+
+        let customCorruptedValues = [
             #"{"custom":{"namespace":"org.voxelia"}}"#,
             #"{"custom":{"name":"value"}}"#,
             #"{"custom":{"namespace":"org.voxelia","name":"value","extra":true}}"#,
-            #"{"custom":{"namespace":"org.voxelia","name":"value"},"extra":true}"#,
         ]
-        for json in semanticInvalidValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        for customCorruptedValue in customCorruptedValues {
+            expectSemanticDataCorruptedDecoding(
+                json: customCorruptedValue,
+                path: ["custom"]
+            )
+        }
+
+        do {
+            _ = try JSONDecoder().decode(
+                GeometryAttributeSemantic.self,
+                from: Data("null".utf8)
+            )
+            #expect(Bool(false), "Expected null to fail decoding.")
+        } catch DecodingError.valueNotFound {
+            // The keyed-container request rejects null after the string branch.
+        } catch {
+            #expect(Bool(false), "Expected valueNotFound, received \(error).")
+        }
+
+        for wrongShape in ["1", "true", "[]", #"{"custom":"value"}"#] {
+            do {
+                _ = try JSONDecoder().decode(
                     GeometryAttributeSemantic.self,
-                    from: Data(json.utf8)
+                    from: Data(wrongShape.utf8)
                 )
+                #expect(Bool(false), "Expected a wrong-shaped semantic to fail decoding.")
+            } catch DecodingError.typeMismatch {
+                // Non-object shapes and the string-valued custom payload are rejected.
+            } catch {
+                #expect(Bool(false), "Expected typeMismatch, received \(error).")
             }
+        }
+    }
+
+    private func expectExactInvalidRawValueDecoding<Value: Decodable>(
+        _ type: Value.Type
+    ) {
+        do {
+            _ = try JSONDecoder().decode(type, from: Data(#""unknown""#.utf8))
+            #expect(Bool(false), "Expected an unknown token to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.isEmpty)
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
+        }
+
+        do {
+            _ = try JSONDecoder().decode(type, from: Data("null".utf8))
+            #expect(Bool(false), "Expected null to fail decoding.")
+        } catch DecodingError.valueNotFound {
+            // Null is rejected for the non-optional raw value.
+        } catch {
+            #expect(Bool(false), "Expected valueNotFound, received \(error).")
+        }
+
+        for wrongShape in ["1", "true", "{}", "[]"] {
+            do {
+                _ = try JSONDecoder().decode(type, from: Data(wrongShape.utf8))
+                #expect(Bool(false), "Expected a wrong-shaped value to fail decoding.")
+            } catch DecodingError.typeMismatch {
+                // Non-string shapes are rejected before raw-value lookup.
+            } catch {
+                #expect(Bool(false), "Expected typeMismatch, received \(error).")
+            }
+        }
+    }
+
+    private func expectSemanticDataCorruptedDecoding(json: String, path: [String]) {
+        do {
+            _ = try JSONDecoder().decode(
+                GeometryAttributeSemantic.self,
+                from: Data(json.utf8)
+            )
+            #expect(Bool(false), "Expected a malformed semantic to fail decoding.")
+        } catch DecodingError.dataCorrupted(let context) {
+            #expect(context.codingPath.map(\.stringValue) == path)
+        } catch {
+            #expect(Bool(false), "Expected dataCorrupted, received \(error).")
         }
     }
 
