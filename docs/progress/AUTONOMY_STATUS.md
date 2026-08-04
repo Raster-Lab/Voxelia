@@ -318,6 +318,22 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   provider) are now unblocked as separate user-requested increments;
   steps 8 through 11 and unresolved questions 4, 6 and 8 through 14
   remain gated. Documentation-only: no storage source was added.
+- Under the project owner's 2026-08-04 autonomous delegation ("work
+  autonomously, take your own decisions"), executed the first `RFC-0001`
+  step-5/6 storage increment: `StorageContract.swift` in `VoxeliaCore`
+  adds the frozen payload-free nine-case `StorageContractError` and the
+  validated `LogicalSampleBinding` (validated shape, exact decoded
+  scalar type, positive component count, checked `Int` value and byte
+  accounting mapping overflow to the typed limit) plus the lossless
+  step-5 compatibility projection from the existing `ScalarFormat` and
+  `ComponentDescriptor` leaves, consuming only their
+  representation-independent fields so byte order never changes logical
+  identity. Two focused tests cover checked accounting, overflow
+  rejection, projection losslessness and byte-order independence. The
+  remaining step-6 surface (tagged `StorageRepresentationDescriptor`,
+  `StorageSnapshotHandle` admission authority, the read transaction,
+  `RegionReadResult`, `StorageByteLease` and checked `AnyImageStorage`
+  erasure) continues as the next increments in this loop.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

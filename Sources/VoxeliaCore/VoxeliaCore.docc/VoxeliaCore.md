@@ -64,6 +64,11 @@ storage semantics.
 - ``CanonicalInstant``
 - ``CanonicalInstantError``
 
+### Storage contract
+
+- ``LogicalSampleBinding``
+- ``StorageContractError``
+
 ### Content identity
 
 - ``DigestAlgorithm``
