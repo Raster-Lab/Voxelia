@@ -160,20 +160,32 @@ struct CodedConceptTests {
         }
     }
 
-    @Test("[Unit][VOX-API-004] decoding is strict and contextual")
+    @Test("[Unit][VOX-API-004][VOX-ERR-001] decoding is strict and contextual")
     func decodingIsStrictAndContextual() {
-        let malformedValues = [
+        let wrongKeyValues = [
             #"{"scheme":"SNOMED","value":"123"}"#,
             #"{"scheme":"SNOMED","value":"123","meaning":null,"version":null,"extra":true}"#,
-            #"[]"#,
         ]
-        for malformedValue in malformedValues {
-            #expect(throws: DecodingError.self) {
-                try JSONDecoder().decode(
+        for wrongKeyValue in wrongKeyValues {
+            do {
+                _ = try JSONDecoder().decode(
                     CodedConcept.self,
-                    from: Data(malformedValue.utf8)
+                    from: Data(wrongKeyValue.utf8)
                 )
+                #expect(Bool(false), "Expected wrong-keyed concept to fail decoding.")
+            } catch DecodingError.dataCorrupted(let context) {
+                #expect(context.codingPath.isEmpty)
+            } catch {
+                #expect(Bool(false), "Expected dataCorrupted, received \(error).")
             }
+        }
+        do {
+            _ = try JSONDecoder().decode(CodedConcept.self, from: Data(#"[]"#.utf8))
+            #expect(Bool(false), "Expected array-shaped concept to fail decoding.")
+        } catch DecodingError.typeMismatch {
+            // The keyed-container request rejects the non-object shape.
+        } catch {
+            #expect(Bool(false), "Expected typeMismatch, received \(error).")
         }
 
         expectBlankDecoding(
