@@ -94,18 +94,20 @@ struct ExactSliceRendererTests {
     }
 
     private func makeRenderer(
-        publisher: PublicationCoordinator
+        publisher: PublicationCoordinator,
+        prefix: String
     ) throws -> ExactSliceRenderer {
         ExactSliceRenderer(
             publisher: publisher,
             readCoordinator: StorageReadCoordinator(
-                maximumRetainedResultByteCount: 64
+                maximumRetainedResultByteCount: 96
             ),
             software: try software(),
-            naming: {
-                (
-                    outputObjectID: DataObjectID(rawValue: "render-1")!,
-                    provenanceID: ProvenanceID(rawValue: "record-render")!,
+            naming: { stage in
+                let suffix = stage == .windowLevelled ? "wl" : "rs"
+                return (
+                    outputObjectID: DataObjectID(rawValue: "\(prefix)-\(suffix)")!,
+                    provenanceID: ProvenanceID(rawValue: "record-\(prefix)-\(suffix)")!,
                     createdAt: try CanonicalInstant(
                         utcString: "2026-08-05T04:05:00Z"
                     )
@@ -155,11 +157,12 @@ struct ExactSliceRendererTests {
     func firstVerticalSliceRendersEndToEnd() async throws {
         let publisher = try publisher()
         _ = try await publisher.publish(try originImage(), mode: .complete)
-        let renderer = try makeRenderer(publisher: publisher)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "render-1")
 
-        // Rendering a published single-layer scene produces exactly the
+        // Rendering at the image extents produces exactly the
         // registered window-level fixture, published with depth-two
-        // complete provenance and full presentation claims.
+        // complete provenance and full presentation claims; no
+        // identity resample is minted.
         let result = try await renderer.render(
             RenderRequest(
                 scene: try scene(),
@@ -167,7 +170,7 @@ struct ExactSliceRendererTests {
                 quality: .full
             )
         )
-        #expect(result.outputObjectID.rawValue == "render-1")
+        #expect(result.outputObjectID.rawValue == "render-1-wl")
         #expect(result.presentation.renderMode == .slice)
         #expect(result.presentation.colourOutput == .greyscale8)
         let published = try #require(
@@ -180,8 +183,7 @@ struct ExactSliceRendererTests {
         #expect(published.provenance.inputs.count == 1)
         #expect(await publisher.publishedObjectCount == 2)
 
-        // Admission rejections: an unpublished image and a mismatched
-        // viewport are typed.
+        // Admission rejection: an unpublished image is typed.
         do {
             _ = try await renderer.render(
                 RenderRequest(
@@ -192,19 +194,54 @@ struct ExactSliceRendererTests {
             )
             #expect(Bool(false), "Expected an unpublished image to be rejected.")
         } catch SliceRendererError.imageNotPublished {}
-        do {
-            _ = try await renderer.render(
-                RenderRequest(
-                    scene: try scene(),
-                    viewport: try ViewportSize(width: 8, height: 6),
-                    quality: .full
-                )
-            )
-            #expect(Bool(false), "Expected a viewport mismatch to be rejected.")
-        } catch SliceRendererError.viewportMismatch {}
 
         requireSendable(ExactSliceRenderer.self)
         requireSendable(SliceRendererError.self)
+        requireSendable(RenderPublicationStage.self)
+    }
+
+    @Test("[Unit][VOX-VS1-017][VOX-VS1-019] a differing viewport resamples both stages")
+    func differingViewportResamplesBothStages() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "render-2")
+
+        // Rendering at twice the extents composes window-level with the
+        // ADR-0088 resampling operation: the registered fixture bytes
+        // duplicated into 2-by-2 blocks, with both derived stages
+        // published as a depth-three complete chain.
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: try scene(),
+                viewport: try ViewportSize(width: 8, height: 6),
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "render-2-rs")
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let outputBytes = try published.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [8, 6])
+        ).bytes
+        #expect(
+            outputBytes == [
+                0, 0, 0, 0, 0, 0, 36, 36, 0, 0, 0, 0, 0, 0, 36, 36,
+                73, 73, 109, 109, 146, 146, 182, 182,
+                73, 73, 109, 109, 146, 146, 182, 182,
+                219, 219, 255, 255, 255, 255, 255, 255,
+                219, 219, 255, 255, 255, 255, 255, 255,
+            ]
+        )
+        #expect(await publisher.publishedObjectCount == 3)
+        let intermediateID = try #require(DataObjectID(rawValue: "render-2-wl"))
+        #expect(await publisher.publishedImage(for: intermediateID) != nil)
+        let resampledRecordID = try #require(ProvenanceID(rawValue: "record-render-2-rs"))
+        let intermediateRecordID = try #require(ProvenanceID(rawValue: "record-render-2-wl"))
+        let resampledRecord = try #require(
+            await publisher.publishedProvenanceRecord(for: resampledRecordID)
+        )
+        #expect(resampledRecord.inputs[0].parent == .graphNode(intermediateRecordID))
     }
 
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}

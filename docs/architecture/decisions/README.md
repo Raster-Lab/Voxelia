@@ -74,8 +74,9 @@ the render quality, layer and scene snapshot models. `ADR-0085` is
 allocated to the render request, result and renderer protocol.
 `ADR-0086` is allocated to the exact diagnostic slice renderer.
 `ADR-0087` is allocated to float transform error bounds. `ADR-0088`
-is allocated to the nearest-neighbour resampling operation. The next
-unallocated numeric identifier is `ADR-0089`.
+is allocated to the nearest-neighbour resampling operation.
+`ADR-0089` is allocated to renderer viewport resampling composition.
+The next unallocated numeric identifier is `ADR-0090`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -147,3 +148,4 @@ unallocated numeric identifier is `ADR-0089`.
 | [ADR-0086](ADR-0086-exact-diagnostic-slice-renderer.md) | Accepted | Exact diagnostic slice renderer |
 | [ADR-0087](ADR-0087-float-transform-error-bounds.md) | Accepted | Float transform error bounds |
 | [ADR-0088](ADR-0088-nearest-neighbour-resampling.md) | Accepted | Nearest-neighbour resampling operation |
+| [ADR-0089](ADR-0089-renderer-viewport-resampling.md) | Accepted | Renderer viewport resampling composition |

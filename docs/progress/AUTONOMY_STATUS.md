@@ -1514,6 +1514,28 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   digest independently, admit the output into a depth-two complete
   graph and reject unsupported sampling and out-of-range extents
   typed.
+- Fifty-fifth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0089` and lifted the exact
+  slice renderer's identity-only viewport admission by composing the
+  `ADR-0088` resampling operation. Window-level executes first — the
+  value model consumes the stored-to-real composition — and
+  nearest-neighbour resampling then maps the greyscale output to the
+  requested viewport, keeping every stage a registered operation over
+  its accepted domain. Both derived objects publish with full
+  identity and provenance as a depth-three complete chain, because
+  the coordinator's ancestry closure walks the published registry and
+  an unpublished parent would be silent history; a viewport equal to
+  the image extents publishes the single window-levelled object
+  unchanged rather than minting a bit-identical identity resample.
+  The host naming closure now receives a closed publication-stage
+  value so two published objects get two host-supplied identifier
+  sets, a recorded pre-release signature revision of the `ADR-0086`
+  contract, and the dead `viewportMismatch` error case is removed per
+  the `ADR-0071` precedent. Tests render an equal-extent viewport
+  unchanged and render a doubled viewport into the registered
+  window-level fixture duplicated into 2-by-2 blocks with both stages
+  published and the resampled record's parent edge bound to the
+  intermediate record.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

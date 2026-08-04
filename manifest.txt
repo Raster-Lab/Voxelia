@@ -511,6 +511,7 @@ docs/architecture/decisions/ADR-0085-render-request-result-and-protocol.md
 docs/architecture/decisions/ADR-0086-exact-diagnostic-slice-renderer.md
 docs/architecture/decisions/ADR-0087-float-transform-error-bounds.md
 docs/architecture/decisions/ADR-0088-nearest-neighbour-resampling.md
+docs/architecture/decisions/ADR-0089-renderer-viewport-resampling.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
