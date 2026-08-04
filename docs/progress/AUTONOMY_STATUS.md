@@ -454,6 +454,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   unknown-tag rejections, an invariant violation surfaced through the
   wire (duplicated axis identifier) and redaction of space identifiers
   from the failure context.
+- Tenth autonomous increment: authored and accepted `ADR-0044`
+  (persistent identifier exactness boundary) with `CCR-0018`, then
+  tightened the existing `DataObjectID` and `ProvenanceID` leaves: an
+  inclusive 255-UTF-8-byte raw-value ceiling rejected at construction
+  (surfacing through the shared strict decoder as the value-redacted
+  concrete-type failure) and exact accepted-UTF-8 equality and hashing
+  so canonically equivalent byte-distinct spellings are distinct
+  identifiers, matching the `AnyMetadataKey` precedent. The
+  `init?(rawValue:)` surface, keyed wire and shared protocol are
+  unchanged, and other identifier conformances keep their semantics.
+  This discharges `ADR-0037` source-gate item 4 for `DataObjectID` and
+  the `ADR-0038` bounded-identifier prerequisite for `ProvenanceID`;
+  the remaining gate items stay open. One focused test covers the
+  255/256 boundary, NFC/NFD distinctness in equality/hash/set
+  behaviour, redacted over-ceiling decode rejection and the exact wire
+  round trip; the full suite re-passed, proving no existing evidence
+  relied on the loosened domains.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
