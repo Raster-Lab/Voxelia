@@ -104,7 +104,15 @@ struct ExactSliceRendererTests {
             ),
             software: try software(),
             naming: { stage in
-                let suffix = stage == .windowLevelled ? "wl" : "rs"
+                let suffix: String
+                switch stage {
+                case .windowLevelled(let layerIndex):
+                    suffix = "wl\(layerIndex)"
+                case .composited:
+                    suffix = "cp"
+                case .resampled:
+                    suffix = "rs"
+                }
                 return (
                     outputObjectID: DataObjectID(rawValue: "\(prefix)-\(suffix)")!,
                     provenanceID: ProvenanceID(rawValue: "record-\(prefix)-\(suffix)")!,
@@ -133,17 +141,25 @@ struct ExactSliceRendererTests {
         )
     }
 
-    private func scene(_ objectName: String = "series-7") throws -> SceneSnapshot {
+    private func layer(
+        _ objectName: String,
+        center: Double = 6,
+        width: Double = 8,
+        opacity: Double = 1
+    ) throws -> RenderLayer {
+        try RenderLayer(
+            imageObjectID: try #require(DataObjectID(rawValue: objectName)),
+            transferFunction: .greyscaleWindow(
+                try GreyscaleWindowFunction(center: center, width: width)
+            ),
+            opacity: opacity
+        )
+    }
+
+    private func scene(_ layers: [RenderLayer]) throws -> SceneSnapshot {
         let space = try #require(CoordinateSpaceID(rawValue: "patient"))
         return try SceneSnapshot(
-            layers: [
-                RenderLayer(
-                    imageObjectID: try #require(DataObjectID(rawValue: objectName)),
-                    transferFunction: .greyscaleWindow(
-                        try GreyscaleWindowFunction(center: 6, width: 8)
-                    )
-                )
-            ],
+            layers: ContiguousArray(layers),
             camera: try RenderCamera(
                 position: try Point3D(x: 0, y: 0, z: -100, coordinateSpace: space),
                 target: try Point3D(x: 0, y: 0, z: 0, coordinateSpace: space),
@@ -165,12 +181,12 @@ struct ExactSliceRendererTests {
         // identity resample is minted.
         let result = try await renderer.render(
             RenderRequest(
-                scene: try scene(),
+                scene: try scene([try layer("series-7")]),
                 viewport: try ViewportSize(width: 4, height: 3),
                 quality: .full
             )
         )
-        #expect(result.outputObjectID.rawValue == "render-1-wl")
+        #expect(result.outputObjectID.rawValue == "render-1-wl0")
         #expect(result.presentation.renderMode == .slice)
         #expect(result.presentation.colourOutput == .greyscale8)
         let published = try #require(
@@ -183,17 +199,28 @@ struct ExactSliceRendererTests {
         #expect(published.provenance.inputs.count == 1)
         #expect(await publisher.publishedObjectCount == 2)
 
-        // Admission rejection: an unpublished image is typed.
+        // Admission rejections: an unpublished image and a
+        // reduced-opacity single layer are typed.
         do {
             _ = try await renderer.render(
                 RenderRequest(
-                    scene: try scene("series-9"),
+                    scene: try scene([try layer("series-9")]),
                     viewport: try ViewportSize(width: 4, height: 3),
                     quality: .full
                 )
             )
             #expect(Bool(false), "Expected an unpublished image to be rejected.")
         } catch SliceRendererError.imageNotPublished {}
+        do {
+            _ = try await renderer.render(
+                RenderRequest(
+                    scene: try scene([try layer("series-7", opacity: 0.5)]),
+                    viewport: try ViewportSize(width: 4, height: 3),
+                    quality: .full
+                )
+            )
+            #expect(Bool(false), "Expected a single-layer fade to be rejected.")
+        } catch SliceRendererError.unsupportedLayerOpacity {}
 
         requireSendable(ExactSliceRenderer.self)
         requireSendable(SliceRendererError.self)
@@ -212,7 +239,7 @@ struct ExactSliceRendererTests {
         // published as a depth-three complete chain.
         let result = try await renderer.render(
             RenderRequest(
-                scene: try scene(),
+                scene: try scene([try layer("series-7")]),
                 viewport: try ViewportSize(width: 8, height: 6),
                 quality: .full
             )
@@ -234,14 +261,57 @@ struct ExactSliceRendererTests {
             ]
         )
         #expect(await publisher.publishedObjectCount == 3)
-        let intermediateID = try #require(DataObjectID(rawValue: "render-2-wl"))
+        let intermediateID = try #require(DataObjectID(rawValue: "render-2-wl0"))
         #expect(await publisher.publishedImage(for: intermediateID) != nil)
         let resampledRecordID = try #require(ProvenanceID(rawValue: "record-render-2-rs"))
-        let intermediateRecordID = try #require(ProvenanceID(rawValue: "record-render-2-wl"))
+        let intermediateRecordID = try #require(
+            ProvenanceID(rawValue: "record-render-2-wl0")
+        )
         let resampledRecord = try #require(
             await publisher.publishedProvenanceRecord(for: resampledRecordID)
         )
         #expect(resampledRecord.inputs[0].parent == .graphNode(intermediateRecordID))
+    }
+
+    @Test("[Unit][VOX-VS1-017][VOX-ARC-008] a two-layer scene composites end to end")
+    func twoLayerSceneCompositesEndToEnd() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "render-3")
+
+        // Two layers over the same published object with different
+        // windows blend per the registered ALG-0009 fixture: every
+        // stage is published and the composite record carries both
+        // parent edges.
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: try scene([
+                    try layer("series-7"),
+                    try layer("series-7", center: 3, width: 6, opacity: 0.5),
+                ]),
+                viewport: try ViewportSize(width: 4, height: 3),
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "render-3-cp")
+        #expect(result.presentation.layers.count == 2)
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let outputBytes = try published.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 3])
+        ).bytes
+        #expect(outputBytes == [0, 26, 51, 94, 138, 182, 200, 218, 237, 255, 255, 255])
+        #expect(await publisher.publishedObjectCount == 4)
+        let compositeRecordID = try #require(ProvenanceID(rawValue: "record-render-3-cp"))
+        let compositeRecord = try #require(
+            await publisher.publishedProvenanceRecord(for: compositeRecordID)
+        )
+        #expect(compositeRecord.inputs.count == 2)
+        let firstParent = try #require(ProvenanceID(rawValue: "record-render-3-wl0"))
+        let secondParent = try #require(ProvenanceID(rawValue: "record-render-3-wl1"))
+        #expect(compositeRecord.inputs[0].parent == .graphNode(firstParent))
+        #expect(compositeRecord.inputs[1].parent == .graphNode(secondParent))
     }
 
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}

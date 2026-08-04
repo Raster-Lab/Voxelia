@@ -41,16 +41,18 @@ public struct RenderRequest: Sendable, Hashable {
 }
 
 /// The honest CDMS section 12.4 presentation-provenance subset per
-/// `ADR-0085`.
+/// `ADR-0085`, revised by `ADR-0091` to claim every presented layer.
 ///
-/// The presentation transform is deferred behind the `VOX-SPA-004`
-/// float-bounds gate, clipping and cropping await their own model, and
+/// Each layer claim carries its object identifier, transfer function
+/// and opacity in compositing order — one transfer function cannot
+/// honestly describe a multi-layer result. The presentation transform
+/// remains deferred, clipping and cropping await their own model, and
 /// the random seed field arrives with the first stochastic mode — a
 /// deterministic pipeline recording a seed would be a false claim.
 public struct PresentationProvenance: Sendable, Hashable {
     public let camera: RenderCamera
     public let viewport: ViewportSize
-    public let transferFunction: TransferFunction
+    public let layers: ContiguousArray<RenderLayer>
     public let renderMode: RenderMode
     public let colourOutput: ColourOutputConfiguration
     public let accumulation: AccumulationState
@@ -59,7 +61,7 @@ public struct PresentationProvenance: Sendable, Hashable {
     public init(
         camera: RenderCamera,
         viewport: ViewportSize,
-        transferFunction: TransferFunction,
+        layers: ContiguousArray<RenderLayer>,
         renderMode: RenderMode,
         colourOutput: ColourOutputConfiguration,
         accumulation: AccumulationState,
@@ -67,7 +69,7 @@ public struct PresentationProvenance: Sendable, Hashable {
     ) {
         self.camera = camera
         self.viewport = viewport
-        self.transferFunction = transferFunction
+        self.layers = layers
         self.renderMode = renderMode
         self.colourOutput = colourOutput
         self.accumulation = accumulation

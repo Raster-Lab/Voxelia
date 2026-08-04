@@ -11,12 +11,14 @@ import VoxeliaRendering
 public enum SliceRendererError: Error, Sendable, Equatable {
     case unsupportedSceneShape
     case imageNotPublished
+    case unsupportedLayerOpacity
 }
 
 /// The closed set of published stages one render can produce; the
-/// host names each stage per `ADR-0089`.
+/// host names each stage per `ADR-0089` as revised by `ADR-0091`.
 public enum RenderPublicationStage: Sendable, Equatable {
-    case windowLevelled
+    case windowLevelled(layerIndex: Int)
+    case composited
     case resampled
 }
 
@@ -65,50 +67,81 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
     /// - Throws: ``SliceRendererError``, or the audited typed errors
     ///   of the execution and publication contracts.
     public func render(_ request: RenderRequest) async throws -> RenderResult {
-        // Admission: one published greyscale layer.
-        guard request.scene.layers.count == 1 else {
-            throw SliceRendererError.unsupportedSceneShape
-        }
-        let layer = request.scene.layers[0]
-        guard
-            let input = await publisher.publishedImage(for: layer.imageObjectID)
-        else {
-            throw SliceRendererError.imageNotPublished
-        }
-        guard case .greyscaleWindow(let window) = layer.transferFunction else {
-            throw SliceRendererError.unsupportedSceneShape
+        // A single-layer scene keeps its accepted single-publication
+        // shape, so it requires full opacity — a single-layer fade
+        // would widen the compositing admission, its own decision.
+        if request.scene.layers.count == 1,
+            request.scene.layers[0].opacity != 1
+        {
+            throw SliceRendererError.unsupportedLayerOpacity
         }
 
-        // Window-level first — the value model consumes the stored
-        // domain — and every derived stage publishes, so the ancestry
-        // closure stays complete in the registry.
-        let windowNames = try naming(.windowLevelled)
-        let windowLevelled = try await WindowLevelOperation.execute(
-            input: input,
-            center: try MetadataFloatingPoint(value: window.center),
-            width: try MetadataFloatingPoint(value: window.width),
-            outputObjectID: windowNames.outputObjectID,
-            outputProvenanceID: windowNames.provenanceID,
-            createdAt: windowNames.createdAt,
-            software: software,
-            coordinator: readCoordinator
-        )
-        _ = try await publisher.publish(windowLevelled, mode: .complete)
+        // Window-level every published greyscale layer in scene order
+        // — the value model consumes the stored domain — publishing
+        // each stage, so the ancestry closure stays complete in the
+        // registry.
+        var windowLevelled = [ImageData]()
+        windowLevelled.reserveCapacity(request.scene.layers.count)
+        for (index, layer) in request.scene.layers.enumerated() {
+            guard
+                let input = await publisher.publishedImage(
+                    for: layer.imageObjectID
+                )
+            else {
+                throw SliceRendererError.imageNotPublished
+            }
+            guard case .greyscaleWindow(let window) = layer.transferFunction
+            else {
+                throw SliceRendererError.unsupportedSceneShape
+            }
+            let names = try naming(.windowLevelled(layerIndex: index))
+            let staged = try await WindowLevelOperation.execute(
+                input: input,
+                center: try MetadataFloatingPoint(value: window.center),
+                width: try MetadataFloatingPoint(value: window.width),
+                outputObjectID: names.outputObjectID,
+                outputProvenanceID: names.provenanceID,
+                createdAt: names.createdAt,
+                software: software,
+                coordinator: readCoordinator
+            )
+            _ = try await publisher.publish(staged, mode: .complete)
+            windowLevelled.append(staged)
+        }
 
-        // A viewport equal to the image extents is already presented;
-        // an identity resample would mint a bit-identical object with
-        // no presentation meaning.
-        let extents = input.descriptor.shape.extents
+        // More than one layer blends through the registered
+        // compositing operation, also published.
+        let presented: ImageData
+        if windowLevelled.count == 1 {
+            presented = windowLevelled[0]
+        } else {
+            let names = try naming(.composited)
+            presented = try await CompositeLayersOperation.execute(
+                layers: windowLevelled,
+                opacities: request.scene.layers.map(\.opacity),
+                outputObjectID: names.outputObjectID,
+                outputProvenanceID: names.provenanceID,
+                createdAt: names.createdAt,
+                software: software,
+                coordinator: readCoordinator
+            )
+            _ = try await publisher.publish(presented, mode: .complete)
+        }
+
+        // A viewport equal to the presented extents is already
+        // presented; an identity resample would mint a bit-identical
+        // object with no presentation meaning.
+        let extents = presented.descriptor.shape.extents
         let output: ImageData
         if extents.count == 2,
             extents[0] == request.viewport.width,
             extents[1] == request.viewport.height
         {
-            output = windowLevelled
+            output = presented
         } else {
             let resampleNames = try naming(.resampled)
             output = try await ResampleNearestOperation.execute(
-                input: windowLevelled,
+                input: presented,
                 outputWidth: request.viewport.width,
                 outputHeight: request.viewport.height,
                 outputObjectID: resampleNames.outputObjectID,
@@ -125,7 +158,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             presentation: PresentationProvenance(
                 camera: request.scene.camera,
                 viewport: request.viewport,
-                transferFunction: layer.transferFunction,
+                layers: request.scene.layers,
                 renderMode: .slice,
                 colourOutput: .greyscale8,
                 accumulation: .none,

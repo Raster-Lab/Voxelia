@@ -12,19 +12,33 @@ public enum RenderQuality: Sendable, Hashable {
     case full
 }
 
-/// One published image layer per `ADR-0084`.
+/// One published image layer per `ADR-0084` with the validated
+/// compositing opacity added by `ADR-0091`.
 ///
 /// The layer references a published immutable bundle by its object
 /// identifier — the accepted lifecycle makes the binding immutable —
-/// with its presentation transfer function. Opacity and blending
-/// arrive with multi-layer compositing as their own registered model.
+/// with its presentation transfer function and its opacity under the
+/// registered `VOXELIA-ALG-0009` blending model.
 public struct RenderLayer: Sendable, Hashable {
     public let imageObjectID: DataObjectID
     public let transferFunction: TransferFunction
+    public let opacity: Double
 
-    public init(imageObjectID: DataObjectID, transferFunction: TransferFunction) {
+    /// Creates a validated layer.
+    ///
+    /// - Throws: ``RenderModelError/invalidLayerOpacity`` unless the
+    ///   opacity is finite and within zero through one inclusive.
+    public init(
+        imageObjectID: DataObjectID,
+        transferFunction: TransferFunction,
+        opacity: Double
+    ) throws {
+        guard opacity.isFinite, opacity >= 0, opacity <= 1 else {
+            throw RenderModelError.invalidLayerOpacity
+        }
         self.imageObjectID = imageObjectID
         self.transferFunction = transferFunction
+        self.opacity = opacity
     }
 }
 

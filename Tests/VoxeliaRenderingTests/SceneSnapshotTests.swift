@@ -18,12 +18,16 @@ struct SceneSnapshotTests {
         )
     }
 
-    private func layer(_ objectName: String) throws -> RenderLayer {
-        RenderLayer(
+    private func layer(
+        _ objectName: String,
+        opacity: Double = 1
+    ) throws -> RenderLayer {
+        try RenderLayer(
             imageObjectID: try #require(DataObjectID(rawValue: objectName)),
             transferFunction: .greyscaleWindow(
                 try GreyscaleWindowFunction(center: 40, width: 400)
-            )
+            ),
+            opacity: opacity
         )
     }
 
@@ -45,6 +49,16 @@ struct SceneSnapshotTests {
             camera: try camera()
         )
         #expect(forward != reversed)
+
+        // A fractional opacity participates in identity, and
+        // out-of-range opacities reject typed per ADR-0091.
+        #expect(try layer("series-7", opacity: 0.5) != (try layer("series-7")))
+        for opacity in [-0.1, 1.5, Double.nan, .infinity] {
+            do {
+                _ = try layer("series-7", opacity: opacity)
+                #expect(Bool(false), "Expected an invalid opacity to be rejected.")
+            } catch RenderModelError.invalidLayerOpacity {}
+        }
 
         // Empty scenes and the layer ceiling reject typed.
         do {

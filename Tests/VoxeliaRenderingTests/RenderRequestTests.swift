@@ -31,15 +31,12 @@ struct RenderRequestTests {
         let transferFunction = TransferFunction.greyscaleWindow(
             try GreyscaleWindowFunction(center: 40, width: 400)
         )
-        let scene = try SceneSnapshot(
-            layers: [
-                RenderLayer(
-                    imageObjectID: try #require(DataObjectID(rawValue: "series-7")),
-                    transferFunction: transferFunction
-                )
-            ],
-            camera: try camera()
+        let layer = try RenderLayer(
+            imageObjectID: try #require(DataObjectID(rawValue: "series-7")),
+            transferFunction: transferFunction,
+            opacity: 1
         )
+        let scene = try SceneSnapshot(layers: [layer], camera: try camera())
         let request = RenderRequest(
             scene: scene,
             viewport: try ViewportSize(width: 512, height: 512),
@@ -53,7 +50,7 @@ struct RenderRequestTests {
         let presentation = PresentationProvenance(
             camera: try camera(),
             viewport: try ViewportSize(width: 512, height: 512),
-            transferFunction: transferFunction,
+            layers: [layer],
             renderMode: .slice,
             colourOutput: .greyscale8,
             accumulation: .none,
@@ -64,18 +61,22 @@ struct RenderRequestTests {
             presentation: presentation
         )
         #expect(result.presentation == presentation)
-        let differentWindow = PresentationProvenance(
+        let differentOpacity = PresentationProvenance(
             camera: try camera(),
             viewport: try ViewportSize(width: 512, height: 512),
-            transferFunction: .greyscaleWindow(
-                try GreyscaleWindowFunction(center: 40, width: 401)
-            ),
+            layers: [
+                try RenderLayer(
+                    imageObjectID: layer.imageObjectID,
+                    transferFunction: transferFunction,
+                    opacity: 0.5
+                )
+            ],
             renderMode: .slice,
             colourOutput: .greyscale8,
             accumulation: .none,
             denoising: .none
         )
-        #expect(presentation != differentWindow)
+        #expect(presentation != differentOpacity)
 
         // The backend-neutral contract renders through a conforming
         // stub.

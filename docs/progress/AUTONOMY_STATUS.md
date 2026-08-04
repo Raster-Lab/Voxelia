@@ -1561,6 +1561,31 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   admit the output with both layer parents into a complete graph and
   reject bad layer counts, unequal extents, transformed layers,
   regular sampling and malformed opacity lists typed.
+- Fifty-seventh autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0091` and delivered
+  multi-layer scene presentation end to end. `RenderLayer` gains the
+  validated compositing opacity — finite in zero through one, the new
+  typed `invalidLayerOpacity` rejection — discharging the `ADR-0084`
+  deferral now that the blending model is registered.
+  `PresentationProvenance` replaces its single transfer function with
+  the ordered presented layers, because one transfer function cannot
+  honestly describe a multi-layer result; each layer claim carries
+  the object identifier, transfer function and opacity. The exact
+  slice renderer window-levels every published layer in scene order,
+  publishes each stage, blends more than one layer through the
+  `ADR-0090` operation with the scene opacities, publishes the
+  composite, and resamples per `ADR-0089` when the viewport differs;
+  the publication-stage naming widens to per-layer window-levelled,
+  composited and resampled cases, all recorded pre-release contract
+  revisions. A single-layer scene requires opacity one and keeps its
+  accepted single-publication shape — a single-layer fade would widen
+  the compositing admission to one layer, its own versioned decision
+  — rejected typed. Tests render a two-layer scene over one published
+  object with differing windows reproducing the registered
+  `VOXELIA-ALG-0009` fixture with every stage published and both
+  parent edges on the composite record, keep the single-layer and
+  resampled renders exact, and reject out-of-range opacities and
+  single-layer fades typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

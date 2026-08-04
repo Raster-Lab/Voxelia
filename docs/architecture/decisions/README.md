@@ -76,8 +76,9 @@ allocated to the render request, result and renderer protocol.
 `ADR-0087` is allocated to float transform error bounds. `ADR-0088`
 is allocated to the nearest-neighbour resampling operation.
 `ADR-0089` is allocated to renderer viewport resampling composition.
-`ADR-0090` is allocated to the layer compositing operation. The next
-unallocated numeric identifier is `ADR-0091`.
+`ADR-0090` is allocated to the layer compositing operation.
+`ADR-0091` is allocated to multi-layer scene presentation. The next
+unallocated numeric identifier is `ADR-0092`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -151,3 +152,4 @@ unallocated numeric identifier is `ADR-0091`.
 | [ADR-0088](ADR-0088-nearest-neighbour-resampling.md) | Accepted | Nearest-neighbour resampling operation |
 | [ADR-0089](ADR-0089-renderer-viewport-resampling.md) | Accepted | Renderer viewport resampling composition |
 | [ADR-0090](ADR-0090-layer-compositing-operation.md) | Accepted | Layer compositing operation |
+| [ADR-0091](ADR-0091-multi-layer-scene-presentation.md) | Accepted | Multi-layer scene presentation |
