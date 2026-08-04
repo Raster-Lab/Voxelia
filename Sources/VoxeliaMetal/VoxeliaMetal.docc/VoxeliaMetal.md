@@ -21,6 +21,8 @@ milestone specifications introduce its substantive public API incrementally.
 
 - ``MetalExecutionContext``
 - ``MetalContextError``
+- ``MetalWindowLevelKernel``
+- ``MetalKernelError``
 
 ### Project documents
 

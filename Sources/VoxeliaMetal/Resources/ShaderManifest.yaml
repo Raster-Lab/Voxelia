@@ -1,5 +1,16 @@
-schema_version: "0.1"
-shader_families: []
+schema_version: "0.2"
+shader_families:
+  - family: "window-level"
+    semantic_version: "1.0.0"
+    entry_points:
+      - "voxelia_window_level_u8"
+    source: "embedded (Sources/VoxeliaMetal/Internal/WindowLevelKernelSource.swift)"
+    source_digest_sha256: "302cd86e30ac67c064b9ce20833bb61585a46d636de3e952c3e95cc3504f7cbd"
+    kernel_token: "org.voxelia.kernel.window-level"
+    precision_policy: "org.voxelia.precision.binary32-device"
+    approximation_status: "approximate"
+    validation_evidence: "MetalWindowLevelKernelTests differential harness (ADR-0080)"
 notes:
-  - "M0 contains no operational diagnostic shaders."
-  - "Each future family must record source digest, semantic version, entry points and validation evidence."
+  - "Each family records source digest, semantic version, entry points and validation evidence."
+  - "The suite verifies each embedded source digest against this manifest so the two can never drift silently."
+  - "MSL has no binary64: GPU families approximate registered binary64 models and must be claimed as such."

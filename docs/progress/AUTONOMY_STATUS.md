@@ -1333,6 +1333,33 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   so GPU precision claims must carry honest binary32-device policy
   tokens and measured differential evidence, never a false
   binary64-strict claim.
+- Forty-sixth autonomous increment (owner broadened standing mandate,
+  M3): authored and accepted `ADR-0080` (window-level Metal kernel
+  and differential harness) and implemented Voxelia's first GPU
+  kernel. The embedded `MSL` source (family `window-level` 1.0.0,
+  entry point `voxelia_window_level_u8`, kernel token
+  `org.voxelia.kernel.window-level`) mirrors the `VOXELIA-ALG-0002`
+  branch structure in `float32` — `MSL` has no binary64 — and is
+  digest-pinned by the shader manifest
+  (`302c…7cbd`), with the suite verifying the pin so source and
+  manifest can never drift. `MetalWindowLevelKernel` compiles the
+  source at runtime on the acquired context, builds its pipeline with
+  typed payload-free failures, maps samples through shared-storage
+  buffers on unified memory with an explicit in-kernel sample-count
+  bound, and exposes the kernel component reference for honest GPU
+  claims (`binary32-device`, `approximate`); claiming
+  `binary64-strict` for GPU output is recorded as structurally false
+  and prohibited. The differential harness drove the exhaustive
+  `uint8` domain across six windows including the degenerate unit
+  width against the frozen binary64 reference anchored to the
+  registered fixtures, asserted the one-display-level bound and
+  bit-identical repeated execution, and MEASURED the exact agreement:
+  1536 of 1536 comparisons exact on this device — the `float32`
+  approximation reproduced the binary64 model bit-for-bit over the
+  full exhaustive `uint8` domain, recorded as single-device evidence,
+  not a universal claim. Remaining M3 scope: the shared-resource
+  residency strategy over the existing `ResidencyPolicy` vocabulary
+  and the broader shader-identity governance as families grow.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
