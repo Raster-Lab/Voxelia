@@ -1281,6 +1281,32 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   decision owing audit obligations and the never-rebind rule. No code
   changed: the accepted implementations already behave exactly as the
   policy requires, and the decision is that they are the policy.
+- Forty-fourth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0078` (signed record manifest
+  contract) and implemented the `VCRM-1` canonical record manifest
+  with the sixth compiled `ContentID` tuple (`sha256`,
+  `serialisedObject`, `org.voxelia.record-manifest` version `1.0`,
+  100-byte frame) and the verify-side Ed25519 signature contract in
+  `VoxeliaCore`. A manifest attests one non-empty record set: the
+  emitter sorts entries into ascending digest-byte order and rejects
+  duplicates, so exactly one canonical form exists per set, with
+  empty manifests and the output ceiling typed. The signature subject
+  is the manifest's domain-separated identity — a detached Ed25519
+  signature over the manifest `ContentID`'s exact 32 digest bytes —
+  so a signature can never be replayed against another projection
+  domain. Voxelia ships verification only, taking the host-supplied
+  raw public key and signature with malformed encodings typed and a
+  mismatch a boolean result; no key is ever generated, stored or seen
+  as a private value inside Voxelia, and a valid signature proves
+  custody of a key, never trust, authorship authority or record
+  truth. Tests reproduce the independently computed 555-byte golden
+  manifest of the registered derivation and provenance goldens
+  (framed `7cc5…991f`), prove order-independent single canonical
+  form, the duplicate, empty and ceiling rejections, and end-to-end
+  signature verification with a test-generated host key including
+  tampered-signature, wrong-manifest, wrong-key and
+  malformed-encoding outcomes. This discharges the `ADR-0038`
+  signed-manifest deferral.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -63,7 +63,8 @@ ingress. `ADR-0074` is allocated to sampling payload slicing. The
 `ADR-0075` is allocated to the canonical document store. The next
 `ADR-0076` is allocated to recorded fuzz and differential oracle
 evidence. `ADR-0077` is allocated to the retention and enrichment
-lifecycle. The next unallocated numeric identifier is `ADR-0078`.
+lifecycle. `ADR-0078` is allocated to the signed record manifest
+contract. The next unallocated numeric identifier is `ADR-0079`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -124,3 +125,4 @@ lifecycle. The next unallocated numeric identifier is `ADR-0078`.
 | [ADR-0075](ADR-0075-canonical-document-store.md) | Accepted | Canonical document store |
 | [ADR-0076](ADR-0076-recorded-fuzz-and-oracle-evidence.md) | Accepted | Recorded fuzz and differential oracle evidence |
 | [ADR-0077](ADR-0077-retention-and-enrichment-lifecycle.md) | Accepted | Retention and enrichment lifecycle |
+| [ADR-0078](ADR-0078-signed-record-manifest.md) | Accepted | Signed record manifest contract |

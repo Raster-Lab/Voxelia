@@ -179,6 +179,8 @@ storage semantics.
 - ``CanonicalDerivationJSON``
 - ``DerivationJSONEmissionError``
 - ``DerivationJSONIngressError``
+- ``CanonicalManifest``
+- ``RecordManifestError``
 - ``DataIdentity``
 - ``DataIdentityError``
 

@@ -236,6 +236,14 @@ extension ContentID {
         version: ContentProjectionVersion(major: 1, minor: 0)
     )
 
+    /// The version-one record-manifest projection registered by
+    /// `ADR-0078` over the exact canonical `VCRM-1` bytes of one
+    /// record manifest document.
+    public static let recordManifestProjection = ContentProjectionReference(
+        compiledIdentifier: "org.voxelia.record-manifest",
+        version: ContentProjectionVersion(major: 1, minor: 0)
+    )
+
     /// The exact SHA-256 digest byte count required by the accepted tuple.
     public static let sha256DigestByteCount = 32
 
@@ -265,6 +273,8 @@ extension ContentID {
                 && projection == Self.provenanceRecordProjection)
             || (scope == .serialisedObject
                 && projection == Self.derivationRecordProjection)
+            || (scope == .serialisedObject
+                && projection == Self.recordManifestProjection)
         guard acceptedTuple else {
             throw ContentIdentityError.unsupportedProjection
         }
@@ -397,6 +407,24 @@ extension ContentID {
         try computeIdentity(
             scope: .serialisedObject,
             projection: Self.derivationRecordProjection,
+            overPayloadBytes: canonicalBytes
+        )
+    }
+
+    /// Computes the record-manifest identity over the exact complete
+    /// canonical `VCRM-1` bytes of one record manifest document.
+    ///
+    /// The caller must supply bytes produced or accepted by the dedicated
+    /// canonical manifest emitter. The identity is the signature subject
+    /// of the `ADR-0078` contract and an envelope claim about exactly
+    /// those bytes; it proves neither record truth nor attestation
+    /// authority.
+    public static func recordManifestIdentity(
+        overCanonicalBytes canonicalBytes: [UInt8]
+    ) throws -> ContentID {
+        try computeIdentity(
+            scope: .serialisedObject,
+            projection: Self.recordManifestProjection,
             overPayloadBytes: canonicalBytes
         )
     }
