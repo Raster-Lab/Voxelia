@@ -35,6 +35,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``RegionExtractionError``
 - ``WindowLevelOperation``
 - ``WindowLevelError``
+- ``ResampleNearestOperation``
+- ``ResampleError``
 
 ### Publication
 

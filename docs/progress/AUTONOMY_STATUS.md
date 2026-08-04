@@ -1488,6 +1488,32 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   Oblique and perspective presentation and resampling models can now
   be designed against a verified error budget; any float transform
   other than this registered derivation remains gated.
+- Fifty-fourth autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0008`
+  (nearest-neighbour resampling `binary64-v1`) and `ADR-0088`, and
+  implemented the third operation,
+  `org.voxelia.op.resample-nearest` 1.0.0. The registered model maps
+  every output pixel to exactly one whole source sample through the
+  frozen binary64 index computation with the pixel-centre convention
+  — the computed result is the definition — copying every sample byte
+  exactly, so the model is value-neutral across scalar formats and
+  component counts. Resampled output is a new derived object, so the
+  honest shape is a full Execution operation with the frozen
+  `output-width`/`output-height` parameter schema, the registered
+  parameter digest, the derivation recipe and subject-bound
+  provenance with a graph-node parent edge, and the
+  `binary64-strict`/`exact` execution claim; a silent renderer step
+  would be exactly the unrecorded history the discipline forbids.
+  Version-one admission covers rank-two index-only geometry-free
+  images with extents one through 16,384 per output dimension, values
+  and metadata passing through untouched; regular-spacing and affine
+  scaling under resampling are origin-and-spacing arithmetic deferred
+  to their own decision. Tests reproduce both fixtures — the 2-by-2
+  block upsampling and the column-selecting downsampling — prove the
+  identity mapping at equal dimensions, reproduce the parameter
+  digest independently, admit the output into a depth-two complete
+  graph and reject unsupported sampling and out-of-range extents
+  typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
