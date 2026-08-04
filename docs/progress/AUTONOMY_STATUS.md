@@ -615,6 +615,26 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   absence and payload-free diagnostics. The provenance record, warning
   schema, subject binding and graph admission remain gated on their own
   decisions.
+- Eighteenth autonomous increment: authored and accepted `ADR-0052`
+  (provenance warning schema) and implemented the warning leg of the
+  accepted `ADR-0038` provenance target in `VoxeliaCore`:
+  `ProvenanceWarningCode` (bounded reverse-domain code as its own
+  nominal authority with byte-limit-before-grammar precedence and
+  exact-byte identity), `ProvenanceWarningSchemaVersion` (exact
+  major/minor vocabulary pin), `ProvenanceWarningSeverity` (closed
+  frozen `informational`/`qualityAffecting`/`integrityAffecting`), and
+  `ProvenanceWarning` (one code, one schema version, one severity and a
+  checked occurrence count of at least one, so repetition is counted,
+  never repeated as entries). There is no message, reason, path or
+  parameter field — free text is structurally impossible in the Core
+  identity, which the tests prove by mirror over the stored members —
+  and no `Codable` is declared, the stable coding again being owned by
+  the future canonical provenance-record projection decision. Tests
+  prove ceiling-before-grammar precedence, exact code classification,
+  typed zero-count rejection, per-field warning identity and
+  payload-free diagnostics. The provenance record, subject binding and
+  graph admission remain gated pending the source-identity and
+  parameter-projection decisions ordered next.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -137,6 +137,11 @@ storage semantics.
 - ``ExecutionApproximationStatus``
 - ``ExecutionProvenanceClaim``
 - ``ExecutionClaimError``
+- ``ProvenanceWarningCode``
+- ``ProvenanceWarningSchemaVersion``
+- ``ProvenanceWarningSeverity``
+- ``ProvenanceWarning``
+- ``ProvenanceWarningError``
 
 ### Common errors
 

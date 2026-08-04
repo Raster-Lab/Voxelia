@@ -510,6 +510,11 @@
       "sha256": "a18d5e6fe65dd9f62e8f922f8ec02e2d5a06d5158c6dc925caf1a5412cb313f6"
     },
     {
+      "path": "Sources/VoxeliaCore/Public/ProvenanceWarning.swift",
+      "size": 6246,
+      "sha256": "f5a5e8e869d0ee9f55fdfa29b3eb9af37006d4d21e485b5910b327ef091a8737"
+    },
+    {
       "path": "Sources/VoxeliaCore/Public/RegionReadTransaction.swift",
       "size": 8024,
       "sha256": "bc7ad09e273605d43387933dde815816219bc6cb3ff5eb3629208b6471784959"
@@ -556,8 +561,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md",
-      "size": 3029,
-      "sha256": "b172365a9ffbb181ee3c6e0f4c792cfb67d4c93f1162c6503a514d6ac9d8bf84"
+      "size": 3179,
+      "sha256": "3e240f36f9494a21f8a6eac52af7f1c9da930c9899e2df2a7f578d87d349519a"
     },
     {
       "path": "Sources/VoxeliaExecution/ApplePlatformGate.swift",
@@ -1218,6 +1223,11 @@
       "path": "Tests/VoxeliaCoreTests/ProvenanceKindTests.swift",
       "size": 4075,
       "sha256": "ebd72599416a48ce0d19621bfae1fe88f240659d1a1cab76f7d63543b57f43c8"
+    },
+    {
+      "path": "Tests/VoxeliaCoreTests/ProvenanceWarningTests.swift",
+      "size": 5153,
+      "sha256": "52bf5ef5532614dcb001bf3aa7b8a6014436e131da654546f440386cec7b1407"
     },
     {
       "path": "Tests/VoxeliaCoreTests/RegionReadTransactionTests.swift",
@@ -2015,9 +2025,14 @@
       "sha256": "e91e28e7c702a00c4473fcbc0f69c346e272a924d38656e2874681ede87e2d69"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0052-provenance-warning-schema.md",
+      "size": 3818,
+      "sha256": "e647caa55dad5f1c70b1e85bbc61006e2a3473e45b4da599d0e2a5ee6ddcae4b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 6642,
-      "sha256": "7a612a4f3a36cef4b06dcb3f33d53c17817a2bccaad74a55540b6c8031477ad7"
+      "size": 6793,
+      "sha256": "40fa4b618aaaa61464d3c216d02f55ca24510b1e5e1ae9bb8f97ce82432917c9"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2101,8 +2116,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 449054,
-      "sha256": "c7925dc69a7a6bd0a6b1ae8598543a7e5fdc7cd717453ead2e3e913361453fff"
+      "size": 450386,
+      "sha256": "1d6dfd536b01be995bbaad98a0c584517b211a22ec12a151f6d7e55a9850b5a2"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -2461,8 +2476,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 24368,
-      "sha256": "6acf2609a27e3bd5b3480d9889fa975fa901cd24b8f8854921ea8400aa8572ee"
+      "size": 24537,
+      "sha256": "a3354cc0af720860fcb4ce44bfe60c386cb93313de9ec896dcd0912712b0d9d5"
     }
   ]
 }

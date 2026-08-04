@@ -37,8 +37,9 @@ is allocated to the coordinated metadata identity boundary. `ADR-0048`
 is allocated to single-flight read deduplication. `ADR-0049` is
 allocated to the sample-bytes content projection. `ADR-0050` is
 allocated to the content-tier result cache. `ADR-0051` is allocated to
-the execution claim value shapes. The next unallocated numeric
-identifier is `ADR-0052`.
+the execution claim value shapes. `ADR-0052` is allocated to the
+provenance warning schema. The next unallocated numeric identifier is
+`ADR-0053`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -73,3 +74,4 @@ identifier is `ADR-0052`.
 | [ADR-0049](ADR-0049-sample-bytes-content-projection.md) | Accepted | Sample-bytes content projection |
 | [ADR-0050](ADR-0050-content-tier-result-cache.md) | Accepted | Content-tier result cache |
 | [ADR-0051](ADR-0051-execution-claim-value-shapes.md) | Accepted | Execution claim value shapes |
+| [ADR-0052](ADR-0052-provenance-warning-schema.md) | Accepted | Provenance warning schema |
