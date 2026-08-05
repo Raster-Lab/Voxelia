@@ -3776,6 +3776,20 @@ oracle campaigns.
   rendering becomes assessable only after canonical mesh publication, while
   colour/overlay work remains its own M6 queue item. The exact next action is
   the canonical triangle-mesh design under `ADR-0184`.
+- One-hundred-sixty-third autonomous increment (owner continuation
+  mandate): authored and accepted `ADR-0184`, freezing the independently
+  unblocked triangle-mesh topology after the full mesh audit exposed an
+  existing package-boundary conflict. The MTA/CDMS require a mesh to carry a
+  Spatial-owned coordinate space, while the approved package graph permits
+  only `VoxeliaGeometry -> VoxeliaCore` and Core does not re-export Spatial;
+  no undeclared import, duplicate coordinate type or string weakening is
+  authorised. The topology proceeds separately: immutable nonnegative vertex
+  count, flattened logical `UInt64` independent-triangle indices, complete
+  triples and total bounds validation with three payload-free errors in fixed
+  precedence, exact order/multiplicity preservation, valid emptiness, and no
+  silent degeneracy, winding or manifoldness policy. No stable wire is
+  claimed. Implementation follows as `ADR-0185`; the full coordinate-bearing
+  mesh remains behind an explicit dependency-resolution decision.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9551,13 +9565,16 @@ through 11 are recorded as the open gates blocking storage source.
 The continuation through 2026-08-05 has executed the currently actionable M3,
 M4 and M5 queues and the M6 reconstruction, brick-statistics, cubic-resampling
 and direct-volume-rendering increments through accepted `ADR-0182`. Accepted
-`ADR-0183` now opens the M6 geometry extraction arc. Its exact next action is
-the canonical triangle-mesh design under `ADR-0184`: settle the immutable
-position, attribute and topology domains; checked index and allocation
-admission; explicit coordinate space; ownership and lifetime; identity and
-provenance publication boundary; typed payload-free failures; and the focused
-fixtures that make the implementing increment mechanical. Do not freeze the
-marching-cubes-class numeric model until that output contract exists.
+`ADR-0183` now opens the M6 geometry extraction arc. The full
+coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
+accepted `ADR-0184`; do not add `VoxeliaGeometry -> VoxeliaSpatial`, duplicate
+its coordinate model or weaken the space identity without an explicit
+dependency-resolution decision. The independently unblocked exact next action
+is implementing `TriangleMeshTopology` under `ADR-0185`, with complete
+in-bounds triples, fixed payload-free error precedence, exact logical `UInt64`
+identity and focused concurrency/boundary tests. Do not freeze the
+marching-cubes-class numeric model until the complete coordinate-bearing output
+contract exists.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,

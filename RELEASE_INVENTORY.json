@@ -3575,9 +3575,14 @@
       "sha256": "dbf8f77c3c182533f5d5712541275dc433bb01fe9c4f9c676f2e21635f1391a6"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0184-triangle-mesh-topology-design.md",
+      "size": 5703,
+      "sha256": "ffba22374df5a17c69b1b99ce836ee2a976ec22946595f0746d94c64dbcb6fd5"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 27078,
-      "sha256": "ea7c6e17eb124fe94ea75f426953bdf357d04e7101b2c04be204fde97c491b3c"
+      "size": 27241,
+      "sha256": "f78437f88e41282dd451b447faaea362dc14818e54ff873153c9215a71b94cfe"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3661,8 +3666,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 652408,
-      "sha256": "e66e47c3809446406b92b534d9b283e1c88594f5700444b40db2150520b3d054"
+      "size": 653602,
+      "sha256": "aebdcc8dc964b7eae0dd955ae2043c76e5c2f33400bed17ef9a7c18b8c9b1a35"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4021,8 +4026,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 43452,
-      "sha256": "539125af9d198a6a77789c9f8874e144b3554a1582556dc7c2d0bc8f6c5e16dd"
+      "size": 43522,
+      "sha256": "891feb08a7caa014d58bc0aef9f597450757b46f0351571f491e2e3622ffe72c"
     }
   ]
 }
