@@ -2327,6 +2327,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   payload it still rejects. Both display policies now preserve
   calibration: `VOX-MPR-003` is discharged for both, and the
   physical-picking decision follows.
+- Ninety-sixth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0128`, extending calibration
+  through compositing. The inversion operation already passes its
+  whole descriptor through and needed nothing; the compositing
+  operation widens to 1.2.0 under the equality rule — every layer's
+  axis list and spatial geometry must be exactly equal, any
+  difference the new typed `layerCalibrationMismatch`, because
+  blending samples at different physical positions would fabricate a
+  position for the blend and exact equality needs no resampling
+  model; the output carries the shared calibration unchanged because
+  the blend moves no samples. The former index-only and geometry
+  rejections are dead and removed; approximate geometry comparison
+  was rejected under the no-epsilon rule — hosts that need alignment
+  resample first — and the device composite keeps claiming contract
+  1.1.0, the geometry-free revision it implements, with calibrated
+  layers outside its admitted format. Tests blend identically
+  calibrated layers with the calibration carried through at the
+  widened version, keep geometry-free blends byte-identical, and
+  reject axis and geometry mismatches typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -61,13 +61,16 @@ public enum MetalCompositeLayersOperation {
             else {
                 throw CompositeError.unsupportedLayerFormat
             }
+            // The device implementation claims contract 1.1.0 — the
+            // geometry-free revision it implements — so calibrated
+            // layers stay outside its admitted format.
             for axis in layer.descriptor.axes {
                 guard case .indexOnly = axis.sampling else {
-                    throw CompositeError.unsupportedAxisSampling
+                    throw CompositeError.unsupportedLayerFormat
                 }
             }
             guard layer.descriptor.spatialGeometry == nil else {
-                throw CompositeError.unsupportedGeometry
+                throw CompositeError.unsupportedLayerFormat
             }
         }
         guard opacities.count == layers.count else {

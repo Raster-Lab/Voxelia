@@ -11,8 +11,7 @@ public enum CompositeError: Error, Sendable, Equatable {
     case invalidLayerCount
     case extentMismatch
     case unsupportedLayerFormat
-    case unsupportedAxisSampling
-    case unsupportedGeometry
+    case layerCalibrationMismatch
     case invalidOpacity
 }
 
@@ -74,13 +73,16 @@ public enum CompositeLayersOperation {
             else {
                 throw CompositeError.unsupportedLayerFormat
             }
-            for axis in layer.descriptor.axes {
-                guard case .indexOnly = axis.sampling else {
-                    throw CompositeError.unsupportedAxisSampling
-                }
-            }
-            guard layer.descriptor.spatialGeometry == nil else {
-                throw CompositeError.unsupportedGeometry
+            // The ADR-0128 equality rule: blending samples that sit at
+            // different physical positions would fabricate a position
+            // for the blend, and exact equality needs no resampling
+            // model.
+            guard
+                layer.descriptor.axes == layers[0].descriptor.axes,
+                layer.descriptor.spatialGeometry
+                    == layers[0].descriptor.spatialGeometry
+            else {
+                throw CompositeError.layerCalibrationMismatch
             }
         }
         guard opacities.count == layers.count else {
@@ -149,7 +151,7 @@ public enum CompositeLayersOperation {
             components: layers[0].descriptor.components,
             semantic: .intensity,
             axes: layers[0].descriptor.axes,
-            spatialGeometry: nil,
+            spatialGeometry: layers[0].descriptor.spatialGeometry,
             valueTransform: nil,
             units: nil
         )
@@ -166,7 +168,7 @@ public enum CompositeLayersOperation {
         // Registered tokens, derivation recipe, content identity and
         // the subject-bound record with one parent edge per layer, per
         // the accepted operation pattern.
-        let version = try SemanticVersion(major: 1, minor: 1, patch: 0)
+        let version = try SemanticVersion(major: 1, minor: 2, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )

@@ -43,7 +43,8 @@ struct CompositeLayersOperationTests {
         name: String,
         extents: [Int] = [4, 3],
         sampling: AxisSampling = .indexOnly,
-        valueTransform: ValueTransform? = nil
+        valueTransform: ValueTransform? = nil,
+        geometry: SpatialGeometry? = nil
     ) throws -> ImageData {
         let binding = try LogicalSampleBinding(
             shape: try ImageShape(extents: ContiguousArray(extents)),
@@ -66,7 +67,7 @@ struct CompositeLayersOperationTests {
                 ),
                 semantic: .intensity,
                 axes: [try axis("x", sampling: sampling), try axis("y")],
-                spatialGeometry: nil,
+                spatialGeometry: geometry,
                 valueTransform: valueTransform,
                 units: nil
             ),
@@ -159,7 +160,7 @@ struct CompositeLayersOperationTests {
         )
         #expect(
             faded.identity.derivation?.operationVersion
-                == (try SemanticVersion(major: 1, minor: 1, patch: 0))
+                == (try SemanticVersion(major: 1, minor: 2, patch: 0))
         )
 
         // The parameter digest reproduces independently, and the
@@ -189,6 +190,78 @@ struct CompositeLayersOperationTests {
         #expect(graph.authority == .complete)
 
         requireSendable(CompositeError.self)
+    }
+
+    @Test("[Unit][VOX-EXE-002][VOX-SPA-013] equal calibration blends and passes through")
+    func equalCalibrationBlendsAndPassesThrough() async throws {
+        // The ADR-0128 rule: identically calibrated layers blend with
+        // the shared axes and geometry carried through untouched, at
+        // the widened version.
+        let space = try CoordinateSpaceDescriptor(
+            id: try #require(CoordinateSpaceID(rawValue: "patient")),
+            convention: .dicomPatientLPS,
+            handedness: .unspecified,
+            unit: try MeasurementUnit(
+                namespace: "UCUM",
+                code: "mm",
+                dimension: .length
+            ),
+            externalReferences: []
+        )
+        func geometry(translationX: Double) throws -> SpatialGeometry {
+            .affine(
+                try AffineGridGeometry(
+                    spatialAxes: try SpatialAxisMapping(imageAxes: [0, 1]),
+                    indexToWorld: try Matrix4x4Double(elements: [
+                        0, -2, 0, translationX,
+                        2, 0, 0, 20,
+                        0, 0, 1, 30,
+                        0, 0, 0, 1,
+                    ]),
+                    coordinateSpace: space
+                )
+            )
+        }
+        let sampling = AxisSampling.regular(origin: 5, spacing: 2.5)
+        let first = try layer(
+            bytes: Self.layerA,
+            name: "series-a",
+            sampling: sampling,
+            geometry: try geometry(translationX: 10)
+        )
+        let second = try layer(
+            bytes: Self.layerB,
+            name: "series-b",
+            sampling: sampling,
+            geometry: try geometry(translationX: 10)
+        )
+        let blended = try await execute(
+            layers: [first, second],
+            opacities: [1.0, 0.5]
+        )
+        #expect(
+            try bytes(blended) == [0, 26, 51, 94, 138, 182, 200, 218, 237, 255, 255, 255]
+        )
+        #expect(blended.descriptor.axes == first.descriptor.axes)
+        #expect(
+            blended.descriptor.spatialGeometry == first.descriptor.spatialGeometry
+        )
+        #expect(
+            blended.identity.derivation?.operationVersion
+                == (try SemanticVersion(major: 1, minor: 2, patch: 0))
+        )
+
+        // A geometry mismatch rejects typed.
+        do {
+            let shifted = try layer(
+                bytes: Self.layerB,
+                name: "series-s",
+                sampling: sampling,
+                geometry: try geometry(translationX: 11)
+            )
+            _ = try await execute(layers: [first, shifted], opacities: [1.0, 0.5])
+            #expect(Bool(false), "Expected a geometry mismatch to be rejected.")
+        } catch CompositeError.layerCalibrationMismatch {}
     }
 
     @Test("[Unit][VOX-EXE-006][VOX-ERR-001] admission rejects unsupported layers typed")
@@ -227,8 +300,8 @@ struct CompositeLayersOperationTests {
                 sampling: .regular(origin: 0, spacing: 1)
             )
             _ = try await execute(layers: [first, regular], opacities: [1.0, 0.5])
-            #expect(Bool(false), "Expected regular sampling to be rejected.")
-        } catch CompositeError.unsupportedAxisSampling {}
+            #expect(Bool(false), "Expected a calibration mismatch to be rejected.")
+        } catch CompositeError.layerCalibrationMismatch {}
         for opacities in [[1.0], [1.0, 1.5], [1.0, -0.1], [1.0, Double.infinity]] {
             do {
                 _ = try await execute(layers: [first, second], opacities: opacities)
