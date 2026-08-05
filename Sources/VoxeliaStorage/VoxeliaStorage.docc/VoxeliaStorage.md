@@ -26,6 +26,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``CanonicalDocumentStore``
 - ``CanonicalDocumentName``
 - ``CanonicalDocumentStoreError``
+- ``CanonicalRecordArchival``
+- ``ArchivedRecordReceipt``
+- ``CanonicalArchivalError``
 
 ### Project documents
 

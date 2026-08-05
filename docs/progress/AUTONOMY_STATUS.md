@@ -1656,6 +1656,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   the operation and end to end through the renderer with the
   composite stage published, verify the widened versions in the
   recipe, and keep the empty-list rejection typed.
+- Sixty-first autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0095` and delivered canonical
+  record archival — published history is now durable.
+  `CanonicalRecordArchival` in `VoxeliaStorage` emits a bundle's
+  provenance record under `VCPJ-1` and its derivation record under
+  `VCDJ-1` when one exists, computes each registered record identity
+  and persists each document through the accepted `ADR-0075` store,
+  inheriting verify-before-persist, idempotent same-content
+  re-archive and never-overwrite. The caller owns both names per the
+  `ADR-0036` digest-sensitivity rule, and name presence must match
+  record presence exactly — a derivation without a name and a name
+  without a derivation both reject typed, never a silent skip — while
+  the receipt reports the computed identities as evidence. Tests
+  archive an origin and a derived bundle through a real directory,
+  load every document back under its receipt identity and decode it
+  through the strict ingress to the exact original record, prove
+  re-archive idempotent and both presence mismatches typed with
+  nothing touching the store.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
