@@ -1,6 +1,6 @@
 # Voxelia autonomous progress ledger
 
-Last updated: 2026-08-04 (Asia/Kolkata)
+Last updated: 2026-08-05 (Asia/Kolkata)
 
 ## Goal
 
@@ -3759,6 +3759,23 @@ oracle campaigns.
   brick extents only when declared. With this, the volume-rendering
   arc's actionable queue is drained: multi-volume compositing and
   multi-resolution volumes both remain deferred pending a consumer.
+- One-hundred-sixty-second autonomous increment (owner continuation
+  mandate): authored and accepted `ADR-0183`, opening the M6 geometry
+  extraction arc after the actionable volume-rendering queue drained.
+  The record freezes the authority and ordering boundaries without
+  guessing a marching-cubes case table: extracted meshes are immutable
+  authoritative derived scientific data in an explicit coordinate space,
+  physical positions and measurements use `Double`, provenance binds the
+  exact source and operation, every index and resource calculation validates
+  before atomic publication, and Metal/RealityKit/Model-I/O acceleration stays
+  derived from rather than embedded in canonical geometry. The ordered queue
+  is canonical triangle-mesh design; a separately frozen scalar
+  marching-cubes-class model and CPU reference; separately specified labelled
+  extraction; deterministic normals; authoritative mesh measurement and
+  registry evidence; then backend-specific acceleration adapters. Surface
+  rendering becomes assessable only after canonical mesh publication, while
+  colour/overlay work remains its own M6 queue item. The exact next action is
+  the canonical triangle-mesh design under `ADR-0184`.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9531,39 +9548,26 @@ through 11 are recorded as the open gates blocking storage source.
 
 ## Exact next action
 
-The autonomous continuation of 2026-08-04 has executed `ADR-0043`
-through `ADR-0072` and algorithm specifications `VOXELIA-ALG-0002`
-through `VOXELIA-ALG-0006`, all Accepted and implemented: the spatial
-and image descriptors, the persistent-identifier and integrity claim
-boundaries, the M2 execution coordinators with single-flight
-deduplication, the four content projections beyond the metadata record
-(sample bytes, operation parameters, provenance record, derivation
-record) with their canonical `VCPJ-1`/`VCDJ-1` emitters and strict
-`VCPJ-1` ingress, the content-tier result cache, the complete
-claim-bearing identity chain (`SourceIdentity`,
-`DataIdentityReference` with all four cases, `DerivationIdentity`,
-`DerivationRecordID`, `DataIdentity`), the complete provenance chain
-(claims, warnings, record, complete and compact graph admission with
-verified external references), the `ImageData` aggregate, the result
-publication coordinator, and two operations — exact geometry-preserving
-region extraction (1.1.0) and window-level (1.4.0) with the full
-transform-composition set — every increment pushed with independently
-computed golden fixtures.
+The continuation through 2026-08-05 has executed the currently actionable M3,
+M4 and M5 queues and the M6 reconstruction, brick-statistics, cubic-resampling
+and direct-volume-rendering increments through accepted `ADR-0182`. Accepted
+`ADR-0183` now opens the M6 geometry extraction arc. Its exact next action is
+the canonical triangle-mesh design under `ADR-0184`: settle the immutable
+position, attribute and topology domains; checked index and allocation
+admission; explicit coordinate space; ownership and lifetime; identity and
+provenance publication boundary; typed payload-free failures; and the focused
+fixtures that make the implementing increment mechanical. Do not freeze the
+marching-cubes-class numeric model until that output contract exists.
 
-The remaining recorded gates each require either a new owner
-authorization, external evidence that must not be fabricated, or both:
-strict `VCDJ-1` ingress (the next natural codec increment, following
-the accepted `ADR-0061` pattern); slicing models for irregular,
-categorical and externally defined sampling; durable provenance and
-image persistence (gated on format, atomicity, corruption and
-output-integrity evidence per `ADR-0037`); signed external manifests
-(gated on a signature contract); retention and deletion governance for
-the append-only publication registry; lazy identity enrichment and the
-`objectID` lifecycle; the `ADR-0035` evidence campaigns (device
-latency, fuzz corpora, external differential oracles, universal raw
-ceiling, the `VOX-ERR-001` allocation disposition); the visionOS
-platform component; and the M4+ milestone scopes. Do not fabricate
-external evidence or begin gated persistence work autonomously.
+After the mesh boundary, proceed through the separately frozen scalar
+extraction model and CPU reference, labelled extraction, deterministic normals,
+authoritative mesh measurement and backend-specific derived acceleration. The
+surface-rendering assessment follows a publishable canonical mesh; the
+colour/overlay arc and VOI verification remain the other M6 queue. Multi-volume
+compositing, multi-resolution containers, interactive draw-loop refinement,
+reference-hardware performance, unavailable visionOS destinations and external
+device/fuzz/differential evidence remain explicitly gated or deferred; do not
+fabricate their evidence.
 
 ## Test policy for the next action
 

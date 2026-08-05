@@ -162,8 +162,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 allocated to the volume clipping implementation. `ADR-0180` is
 allocated to the segmentation masks design. `ADR-0181` is allocated to
 the bricked and multi-resolution volume assessment. `ADR-0182` is
-allocated to the volume acceleration design. The next unallocated
-numeric identifier is `ADR-0183`.
+allocated to the volume acceleration design. `ADR-0183` is allocated to
+the geometry extraction arc. The next unallocated numeric identifier is
+`ADR-0184`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -329,3 +330,4 @@ numeric identifier is `ADR-0183`.
 | [ADR-0180](ADR-0180-segmentation-masks-design.md) | Accepted | Segmentation masks design |
 | [ADR-0181](ADR-0181-bricked-multires-assessment.md) | Accepted | Bricked and multi-resolution volume assessment |
 | [ADR-0182](ADR-0182-volume-acceleration-design.md) | Accepted | Volume acceleration design |
+| [ADR-0183](ADR-0183-geometry-arc.md) | Accepted | Geometry extraction arc |

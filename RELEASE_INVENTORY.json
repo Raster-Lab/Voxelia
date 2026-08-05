@@ -3570,9 +3570,14 @@
       "sha256": "0fd5ad9239ec991b6447d3887a2de6d5f4c1313af6f0598af7efa02870e56123"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0183-geometry-arc.md",
+      "size": 7943,
+      "sha256": "dbf8f77c3c182533f5d5712541275dc433bb01fe9c4f9c676f2e21635f1391a6"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 26944,
-      "sha256": "dbc4095855d1d04f241ee0c060d39b6f1b95f5192988933437c56059467e972c"
+      "size": 27078,
+      "sha256": "ea7c6e17eb124fe94ea75f426953bdf357d04e7101b2c04be204fde97c491b3c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3656,8 +3661,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 651885,
-      "sha256": "8cca81c463f311fa17bb788884c42627251f4bcaf3221308413dca64e7aeddc2"
+      "size": 652408,
+      "sha256": "e66e47c3809446406b92b534d9b283e1c88594f5700444b40db2150520b3d054"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4016,8 +4021,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 43399,
-      "sha256": "02914831b0ae9b5cc61019cf40a71c32e22a737a571485e97047a50853716a67"
+      "size": 43452,
+      "sha256": "539125af9d198a6a77789c9f8874e144b3554a1582556dc7c2d0bc8f6c5e16dd"
     }
   ]
 }
