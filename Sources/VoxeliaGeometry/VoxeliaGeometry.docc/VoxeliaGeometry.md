@@ -20,6 +20,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``GeometryAttributeDescriptor``
 - ``MeshPrimitive``
 - ``IndexType``
+- ``TriangleMeshTopology``
+- ``TriangleMeshTopologyError``
 
 ### Project documents
 

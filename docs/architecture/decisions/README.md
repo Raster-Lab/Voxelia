@@ -164,7 +164,8 @@ allocated to the segmentation masks design. `ADR-0181` is allocated to
 the bricked and multi-resolution volume assessment. `ADR-0182` is
 allocated to the volume acceleration design. `ADR-0183` is allocated to
 the geometry extraction arc. `ADR-0184` is allocated to the triangle mesh
-topology design. The next unallocated numeric identifier is `ADR-0185`.
+topology design. `ADR-0185` is allocated to the triangle mesh topology.
+The next unallocated numeric identifier is `ADR-0186`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -332,3 +333,4 @@ topology design. The next unallocated numeric identifier is `ADR-0185`.
 | [ADR-0182](ADR-0182-volume-acceleration-design.md) | Accepted | Volume acceleration design |
 | [ADR-0183](ADR-0183-geometry-arc.md) | Accepted | Geometry extraction arc |
 | [ADR-0184](ADR-0184-triangle-mesh-topology-design.md) | Accepted | Triangle mesh topology design |
+| [ADR-0185](ADR-0185-triangle-mesh-topology.md) | Accepted | Triangle mesh topology |

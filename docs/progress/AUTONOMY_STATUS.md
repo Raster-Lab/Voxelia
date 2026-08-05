@@ -26,14 +26,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   intersection queries, exact shape/index and half-open region/index
   containment, explicit region emptiness and checked region element counts are
   implemented and locally verified.
-- M1 supporting safety status: repository-owned executable Swift currently has
-  no compiler-classified unsafe-memory, unsafe-compiler or concurrency-
-  checking exceptions. A fail-closed, fixture-tested inventory and compiler
-  gate enforces that state in the scaffold and security workflows. Strict
-  product/test builds pass on macOS, iOS device/simulator and tvOS device/
-  simulator; the unavailable visionOS 26.5 Xcode platform component remains an
-  explicit evidence gap. Future exceptions require accepted authority, exact
-  invariants, focused stress/lifetime evidence and independent review.
+- Supporting safety status: the post-M3 continuation audit on 2026-08-05 found
+  that the fail-closed Swift safety gate currently fails on ten
+  `@unchecked Sendable` conformances introduced by the Metal, telemetry and
+  brick-cache increments: seven production Metal classes and three test-only
+  collectors. None has an accepted exception under the standing zero-exception
+  policy, so the earlier no-exception claim is no longer current and the gate
+  must not be reported green. The last recorded strict product/test destination
+  builds remain historical evidence only; visionOS 26.5 is still unavailable.
+  Recovery requires removing each unchecked conformance through actor/value
+  isolation or accepting a governed exception with exact invariants, focused
+  stress/lifetime evidence and independent review.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -3790,6 +3793,24 @@ oracle campaigns.
   silent degeneracy, winding or manifoldness policy. No stable wire is
   claimed. Implementation follows as `ADR-0185`; the full coordinate-bearing
   mesh remains behind an explicit dependency-resolution decision.
+- One-hundred-sixty-fourth autonomous increment (owner continuation
+  mandate): implemented accepted `ADR-0184` as `ADR-0185`, the immutable
+  representation-neutral triangle topology in `VoxeliaGeometry`.
+  `TriangleMeshTopology` owns the nonnegative vertex-domain count and exact
+  flattened logical `UInt64` independent-triangle indices, preserving order,
+  multiplicity and degenerate triples while keeping later physical
+  `IndexType` selection outside logical identity. Construction applies the
+  frozen negative-count, incomplete-triple, then total bounds-check precedence
+  and publishes only complete in-bounds topology; its three public errors are
+  payload-free, empty topology is valid, and no stable wire is claimed. Seven
+  focused tests cover both ordinary admissions, every error and precedence
+  boundary, `UInt64`/host limits, exact preservation and
+  `Sendable`/`Hashable` behavior. The full coordinate-bearing mesh remains
+  blocked on the explicit `VoxeliaGeometry`/`VoxeliaSpatial` dependency
+  resolution. The wider verification pass also exposed the ten pre-existing
+  ungoverned `@unchecked Sendable` conformances now failing the repository
+  safety gate; restoring that fail-closed gate is the exact next action before
+  the geometry dependency decision under `ADR-0186`.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9567,12 +9588,20 @@ M4 and M5 queues and the M6 reconstruction, brick-statistics, cubic-resampling
 and direct-volume-rendering increments through accepted `ADR-0182`. Accepted
 `ADR-0183` now opens the M6 geometry extraction arc. The full
 coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
-accepted `ADR-0184`; do not add `VoxeliaGeometry -> VoxeliaSpatial`, duplicate
-its coordinate model or weaken the space identity without an explicit
-dependency-resolution decision. The independently unblocked exact next action
-is implementing `TriangleMeshTopology` under `ADR-0185`, with complete
-in-bounds triples, fixed payload-free error precedence, exact logical `UInt64`
-identity and focused concurrency/boundary tests. Do not freeze the
+accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
+logical triangle topology. The immediate exact next action is restoring the
+fail-closed Swift safety gate, which now reports ten ungoverned pre-existing
+`@unchecked Sendable` conformances from the M3/brick-cache continuation. Audit
+and remove them in focused concurrency increments; do not suppress the checker
+or claim the historical zero-exception state.
+
+After that recovery, the geometry queue resumes with the explicit package
+dependency-resolution decision under `ADR-0186`: reconcile the MTA/CDMS demand
+for a Spatial-owned coordinate space in canonical mesh values with the approved
+`VoxeliaGeometry -> VoxeliaCore` direct graph, including package-graph,
+ownership, API and downstream validation consequences. Do not add
+`VoxeliaGeometry -> VoxeliaSpatial`, duplicate its coordinate model or weaken
+the space identity before that decision, and do not freeze the
 marching-cubes-class numeric model until the complete coordinate-bearing output
 contract exists.
 
