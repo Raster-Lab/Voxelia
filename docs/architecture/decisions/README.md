@@ -94,8 +94,9 @@ capability model. `ADR-0106` is allocated to pipeline state caching.
 `ADR-0107` is allocated to kernel dispatch telemetry. `ADR-0108`
 is allocated to shader fingerprint evidence. `ADR-0109` is allocated
 to the kernel throughput measurement campaign. `ADR-0110` is
-allocated to bounded frame contexts. The next unallocated numeric
-identifier is `ADR-0111`.
+allocated to bounded frame contexts. `ADR-0111` is allocated to the
+interaction command vocabulary. The next unallocated numeric
+identifier is `ADR-0112`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -189,3 +190,4 @@ identifier is `ADR-0111`.
 | [ADR-0108](ADR-0108-shader-fingerprint-evidence.md) | Accepted | Shader fingerprint evidence |
 | [ADR-0109](ADR-0109-throughput-measurement-campaign.md) | Accepted | Kernel throughput measurement campaign |
 | [ADR-0110](ADR-0110-bounded-frame-contexts.md) | Accepted | Bounded frame contexts |
+| [ADR-0111](ADR-0111-interaction-command-vocabulary.md) | Accepted | Interaction command vocabulary |

@@ -1988,6 +1988,37 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   double and foreign releases typed, and prove slot reuse with
   monotonic indices; the interactive draw-loop integration remains
   gated on its own architecture.
+- Seventy-ninth autonomous increment (owner broadened standing
+  mandate): the M4 opening assessment and its first executable
+  outcome. M4 — the first DICOM CT vertical slice, 78 rows — was
+  assessed under the M3 sweep precedent. Gated on the owner's
+  supply-chain approval: every `VOX-DCM` row and `VOX-SPA-006`
+  require the DICOMKit third-party dependency, and adding external
+  code changes the trust boundary — that decision is surfaced to the
+  owner, not taken autonomously; the package manifest today has no
+  external dependency. Gated on future architecture: `VOX-INT-008`
+  responsiveness and the draw-loop-coupled parts of
+  `VOX-INT-005/006/007`, `VOX-R2D-014` off-screen-versus-interactive
+  equivalence, and `VOX-MTL-009` full-volume duplication (needs
+  volume workloads). Executable without external dependencies: the
+  `VoxeliaInteraction` value models, the `VOX-R2D` presentation
+  extensions (`MONOCHROME` semantics, inversion, pixel padding,
+  interpolation policies), axis-aligned `VOX-MPR` reconstruction over
+  regular volumes, `VOX-SPA-013/014` frame-of-reference and
+  measurement models, `VOX-CON-009` concurrency campaigns and the
+  `VOX-META-011` privacy assessment. The first outcome shipped as
+  `VOXELIA-ALG-0010` (polyline length `binary64-v1`, frozen segment
+  evaluation with exact fixtures five and seventeen) and `ADR-0111`:
+  `VoxeliaInteraction` opens with the closed UI-framework-neutral
+  ten-concern command vocabulary over validated payloads — pan, zoom,
+  rotation, pick, the physical-space clip box, the accepted window
+  function and crop, the crosshair whose coordinate space travels
+  with its point, and measurement construction preserving the exact
+  ordered input points beside the derived length computed once under
+  the registered model. Tests construct every case, reproduce the
+  fixtures exactly and reject invalid payloads, mixed spaces and
+  empty measurements typed, discharging `VOX-INT-001/002/004/009` at
+  the vocabulary level.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

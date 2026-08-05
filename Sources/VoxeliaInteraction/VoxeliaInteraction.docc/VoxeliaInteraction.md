@@ -13,6 +13,19 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Topics
 
+### Interaction commands
+
+- ``InteractionCommand``
+- ``MeasurementCommand``
+- ``PanDelta``
+- ``ZoomFactor``
+- ``RotationAngle``
+- ``PickTarget``
+- ``ClipBox``
+- ``CrosshairState``
+- ``MeasurementConstruction``
+- ``InteractionError``
+
 ### Project documents
 
 - <doc:Architecture>

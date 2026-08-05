@@ -162,6 +162,7 @@ Sources/VoxeliaInteraction/ApplePlatformGate.swift
 Sources/VoxeliaInteraction/Internal/.gitkeep
 Sources/VoxeliaInteraction/Module.swift
 Sources/VoxeliaInteraction/Public/.gitkeep
+Sources/VoxeliaInteraction/Public/InteractionCommand.swift
 Sources/VoxeliaInteraction/VoxeliaInteraction.docc/Architecture.md
 Sources/VoxeliaInteraction/VoxeliaInteraction.docc/Requirements.md
 Sources/VoxeliaInteraction/VoxeliaInteraction.docc/VoxeliaInteraction.md
@@ -317,6 +318,7 @@ Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift
 Tests/VoxeliaGeometryTests/GeometryTaxonomyTests.swift
 Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
 Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift
+Tests/VoxeliaInteractionTests/InteractionCommandTests.swift
 Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift
 Tests/VoxeliaMetalTests/ExactSliceRendererTests.swift
 Tests/VoxeliaMetalTests/MetalCompositeKernelTests.swift
@@ -439,6 +441,7 @@ docs/algorithms/VOXELIA-ALG-0006-region-origin-shift.md
 docs/algorithms/VOXELIA-ALG-0007-camera-relative-float-transform.md
 docs/algorithms/VOXELIA-ALG-0008-nearest-neighbour-resampling.md
 docs/algorithms/VOXELIA-ALG-0009-layered-linear-blend.md
+docs/algorithms/VOXELIA-ALG-0010-polyline-length.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -555,6 +558,7 @@ docs/architecture/decisions/ADR-0107-kernel-telemetry.md
 docs/architecture/decisions/ADR-0108-shader-fingerprint-evidence.md
 docs/architecture/decisions/ADR-0109-throughput-measurement-campaign.md
 docs/architecture/decisions/ADR-0110-bounded-frame-contexts.md
+docs/architecture/decisions/ADR-0111-interaction-command-vocabulary.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
