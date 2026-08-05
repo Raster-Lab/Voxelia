@@ -1001,8 +1001,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Public/SceneSnapshot.swift",
-      "size": 2362,
-      "sha256": "e761a567c183de15a3356f353b1c92b1b308f719bca279a41c38ae9c796da4db"
+      "size": 2605,
+      "sha256": "0859ca52268737b8e11099b88edb8a356c8a19dd485bdc9ca2e461a022b9fbfa"
     },
     {
       "path": "Sources/VoxeliaRendering/Public/TransferFunction.swift",
@@ -1586,8 +1586,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/ExactSliceRendererTests.swift",
-      "size": 18697,
-      "sha256": "3502357efa8c4687aacc5b21c911a6cf8802cc82b88c5f4f120f4fa457e1a1c8"
+      "size": 20548,
+      "sha256": "b6251d28e03dd051912f44079a09adcf801b96ba39f7451b9802634daacc9976"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalCompositeKernelTests.swift",
@@ -2705,9 +2705,14 @@
       "sha256": "20250d513d9828e5f222e6ee86e63bc104babe1ab29e7c188f5f0557241f163b"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0103-interactive-quality-equivalence.md",
+      "size": 2729,
+      "sha256": "785b7a9fd72b6e65ea8b2954bcf43403e7eab1eb7b2b6275216d8f65888525d4"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 15140,
-      "sha256": "2490ab06b572c0ac1b3c37061dfb28e0d205437e6b8e0c8322cd59d44e241140"
+      "size": 15305,
+      "sha256": "d4dde6e45dd154f1a6fd49aa6f31d3624155128e6cae1ee492d9fac6c1d9f56c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2791,8 +2796,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 527890,
-      "sha256": "74281218c9494e518029c9264f3e4c306c0260969f15d68282ed8f17d92129d5"
+      "size": 528873,
+      "sha256": "c87da6e16ac63917cae909f45142059b739ab87932dac6e3348d4e658ee381e7"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3151,8 +3156,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 32930,
-      "sha256": "c065331b49342609e9e702e38b8ce6bc6bf6b30bfd466cd89e1e73d93a65016d"
+      "size": 33002,
+      "sha256": "6fd1d03ce50cecb361d624fa37884dfccc31851d369f88ea8e26028eea3b7986"
     }
   ]
 }

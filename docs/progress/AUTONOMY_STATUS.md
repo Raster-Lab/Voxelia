@@ -1829,6 +1829,21 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   an alias, loadable and re-verified under its own sample-bytes
   claim — exercising the `ADR-0067` best-effort alias phase through
   the real pipeline.
+- Seventy-first autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0103`, recording interactive
+  quality equivalence. The version-one pipeline is deterministic and
+  single-pass, so `interactive` and `full` requests execute
+  identically — now documented on the type instead of left implicit —
+  and stage records claim the `full` quality policy under either
+  request because that is what executed; the requested quality is
+  deliberately not recorded in the presentation provenance per the
+  `ADR-0100` rule, since an identically executed request leaves
+  nothing distinct to claim, and a future degraded interactive path
+  will carry its own quality tokens through its own decisions.
+  Recording the request as provenance and claiming an interactive
+  token today were both rejected as false. The suite proves the
+  equivalence: one scene rendered under both qualities publishes
+  identical bytes with identical full quality-policy claims.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

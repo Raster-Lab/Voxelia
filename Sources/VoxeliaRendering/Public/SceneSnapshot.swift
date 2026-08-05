@@ -6,7 +6,10 @@ import VoxeliaCore
 ///
 /// Accumulation and denoising are result-provenance states, not
 /// quality requests; version-one renderers are deterministic
-/// single-pass.
+/// single-pass, and per `ADR-0103` the two requests execute
+/// identically: the request is a hint, stage claims record the
+/// quality that actually ran, and a future degraded interactive path
+/// will claim its own quality tokens through its own decisions.
 public enum RenderQuality: Sendable, Hashable {
     case interactive
     case full

@@ -350,6 +350,48 @@ struct ExactSliceRendererTests {
         }
     }
 
+    @Test("[Unit][VOX-ARC-008][VOX-VS1-019] both qualities execute identically")
+    func bothQualitiesExecuteIdentically() async throws {
+        // The ADR-0103 equivalence: interactive and full requests over
+        // one scene publish identical bytes with identical full
+        // quality-policy claims — the request is a hint and the claim
+        // records what ran.
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        var outputs = [[UInt8]]()
+        var qualityTokens = [String]()
+        for (prefix, quality) in [
+            ("render-7i", RenderQuality.interactive), ("render-7f", .full),
+        ] {
+            let renderer = try makeRenderer(publisher: publisher, prefix: prefix)
+            let result = try await renderer.render(
+                RenderRequest(
+                    scene: try scene([try layer("series-7")]),
+                    viewport: try ViewportSize(width: 4, height: 3),
+                    crop: nil,
+                    quality: quality
+                )
+            )
+            let published = try #require(
+                await publisher.publishedImage(for: result.outputObjectID)
+            )
+            outputs.append(
+                try published.storage.read(
+                    region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 3])
+                ).bytes
+            )
+            guard
+                case .operation(_, let claim) = published.provenance.activity
+            else {
+                #expect(Bool(false), "Expected an operation activity.")
+                return
+            }
+            qualityTokens.append(claim.qualityPolicy.rawValue)
+        }
+        #expect(outputs[0] == outputs[1])
+        #expect(qualityTokens == ["org.voxelia.quality.full", "org.voxelia.quality.full"])
+    }
+
     @Test("[Unit][VOX-VS1-017][VOX-VS1-019] a differing viewport resamples both stages")
     func differingViewportResamplesBothStages() async throws {
         let publisher = try publisher()
