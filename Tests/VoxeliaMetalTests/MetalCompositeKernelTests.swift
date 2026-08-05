@@ -139,7 +139,8 @@ struct MetalCompositeKernelTests {
         }
         #expect(comparedCount == 4096 * 3 + 1024)
         print(
-            "ADR-0096 differential evidence: \(exactMatchCount)/\(comparedCount) exact"
+            "ADR-0096 differential evidence: \(exactMatchCount)/\(comparedCount) exact "
+                + "(source sha256 \(MetalCompositeKernel.sourceDigestHexText))"
         )
         #expect(exactMatchCount * 100 >= comparedCount * 99)
     }

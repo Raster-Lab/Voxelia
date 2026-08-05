@@ -123,7 +123,8 @@ struct MetalWindowLevelKernelTests {
         // exact measured count for this device is reported here and
         // recorded in the progress ledger, not assumed.
         print(
-            "ADR-0080 differential evidence: \(exactMatchCount)/\(comparedCount) exact"
+            "ADR-0080 differential evidence: \(exactMatchCount)/\(comparedCount) exact "
+                + "(source sha256 \(MetalWindowLevelKernel.sourceDigestHexText))"
         )
         #expect(exactMatchCount * 100 >= comparedCount * 99)
     }
@@ -292,7 +293,8 @@ struct MetalWindowLevelKernelTests {
         )
         #expect(comparedCount == 4096 * 9)
         print(
-            "ADR-0093 differential evidence: \(exactMatchCount)/\(comparedCount) exact"
+            "ADR-0093 differential evidence: \(exactMatchCount)/\(comparedCount) exact "
+                + "(source sha256 \(MetalWindowLevelKernel.sourceDigestHexText))"
         )
         #expect(exactMatchCount * 100 >= comparedCount * 99)
 

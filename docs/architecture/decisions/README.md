@@ -91,8 +91,9 @@ manifest archival. `ADR-0102` is allocated to crop presentation. `ADR-0103` is
 allocated to interactive quality equivalence. `ADR-0104` is allocated
 to backend policy planning. `ADR-0105` is allocated to the device
 capability model. `ADR-0106` is allocated to pipeline state caching.
-`ADR-0107` is allocated to kernel dispatch telemetry. The next
-unallocated numeric identifier is `ADR-0108`.
+`ADR-0107` is allocated to kernel dispatch telemetry. `ADR-0108`
+is allocated to shader fingerprint evidence. The next unallocated
+numeric identifier is `ADR-0109`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -183,3 +184,4 @@ unallocated numeric identifier is `ADR-0108`.
 | [ADR-0105](ADR-0105-device-capability-model.md) | Accepted | Device capability model |
 | [ADR-0106](ADR-0106-pipeline-state-caching.md) | Accepted | Pipeline state caching |
 | [ADR-0107](ADR-0107-kernel-telemetry.md) | Accepted | Kernel dispatch telemetry |
+| [ADR-0108](ADR-0108-shader-fingerprint-evidence.md) | Accepted | Shader fingerprint evidence |

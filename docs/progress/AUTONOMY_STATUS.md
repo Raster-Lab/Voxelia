@@ -1933,6 +1933,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   composite dispatch over the fixture, verified one value per
   dispatch with exact counts and non-negative durations, and proved a
   sinkless kernel dispatches unchanged.
+- Seventy-sixth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0108`, reconciling
+  `VOX-VAL-010` with the `ADR-0036` sensitivity rule and delivering
+  shader fingerprint evidence. The sensitivity rule protects
+  content-derived digests — its recorded rationale is dictionary
+  attacks against potentially sensitive canonical content — while a
+  shader-source fingerprint digests Voxelia's own public repository
+  text, already committed in the manifest and the pinned-digest
+  suites, so the rule does not cover it and content-derived digests
+  stay protected. The three GPU differential evidence lines now carry
+  the pinned source fingerprint of the measured family, binding every
+  recorded measurement to the exact shader text it measured; the
+  compiled-shader fingerprint is recorded honestly open, because
+  runtime source compilation produces no stable compiled artefact and
+  one arrives only with the gated metallib distribution work. The M3
+  sweep's executable rows are now fully discharged: `VOX-MTL-002`,
+  `VOX-MTL-005`, `VOX-MTL-015` and `VOX-VAL-010` all carry recorded
+  decisions and measured evidence.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -549,6 +549,7 @@ docs/architecture/decisions/ADR-0104-backend-policy-planning.md
 docs/architecture/decisions/ADR-0105-device-capability-model.md
 docs/architecture/decisions/ADR-0106-pipeline-state-caching.md
 docs/architecture/decisions/ADR-0107-kernel-telemetry.md
+docs/architecture/decisions/ADR-0108-shader-fingerprint-evidence.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
