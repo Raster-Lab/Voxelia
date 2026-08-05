@@ -3360,6 +3360,25 @@ oracle campaigns.
   identity over the whole eight-bit domain, both clamp directions,
   the typed rejections and bit-identical repetition. The arc
   continues with the ray-sampling design.
+- One-hundred-forty-fourth autonomous increment (owner broadened
+  standing mandate): authored and accepted `VOXELIA-ALG-0022` and
+  `ADR-0168`, freezing the ray-sampling model — the arc's second
+  increment, composing three accepted authorities rather than
+  inventing one. The ray normalises by the accepted norm form so its
+  parameter is world distance, maps to index space through the
+  accepted inverse composition where an affine volume's bounds are
+  genuinely axis-aligned, and intersects the accepted sampling
+  support through the accepted slab rule. The interval derives from
+  physical spacing and the quality policy — half the minimum voxel
+  spacing under the one registered quality token, with the mapping
+  declared as a table future tokens must extend in their own records
+  — never a fixed normalised constant. Misses and inside-cameras are
+  declared values, not errors: the empty sequence and the
+  zero-clamped entry. Four python-verified fixtures pin exact dyadic
+  sample sequences including the scaled-spacing and inside-camera
+  cases. Endpoint sampling was rejected for midpoints; adaptive
+  intervals deferred to the acceleration increment that must prove
+  image identity. Implementation follows as its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
