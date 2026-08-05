@@ -160,8 +160,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0177` is allocated to the gradient lighting.
 `ADR-0178` is allocated to the volume clipping design. `ADR-0179` is
 allocated to the volume clipping implementation. `ADR-0180` is
-allocated to the segmentation masks design. The next unallocated
-numeric identifier is `ADR-0181`.
+allocated to the segmentation masks design. `ADR-0181` is allocated to
+the bricked and multi-resolution volume assessment. The next
+unallocated numeric identifier is `ADR-0182`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -325,3 +326,4 @@ numeric identifier is `ADR-0181`.
 | [ADR-0178](ADR-0178-volume-clipping-design.md) | Accepted | Volume clipping design |
 | [ADR-0179](ADR-0179-volume-clipping.md) | Accepted | Volume clipping |
 | [ADR-0180](ADR-0180-segmentation-masks-design.md) | Accepted | Segmentation masks design |
+| [ADR-0181](ADR-0181-bricked-multires-assessment.md) | Accepted | Bricked and multi-resolution volume assessment |

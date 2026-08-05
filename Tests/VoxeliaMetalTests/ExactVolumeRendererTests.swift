@@ -149,6 +149,122 @@ struct ExactVolumeRendererTests {
         )
     }
 
+    /// The established fixture volume's bytes, bricked rather than
+    /// contiguous — `VOX-DVR-011`'s bricked half is discharged by
+    /// composition per `ADR-0181`; this proves the renderer's actual
+    /// output is byte-identical regardless of backing.
+    private func brickedVolume(
+        geometry: SpatialGeometry?,
+        extents: [Int] = [3, 3, 3]
+    ) throws -> ImageData {
+        var bytes = [UInt8](repeating: 0, count: extents.reduce(1, *))
+        for i2 in 0..<3 {
+            for i1 in 0..<3 {
+                for i0 in 0..<3 {
+                    bytes[i0 + 3 * (i1 + 3 * i2)] = UInt8(2 * i0 + 6 * i1 + 18 * i2)
+                }
+            }
+        }
+        let grid = try BrickGridDescriptor(
+            volumeExtents: ContiguousArray(extents),
+            nominalBrickExtents: [2, 2, 2],
+            haloExtents: [0, 0, 0]
+        )
+        var payloads: [ContiguousArray<Int>: [UInt8]] = [:]
+        let counts = grid.brickCounts
+        for k in 0..<counts[2] {
+            for j in 0..<counts[1] {
+                for i in 0..<counts[0] {
+                    let coordinate: ContiguousArray<Int> = [i, j, k]
+                    let core = try grid.coreRegion(of: coordinate)
+                    var payload = [UInt8]()
+                    for z in core.lowerBounds[2]..<core.upperBounds[2] {
+                        for y in core.lowerBounds[1]..<core.upperBounds[1] {
+                            for x in core.lowerBounds[0]..<core.upperBounds[0] {
+                                payload.append(bytes[x + 3 * (y + 3 * z)])
+                            }
+                        }
+                    }
+                    payloads[coordinate] = payload
+                }
+            }
+        }
+        var axes = ContiguousArray<AxisDescriptor>()
+        let semantics: [AxisSemantic] = [.spatialX, .spatialY, .spatialZ]
+        let names = ["x", "y", "z"]
+        for index in 0..<extents.count {
+            axes.append(
+                try AxisDescriptor(
+                    id: try #require(AxisID(rawValue: names[index])),
+                    name: names[index],
+                    semantic: semantics[index],
+                    unit: nil,
+                    sampling: .indexOnly
+                )
+            )
+        }
+        return try ImageData(
+            descriptor: try ImageDescriptor(
+                shape: try ImageShape(extents: ContiguousArray(extents)),
+                scalarFormat: try ScalarFormat(
+                    type: .uint8,
+                    validBitCount: nil,
+                    byteOrder: .native
+                ),
+                components: try ComponentDescriptor(
+                    count: 1,
+                    interpretation: .scalar,
+                    layout: .interleaved,
+                    componentNames: nil
+                ),
+                semantic: .intensity,
+                axes: axes,
+                spatialGeometry: geometry,
+                valueTransform: nil,
+                units: nil
+            ),
+            storage: AnyImageStorage(
+                erasing: try BrickedImageStorage(
+                    binding: try LogicalSampleBinding(
+                        shape: try ImageShape(extents: ContiguousArray(extents)),
+                        scalarType: .uint8,
+                        componentCount: 1
+                    ),
+                    grid: grid,
+                    bricks: payloads
+                )
+            ),
+            metadata: try MetadataCollection(entries: []),
+            provenance: try ProvenanceRecord(
+                id: try #require(ProvenanceID(rawValue: "record-volume-bricked")),
+                kind: .source,
+                createdAt: try CanonicalInstant(utcString: "2026-08-05T12:00:00Z"),
+                subject: .object(try #require(DataObjectID(rawValue: "volume-bricked"))),
+                software: try software(),
+                activity: .origin,
+                inputs: [],
+                warnings: [],
+                validationClaim: .unknown,
+                declaresZeroInputGenerator: false
+            ),
+            identity: try DataIdentity(
+                objectID: try #require(DataObjectID(rawValue: "volume-bricked")),
+                contentID: try ContentID.sampleBytesIdentity(
+                    overCanonicalPackedBytes: bytes
+                ),
+                sourceIdentities: [
+                    try SourceIdentity(
+                        namespace: "dicom.sop-instance-uid",
+                        identifier: "1.2.840.113619.14",
+                        version: nil,
+                        contentID: nil
+                    )
+                ],
+                derivation: nil
+            )
+        )
+    }
+
     /// A label mask volume, its extents/format/object identity
     /// independently overridable so the same helper builds both a
     /// valid mask and the malformed shapes the admission tests
@@ -548,6 +664,78 @@ struct ExactVolumeRendererTests {
         await #expect(throws: VolumeRenderError.volumeNotSpatiallyCalibrated) {
             try await render()
         }
+    }
+
+    @Test("[Integration][VOX-DVR-011] a bricked-backed volume renders identically to contiguous")
+    func brickedVolumeRendersIdenticallyToContiguous() async throws {
+        // The ADR-0181 assessment's proving obligation: the renderer's
+        // own descriptor guards and read path are representation-
+        // independent, so a bricked-backed volume renders byte-
+        // identically to the same volume contiguous-backed, with no
+        // renderer code change required.
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try volume(geometry: .affine(try identityGeometry())),
+            mode: .complete
+        )
+        _ = try await publisher.publish(
+            try brickedVolume(geometry: .affine(try identityGeometry())),
+            mode: .complete
+        )
+        let renderer = ExactVolumeRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            software: try software()
+        )
+        let id = try #require(CoordinateSpaceID(rawValue: "patient"))
+        func request(volumeObjectID: String) throws -> VolumeRenderRequest {
+            VolumeRenderRequest(
+                volumeObjectID: try #require(DataObjectID(rawValue: volumeObjectID)),
+                table: try rampTable(),
+                camera: try RenderCamera(
+                    position: try Point3D(x: 1, y: 1, z: -5, coordinateSpace: id),
+                    target: try Point3D(x: 1, y: 1, z: 1, coordinateSpace: id),
+                    up: try Vector3D(x: 0, y: 1, z: 0, coordinateSpace: id),
+                    projection: .orthographic(planeHeight: 4)
+                ),
+                viewport: try ViewportSize(width: 2, height: 2),
+                quality: "org.voxelia.quality.full",
+                lighting: .none,
+                clip: nil,
+                crop: nil,
+                mask: nil
+            )
+        }
+        let contiguousResult = try await renderer.render(
+            try request(volumeObjectID: "volume-7"),
+            outputObjectID: try #require(DataObjectID(rawValue: "render-contiguous")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-contiguous")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:20:00Z")
+        )
+        let brickedResult = try await renderer.render(
+            try request(volumeObjectID: "volume-bricked"),
+            outputObjectID: try #require(DataObjectID(rawValue: "render-bricked")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-bricked")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:21:00Z")
+        )
+        let contiguousBytes = try #require(
+            await publisher.publishedImage(for: contiguousResult.outputObjectID)
+        ).storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [2, 2])
+        ).bytes
+        let brickedBytes = try #require(
+            await publisher.publishedImage(for: brickedResult.outputObjectID)
+        ).storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [2, 2])
+        ).bytes
+        #expect(brickedBytes == contiguousBytes)
+        #expect(brickedBytes.contains { $0 != 0 })
     }
 
     @Test("[Integration][VOX-DVR-010] the masked render excludes labelled samples")

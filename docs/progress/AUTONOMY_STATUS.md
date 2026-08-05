@@ -3665,6 +3665,31 @@ oracle campaigns.
   Multi-volume compositing, `VOX-DVR-010`'s other half, remains its
   own deferred future record; the arc's remaining increment is
   acceleration.
+- One-hundred-fifty-ninth autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0181`, correcting a
+  gap discovered on re-reading the requirement table — `VOX-DVR-011`,
+  bricked and multi-resolution volumes, was never named anywhere in
+  `ADR-0165`'s decomposition, which runs `VOX-DVR-001` through `010`
+  and skips straight to `012`. The bricked half is discharged by
+  composition: `BrickedImageStorage` erases into the same
+  `AnyImageStorage` box as contiguous storage, the coordinated read
+  path is representation-agnostic, and `ADR-0156` already claims
+  brickedness is invisible through the whole pipeline; this record
+  adds the renderer-specific proof, a new test rendering the same
+  volume contiguous-backed and bricked-backed and asserting
+  byte-identical output, with zero renderer source change required.
+  The multi-resolution half is explicitly deferred: no storage-level
+  multi-level container exists beyond an unused arithmetic vocabulary
+  case, the streaming subsystem a real consumer would need is itself
+  unwired, and the master architecture document's own sketch is a
+  materially larger surface than anything accepted — every level its
+  own descriptor, downsampling method, brick grid and provenance —
+  that freezing now would guess a consumer's requirements rather than
+  build to them, the same reasoning that deferred oriented clip
+  planes and multi-volume compositing. `ADR-0165` itself is not
+  edited; the gap is corrected by this record going forward. The
+  arc's open items are now: multi-volume compositing (deferred),
+  multi-resolution volumes (deferred), and acceleration.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
