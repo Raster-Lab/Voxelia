@@ -3607,6 +3607,35 @@ oracle campaigns.
   through the untouched path, prove bit-identical repetition, and
   reject the foreign-space clip and out-of-volume crop typed. The
   arc's remaining increments are masks, then acceleration.
+- One-hundred-fifty-seventh autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0180`, freezing the
+  segmentation masks design — the arc's sixth increment — plus
+  `VOXELIA-ALG-0026`. `VolumeMaskSelection` pairs one mask volume with
+  a non-empty visible-label allow-list, typed rejection on empty.
+  Label lookup is nearest-neighbour, restated rather than reused from
+  either the trilinear sampling authority or the nearest-neighbour
+  resampling operation's shifted-floor rule, because both assume
+  conventions wrong for a centres-at-integers label grid; an
+  out-of-support position returns label zero, mirroring the trilinear
+  sampler's sentinel. Masking is realised entirely above the sampler
+  — `VolumeRaySampler` stays untouched — as two additional compositor
+  entries (masked-unshaded, masked-shaded) mirroring the accepted
+  unshaded/shaded pair exactly: an excluded sample's colour and
+  opacity never reach the accumulation while it is still counted as
+  consumed, and the two accepted entries are not modified. The
+  request gains the explicit optional mask with absence stated at
+  every call site; the parameter collection digests the mask identity
+  and its ascending-sorted visible labels only when declared, the
+  padding-entry precedent. The renderer will validate the mask's
+  extents and scalar format against the volume, typed. Multi-volume
+  compositing, `VOX-DVR-010`'s other half, is explicitly deferred to
+  its own future record because no consumer-driven blend rule exists
+  yet — the same reasoning that deferred oriented clip planes.
+  Python-verified fixtures pin the nearest-neighbour indices, the
+  masked-unshaded and masked-shaded worked examples against their
+  filtered-subsequence equivalents, the all-included identity and the
+  all-excluded transparent-black case. Implementation follows as its
+  own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
