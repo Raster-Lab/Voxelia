@@ -97,15 +97,17 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         self.telemetrySink = telemetrySink
         func pipeline(_ name: String) throws -> any MTLComputePipelineState {
             do {
-                return try context.pipelineCache.pipeline(
-                    key: MetalPipelineCache.Key(
-                        kernelToken: Self.kernelIdentifier,
-                        sourceDigest: Self.sourceDigestHexText,
-                        entryPoint: name
-                    ),
-                    source: WindowLevelKernelSource.metalSource,
-                    device: context.device
-                )
+                return try context.withMetalHandles { device, _ in
+                    try context.pipelineCache.pipeline(
+                        key: MetalPipelineCache.Key(
+                            kernelToken: Self.kernelIdentifier,
+                            sourceDigest: Self.sourceDigestHexText,
+                            entryPoint: name
+                        ),
+                        source: WindowLevelKernelSource.metalSource,
+                        device: device
+                    )
+                }
             } catch MetalPipelineCacheError.compilationFailed {
                 throw MetalKernelError.compilationFailed
             } catch {
@@ -202,21 +204,32 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         )
 
         guard
-            let inputBuffer = context.device.makeBuffer(
-                bytes: storedBytes,
-                length: storedBytes.count,
-                options: [.storageModeShared]
-            ),
-            let outputBuffer = context.device.makeBuffer(
-                length: sampleCount,
-                options: [.storageModeShared]
-            )
+            let buffers = context.withMetalHandles({
+                device, _ -> (any MTLBuffer, any MTLBuffer)? in
+                guard
+                    let input = device.makeBuffer(
+                        bytes: storedBytes,
+                        length: storedBytes.count,
+                        options: [.storageModeShared]
+                    ),
+                    let output = device.makeBuffer(
+                        length: sampleCount,
+                        options: [.storageModeShared]
+                    )
+                else {
+                    return nil
+                }
+                return (input, output)
+            })
         else {
             throw MetalKernelError.bufferAllocationFailed
         }
+        let (inputBuffer, outputBuffer) = buffers
 
         guard
-            let commandBuffer = context.commandQueue.makeCommandBuffer(),
+            let commandBuffer = context.withMetalHandles({ _, commandQueue in
+                commandQueue.makeCommandBuffer()
+            }),
             let encoder = commandBuffer.makeComputeCommandEncoder()
         else {
             throw MetalKernelError.executionFailed

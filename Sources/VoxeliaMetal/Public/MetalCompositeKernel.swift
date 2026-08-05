@@ -62,15 +62,17 @@ public final class MetalCompositeKernel: @unchecked Sendable {
         self.context = context
         self.telemetrySink = telemetrySink
         do {
-            self.pipeline = try context.pipelineCache.pipeline(
-                key: MetalPipelineCache.Key(
-                    kernelToken: Self.kernelIdentifier,
-                    sourceDigest: Self.sourceDigestHexText,
-                    entryPoint: "voxelia_composite_layers"
-                ),
-                source: CompositeKernelSource.metalSource,
-                device: context.device
-            )
+            self.pipeline = try context.withMetalHandles { device, _ in
+                try context.pipelineCache.pipeline(
+                    key: MetalPipelineCache.Key(
+                        kernelToken: Self.kernelIdentifier,
+                        sourceDigest: Self.sourceDigestHexText,
+                        entryPoint: "voxelia_composite_layers"
+                    ),
+                    source: CompositeKernelSource.metalSource,
+                    device: device
+                )
+            }
         } catch MetalPipelineCacheError.compilationFailed {
             throw MetalCompositeKernelError.compilationFailed
         } catch {
@@ -120,26 +122,37 @@ public final class MetalCompositeKernel: @unchecked Sendable {
         let packedOpacities = opacities.map(Float.init)
 
         guard
-            let samplesBuffer = context.device.makeBuffer(
-                bytes: packedSamples,
-                length: packedSamples.count,
-                options: [.storageModeShared]
-            ),
-            let opacitiesBuffer = context.device.makeBuffer(
-                bytes: packedOpacities,
-                length: packedOpacities.count * MemoryLayout<Float>.stride,
-                options: [.storageModeShared]
-            ),
-            let outputBuffer = context.device.makeBuffer(
-                length: elementCount,
-                options: [.storageModeShared]
-            )
+            let buffers = context.withMetalHandles({
+                device, _ -> (any MTLBuffer, any MTLBuffer, any MTLBuffer)? in
+                guard
+                    let samples = device.makeBuffer(
+                        bytes: packedSamples,
+                        length: packedSamples.count,
+                        options: [.storageModeShared]
+                    ),
+                    let opacities = device.makeBuffer(
+                        bytes: packedOpacities,
+                        length: packedOpacities.count * MemoryLayout<Float>.stride,
+                        options: [.storageModeShared]
+                    ),
+                    let output = device.makeBuffer(
+                        length: elementCount,
+                        options: [.storageModeShared]
+                    )
+                else {
+                    return nil
+                }
+                return (samples, opacities, output)
+            })
         else {
             throw MetalCompositeKernelError.bufferAllocationFailed
         }
+        let (samplesBuffer, opacitiesBuffer, outputBuffer) = buffers
 
         guard
-            let commandBuffer = context.commandQueue.makeCommandBuffer(),
+            let commandBuffer = context.withMetalHandles({ _, commandQueue in
+                commandQueue.makeCommandBuffer()
+            }),
             let encoder = commandBuffer.makeComputeCommandEncoder()
         else {
             throw MetalCompositeKernelError.executionFailed

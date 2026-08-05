@@ -31,9 +31,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   telemetry and brick-cache increments. The first recovery increment replaced
   all three test-only lock wrappers with checked `Synchronization.Mutex`
   storage, and the second moved `MetalPipelineCache`'s dictionaries, counters
-  and compilation critical section behind one checked mutex state. The fail-
-  closed Swift safety gate now reports six production Metal classes. None has
-  an accepted exception under the standing
+  and compilation critical section behind one checked mutex state. The third
+  moved `MetalExecutionContext`'s device and command queue behind one checked
+  synchronous borrowing boundary. The fail-closed Swift safety gate now
+  reports five production Metal classes. None has an accepted exception under
+  the standing
   zero-exception policy, so the earlier no-exception claim is not current and
   the gate must not be reported green. The last recorded strict product/test
   destination builds remain historical evidence only; visionOS 26.5 is still
@@ -3842,6 +3844,33 @@ oracle campaigns.
   findings, down from seven, so the repository gate remains honestly red. The
   next recovery is the `MetalExecutionContext` handle boundary, followed by
   the three kernel wrappers, residency manager and slice renderer.
+- One-hundred-sixty-seventh autonomous increment (scheduled goal
+  continuation): removed `MetalExecutionContext`'s ungoverned concurrency
+  exception while preserving the accepted one-device, one-command-queue and
+  one-cache-per-context contracts. The two non-`Sendable` Metal handles now
+  live together inside one checked `Synchronization.Mutex<Handles>` and every
+  module-internal pipeline, buffer and command-buffer consumer accesses them
+  through a synchronous borrowing closure; the public class is ordinary
+  compiler-verified `Sendable`, while capabilities, opaque registry evidence
+  and cache identity remain immutable. A new focused test observed the same
+  device and queue object identities through thirty-two concurrent borrows
+  and the same cache instance. `MetalExecutionContextTests` executed two tests
+  with zero failures and recorded sparse=true, raytracing=true, threadgroup
+  width 1024 and recommended working-set bytes 19069665280 on this host. The
+  direct consumer filter executed eleven pipeline-cache, residency, window,
+  composite and inversion kernel tests across five suites with zero failures.
+  Final review kept multi-buffer allocation fail-fast inside each borrow; the
+  combined context-and-consumer filter then reran all thirteen tests across
+  six suites with zero failures.
+  Focused strict format lint initially identified one residency-guard layout
+  issue; that layout was corrected and the same six-file lint passed. The
+  first direct-access search also matched the public
+  `deviceRegistryIdentifier` prefix; the refined word-boundary audit passed
+  with no direct device or queue access. The complete suite was intentionally
+  not run under the narrow-test policy. The raw safety inventory now reports
+  exactly five findings, down from six, so the repository gate remains
+  honestly red. The next recovery is the three immutable kernel wrappers,
+  followed by residency manager and slice renderer.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9622,14 +9651,13 @@ coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
 accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The immediate exact next action is restoring the
 fail-closed Swift safety gate. Checked mutex recovery removed the three
-test-only findings and `MetalPipelineCache`; six ungoverned production Metal
-conformances remain. The exact next focused recovery is
-`MetalExecutionContext`: isolate the non-Sendable device and command-queue
-handles behind a checked synchronous borrowing boundary while preserving one
-device/queue acquisition, capability evidence and shared cache identity. Then
-audit the three kernel wrappers, residency manager and renderer orchestration
-boundary; do not suppress the checker or claim the historical zero-exception
-state.
+test-only findings, `MetalPipelineCache` and `MetalExecutionContext`; five
+ungoverned production Metal conformances remain. The exact next focused
+recovery is the three immutable kernel wrappers: place each non-`Sendable`
+pipeline set behind checked synchronous borrowing without changing stable
+pipeline identities, telemetry, differential behavior or parallel dispatch.
+Then audit residency manager and the renderer orchestration boundary; do not
+suppress the checker or claim the historical zero-exception state.
 
 After that recovery, the geometry queue resumes with the explicit package
 dependency-resolution decision under `ADR-0186`: reconcile the MTA/CDMS demand

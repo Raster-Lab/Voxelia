@@ -83,10 +83,12 @@ public final class MetalResidencyManager: @unchecked Sendable {
             options = [.storageModePrivate]
         }
         guard
-            let buffer = context.device.makeBuffer(
-                length: byteCount,
-                options: options
-            )
+            let buffer = context.withMetalHandles({ device, _ in
+                device.makeBuffer(
+                    length: byteCount,
+                    options: options
+                )
+            })
         else {
             throw MetalResidencyError.bufferAllocationFailed
         }

@@ -75,5 +75,35 @@ struct MetalExecutionContextTests {
         requireSendable(MetalDeviceCapabilities.self)
     }
 
+    @Test("[Concurrency][VOX-MTL-004][VOX-CON-003] checked borrows preserve handle identity")
+    func checkedBorrowsPreserveHandleIdentity() async throws {
+        let context = try MetalExecutionContext()
+        let expected = context.withMetalHandles(HandleIdentity.init)
+
+        await withTaskGroup(of: HandleIdentity.self) { group in
+            for _ in 0..<32 {
+                group.addTask {
+                    context.withMetalHandles(HandleIdentity.init)
+                }
+            }
+
+            for await observed in group {
+                #expect(observed == expected)
+            }
+        }
+
+        #expect(context.pipelineCache === context.pipelineCache)
+    }
+
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
+
+    private struct HandleIdentity: Sendable, Equatable {
+        let device: ObjectIdentifier
+        let commandQueue: ObjectIdentifier
+
+        init(device: any AnyObject, commandQueue: any AnyObject) {
+            self.device = ObjectIdentifier(device)
+            self.commandQueue = ObjectIdentifier(commandQueue)
+        }
+    }
 }

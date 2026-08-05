@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import Metal
+import Synchronization
 import VoxeliaCore
 
 /// An error raised while acquiring the Metal execution context.
@@ -55,12 +56,11 @@ public struct MetalDeviceCapabilities: Sendable, Hashable {
 /// through capability detection only: no API accepts or exposes a
 /// device name, commercial model or named Metal generation, and
 /// device-specific behaviour keys off the closed capability class. The
-/// class is marked unchecked-`Sendable` on the recorded justification
-/// that `MTLDevice` and `MTLCommandQueue` are documented thread-safe —
-/// a documented platform-contract reliance, not an unchecked invariant
-/// of Voxelia code. Device and queue handles stay module-internal for
+/// non-`Sendable` device and queue handles are retained together behind
+/// one checked mutex and may be used only through a synchronous internal
+/// borrowing closure. Device and queue handles stay module-internal for
 /// the kernel and residency increments.
-public final class MetalExecutionContext: @unchecked Sendable {
+public final class MetalExecutionContext: Sendable {
     /// The closed capability-class token spelling detected by version
     /// one; it parses as the `ADR-0051` execution-claim capability
     /// class, so GPU-executed claims plug into the existing provenance
@@ -80,8 +80,12 @@ public final class MetalExecutionContext: @unchecked Sendable {
     /// The per-context pipeline-state cache per `ADR-0106`.
     public let pipelineCache: MetalPipelineCache
 
-    let device: any MTLDevice
-    let commandQueue: any MTLCommandQueue
+    private struct Handles {
+        let device: any MTLDevice
+        let commandQueue: any MTLCommandQueue
+    }
+
+    private let handles: Mutex<Handles>
 
     /// Acquires the system default device and command queue with
     /// closed capability detection.
@@ -97,8 +101,9 @@ public final class MetalExecutionContext: @unchecked Sendable {
         guard let commandQueue = device.makeCommandQueue() else {
             throw MetalContextError.commandQueueUnavailable
         }
-        self.device = device
-        self.commandQueue = commandQueue
+        self.handles = Mutex(
+            Handles(device: device, commandQueue: commandQueue)
+        )
         self.capabilityClass = try ExecutionClaimToken(
             rawValue: Self.metal3CapabilityIdentifier
         )
@@ -116,5 +121,20 @@ public final class MetalExecutionContext: @unchecked Sendable {
             recommendedMaximumWorkingSetByteCount: device.recommendedMaxWorkingSetSize
         )
         self.pipelineCache = MetalPipelineCache()
+    }
+
+    /// Borrows the context's single device and command queue synchronously.
+    ///
+    /// The closure must not capture or return either handle. Keeping all
+    /// access inside this module and under the checked mutex makes the
+    /// context's concurrency boundary compiler-verifiable while preserving
+    /// the documented platform contract that the underlying Metal objects
+    /// may serve concurrent operations.
+    func withMetalHandles<Result>(
+        _ body: (any MTLDevice, any MTLCommandQueue) throws -> Result
+    ) rethrows -> Result {
+        try handles.withLock { handles in
+            try body(handles.device, handles.commandQueue)
+        }
     }
 }

@@ -60,15 +60,17 @@ public final class MetalInvertKernel: @unchecked Sendable {
         self.context = context
         self.telemetrySink = telemetrySink
         do {
-            self.pipeline = try context.pipelineCache.pipeline(
-                key: MetalPipelineCache.Key(
-                    kernelToken: Self.kernelIdentifier,
-                    sourceDigest: Self.sourceDigestHexText,
-                    entryPoint: "voxelia_invert_display_u8"
-                ),
-                source: InvertKernelSource.metalSource,
-                device: context.device
-            )
+            self.pipeline = try context.withMetalHandles { device, _ in
+                try context.pipelineCache.pipeline(
+                    key: MetalPipelineCache.Key(
+                        kernelToken: Self.kernelIdentifier,
+                        sourceDigest: Self.sourceDigestHexText,
+                        entryPoint: "voxelia_invert_display_u8"
+                    ),
+                    source: InvertKernelSource.metalSource,
+                    device: device
+                )
+            }
         } catch MetalPipelineCacheError.compilationFailed {
             throw MetalInvertKernelError.compilationFailed
         } catch {
@@ -89,20 +91,31 @@ public final class MetalInvertKernel: @unchecked Sendable {
         }
         var parameters = KernelParameters(sampleCount: UInt32(storedSamples.count))
         guard
-            let inputBuffer = context.device.makeBuffer(
-                bytes: storedSamples,
-                length: storedSamples.count,
-                options: [.storageModeShared]
-            ),
-            let outputBuffer = context.device.makeBuffer(
-                length: storedSamples.count,
-                options: [.storageModeShared]
-            )
+            let buffers = context.withMetalHandles({
+                device, _ -> (any MTLBuffer, any MTLBuffer)? in
+                guard
+                    let input = device.makeBuffer(
+                        bytes: storedSamples,
+                        length: storedSamples.count,
+                        options: [.storageModeShared]
+                    ),
+                    let output = device.makeBuffer(
+                        length: storedSamples.count,
+                        options: [.storageModeShared]
+                    )
+                else {
+                    return nil
+                }
+                return (input, output)
+            })
         else {
             throw MetalInvertKernelError.bufferAllocationFailed
         }
+        let (inputBuffer, outputBuffer) = buffers
         guard
-            let commandBuffer = context.commandQueue.makeCommandBuffer(),
+            let commandBuffer = context.withMetalHandles({ _, commandQueue in
+                commandQueue.makeCommandBuffer()
+            }),
             let encoder = commandBuffer.makeComputeCommandEncoder()
         else {
             throw MetalInvertKernelError.executionFailed
