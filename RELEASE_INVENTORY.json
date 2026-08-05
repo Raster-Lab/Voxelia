@@ -3686,8 +3686,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 677557,
-      "sha256": "37f055e741c9be0943161fdd327f2056e8e33d8737d89b62ca539928432e5335"
+      "size": 680180,
+      "sha256": "07a281da73ad6a155c5022c72340006cdd8f0148498d9ac0748b2e9f90b5d24c"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3743,6 +3743,11 @@
       "path": "docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift",
       "size": 107062,
       "sha256": "567fd60ea5e4137499126c7949f564da81c6019513c12def229f0d29f525afe7"
+    },
+    {
+      "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
+      "size": 6675,
+      "sha256": "9d877102af34ae69ca3861dd75b1f2f55f5544453d3ea63d172469ad70a1c47c"
     },
     {
       "path": "docs/project/README.md",
@@ -4001,8 +4006,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 7977,
-      "sha256": "cb19f646e666d1b5407034ef2dd4b4877dac29a556605dc1d6b8c796ca3e31e4"
+      "size": 8640,
+      "sha256": "5eeb18fd1c73e48938618490c28cf200fddbff656d75e68459bbaa53752aa6e0"
     },
     {
       "path": "docs/shaders/README.md",
@@ -4046,8 +4051,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 43756,
-      "sha256": "66149124a81ed7261f66e952634bd85c76c6d5dcb1b17cc80949860197912e28"
+      "size": 43834,
+      "sha256": "5447b20f5fb357d4ab534dfc5f0103ab6443ccaf5a259d91154ce994fc1a6f74"
     }
   ]
 }

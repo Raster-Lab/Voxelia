@@ -50,10 +50,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   now removed without changing its public selector. The gate passes Rendering
   and the three shader-source digest conversions now use one checked lowercase
   encoder. The gate stops in Metal on the remaining thirteen upload, parameter
-  and readback diagnostics across its three compute-kernel wrappers, so the
-  complete Swift safety gate must not yet be reported green. The last recorded
-  strict product/test destination builds remain historical evidence only;
-  visionOS 26.5 is still unavailable.
+  and readback diagnostics across its three compute-kernel wrappers. The
+  installed-SDK audit found a checked MetalKit upload route but no checked raw
+  readback API; policy currently permits no explicit memory boundary. An owner
+  decision and independent review mechanism are required, so the complete
+  Swift safety gate must not yet be reported green. The last recorded strict
+  product/test destination builds remain historical evidence only; visionOS
+  26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -4095,6 +4098,34 @@ oracle campaigns.
   read-only verification passed with 810 manifest paths, 809 inventory records
   and 810 checksums. The exact next action is the installed-SDK/API audit of
   those transfer boundaries before any code or exception decision.
+- One-hundred-seventy-seventh autonomous increment (scheduled goal
+  continuation): completed the read-only strict-memory Metal transfer audit on
+  Xcode 26.6 (17F113), Apple Swift 6.3.3 and the macOS 26.5 SDK, with deployment
+  floors held at macOS 15, iOS 18, tvOS 18 and visionOS 2. SDK header review
+  confirmed that Metal buffer initial bytes, inline parameters, buffer
+  `contents`, texture/tensor transfer and Metal I/O memory destinations remain
+  pointer-shaped; blit operations only move or fill GPU resources, and Metal I/O
+  offers file-to-buffer load without the inverse. A controlled strict compiler
+  probe proved `MTKMeshBufferAllocator.newBuffer(with: Data, type:)` is a
+  checked upload path, while the paired `Data` copy from `MTLBuffer.contents`
+  failed exactly under `StrictMemorySafety`. The MetalKit path has no checked
+  readback inverse, is explicitly built on Model I/O mesh-buffer semantics that
+  cross the current Metal target boundary, and cannot by itself close the gate.
+  Static downstream audit also identified four integer-byte serialisations in
+  Metal tests, one shared-residency pointer round trip and a separate Core
+  no-copy test that will need later checked recovery as compilation advances.
+  Durable evidence and the option analysis are recorded in
+  `docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md`.
+  The recommended path is one narrow internal Swift transfer helper with owned
+  collection signatures, exact range/storage/completion invariants, focused
+  fault/lifetime/coherency tests and an exact policy/scanner exception; an
+  Objective-C shim is rejected as hiding the same proof outside the semantic
+  gate. Preserving zero exceptions instead requires operational Metal deferral
+  or a larger GPU-resident API redesign. This is a real owner decision under
+  the current safety policy; no implementation, scanner or package-graph change
+  was made. The 811-entry manifest path check, raw safety scan and diff
+  validation passed; release-integrity regeneration and read-only verification
+  passed with 811 manifest paths, 810 inventory records and 811 checksums.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9883,15 +9914,17 @@ generator retains its exact public selector without the duplicate internal
 name; and all three shader fingerprints now use checked lowercase serialization
 with their registered digests unchanged. The complete semantic Swift safety
 gate passes Rendering and stops on thirteen transfer diagnostics across the
-three Metal compute-kernel wrappers. The exact next focused action is a
-read-only installed-SDK and package-boundary audit: identify whether supported
-Metal/MetalKit/Foundation overlays offer checked `Data`- or collection-based
-upload, parameter and readback primitives that preserve shared-storage
-ownership, dispatch ordering and exact outputs. If not, map the smallest
-reviewable foreign-memory boundary and its governance implications, but do not
-implement or permit an exception without an accepted decision and evidence.
-Do not resume geometry or report the compiler gate green until the semantic
-`--compile` oracle passes through every package and configuration.
+three Metal compute-kernel wrappers. The installed-SDK audit proves there is no
+checked arbitrary raw-buffer readback path at the supported deployment floors.
+The exact next action requires the project owner's choice: approve the
+recommended single internal Swift memory boundary plus an independent reviewer,
+or preserve the zero-exception policy and direct a larger operational-Metal
+deferral/redesign. If the narrow boundary is approved, author and accept the
+dedicated ADR/policy change before implementation; confine the compiler-marked
+operations, add bounds/storage/completion/lifetime fault evidence, replace all
+three kernel transfers and the residency test, and rerun the complete semantic
+gate. Do not change the scanner, add a foreign shim, resume geometry or report
+the gate green before that decision and evidence.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under `ADR-0186`: reconcile
@@ -9916,10 +9949,11 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Treat the Metal transfer audit as a safety/architecture decision precursor:
-  inspect supported SDK overlays and existing package boundaries read-only,
-  preserve the no-exception policy, and record exact viable or blocked paths
-  before editing the kernels.
+- Await the owner decision on the Metal memory boundary. If the recommended
+  narrow Swift option and independent review are approved, treat its ADR,
+  policy exception, bounds/lifetime/coherency tests and three-kernel migration
+  as the next safety-critical sequence; otherwise keep operational Metal and
+  the semantic gate explicitly red pending redesign.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

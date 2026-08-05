@@ -747,6 +747,7 @@ docs/progress/evidence/ADR-0038-provenance-record-graph-admission-probe.swift
 docs/progress/evidence/ADR-0039-storage-capability-descriptor-admission-probe.swift
 docs/progress/evidence/ADR-0040-logical-sample-projection-probe.swift
 docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift
+docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md
 docs/project/README.md
 docs/project/Voxelia_Core_Data_Model_Specification_v0.1.1.md
 docs/project/Voxelia_First_Vertical_Slice_Plan_v0.1.1.md

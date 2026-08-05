@@ -105,11 +105,20 @@ and kernel suites green. A filtered semantic rerun leaves exactly thirteen
 pointer-shaped upload, parameter and readback calls. Later targets and
 package/configuration phases remain unverified by that run. No finding is an
 accepted exception; the Metal transfer boundary now requires an installed-SDK
-and package-boundary audit before edits or governance decisions.
+and package-boundary audit before edits or governance decisions. That audit is
+now recorded: MetalKit can perform checked `Data` upload through its Model
+I/O-backed mesh allocator, but the supported SDK has no checked exact raw-buffer
+readback inverse. Blit and Metal I/O do not bridge arbitrary results to owned
+collections, and tensor/texture readback remains pointer-shaped. The current
+zero-exception policy therefore cannot coexist with the accepted operational
+kernel APIs without deferral/redesign. The recommended resolution is a single
+explicit internal Swift transfer boundary, but it requires owner approval and
+the independent review/evidence process below before the exception inventory or
+scanner changes.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on 13 transfer diagnostics in three Metal kernels | Checked SDK/API transfer-boundary audit pending |
+| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on 13 transfer diagnostics in three Metal kernels | Owner decision and independent review mechanism pending |
 
 ## Introducing an exception
 
