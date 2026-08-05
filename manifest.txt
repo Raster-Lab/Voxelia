@@ -167,6 +167,7 @@ Sources/VoxeliaInteraction/Internal/.gitkeep
 Sources/VoxeliaInteraction/Module.swift
 Sources/VoxeliaInteraction/Public/.gitkeep
 Sources/VoxeliaInteraction/Public/InteractionCommand.swift
+Sources/VoxeliaInteraction/Public/RenderGeneration.swift
 Sources/VoxeliaInteraction/Public/ViewportSyncGroup.swift
 Sources/VoxeliaInteraction/VoxeliaInteraction.docc/Architecture.md
 Sources/VoxeliaInteraction/VoxeliaInteraction.docc/Requirements.md
@@ -329,6 +330,7 @@ Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
 Tests/VoxeliaImagingTests/MPRSliceCoordinatorTests.swift
 Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift
 Tests/VoxeliaInteractionTests/InteractionCommandTests.swift
+Tests/VoxeliaInteractionTests/RenderGenerationTests.swift
 Tests/VoxeliaInteractionTests/ViewportSyncGroupTests.swift
 Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift
 Tests/VoxeliaMetalTests/ExactSliceRendererTests.swift
@@ -584,6 +586,7 @@ docs/architecture/decisions/ADR-0118-concurrency-storm-evidence.md
 docs/architecture/decisions/ADR-0119-viewport-synchronisation.md
 docs/architecture/decisions/ADR-0120-angle-measurement.md
 docs/architecture/decisions/ADR-0121-window-edge-case-assessment.md
+docs/architecture/decisions/ADR-0122-render-generations.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

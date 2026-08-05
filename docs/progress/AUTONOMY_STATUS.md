@@ -2211,6 +2211,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fixtures already run across three scalar domains, the composition
   chain, both polarities, the padding sentinel and the measured
   device path — the record's value is the binding, not more copies.
+- Ninetieth autonomous increment (owner broadened standing mandate):
+  authored and accepted `ADR-0122` and delivered the `VOX-INT-007`
+  render-generation contract. `RenderGeneration` wraps one comparable
+  counter with the explicit staleness relation — earlier is stale,
+  equality is freshness, one comparison with no convention to misread
+  — and the actor-isolated `RenderGenerationCounter` mints strictly
+  increasing never-duplicated generations under concurrency, proven
+  by sixty-four concurrent advances yielding sixty-four unique values
+  with exact bounds. Reusing the frame scheduler's slot index was
+  rejected — occupancy is not scene version — and wall-clock stamps
+  were rejected because the pipeline mints no clock. Stamping frames
+  and dropping stale ones is the interactive draw loop's behaviour,
+  gated on its own architecture; this vocabulary is the contract it
+  will consume.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
