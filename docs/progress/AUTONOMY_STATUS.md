@@ -1878,6 +1878,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   device-bearing host, verify the reported selections and render the
   registered fixture through policy-selected renderers on both
   backends.
+- Seventy-third autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0105` and delivered the
+  `VOX-MTL-002` device capability model. `MetalExecutionContext`
+  gains the detected `MetalDeviceCapabilities` — unified memory,
+  sparse-texture support and ray-tracing support from platform
+  capability queries, the maximum threadgroup width and recommended
+  maximum working-set byte count from the device's own reported
+  limits, and the maximum texture dimension as the documented
+  platform contract for the admitted family, recorded as a
+  documented-contract reliance because no runtime query reports it.
+  Family checks stay module-internal per `VOX-MTL-003`: the public
+  members are semantic booleans and limits, never Metal numbering,
+  and the model selects nothing by itself — residency, planning and
+  future sparse or ray-tracing work consume it through their own
+  decisions. The real-device test asserts the documented texture
+  limit and positive reported limits and prints the detected sparse,
+  ray-tracing, threadgroup and working-set values as single-device
+  evidence.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

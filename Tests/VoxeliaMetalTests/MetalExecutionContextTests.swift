@@ -54,8 +54,25 @@ struct MetalExecutionContextTests {
         #expect(context.supportsUnifiedMemory)
         #expect(context.deviceRegistryIdentifier != 0)
 
+        // The ADR-0105 capability model: the documented family texture
+        // limit and positive reported device limits; the sparse and
+        // ray-tracing booleans are device-dependent and recorded as
+        // printed evidence, not asserted.
+        let capabilities = context.capabilities
+        #expect(capabilities.supportsUnifiedMemory == context.supportsUnifiedMemory)
+        #expect(capabilities.maximumTextureDimension == 16_384)
+        #expect(capabilities.maximumThreadsPerThreadgroupWidth >= 1)
+        #expect(capabilities.recommendedMaximumWorkingSetByteCount > 0)
+        print(
+            "ADR-0105 capability evidence: sparse=\(capabilities.supportsSparseTextures) "
+                + "raytracing=\(capabilities.supportsRaytracing) "
+                + "threadgroupWidth=\(capabilities.maximumThreadsPerThreadgroupWidth) "
+                + "workingSetBytes=\(capabilities.recommendedMaximumWorkingSetByteCount)"
+        )
+
         requireSendable(MetalExecutionContext.self)
         requireSendable(MetalContextError.self)
+        requireSendable(MetalDeviceCapabilities.self)
     }
 
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}

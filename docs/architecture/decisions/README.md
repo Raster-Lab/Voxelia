@@ -89,8 +89,9 @@ fully-device renderer path. `ADR-0100` is allocated to the
 presentation scaling claim. `ADR-0101` is allocated to record
 manifest archival. `ADR-0102` is allocated to crop presentation. `ADR-0103` is
 allocated to interactive quality equivalence. `ADR-0104` is allocated
-to backend policy planning. The next unallocated numeric identifier
-is `ADR-0105`.
+to backend policy planning. `ADR-0105` is allocated to the device
+capability model. The next unallocated numeric identifier is
+`ADR-0106`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -178,3 +179,4 @@ is `ADR-0105`.
 | [ADR-0102](ADR-0102-crop-presentation.md) | Accepted | Crop presentation |
 | [ADR-0103](ADR-0103-interactive-quality-equivalence.md) | Accepted | Interactive quality equivalence |
 | [ADR-0104](ADR-0104-backend-policy-planning.md) | Accepted | Backend policy planning |
+| [ADR-0105](ADR-0105-device-capability-model.md) | Accepted | Device capability model |

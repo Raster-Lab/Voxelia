@@ -13,6 +13,41 @@ public enum MetalContextError: Error, Sendable, Equatable {
     case unsupportedCapability
 }
 
+/// The detected device-capability model per `ADR-0105`.
+///
+/// Every member is detection-only evidence with a semantic surface —
+/// no Metal family numbering per `VOX-MTL-003` — and the model
+/// selects nothing by itself: residency, planning and future sparse
+/// or ray-tracing work consume it through their own decisions. The
+/// maximum texture dimension is the documented platform contract for
+/// the admitted family, recorded as a documented-contract reliance
+/// because no runtime query reports it.
+public struct MetalDeviceCapabilities: Sendable, Hashable {
+    public let supportsUnifiedMemory: Bool
+    public let supportsSparseTextures: Bool
+    public let supportsRaytracing: Bool
+    public let maximumTextureDimension: Int
+    public let maximumThreadsPerThreadgroupWidth: Int
+    public let recommendedMaximumWorkingSetByteCount: UInt64
+
+    init(
+        supportsUnifiedMemory: Bool,
+        supportsSparseTextures: Bool,
+        supportsRaytracing: Bool,
+        maximumTextureDimension: Int,
+        maximumThreadsPerThreadgroupWidth: Int,
+        recommendedMaximumWorkingSetByteCount: UInt64
+    ) {
+        self.supportsUnifiedMemory = supportsUnifiedMemory
+        self.supportsSparseTextures = supportsSparseTextures
+        self.supportsRaytracing = supportsRaytracing
+        self.maximumTextureDimension = maximumTextureDimension
+        self.maximumThreadsPerThreadgroupWidth = maximumThreadsPerThreadgroupWidth
+        self.recommendedMaximumWorkingSetByteCount =
+            recommendedMaximumWorkingSetByteCount
+    }
+}
+
 /// The Metal execution context boundary selected by `ADR-0079`,
 /// opening milestone M3.
 ///
@@ -40,6 +75,8 @@ public final class MetalExecutionContext: @unchecked Sendable {
     /// The opaque platform registry identifier, exposed as runtime
     /// evidence only; it is not a name and selects nothing.
     public let deviceRegistryIdentifier: UInt64
+    /// The detected device-capability model per `ADR-0105`.
+    public let capabilities: MetalDeviceCapabilities
 
     let device: any MTLDevice
     let commandQueue: any MTLCommandQueue
@@ -65,5 +102,16 @@ public final class MetalExecutionContext: @unchecked Sendable {
         )
         self.supportsUnifiedMemory = device.hasUnifiedMemory
         self.deviceRegistryIdentifier = device.registryID
+        // Detection only: family checks stay internal and the public
+        // members are semantic; the texture dimension is the
+        // documented contract for the admitted family.
+        self.capabilities = MetalDeviceCapabilities(
+            supportsUnifiedMemory: device.hasUnifiedMemory,
+            supportsSparseTextures: device.supportsFamily(.apple6),
+            supportsRaytracing: device.supportsRaytracing,
+            maximumTextureDimension: 16_384,
+            maximumThreadsPerThreadgroupWidth: device.maxThreadsPerThreadgroup.width,
+            recommendedMaximumWorkingSetByteCount: device.recommendedMaxWorkingSetSize
+        )
     }
 }
