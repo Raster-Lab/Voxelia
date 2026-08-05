@@ -32,3 +32,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0026](VOXELIA-ALG-0026-segmentation-mask-sampling.md) | Accepted | Segmentation mask sampling `binary64-v1` |
 | [VOXELIA-ALG-0027](VOXELIA-ALG-0027-empty-space-skipping.md) | Accepted | Empty-space skipping `binary64-v1` |
 | [VOXELIA-ALG-0028](VOXELIA-ALG-0028-freudenthal-surface-extraction.md) | Accepted | Freudenthal scalar-surface extraction `binary64-v1` |
+| [VOXELIA-ALG-0029](VOXELIA-ALG-0029-freudenthal-label-set-surface.md) | Accepted | Freudenthal label-set surface `binary64-v1` |

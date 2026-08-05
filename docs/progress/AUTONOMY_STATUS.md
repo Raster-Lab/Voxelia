@@ -5082,6 +5082,97 @@ oracle campaigns.
   verification passed with 839 manifest paths, 838 inventory records and 839
   checksums.
 
+- One-hundred-ninety-third autonomous increment (scheduled goal
+  continuation): authored and accepted `ADR-0192` and
+  `VOXELIA-ALG-0029`, freezing the labelled-surface extraction model,
+  operation/publication boundary and independent evidence without adding
+  product source or registration. The v1 operation consumes exactly one
+  mutually exclusive rank-three integer label image and returns one mesh for
+  the union of a requested label set. Membership is exact same-domain integer
+  equality; selected-selected and unselected-unselected interfaces disappear,
+  absent/all-present sets return a valid empty mesh, and no zero/background,
+  range, priority, tolerance, segment identity or M7 overlap semantics are
+  invented.
+
+  The request model preserves all eight 8-through-64-bit signed/unsigned
+  containers without `Double` conversion. Its signed or unsigned requested
+  array is nonempty, strictly increasing and unique, with explicit host
+  selected-label/vertex/triangle ceilings and a 65,536-label hard v1 bound.
+  Admission is closed to `.label`/`.scalar` affine images with no sample unit,
+  no narrower unresolved valid-bit declaration and only absent/exact-identity
+  value transforms. The fixed Freudenthal subdivision intersects every
+  opposite-membership edge at its exact image-space midpoint, uses the accepted
+  deterministic cell/table/first-reference topology order and preserves
+  selected-to-unselected physical winding. Midpoints must be exact dyadics;
+  the ordered affine mapping follows ordinary correctly rounded binary64 and
+  rejects only non-finite intermediates/results rather than inventing an
+  exact-rational affine failure domain.
+
+  The immutable planned Geometry boundary contains a typed signed/unsigned
+  label-set declaration, explicit limits, request, caller publication context,
+  complete mesh/identity/provenance result and an eight-case payload-free error
+  family. CPU retains one-read/source-decoder/kernel ownership under the
+  accepted graph. The design freezes task/label/sample/cell cancellation
+  cadences, no-partial publication, exact operation/implementation/algorithm
+  tokens, one-based `source-volume` provenance and the six-entry parameter
+  schema containing the exact signed/unsigned requested array. It also closes
+  error mapping for descriptor/sample-count admission, cell/output overflow,
+  region/byte/decoder/coordinator/release failures, midpoint/affine position
+  failures and every post-traversal publication failure. Requested labels are
+  present only in the technical parameter digest and never in diagnostics.
+
+  The self-contained categorical Python oracle imports no scalar extractor.
+  It validates the complete table/winding, all 256 binary cube memberships,
+  all 45,927 ternary raw-label/requested-subset combinations, every one of
+  4,096 two-cell shared-face masks, selected-interface suppression, empty
+  all/none unions, reflected winding and minima/zero/maxima for all eight
+  integer containers in both explicit byte orders. Its direct run and repeat
+  runs under two distinct hash seeds passed with identical output:
+
+  ```bash
+  python3 -m py_compile \
+    docs/progress/evidence/ADR-0192-labelled-surface-extraction-oracle.py
+  python3 \
+    docs/progress/evidence/ADR-0192-labelled-surface-extraction-oracle.py
+  PYTHONHASHSEED=1 python3 \
+    docs/progress/evidence/ADR-0192-labelled-surface-extraction-oracle.py
+  PYTHONHASHSEED=987654 python3 \
+    docs/progress/evidence/ADR-0192-labelled-surface-extraction-oracle.py
+  ```
+
+  ```text
+  cubeMembershipSHA256=4bed958ac7d25a4539de8a0cea28524271a89303c3e9e3fb0de0d311e5c6931d
+  cubeBinary64SHA256=154f1d57f1fe6491f9fe6267109fa46074ffba860d16f7284736388a434536aa
+  ternaryUnionSHA256=b4bfe7adc07d80b0231bff3be93e82adb42a3c7c8d0d72684899d7aa7ac6ef95
+  sharedFaceSHA256=d656b3f812750fd97813431fb9168d26e8f87ea1148f326cf6e2a83ef0a831e9
+  integerContainerSHA256=3bf3a336dfd94d366f4981ce0431e2ea42f126f48647e0ab39d3b6c3e6f54253
+  ternaryCases=45927 maximumVertices=13 maximumTriangles=12
+  singleCorner=7v/6t unionBoundary=9v/8t
+  selectedInterface=suppressed sharedFace=conforming
+  winding=selected-to-unselected
+  ```
+
+  The binary membership and bit-pattern digests deliberately reproduce the
+  accepted scalar binary-mask cross-oracle without authorising implementation
+  by lossy scalar conversion. `Tools/Scripts/validate-docs.sh` passed seven
+  front-matter documents, all 172 ADRs, two primary and one companion Draft
+  RFC and 281 Markdown files. The 486-record requirement index, 839-entry
+  pre-regeneration manifest-path check, direct relative-link probe and
+  `git diff --check` passed. No Swift product source, public API or dependency
+  edge changed, so Swift builds/tests, the semantic safety compile gate,
+  symbol graphs, Apple destination matrix, unavailable visionOS SDK and
+  external device/fuzz evidence were intentionally not rerun or promoted.
+
+  The authorised independent reviewer initially found two P1 design blockers:
+  ambiguous exact-affine representability contradicted the accepted ordered
+  binary64 contract, and coordinator/source-count/byte/decoder failure mapping
+  was incomplete. Both records were corrected as described above. The reviewer
+  reproduced the oracle and documentation/diff gates, then issued final
+  approval with no remaining API, numerical, memory, concurrency, privacy,
+  provenance or validation finding. Release-integrity regeneration and final
+  manifest/integrity verification passed with 842 manifest paths, 841 inventory
+  records and 842 checksums.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -10907,11 +10998,15 @@ incomplete public entry point. Migration step four now adds the public atomic
 result boundary, independently reproduced parameter digest, fixed CPU
 identity/provenance/execution claims, final prepublication cancellation and the
 evidence-backed registry entry. All four `ADR-0191` product migration stages
-are complete. The exact next action in the accepted `ADR-0183` dependency order
-is the labelled-surface extraction design: freeze label membership, requested
-label-set semantics, adjacency/boundary policy, deterministic topology/order,
-limits, cancellation, source admission, publication claims and an independent
-enumerated oracle in a separate accepted record before adding product source.
+are complete. Accepted `ADR-0192` and `VOXELIA-ALG-0029` now freeze the
+separate exact integer label-set union, selected/unselected adjacency,
+midpoint/topology/winding, closed source and failure boundary, limits,
+cancellation, publication identity and exhaustive categorical oracle. The
+exact next action is `ADR-0192` migration step one: add only the five immutable
+Geometry declaration/publication values and payload-free error family, prove
+the 65,536-label maximum parameter document fits its 4,194,304-byte ceiling,
+and add focused construction, digest, binding, privacy and `Sendable` evidence
+before any CPU source adapter, kernel, public operation or registration.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -10925,16 +11020,14 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform only the labelled-surface extraction design/evidence increment next.
-  Audit the governing v0.1.1 label requirements and existing scalar/mesh/read/
-  publication contracts; freeze exact label container/source admission,
-  membership and requested-set semantics, adjacency and source-boundary
-  treatment, coordinate/winding/topology order, output limits, cancellation,
-  payload-free errors, identity/provenance parameters and CPU placement. Add an
-  independent exhaustive or analytical oracle for every frozen case. Do not
-  add labelled extraction product source, registration, normals, measurement,
-  rendering or acceleration until that separate record is accepted and its
-  correction surface is closed.
+- Perform only `ADR-0192` migration step one next. Add the immutable Geometry
+  limits, signed/unsigned label set, request, publication context, validated
+  result and eight-case payload-free error family with complete public API
+  documentation. Prove the maximum canonical parameter document bound and add
+  focused construction, exact schema/digest, complete result-binding, privacy
+  and strict-concurrency transfer tests. Do not add a CPU source adapter,
+  numerical kernel, public CPU operation, registration, normals, measurement,
+  rendering or acceleration in that increment.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

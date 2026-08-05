@@ -2591,8 +2591,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 3444,
-      "sha256": "057f0bd9219a2b19bfe68a69c6fbfad9bdd36e290dea5f5c0a03d0dcb79b8b6a"
+      "size": 3575,
+      "sha256": "888e3f91cabf0c675116114624a37258f775d593978bda152960ff1c7b93630e"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2733,6 +2733,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0028-freudenthal-surface-extraction.md",
       "size": 14294,
       "sha256": "b7d2d47bbfb23a3f3b6ec02f9a75f68e004d138052324a243adcb150caf8b122"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0029-freudenthal-label-set-surface.md",
+      "size": 13408,
+      "sha256": "53f07bde89eb85c23a3731fe39bf485df0f335fd679f712103bdc46c202250be"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3730,9 +3735,14 @@
       "sha256": "62b42e4de421f5613e3a1e0f21c32113e000b7524d9132ad36d91a2c9525bc61"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0192-labelled-surface-extraction-design.md",
+      "size": 17861,
+      "sha256": "d3d5423858e528aee0a8f466f3079c0879f2ab831c1f7d49f1aab5385d18389e"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 28487,
-      "sha256": "01e29723379b357853f456575def8d966f1c01879b036055b02f2b5894099384"
+      "size": 28665,
+      "sha256": "00cae15fe7b23c6e92de4df3593ed7f074485417449d6dde73ff2bde6accf7c6"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3816,8 +3826,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 741934,
-      "sha256": "2516be38bd941407b7d60189bdc9a0498487de2924f097abeb3f74219bb9beea"
+      "size": 747640,
+      "sha256": "ecfa388c50e8732cf52bff8d3e5d08e00fbf2967f810c472fe7bff7a086820fa"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3883,6 +3893,11 @@
       "path": "docs/progress/evidence/ADR-0190-scalar-surface-extraction-oracle.py",
       "size": 11719,
       "sha256": "dba4d75c4573e10aba4e908b6ebdc718dc0df4e698458cc6bf119f8c42f221ba"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0192-labelled-surface-extraction-oracle.py",
+      "size": 15614,
+      "sha256": "3c7dea8a7bcb0f8c0ebf045b0efe27b4b364ac6d24349cb4844f8206913a113b"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4191,8 +4206,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 45692,
-      "sha256": "6463a3906f072a732c0178a87c75a8893b6628149787e79c1ab31bd730d12744"
+      "size": 45903,
+      "sha256": "ccd56fdaa6e38bafbea25be902064933ee7b76b484f5547b7069c398f9829690"
     }
   ]
 }
