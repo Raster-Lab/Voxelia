@@ -120,6 +120,7 @@ struct MetalSliceRendererTests {
         let context = try MetalExecutionContext()
         return MetalSliceRenderer(
             kernel: try MetalWindowLevelKernel(context: context),
+            compositeKernel: try MetalCompositeKernel(context: context),
             publisher: publisher,
             readCoordinator: StorageReadCoordinator(
                 maximumRetainedResultByteCount: 96
@@ -237,6 +238,117 @@ struct MetalSliceRendererTests {
         #expect(operation.parameterDigest == expectedDigest)
 
         requireSendable(MetalSliceRenderer.self)
+    }
+
+    @Test("[Integration][VOX-VS1-017][VOX-PLT-013] both device stages render end to end")
+    func bothDeviceStagesRenderEndToEnd() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage("series-7"), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "grender-3")
+
+        // A two-layer scene runs the window and composite stages on
+        // the device per ADR-0099; the result stays within one display
+        // level of the registered binary64 fixture, measured on this
+        // hardware.
+        let space = try #require(CoordinateSpaceID(rawValue: "patient"))
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: try SceneSnapshot(
+                    layers: [
+                        try RenderLayer(
+                            imageObjectID: try #require(
+                                DataObjectID(rawValue: "series-7")
+                            ),
+                            transferFunction: .greyscaleWindow(
+                                try GreyscaleWindowFunction(center: 6, width: 8)
+                            ),
+                            opacity: 1
+                        ),
+                        try RenderLayer(
+                            imageObjectID: try #require(
+                                DataObjectID(rawValue: "series-7")
+                            ),
+                            transferFunction: .greyscaleWindow(
+                                try GreyscaleWindowFunction(center: 3, width: 6)
+                            ),
+                            opacity: 0.5
+                        ),
+                    ],
+                    camera: try RenderCamera(
+                        position: try Point3D(
+                            x: 0,
+                            y: 0,
+                            z: -100,
+                            coordinateSpace: space
+                        ),
+                        target: try Point3D(x: 0, y: 0, z: 0, coordinateSpace: space),
+                        up: try Vector3D(x: 0, y: 1, z: 0, coordinateSpace: space),
+                        projection: .orthographic(planeHeight: 250)
+                    )
+                ),
+                viewport: try ViewportSize(width: 4, height: 3),
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "grender-3-cp")
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let outputBytes = try published.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 3])
+        ).bytes
+        let reference: [UInt8] = [0, 26, 51, 94, 138, 182, 200, 218, 237, 255, 255, 255]
+        let exactCount = zip(outputBytes, reference).count(where: ==)
+        for (produced, expected) in zip(outputBytes, reference) {
+            #expect(abs(Int(produced) - Int(expected)) <= 1)
+        }
+        print(
+            "ADR-0099 differential evidence: \(exactCount)/\(reference.count) "
+                + "fully-device samples exactly match the binary64 model on this device."
+        )
+
+        // Both stage records carry their honest device claims.
+        let windowRecordID = try #require(
+            ProvenanceID(rawValue: "record-grender-3-wl0")
+        )
+        let windowRecord = try #require(
+            await publisher.publishedProvenanceRecord(for: windowRecordID)
+        )
+        guard case .operation(let windowOperation, let windowClaim) = windowRecord.activity
+        else {
+            #expect(Bool(false), "Expected a window operation activity.")
+            return
+        }
+        #expect(
+            windowOperation.implementationID.rawValue
+                == "org.voxelia.impl.window-level.metal"
+        )
+        #expect(
+            windowClaim.kernel?.identifier.rawValue == "org.voxelia.kernel.window-level"
+        )
+        guard
+            case .operation(let compositeOperation, let compositeClaim) =
+                published.provenance.activity
+        else {
+            #expect(Bool(false), "Expected a composite operation activity.")
+            return
+        }
+        #expect(
+            compositeOperation.implementationID.rawValue
+                == "org.voxelia.impl.composite-layers.metal"
+        )
+        #expect(
+            compositeClaim.kernel?.identifier.rawValue
+                == "org.voxelia.kernel.composite-layers"
+        )
+        #expect(
+            compositeClaim.precisionPolicy.rawValue
+                == "org.voxelia.precision.binary32-device"
+        )
+        #expect(compositeClaim.approximationStatus == .approximate)
+        #expect(
+            compositeClaim.capabilityClass?.rawValue == "org.voxelia.capability.metal3"
+        )
     }
 
     @Test("[Integration][VOX-ERR-001] device admission rejects a value transform typed")

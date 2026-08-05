@@ -56,14 +56,28 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             )
         ) async throws -> ImageData
 
+    /// One injected composite stage per `ADR-0099`, mirroring the
+    /// window stage.
+    typealias CompositeStageExecutor =
+        @Sendable (
+            _ layers: [ImageData],
+            _ opacities: [Double],
+            _ names: (
+                outputObjectID: DataObjectID,
+                provenanceID: ProvenanceID,
+                createdAt: CanonicalInstant
+            )
+        ) async throws -> ImageData
+
     private let publisher: PublicationCoordinator
     private let readCoordinator: StorageReadCoordinator
     private let software: SoftwareIdentity
     private let naming: RenderPublicationNaming
     private let windowStage: WindowStageExecutor
+    private let compositeStage: CompositeStageExecutor
 
     /// Creates a renderer over accepted coordinators with host-owned
-    /// naming and the exact CPU window stage.
+    /// naming and the exact CPU window and composite stages.
     public convenience init(
         publisher: PublicationCoordinator,
         readCoordinator: StorageReadCoordinator,
@@ -86,6 +100,17 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                     software: software,
                     coordinator: readCoordinator
                 )
+            },
+            compositeStage: { layers, opacities, names in
+                try await CompositeLayersOperation.execute(
+                    layers: layers,
+                    opacities: opacities,
+                    outputObjectID: names.outputObjectID,
+                    outputProvenanceID: names.provenanceID,
+                    createdAt: names.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
             }
         )
     }
@@ -95,13 +120,15 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
         readCoordinator: StorageReadCoordinator,
         software: SoftwareIdentity,
         naming: @escaping RenderPublicationNaming,
-        windowStage: @escaping WindowStageExecutor
+        windowStage: @escaping WindowStageExecutor,
+        compositeStage: @escaping CompositeStageExecutor
     ) {
         self.publisher = publisher
         self.readCoordinator = readCoordinator
         self.software = software
         self.naming = naming
         self.windowStage = windowStage
+        self.compositeStage = compositeStage
     }
 
     /// Renders one request exactly.
@@ -143,14 +170,10 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             presented = windowLevelled[0]
         } else {
             let names = try naming(.composited)
-            presented = try await CompositeLayersOperation.execute(
-                layers: windowLevelled,
-                opacities: request.scene.layers.map(\.opacity),
-                outputObjectID: names.outputObjectID,
-                outputProvenanceID: names.provenanceID,
-                createdAt: names.createdAt,
-                software: software,
-                coordinator: readCoordinator
+            presented = try await compositeStage(
+                windowLevelled,
+                request.scene.layers.map(\.opacity),
+                names
             )
             _ = try await publisher.publish(presented, mode: .complete)
         }

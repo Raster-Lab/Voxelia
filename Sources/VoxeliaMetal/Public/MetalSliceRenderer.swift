@@ -4,21 +4,26 @@ import VoxeliaCore
 import VoxeliaExecution
 import VoxeliaRendering
 
-/// The GPU slice renderer per `ADR-0092`: the accepted presentation
-/// pipeline with the device window stage.
+/// The GPU slice renderer per `ADR-0092`, fully device-staged by
+/// `ADR-0099`: the accepted presentation pipeline with the device
+/// window and composite stages.
 ///
-/// The window stage executes ``MetalWindowLevelOperation`` — honest
-/// `binary32-device`, `approximate`, kernel-referenced claims — while
-/// the composite and resample stages remain the accepted CPU
-/// operations. Choosing this renderer is the host's explicit backend
-/// decision; there is no silent fallback in either direction.
+/// The window stage executes ``MetalWindowLevelOperation`` and the
+/// composite stage executes ``MetalCompositeLayersOperation`` — each
+/// with honest `binary32-device`, `approximate`, kernel-referenced
+/// claims — while the resample stage remains the accepted exact CPU
+/// operation, because whole-sample selection has no device
+/// approximation to claim. Choosing this renderer is the host's
+/// explicit backend decision; there is no silent fallback in either
+/// direction.
 public final class MetalSliceRenderer: SliceRenderer, Sendable {
     private let pipeline: ExactSliceRenderer
 
-    /// Creates a GPU renderer over one compiled kernel, accepted
+    /// Creates a GPU renderer over the compiled kernels, accepted
     /// coordinators and host-owned naming.
     public init(
         kernel: MetalWindowLevelKernel,
+        compositeKernel: MetalCompositeKernel,
         publisher: PublicationCoordinator,
         readCoordinator: StorageReadCoordinator,
         software: SoftwareIdentity,
@@ -40,6 +45,18 @@ public final class MetalSliceRenderer: SliceRenderer, Sendable {
                     software: software,
                     coordinator: readCoordinator,
                     kernel: kernel
+                )
+            },
+            compositeStage: { layers, opacities, names in
+                try await MetalCompositeLayersOperation.execute(
+                    layers: layers,
+                    opacities: opacities,
+                    outputObjectID: names.outputObjectID,
+                    outputProvenanceID: names.provenanceID,
+                    createdAt: names.createdAt,
+                    software: software,
+                    coordinator: readCoordinator,
+                    kernel: compositeKernel
                 )
             }
         )

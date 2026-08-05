@@ -1732,6 +1732,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   single-device evidence — verified every claim member and the shared
   parameter digest, and rejected a transformed layer and an
   out-of-range opacity typed.
+- Sixty-fifth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0099` and completed the
+  fully-device renderer path. The shared pipeline gains a
+  composite-stage executor mirroring the window stage — one
+  orchestration authority, explicit backend choice, no silent
+  fallback — and `MetalSliceRenderer` now takes the composite kernel
+  alongside the window kernel and injects both device operations, so
+  every value-arithmetic stage of a device render carries its own
+  honest `binary32-device`, `approximate`, kernel-referenced claim;
+  the resample stage remains the accepted exact CPU operation because
+  whole-sample selection performs no value arithmetic and a device
+  approximation claim for it would be manufactured imprecision. The
+  device test rendered a two-layer scene fully on the device with
+  twelve of twelve samples exactly matching the registered binary64
+  fixture — printed single-device evidence — and verified both stage
+  records carry their device implementation tokens and kernel
+  references.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
