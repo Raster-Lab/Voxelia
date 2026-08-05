@@ -57,6 +57,8 @@ public API is introduced only by reviewed milestone specifications.
 
 - ``BrickRequestBroker``
 - ``BrickRequestError``
+- ``BrickResultCache``
+- ``BrickCacheError``
 
 ### Publication
 

@@ -131,6 +131,7 @@ Sources/VoxeliaExecution/Internal/ResampleRescale.swift
 Sources/VoxeliaExecution/Module.swift
 Sources/VoxeliaExecution/Public/.gitkeep
 Sources/VoxeliaExecution/Public/BrickRequestBroker.swift
+Sources/VoxeliaExecution/Public/BrickResultCache.swift
 Sources/VoxeliaExecution/Public/CompositeLayersOperation.swift
 Sources/VoxeliaExecution/Public/ContentResultCache.swift
 Sources/VoxeliaExecution/Public/ImplementationRegistry.swift
@@ -328,6 +329,7 @@ Tests/VoxeliaCoreTests/StorageSnapshotHandleTests.swift
 Tests/VoxeliaCoreTests/ValueTransformTests.swift
 Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift
 Tests/VoxeliaExecutionTests/BrickRequestBrokerTests.swift
+Tests/VoxeliaExecutionTests/BrickResultCacheTests.swift
 Tests/VoxeliaExecutionTests/CompositeLayersOperationTests.swift
 Tests/VoxeliaExecutionTests/ConcurrencyStormTests.swift
 Tests/VoxeliaExecutionTests/ContentResultCacheTests.swift
@@ -649,6 +651,7 @@ docs/architecture/decisions/ADR-0149-brick-request-lifecycle-design.md
 docs/architecture/decisions/ADR-0150-brick-request-broker.md
 docs/architecture/decisions/ADR-0151-brick-cache-design.md
 docs/architecture/decisions/ADR-0152-brick-cache-vocabulary.md
+docs/architecture/decisions/ADR-0153-instrumented-brick-cache.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

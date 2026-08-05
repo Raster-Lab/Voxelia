@@ -2987,6 +2987,27 @@ oracle campaigns.
   later field, pin the tie-break and the never-evictable rule, and
   reject the typed admissions. The instrumented cache actor follows
   as its own increment.
+- One-hundred-twenty-fourth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0153`, the
+  instrumented brick cache — the M5 cache tier operational. The
+  actor composes only accepted authorities: entries carry their
+  content digest and every lookup revalidates before returning, with
+  a mismatch removing the entry and rejecting typed; the integrated
+  path resolves misses through the broker's deduplicated computation
+  and makes the recomputation path concrete, replacing the miss
+  event when a corrupt entry is displaced; eviction takes the
+  minimum of the one frozen ordering authority among unreferenced
+  entries and rejects typed rather than displacing a referenced one;
+  recency and insertion ordinals are the actor's own monotonic
+  counters, minting no clock; and the five-event instrumentation
+  emits synchronously through the explicit optional sink because a
+  task-hopped sink would surrender the order the suite asserts. One
+  internal evidence seam tampers an entry so the corruption
+  obligation is provable, named for that purpose and never public.
+  The suite discharges every design obligation, including the
+  eight-event integrated story observed in exact order and the
+  pinned entry surviving pressure with the typed rejection until
+  released.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
