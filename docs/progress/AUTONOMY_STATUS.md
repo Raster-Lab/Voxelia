@@ -2946,6 +2946,29 @@ oracle campaigns.
   awaiters rejected typed with the computation count still one —
   plus the identical-failure propagation the design demands. The
   cache-and-observability design follows as the next queue item.
+- One-hundred-twenty-second autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0151`, the brick
+  cache design — the record the diagnostics assessment required
+  before any instrumentation vocabulary could exist, with the cache
+  as its real consumer. Eviction inputs are a value carrying recency
+  as a generation ordinal because cache values mint no clock,
+  caller-measured reconstruction cost, byte size, visibility and the
+  active-reference count; an entry with active references is never
+  evictable because that is correctness, not policy, and among
+  evictable entries the version-one order is lexicographic — chosen
+  precisely because the baseline row forbids hard-coded weights —
+  invisible first, then oldest, then cheapest to rebuild, then
+  largest, with the insertion ordinal as the deterministic tie-break.
+  Persistent formats carry a registered token and semantic version
+  binding the future persistence increment. Corruption composes the
+  content-tier cache's accepted revalidation discipline: a digest
+  mismatch removes the entry, rejects typed and surfaces the
+  recomputation path, never publishing unverified bytes. The
+  instrumentation is the closed five-event coded set behind an
+  explicit optional host-owned sink, absent by default, with payloads
+  bound to the recorded exclusion rules; the observability
+  remainder is mapped to its gated arcs rather than smuggled in.
+  Implementation follows separately, values first.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

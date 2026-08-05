@@ -3235,9 +3235,14 @@
       "sha256": "86bbf5037cdf2459b56709706d5ff8f8ee6a83298d5988d092b52e32c9dafc87"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0151-brick-cache-design.md",
+      "size": 4968,
+      "sha256": "4858781d067ea51fa105d35059b0002d49af9eb836aad6d71de21781ffbf3d99"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 22323,
-      "sha256": "ce02174722d3be3c975a80731fad60a4d278a70093b3954906b50dc263b32988"
+      "size": 22453,
+      "sha256": "3fc63eb51ec56de20aa8586b690f93e09967d574fdf3f90a9f7030de2224e7f4"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3321,8 +3326,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 599413,
-      "sha256": "0997babd574c834aa4074bd5f39341b956f11e1d423a7a73fb5b1c6783cb1bbf"
+      "size": 600910,
+      "sha256": "5f2e37021c953c26adcc00a5e15c987494d3685baef386c05e30914a9116c88b"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3681,8 +3686,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 39356,
-      "sha256": "bed6b842b44e772f3000b6083a58d59d009206fca0a1769ebd7b43dde4a5255b"
+      "size": 39415,
+      "sha256": "a0f68e804c0ef8cb54e1ad63cfb662e0365076fbb993792f549dfdf9a49656e4"
     }
   ]
 }

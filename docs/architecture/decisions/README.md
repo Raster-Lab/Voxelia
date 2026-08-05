@@ -130,8 +130,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0147` is allocated to the brick vocabulary design.
 `ADR-0148` is allocated to the brick vocabulary.
 `ADR-0149` is allocated to the brick request lifecycle design.
-`ADR-0150` is allocated to the brick request broker. The next
-unallocated numeric identifier is `ADR-0151`.
+`ADR-0150` is allocated to the brick request broker.
+`ADR-0151` is allocated to the brick cache design. The next
+unallocated numeric identifier is `ADR-0152`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -265,3 +266,4 @@ unallocated numeric identifier is `ADR-0151`.
 | [ADR-0148](ADR-0148-brick-vocabulary.md) | Accepted | Brick vocabulary |
 | [ADR-0149](ADR-0149-brick-request-lifecycle-design.md) | Accepted | Brick request lifecycle design |
 | [ADR-0150](ADR-0150-brick-request-broker.md) | Accepted | Brick request broker |
+| [ADR-0151](ADR-0151-brick-cache-design.md) | Accepted | Brick cache design |
