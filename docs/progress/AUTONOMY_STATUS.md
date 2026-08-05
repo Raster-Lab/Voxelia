@@ -3524,6 +3524,28 @@ oracle campaigns.
   planner surface that consults it. The provenance already carries
   the full evidence trail: the operation tokens, versions, parameter
   digest and claims travel in every rendered output's record.
+- One-hundred-fifty-third autonomous increment (owner broadened
+  standing mandate): authored and accepted `VOXELIA-ALG-0025` and
+  `ADR-0176`, freezing the gradient-lighting model — the arc's
+  fourth increment, composing accepted authorities end to end.
+  Central differences use the accepted trilinear sample at unit
+  index offsets, and the world gradient is the chain rule through
+  the accepted inverse's transpose — a per-axis spacing division was
+  rejected as a partial restatement of what the inverse already
+  carries exactly. The version-one light is the headlight the
+  sampler's normalised direction already provides, with the ambient
+  floor declared exactly one quarter rather than parameterised; flat
+  regions stay unshaded by declaration because shading a surface
+  that does not exist would fabricate one, and opacity is never
+  modulated because lighting changes appearance, never coverage. The
+  closed vocabulary is none and headlight, with the unshaded mode
+  bound to composite byte-identically to the accepted model so the
+  new mode can never silently change existing renders. Specular
+  terms were deferred because highlights on presentation data invite
+  misreading structure into shine. Fixtures pin the exact head-on,
+  grazing and forty-five-degree factors, the calibration-invariant
+  normal and the zero-gradient identity. Implementation follows as
+  its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

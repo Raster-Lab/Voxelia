@@ -2481,8 +2481,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 2959,
-      "sha256": "dae1cf6f601d25009f0a347b1ac87a13581805f205deeff246157e9b52cb1581"
+      "size": 3066,
+      "sha256": "7babdb2771974b714c95a8bbc5c927b57951bf814a86c7aa9fdab928b2a3bbf3"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2603,6 +2603,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0024-orthographic-ray-generation.md",
       "size": 3278,
       "sha256": "312fefb996ce5816fe088b4907c5a06c6eb573da12189a8e2363ee9b6d73c237"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0025-gradient-lighting.md",
+      "size": 4293,
+      "sha256": "35e0e4e95b7f70bcf7be5e671181ff42135194533cca2a52b632b6e6be82a064"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3510,9 +3515,14 @@
       "sha256": "e16809c39c14456442827efef701bb9d2d377461b4335f96160b2b7f0b5b24ad"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0176-gradient-lighting-design.md",
+      "size": 3229,
+      "sha256": "40696bdc33db8757affcb8059a10bcb1290a8e4869876479033610a7b53dbace"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 25891,
-      "sha256": "e2373ac8a44ed1a5647a537b5a22e77a6fb8b31cfa623640d9b6f8339fcd6c0f"
+      "size": 26039,
+      "sha256": "002b16c3f555db7e4777a711108ab03b28969973d44f162fe68830c6a85a2f60"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3596,8 +3606,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 636534,
-      "sha256": "7e7243462c6ce25ff730023dcd361e0d210e412bcf2bc29b1f579c075ed8f24a"
+      "size": 637942,
+      "sha256": "df5d810c795dce12da94f52083d027a5d19cc3074610f7c59316df8852f36746"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3956,8 +3966,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 42669,
-      "sha256": "bfa3e91566d79ec16a269ff1b33b1dee5f1de86b432883d667ac2be3159c7455"
+      "size": 42788,
+      "sha256": "be668d73f2e08f6a9926f596d718a3c771108c4fe1b28f478a9d39b2aada834c"
     }
   ]
 }

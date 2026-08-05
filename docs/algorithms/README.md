@@ -28,3 +28,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0022](VOXELIA-ALG-0022-ray-sampling.md) | Accepted | Volume ray sampling `binary64-v1` |
 | [VOXELIA-ALG-0023](VOXELIA-ALG-0023-front-to-back-compositing.md) | Accepted | Front-to-back compositing `binary64-v1` |
 | [VOXELIA-ALG-0024](VOXELIA-ALG-0024-orthographic-ray-generation.md) | Accepted | Orthographic ray generation `binary64-v1` |
+| [VOXELIA-ALG-0025](VOXELIA-ALG-0025-gradient-lighting.md) | Accepted | Gradient lighting `binary64-v1` |
