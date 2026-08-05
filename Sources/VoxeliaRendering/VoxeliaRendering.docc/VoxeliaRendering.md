@@ -30,6 +30,7 @@ public API is introduced only by reviewed milestone specifications.
 - ``CompositedRay``
 - ``OrthographicRayGenerator``
 - ``RayGenerationError``
+- ``VolumeRenderRequest``
 - ``RenderQuality``
 - ``RenderLayer``
 - ``SceneSnapshot``

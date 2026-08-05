@@ -253,7 +253,10 @@ public enum ObliqueSliceOperation {
     /// support with exact zero padding outside it, the accepted
     /// unclamped-floor tap rule per axis, and the trilinear reduction
     /// over ascending volume axes.
-    static func sample(
+    ///
+    /// This is the one public sampling authority per `ADR-0174`:
+    /// consumers compose it rather than restating the frozen rule.
+    public static func sample(
         _ continuous: [Double],
         extents: ContiguousArray<Int>,
         bytes: [UInt8]

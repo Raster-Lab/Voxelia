@@ -153,8 +153,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0170` is allocated to the compositing design.
 `ADR-0171` is allocated to the volume ray compositor.
 `ADR-0172` is allocated to the volume renderer design.
-`ADR-0173` is allocated to the orthographic ray generator. The next
-unallocated numeric identifier is `ADR-0174`.
+`ADR-0173` is allocated to the orthographic ray generator.
+`ADR-0174` is allocated to the volume render vocabulary. The next
+unallocated numeric identifier is `ADR-0175`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -311,3 +312,4 @@ unallocated numeric identifier is `ADR-0174`.
 | [ADR-0171](ADR-0171-volume-ray-compositor.md) | Accepted | Volume ray compositor |
 | [ADR-0172](ADR-0172-volume-renderer-design.md) | Accepted | Volume renderer design |
 | [ADR-0173](ADR-0173-orthographic-ray-generator.md) | Accepted | Orthographic ray generator |
+| [ADR-0174](ADR-0174-volume-render-vocabulary.md) | Accepted | Volume render vocabulary |

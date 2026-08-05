@@ -3,14 +3,19 @@
 import VoxeliaCore
 import VoxeliaSpatial
 
-/// The closed version-one render mode per `ADR-0085`.
+/// The closed render mode per `ADR-0085`, widened additively by
+/// `ADR-0174` with the direct volume claim.
 public enum RenderMode: Sendable, Hashable {
     case slice
+    case volumeDirect
 }
 
-/// The closed version-one colour output configuration per `ADR-0085`.
+/// The closed colour output configuration per `ADR-0085`, widened
+/// additively by `ADR-0174` with the four channels the volume
+/// compositor emits.
 public enum ColourOutputConfiguration: Sendable, Hashable {
     case greyscale8
+    case rgba8
 }
 
 /// The closed version-one accumulation state per `ADR-0085`.

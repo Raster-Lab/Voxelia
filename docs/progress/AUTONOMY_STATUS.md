@@ -3470,6 +3470,21 @@ oracle campaigns.
   bit-identical repetition, and documents the camera-side discharge.
   The volume renderer implementation follows with the sibling
   request, the widened claims and the end-to-end tiny render.
+- One-hundred-fiftieth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0174`, the volume
+  render vocabulary — the surface's inputs delivered ahead of the
+  renderer, split for atomicity. The closed request value carries
+  the volume identifier, the transfer table, the camera, the
+  viewport and the quality token the sampler validates at render
+  time; the render-mode and colour-output claims widen additively
+  with `volumeDirect` and `rgba8`, purely additive because no
+  exhaustive switch exists over either vocabulary; and the accepted
+  trilinear sample rule becomes the one public sampling entry on the
+  oblique operation, documented as the authority consumers compose —
+  package access was declined because hiding a frozen registered
+  rule communicates less than the documentation naming it. The
+  renderer surface with the end-to-end tiny render follows in the
+  metal module per the exact-renderer precedent.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
