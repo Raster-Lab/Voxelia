@@ -2679,6 +2679,29 @@ oracle campaigns.
   vocabulary rather than incidental absence. `VOX-VAL-003/004/005`
   are the standing fixture discipline for internal evidence, with
   their external-dataset halves following the adapter.
+- One-hundred-tenth autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0017` and `ADR-0141`,
+  freezing the oblique slice sampling model on paper before any
+  implementation exists — the sweep queue's first item under the
+  plan-first discipline. The request is the output's own affine
+  geometry and the output claims it verbatim, so reproducibility is
+  the request value itself. Sampling composes only accepted models:
+  the claimed forward evaluation positions each output sample, the
+  accepted inverse composition maps it to continuous volume indices,
+  and a trilinear reduction over ascending volume axes extends the
+  accepted per-axis tap rule to rank three — trilinear because an
+  oblique sample sits between eight voxels, and a two-dimensional
+  rule would misreport the interpolation that actually runs. The
+  closed pixel-centre support is declared: outside it the sample is
+  exactly the stated version-one zero padding — rejecting every
+  overhanging plane was rejected as unusable and silent clamping as
+  fabrication — while border coordinates replicate the border sample
+  under the accepted rule. Four python-verified fixtures freeze the
+  behaviour, including the affine-field diagonal whose trilinear
+  reduction reproduces the field exactly and the one-third weight
+  pinning the rounded spelling. The Swift operation and its typed
+  admissions follow as their own increment; no consumer may embed an
+  ad-hoc oblique sampler meanwhile.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
