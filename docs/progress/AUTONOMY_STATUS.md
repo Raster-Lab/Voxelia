@@ -3420,6 +3420,22 @@ oracle campaigns.
   implementation. Python-verified fixtures pin the frozen
   accumulations, the one-sample termination and the below-threshold
   three-sample ray. Implementation follows as its own increment.
+- One-hundred-forty-seventh autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0171`, the volume ray
+  compositor — the arc's per-ray engine live. The pure frozen
+  function applies the declared conversions and accumulation order
+  with the exact dyadic threshold, and the result value carries the
+  consumed count the acceleration increment will later compare
+  against. One honesty note is recorded in the suite itself: an
+  exhaustive search over every opacity pair proves no byte-derived
+  accumulation can equal the threshold exactly in binary64, so the
+  specification's boundary obligation is discharged by its two
+  reachable sides — strictly exceeding stops, strictly below
+  continues — with the greater-or-equal comparison carrying the
+  unreachable equality by construction. Every fixture reproduces
+  exactly including consumed counts, and repetition is bit-identical.
+  The renderer record follows, freezing per-pixel ray generation
+  with the presentation claims.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

@@ -26,6 +26,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``VolumeRaySampler``
 - ``VolumeRaySamplePlan``
 - ``VolumeRaySamplingError``
+- ``VolumeRayCompositor``
+- ``CompositedRay``
 - ``RenderQuality``
 - ``RenderLayer``
 - ``SceneSnapshot``
