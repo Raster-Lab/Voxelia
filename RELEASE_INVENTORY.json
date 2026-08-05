@@ -1611,8 +1611,8 @@
     },
     {
       "path": "Tests/VoxeliaCoreTests/MetadataBinaryTests.swift",
-      "size": 10381,
-      "sha256": "a8a502727df84a4528dfba129daa715ad91791027d307a66ab9c469030d36ac1"
+      "size": 10595,
+      "sha256": "cfea2f8aa4f0c2fe2f7b2e1a82e98dbc551b1f00fad1054b3b93c261ff5747c3"
     },
     {
       "path": "Tests/VoxeliaCoreTests/MetadataCollectionTests.swift",
@@ -3711,8 +3711,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 696136,
-      "sha256": "729b2bac5de329a934f2b28e17c795b6d0284d95326467f5d4c56d1b9ed690ea"
+      "size": 699375,
+      "sha256": "7026e3ae0b3dcbb5a6ce75843070bc3fecea65c7a400c9637526be606c7870d9"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3771,8 +3771,8 @@
     },
     {
       "path": "docs/progress/evidence/ADR-0186-metal-buffer-transfer-independent-review.md",
-      "size": 7190,
-      "sha256": "3a08d40e179b9072837e85ed1fd53809e2c6bbd85965abbe233b98482d75d08c"
+      "size": 7497,
+      "sha256": "ba954270d665138f38f012639655af4695c858000a1d21b80f7ebcc31d5cdbe0"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4036,8 +4036,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 10446,
-      "sha256": "f722fb5aa5b7b45243ef7ccbc47cd4d2659489356200f1f4e55a5bc658101da2"
+      "size": 10554,
+      "sha256": "58adf043e36603e2058f4c781d9f0e165e7f94394ecb847854115f2de2a95030"
     },
     {
       "path": "docs/shaders/README.md",

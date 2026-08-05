@@ -7,25 +7,36 @@ import Testing
 
 @Suite("MetadataBinary")
 struct MetadataBinaryTests {
-    @Test("[Unit][CDMS-72][VOX-META-002] snapshots defeat no-copy backing mutation")
-    func snapshotsDefeatNoCopyMutation() {
-        let capacity = 4
-        let backing = UnsafeMutableRawPointer.allocate(
-            byteCount: capacity,
-            alignment: 1
-        )
-        defer { backing.deallocate() }
-        backing.copyMemory(from: [1, 2, 3, 4] as [UInt8], byteCount: capacity)
+    private final class MutableBytes: Collection {
+        private var storage: ContiguousArray<UInt8>
 
-        let noCopyData = Data(
-            bytesNoCopy: backing,
-            count: capacity,
-            deallocator: .none
-        )
-        let value = MetadataBinary(bytes: noCopyData)
+        init(_ bytes: some Collection<UInt8>) {
+            storage = ContiguousArray(bytes)
+        }
+
+        var startIndex: Int { storage.startIndex }
+        var endIndex: Int { storage.endIndex }
+
+        func index(after index: Int) -> Int {
+            storage.index(after: index)
+        }
+
+        subscript(index: Int) -> UInt8 {
+            storage[index]
+        }
+
+        func replace(with bytes: some Collection<UInt8>) {
+            storage = ContiguousArray(bytes)
+        }
+    }
+
+    @Test("[Unit][CDMS-72][VOX-META-002] snapshots defeat caller-owned mutation")
+    func snapshotsDefeatCallerOwnedMutation() {
+        let backing = MutableBytes([1, 2, 3, 4])
+        let value = MetadataBinary(bytes: backing)
         var members: Set<MetadataBinary> = [value]
 
-        backing.copyMemory(from: [9, 9, 9, 9] as [UInt8], byteCount: capacity)
+        backing.replace(with: [9, 9, 9, 9])
 
         #expect(Array(value.bytes) == [1, 2, 3, 4])
         #expect(members.contains(value))

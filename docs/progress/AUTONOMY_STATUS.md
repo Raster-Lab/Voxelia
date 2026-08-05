@@ -60,9 +60,11 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   coherency, lifetime, governance, platform, count and error-classification
   corrections. The six test-only C-format initializers are now replaced by
   checked deterministic Swift hexadecimal and decimal encoders with their
-  fixture bytes preserved. The semantic gate gets beyond those sites and now
-  stops in the root debug test build on the pointer-backed no-copy mutation
-  adversary in `MetadataBinaryTests`. It must not yet be reported green.
+  fixture bytes preserved. The final pointer-backed `MetadataBinaryTests`
+  adversary is now a checked caller-owned reference collection that preserves
+  the snapshot and hash-stability oracle without another exception. The
+  complete semantic gate passes every repository package in debug and release;
+  the strict safety recovery and `ADR-0186` implementation are complete.
   Independently, all four
   pointer-backed sixteen-bit fixture serializers predicted in the Metal test
   target now use exact checked little-endian shifts, with their affected device
@@ -4354,6 +4356,53 @@ oracle campaigns.
   format lint and diff validation passed. Release-integrity regeneration and
   read-only manifest/integrity verification passed with 817 manifest paths, 816
   inventory records and 817 checksums.
+
+- One-hundred-eighty-third autonomous increment (scheduled goal continuation):
+  restored the complete fail-closed semantic Swift safety gate without
+  weakening the accepted `ADR-0030` ownership contract or expanding the Metal
+  exception. The `MetadataBinaryTests` ownership adversary no longer allocates,
+  mutates or deallocates a raw pointer and no longer constructs no-copy
+  Foundation storage. Its private checked `MutableBytes` reference collection
+  remains caller-owned and mutable: the test snapshots its initial four bytes,
+  inserts the value into a hash set, replaces the source storage, then proves
+  the owned bytes and set membership/removal are unchanged. This directly pins
+  the generic initializer's accepted obligation to materialize the observed
+  byte sequence and retain no source collection. The public product type and
+  API are unchanged.
+
+  Three checked Foundation alternatives were evaluated with local `swift -e`
+  probes before choosing that oracle. Neither `Data(referencing:)` nor an
+  `NSMutableData as Data` bridge observed later `setData` mutation, and an
+  `.alwaysMapped` `Data` did not observe an in-place `FileHandle` rewrite on
+  this host. All three were rejected because their mutation precondition was
+  false; none became source or claimed evidence.
+
+  `xcrun swift-format lint --strict
+  Tests/VoxeliaCoreTests/MetadataBinaryTests.swift` and `git diff --check`
+  passed. `swift test --filter MetadataBinary` executed all nine tests in the
+  owning suite with zero failures, covering the caller-owned mutation oracle,
+  ordinary `Data`/array mutation, exact byte/hash identity, canonical RFC 4648
+  vectors and generated round trips, malformed/wrong-shaped input, checked
+  count arithmetic and deterministic codec fuzzing.
+
+  `python3 Tools/Scripts/check_swift_safety.py --compile` then passed in full.
+  It built every product and test target in the root, Validation, Benchmarks and
+  Tools packages under strict memory safety and warnings-as-errors in both
+  debug and release, and reported no unapproved escape-hatch syntax, compiler
+  configuration, compiler-classified memory finding or unchecked concurrency
+  exception. This is compilation evidence, not execution of the complete test
+  suite. The complete suite, Apple destination matrix, unavailable visionOS
+  destinations and external device/fuzz evidence were intentionally not rerun
+  and retain their previously recorded status. With the semantic gate green,
+  accepted `ADR-0186` is now fully implemented. The next increment resumes the
+  prospective `ADR-0187` geometry coordinate-space/package-dependency decision;
+  no graph or product source may change before that decision is accepted. The
+  complete `Tools/Scripts/validate-docs.sh` gate passed front matter for seven
+  documents, all 166 ADR records, the two primary and one companion Draft RFC
+  records, and text checks for 271 Markdown files; a direct ADR-register rerun,
+  repeated focused strict format lint and diff validation also passed.
+  Release-integrity regeneration and read-only manifest/integrity verification
+  passed with 817 manifest paths, 816 inventory records and 817 checksums.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -10145,19 +10194,16 @@ with their registered digests unchanged. The owner approved Option A; the exact
 three-operation boundary/scanner stage, all three kernel migrations and the
 residency round trip are implemented and independently approved. All six
 test-only C-format initializers are now replaced by bounded deterministic Swift
-encoding, their three focused suites pass and the complete semantic gate gets
-beyond them. It now stops in the root debug test build on the pointer-backed
-allocation, mutation, no-copy `Data` construction and deallocation expressions
-inside the single `MetadataBinaryTests` ownership adversary. The exact next
-action is to preserve that copy-ownership oracle without ungoverned pointer-
-shaped fixture code, run the focused `MetadataBinary` suite, then rerun the
-complete semantic gate. Do not broaden the Metal exception, resume geometry or
-report the gate green before that evidence.
+encoding, their three focused suites pass, and the remaining pointer-backed
+`MetadataBinaryTests` ownership adversary now uses a checked caller-owned
+reference collection. Its focused suite passes and the complete semantic gate
+builds every repository package in debug and release. The strict-safety
+recovery and accepted `ADR-0186` implementation are complete without broadening
+the exact Metal exception.
 
-After that semantic safety recovery, the geometry queue resumes with the
-explicit package dependency-resolution decision under prospective `ADR-0187`: reconcile
-the MTA/CDMS demand for a Spatial-owned coordinate space in canonical mesh
-values with the approved
+The exact next action is the explicit package dependency-resolution decision
+under prospective `ADR-0187`: reconcile the MTA/CDMS demand for a Spatial-owned
+coordinate space in canonical mesh values with the approved
 `VoxeliaGeometry -> VoxeliaCore` direct graph, including package-graph,
 ownership, API and downstream validation consequences. Do not add
 `VoxeliaGeometry -> VoxeliaSpatial`, duplicate its coordinate model or weaken
@@ -10177,10 +10223,11 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Replace or formally govern the pointer-backed no-copy mutation fixture in
-  `MetadataBinaryTests` without weakening its proof that `MetadataBinary` owns
-  an immutable copy, run the focused suite, then rerun the complete semantic
-  gate.
+- Audit the exact MTA/CDMS coordinate-space ownership statements, the approved
+  package graph and the coordinate-bearing mesh consumers; draft prospective
+  `ADR-0187` with explicit alternatives, compatibility, migration and
+  validation consequences. Run the focused ADR/document and package-graph
+  checks. Do not change dependencies or product source before owner acceptance.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

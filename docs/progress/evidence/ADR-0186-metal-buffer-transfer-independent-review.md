@@ -89,9 +89,9 @@ tests, the raw inventory scan and diff validation, with no remaining boundary
 blocker.
 
 This approval completed the boundary/scanner stage only. The same reviewer's
-later three-kernel and residency migration inspection is recorded below. The
-complete semantic gate still must pass before `ADR-0186` is declared fully
-implemented.
+later three-kernel and residency migration inspection is recorded below. At
+that stage the complete semantic gate still had to pass before `ADR-0186` could
+be declared fully implemented.
 
 ## Migration implementation review
 
@@ -120,9 +120,13 @@ composite, invert and residency suites with unchanged differential evidence;
 the raw safety inventory, exact three-marker count, unchanged boundary SHA-256
 and diff validation passed. The six unrelated test-only C-format initializers
 were subsequently replaced with bounded Swift encoders and their focused suites
-passed. The complete semantic gate progressed beyond them but remains red on
-the unrelated `MetadataBinaryTests` pointer-backed no-copy ownership fixture,
-so `ADR-0186` is still not declared fully implemented.
+passed. The unrelated `MetadataBinaryTests` pointer-backed no-copy fixture was
+then replaced by a checked caller-owned reference collection without weakening
+its snapshot or hash-stability oracle. The complete semantic gate subsequently
+built every repository package in debug and release with no unapproved finding
+or configuration. `ADR-0186` is therefore fully implemented; the unavailable
+visionOS destination evidence remains a separate release/platform gap rather
+than a boundary blocker.
 
 ## Governance-draft review
 

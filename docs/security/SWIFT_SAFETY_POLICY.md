@@ -91,21 +91,22 @@ pair and all three kernel pipeline sets behind checked synchronous borrowing,
 removed the immutable residency manager's obsolete exception and proved the
 exact slice renderer is immutable checked composition.
 
-The complete semantic gate is not green. `check_swift_safety.py --compile`
-now compiles `VoxeliaCore/ContentID.swift` cleanly after its incremental hashing
+The complete semantic gate is green. During recovery,
+`check_swift_safety.py --compile` first compiled
+`VoxeliaCore/ContentID.swift` cleanly after its incremental hashing
 was moved to checked bounded `Data` inputs and direct verification to a
 fixed-size Swift loop that accumulates all 32 byte differences without an early
 exit. Registered goldens, chunk boundaries and first/middle/last mismatch
-evidence remain green. The document store's pointer-shaped Foundation query is
+evidence remain green. The document store's pointer-shaped Foundation query was
 also replaced by checked URL resource values with missing-path and regular-file
-rejection evidence. The gate now compiles Core and Storage, then stops in the
-root debug build because warnings-as-errors promotes a redundant `await` in
-`VoxeliaExecution/BrickRequestBroker.swift`. That same-actor call is now
-corrected and its five race/cancellation obligations pass. The gate proceeds
-through Execution and stops in Rendering because warnings-as-errors promotes
-the extraneous duplicate `pixelY` parameter spelling in
+rejection evidence. The gate next compiled Core and Storage, then stopped in
+the root debug build because warnings-as-errors promoted a redundant `await` in
+`VoxeliaExecution/BrickRequestBroker.swift`. That same-actor call was corrected
+and its five race/cancellation obligations pass. The gate proceeded through
+Execution and stopped in Rendering because warnings-as-errors promoted the
+extraneous duplicate `pixelY` parameter spelling in
 `OrthographicRayGenerator.swift`. That public-selector-preserving cleanup and
-its direct numerical dependants now pass. The gate then exposed sixteen
+its direct numerical dependants pass. The gate then exposed sixteen
 strict-memory diagnostics across the three Metal kernels. The three C-format
 digest conversions became one checked deterministic lowercase encoder, and the
 remaining thirteen upload, parameter and readback calls now route through the
@@ -125,18 +126,19 @@ boundary, checked word serializer, exact scanner fingerprint and focused range,
 storage, completion, lifetime, concurrency, serialization and scanner-fault
 evidence are implemented. All three kernels and the residency round trip are
 migrated, and the independent reviewer approved both the boundary/scanner and
-migration diffs. The semantic gate compiles all product modules and the focused
-Metal test target. Its six test-only C-format initializers are now replaced with
-bounded deterministic Swift encoders, and the gate gets beyond those sites.
-The root debug test build now stops on the allocation, deallocation, copy and
-no-copy `Data` expressions in the single `MetadataBinaryTests` copy-ownership
-adversary. Later package and configuration phases remain unverified by that
-run, so the complete semantic gate remains pending without expanding this
-exception.
+migration diffs. Its six test-only C-format initializers were then replaced
+with bounded deterministic Swift encoders. The final pointer-backed
+`MetadataBinaryTests` copy-ownership adversary now uses a checked caller-owned
+reference collection while retaining its snapshot and hash-stability oracle.
+The complete gate now builds every product and test target in the root,
+Validation, Benchmarks and Tools packages under strict memory safety and
+warnings-as-errors in both debug and release. It reports no unapproved finding
+or configuration. This semantic compilation gate does not execute the complete
+test suite or replace the separate Apple destination matrix.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| `SWIFT-MEM-001` (enabled for exact fingerprint) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval plus independent design, boundary/scanner and migration-diff approvals recorded under `ADR-0186` | Boundary fingerprint, range, storage, completion, lifetime, concurrency, serialization, scanner mutation, three kernels and residency pass; complete semantic gate pending the unrelated `MetadataBinaryTests` no-copy ownership fixture |
+| `SWIFT-MEM-001` (enabled for exact fingerprint) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval plus independent design, boundary/scanner and migration-diff approvals recorded under `ADR-0186` | Boundary fingerprint, range, storage, completion, lifetime, concurrency, serialization, scanner mutation, three kernels and residency pass; complete semantic gate passes every repository package in debug and release |
 
 ## Introducing an exception
 
