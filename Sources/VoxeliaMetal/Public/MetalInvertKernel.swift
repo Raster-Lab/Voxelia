@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 
-import CryptoKit
 import Metal
 import Synchronization
 import VoxeliaCore
@@ -35,9 +34,7 @@ public final class MetalInvertKernel: Sendable {
     /// kernel source text; the suite verifies this equals the shader
     /// manifest's pin.
     public static var sourceDigestHexText: String {
-        SHA256.hash(data: Array(InvertKernelSource.metalSource.utf8))
-            .map { String(format: "%02x", $0) }
-            .joined()
+        MetalSourceDigest.sha256HexText(InvertKernelSource.metalSource)
     }
 
     /// The kernel component reference carried by device execution

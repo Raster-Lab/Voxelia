@@ -99,15 +99,17 @@ the extraneous duplicate `pixelY` parameter spelling in
 its direct numerical dependants now pass. The gate proceeds through Rendering
 and stops on sixteen strict-memory diagnostics across
 `MetalInvertKernel.swift`, `MetalCompositeKernel.swift` and
-`MetalWindowLevelKernel.swift`: three C-format digest conversions and thirteen
+`MetalWindowLevelKernel.swift`. The three C-format digest conversions are now
+one checked deterministic lowercase encoder, with all registered digest pins
+and kernel suites green. A filtered semantic rerun leaves exactly thirteen
 pointer-shaped upload, parameter and readback calls. Later targets and
 package/configuration phases remain unverified by that run. No finding is an
-accepted exception; checked digest formatting is the next bounded recovery,
-while the Metal transfer boundary requires an SDK/API audit before edits.
+accepted exception; the Metal transfer boundary now requires an installed-SDK
+and package-boundary audit before edits or governance decisions.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on 16 diagnostics in three Metal kernels | Checked digest formatting, then Metal transfer API audit pending |
+| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on 13 transfer diagnostics in three Metal kernels | Checked SDK/API transfer-boundary audit pending |
 
 ## Introducing an exception
 

@@ -187,6 +187,7 @@ Sources/VoxeliaMetal/ApplePlatformGate.swift
 Sources/VoxeliaMetal/Internal/.gitkeep
 Sources/VoxeliaMetal/Internal/CompositeKernelSource.swift
 Sources/VoxeliaMetal/Internal/InvertKernelSource.swift
+Sources/VoxeliaMetal/Internal/MetalSourceDigest.swift
 Sources/VoxeliaMetal/Internal/WindowLevelKernelSource.swift
 Sources/VoxeliaMetal/Module.swift
 Sources/VoxeliaMetal/Public/ExactSliceRenderer.swift

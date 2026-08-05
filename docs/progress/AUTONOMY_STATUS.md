@@ -48,10 +48,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `BrickRequestBroker.swift`; that actor-isolated call is now corrected too.
   The duplicate internal `pixelY` spelling in `OrthographicRayGenerator` is
   now removed without changing its public selector. The gate passes Rendering
-  and stops in Metal on sixteen strict-memory-safety diagnostics across its
-  three compute-kernel wrappers, so the complete Swift safety gate must not yet
-  be reported green. The last recorded strict product/test destination builds
-  remain historical evidence only; visionOS 26.5 is still unavailable.
+  and the three shader-source digest conversions now use one checked lowercase
+  encoder. The gate stops in Metal on the remaining thirteen upload, parameter
+  and readback diagnostics across its three compute-kernel wrappers, so the
+  complete Swift safety gate must not yet be reported green. The last recorded
+  strict product/test destination builds remain historical evidence only;
+  visionOS 26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -4071,6 +4073,28 @@ oracle campaigns.
   checksums. The exact next recovery begins with the three checked digest-hex
   serializations, followed separately by an SDK/API audit of the Metal transfer
   boundary.
+- One-hundred-seventy-sixth autonomous increment (scheduled goal
+  continuation): replaced all three locale/C-varargs shader-digest conversions
+  with one internal checked deterministic encoder. `MetalSourceDigest` hashes
+  the exact embedded source UTF-8 with CryptoKit, expands every digest byte
+  through a fixed lowercase ASCII digit table and returns the exact 64-byte hex
+  text; the three public kernel properties now delegate to it and no longer
+  import CryptoKit individually. The new compiled source is registered in
+  `manifest.txt`. Focused strict format lint and diff validation passed. The
+  combined window-level, composite and invert kernel filter executed eleven
+  tests across three suites with zero failures: all three registered source
+  digest pins remained exact; device evidence remained 256/256 inversion,
+  1,536/1,536 uint8 window, 36,864/36,864 sixteen-bit window and
+  13,311/13,312 composite exact; padding, typed admission and three shared-
+  kernel concurrency regressions also remained green. A filtered semantic
+  `--compile` rerun confirmed the inventory fell from sixteen to exactly
+  thirteen diagnostics, all at Metal input-buffer, parameter-byte or shared-
+  buffer readback calls; no digest conversion remains. The complete suite was
+  intentionally not run under the narrow-test policy. The 810-entry manifest
+  path check and raw safety scan passed; release-integrity regeneration and
+  read-only verification passed with 810 manifest paths, 809 inventory records
+  and 810 checksums. The exact next action is the installed-SDK/API audit of
+  those transfer boundaries before any code or exception decision.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9856,17 +9880,18 @@ removed the canonical JSON/ingress failures, and the checked bounded
 document store now validates directory kind through checked URL resource
 values; the broker now uses a direct same-actor completion call; and the ray
 generator retains its exact public selector without the duplicate internal
-name. The complete semantic Swift safety gate passes Rendering and stops on
-sixteen diagnostics across the three Metal compute-kernel wrappers. The exact
-next focused recovery is the tightly related three-call digest formatting
-group: replace each `String(format:)` byte conversion with checked lowercase
-hex serialization while preserving the registered shader-source digests. Run
-the three kernel provenance/golden suites and rerun the semantic oracle to
-isolate the remaining transfer diagnostics. Then audit the installed Metal SDK
-for a checked upload, parameter and readback boundary before changing those
-thirteen calls; do not introduce a memory-safety exception or foreign helper by
-assumption. Do not resume geometry or report the compiler gate green until the
-semantic `--compile` oracle passes through every package and configuration.
+name; and all three shader fingerprints now use checked lowercase serialization
+with their registered digests unchanged. The complete semantic Swift safety
+gate passes Rendering and stops on thirteen transfer diagnostics across the
+three Metal compute-kernel wrappers. The exact next focused action is a
+read-only installed-SDK and package-boundary audit: identify whether supported
+Metal/MetalKit/Foundation overlays offer checked `Data`- or collection-based
+upload, parameter and readback primitives that preserve shared-storage
+ownership, dispatch ordering and exact outputs. If not, map the smallest
+reviewable foreign-memory boundary and its governance implications, but do not
+implement or permit an exception without an accepted decision and evidence.
+Do not resume geometry or report the compiler gate green until the semantic
+`--compile` oracle passes through every package and configuration.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under `ADR-0186`: reconcile
@@ -9891,10 +9916,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Treat the three Metal source-digest formatters as one provenance-sensitive
-  increment: preserve exact lowercase registered digests, run all three kernel
-  provenance/golden suites, and rerun the semantic gate before touching buffer
-  transfer.
+- Treat the Metal transfer audit as a safety/architecture decision precursor:
+  inspect supported SDK overlays and existing package boundaries read-only,
+  preserve the no-exception policy, and record exact viable or blocked paths
+  before editing the kernels.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

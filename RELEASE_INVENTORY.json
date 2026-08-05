@@ -945,6 +945,11 @@
       "sha256": "5003032a1578878060245a85c70b0f8563a63912c3510df8a62d4d62a8667d79"
     },
     {
+      "path": "Sources/VoxeliaMetal/Internal/MetalSourceDigest.swift",
+      "size": 631,
+      "sha256": "465c9d9df20d02be6faac6006f86335a81afa51c81cd1e17a24c5e28f47a7a0b"
+    },
+    {
       "path": "Sources/VoxeliaMetal/Internal/WindowLevelKernelSource.swift",
       "size": 3899,
       "sha256": "76bf18166d4ed5ec9ed56d6d243af06bb7807ccc929b5c5b2357416fa6dbe5f0"
@@ -971,8 +976,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalCompositeKernel.swift",
-      "size": 8142,
-      "sha256": "a6821f3b9240ffb60d06127a96be0d7e0c84af79180bfed69ea31871caa85fab"
+      "size": 8057,
+      "sha256": "2dd3156696aee85a98534a851e84676939ef744eacd47df74c8fa56fe76fbb01"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalCompositeLayersOperation.swift",
@@ -996,8 +1001,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalInvertKernel.swift",
-      "size": 6657,
-      "sha256": "adc27ff1efb3e4b0bb5af411fa25f5dddea1c2ca41626f0ecf76804beedafc4e"
+      "size": 6572,
+      "sha256": "95a8d982454945f686f197ab21e2dca4b54f86a241e7a9bf4e1cd4a7e10b2dba"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalPipelineCache.swift",
@@ -1021,8 +1026,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalWindowLevelKernel.swift",
-      "size": 11374,
-      "sha256": "87c86568bcf8eeb31f7bbe989641156323ab3505bd2e26f6b439e8618fe86379"
+      "size": 11289,
+      "sha256": "5de8c4ff1afcad8a7e5e4d4e177a5486d1897ecee0c26bad9662ba492a0d5364"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalWindowLevelOperation.swift",
@@ -3681,8 +3686,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 675718,
-      "sha256": "d03623ba12376db90138f7d1db6fbd9d374c01a569c2d0a3eec3386ff01070e1"
+      "size": 677557,
+      "sha256": "37f055e741c9be0943161fdd327f2056e8e33d8737d89b62ca539928432e5335"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3996,8 +4001,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 7841,
-      "sha256": "84652e4573d6d30800b535beb499f9158298c670fc927ab164f5026471c35a38"
+      "size": 7977,
+      "sha256": "cb19f646e666d1b5407034ef2dd4b4877dac29a556605dc1d6b8c796ca3e31e4"
     },
     {
       "path": "docs/shaders/README.md",
@@ -4041,8 +4046,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 43702,
-      "sha256": "f8952a99b743b3e7f518881aa511ec0648f880081cafd3d0869de9d5757199e3"
+      "size": 43756,
+      "sha256": "66149124a81ed7261f66e952634bd85c76c6d5dcb1b17cc80949860197912e28"
     }
   ]
 }
