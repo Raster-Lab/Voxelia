@@ -227,6 +227,7 @@ Sources/VoxeliaRendering/Public/RenderRequest.swift
 Sources/VoxeliaRendering/Public/SceneSnapshot.swift
 Sources/VoxeliaRendering/Public/TransferFunction.swift
 Sources/VoxeliaRendering/Public/TransferFunction1D.swift
+Sources/VoxeliaRendering/Public/VolumeMaskSampler.swift
 Sources/VoxeliaRendering/Public/VolumeRayCompositor.swift
 Sources/VoxeliaRendering/Public/VolumeRaySampler.swift
 Sources/VoxeliaRendering/Public/VolumeRenderRequest.swift
@@ -393,6 +394,7 @@ Tests/VoxeliaRenderingTests/RenderRequestTests.swift
 Tests/VoxeliaRenderingTests/SceneSnapshotTests.swift
 Tests/VoxeliaRenderingTests/TransferFunction1DTests.swift
 Tests/VoxeliaRenderingTests/TransferFunctionTests.swift
+Tests/VoxeliaRenderingTests/VolumeMaskSamplerTests.swift
 Tests/VoxeliaRenderingTests/VolumeRayCompositorTests.swift
 Tests/VoxeliaRenderingTests/VolumeRaySamplerTests.swift
 Tests/VoxeliaRenderingTests/VolumeRenderRequestTests.swift

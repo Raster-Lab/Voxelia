@@ -26,12 +26,14 @@ public API is introduced only by reviewed milestone specifications.
 - ``VolumeRaySampler``
 - ``VolumeRaySamplePlan``
 - ``VolumeRaySamplingError``
+- ``VolumeMaskSampler``
 - ``VolumeRayCompositor``
 - ``CompositedRay``
 - ``OrthographicRayGenerator``
 - ``RayGenerationError``
 - ``VolumeRenderRequest``
 - ``VolumeClipBounds``
+- ``VolumeMaskSelection``
 - ``VolumeLightingModel``
 - ``RenderQuality``
 - ``RenderLayer``

@@ -71,6 +71,94 @@ struct VolumeRayCompositorTests {
         )
     }
 
+    @Test("[Unit][VOX-DVR-010] masked compositing reproduces the fixtures")
+    func maskedCompositingReproducesTheFixtures() throws {
+        // The ALG-0026 fixtures: an excluded sample never reaches the
+        // accumulation but is still consumed, colour and alpha match
+        // the filtered subsequence through the accepted unmasked
+        // entries exactly, the all-included case matches the
+        // unmasked entry as a complete tuple, and excluding
+        // everything composites to transparent black.
+        let table = try rampTable()
+        let samples: [UInt8] = [10, 10, 200, 200, 250, 250]
+        let inclusion = [false, false, true, true, false, false]
+
+        let masked = VolumeRayCompositor.composite(
+            samples: samples,
+            inclusion: inclusion,
+            table: table
+        )
+        #expect(masked.red == 191)
+        #expect(masked.green == 191)
+        #expect(masked.blue == 191)
+        #expect(masked.alpha == 243)
+        #expect(masked.consumedSampleCount == 6)
+
+        let filtered = VolumeRayCompositor.composite(
+            samples: [200, 200],
+            table: table
+        )
+        #expect(filtered.red == masked.red)
+        #expect(filtered.green == masked.green)
+        #expect(filtered.blue == masked.blue)
+        #expect(filtered.alpha == masked.alpha)
+        #expect(filtered.consumedSampleCount == 2)
+
+        let shadingFactors = [1.0, 1.0, 0.6, 0.9, 1.0, 1.0]
+        let shadedMasked = VolumeRayCompositor.composite(
+            samples: samples,
+            shadingFactors: shadingFactors,
+            inclusion: inclusion,
+            table: table
+        )
+        #expect(shadedMasked.red == 125)
+        #expect(shadedMasked.green == 125)
+        #expect(shadedMasked.blue == 125)
+        #expect(shadedMasked.alpha == 243)
+        #expect(shadedMasked.consumedSampleCount == 6)
+
+        let shadedFiltered = VolumeRayCompositor.composite(
+            samples: [200, 200],
+            shadingFactors: [0.6, 0.9],
+            table: table
+        )
+        #expect(shadedFiltered.red == shadedMasked.red)
+        #expect(shadedFiltered.green == shadedMasked.green)
+        #expect(shadedFiltered.blue == shadedMasked.blue)
+        #expect(shadedFiltered.alpha == shadedMasked.alpha)
+        #expect(shadedFiltered.consumedSampleCount == 2)
+
+        // Including everything is a complete tuple match against the
+        // accepted unmasked entry — nothing is skipped, so even the
+        // consumed count agrees.
+        let allIncluded = VolumeRayCompositor.composite(
+            samples: samples,
+            inclusion: [true, true, true, true, true, true],
+            table: table
+        )
+        let plain = VolumeRayCompositor.composite(samples: samples, table: table)
+        #expect(allIncluded == plain)
+        #expect(plain.consumedSampleCount == 5)
+
+        let allExcluded = VolumeRayCompositor.composite(
+            samples: samples,
+            inclusion: [false, false, false, false, false, false],
+            table: table
+        )
+        #expect(
+            allExcluded
+                == CompositedRay(red: 0, green: 0, blue: 0, alpha: 0, consumedSampleCount: 6)
+        )
+
+        #expect(
+            VolumeRayCompositor.composite(
+                samples: samples,
+                inclusion: inclusion,
+                table: table
+            ) == masked
+        )
+    }
+
     @Test("[Unit][VOX-DVR-004] the termination threshold boundary is honoured")
     func terminationThresholdBoundaryIsHonoured() throws {
         // The declared constant is exactly 255/256. Exhaustive search

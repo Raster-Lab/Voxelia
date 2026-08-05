@@ -100,6 +100,90 @@ public enum VolumeRayCompositor {
         )
     }
 
+    /// Composites one ray with a per-sample inclusion flag aligned to
+    /// the samples, per `VOXELIA-ALG-0026`: an excluded sample's
+    /// colour and opacity never reach the accumulation, but it is
+    /// still counted as consumed, because the ray still visited that
+    /// position. The consumed count and the termination check proceed
+    /// unconditionally, exactly as the accepted unmasked entry's;
+    /// that entry itself is untouched.
+    public static func composite(
+        samples: [UInt8],
+        inclusion: [Bool],
+        table: TransferFunction1D
+    ) -> CompositedRay {
+        var red = 0.0
+        var green = 0.0
+        var blue = 0.0
+        var accumulated = 0.0
+        var consumed = 0
+        for index in samples.indices {
+            if inclusion[index] {
+                let entry = table.entry(at: Int(samples[index]))
+                let alpha = Double(entry.opacity) / 255.0
+                let weight = (1.0 - accumulated) * alpha
+                red = red + (weight * (Double(entry.red) / 255.0))
+                green = green + (weight * (Double(entry.green) / 255.0))
+                blue = blue + (weight * (Double(entry.blue) / 255.0))
+                accumulated = accumulated + weight
+            }
+            consumed += 1
+            if accumulated >= Self.terminationThreshold {
+                break
+            }
+        }
+        return CompositedRay(
+            red: Self.outputByte(red),
+            green: Self.outputByte(green),
+            blue: Self.outputByte(blue),
+            alpha: Self.outputByte(accumulated),
+            consumedSampleCount: consumed
+        )
+    }
+
+    /// Composites one ray with both per-sample shading factors and a
+    /// per-sample inclusion flag, per `VOXELIA-ALG-0026`: the two
+    /// modulations apply to the same step in the declared order —
+    /// inclusion gates whether the shading-modulated contribution
+    /// happens at all. The consumed count and the termination check
+    /// proceed unconditionally, exactly as the accepted shaded
+    /// entry's; that entry itself is untouched.
+    public static func composite(
+        samples: [UInt8],
+        shadingFactors: [Double],
+        inclusion: [Bool],
+        table: TransferFunction1D
+    ) -> CompositedRay {
+        var red = 0.0
+        var green = 0.0
+        var blue = 0.0
+        var accumulated = 0.0
+        var consumed = 0
+        for index in samples.indices {
+            if inclusion[index] {
+                let entry = table.entry(at: Int(samples[index]))
+                let alpha = Double(entry.opacity) / 255.0
+                let weight = (1.0 - accumulated) * alpha
+                let factor = shadingFactors[index]
+                red = red + (weight * ((Double(entry.red) * factor) / 255.0))
+                green = green + (weight * ((Double(entry.green) * factor) / 255.0))
+                blue = blue + (weight * ((Double(entry.blue) * factor) / 255.0))
+                accumulated = accumulated + weight
+            }
+            consumed += 1
+            if accumulated >= Self.terminationThreshold {
+                break
+            }
+        }
+        return CompositedRay(
+            red: Self.outputByte(red),
+            green: Self.outputByte(green),
+            blue: Self.outputByte(blue),
+            alpha: Self.outputByte(accumulated),
+            consumedSampleCount: consumed
+        )
+    }
+
     /// The declared output conversion:
     /// `clamp(roundHalfToEven(value * 255), 0, 255)`.
     private static func outputByte(_ value: Double) -> UInt8 {

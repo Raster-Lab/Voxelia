@@ -149,6 +149,94 @@ struct ExactVolumeRendererTests {
         )
     }
 
+    /// A label mask volume, its extents/format/object identity
+    /// independently overridable so the same helper builds both a
+    /// valid mask and the malformed shapes the admission tests
+    /// reject.
+    private func maskVolume(
+        objectID: String = "mask-7",
+        extents: [Int] = [3, 3, 3],
+        semantic: ImageSemantic = .label,
+        scalarType: ScalarType = .uint8,
+        bytes: [UInt8]? = nil
+    ) throws -> ImageData {
+        let byteCount = extents.reduce(1, *) * scalarType.byteCount
+        let resolvedBytes = bytes ?? [UInt8](repeating: 0, count: byteCount)
+        var axes = ContiguousArray<AxisDescriptor>()
+        let semantics: [AxisSemantic] = [.spatialX, .spatialY, .spatialZ]
+        let names = ["x", "y", "z"]
+        for index in 0..<extents.count {
+            axes.append(
+                try AxisDescriptor(
+                    id: try #require(AxisID(rawValue: names[index])),
+                    name: names[index],
+                    semantic: semantics[index],
+                    unit: nil,
+                    sampling: .indexOnly
+                )
+            )
+        }
+        return try ImageData(
+            descriptor: try ImageDescriptor(
+                shape: try ImageShape(extents: ContiguousArray(extents)),
+                scalarFormat: try ScalarFormat(
+                    type: scalarType,
+                    validBitCount: nil,
+                    byteOrder: .native
+                ),
+                components: try ComponentDescriptor(
+                    count: 1,
+                    interpretation: .scalar,
+                    layout: .interleaved,
+                    componentNames: nil
+                ),
+                semantic: semantic,
+                axes: axes,
+                spatialGeometry: nil,
+                valueTransform: nil,
+                units: nil
+            ),
+            storage: AnyImageStorage(
+                erasing: try ContiguousImageStorage(
+                    binding: try LogicalSampleBinding(
+                        shape: try ImageShape(extents: ContiguousArray(extents)),
+                        scalarType: scalarType,
+                        componentCount: 1
+                    ),
+                    bytes: resolvedBytes
+                )
+            ),
+            metadata: try MetadataCollection(entries: []),
+            provenance: try ProvenanceRecord(
+                id: try #require(ProvenanceID(rawValue: "record-\(objectID)")),
+                kind: .source,
+                createdAt: try CanonicalInstant(utcString: "2026-08-05T12:00:00Z"),
+                subject: .object(try #require(DataObjectID(rawValue: objectID))),
+                software: try software(),
+                activity: .origin,
+                inputs: [],
+                warnings: [],
+                validationClaim: .unknown,
+                declaresZeroInputGenerator: false
+            ),
+            identity: try DataIdentity(
+                objectID: try #require(DataObjectID(rawValue: objectID)),
+                contentID: try ContentID.sampleBytesIdentity(
+                    overCanonicalPackedBytes: resolvedBytes
+                ),
+                sourceIdentities: [
+                    try SourceIdentity(
+                        namespace: "dicom.sop-instance-uid",
+                        identifier: "1.2.840.113619.13",
+                        version: nil,
+                        contentID: nil
+                    )
+                ],
+                derivation: nil
+            )
+        )
+    }
+
     private func rampTable() throws -> TransferFunction1D {
         var entries = ContiguousArray<TransferFunctionEntry>()
         for index in 0..<256 {
@@ -166,7 +254,8 @@ struct ExactVolumeRendererTests {
     }
 
     private func request(
-        lighting: VolumeLightingModel = .none
+        lighting: VolumeLightingModel = .none,
+        mask: VolumeMaskSelection? = nil
     ) throws -> VolumeRenderRequest {
         let id = try #require(CoordinateSpaceID(rawValue: "patient"))
         return VolumeRenderRequest(
@@ -182,7 +271,8 @@ struct ExactVolumeRendererTests {
             quality: "org.voxelia.quality.full",
             lighting: lighting,
             clip: nil,
-            crop: nil
+            crop: nil,
+            mask: mask
         )
     }
 
@@ -457,6 +547,209 @@ struct ExactVolumeRendererTests {
         _ = try await publisher.publish(try volume(geometry: nil), mode: .complete)
         await #expect(throws: VolumeRenderError.volumeNotSpatiallyCalibrated) {
             try await render()
+        }
+    }
+
+    @Test("[Integration][VOX-DVR-010] the masked render excludes labelled samples")
+    func maskedRenderExcludesLabelledSamplesEndToEnd() async throws {
+        // The ADR-0180 end-to-end obligation: the renderer's masked
+        // output matches an expectation composed from the same
+        // accepted authorities outside the renderer, masking has a
+        // real effect against the unmasked render, and repetition is
+        // bit-identical.
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try volume(geometry: .affine(try identityGeometry())),
+            mode: .complete
+        )
+        var maskBytes = [UInt8](repeating: 0, count: 27)
+        for i2 in 0..<3 {
+            for i1 in 0..<3 {
+                for i0 in 0..<3 {
+                    maskBytes[i0 + 3 * (i1 + 3 * i2)] = UInt8(i2)
+                }
+            }
+        }
+        _ = try await publisher.publish(
+            try maskVolume(bytes: maskBytes),
+            mode: .complete
+        )
+        let renderer = ExactVolumeRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            software: try software()
+        )
+        let maskSelection = try VolumeMaskSelection(
+            maskObjectID: try #require(DataObjectID(rawValue: "mask-7")),
+            visibleLabels: [1]
+        )
+        let maskedRequest = try request(mask: maskSelection)
+        let maskedResult = try await renderer.render(
+            maskedRequest,
+            outputObjectID: try #require(DataObjectID(rawValue: "render-masked")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-masked")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:10:00Z")
+        )
+        let maskedPublished = try #require(
+            await publisher.publishedImage(for: maskedResult.outputObjectID)
+        )
+        let maskedBytes = try maskedPublished.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [2, 2])
+        ).bytes
+
+        // Compose the expectation from the same accepted authorities.
+        let geometry = try identityGeometry()
+        let extents: ContiguousArray<Int> = [3, 3, 3]
+        var volumeBytes = [UInt8](repeating: 0, count: 27)
+        for i2 in 0..<3 {
+            for i1 in 0..<3 {
+                for i0 in 0..<3 {
+                    volumeBytes[i0 + 3 * (i1 + 3 * i2)] = UInt8(
+                        2 * i0 + 6 * i1 + 18 * i2
+                    )
+                }
+            }
+        }
+        let generator = try OrthographicRayGenerator(
+            camera: maskedRequest.camera,
+            viewport: maskedRequest.viewport
+        )
+        let sampler = try VolumeRaySampler(
+            geometry: geometry,
+            extents: extents,
+            quality: maskedRequest.quality,
+            clip: nil,
+            crop: nil
+        )
+        var expected = [UInt8]()
+        for pixelY in 0..<2 {
+            for pixelX in 0..<2 {
+                let plan = try sampler.plan(
+                    for: try generator.ray(atPixelX: pixelX, pixelY: pixelY)
+                )
+                var samples = [UInt8]()
+                var inclusion = [Bool]()
+                for index in 0..<plan.sampleCount {
+                    let position = Array(plan.indexPosition(at: index))
+                    samples.append(
+                        ObliqueSliceOperation.sample(
+                            position,
+                            extents: extents,
+                            bytes: volumeBytes
+                        )
+                    )
+                    let label = VolumeMaskSampler.sample(
+                        position,
+                        extents: extents,
+                        bytes: maskBytes
+                    )
+                    inclusion.append(maskSelection.visibleLabels.contains(label))
+                }
+                let ray = VolumeRayCompositor.composite(
+                    samples: samples,
+                    inclusion: inclusion,
+                    table: maskedRequest.table
+                )
+                expected.append(contentsOf: [ray.red, ray.green, ray.blue, ray.alpha])
+            }
+        }
+        #expect(maskedBytes == expected)
+
+        // Masking has a real effect against the unmasked render.
+        let plainResult = try await renderer.render(
+            try request(),
+            outputObjectID: try #require(DataObjectID(rawValue: "render-plain-cmp")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-plain-cmp")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:11:00Z")
+        )
+        let plainPublished = try #require(
+            await publisher.publishedImage(for: plainResult.outputObjectID)
+        )
+        let plainBytes = try plainPublished.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [2, 2])
+        ).bytes
+        #expect(maskedBytes != plainBytes)
+
+        // Determinism is structural: a second masked render is
+        // bit-identical.
+        let repeated = try await renderer.render(
+            maskedRequest,
+            outputObjectID: try #require(DataObjectID(rawValue: "render-masked-2")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-masked-2")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:12:00Z")
+        )
+        let repeatedPublished = try #require(
+            await publisher.publishedImage(for: repeated.outputObjectID)
+        )
+        let repeatedBytes = try repeatedPublished.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [2, 2])
+        ).bytes
+        #expect(repeatedBytes == maskedBytes)
+    }
+
+    @Test("[Unit][VOX-ERR-001] mask admissions reject typed")
+    func maskAdmissionsRejectTyped() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try volume(geometry: .affine(try identityGeometry())),
+            mode: .complete
+        )
+        let renderer = ExactVolumeRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            software: try software()
+        )
+        func render(_ mask: VolumeMaskSelection) async throws {
+            _ = try await renderer.render(
+                try request(mask: mask),
+                outputObjectID: try #require(DataObjectID(rawValue: "render-mask-x")),
+                outputProvenanceID: try #require(
+                    ProvenanceID(rawValue: "record-render-mask-x")
+                ),
+                createdAt: try CanonicalInstant(utcString: "2026-08-05T12:13:00Z")
+            )
+        }
+
+        let missing = try VolumeMaskSelection(
+            maskObjectID: try #require(DataObjectID(rawValue: "mask-missing")),
+            visibleLabels: [1]
+        )
+        await #expect(throws: VolumeRenderError.maskNotPublished) {
+            try await render(missing)
+        }
+
+        _ = try await publisher.publish(
+            try maskVolume(objectID: "mask-bad-extent", extents: [2, 3, 3]),
+            mode: .complete
+        )
+        let mismatched = try VolumeMaskSelection(
+            maskObjectID: try #require(DataObjectID(rawValue: "mask-bad-extent")),
+            visibleLabels: [1]
+        )
+        await #expect(throws: VolumeRenderError.maskExtentMismatch) {
+            try await render(mismatched)
+        }
+
+        _ = try await publisher.publish(
+            try maskVolume(objectID: "mask-bad-format", semantic: .intensity),
+            mode: .complete
+        )
+        let malformed = try VolumeMaskSelection(
+            maskObjectID: try #require(DataObjectID(rawValue: "mask-bad-format")),
+            visibleLabels: [1]
+        )
+        await #expect(throws: VolumeRenderError.unsupportedMaskFormat) {
+            try await render(malformed)
         }
     }
 }

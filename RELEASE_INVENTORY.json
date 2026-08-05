@@ -956,8 +956,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/ExactVolumeRenderer.swift",
-      "size": 20794,
-      "sha256": "23ab539ef61e212610dffe1fafe09f94a5ed500ad5502407f6742e323e579867"
+      "size": 24825,
+      "sha256": "dc203a8c445fc5958d03c89b515197017739f4ae5dbbffff5115d4305b3bfcd4"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalBackendRegistrations.swift",
@@ -1121,8 +1121,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderCamera.swift",
-      "size": 4456,
-      "sha256": "0822765660cf6a00a2f8cd45b5097944270ded9d9d6ee2efb39bb86011c38025"
+      "size": 4486,
+      "sha256": "df01c193d00f61e086e104fdeac94bfecda8f98a153191879ffb38cf91361c16"
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderRequest.swift",
@@ -1145,9 +1145,14 @@
       "sha256": "58b06582c8d726602637e6a9b8437f41bba443cddb842c960e24bee517b0a669"
     },
     {
+      "path": "Sources/VoxeliaRendering/Public/VolumeMaskSampler.swift",
+      "size": 1717,
+      "sha256": "d207b4bbb53ee093c397839af958d8dc8a1770623e098de35c4a971a5cc13ed6"
+    },
+    {
       "path": "Sources/VoxeliaRendering/Public/VolumeRayCompositor.swift",
-      "size": 4327,
-      "sha256": "e88e18bfea881166cb8d2c05a6bafb6ff37ff9bc917b3b15003e09af0feb2ec1"
+      "size": 7730,
+      "sha256": "1a6453b2ca435f0e1364c646c8afce9e69cb4fac510e18173cabc160fc125e28"
     },
     {
       "path": "Sources/VoxeliaRendering/Public/VolumeRaySampler.swift",
@@ -1156,8 +1161,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Public/VolumeRenderRequest.swift",
-      "size": 3349,
-      "sha256": "26c35e85c083a0ac01747d0e256d815eea29ffbf6ab82ec4717f0ce77fb88408"
+      "size": 4482,
+      "sha256": "ef9e8f0abb3682f0e998df36bef38a337bbdf39af5ec89249c5221d19766983f"
     },
     {
       "path": "Sources/VoxeliaRendering/VoxeliaRendering.docc/Architecture.md",
@@ -1171,8 +1176,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/VoxeliaRendering.docc/VoxeliaRendering.md",
-      "size": 1153,
-      "sha256": "0d8d85b1905df13bac5200ef85cb2b1363709d192778e6da370853c07222f80d"
+      "size": 1203,
+      "sha256": "7fe866d375136e98cb951ec9df92c7818a0e4b2c57f152d5dfc625ed93cc4b5a"
     },
     {
       "path": "Sources/VoxeliaSpatial/ApplePlatformGate.swift",
@@ -1856,8 +1861,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/ExactVolumeRendererTests.swift",
-      "size": 17587,
-      "sha256": "a21ce8a029c24874e1bcac075489c104a3c2352c4979eb9155303d3f6167fbe2"
+      "size": 29374,
+      "sha256": "b09d69c957f4b2c2b9905f98a0098c900c4d105b1748d20812fbb909932b6e7c"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalBackendRegistrationsTests.swift",
@@ -1975,9 +1980,14 @@
       "sha256": "65d5087f93332f7b501190bedefdc1ee63b78366de65b1c8c3905b95dc6dbe0d"
     },
     {
+      "path": "Tests/VoxeliaRenderingTests/VolumeMaskSamplerTests.swift",
+      "size": 2958,
+      "sha256": "4e0ef7c209dbad04e2f292ce3bb8b2c2ed277128a27a3b249565e80d97e1bd3a"
+    },
+    {
       "path": "Tests/VoxeliaRenderingTests/VolumeRayCompositorTests.swift",
-      "size": 3593,
-      "sha256": "e47f237c1933673561f48d6e29fb80760153aab8f92cd8a931840bffc519dbb6"
+      "size": 6991,
+      "sha256": "173dd92afc729663be6f995d6fa6c98c511af24366f6d3b52b61aaf63ce1c815"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/VolumeRaySamplerTests.swift",
@@ -1986,8 +1996,8 @@
     },
     {
       "path": "Tests/VoxeliaRenderingTests/VolumeRenderRequestTests.swift",
-      "size": 2191,
-      "sha256": "8f01f9298cd090ab5fd3f83e7e12e51c125f877673d5e57e890615f89b195ac8"
+      "size": 2214,
+      "sha256": "c8ffe32292fbb5296e9145990cbc790a751d7ad2f88d9f865a989ce799845ec7"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift",
@@ -3631,8 +3641,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 643802,
-      "sha256": "8fefd575f8eb9a26cefc57166eb1694789b4650e102e5af9ed7ab5c062124c3a"
+      "size": 645674,
+      "sha256": "5f917fa981916edb13522ee9d38d7b9f746569f7fd31fd52d1407081f4bda045"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3991,8 +4001,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 43094,
-      "sha256": "a43b1cbcd32f0a9a0d103511939f2dee5631c59e66c578bfebe61340e0d81919"
+      "size": 43207,
+      "sha256": "23093204a6a18c426cfcdb444449ab8a3ed4a4c4bd889821d22d60766f707323"
     }
   ]
 }

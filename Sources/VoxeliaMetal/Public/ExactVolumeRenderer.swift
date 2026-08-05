@@ -14,6 +14,9 @@ public enum VolumeRenderError: Error, Sendable, Equatable {
     case volumeNotPublished
     case unsupportedLayerFormat
     case volumeNotSpatiallyCalibrated
+    case maskNotPublished
+    case maskExtentMismatch
+    case unsupportedMaskFormat
 }
 
 /// The deterministic CPU volume renderer per `ADR-0175` — the
@@ -108,6 +111,42 @@ public final class ExactVolumeRenderer: Sendable {
         let storedBytes = read.result.bytes
         try await readCoordinator.release(read.retention)
 
+        // The mask volume, read and validated only when declared: it
+        // must share the primary volume's extents and be a
+        // single-component byte-labelled format, both typed.
+        var maskBytes: [UInt8]?
+        if let maskSelection = request.mask {
+            guard
+                let maskImage = await publisher.publishedImage(
+                    for: maskSelection.maskObjectID
+                )
+            else {
+                throw VolumeRenderError.maskNotPublished
+            }
+            guard maskImage.descriptor.shape.extents == extents else {
+                throw VolumeRenderError.maskExtentMismatch
+            }
+            guard
+                maskImage.descriptor.scalarFormat.type == .uint8,
+                maskImage.descriptor.components.count == 1,
+                maskImage.descriptor.components.interpretation == .scalar,
+                maskImage.descriptor.semantic == .label,
+                maskImage.descriptor.valueTransform == nil
+            else {
+                throw VolumeRenderError.unsupportedMaskFormat
+            }
+            let maskRegion = try ImageRegion(
+                lowerBounds: [0, 0, 0],
+                upperBounds: extents
+            )
+            let maskRead = try await readCoordinator.read(
+                from: maskImage.storage,
+                region: maskRegion
+            )
+            maskBytes = maskRead.result.bytes
+            try await readCoordinator.release(maskRead.retention)
+        }
+
         // The headlight path builds the accepted inverse once; the
         // unshaded path calls the accepted compositor unchanged, so
         // its byte identity is structural.
@@ -134,6 +173,20 @@ public final class ExactVolumeRenderer: Sendable {
                         )
                     )
                 }
+                var inclusion: [Bool]?
+                if let maskSelection = request.mask, let maskBytes {
+                    var flags = [Bool]()
+                    flags.reserveCapacity(plan.sampleCount)
+                    for index in 0..<plan.sampleCount {
+                        let label = VolumeMaskSampler.sample(
+                            Array(plan.indexPosition(at: index)),
+                            extents: extents,
+                            bytes: maskBytes
+                        )
+                        flags.append(maskSelection.visibleLabels.contains(label))
+                    }
+                    inclusion = flags
+                }
                 let composited: CompositedRay
                 if let inverse {
                     let unitDirection = Self.unitDirection(of: ray)
@@ -152,9 +205,24 @@ public final class ExactVolumeRenderer: Sendable {
                             )
                         )
                     }
+                    if let inclusion {
+                        composited = VolumeRayCompositor.composite(
+                            samples: samples,
+                            shadingFactors: factors,
+                            inclusion: inclusion,
+                            table: request.table
+                        )
+                    } else {
+                        composited = VolumeRayCompositor.composite(
+                            samples: samples,
+                            shadingFactors: factors,
+                            table: request.table
+                        )
+                    }
+                } else if let inclusion {
                     composited = VolumeRayCompositor.composite(
                         samples: samples,
-                        shadingFactors: factors,
+                        inclusion: inclusion,
                         table: request.table
                     )
                 } else {
@@ -482,6 +550,35 @@ public final class ExactVolumeRenderer: Sendable {
                     )
                 )
             }
+        }
+        // The mask identity and its ascending-sorted visible labels
+        // join exactly when declared — the same padding-entry
+        // precedent as clip and crop.
+        if let mask = request.mask {
+            entries.append(
+                MetadataEntry(
+                    key: try AnyMetadataKey(
+                        namespace: Self.operationIdentifier,
+                        name: "mask-object-id"
+                    ),
+                    value: .string(mask.maskObjectID.rawValue),
+                    privacyClass: .technical
+                )
+            )
+            entries.append(
+                MetadataEntry(
+                    key: try AnyMetadataKey(
+                        namespace: Self.operationIdentifier,
+                        name: "mask-visible-labels"
+                    ),
+                    value: .binary(
+                        MetadataBinary(
+                            bytes: ContiguousArray(mask.visibleLabels.sorted())
+                        )
+                    ),
+                    privacyClass: .technical
+                )
+            )
         }
         for (name, value) in cameraComponents {
             entries.append(

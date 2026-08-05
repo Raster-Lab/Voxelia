@@ -31,6 +31,28 @@ public struct VolumeClipBounds: Sendable, Hashable {
     }
 }
 
+/// One segmentation-mask selection per `ADR-0180` (`VOX-DVR-010`): one
+/// mask volume paired with a non-empty visible-label allow-list — an
+/// unrecognised label defaults to hidden, never shown.
+public struct VolumeMaskSelection: Sendable, Hashable {
+    public let maskObjectID: DataObjectID
+    public let visibleLabels: Set<UInt8>
+
+    /// Creates a validated mask selection.
+    ///
+    /// - Throws: ``RenderModelError/emptyVisibleLabelSet`` when
+    ///   `visibleLabels` is empty — a mask that hides every label is
+    ///   almost certainly a caller error, and the fully-hidden case
+    ///   is already reachable by omitting the mask entirely.
+    public init(maskObjectID: DataObjectID, visibleLabels: Set<UInt8>) throws {
+        guard !visibleLabels.isEmpty else {
+            throw RenderModelError.emptyVisibleLabelSet
+        }
+        self.maskObjectID = maskObjectID
+        self.visibleLabels = visibleLabels
+    }
+}
+
 /// The closed volume lighting vocabulary per `ADR-0177`
 /// (`VOX-DVR-008`): `none` composites the accepted unshaded model
 /// unchanged, and `headlight` applies the frozen
@@ -76,6 +98,10 @@ public struct VolumeRenderRequest: Sendable, Hashable {
     /// The explicit optional index-space crop; absence is stated.
     public let crop: ImageRegion?
 
+    /// The explicit optional segmentation-mask selection; absence is
+    /// stated.
+    public let mask: VolumeMaskSelection?
+
     public init(
         volumeObjectID: DataObjectID,
         table: TransferFunction1D,
@@ -84,7 +110,8 @@ public struct VolumeRenderRequest: Sendable, Hashable {
         quality: String,
         lighting: VolumeLightingModel,
         clip: VolumeClipBounds?,
-        crop: ImageRegion?
+        crop: ImageRegion?,
+        mask: VolumeMaskSelection?
     ) {
         self.volumeObjectID = volumeObjectID
         self.table = table
@@ -94,5 +121,6 @@ public struct VolumeRenderRequest: Sendable, Hashable {
         self.lighting = lighting
         self.clip = clip
         self.crop = crop
+        self.mask = mask
     }
 }

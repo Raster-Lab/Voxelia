@@ -3636,6 +3636,35 @@ oracle campaigns.
   filtered-subsequence equivalents, the all-included identity and the
   all-excluded transparent-black case. Implementation follows as its
   own increment.
+- One-hundred-fifty-eighth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0180`, segmentation
+  masks live in the renderer. `VolumeMaskSelection` and the new
+  nearest-neighbour `VolumeMaskSampler` joined `VoxeliaRendering`
+  exactly as designed; `VolumeRayCompositor` gained the masked-
+  unshaded and masked-shaded entries as two additional siblings, the
+  accepted unshaded and shaded entries left completely unmodified.
+  The volume request gained the explicit optional mask, absence
+  stated at every call site; the renderer reads and validates the
+  mask volume through the same publisher and coordinator pattern as
+  the primary volume, rejecting a missing mask, a mismatched extent
+  and an unsupported scalar format typed, then samples the label at
+  each ray midpoint alongside the intensity and dispatches to the
+  correct one of the four compositor entries by lighting and mask
+  presence. The parameter collection digests the mask identity and
+  its ascending-sorted visible labels only when declared. The suites
+  reproduce every `ADR-0180`/`VOXELIA-ALG-0026` fixture exactly — the
+  nearest-neighbour indices, the masked-unshaded and masked-shaded
+  worked examples matching their filtered-subsequence equivalents
+  through the untouched accepted entries, the all-included case
+  matching the unmasked entry as a complete tuple, and the
+  all-excluded transparent black — prove an end-to-end masked render
+  matches an independently composed expectation, prove masking has a
+  real effect against the unmasked render, prove bit-identical
+  repetition, and reject the empty visible-label set, the missing
+  mask, the mismatched extent and the unsupported format typed.
+  Multi-volume compositing, `VOX-DVR-010`'s other half, remains its
+  own deferred future record; the arc's remaining increment is
+  acceleration.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
