@@ -2527,6 +2527,21 @@ oracle campaigns.
   verify the eight registrations, the pinned window-level version,
   the token set equality and the typed duplicate rejection. The metal
   implementations join through their own registration increment.
+- One-hundred-third autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0135`, completing the
+  registration vocabulary across both backends.
+  `MetalBackendRegistrations.standard` registers the three device
+  implementations in their own module per the ownership row, with
+  their honest split versions — the contract each implements beside
+  the implementation's own version, which the registry type carries
+  separately by design — so the registry now states, in one queryable
+  vocabulary, exactly the contract gaps the decision records narrate,
+  such as the device window implementing contract 1.4 while the CPU
+  implements 1.5. The cross-backend evidence lives in the validation
+  target, whose charter sees both: the combined registry constructs
+  without collision at eleven implementations, with
+  dual-implementation operations listing both backends. Planner
+  consultation now has its complete input.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
