@@ -3334,6 +3334,22 @@ oracle campaigns.
   never change the image. The renderer surface arrives with
   compositing under the accepted protocol. The transfer-function
   design increment follows.
+- One-hundred-forty-second autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0166`, freezing the
+  transfer-function design — the volume-rendering arc's first
+  increment, feeding presentation only per the arc's binding rule.
+  The value is a validated table of exactly two hundred fifty-six
+  four-component eight-bit entries, so component ranges are
+  structurally valid and the one table admission is the exact size;
+  entries stay integer because the compositing model that consumes
+  them owns the binary64 conversion, keeping this vocabulary exact.
+  Lookup is direct for eight-bit samples with the wider-index clamp
+  declared now, so adapter-borne domains compose a pre-frozen rule
+  rather than an invention — and the sixteen-bit path indexes
+  through the accepted window mapping first. Floating-point entries
+  were rejected to keep rounding in the one model that owns it;
+  parameterised sizes and control-point authoring are recorded as
+  deferred. Implementation follows as its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

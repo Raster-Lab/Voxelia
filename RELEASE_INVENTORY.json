@@ -3385,9 +3385,14 @@
       "sha256": "65bd41f204bc5ce408560d70506ab307c20daf0703b8cf8ce75d25291360810c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0166-transfer-function-design.md",
+      "size": 3044,
+      "sha256": "aaa99232b016343402cf675358ee97d6bc9c6a4cd12c0802b084496af59dcb33"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 24501,
-      "sha256": "db5219f40325a7a08eba3389968a419251a63449696bfdf909c3c45bc2b6809b"
+      "size": 24649,
+      "sha256": "35cd3fb30cf6fcb6647de2284428a4d3264b7677057592e70c9821ed2b0c1765"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3471,8 +3476,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 624287,
-      "sha256": "90e7e9aeb16a9b32e5b98937996d97e35c7563a3fc3d757868166f81a51c8457"
+      "size": 625334,
+      "sha256": "0eb8a1b4be3379ce699d40e06ea5a966c87c5f7484dc51cdb7a026b7fa4c3907"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3831,8 +3836,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 41178,
-      "sha256": "e50c4112a192a7857f6be63cb6b59025ce4b4672705204134c596ace9d0be202"
+      "size": 41243,
+      "sha256": "659ead5aaf17a1ebaaea00ef7350631502d1ffdc94de7f9dd225df98d4ba40d3"
     }
   ]
 }
