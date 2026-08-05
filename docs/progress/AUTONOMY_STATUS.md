@@ -1785,6 +1785,27 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   the manifest bytes independently from the same identity set, so a
   complete archived history is one verifiable durable artefact and a
   partial store is detectable against it.
+- Sixty-eighth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0102` and delivered crop
+  presentation — all four accepted operations are now reachable
+  through the renderer. `VoxeliaRendering` gains the validated
+  `RenderCrop` — one half-open rank-two region in image index space,
+  non-negative and non-empty at construction with the typed
+  `invalidCropBounds` rejection, while fit against a particular image
+  remains the extraction operation's own admission — and
+  `RenderRequest` carries an optional one with absence stated
+  explicitly, discharging the `ADR-0085` cropping deferral. When a
+  crop is requested the renderer runs the accepted region-extraction
+  operation over every layer's stored image before window-level —
+  extraction is the stored-domain model with registered geometry and
+  sampling rules — publishing each cropped stage under the new
+  publication-stage case, and `PresentationProvenance` claims the
+  crop from what actually ran per the `ADR-0100` rule. Per-layer
+  crops and viewport-derived inference were rejected: one scene, one
+  presented region, and the crop is the host's explicit request.
+  Tests render a cropped scene end to end with the cropped stage
+  published and the exact windowed sub-region bytes, verify the crop
+  and identity-scaling claims, and reject invalid bounds typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

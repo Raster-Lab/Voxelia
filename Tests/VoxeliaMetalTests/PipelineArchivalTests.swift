@@ -133,6 +133,8 @@ struct PipelineArchivalTests {
             naming: { stage in
                 let suffix: String
                 switch stage {
+                case .cropped(let layerIndex):
+                    suffix = "cr\(layerIndex)"
                 case .windowLevelled(let layerIndex):
                     suffix = "wl\(layerIndex)"
                 case .composited:
@@ -186,6 +188,7 @@ struct PipelineArchivalTests {
                     )
                 ),
                 viewport: try ViewportSize(width: 8, height: 6),
+                crop: nil,
                 quality: .full
             )
         )

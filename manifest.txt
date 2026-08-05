@@ -538,6 +538,7 @@ docs/architecture/decisions/ADR-0098-device-composite-operation.md
 docs/architecture/decisions/ADR-0099-fully-device-renderer-path.md
 docs/architecture/decisions/ADR-0100-presentation-scaling-claim.md
 docs/architecture/decisions/ADR-0101-manifest-archival.md
+docs/architecture/decisions/ADR-0102-crop-presentation.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

@@ -14,8 +14,10 @@ public enum SliceRendererError: Error, Sendable, Equatable {
 }
 
 /// The closed set of published stages one render can produce; the
-/// host names each stage per `ADR-0089` as revised by `ADR-0091`.
+/// host names each stage per `ADR-0089` as revised by `ADR-0091` and
+/// `ADR-0102`.
 public enum RenderPublicationStage: Sendable, Equatable {
+    case cropped(layerIndex: Int)
     case windowLevelled(layerIndex: Int)
     case composited
     case resampled
@@ -144,7 +146,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
         windowLevelled.reserveCapacity(request.scene.layers.count)
         for (index, layer) in request.scene.layers.enumerated() {
             guard
-                let input = await publisher.publishedImage(
+                let published = await publisher.publishedImage(
                     for: layer.imageObjectID
                 )
             else {
@@ -154,6 +156,30 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             else {
                 throw SliceRendererError.unsupportedSceneShape
             }
+
+            // A requested crop runs the accepted extraction first per
+            // ADR-0102 — the stored-domain model — with its stage
+            // published.
+            let input: ImageData
+            if let crop = request.crop {
+                let cropNames = try naming(.cropped(layerIndex: index))
+                input = try await RegionExtractionOperation.execute(
+                    input: published,
+                    region: try ImageRegion(
+                        lowerBounds: [crop.lowerX, crop.lowerY],
+                        upperBounds: [crop.upperX, crop.upperY]
+                    ),
+                    outputObjectID: cropNames.outputObjectID,
+                    outputProvenanceID: cropNames.provenanceID,
+                    createdAt: cropNames.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
+                _ = try await publisher.publish(input, mode: .complete)
+            } else {
+                input = published
+            }
+
             let names = try naming(.windowLevelled(layerIndex: index))
             let staged = try await windowStage(input, window, names)
             _ = try await publisher.publish(staged, mode: .complete)
@@ -217,6 +243,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                 camera: request.scene.camera,
                 viewport: request.viewport,
                 layers: request.scene.layers,
+                crop: request.crop,
                 scaling: scaling,
                 renderMode: .slice,
                 colourOutput: .greyscale8,

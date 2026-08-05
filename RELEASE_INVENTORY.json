@@ -861,8 +861,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/ExactSliceRenderer.swift",
-      "size": 9193,
-      "sha256": "71680a7381d9a8c38e6fe531b8be3df0535d6f5fc54c1d46217bf36b11f22d20"
+      "size": 10332,
+      "sha256": "412e7c88f8a6e2b1df4506d7babad1158ee708cfe7f9e9d7c0f803187366f072"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalCompositeKernel.swift",
@@ -991,13 +991,13 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderCamera.swift",
-      "size": 4402,
-      "sha256": "f74fbc3d003521640786dd35552e66ab2b5b405781eba3026a1d706f1e6ea112"
+      "size": 4429,
+      "sha256": "46e5a057dd2f5add1174bb98474c978c200fe5f998cf8bebf0d31dc36ce6393b"
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderRequest.swift",
-      "size": 4198,
-      "sha256": "4554dbc572e72ae50a51a0b0fce643192b26dab373dd546fdaeb2c3da107264c"
+      "size": 5297,
+      "sha256": "2d6a79f06d227d979d186dceb7c84c51caa50cb2b63ae2cc24c4feb37a494066"
     },
     {
       "path": "Sources/VoxeliaRendering/Public/SceneSnapshot.swift",
@@ -1586,8 +1586,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/ExactSliceRendererTests.swift",
-      "size": 13671,
-      "sha256": "e2c17dcafed4b29c5252395c8b9f55eb59124b1c8cd2f3efac098bc1dd81ba8a"
+      "size": 15592,
+      "sha256": "2f4af01e620236d31b3376cc0ccc3e74e1d0e7d2d8f642865518c343ad07a2f1"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalCompositeKernelTests.swift",
@@ -1611,8 +1611,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalSliceRendererTests.swift",
-      "size": 15253,
-      "sha256": "95bc582ceb10bc4a268143ab61c64179b045f1479b44478d339420f622598270"
+      "size": 15432,
+      "sha256": "4d2f5682934ef0b87ab597a733b3989cea8a5201b412679ec07848d7d6ee30c2"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalWindowLevelKernelTests.swift",
@@ -1621,8 +1621,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/PipelineArchivalTests.swift",
-      "size": 11042,
-      "sha256": "373670343c00a8b9316c7a17a4772d4e41aafee1a9b09747b203222cfe8841c7"
+      "size": 11163,
+      "sha256": "1dd045eb40729adef86b228dd89df73acd6fc964222932e6970fb0126af41a98"
     },
     {
       "path": "Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift",
@@ -1646,8 +1646,8 @@
     },
     {
       "path": "Tests/VoxeliaRenderingTests/RenderRequestTests.swift",
-      "size": 4159,
-      "sha256": "2330e126dccb0879067fb44b4e15b7d0c3716b82ca7bf7a753f0f9eb4153b10c"
+      "size": 4808,
+      "sha256": "e690ce381b9130b4a442f9bc84942628e3d6a528dcda1d8cb67acb457a9a3d46"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/SceneSnapshotTests.swift",
@@ -2700,9 +2700,14 @@
       "sha256": "8626c38547c5e96fdbf5396ef428a23b56e4a2049adaf5985598365dba13785f"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0102-crop-presentation.md",
+      "size": 3390,
+      "sha256": "20250d513d9828e5f222e6ee86e63bc104babe1ab29e7c188f5f0557241f163b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 15017,
-      "sha256": "ba1c5b41018b101c9070c550d96c0bae2fdb6caffd9f974b10ea7e7ea1b48215"
+      "size": 15140,
+      "sha256": "2490ab06b572c0ac1b3c37061dfb28e0d205437e6b8e0c8322cd59d44e241140"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2786,8 +2791,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 525040,
-      "sha256": "dffe6ee6ce1113da10695c57e609975d32249b49ef6a6f7cbcf46022eea3fcbc"
+      "size": 526418,
+      "sha256": "9b61518e5a95640acb1bc6bcfc4f58e6ce7feaab52eb0b1fb9f57dffb13111f1"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3146,8 +3151,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 32872,
-      "sha256": "d818c927800d492ad2e0b360079ae2f8d87c623db850debd50e9ff441ed27707"
+      "size": 32930,
+      "sha256": "c065331b49342609e9e702e38b8ce6bc6bf6b30bfd466cd89e1e73d93a65016d"
     }
   ]
 }

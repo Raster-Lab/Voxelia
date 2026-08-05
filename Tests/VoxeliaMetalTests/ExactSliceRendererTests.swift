@@ -106,6 +106,8 @@ struct ExactSliceRendererTests {
             naming: { stage in
                 let suffix: String
                 switch stage {
+                case .cropped(let layerIndex):
+                    suffix = "cr\(layerIndex)"
                 case .windowLevelled(let layerIndex):
                     suffix = "wl\(layerIndex)"
                 case .composited:
@@ -183,6 +185,7 @@ struct ExactSliceRendererTests {
             RenderRequest(
                 scene: try scene([try layer("series-7")]),
                 viewport: try ViewportSize(width: 4, height: 3),
+                crop: nil,
                 quality: .full
             )
         )
@@ -206,6 +209,7 @@ struct ExactSliceRendererTests {
                 RenderRequest(
                     scene: try scene([try layer("series-9")]),
                     viewport: try ViewportSize(width: 4, height: 3),
+                    crop: nil,
                     quality: .full
                 )
             )
@@ -220,6 +224,7 @@ struct ExactSliceRendererTests {
             RenderRequest(
                 scene: try scene([try layer("series-7", opacity: 0.5)]),
                 viewport: try ViewportSize(width: 4, height: 3),
+                crop: nil,
                 quality: .full
             )
         )
@@ -238,6 +243,40 @@ struct ExactSliceRendererTests {
         requireSendable(RenderPublicationStage.self)
     }
 
+    @Test("[Unit][VOX-VS1-017][VOX-ARC-008] a cropped scene extracts before windowing")
+    func croppedSceneExtractsBeforeWindowing() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "render-5")
+
+        // The ADR-0102 crop runs the accepted extraction first: the
+        // stored sub-region [1, 3) by [0, 2) windows to exactly the
+        // fixture's corresponding values, the cropped stage publishes,
+        // and the result claims the crop with identity scaling.
+        let crop = try RenderCrop(lowerX: 1, lowerY: 0, upperX: 3, upperY: 2)
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: try scene([try layer("series-7")]),
+                viewport: try ViewportSize(width: 2, height: 2),
+                crop: crop,
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "render-5-wl0")
+        #expect(result.presentation.crop == crop)
+        #expect(result.presentation.scaling == .identity)
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let outputBytes = try published.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [2, 2])
+        ).bytes
+        #expect(outputBytes == [0, 0, 109, 146])
+        #expect(await publisher.publishedObjectCount == 3)
+        let croppedID = try #require(DataObjectID(rawValue: "render-5-cr0"))
+        #expect(await publisher.publishedImage(for: croppedID) != nil)
+    }
+
     @Test("[Unit][VOX-VS1-017][VOX-VS1-019] a differing viewport resamples both stages")
     func differingViewportResamplesBothStages() async throws {
         let publisher = try publisher()
@@ -252,6 +291,7 @@ struct ExactSliceRendererTests {
             RenderRequest(
                 scene: try scene([try layer("series-7")]),
                 viewport: try ViewportSize(width: 8, height: 6),
+                crop: nil,
                 quality: .full
             )
         )
@@ -305,6 +345,7 @@ struct ExactSliceRendererTests {
                     try layer("series-7", center: 3, width: 6, opacity: 0.5),
                 ]),
                 viewport: try ViewportSize(width: 4, height: 3),
+                crop: nil,
                 quality: .full
             )
         )

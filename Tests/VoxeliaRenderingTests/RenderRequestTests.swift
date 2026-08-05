@@ -40,6 +40,7 @@ struct RenderRequestTests {
         let request = RenderRequest(
             scene: scene,
             viewport: try ViewportSize(width: 512, height: 512),
+            crop: nil,
             quality: .interactive
         )
         #expect(request.scene == scene)
@@ -51,6 +52,7 @@ struct RenderRequestTests {
             camera: try camera(),
             viewport: try ViewportSize(width: 512, height: 512),
             layers: [layer],
+            crop: nil,
             scaling: .identity,
             renderMode: .slice,
             colourOutput: .greyscale8,
@@ -72,6 +74,7 @@ struct RenderRequestTests {
                     opacity: 0.5
                 )
             ],
+            crop: nil,
             scaling: .identity,
             renderMode: .slice,
             colourOutput: .greyscale8,
@@ -86,6 +89,7 @@ struct RenderRequestTests {
             camera: try camera(),
             viewport: try ViewportSize(width: 512, height: 512),
             layers: [layer],
+            crop: nil,
             scaling: .nearestNeighbour(sourceWidth: 256, sourceHeight: 256),
             renderMode: .slice,
             colourOutput: .greyscale8,
@@ -94,6 +98,20 @@ struct RenderRequestTests {
         )
         #expect(presentation != scaled)
         requireSendable(PresentationScaling.self)
+
+        // The ADR-0102 crop validates its bounds typed.
+        for bounds in [(0, 0, 0, 3), (0, 0, 3, 0), (-1, 0, 3, 3), (0, -1, 3, 3)] {
+            do {
+                _ = try RenderCrop(
+                    lowerX: bounds.0,
+                    lowerY: bounds.1,
+                    upperX: bounds.2,
+                    upperY: bounds.3
+                )
+                #expect(Bool(false), "Expected invalid crop bounds to be rejected.")
+            } catch RenderModelError.invalidCropBounds {}
+        }
+        requireSendable(RenderCrop.self)
 
         // The backend-neutral contract renders through a conforming
         // stub.

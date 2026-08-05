@@ -129,6 +129,8 @@ struct MetalSliceRendererTests {
             naming: { stage in
                 let suffix: String
                 switch stage {
+                case .cropped(let layerIndex):
+                    suffix = "cr\(layerIndex)"
                 case .windowLevelled(let layerIndex):
                     suffix = "wl\(layerIndex)"
                 case .composited:
@@ -184,6 +186,7 @@ struct MetalSliceRendererTests {
             RenderRequest(
                 scene: try scene("series-7"),
                 viewport: try ViewportSize(width: 4, height: 3),
+                crop: nil,
                 quality: .full
             )
         )
@@ -287,6 +290,7 @@ struct MetalSliceRendererTests {
                     )
                 ),
                 viewport: try ViewportSize(width: 4, height: 3),
+                crop: nil,
                 quality: .full
             )
         )
@@ -373,6 +377,7 @@ struct MetalSliceRendererTests {
                 RenderRequest(
                     scene: try scene("series-8"),
                     viewport: try ViewportSize(width: 4, height: 3),
+                    crop: nil,
                     quality: .full
                 )
             )

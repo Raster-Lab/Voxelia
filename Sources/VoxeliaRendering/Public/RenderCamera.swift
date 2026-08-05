@@ -16,6 +16,7 @@ public enum RenderModelError: Error, Sendable, Equatable {
     case emptyScene
     case layerLimitExceeded
     case invalidLayerOpacity
+    case invalidCropBounds
 }
 
 /// One validated positive pixel viewport size per `ADR-0082`.

@@ -35,20 +35,50 @@ public enum PresentationScaling: Sendable, Hashable {
     case nearestNeighbour(sourceWidth: Int, sourceHeight: Int)
 }
 
-/// One render request per `ADR-0085`: already-validated members
-/// composed memberwise.
+/// One validated half-open rank-two crop in image index space per
+/// `ADR-0102`.
+///
+/// Construction proves non-negative, non-empty bounds; whether the
+/// region fits a particular image is the extraction operation's own
+/// typed admission.
+public struct RenderCrop: Sendable, Hashable {
+    public let lowerX: Int
+    public let lowerY: Int
+    public let upperX: Int
+    public let upperY: Int
+
+    /// Creates a validated crop.
+    ///
+    /// - Throws: ``RenderModelError/invalidCropBounds``.
+    public init(lowerX: Int, lowerY: Int, upperX: Int, upperY: Int) throws {
+        guard lowerX >= 0, lowerY >= 0, upperX > lowerX, upperY > lowerY else {
+            throw RenderModelError.invalidCropBounds
+        }
+        self.lowerX = lowerX
+        self.lowerY = lowerY
+        self.upperX = upperX
+        self.upperY = upperY
+    }
+}
+
+/// One render request per `ADR-0085`, extended with the optional crop
+/// by `ADR-0102`: already-validated members composed memberwise, with
+/// absence stated explicitly.
 public struct RenderRequest: Sendable, Hashable {
     public let scene: SceneSnapshot
     public let viewport: ViewportSize
+    public let crop: RenderCrop?
     public let quality: RenderQuality
 
     public init(
         scene: SceneSnapshot,
         viewport: ViewportSize,
+        crop: RenderCrop?,
         quality: RenderQuality
     ) {
         self.scene = scene
         self.viewport = viewport
+        self.crop = crop
         self.quality = quality
     }
 }
@@ -66,6 +96,7 @@ public struct PresentationProvenance: Sendable, Hashable {
     public let camera: RenderCamera
     public let viewport: ViewportSize
     public let layers: ContiguousArray<RenderLayer>
+    public let crop: RenderCrop?
     public let scaling: PresentationScaling
     public let renderMode: RenderMode
     public let colourOutput: ColourOutputConfiguration
@@ -76,6 +107,7 @@ public struct PresentationProvenance: Sendable, Hashable {
         camera: RenderCamera,
         viewport: ViewportSize,
         layers: ContiguousArray<RenderLayer>,
+        crop: RenderCrop?,
         scaling: PresentationScaling,
         renderMode: RenderMode,
         colourOutput: ColourOutputConfiguration,
@@ -85,6 +117,7 @@ public struct PresentationProvenance: Sendable, Hashable {
         self.camera = camera
         self.viewport = viewport
         self.layers = layers
+        self.crop = crop
         self.scaling = scaling
         self.renderMode = renderMode
         self.colourOutput = colourOutput

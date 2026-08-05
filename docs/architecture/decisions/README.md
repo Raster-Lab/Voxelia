@@ -87,8 +87,8 @@ end-to-end pipeline archival evidence. `ADR-0098` is allocated to the
 device composite operation. `ADR-0099` is allocated to the
 fully-device renderer path. `ADR-0100` is allocated to the
 presentation scaling claim. `ADR-0101` is allocated to record
-manifest archival. The next unallocated numeric identifier is
-`ADR-0102`.
+manifest archival. `ADR-0102` is allocated to crop presentation. The
+next unallocated numeric identifier is `ADR-0103`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -173,3 +173,4 @@ manifest archival. The next unallocated numeric identifier is
 | [ADR-0099](ADR-0099-fully-device-renderer-path.md) | Accepted | Fully-device renderer path |
 | [ADR-0100](ADR-0100-presentation-scaling-claim.md) | Accepted | Presentation scaling claim |
 | [ADR-0101](ADR-0101-manifest-archival.md) | Accepted | Record manifest archival |
+| [ADR-0102](ADR-0102-crop-presentation.md) | Accepted | Crop presentation |
