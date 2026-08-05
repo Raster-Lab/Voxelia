@@ -30,3 +30,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0024](VOXELIA-ALG-0024-orthographic-ray-generation.md) | Accepted | Orthographic ray generation `binary64-v1` |
 | [VOXELIA-ALG-0025](VOXELIA-ALG-0025-gradient-lighting.md) | Accepted | Gradient lighting `binary64-v1` |
 | [VOXELIA-ALG-0026](VOXELIA-ALG-0026-segmentation-mask-sampling.md) | Accepted | Segmentation mask sampling `binary64-v1` |
+| [VOXELIA-ALG-0027](VOXELIA-ALG-0027-empty-space-skipping.md) | Accepted | Empty-space skipping `binary64-v1` |

@@ -3690,6 +3690,38 @@ oracle campaigns.
   edited; the gap is corrected by this record going forward. The
   arc's open items are now: multi-volume compositing (deferred),
   multi-resolution volumes (deferred), and acceleration.
+- One-hundred-sixtieth autonomous increment (owner broadened standing
+  mandate): re-verified the full `VOX-DVR-0xx` requirement range
+  before deciding between the two remaining forks. `VOX-DVR-013`
+  (interactive quality refinement) needed no new action — it was
+  already honestly gated to the draw-loop arc in the M6 opening
+  assessment, simply absent from `ADR-0165`'s list for that reason
+  rather than by oversight, unlike `VOX-DVR-011`. `VOX-BRK-011`, the
+  per-brick occupancy vocabulary `ADR-0161`/`ADR-0162` built
+  specifically so empty-space skipping could consume it later without
+  a gated consumer arriving early, is unconsumed and ready — a
+  materially stronger, less speculative footing than multi-volume
+  compositing's still-unmotivated blend rule. Authored and accepted
+  `ADR-0182`, freezing the volume acceleration design, plus
+  `VOXELIA-ALG-0027`. A caller-supplied logical brick grid, decoupled
+  from physical storage, joins the request explicitly; brick
+  skippability is computed once per render from bytes already
+  resident, never fabricated ahead of the transfer function — a brick
+  is skippable exactly when its accepted `BrickStatistics` included
+  range has zero opacity at every table entry. Skipping composes
+  entirely through the masked compositor entries `ADR-0180` already
+  built — no new accumulation rule — so the excluded-is-absent proof
+  is inherited, not re-derived; when a mask is also declared,
+  inclusion is the conjunction of both exclusion reasons. A sample's
+  brick is found by floor-dividing the accepted nearest-neighbour
+  voxel rule's result by the grid's nominal extents — composed, not
+  restated; the halo is not consulted. `VolumeRaySampler` stays
+  untouched. The exact fixture pins a two-brick volume where the
+  standard axis ray's eight samples split four skippable and four
+  not, and compositing all eight through the accepted entry equals
+  compositing only the un-skipped four through the masked entry,
+  colour, alpha and consumed count all equal. Implementation follows
+  as its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
