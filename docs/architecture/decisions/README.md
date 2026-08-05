@@ -144,8 +144,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0161` is allocated to the brick statistics design.
 `ADR-0162` is allocated to the brick statistics.
 `ADR-0163` is allocated to the cubic resampling design.
-`ADR-0164` is allocated to the cubic resampling operation. The next
-unallocated numeric identifier is `ADR-0165`.
+`ADR-0164` is allocated to the cubic resampling operation.
+`ADR-0165` is allocated to the volume rendering arc. The next
+unallocated numeric identifier is `ADR-0166`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -293,3 +294,4 @@ unallocated numeric identifier is `ADR-0165`.
 | [ADR-0162](ADR-0162-brick-statistics.md) | Accepted | Brick statistics |
 | [ADR-0163](ADR-0163-cubic-resampling-design.md) | Accepted | Cubic resampling design |
 | [ADR-0164](ADR-0164-cubic-resampling-operation.md) | Accepted | Cubic resampling operation |
+| [ADR-0165](ADR-0165-volume-rendering-arc.md) | Accepted | Volume rendering arc |

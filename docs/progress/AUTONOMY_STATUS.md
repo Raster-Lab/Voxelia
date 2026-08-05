@@ -3309,6 +3309,31 @@ oracle campaigns.
   to fourteen. The M6 queue continues with the
   direct-volume-rendering reference arc design — the largest
   remaining actionable arc, opened design-first.
+- One-hundred-forty-first autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0165`, opening the
+  direct-volume-rendering arc with the decomposition alone — the
+  sweep precedent of assessing before executing, with freezing the
+  first specification inside the opening record explicitly declined
+  so the transfer-function fixtures get their own verified freeze.
+  The one rule that binds the whole arc is frozen now: volume-
+  rendered pixels are presentation, never a source of authoritative
+  quantitative measurement — measurements flow through the accepted
+  models over authoritative geometry and stored values, and no
+  consumer may cite a rendered pixel as measurement input.
+  Determinism is structural: every increment is a pure frozen
+  function, so the reference's declared tolerance is exactness. The
+  ordered increments each compose accepted authorities — transfer
+  functions in the window vocabulary's admission style, ray sampling
+  through the accepted bounds intersection with intervals derived
+  from physical spacing by declared formula, front-to-back
+  compositing over the accepted trilinear model with a declared
+  early-termination threshold, declared gradients and shading, the
+  accepted clip and crop vocabulary then masks, and empty-space
+  skipping consuming the accepted brick statistics with skipped and
+  unskipped renders proven identical, because acceleration must
+  never change the image. The renderer surface arrives with
+  compositing under the accepted protocol. The transfer-function
+  design increment follows.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
