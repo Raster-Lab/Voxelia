@@ -65,6 +65,7 @@ Sources/VoxeliaCPU/Internal/LabelledSurfaceReferenceKernel.swift
 Sources/VoxeliaCPU/Internal/LabelledSurfaceSourceAdapter.swift
 Sources/VoxeliaCPU/Internal/ScalarSurfaceReferenceKernel.swift
 Sources/VoxeliaCPU/Internal/ScalarSurfaceSourceAdapter.swift
+Sources/VoxeliaCPU/Internal/TriangleMeshVertexNormalReferenceKernel.swift
 Sources/VoxeliaCPU/Module.swift
 Sources/VoxeliaCPU/Public/.gitkeep
 Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift
@@ -313,6 +314,7 @@ Tests/VoxeliaCPUTests/LabelledSurfaceSourceAdapterTests.swift
 Tests/VoxeliaCPUTests/ScalarSurfaceExtractionTestSupport.swift
 Tests/VoxeliaCPUTests/ScalarSurfaceReferenceKernelTests.swift
 Tests/VoxeliaCPUTests/ScalarSurfaceSourceAdapterTests.swift
+Tests/VoxeliaCPUTests/TriangleMeshVertexNormalReferenceKernelTests.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationIngressTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationJSONTests.swift

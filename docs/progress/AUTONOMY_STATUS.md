@@ -5637,6 +5637,109 @@ oracle campaigns.
   git diff --check
   ```
 
+- One-hundred-ninety-ninth autonomous increment (scheduled goal
+  continuation): completed `ADR-0193` migration step two by adding only the
+  internal stateless CPU serial reference kernel and its focused evidence. No
+  public execution entry point, result-claim assembly, registry entry,
+  measurement, rendering or acceleration was added. Admission now observes
+  cancellation first, requires all four positive ceilings, binds the source
+  provenance subject to the source identity, checks vertex/triangle/existing-
+  attribute counts, scans attributes with the exact cancellation cadence and
+  rejects only the built-in `.normal` semantic, then admits the checked
+  `vertexCount * 3 * 8 * 2` logical bytes before allocation. A custom semantic
+  whose namespace and name contain `normal` remains byte-exact source data.
+
+  The kernel visits triangles, corners and components serially. Every displayed
+  `ALG-0030` edge subtraction, cross-product multiply/subtract, accumulator
+  addition, scaled-normal division, square, ordered sum, square root and final
+  division is an individually checked binary64 primitive. The cross product is
+  evaluated component by component in exact `mul, mul, sub` order, and the
+  non-inlined primitive boundary prevents contraction or reassociation. The
+  complete source positions—including signed-zero bits—coordinate descriptor,
+  topology and ordered attributes are retained. One exact float64, little-
+  endian, three-component interleaved vector `.normal` stream is appended,
+  with checked source-plus-one cardinality and explicit byte-at-a-time UInt64
+  bit-pattern serialization. Output zeros are canonical positive zero and
+  finite subnormal values are preserved.
+
+  Eight focused tests reproduce all twelve registered analytical fixtures and
+  the exact fixture and aggregate-attribute SHA-256 digests, distinguish frozen
+  topology order, prove repeat determinism and complete source/descriptor
+  preservation, exercise all four zero ceilings and count/byte/source/normal
+  precedence, accept the 384,307,168,202,282,325-vertex checked boundary while
+  rejecting one-past without allocation, accept the empty mesh, and prove
+  attribute/triangle/vertex cancellation at ordinals zero and the next cadence
+  plus final and non-cadence behavior. The first development run exposed two
+  incorrect test expectations that used zero ceilings where `invalidLimits`
+  correctly precedes count admission; the fixtures were corrected to exceed
+  positive ceilings, after which the final strict suite passed all eight tests.
+  The direct seven-test Geometry declaration/binding suite also passed.
+
+  The authorised independent reviewer found and closed one exact-order defect:
+  the first draft evaluated all six cross products before component
+  subtraction even though its bytes matched the oracle. The corrected kernel
+  now follows exact per-component primitive order. Review also closed stale
+  `VOX-GEO-007` labels, missing attribute-zero/vertex-zero precedence,
+  signed-zero source evidence, custom-normal-text admission and unchecked
+  source-plus-one attribute cardinality. The reviewer reran strict focused and
+  optimized product checks and approved the corrected API containment,
+  concurrency, numerical, overflow, privacy, provenance and regression surface
+  with no remaining finding.
+
+  Strict debug compilation with warnings as errors and strict memory safety,
+  strict optimized `VoxeliaCPU` compilation, Swift-format lint, fail-closed
+  safety inventory, both package-graph checks, prohibited-import scan, the
+  independent Python oracle, the 486-record requirement index and
+  `git diff --check` passed. Two optimized `swift test` attempts—default and
+  single-job—crashed the installed Swift frontend with signal 11 while
+  compiling unrelated repository test modules. A direct release test-target
+  build first correctly rejected missing `-enable-testing`; the enabled retry
+  reached the same frontend crash. This is recorded as an external broad-test
+  toolchain limitation, not promoted as optimized functional evidence. The
+  changed product target itself compiles cleanly under optimization.
+  Documentation validation, final release-integrity regeneration and read-only
+  verification passed with 858 manifest paths, 857 inventory records and 858
+  checksums. The full repository suite, package-wide DocC archive, Apple
+  destination matrix, unavailable visionOS SDK and external device/fuzz/
+  differential campaigns were not rerun under this focused internal-kernel
+  increment.
+
+  ```bash
+  swift build --target VoxeliaCPU
+  swift test --filter TriangleMeshVertexNormalReferenceKernelTests
+  swift test --filter TriangleMeshVertexNormalReferenceKernelTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter TriangleMeshVertexNormalGenerationTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build -c release --target VoxeliaCPU \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  # Both commands crashed swift-frontend in unrelated release test modules.
+  swift test -c release \
+    --filter TriangleMeshVertexNormalReferenceKernelTests
+  swift test -c release --jobs 1 \
+    --filter TriangleMeshVertexNormalReferenceKernelTests
+  # The first reports ModuleNotTestable; the enabled retry hits signal 11.
+  swift build -c release --jobs 1 --target VoxeliaCPUTests
+  swift build -c release --jobs 1 --target VoxeliaCPUTests \
+    -Xswiftc -enable-testing
+  python3 \
+    docs/progress/evidence/ADR-0193-deterministic-vertex-normal-oracle.py
+  xcrun swift-format lint --strict \
+    Sources/VoxeliaCPU/Internal/TriangleMeshVertexNormalReferenceKernel.swift \
+    Tests/VoxeliaCPUTests/TriangleMeshVertexNormalReferenceKernelTests.swift
+  python3 Tools/Scripts/check_swift_safety.py
+  python3 Tools/Scripts/check_package_graph.py
+  python3 Tools/Scripts/check_package_graph_static.py
+  python3 Tools/Scripts/check_prohibited_imports.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_manifest_paths.py
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  python3 Tools/Scripts/check_manifest_paths.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11479,18 +11582,19 @@ migration stages are complete. Accepted `ADR-0193` and `VOXELIA-ALG-0030` now
 freeze deterministic triangle-area-weighted vertex normal generation,
 including ordered binary64 arithmetic, degeneracy and failure semantics,
 maximum-component normalization, resource limits, cancellation, provenance and
-independent analytical fixtures. The exact next action is `ADR-0193` migration
-step two. Migration step one now implements the four immutable Geometry
-declaration/publication values and closed payload-free error family with exact
+independent analytical fixtures. Migration step one now implements the four
+immutable Geometry declaration/publication values and closed payload-free error
+family with exact
 parameter-digest, structural result-binding, source-preservation, privacy,
-backend-neutrality and `Sendable` regression evidence. Step two must add only
-the internal stateless CPU serial reference kernel: fixed cancellation-first
-admission, count and checked 48-byte-per-vertex limits, cancellable existing-
-normal/triangle/vertex scans, every separated binary64 operation and the exact
-descriptor/serialization from `ALG-0030`, with all twelve analytical fixtures,
-resource boundaries, failure precedence, repeat determinism and cancellation
-cadences. Do not add the public operation/identity/provenance assembly,
-registry entry, measurement, rendering or acceleration in that increment.
+backend-neutrality and `Sendable` regression evidence. Migration step two now
+adds only the internal stateless CPU serial reference kernel with exact
+cancellation-first admission, checked 48-byte-per-vertex limits, ordered
+binary64 primitives, source-preserving descriptor/serialization and all twelve
+analytical fixtures. The exact next action is `ADR-0193` migration step three:
+add the public atomic CPU operation and final cancellation boundary, exact
+identity/provenance/execution claim assembly, independent parameter-digest
+reproduction and the evidence-backed CPU registry entry. Do not add
+measurement, rendering or acceleration in that increment.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -11504,16 +11608,16 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform only `ADR-0193` migration step two next. Add the internal stateless
-  CPU serial normal-generation kernel with cancellation-first admission,
-  positive/count/checked-byte limits, cancellable attribute/triangle/vertex
-  traversals and exact `ALG-0030` arithmetic/serialization. Reproduce all
-  twelve independent analytical fixtures bit-for-bit or by exact payload-free
-  failure, both checked byte boundaries, zero/existing-normal/source-claim
-  precedence, every cancellation cadence and repeat determinism. Compile CPU
-  and run only the focused kernel/direct Geometry evidence. Do not add the
-  public operation, identity/provenance assembly, registry entry, measurement,
-  rendering or acceleration in that increment.
+- Perform only `ADR-0193` migration step three next. Add the public atomic CPU
+  normal-generation operation over the verified internal kernel, preserve the
+  exact final-cancellation-before-publication boundary, assemble the frozen
+  identity/provenance/execution claims, independently reproduce the parameter
+  digest and add the evidence-backed CPU registry entry. Cover public success,
+  every claim crossing, final cancellation, registry metadata and atomic
+  failure without reimplementing the numerical oracle. Compile CPU and direct
+  Validation dependants and run only the focused operation/registry/Geometry
+  evidence. Do not add measurement, rendering or acceleration in that
+  increment.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
