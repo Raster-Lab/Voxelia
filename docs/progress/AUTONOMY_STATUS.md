@@ -3152,6 +3152,40 @@ oracle campaigns.
   and proves the empty-registry fallback under a device-preferring
   policy. The derived queue is drained; the M6 opening assessment
   follows.
+- One-hundred-thirty-second autonomous increment (owner broadened
+  standing mandate): the M6 opening assessment — diagnostic
+  three-dimensional visualisation, forty-six rows — under the sweep
+  precedent. Already discharged: `VOX-MPR-002`, arbitrary oblique
+  reconstruction, by the accepted oblique operation whose request is
+  any plane's own geometry. Partially discharged pending
+  verification at implementation: `VOX-R2D-007`, whose VOI lookup
+  shape the accepted lookup-table composition largely covers, and
+  `VOX-R2D-015`, whose greyscale output claim already travels in
+  presentation provenance with the colour widening outstanding.
+  Honestly gated: `VOX-BRK-009` progressive interactive resolution
+  and `VOX-DVR-013` interactive refinement on the draw-loop arc;
+  `VOX-PER-004` on reference hardware; the `VOX-SUR` surface-rendering
+  block follows the geometry arc that must first produce meshes, and
+  `VOX-ADP-003` model-interchange integration follows the meshes it
+  would interchange. Actionable, and now the derived queue in
+  dependency order: first the intensity-projection arc —
+  `VOX-MPR-006/007/008/009/010`, thick-slab reconstruction with
+  maximum, minimum and average projection and the declared treatment
+  of padding, missing samples and out-of-bounds regions, a frozen
+  numeric model with exact fixtures continuing the reconstruction
+  line; second the per-brick occupancy and statistics vocabulary of
+  `VOX-BRK-011`, extending the accepted brick values toward
+  empty-space skipping; third the cubic interpolation model of
+  `VOX-IMG-005` with its documented kernel and boundary behaviour;
+  fourth the direct-volume-rendering reference arc — `VOX-DVR-001`
+  through `010` with `014`'s determinism structural in a CPU
+  reference and `015`'s no-quantitative-claims rule frozen in its
+  design record; fifth the geometry arc opening with the
+  marching-cubes-class reference and deterministic normals —
+  `VOX-GEO-004/006/007/008/009/010/011`; sixth the colour and
+  overlay arc — `VOX-R2D-010/011/015` and the VOI verification.
+  Each arc opens design-first with frozen specifications and
+  python-verified fixtures, per the accepted precedent.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
