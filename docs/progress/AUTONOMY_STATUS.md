@@ -2245,6 +2245,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   no-interpolation presentation — with the renderer-side policy
   selection and the `PresentationScaling` widening recorded as their
   own following decision.
+- Ninety-second autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0124`, completing
+  `VOX-R2D-013` on the renderer side. `RenderRequest` gains the
+  closed `InterpolationPolicy` — nearest-neighbour or linear, no
+  permissive default, because a silent default policy is a convention
+  and the row asks for explicit ones — with the no-interpolation case
+  remaining the identity presentation at equal extents where no
+  policy runs and none is claimed. The renderer's resample stage
+  dispatches to the registered operation the policy names, and
+  `PresentationScaling` widens with the bilinear case so the claim
+  states what ran per the accepted rule: the policy is honoured by
+  the operation identity in the published recipe and stated in the
+  presentation claim, never inferred. Tests render one scene under
+  both policies to a doubled viewport — the nearest output unchanged
+  from the accepted fixtures and the linear output equal to the
+  independently computed bilinear fixture, with the bilinear claim
+  carrying the exact pre-resample extents and the published record's
+  operation identity verified. All three policies are now registered,
+  selectable and claimed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

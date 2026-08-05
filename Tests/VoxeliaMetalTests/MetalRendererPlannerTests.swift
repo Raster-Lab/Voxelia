@@ -132,6 +132,7 @@ struct MetalRendererPlannerTests {
             ),
             viewport: try ViewportSize(width: 4, height: 3),
             crop: nil,
+            interpolation: .nearestNeighbour,
             quality: .full
         )
     }

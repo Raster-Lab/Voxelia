@@ -188,6 +188,7 @@ struct ExactSliceRendererTests {
                 scene: try scene([try layer("series-7")]),
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )
@@ -212,6 +213,7 @@ struct ExactSliceRendererTests {
                     scene: try scene([try layer("series-9")]),
                     viewport: try ViewportSize(width: 4, height: 3),
                     crop: nil,
+                    interpolation: .nearestNeighbour,
                     quality: .full
                 )
             )
@@ -227,6 +229,7 @@ struct ExactSliceRendererTests {
                 scene: try scene([try layer("series-7", opacity: 0.5)]),
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )
@@ -261,6 +264,7 @@ struct ExactSliceRendererTests {
                 scene: try scene([try layer("series-7")]),
                 viewport: try ViewportSize(width: 2, height: 2),
                 crop: crop,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )
@@ -314,6 +318,7 @@ struct ExactSliceRendererTests {
                 ]),
                 viewport: try ViewportSize(width: 4, height: 4),
                 crop: crop,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )
@@ -352,6 +357,55 @@ struct ExactSliceRendererTests {
         }
     }
 
+    @Test("[Unit][VOX-R2D-013][VOX-VS1-019] the linear policy resamples and claims bilinear")
+    func linearPolicyResamplesAndClaimsBilinear() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "render-9")
+
+        // The ADR-0124 linear policy dispatches the registered
+        // bilinear operation and the claim states what ran with the
+        // pre-resample extents.
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: try scene([try layer("series-7")]),
+                viewport: try ViewportSize(width: 8, height: 6),
+                crop: nil,
+                interpolation: .linear,
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "render-9-rs")
+        #expect(
+            result.presentation.scaling
+                == .bilinear(sourceWidth: 4, sourceHeight: 3)
+        )
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let outputBytes = try published.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [8, 6])
+        ).bytes
+        #expect(
+            outputBytes == [
+                0, 0, 0, 0, 0, 9, 27, 36,
+                18, 20, 25, 30, 34, 46, 64, 72,
+                55, 62, 75, 89, 103, 118, 136, 146,
+                110, 118, 136, 152, 166, 180, 194, 200,
+                182, 192, 210, 221, 225, 230, 234, 237,
+                219, 228, 246, 255, 255, 255, 255, 255,
+            ]
+        )
+        guard case .operation(let operation, _) = published.provenance.activity
+        else {
+            #expect(Bool(false), "Expected an operation activity.")
+            return
+        }
+        #expect(operation.operationID.rawValue == "org.voxelia.op.resample-linear")
+
+        requireSendable(InterpolationPolicy.self)
+    }
+
     @Test("[Unit][VOX-R2D-005][VOX-R2D-008] inverted polarity presents monochrome-one")
     func invertedPolarityPresentsMonochromeOne() async throws {
         let publisher = try publisher()
@@ -380,6 +434,7 @@ struct ExactSliceRendererTests {
                 scene: invertedScene,
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )
@@ -421,6 +476,7 @@ struct ExactSliceRendererTests {
                     scene: try scene([try layer("series-7")]),
                     viewport: try ViewportSize(width: 4, height: 3),
                     crop: nil,
+                    interpolation: .nearestNeighbour,
                     quality: quality
                 )
             )
@@ -459,6 +515,7 @@ struct ExactSliceRendererTests {
                 scene: try scene([try layer("series-7")]),
                 viewport: try ViewportSize(width: 8, height: 6),
                 crop: nil,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )
@@ -513,6 +570,7 @@ struct ExactSliceRendererTests {
                 ]),
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )

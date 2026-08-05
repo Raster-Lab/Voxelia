@@ -235,24 +235,42 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             output = presented
             scaling = .identity
         } else {
+            // The ADR-0124 policy dispatch: the registered operation
+            // the policy names runs and the claim states what ran.
             let resampleNames = try naming(.resampled)
-            output = try await ResampleNearestOperation.execute(
-                input: presented,
-                outputWidth: request.viewport.width,
-                outputHeight: request.viewport.height,
-                outputObjectID: resampleNames.outputObjectID,
-                outputProvenanceID: resampleNames.provenanceID,
-                createdAt: resampleNames.createdAt,
-                software: software,
-                coordinator: readCoordinator
-            )
+            switch request.interpolation {
+            case .nearestNeighbour:
+                output = try await ResampleNearestOperation.execute(
+                    input: presented,
+                    outputWidth: request.viewport.width,
+                    outputHeight: request.viewport.height,
+                    outputObjectID: resampleNames.outputObjectID,
+                    outputProvenanceID: resampleNames.provenanceID,
+                    createdAt: resampleNames.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
+                scaling = .nearestNeighbour(
+                    sourceWidth: extents[0],
+                    sourceHeight: extents[1]
+                )
+            case .linear:
+                output = try await ResampleLinearOperation.execute(
+                    input: presented,
+                    outputWidth: request.viewport.width,
+                    outputHeight: request.viewport.height,
+                    outputObjectID: resampleNames.outputObjectID,
+                    outputProvenanceID: resampleNames.provenanceID,
+                    createdAt: resampleNames.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
+                scaling = .bilinear(
+                    sourceWidth: extents[0],
+                    sourceHeight: extents[1]
+                )
+            }
             _ = try await publisher.publish(output, mode: .complete)
-            // The claim records what happened: the pre-resample source
-            // extents under the registered ALG-0008 model.
-            scaling = .nearestNeighbour(
-                sourceWidth: extents[0],
-                sourceHeight: extents[1]
-            )
         }
 
         return RenderResult(

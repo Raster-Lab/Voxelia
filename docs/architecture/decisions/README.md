@@ -105,8 +105,9 @@ allocated to concurrency storm evidence. `ADR-0119` is allocated to
 the viewport synchronisation group. `ADR-0120` is allocated to angle
 measurement. `ADR-0121` is allocated to the window edge-case
 assessment. `ADR-0122` is allocated to render generations. `ADR-0123` is
-allocated to the bilinear resampling operation. The next unallocated
-numeric identifier is `ADR-0124`.
+allocated to the bilinear resampling operation. `ADR-0124` is
+allocated to display policy selection. The next unallocated numeric
+identifier is `ADR-0125`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -213,3 +214,4 @@ numeric identifier is `ADR-0124`.
 | [ADR-0121](ADR-0121-window-edge-case-assessment.md) | Accepted | Window edge-case assessment |
 | [ADR-0122](ADR-0122-render-generations.md) | Accepted | Render generations |
 | [ADR-0123](ADR-0123-bilinear-resampling.md) | Accepted | Bilinear resampling operation |
+| [ADR-0124](ADR-0124-display-policy-selection.md) | Accepted | Display policy selection |

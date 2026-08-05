@@ -193,6 +193,7 @@ struct PipelineArchivalTests {
                 ),
                 viewport: try ViewportSize(width: 8, height: 6),
                 crop: nil,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )

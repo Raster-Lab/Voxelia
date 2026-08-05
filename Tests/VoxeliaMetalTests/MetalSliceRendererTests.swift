@@ -189,6 +189,7 @@ struct MetalSliceRendererTests {
                 scene: try scene("series-7"),
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )
@@ -296,6 +297,7 @@ struct MetalSliceRendererTests {
                 ),
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )
@@ -468,6 +470,7 @@ struct MetalSliceRendererTests {
                 ),
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
+                interpolation: .nearestNeighbour,
                 quality: .full
             )
         )
@@ -536,6 +539,7 @@ struct MetalSliceRendererTests {
                     scene: try scene("series-8"),
                     viewport: try ViewportSize(width: 4, height: 3),
                     crop: nil,
+                    interpolation: .nearestNeighbour,
                     quality: .full
                 )
             )

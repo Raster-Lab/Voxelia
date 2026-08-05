@@ -33,6 +33,18 @@ public enum DenoisingState: Sendable, Hashable {
 public enum PresentationScaling: Sendable, Hashable {
     case identity
     case nearestNeighbour(sourceWidth: Int, sourceHeight: Int)
+    case bilinear(sourceWidth: Int, sourceHeight: Int)
+}
+
+/// The closed interpolation display policy per `ADR-0124`
+/// (`VOX-R2D-013`).
+///
+/// The host states its policy explicitly; the no-interpolation case
+/// is the identity presentation at equal extents, where no policy
+/// runs and none is claimed.
+public enum InterpolationPolicy: Sendable, Hashable {
+    case nearestNeighbour
+    case linear
 }
 
 /// One validated half-open rank-two crop in image index space per
@@ -68,17 +80,20 @@ public struct RenderRequest: Sendable, Hashable {
     public let scene: SceneSnapshot
     public let viewport: ViewportSize
     public let crop: RenderCrop?
+    public let interpolation: InterpolationPolicy
     public let quality: RenderQuality
 
     public init(
         scene: SceneSnapshot,
         viewport: ViewportSize,
         crop: RenderCrop?,
+        interpolation: InterpolationPolicy,
         quality: RenderQuality
     ) {
         self.scene = scene
         self.viewport = viewport
         self.crop = crop
+        self.interpolation = interpolation
         self.quality = quality
     }
 }

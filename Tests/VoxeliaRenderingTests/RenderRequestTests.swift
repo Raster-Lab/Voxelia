@@ -41,6 +41,7 @@ struct RenderRequestTests {
             scene: scene,
             viewport: try ViewportSize(width: 512, height: 512),
             crop: nil,
+            interpolation: .nearestNeighbour,
             quality: .interactive
         )
         #expect(request.scene == scene)
