@@ -2508,6 +2508,25 @@ oracle campaigns.
   fixture with every claim member verified. All three device value
   stages now exist, and device renders of inverted, composited,
   calibrated scenes carry per-stage device claims throughout.
+- One-hundred-second autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0134` and opened `VoxeliaCPU`
+  with the `VOX-ARC-010` backend registration. Registration is data,
+  not dispatch: `RegisteredImplementation` names an operation
+  contract, an implementation, its backend and precision claims, and
+  one validated evidence identifier naming the accepting decision
+  record, while `ImplementationRegistry` validates unique
+  operation-and-implementation pairs with typed rejection and ordered
+  per-operation lookup — the type lives in `VoxeliaExecution` because
+  every backend registers into one vocabulary, and planners may
+  consult it through their own future revisions.
+  `CPUBackendRegistrations.standard` registers all eight CPU
+  implementations with tokens taken from the operations' own public
+  constants — token drift structurally impossible — the pinned
+  current contract versions and precision claims. Free-text evidence
+  and closure-holding dispatch registries were both rejected. Tests
+  verify the eight registrations, the pinned window-level version,
+  the token set equality and the typed duplicate rejection. The metal
+  implementations join through their own registration increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

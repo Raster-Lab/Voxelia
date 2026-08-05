@@ -114,7 +114,8 @@ passthrough. `ADR-0129` is allocated to physical pick resolution. `ADR-0130` is
 allocated to crosshair slice mapping. `ADR-0131` is allocated to
 device composite calibration. `ADR-0132` is allocated to the device
 invert kernel. `ADR-0133` is allocated to the device invert
-operation. The next unallocated numeric identifier is `ADR-0134`.
+operation. `ADR-0134` is allocated to implementation registration.
+The next unallocated numeric identifier is `ADR-0135`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -231,3 +232,4 @@ operation. The next unallocated numeric identifier is `ADR-0134`.
 | [ADR-0131](ADR-0131-device-composite-calibration.md) | Accepted | Device composite calibration |
 | [ADR-0132](ADR-0132-device-invert-kernel.md) | Accepted | Device invert kernel |
 | [ADR-0133](ADR-0133-device-invert-operation.md) | Accepted | Device invert operation |
+| [ADR-0134](ADR-0134-implementation-registration.md) | Accepted | Implementation registration |

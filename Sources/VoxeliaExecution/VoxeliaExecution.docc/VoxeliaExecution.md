@@ -47,6 +47,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``SqueezeError``
 - ``ResampleLinearOperation``
 - ``ResampleLinearError``
+- ``ImplementationRegistry``
+- ``RegisteredImplementation``
+- ``RegistrationError``
 
 ### Publication
 

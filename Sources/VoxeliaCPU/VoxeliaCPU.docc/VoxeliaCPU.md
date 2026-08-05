@@ -13,6 +13,10 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Topics
 
+### Backend registration
+
+- ``CPUBackendRegistrations``
+
 ### Project documents
 
 - <doc:Architecture>

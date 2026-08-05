@@ -63,6 +63,7 @@ Sources/VoxeliaCPU/ApplePlatformGate.swift
 Sources/VoxeliaCPU/Internal/.gitkeep
 Sources/VoxeliaCPU/Module.swift
 Sources/VoxeliaCPU/Public/.gitkeep
+Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift
 Sources/VoxeliaCPU/VoxeliaCPU.docc/Architecture.md
 Sources/VoxeliaCPU/VoxeliaCPU.docc/Requirements.md
 Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md
@@ -131,6 +132,7 @@ Sources/VoxeliaExecution/Module.swift
 Sources/VoxeliaExecution/Public/.gitkeep
 Sources/VoxeliaExecution/Public/CompositeLayersOperation.swift
 Sources/VoxeliaExecution/Public/ContentResultCache.swift
+Sources/VoxeliaExecution/Public/ImplementationRegistry.swift
 Sources/VoxeliaExecution/Public/InvertDisplayOperation.swift
 Sources/VoxeliaExecution/Public/MetadataIdentityCoordinator.swift
 Sources/VoxeliaExecution/Public/PublicationCoordinator.swift
@@ -266,6 +268,7 @@ THIRD_PARTY_NOTICES.md
 Tests/Support/ApplePlatformGate.swift
 Tests/Support/Resources/README.md
 Tests/Support/TestSupport.swift
+Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationIngressTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationJSONTests.swift
@@ -608,6 +611,7 @@ docs/architecture/decisions/ADR-0130-crosshair-slice-mapping.md
 docs/architecture/decisions/ADR-0131-device-composite-calibration.md
 docs/architecture/decisions/ADR-0132-device-invert-kernel.md
 docs/architecture/decisions/ADR-0133-device-invert-operation.md
+docs/architecture/decisions/ADR-0134-implementation-registration.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
