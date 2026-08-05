@@ -148,8 +148,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0165` is allocated to the volume rendering arc.
 `ADR-0166` is allocated to the transfer function design.
 `ADR-0167` is allocated to the transfer function.
-`ADR-0168` is allocated to the ray sampling design. The next
-unallocated numeric identifier is `ADR-0169`.
+`ADR-0168` is allocated to the ray sampling design.
+`ADR-0169` is allocated to the volume ray sampler. The next
+unallocated numeric identifier is `ADR-0170`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -301,3 +302,4 @@ unallocated numeric identifier is `ADR-0169`.
 | [ADR-0166](ADR-0166-transfer-function-design.md) | Accepted | Transfer function design |
 | [ADR-0167](ADR-0167-transfer-function.md) | Accepted | Transfer function |
 | [ADR-0168](ADR-0168-ray-sampling-design.md) | Accepted | Ray sampling design |
+| [ADR-0169](ADR-0169-volume-ray-sampler.md) | Accepted | Volume ray sampler |

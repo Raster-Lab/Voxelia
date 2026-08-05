@@ -3379,6 +3379,25 @@ oracle campaigns.
   cases. Endpoint sampling was rejected for midpoints; adaptive
   intervals deferred to the acceleration increment that must prove
   image identity. Implementation follows as its own increment.
+- One-hundred-forty-fifth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0169`, the volume ray
+  sampler. The reuse-versus-restate choice the design anticipated
+  fell to restatement for type honesty: the accepted spatial
+  intersection speaks the world-space point vocabulary, and
+  labelling index coordinates with the world space token would
+  misreport them, so the sampler restates the accepted slab rule
+  over the pixel-centre support with the specification as the rule's
+  authority. The zero-length direction obligation is discharged by
+  the composed ray primitive's own typed admission — no duplicate
+  case. The plan value carries the entry, exit, interval, count and
+  the index-space ray with the frozen midpoint evaluations as
+  methods; the miss is the empty plan. The suite reproduces all four
+  fixtures exactly — including the inside-camera clamp that is
+  structural because the entry starts at zero — proves bit-identical
+  repetition, and rejects the typed admissions including the
+  foreign-space ray through the composed map's own case. The arc
+  continues with the front-to-back compositing design, which brings
+  the renderer surface.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

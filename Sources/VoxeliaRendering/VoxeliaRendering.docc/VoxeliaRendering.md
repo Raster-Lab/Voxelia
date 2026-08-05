@@ -23,6 +23,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``TransferFunction1D``
 - ``TransferFunctionEntry``
 - ``TransferFunctionError``
+- ``VolumeRaySampler``
+- ``VolumeRaySamplePlan``
+- ``VolumeRaySamplingError``
 - ``RenderQuality``
 - ``RenderLayer``
 - ``SceneSnapshot``
