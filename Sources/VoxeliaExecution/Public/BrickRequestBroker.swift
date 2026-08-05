@@ -138,7 +138,7 @@ public actor BrickRequestBroker {
                 } catch {
                     outcome = .failure(error)
                 }
-                await self.complete(key: key, outcome: outcome)
+                self.complete(key: key, outcome: outcome)
             }
             inFlight[key]?.computation = computation
         } else {

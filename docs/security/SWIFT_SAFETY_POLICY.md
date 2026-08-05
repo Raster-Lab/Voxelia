@@ -91,14 +91,17 @@ evidence remain green. The document store's pointer-shaped Foundation query is
 also replaced by checked URL resource values with missing-path and regular-file
 rejection evidence. The gate now compiles Core and Storage, then stops in the
 root debug build because warnings-as-errors promotes a redundant `await` in
-`VoxeliaExecution/BrickRequestBroker.swift`; later targets,
-package/configuration phases remain unverified by that run. No finding is an
-accepted exception; the broker recovery must preserve its actor-isolated
-single-flight and cancellation behaviour.
+`VoxeliaExecution/BrickRequestBroker.swift`. That same-actor call is now
+corrected and its five race/cancellation obligations pass. The gate proceeds
+through Execution and stops in Rendering because warnings-as-errors promotes
+the extraneous duplicate `pixelY` parameter spelling in
+`OrthographicRayGenerator.swift`; later targets and package/configuration
+phases remain unverified by that run. No finding is an accepted exception; the
+ray-generator recovery must preserve its public labels and numerical contract.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on `BrickRequestBroker.swift` warning-as-error | Focused broker concurrency recovery pending |
+| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on `OrthographicRayGenerator.swift` warning-as-error | Focused ray-generator recovery pending |
 
 ## Introducing an exception
 

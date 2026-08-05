@@ -45,9 +45,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   that Foundation directory-kind query was then replaced with checked URL
   resource values. Core and Storage now compile through the gate, which stops
   later on a warning-as-error for a redundant `await` in
-  `BrickRequestBroker.swift`; the complete Swift safety gate must not yet be
-  reported green. The last recorded strict product/test destination builds
-  remain historical evidence only; visionOS 26.5 is still unavailable.
+  `BrickRequestBroker.swift`; that actor-isolated call is now corrected too.
+  The gate passes Execution and stops in Rendering on the duplicate internal
+  `pixelY` parameter spelling in `OrthographicRayGenerator.swift`, so the
+  complete Swift safety gate must not yet be reported green. The last recorded
+  strict product/test destination builds remain historical evidence only;
+  visionOS 26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -4024,6 +4027,27 @@ oracle campaigns.
   scan passed; release-integrity regeneration and read-only verification passed
   with 809 manifest paths, 808 inventory records and 809 checksums. The exact
   next recovery is the broker's actor-isolation/callback boundary.
+- One-hundred-seventy-fourth autonomous increment (scheduled goal
+  continuation): removed the broker's redundant suspension marker after
+  auditing its exact actor context against accepted `ADR-0150` and `ADR-0157`.
+  The computation `Task` is created inside isolated synchronous `register`, so
+  it inherits the broker actor; after the caller-supplied asynchronous compute
+  returns, the private synchronous `complete` call is already on that actor and
+  needs no hop. The separate cancellation-handler task retains its required
+  cross-context `await`. Focused strict format lint and diff validation passed.
+  `BrickRequestBrokerTests` executed all five deterministic tests with zero
+  failures: 64-request single-flight, partial cancellation, full abandonment
+  with cooperative computation cancellation, stale publish/admission and
+  identical typed failure propagation. The semantic `--compile` run compiled
+  Core, Storage and the corrected Execution target cleanly, then stopped in
+  Rendering because warnings-as-errors promoted the already observed duplicate
+  `pixelY` internal parameter spelling in `OrthographicRayGenerator.swift`.
+  Later targets, packages and configurations are therefore not new evidence;
+  the complete suite was intentionally not run under the narrow-test policy.
+  The raw safety scan passed; release-integrity regeneration and read-only
+  verification passed with 809 manifest paths, 808 inventory records and 809
+  checksums. The exact next recovery is that ray-generator declaration and its
+  callers.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9805,17 +9829,18 @@ accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The unchecked-conformance recovery is complete: the
 fail-closed escape-hatch scan has zero findings, checked literal iteration
 removed the canonical JSON/ingress failures, and the checked bounded
-`ContentID` recovery preserves all registered identity oracles, and the
+`ContentID` recovery preserves all registered identity oracles; the
 document store now validates directory kind through checked URL resource
-values. The complete semantic Swift safety gate passes Core and Storage, then
-stops at the warnings-as-errors rule on a redundant `await` in
-`BrickRequestBroker.swift`. The exact next focused recovery is to audit the
-task closure's inherited actor isolation and remove only that redundant
-suspension marker while preserving single-flight completion, cancellation,
-generation and stale-publication behaviour. Run the broker's focused race and
-cancellation suite, then rerun the semantic oracle. Do not resume geometry or
-report the compiler gate green until the semantic `--compile` oracle passes
-through every package and configuration.
+values; and the broker now uses a direct same-actor completion call. The
+complete semantic Swift safety gate passes Execution and stops in Rendering on
+the duplicate `pixelY` internal parameter spelling in
+`OrthographicRayGenerator.swift`. The exact next focused recovery is to remove
+that extraneous duplicate name without changing the public
+`ray(atPixelX:pixelY:)` call signature or half-pixel ray construction. Run the
+focused orthographic generator and direct volume-renderer dependants, then
+rerun the semantic oracle. Do not resume geometry or report the compiler gate
+green until the semantic `--compile` oracle passes through every package and
+configuration.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under `ADR-0186`: reconcile
@@ -9840,10 +9865,9 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Treat `BrickRequestBroker` as a concurrency-sensitive increment: confirm
-  actor inheritance at the completion callback, preserve single-flight and
-  cancellation semantics, run its focused race/stale-publication tests, and
-  then rerun the semantic gate.
+- Treat `OrthographicRayGenerator` as a public API/numerical increment: keep
+  the exact external labels and half-pixel ray oracle, run its focused tests and
+  direct rendering dependants, and then rerun the semantic gate.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
