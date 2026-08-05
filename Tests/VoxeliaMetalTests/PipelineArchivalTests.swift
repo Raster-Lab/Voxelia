@@ -202,6 +202,7 @@ struct PipelineArchivalTests {
             ("stage-cp", true),
             ("stage-rs", true),
         ]
+        var archivedIdentities = [ContentID]()
         for bundle in bundles {
             let objectID = try #require(DataObjectID(rawValue: bundle.object))
             let image = try #require(await publisher.publishedImage(for: objectID))
@@ -230,8 +231,10 @@ struct PipelineArchivalTests {
                     maximumInputByteCount: 65_536
                 ) == image.provenance
             )
+            archivedIdentities.append(receipt.provenanceIdentity)
             if let derivationName {
                 let derivationIdentity = try #require(receipt.derivationIdentity)
+                archivedIdentities.append(derivationIdentity)
                 let derivationBytes = try await store.load(
                     name: derivationName,
                     expectedIdentity: derivationIdentity,
@@ -247,5 +250,29 @@ struct PipelineArchivalTests {
                 #expect(receipt.derivationIdentity == nil)
             }
         }
+
+        // The ADR-0101 manifest binds the archived history into one
+        // verifiable durable artefact, reproducible independently from
+        // the same identity set.
+        #expect(archivedIdentities.count == 9)
+        let manifestName = try CanonicalDocumentName(rawValue: "manifest-render")
+        let manifestIdentity = try await CanonicalRecordArchival.archiveManifest(
+            over: archivedIdentities,
+            name: manifestName,
+            store: store,
+            maximumDocumentByteCount: 65_536
+        )
+        let manifestBytes = try await store.load(
+            name: manifestName,
+            expectedIdentity: manifestIdentity,
+            maximumDocumentByteCount: 65_536
+        )
+        #expect(
+            manifestBytes
+                == (try CanonicalManifest.encodeManifestDocument(
+                    records: archivedIdentities,
+                    maximumOutputByteCount: 65_536
+                ))
+        )
     }
 }

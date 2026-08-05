@@ -1767,6 +1767,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   identity claim on equal-extent renders, the exact source extents on
   resampled renders and the claim's participation in presentation
   identity.
+- Sixty-seventh autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0101` and delivered record
+  manifest archival. `CanonicalRecordArchival` gains
+  `archiveManifest`: the `VCRM-1` manifest document emits over the
+  caller-supplied archived record identities — only the caller knows
+  which records form one history — the registered manifest identity
+  computes and returns as the receipt, and the document persists
+  through the accepted store under a host-supplied name with the
+  inherited verify-before-persist discipline; the emitter's typed
+  surface governs empty and duplicate sets, and signing remains
+  host-side per the `ADR-0078` verify-only rule with no key material
+  ever touching Voxelia. The end-to-end pipeline archival suite now
+  collects all nine receipt identities from a full render's archived
+  records — five provenance and four derivation — archives the
+  manifest, loads it back under the returned identity and reproduces
+  the manifest bytes independently from the same identity set, so a
+  complete archived history is one verifiable durable artefact and a
+  partial store is detectable against it.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -95,4 +95,35 @@ public enum CanonicalRecordArchival {
             derivationIdentity: derivationIdentity
         )
     }
+
+    /// Archives one `VCRM-1` manifest over archived record identities
+    /// per `ADR-0101`.
+    ///
+    /// Only the caller knows which records form one history; the
+    /// emitter's typed surface governs the set, and signing remains
+    /// host-side per the `ADR-0078` verify-only rule.
+    ///
+    /// - Returns: The registered manifest identity.
+    /// - Throws: The audited typed errors of the manifest emission and
+    ///   document store contracts.
+    public static func archiveManifest(
+        over records: [ContentID],
+        name: CanonicalDocumentName,
+        store: CanonicalDocumentStore,
+        maximumDocumentByteCount: UInt64
+    ) async throws -> ContentID {
+        let manifestBytes = try CanonicalManifest.encodeManifestDocument(
+            records: records,
+            maximumOutputByteCount: maximumDocumentByteCount
+        )
+        let manifestIdentity = try ContentID.recordManifestIdentity(
+            overCanonicalBytes: manifestBytes
+        )
+        try await store.store(
+            canonicalBytes: manifestBytes,
+            identity: manifestIdentity,
+            name: name
+        )
+        return manifestIdentity
+    }
 }
