@@ -34,7 +34,8 @@ struct ResampleLinearOperationTests {
     private func input(
         extents: [Int],
         bytes: [UInt8],
-        sampling: AxisSampling = .indexOnly
+        sampling: AxisSampling = .indexOnly,
+        geometry: SpatialGeometry? = nil
     ) throws -> ImageData {
         try ImageData(
             descriptor: try ImageDescriptor(
@@ -52,7 +53,7 @@ struct ResampleLinearOperationTests {
                 ),
                 semantic: .intensity,
                 axes: [try axis("x", sampling: sampling), try axis("y")],
-                spatialGeometry: nil,
+                spatialGeometry: geometry,
                 valueTransform: nil,
                 units: nil
             ),
@@ -159,22 +160,88 @@ struct ResampleLinearOperationTests {
         requireSendable(ResampleLinearError.self)
     }
 
+    @Test("[Unit][VOX-EXE-002][VOX-MPR-003] linear calibration rescales identically")
+    func linearCalibrationRescalesIdentically() async throws {
+        // The registered rescale fixtures through the linear
+        // operation at the widened version — the same shared rule
+        // authority the nearest operation evaluates.
+        let space = try CoordinateSpaceDescriptor(
+            id: try #require(CoordinateSpaceID(rawValue: "patient")),
+            convention: .dicomPatientLPS,
+            handedness: .unspecified,
+            unit: try MeasurementUnit(
+                namespace: "UCUM",
+                code: "mm",
+                dimension: .length
+            ),
+            externalReferences: []
+        )
+        let affine = try AffineGridGeometry(
+            spatialAxes: try SpatialAxisMapping(imageAxes: [0, 1]),
+            indexToWorld: try Matrix4x4Double(elements: [
+                0, -2, 0, 10,
+                2, 0, 0, 20,
+                0, 0, 1, 30,
+                0, 0, 0, 1,
+            ]),
+            coordinateSpace: space
+        )
+        let calibrated = try await execute(
+            input: try input(
+                extents: [4, 3],
+                bytes: Array(0..<12),
+                sampling: .regular(origin: 5, spacing: 2.5),
+                geometry: .affine(affine)
+            ),
+            width: 8,
+            height: 6
+        )
+        guard
+            case .regular(let origin, let spacing) =
+                calibrated.descriptor.axes[0].sampling
+        else {
+            #expect(Bool(false), "Expected a rescaled regular axis.")
+            return
+        }
+        #expect(origin == 4.375)
+        #expect(spacing == 1.25)
+        guard
+            case .affine(let rescaled)? = calibrated.descriptor.spatialGeometry
+        else {
+            #expect(Bool(false), "Expected the geometry to be preserved.")
+            return
+        }
+        #expect(
+            rescaled.indexToWorld.elements == [
+                0, -1, 0, 10.5,
+                1, 0, 0, 19.5,
+                0, 0, 1, 30,
+                0, 0, 0, 1,
+            ]
+        )
+        #expect(
+            calibrated.identity.derivation?.operationVersion
+                == (try SemanticVersion(major: 1, minor: 1, patch: 0))
+        )
+    }
+
     @Test("[Unit][VOX-EXE-006][VOX-ERR-001] linear admission rejects typed")
     func linearAdmissionRejectsTyped() async throws {
         let gradient = try input(extents: [4, 3], bytes: Array(0..<12))
 
-        // Regular sampling and out-of-range extents reject typed.
+        // Irregular payloads and out-of-range extents reject typed;
+        // regular sampling is admitted since ADR-0127.
         do {
             _ = try await execute(
                 input: try input(
                     extents: [4, 3],
                     bytes: Array(0..<12),
-                    sampling: .regular(origin: 0, spacing: 1)
+                    sampling: .irregular(coordinates: [1, 2, 4, 8])
                 ),
                 width: 8,
                 height: 6
             )
-            #expect(Bool(false), "Expected regular sampling to be rejected.")
+            #expect(Bool(false), "Expected an irregular payload to be rejected.")
         } catch ResampleLinearError.unsupportedAxisSampling {}
         for (width, height) in [(0, 6), (8, 0), (16_385, 6)] {
             do {

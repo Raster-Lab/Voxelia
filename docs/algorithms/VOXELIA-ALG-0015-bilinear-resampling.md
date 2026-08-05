@@ -1,7 +1,7 @@
 ---
 document_id: "VOXELIA-ALG-0015"
 title: "Bilinear resampling binary64-v1"
-version: "1.0"
+version: "1.1"
 status: "Accepted"
 document_type: "Algorithm Specification"
 project: "Voxelia"
@@ -60,6 +60,16 @@ input bytes exactly.
 The mapping is a pure function of the dimensions and values: repeated
 evaluation is bit-identical. Dimension and format admission is the
 receiver's typed surface; no branch of the model itself can fail.
+
+## Geometry and sampling rescale
+
+Revision 1.1, selected by accepted
+[`ADR-0127`](../architecture/decisions/ADR-0127-bilinear-geometry-widening.md),
+adopts the rescale rules of `VOXELIA-ALG-0008` revision 1.1 verbatim:
+regular sampling and affine geometry rescale under the pixel-centre
+convention with the half-sample shift and the two frozen matrix
+passes, evaluated by the one shared rule implementation. Irregular
+and categorical payloads remain outside the admitted domain.
 
 ## Conformance fixtures
 

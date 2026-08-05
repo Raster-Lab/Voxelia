@@ -120,69 +120,24 @@ public enum ResampleNearestOperation {
                 bytes: outputBytes
             )
         )
-        // The ADR-0126 rescale: per-axis regular sampling and the
-        // affine geometry update per the registered ALG-0008 rules,
-        // with h = ((0.5 * scale) - 0.5) per axis.
+        // The ADR-0126 rescale through the one shared rule authority.
         let scales = [
             Double(inputWidth) / Double(outputWidth),
             Double(inputHeight) / Double(outputHeight),
         ]
-        var outputAxes = ContiguousArray<AxisDescriptor>()
-        for (axisIndex, axis) in input.descriptor.axes.enumerated() {
-            switch axis.sampling {
-            case .regular(let origin, let spacing):
-                let scale = scales[axisIndex]
-                let shift = ((0.5 * scale) - 0.5)
-                outputAxes.append(
-                    try AxisDescriptor(
-                        id: axis.id,
-                        name: axis.name,
-                        semantic: axis.semantic,
-                        unit: axis.unit,
-                        sampling: .regular(
-                            origin: origin + (shift * spacing),
-                            spacing: scale * spacing
-                        )
-                    )
-                )
-            default:
-                outputAxes.append(axis)
-            }
-        }
-        var outputGeometry: SpatialGeometry?
-        if case .affine(let affine)? = input.descriptor.spatialGeometry {
-            var elements = affine.indexToWorld.elements
-            // First pass: translations accumulate over the original
-            // columns in ascending slot order.
-            for (slot, imageAxis) in affine.spatialAxes.imageAxes.enumerated() {
-                let shift = ((0.5 * scales[imageAxis]) - 0.5)
-                for row in 0..<3 {
-                    elements[4 * row + 3] =
-                        elements[4 * row + 3] + (elements[4 * row + slot] * shift)
-                }
-            }
-            // Second pass: spatial columns scale.
-            for (slot, imageAxis) in affine.spatialAxes.imageAxes.enumerated() {
-                for row in 0..<3 {
-                    elements[4 * row + slot] =
-                        elements[4 * row + slot] * scales[imageAxis]
-                }
-            }
-            outputGeometry = .affine(
-                try AffineGridGeometry(
-                    spatialAxes: affine.spatialAxes,
-                    indexToWorld: try Matrix4x4Double(elements: elements),
-                    coordinateSpace: affine.coordinateSpace
-                )
-            )
-        }
         let outputDescriptor = try ImageDescriptor(
             shape: outputShape,
             scalarFormat: input.descriptor.scalarFormat,
             components: input.descriptor.components,
             semantic: input.descriptor.semantic,
-            axes: outputAxes,
-            spatialGeometry: outputGeometry,
+            axes: try ResampleRescale.rescaledAxes(
+                of: input.descriptor,
+                scales: scales
+            ),
+            spatialGeometry: try ResampleRescale.rescaledGeometry(
+                of: input.descriptor,
+                scales: scales
+            ),
             valueTransform: input.descriptor.valueTransform,
             units: input.descriptor.units
         )

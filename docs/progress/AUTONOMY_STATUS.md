@@ -2310,6 +2310,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   keep geometry-free outputs byte-identical. `VOX-MPR-003` is
   discharged for the nearest policy; the bilinear widening and the
   physical-picking decisions continue the arc.
+- Ninety-fifth autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0015` revision 1.1 and
+  `ADR-0127`, completing the resampling half of the geometry-bearing
+  arc. The bilinear model adopts the registered rescale rules
+  verbatim, and both resampling operations now evaluate them through
+  one shared internal implementation per the shared-authority
+  precedent — two copies of one registered rule could drift silently
+  — with the nearest operation refactored onto it byte-identically.
+  The linear operation admits regular sampling and affine geometry at
+  the 1.1.0 versions, keeps irregular and categorical payloads typed
+  rejections, and drops its now-dead geometry rejection per the
+  dead-case precedent. Tests reproduce the registered rescale
+  fixtures through the linear operation exactly with the widened
+  version verified, and the admission test moved to the irregular
+  payload it still rejects. Both display policies now preserve
+  calibration: `VOX-MPR-003` is discharged for both, and the
+  physical-picking decision follows.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

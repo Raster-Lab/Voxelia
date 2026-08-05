@@ -12,7 +12,6 @@ import VoxeliaStorage
 public enum ResampleLinearError: Error, Sendable, Equatable {
     case unsupportedLayerFormat
     case unsupportedAxisSampling
-    case unsupportedGeometry
     case invalidOutputExtent
 }
 
@@ -64,13 +63,16 @@ public enum ResampleLinearOperation {
         else {
             throw ResampleLinearError.unsupportedLayerFormat
         }
+        // Widened by ADR-0127: regular sampling and affine geometry
+        // rescale under the registered shared rules; irregular and
+        // categorical payloads have no linear rescale.
         for axis in input.descriptor.axes {
-            guard case .indexOnly = axis.sampling else {
+            switch axis.sampling {
+            case .indexOnly, .regular:
+                continue
+            default:
                 throw ResampleLinearError.unsupportedAxisSampling
             }
-        }
-        guard input.descriptor.spatialGeometry == nil else {
-            throw ResampleLinearError.unsupportedGeometry
         }
         guard
             outputWidth >= 1, outputWidth <= Self.maximumOutputExtent,
@@ -127,13 +129,24 @@ public enum ResampleLinearOperation {
                 bytes: outputBytes
             )
         )
+        // The ADR-0127 rescale through the one shared rule authority.
+        let scales = [
+            Double(inputWidth) / Double(outputWidth),
+            Double(inputHeight) / Double(outputHeight),
+        ]
         let outputDescriptor = try ImageDescriptor(
             shape: outputShape,
             scalarFormat: input.descriptor.scalarFormat,
             components: input.descriptor.components,
             semantic: input.descriptor.semantic,
-            axes: input.descriptor.axes,
-            spatialGeometry: nil,
+            axes: try ResampleRescale.rescaledAxes(
+                of: input.descriptor,
+                scales: scales
+            ),
+            spatialGeometry: try ResampleRescale.rescaledGeometry(
+                of: input.descriptor,
+                scales: scales
+            ),
             valueTransform: nil,
             units: nil
         )
@@ -153,7 +166,7 @@ public enum ResampleLinearOperation {
         // Registered tokens, derivation recipe, content identity and
         // the subject-bound record with its parent edge, per the
         // accepted operation pattern.
-        let version = try SemanticVersion(major: 1, minor: 0, patch: 0)
+        let version = try SemanticVersion(major: 1, minor: 1, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )

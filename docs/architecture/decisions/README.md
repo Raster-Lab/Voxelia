@@ -108,8 +108,9 @@ assessment. `ADR-0122` is allocated to render generations. `ADR-0123` is
 allocated to the bilinear resampling operation. `ADR-0124` is
 allocated to display policy selection. `ADR-0125` is allocated to
 index-space pick resolution. `ADR-0126` is allocated to
-geometry-bearing resampling. The next unallocated numeric identifier
-is `ADR-0127`.
+geometry-bearing resampling. `ADR-0127` is allocated to the bilinear
+geometry widening. The next unallocated numeric identifier is
+`ADR-0128`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -219,3 +220,4 @@ is `ADR-0127`.
 | [ADR-0124](ADR-0124-display-policy-selection.md) | Accepted | Display policy selection |
 | [ADR-0125](ADR-0125-pick-resolution.md) | Accepted | Index-space pick resolution |
 | [ADR-0126](ADR-0126-geometry-bearing-resampling.md) | Accepted | Geometry-bearing resampling |
+| [ADR-0127](ADR-0127-bilinear-geometry-widening.md) | Accepted | Bilinear geometry widening |
