@@ -685,6 +685,11 @@
       "sha256": "ff97939b4122ccf2c178b3ed8ccaf70ece567b5b850728a418042ca9f0e79b13"
     },
     {
+      "path": "Sources/VoxeliaExecution/Public/SqueezeAxesOperation.swift",
+      "size": 8788,
+      "sha256": "fae7f0ee35683c75261c31b3112113a8d24d5541f4ff95074a30b845f091f455"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Public/StorageReadCoordinator.swift",
       "size": 9549,
       "sha256": "ef71762cb8c59a18a2364f279bfe7445092a5b881861c51957793bf179ea4f34"
@@ -711,8 +716,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/VoxeliaExecution.md",
-      "size": 1078,
-      "sha256": "d05671e0fd1539bc34cab0b99a7ac74970de61f6ce1586bce184ddc7d41f4642"
+      "size": 1124,
+      "sha256": "cab83d369df909c6d5e12e79e3fc058e8ae212a3f625a145d7db4c97f0440457"
     },
     {
       "path": "Sources/VoxeliaGeometry/ApplePlatformGate.swift",
@@ -1580,6 +1585,11 @@
       "sha256": "0f9b0bfecd56f9d937e8e1950e30b0aad558c90f5416577f53d00dce7d2a0067"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/SqueezeAxesOperationTests.swift",
+      "size": 6882,
+      "sha256": "1f37385fcef203c3208303a686df620f9462caf2d9972027fbc0c6a3a2c52a1d"
+    },
+    {
       "path": "Tests/VoxeliaExecutionTests/StorageReadCoordinatorTests.swift",
       "size": 7343,
       "sha256": "12ee4626858489218c4cf26a164d3a4cceee3b5310c7d2b57283994182d7f259"
@@ -2186,8 +2196,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 1613,
-      "sha256": "9441ae5944b03ca74ebd602af692011268f2b7f58dc7854aa5148c7837f4c3aa"
+      "size": 1727,
+      "sha256": "7185c4c57da1a35c5e1a126e06be072f3d0be74a76b9bd10ca5333a244b2b888"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2248,6 +2258,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0012-axis-transposition.md",
       "size": 2259,
       "sha256": "121ad8575d3eb64af2238e3fbf7094269c4ab63568b0026c7891048ee60e9797"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0013-singleton-axis-squeeze.md",
+      "size": 1897,
+      "sha256": "3dce494a38f13ee739eed3f786f9b34ece92a54734c1e01171a31a837e9a6d20"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -2855,9 +2870,14 @@
       "sha256": "5795011eb3387e8026017f5b82f18b6f30acc72a71c1579e7176c1f485364d72"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0116-singleton-axis-squeeze.md",
+      "size": 3167,
+      "sha256": "4270893017418a2ec3cfd173b1fa47792a45b7c122067f463b308d1e8d0de4d5"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 17135,
-      "sha256": "a2040b0b0366fed939209aa829adcbac0f1ff94c5cabbd731eaa6c8e9915266e"
+      "size": 17277,
+      "sha256": "288fbcc83f25ed3bb74a993a3609b89043c2ad84fddb861fd28d0c3b4be92384"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2941,8 +2961,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 545090,
-      "sha256": "f1d462ef14c41f48d04dbd7f016256955d2e05121a2d85493e12cdf0401c4df2"
+      "size": 546233,
+      "sha256": "6c465acec2c6ad1cf2b8c11e1361ee6304464288955aa16d1b3cda175d3803aa"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3301,8 +3321,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 34762,
-      "sha256": "e5f33a537a7c62bb77d9326a9d51d6498a596c545f8270fe0eb9abb844a75cab"
+      "size": 35003,
+      "sha256": "2d1dac39729cc6b8ce3d98f9d6e3c05e8ffe5ac3dfd9619cffcc755b0d7fe7c3"
     }
   ]
 }

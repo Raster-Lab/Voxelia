@@ -16,3 +16,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0010](VOXELIA-ALG-0010-polyline-length.md) | Accepted | Polyline length `binary64-v1` |
 | [VOXELIA-ALG-0011](VOXELIA-ALG-0011-display-inversion.md) | Accepted | Display inversion `exact-v1` |
 | [VOXELIA-ALG-0012](VOXELIA-ALG-0012-axis-transposition.md) | Accepted | Axis transposition `exact-v1` |
+| [VOXELIA-ALG-0013](VOXELIA-ALG-0013-singleton-axis-squeeze.md) | Accepted | Singleton axis squeeze `exact-v1` |

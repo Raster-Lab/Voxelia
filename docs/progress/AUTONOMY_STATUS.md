@@ -2096,6 +2096,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fused reslice was rejected: one operation, one model. Coronal and
   sagittal presentation now composes as extract-then-transpose; the
   composing coordinator is the arc's next increment.
+- Eighty-fourth autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0013` (singleton axis
+  squeeze `exact-v1`) and `ADR-0116`, the seventh operation
+  `org.voxelia.op.squeeze-axes` 1.0.0. Declared extent-one axes drop
+  from the descriptor while the sample bytes stay identical in order
+  — in the canonical packed layout an extent-one axis contributes no
+  reordering, so the model is a descriptor-level rank change with no
+  arithmetic. The selection is explicit — each declared axis must
+  exist, have extent one and appear once, non-empty and never total,
+  all else typed — because a host that means one axis should never
+  lose another it forgot about; remaining axes keep their descriptors
+  and payloads in order, and geometry-bearing input rejects typed
+  with the binding remap its own decision. Tests prove both fixtures
+  byte-identical with axis order preserved, reproduce the parameter
+  digest independently, and reject empty, non-singleton, duplicate,
+  out-of-range and total selections typed. Extract-then-squeeze now
+  turns a regular volume into a published rank-two slice.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

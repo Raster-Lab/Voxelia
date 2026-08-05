@@ -43,6 +43,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``InvertDisplayError``
 - ``TransposeAxesOperation``
 - ``TransposeError``
+- ``SqueezeAxesOperation``
+- ``SqueezeError``
 
 ### Publication
 
