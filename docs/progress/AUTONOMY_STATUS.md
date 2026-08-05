@@ -2926,6 +2926,26 @@ oracle campaigns.
   bind the implementing increment, including the sixty-four-request
   storm resolving to one computation and the stale-generation
   rejection with the computation count still one.
+- One-hundred-twenty-first autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0150`, the brick
+  request broker. Waiter registration happens synchronously inside
+  the actor before any suspension, so a completion can never race
+  past a joining request — awaiting a shared task value was rejected
+  in the decision because it is not responsive to the awaiter's own
+  cancellation and can lose a late joiner's wake-up. The cancellation
+  handler resumes exactly the cancelled waiter; the generation guard
+  runs at admission and at publish; success and failure propagate
+  identically to every current waiter; evidence counters stay
+  internal per the content-cache precedent, because the observability
+  vocabulary belongs to the next design. All four obligations are
+  discharged deterministically with an open-once gate and no
+  wall-clock timing anywhere: the sixty-four-request storm computed
+  once with identical bytes to every awaiter, distinct
+  representations computed separately, thirty-two cancelled awaiters
+  released cleanly while thirty-two completed, and eight stale
+  awaiters rejected typed with the computation count still one —
+  plus the identical-failure propagation the design demands. The
+  cache-and-observability design follows as the next queue item.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

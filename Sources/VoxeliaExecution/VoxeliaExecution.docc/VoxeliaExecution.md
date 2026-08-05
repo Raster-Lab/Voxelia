@@ -53,6 +53,11 @@ public API is introduced only by reviewed milestone specifications.
 - ``RegisteredImplementation``
 - ``RegistrationError``
 
+### Brick requests
+
+- ``BrickRequestBroker``
+- ``BrickRequestError``
+
 ### Publication
 
 - ``PublicationCoordinator``
