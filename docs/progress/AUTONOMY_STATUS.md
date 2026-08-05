@@ -2113,6 +2113,28 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   digest independently, and reject empty, non-singleton, duplicate,
   out-of-range and total selections typed. Extract-then-squeeze now
   turns a regular volume into a published rank-two slice.
+- Eighty-fifth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0117` and opened
+  `VoxeliaImaging` with its first substantive API, the multiplanar
+  slice coordinator. The closed `MPRPlane` vocabulary — axial,
+  coronal, sagittal — fixes volume axis two, one or zero of a
+  published rank-three volume; the coordinator composes the accepted
+  extraction over the one-thick slab with the accepted squeeze over
+  the fixed axis, publishing both stages under host-supplied
+  per-stage naming so every slice carries a complete depth-three
+  chain whose frozen recipes — slab bounds and dropped axis — are the
+  explicit reproducible output geometry of `VOX-MPR-004`, with
+  regular-sampling origins shifting through extraction under the
+  registered rules rather than assuming isotropy. A fused reslice and
+  a renderer-level MPR were both rejected: composition of registered
+  operations is the model, and slab selection is image-processing
+  semantics. Tests reconstruct all three planes of a two-by-three-by
+  -two volume against independently computed fixtures with axis
+  identities verified, prove both stages published with the slice's
+  parent edge bound to its slab record, and reject an unpublished
+  volume, a rank-two volume and out-of-range indices typed;
+  `VOX-MPR-001` is discharged for axis-aligned reconstruction with
+  oblique sampling gated on its own model.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

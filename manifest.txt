@@ -158,6 +158,7 @@ Sources/VoxeliaImaging/ApplePlatformGate.swift
 Sources/VoxeliaImaging/Internal/.gitkeep
 Sources/VoxeliaImaging/Module.swift
 Sources/VoxeliaImaging/Public/.gitkeep
+Sources/VoxeliaImaging/Public/MPRSliceCoordinator.swift
 Sources/VoxeliaImaging/VoxeliaImaging.docc/Architecture.md
 Sources/VoxeliaImaging/VoxeliaImaging.docc/Requirements.md
 Sources/VoxeliaImaging/VoxeliaImaging.docc/VoxeliaImaging.md
@@ -323,6 +324,7 @@ Tests/VoxeliaExecutionTests/WindowLevelOperationTests.swift
 Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift
 Tests/VoxeliaGeometryTests/GeometryTaxonomyTests.swift
 Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
+Tests/VoxeliaImagingTests/MPRSliceCoordinatorTests.swift
 Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift
 Tests/VoxeliaInteractionTests/InteractionCommandTests.swift
 Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift
@@ -573,6 +575,7 @@ docs/architecture/decisions/ADR-0113-pixel-padding-exclusion.md
 docs/architecture/decisions/ADR-0114-clinical-pipeline-assessments.md
 docs/architecture/decisions/ADR-0115-axis-transposition-operation.md
 docs/architecture/decisions/ADR-0116-singleton-axis-squeeze.md
+docs/architecture/decisions/ADR-0117-mpr-slice-coordinator.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

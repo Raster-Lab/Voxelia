@@ -99,8 +99,9 @@ interaction command vocabulary. `ADR-0112` is allocated to monochrome
 presentation polarity. `ADR-0113` is allocated to pixel padding
 exclusion. `ADR-0114` is allocated to clinical pipeline assessments.
 `ADR-0115` is allocated to the axis transposition operation.
-`ADR-0116` is allocated to the singleton axis squeeze. The next
-unallocated numeric identifier is `ADR-0117`.
+`ADR-0116` is allocated to the singleton axis squeeze. `ADR-0117`
+is allocated to the multiplanar slice coordinator. The next
+unallocated numeric identifier is `ADR-0118`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -200,3 +201,4 @@ unallocated numeric identifier is `ADR-0117`.
 | [ADR-0114](ADR-0114-clinical-pipeline-assessments.md) | Accepted | Clinical pipeline assessments |
 | [ADR-0115](ADR-0115-axis-transposition-operation.md) | Accepted | Axis transposition operation |
 | [ADR-0116](ADR-0116-singleton-axis-squeeze.md) | Accepted | Singleton axis squeeze |
+| [ADR-0117](ADR-0117-mpr-slice-coordinator.md) | Accepted | Multiplanar slice coordinator |

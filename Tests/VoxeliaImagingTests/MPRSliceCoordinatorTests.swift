@@ -1,0 +1,267 @@
+// SPDX-License-Identifier: MIT
+
+import Testing
+import VoxeliaCore
+import VoxeliaExecution
+import VoxeliaSpatial
+import VoxeliaStorage
+
+@testable import VoxeliaImaging
+
+@Suite("MPRSliceCoordinator")
+struct MPRSliceCoordinatorTests {
+    private func software() throws -> SoftwareIdentity {
+        try SoftwareIdentity(
+            name: "Voxelia",
+            version: try SemanticVersion(major: 1, minor: 0, patch: 0),
+            commit: nil,
+            buildIdentifier: nil
+        )
+    }
+
+    private func axis(_ id: String, semantic: AxisSemantic) throws -> AxisDescriptor {
+        try AxisDescriptor(
+            id: try #require(AxisID(rawValue: id)),
+            name: id,
+            semantic: semantic,
+            unit: nil,
+            sampling: .indexOnly
+        )
+    }
+
+    private func volume(extents: [Int], name: String) throws -> ImageData {
+        let semantics: [AxisSemantic] = [.spatialX, .spatialY, .spatialZ]
+        let names = ["x", "y", "z"]
+        let count = extents.reduce(1, *)
+        let bytes = (0..<count).map { UInt8($0) }
+        var axes = ContiguousArray<AxisDescriptor>()
+        for index in 0..<extents.count {
+            axes.append(try axis(names[index], semantic: semantics[index]))
+        }
+        return try ImageData(
+            descriptor: try ImageDescriptor(
+                shape: try ImageShape(extents: ContiguousArray(extents)),
+                scalarFormat: try ScalarFormat(
+                    type: .uint8,
+                    validBitCount: nil,
+                    byteOrder: .native
+                ),
+                components: try ComponentDescriptor(
+                    count: 1,
+                    interpretation: .scalar,
+                    layout: .interleaved,
+                    componentNames: nil
+                ),
+                semantic: .intensity,
+                axes: axes,
+                spatialGeometry: nil,
+                valueTransform: nil,
+                units: nil
+            ),
+            storage: AnyImageStorage(
+                erasing: try ContiguousImageStorage(
+                    binding: try LogicalSampleBinding(
+                        shape: try ImageShape(extents: ContiguousArray(extents)),
+                        scalarType: .uint8,
+                        componentCount: 1
+                    ),
+                    bytes: bytes
+                )
+            ),
+            metadata: try MetadataCollection(entries: []),
+            provenance: try ProvenanceRecord(
+                id: try #require(ProvenanceID(rawValue: "record-\(name)")),
+                kind: .source,
+                createdAt: try CanonicalInstant(utcString: "2026-08-05T07:40:00Z"),
+                subject: .object(try #require(DataObjectID(rawValue: name))),
+                software: try software(),
+                activity: .origin,
+                inputs: [],
+                warnings: [],
+                validationClaim: .unknown,
+                declaresZeroInputGenerator: false
+            ),
+            identity: try DataIdentity(
+                objectID: try #require(DataObjectID(rawValue: name)),
+                contentID: try ContentID.sampleBytesIdentity(
+                    overCanonicalPackedBytes: bytes
+                ),
+                sourceIdentities: [
+                    try SourceIdentity(
+                        namespace: "dicom.sop-instance-uid",
+                        identifier: "1.2.840.113619.\(name)",
+                        version: nil,
+                        contentID: nil
+                    )
+                ],
+                derivation: nil
+            )
+        )
+    }
+
+    private func publisher() throws -> PublicationCoordinator {
+        PublicationCoordinator(
+            maximumPublishedObjectCount: 16,
+            graphLimits: try ProvenanceGraphLimits(
+                maximumRecordCount: 16,
+                maximumParentEdgeCount: 16,
+                maximumAncestryDepth: 16,
+                maximumUnresolvedExternalReferenceCount: 0,
+                maximumExternalResolutionByteCount: 8_192
+            ),
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            resultCache: nil
+        )
+    }
+
+    private func extract(
+        _ plane: MPRPlane,
+        sliceIndex: Int,
+        volumeID: String,
+        prefix: String,
+        publisher: PublicationCoordinator
+    ) async throws -> ImageData {
+        try await MPRSliceCoordinator.extractSlice(
+            volumeID: try #require(DataObjectID(rawValue: volumeID)),
+            plane: plane,
+            sliceIndex: sliceIndex,
+            naming: { stage in
+                let suffix = stage == .extracted ? "slab" : "slice"
+                return (
+                    outputObjectID: DataObjectID(rawValue: "\(prefix)-\(suffix)")!,
+                    provenanceID: ProvenanceID(rawValue: "record-\(prefix)-\(suffix)")!,
+                    createdAt: try CanonicalInstant(
+                        utcString: "2026-08-05T07:45:00Z"
+                    )
+                )
+            },
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            software: try software()
+        )
+    }
+
+    @Test("[Unit][VOX-MPR-001][VOX-MPR-004] all three planes reconstruct exactly")
+    func allThreePlanesReconstructExactly() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try volume(extents: [2, 3, 2], name: "volume-1"),
+            mode: .complete
+        )
+
+        // Independently computed plane fixtures over samples 0...11
+        // with axis zero fastest, each slice published with its slab.
+        let axial = try await extract(
+            .axial,
+            sliceIndex: 1,
+            volumeID: "volume-1",
+            prefix: "ax",
+            publisher: publisher
+        )
+        #expect(axial.descriptor.shape.extents == [2, 3])
+        #expect(
+            try axial.storage.read(
+                region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [2, 3])
+            ).bytes == [6, 7, 8, 9, 10, 11]
+        )
+        #expect(axial.descriptor.axes.map(\.id.rawValue) == ["x", "y"])
+
+        let coronal = try await extract(
+            .coronal,
+            sliceIndex: 1,
+            volumeID: "volume-1",
+            prefix: "co",
+            publisher: publisher
+        )
+        #expect(coronal.descriptor.shape.extents == [2, 2])
+        #expect(
+            try coronal.storage.read(
+                region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [2, 2])
+            ).bytes == [2, 3, 8, 9]
+        )
+        #expect(coronal.descriptor.axes.map(\.id.rawValue) == ["x", "z"])
+
+        let sagittal = try await extract(
+            .sagittal,
+            sliceIndex: 1,
+            volumeID: "volume-1",
+            prefix: "sa",
+            publisher: publisher
+        )
+        #expect(sagittal.descriptor.shape.extents == [3, 2])
+        #expect(
+            try sagittal.storage.read(
+                region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [3, 2])
+            ).bytes == [1, 3, 5, 7, 9, 11]
+        )
+        #expect(sagittal.descriptor.axes.map(\.id.rawValue) == ["y", "z"])
+
+        // Both stages published per slice, and the slice's parent edge
+        // binds to its slab record.
+        #expect(await publisher.publishedObjectCount == 7)
+        let sliceRecordID = try #require(ProvenanceID(rawValue: "record-ax-slice"))
+        let sliceRecord = try #require(
+            await publisher.publishedProvenanceRecord(for: sliceRecordID)
+        )
+        let slabRecordID = try #require(ProvenanceID(rawValue: "record-ax-slab"))
+        #expect(sliceRecord.inputs[0].parent == .graphNode(slabRecordID))
+
+        requireSendable(MPRPlane.self)
+        requireSendable(MPRPublicationStage.self)
+        requireSendable(MPRError.self)
+    }
+
+    @Test("[Unit][VOX-ERR-001] slice admission rejects typed")
+    func sliceAdmissionRejectsTyped() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try volume(extents: [2, 3, 2], name: "volume-1"),
+            mode: .complete
+        )
+        _ = try await publisher.publish(
+            try volume(extents: [2, 3], name: "plane-1"),
+            mode: .complete
+        )
+
+        // An unpublished volume, a rank-two volume and an out-of-range
+        // index reject typed.
+        do {
+            _ = try await extract(
+                .axial,
+                sliceIndex: 0,
+                volumeID: "volume-9",
+                prefix: "r1",
+                publisher: publisher
+            )
+            #expect(Bool(false), "Expected an unpublished volume to be rejected.")
+        } catch MPRError.volumeNotPublished {}
+        do {
+            _ = try await extract(
+                .axial,
+                sliceIndex: 0,
+                volumeID: "plane-1",
+                prefix: "r2",
+                publisher: publisher
+            )
+            #expect(Bool(false), "Expected a rank-two volume to be rejected.")
+        } catch MPRError.unsupportedVolumeShape {}
+        for index in [-1, 2] {
+            do {
+                _ = try await extract(
+                    .axial,
+                    sliceIndex: index,
+                    volumeID: "volume-1",
+                    prefix: "r3",
+                    publisher: publisher
+                )
+                #expect(Bool(false), "Expected an out-of-range index to be rejected.")
+            } catch MPRError.invalidSliceIndex {}
+        }
+    }
+
+    private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
+}

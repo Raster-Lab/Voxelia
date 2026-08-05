@@ -13,6 +13,13 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Topics
 
+### Multiplanar reconstruction
+
+- ``MPRSliceCoordinator``
+- ``MPRPlane``
+- ``MPRPublicationStage``
+- ``MPRError``
+
 ### Project documents
 
 - <doc:Architecture>
