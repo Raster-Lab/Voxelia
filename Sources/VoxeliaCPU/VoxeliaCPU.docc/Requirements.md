@@ -11,15 +11,14 @@ admission, exact byte decoding and value transforms, one bounded coordinated
 read, deterministic Freudenthal topology and spatial winding, checked output
 limits, cancellation checkpoints and payload-free failures.
 
-The internal labelled-surface source adapter and categorical reference kernel
-add focused evidence for `VOX-GEO-007`, `VOX-GEO-008`, `VOX-CPU-001`,
+The labelled-surface source adapter and categorical reference kernel add
+focused evidence for `VOX-GEO-007`, `VOX-GEO-008`, `VOX-CPU-001`,
 `VOX-CPU-006`, `VOX-CON-006`, `VOX-CON-007`, `VOX-ERR-001` and `VOX-SEC-001`
 under accepted `ADR-0192` and `VOXELIA-ALG-0029`. Evidence covers exact
 same-domain decoding for all integer widths and byte orders, exhaustive binary,
 ternary-union and shared-face differentials, one-read ownership, midpoint and
-affine failure, checked output limits and fixed cancellation checkpoints. It
-does not yet provide a public labelled operation, provenance result or backend
-registration.
+affine failure, checked output limits, fixed cancellation checkpoints, atomic
+result binding and exact registry claims.
 
 The public ``CPUScalarSurfaceExtractionOperation`` completes the accepted CPU
 reference boundary by returning the immutable mesh/identity/provenance result
@@ -28,3 +27,8 @@ implementation, execution and parameter claims are registered through
 ``CPUBackendRegistrations``; registration does not imply diagnostic validation,
 external source-graph assurance, a canonical mesh digest or host stale-result
 publication.
+
+The public ``CPULabelledSurfaceExtractionOperation`` applies the same atomic
+publication discipline to the exact integer label-set union. Its parameter
+digest binds the integer domain and every selected value, while the mesh carries
+no label or segment attribute that could misrepresent a multi-label union.

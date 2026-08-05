@@ -23,7 +23,7 @@ public enum CPUBackendRegistrations {
         return identifier
     }
 
-    /// Builds the standard registry of all twelve CPU implementations.
+    /// Builds the standard registry of all thirteen CPU implementations.
     ///
     /// - Throws: The audited typed errors of the claim and registry
     ///   contracts.
@@ -154,6 +154,15 @@ public enum CPUBackendRegistrations {
                 minor: 0,
                 precision: binary64,
                 evidence: "adr-0191-scalar-surface-extraction"
+            ),
+            try entry(
+                operation: LabelledSurfaceExtractionRequest.operationIdentifier,
+                implementation:
+                    CPULabelledSurfaceExtractionOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0192-labelled-surface-extraction"
             ),
         ])
     }

@@ -5321,6 +5321,131 @@ oracle campaigns.
   Release-integrity regeneration and final manifest/integrity verification
   passed with 850 manifest paths, 849 inventory records and 850 checksums.
 
+- One-hundred-ninety-sixth autonomous increment (scheduled goal
+  continuation): completed `ADR-0192` migration step three by promoting the
+  already validated stateless labelled-surface mesh boundary to public atomic
+  execution. ``CPULabelledSurfaceExtractionOperation`` now performs the same
+  one coordinated read and exact categorical Freudenthal traversal, checks the
+  frozen final cancellation point before any identity or provenance
+  construction, and returns one immutable
+  `LabelledSurfaceExtractionResult` or no publication aggregate. Its public
+  symbol surface is limited to the operation type, exact implementation token
+  and documented three-argument asynchronous entry; cancellation injection,
+  mesh-only execution, assembly and parameter construction remain internal.
+
+  Successful assembly binds operation and implementation version `1.0.0`, the
+  exact six-entry integer-domain/selected-label parameter digest, one
+  `source-volume` derivation input, one-based source provenance parent, default
+  profile, CPU backend, binary64-strict precision, full quality and exact
+  approximation. Output identity deliberately has no provisional mesh content
+  digest or copied source-identity claims; validation remains `.unknown`, and
+  the mesh carries no label or segment attribute. The new thirteenth CPU
+  registry entry pins the matching tokens, exact versions, precision,
+  approximation and `adr-0192-labelled-surface-extraction` evidence. The
+  combined CPU/Metal registry now contains sixteen noncolliding entries.
+
+  Four focused publication tests cover the complete signed-domain claim graph,
+  independent canonical parameter reconstruction and the existing
+  `79d1e815a2b2146e24de98a35b1e25d7091a7c19ee7fe7a20331e81ad713d350`
+  golden, exact topology with absent attributes, caller authority, one read and
+  released retention accounting, detached `Sendable` transfer, coherent empty
+  publication, final-cancellation-before-assembly and payload-free mapping of
+  coordinate or label-set publication failures. Registry tests independently
+  pin the new entry and its exact no-prerelease/no-build versions. The initial
+  focused runs passed all four operation tests plus the CPU and combined
+  registry suites; after strict flags, the owning CPU target passed 45 tests
+  across seven suites and the direct combined-registry consumer passed its
+  focused test:
+
+  ```bash
+  swift test --filter CPULabelledSurfaceExtractionOperationTests
+  swift test --filter CPUBackendRegistrationsTests
+  swift test --filter CombinedRegistryTests
+  swift test --filter 'VoxeliaCPUTests\.' \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter CombinedRegistryTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  ```
+
+  Strict warnings-as-errors debug/release product builds passed for
+  `VoxeliaCPU`, its `VoxeliaValidation` registry consumer and the umbrella
+  `Voxelia` target. The public symbol graph contains exactly the intended
+  labelled operation, implementation identifier and three-argument async
+  entry. Strict formatting over all five edited Swift files, the raw
+  fail-closed Swift safety scan, dynamic/static package-graph checks,
+  prohibited imports, documentation validation, the 486-record requirement
+  index and `git diff --check` passed. Documentation validation covered seven
+  front-matter documents, all 172 ADRs, two primary and one companion Draft
+  RFC and 281 Markdown files.
+
+  ```bash
+  swift build --target VoxeliaCPU \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build --target VoxeliaValidation \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build --target Voxelia \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build -c release --target VoxeliaCPU \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build -c release --target VoxeliaValidation \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build -c release --target Voxelia \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift package dump-symbol-graph --minimum-access-level public
+  xcrun swift-format lint --strict \
+    Sources/VoxeliaCPU/Public/CPULabelledSurfaceExtractionOperation.swift \
+    Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift \
+    Tests/VoxeliaCPUTests/CPULabelledSurfaceExtractionOperationTests.swift \
+    Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift \
+    Tests/VoxeliaValidationTests/CombinedRegistryTests.swift
+  python3 Tools/Scripts/check_swift_safety.py
+  python3 Tools/Scripts/check_package_graph.py
+  python3 Tools/Scripts/check_package_graph_static.py
+  python3 Tools/Scripts/check_prohibited_imports.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --check
+  ```
+
+  The broader semantic safety wrapper is not claimed green in this increment.
+  Its debug repository package build passed, but the root release test-target
+  compilation crashed the installed Swift 6.3.3 compiler with signal 11 and no
+  source diagnostic. The exact wrapper reproduced that failure twice; a manual
+  single-job equivalent also crashed while compiling pre-existing
+  `VoxeliaCoreTests/CanonicalDerivationIngressTests.swift`, and a focused
+  release test-target build crashed before reaching the changed target. The
+  changed product targets' strict release builds remain green, but this
+  toolchain failure is recorded rather than reclassified as passing. The
+  complete repository test suite, package-wide DocC archive, Apple destination
+  matrix, unavailable visionOS SDK and external device/fuzz evidence were not
+  rerun or promoted under this focused public-operation increment.
+
+  ```bash
+  # Reproduced twice; debug passed and root release test compilation crashed.
+  python3 Tools/Scripts/check_swift_safety.py --compile
+  # Single-job isolation still crashed in pre-existing Core tests.
+  swift build --build-tests --configuration release --jobs 1 \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors \
+    -Xswiftc -enable-testing
+  # The focused release test-target attempt crashed before the changed target.
+  swift build --configuration release --target VoxeliaCPUTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors \
+    -Xswiftc -enable-testing
+  ```
+
+  The authorised independent reviewer reproduced the four-test publication,
+  one-test CPU registry and one-test combined-registry suites, strict release
+  builds of `VoxeliaCPU` and `VoxeliaValidation`, symbol-graph containment,
+  strict formatting, raw safety scan and diff checks. Their review approved
+  the public API, final-cancellation ordering, exact digest, fixed identity,
+  provenance and execution claims, registration, one-read lifetime, absent
+  label attributes, payload-free privacy and documentation with no blocking or
+  non-blocking finding. They classified the unrelated compiler signal 11 as an
+  explicitly recorded external toolchain limitation, not changed-surface
+  evidence. Release-integrity regeneration and final manifest/integrity
+  verification passed with 851 manifest paths, 850 inventory records and 851
+  checksums.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11155,9 +11280,16 @@ family, exact parameter digest, maximum-document proof and complete structural
 binding are now implemented and independently approved. The internal exact
 integer source adapter, one-read mesh boundary and labelled Freudenthal kernel
 now reproduce every registered differential with closed limit/cancellation
-evidence. The exact next action is `ADR-0192` migration step three: add the
-public CPU operation and atomic identity/provenance result boundary, then
-register it only after complete operation-level conformance is green.
+evidence. `ADR-0192` migration step three now adds the public atomic result
+boundary, independently reproduced parameter digest, fixed CPU
+identity/provenance/execution claims, final prepublication cancellation and the
+evidence-backed thirteenth CPU registry entry. All three `ADR-0192` product
+migration stages are complete. The exact next action is the next accepted
+geometry dependency: assess and freeze deterministic reference normal
+generation in a separate design/algorithm increment, including orientation,
+degeneracy, accumulation, normalisation, precision, cancellation, limits,
+provenance and independent analytical fixtures before any normal-generation
+source becomes public.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -11171,13 +11303,14 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform only `ADR-0192` migration step three next. Promote the stateless
-  `CPULabelledSurfaceExtractionOperation` public atomic entry, assemble the
-  exact operation/implementation/execution and one-based source provenance
-  claims, perform final cancellation before result publication and add the
-  registry entry only with complete public-operation, digest, cancellation,
-  binding and registration evidence. Do not add normals, measurement,
-  rendering or acceleration in that increment.
+- Perform only the deterministic-normal design/algorithm increment next.
+  Reconcile the governing requirements and accepted mesh/extraction
+  orientation with exact face/vertex-domain ownership, degenerate-triangle and
+  zero-vector behavior, deterministic accumulation/reduction order,
+  normalization and extreme-binary64 failure semantics, checked limits,
+  cancellation, operation/provenance identity and independent analytical
+  fixtures. Do not add product source, measurement, rendering or acceleration
+  until that contract is independently reviewed and accepted.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

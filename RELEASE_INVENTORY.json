@@ -315,11 +315,6 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
-      "path": "Sources/VoxeliaCPU/Internal/CPULabelledSurfaceExtractionOperation.swift",
-      "size": 5348,
-      "sha256": "bd86eb30ba816f1d00a374d8975ee030f039352f66b5587a28328d3c09935623"
-    },
-    {
       "path": "Sources/VoxeliaCPU/Internal/LabelledSurfaceReferenceKernel.swift",
       "size": 15971,
       "sha256": "958486b680962224cd7ec2204b228997bd121fdf99551c7a4da0a30da54135d8"
@@ -351,8 +346,13 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift",
-      "size": 6562,
-      "sha256": "edc3c7d1186bc0bb6d6ca61dea6ff0a9d47ec6fc01067c539de1572e36262db3"
+      "size": 6953,
+      "sha256": "9c5225e565ff20a249f424a243fb87bb08728dffaa9a5cbefd77b0b517846dde"
+    },
+    {
+      "path": "Sources/VoxeliaCPU/Public/CPULabelledSurfaceExtractionOperation.swift",
+      "size": 15341,
+      "sha256": "ff7c73fff5b2a6d6113233cab66fe148dbc07a816ce45338c98d4a3abd52534c"
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUScalarSurfaceExtractionOperation.swift",
@@ -361,18 +361,18 @@
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/Architecture.md",
-      "size": 1555,
-      "sha256": "819d908afbf71e8671371b5929ef1f90f75ba2b72f555d4feabefdbb9df47390"
+      "size": 1624,
+      "sha256": "61cacf7a8bc7766af5fba6b5202501668c7c1447b3dc38c4b17cbc854ea83b59"
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/Requirements.md",
-      "size": 1742,
-      "sha256": "4fbaa723e19f3747dd9aad00f6cc74d0940b5afc08243ac22cad067b18a4e8bc"
+      "size": 1992,
+      "sha256": "b158a5d18158d0ce8cdee76dd01c9de89362591f959f55779cf05b387ede2a54"
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md",
-      "size": 1062,
-      "sha256": "049c17064ae1b262217c37a3e08977a1e140e6a0903596b7704d17888a70fa0e"
+      "size": 1102,
+      "sha256": "26d39b268bf2cac18078ecc34e0df88db398ee3876fd29c4793e02ade9aee470"
     },
     {
       "path": "Sources/VoxeliaCore/ApplePlatformGate.swift",
@@ -1526,8 +1526,13 @@
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift",
-      "size": 4431,
-      "sha256": "233b23bdbdf1277bb2bee3a6db1458d9105c0e83b5e42962c65537ce78a8c9f7"
+      "size": 6103,
+      "sha256": "c0a87a415017164de6370169b287d59fa73a8a286934d352489bf20f52e56c6c"
+    },
+    {
+      "path": "Tests/VoxeliaCPUTests/CPULabelledSurfaceExtractionOperationTests.swift",
+      "size": 14411,
+      "sha256": "06406e9deb1f0f447a7a8b3eafb859e8bbddcd6dbb7165b70289e02472ef6227"
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUScalarSurfaceExtractionOperationTests.swift",
@@ -2312,7 +2317,7 @@
     {
       "path": "Tests/VoxeliaValidationTests/CombinedRegistryTests.swift",
       "size": 1253,
-      "sha256": "d0f7dafc15ef19dfe447bd05cfcc4a561b56b2a33fc2b44f4b4962e4383f01b7"
+      "sha256": "6200eb543b0635accd6d0cbfcc07792bb7299889f25a374e9dd5770bb5a83a54"
     },
     {
       "path": "Tests/VoxeliaValidationTests/VoxeliaValidationTests.swift",
@@ -3801,8 +3806,8 @@
     },
     {
       "path": "docs/architecture/modules/VoxeliaCPU.md",
-      "size": 932,
-      "sha256": "e9c97968f5d824f1b0d67f516ba3b2077ddcdb90191f36361aea799d22094a86"
+      "size": 1178,
+      "sha256": "be451bbf5b12cf76a15a1c39c10ff78e0bb29b8fc3e2fe64dd0e976f9b211236"
     },
     {
       "path": "docs/architecture/modules/VoxeliaCore.md",
@@ -3866,8 +3871,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 757034,
-      "sha256": "7753d3be60145b5877982398b27192afaa944dd576f90591433fc575aec50686"
+      "size": 764830,
+      "sha256": "71150270bf6250b0c055e456712b9af806277ccf74b8b05f9979c2720d8d5721"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4246,8 +4251,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 46421,
-      "sha256": "2ae8cf150bbe04e54581026dbb8b7c6e2f24886195c09e2e8767a37b37b7dcab"
+      "size": 46490,
+      "sha256": "51e326579e6902baf3c0d089e8c37cbef61f787249b48dc80c77aab23f7945cf"
     }
   ]
 }
