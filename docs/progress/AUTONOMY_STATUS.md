@@ -46,11 +46,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   resource values. Core and Storage now compile through the gate, which stops
   later on a warning-as-error for a redundant `await` in
   `BrickRequestBroker.swift`; that actor-isolated call is now corrected too.
-  The gate passes Execution and stops in Rendering on the duplicate internal
-  `pixelY` parameter spelling in `OrthographicRayGenerator.swift`, so the
-  complete Swift safety gate must not yet be reported green. The last recorded
-  strict product/test destination builds remain historical evidence only;
-  visionOS 26.5 is still unavailable.
+  The duplicate internal `pixelY` spelling in `OrthographicRayGenerator` is
+  now removed without changing its public selector. The gate passes Rendering
+  and stops in Metal on sixteen strict-memory-safety diagnostics across its
+  three compute-kernel wrappers, so the complete Swift safety gate must not yet
+  be reported green. The last recorded strict product/test destination builds
+  remain historical evidence only; visionOS 26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -4048,6 +4049,28 @@ oracle campaigns.
   verification passed with 809 manifest paths, 808 inventory records and 809
   checksums. The exact next recovery is that ray-generator declaration and its
   callers.
+- One-hundred-seventy-fifth autonomous increment (scheduled goal
+  continuation): removed the extraneous duplicate `pixelY` internal name while
+  preserving the accepted public `ray(atPixelX:pixelY:)` selector and making no
+  change to frozen `VOXELIA-ALG-0024` arithmetic. Focused strict format lint
+  and diff validation passed. `OrthographicRayGeneratorTests` executed its two
+  tests with zero failures, reproducing all four exact half-pixel origins,
+  direction, bit-identical repetition and typed admissions. The direct
+  `ExactVolumeRendererTests` dependent executed ten unit/integration tests with
+  zero failures, retaining end-to-end, bricked equivalence, mask, acceleration,
+  lighting and failure evidence. The semantic `--compile` run compiled through
+  Rendering and then stopped in Metal. A filtered rerun confirmed sixteen
+  distinct strict-memory-safety diagnostics: five in `MetalInvertKernel`, six
+  in `MetalCompositeKernel` and five in `MetalWindowLevelKernel`. Three are
+  C-format digest-hex initializers; the remaining thirteen are pointer-shaped
+  Metal input-buffer, parameter-byte and shared-buffer readback calls. Later
+  targets, packages and configurations are therefore not new evidence; the
+  complete suite was intentionally not run under the narrow-test policy. The
+  raw safety scan passed; release-integrity regeneration and read-only
+  verification passed with 809 manifest paths, 808 inventory records and 809
+  checksums. The exact next recovery begins with the three checked digest-hex
+  serializations, followed separately by an SDK/API audit of the Metal transfer
+  boundary.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9831,16 +9854,19 @@ fail-closed escape-hatch scan has zero findings, checked literal iteration
 removed the canonical JSON/ingress failures, and the checked bounded
 `ContentID` recovery preserves all registered identity oracles; the
 document store now validates directory kind through checked URL resource
-values; and the broker now uses a direct same-actor completion call. The
-complete semantic Swift safety gate passes Execution and stops in Rendering on
-the duplicate `pixelY` internal parameter spelling in
-`OrthographicRayGenerator.swift`. The exact next focused recovery is to remove
-that extraneous duplicate name without changing the public
-`ray(atPixelX:pixelY:)` call signature or half-pixel ray construction. Run the
-focused orthographic generator and direct volume-renderer dependants, then
-rerun the semantic oracle. Do not resume geometry or report the compiler gate
-green until the semantic `--compile` oracle passes through every package and
-configuration.
+values; the broker now uses a direct same-actor completion call; and the ray
+generator retains its exact public selector without the duplicate internal
+name. The complete semantic Swift safety gate passes Rendering and stops on
+sixteen diagnostics across the three Metal compute-kernel wrappers. The exact
+next focused recovery is the tightly related three-call digest formatting
+group: replace each `String(format:)` byte conversion with checked lowercase
+hex serialization while preserving the registered shader-source digests. Run
+the three kernel provenance/golden suites and rerun the semantic oracle to
+isolate the remaining transfer diagnostics. Then audit the installed Metal SDK
+for a checked upload, parameter and readback boundary before changing those
+thirteen calls; do not introduce a memory-safety exception or foreign helper by
+assumption. Do not resume geometry or report the compiler gate green until the
+semantic `--compile` oracle passes through every package and configuration.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under `ADR-0186`: reconcile
@@ -9865,9 +9891,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Treat `OrthographicRayGenerator` as a public API/numerical increment: keep
-  the exact external labels and half-pixel ray oracle, run its focused tests and
-  direct rendering dependants, and then rerun the semantic gate.
+- Treat the three Metal source-digest formatters as one provenance-sensitive
+  increment: preserve exact lowercase registered digests, run all three kernel
+  provenance/golden suites, and rerun the semantic gate before touching buffer
+  transfer.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

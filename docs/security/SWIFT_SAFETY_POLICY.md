@@ -95,13 +95,19 @@ root debug build because warnings-as-errors promotes a redundant `await` in
 corrected and its five race/cancellation obligations pass. The gate proceeds
 through Execution and stops in Rendering because warnings-as-errors promotes
 the extraneous duplicate `pixelY` parameter spelling in
-`OrthographicRayGenerator.swift`; later targets and package/configuration
-phases remain unverified by that run. No finding is an accepted exception; the
-ray-generator recovery must preserve its public labels and numerical contract.
+`OrthographicRayGenerator.swift`. That public-selector-preserving cleanup and
+its direct numerical dependants now pass. The gate proceeds through Rendering
+and stops on sixteen strict-memory diagnostics across
+`MetalInvertKernel.swift`, `MetalCompositeKernel.swift` and
+`MetalWindowLevelKernel.swift`: three C-format digest conversions and thirteen
+pointer-shaped upload, parameter and readback calls. Later targets and
+package/configuration phases remain unverified by that run. No finding is an
+accepted exception; checked digest formatting is the next bounded recovery,
+while the Metal transfer boundary requires an SDK/API audit before edits.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on `OrthographicRayGenerator.swift` warning-as-error | Focused ray-generator recovery pending |
+| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on 16 diagnostics in three Metal kernels | Checked digest formatting, then Metal transfer API audit pending |
 
 ## Introducing an exception
 

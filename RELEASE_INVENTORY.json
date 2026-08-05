@@ -1121,8 +1121,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Public/OrthographicRayGenerator.swift",
-      "size": 4484,
-      "sha256": "f1657503aa5e2f224b323f1b31e9a1c6c0bbd95eb94079513e4312ff23edcfe4"
+      "size": 4477,
+      "sha256": "7a74cb3dfa8595459b8bc856eca8ad8ec8092e9c86ae39f5483a14fb905a0a3b"
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderCamera.swift",
@@ -3681,8 +3681,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 673628,
-      "sha256": "d806fd433d4f69908f4af17aa5b3814f407ea5ab0fc2c58e66f17aa32d4a40de"
+      "size": 675718,
+      "sha256": "d03623ba12376db90138f7d1db6fbd9d374c01a569c2d0a3eec3386ff01070e1"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3996,8 +3996,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 7412,
-      "sha256": "1faad5f6a81c4e1944b0b33c7e0d73c1bff6578e28c4033fc93ca63d0105d3b5"
+      "size": 7841,
+      "sha256": "84652e4573d6d30800b535beb499f9158298c670fc927ab164f5026471c35a38"
     },
     {
       "path": "docs/shaders/README.md",

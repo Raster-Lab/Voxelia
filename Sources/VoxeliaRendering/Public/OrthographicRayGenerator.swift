@@ -79,7 +79,7 @@ public struct OrthographicRayGenerator: Sendable {
     ///
     /// - Throws: The accepted primitives' own typed admissions,
     ///   unreachable for a validated basis.
-    public func ray(atPixelX pixelX: Int, pixelY pixelY: Int) throws -> Ray3D {
+    public func ray(atPixelX pixelX: Int, pixelY: Int) throws -> Ray3D {
         let horizontal =
             (((Double(pixelX) + 0.5) / Double(viewport.width)) - 0.5)
             * planeWidth
