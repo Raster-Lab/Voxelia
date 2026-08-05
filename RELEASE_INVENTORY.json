@@ -1351,8 +1351,8 @@
     },
     {
       "path": "Sources/VoxeliaStorage/Public/CanonicalDocumentStore.swift",
-      "size": 7286,
-      "sha256": "6ca78ba511d2c2cdc19f04b85b47dfebcba561394824b0a4c30e033319929dfb"
+      "size": 7367,
+      "sha256": "36534f36af02cb5b75f0f8fc869a722c306197cdca3e98ceef98dce9fe68a91b"
     },
     {
       "path": "Sources/VoxeliaStorage/Public/CanonicalRecordArchival.swift",
@@ -2136,8 +2136,8 @@
     },
     {
       "path": "Tests/VoxeliaStorageTests/CanonicalDocumentStoreTests.swift",
-      "size": 7281,
-      "sha256": "4aa55bbd9fb25ce2526fd9056ae292d2d96d60b92f1e74fe6d13df693c65b698"
+      "size": 7626,
+      "sha256": "b6ca9f46040c6de8afed161ae823cb3ea05becee71c2fc7aeb84c8f432165687"
     },
     {
       "path": "Tests/VoxeliaStorageTests/CanonicalRecordArchivalTests.swift",
@@ -3681,8 +3681,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 669986,
-      "sha256": "01a1593a64cf970bcd87908799182d1609fac40163cddcb614fb08804faefb3f"
+      "size": 671899,
+      "sha256": "00b56649b08fda37cc01ad421cd616152b0b36f6ecf1dc57b7bb1b154d39b0f4"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3996,8 +3996,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 6945,
-      "sha256": "ce810bbc3eb4380f23d3570a7d2d838003af580a60b086196f3299ebebd91c46"
+      "size": 7148,
+      "sha256": "4e7e1b5df6e2ed41b229ad8cb8ad37d984298804148c9461034fe12e24ec16a5"
     },
     {
       "path": "docs/shaders/README.md",

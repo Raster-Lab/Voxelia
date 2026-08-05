@@ -87,16 +87,18 @@ now compiles `VoxeliaCore/ContentID.swift` cleanly after its incremental hashing
 was moved to checked bounded `Data` inputs and direct verification to a
 fixed-size Swift loop that accumulates all 32 byte differences without an early
 exit. Registered goldens, chunk boundaries and first/middle/last mismatch
-evidence remain green. The gate currently stops in the root debug build at the
-pointer-shaped Foundation directory-kind query in
-`VoxeliaStorage/CanonicalDocumentStore.swift`; later package/configuration
-phases remain unverified by that run. No finding is an accepted exception; the
-store recovery must preserve existing-directory and non-directory rejection
-with checked Swift.
+evidence remain green. The document store's pointer-shaped Foundation query is
+also replaced by checked URL resource values with missing-path and regular-file
+rejection evidence. The gate now compiles Core and Storage, then stops in the
+root debug build because warnings-as-errors promotes a redundant `await` in
+`VoxeliaExecution/BrickRequestBroker.swift`; later targets,
+package/configuration phases remain unverified by that run. No finding is an
+accepted exception; the broker recovery must preserve its actor-isolated
+single-flight and cancellation behaviour.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on `CanonicalDocumentStore.swift` | Focused directory-kind recovery pending |
+| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on `BrickRequestBroker.swift` warning-as-error | Focused broker concurrency recovery pending |
 
 ## Introducing an exception
 

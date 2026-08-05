@@ -85,14 +85,15 @@ public actor CanonicalDocumentStore {
     /// - Throws:
     ///   ``CanonicalDocumentStoreError/invalidStoreDirectory``.
     public init(directoryURL: URL) throws {
-        var isDirectory: ObjCBool = false
-        guard
-            FileManager.default.fileExists(
-                atPath: directoryURL.path,
-                isDirectory: &isDirectory
-            ),
-            isDirectory.boolValue
-        else {
+        let resourceValues: URLResourceValues
+        do {
+            resourceValues = try directoryURL.resourceValues(
+                forKeys: [.isDirectoryKey]
+            )
+        } catch {
+            throw CanonicalDocumentStoreError.invalidStoreDirectory
+        }
+        guard resourceValues.isDirectory == true else {
             throw CanonicalDocumentStoreError.invalidStoreDirectory
         }
         self.directoryURL = directoryURL

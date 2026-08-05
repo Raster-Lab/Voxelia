@@ -42,10 +42,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `Data` updates and a fixed-work Swift digest comparator have now removed all
   seven `ContentID.swift` diagnostics while preserving every registered
   identity golden. The semantic `--compile` gate advanced to its next failure:
-  Foundation's pointer-backed directory-kind query in
-  `CanonicalDocumentStore.swift`, so the complete Swift safety gate must not
-  yet be reported green. The last recorded strict product/test destination
-  builds remain historical evidence only; visionOS 26.5 is still unavailable.
+  that Foundation directory-kind query was then replaced with checked URL
+  resource values. Core and Storage now compile through the gate, which stops
+  later on a warning-as-error for a redundant `await` in
+  `BrickRequestBroker.swift`; the complete Swift safety gate must not yet be
+  reported green. The last recorded strict product/test destination builds
+  remain historical evidence only; visionOS 26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -4000,6 +4002,28 @@ oracle campaigns.
   regeneration and its read-only verification passed with 809 manifest paths,
   808 inventory records and 809 checksums. The exact next recovery is the
   document-store directory-kind validation boundary.
+- One-hundred-seventy-third autonomous increment (scheduled goal
+  continuation): removed the document-store initializer's pointer-shaped
+  Foundation call while preserving `ADR-0075`'s caller-supplied existing-
+  directory boundary and payload-free typed failure. The initializer now reads
+  `.isDirectoryKey` through checked `URLResourceValues`, maps both lookup
+  failure and a false/nonexistent value to `invalidStoreDirectory`, creates
+  nothing and retains the supplied URL only after validation. A new regression
+  creates a real regular file and proves it is rejected; the existing missing-
+  path case still proves no implicit directory creation. Two focused
+  `CanonicalDocumentStoreTests` passed with zero failures, and the direct store
+  plus record-archival filter passed four tests across two suites with zero
+  failures, retaining verified round trips, byte ceilings, corruption and
+  name/record presence evidence. Focused strict format lint and diff validation
+  passed. The first focused rebuild emitted the pre-existing redundant-`await`
+  warning in `BrickRequestBroker.swift`; the semantic `--compile` run then
+  compiled `ContentID`, Core and Storage cleanly and promoted that same warning
+  to its next root-debug failure. Because the script stopped there, later
+  targets, packages and configurations are not new evidence and the complete
+  suite was intentionally not run under the narrow-test policy. The raw safety
+  scan passed; release-integrity regeneration and read-only verification passed
+  with 809 manifest paths, 808 inventory records and 809 checksums. The exact
+  next recovery is the broker's actor-isolation/callback boundary.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9781,16 +9805,17 @@ accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The unchecked-conformance recovery is complete: the
 fail-closed escape-hatch scan has zero findings, checked literal iteration
 removed the canonical JSON/ingress failures, and the checked bounded
-`ContentID` recovery preserves all registered identity oracles. The complete
-semantic Swift safety gate now stops at Foundation's pointer-shaped
-directory-kind query in `CanonicalDocumentStore.swift`. The exact next focused
-recovery is to replace that initializer query with a checked URL resource-value
-API while preserving the existing-directory requirement, rejection of regular
-files and payload-free `invalidStoreDirectory` result. Add the missing
-regular-file regression, run the focused document-store/archival tests, then
-rerun the semantic oracle. Do not resume geometry or report the compiler gate
-green until the semantic `--compile` oracle passes through every package and
-configuration.
+`ContentID` recovery preserves all registered identity oracles, and the
+document store now validates directory kind through checked URL resource
+values. The complete semantic Swift safety gate passes Core and Storage, then
+stops at the warnings-as-errors rule on a redundant `await` in
+`BrickRequestBroker.swift`. The exact next focused recovery is to audit the
+task closure's inherited actor isolation and remove only that redundant
+suspension marker while preserving single-flight completion, cancellation,
+generation and stale-publication behaviour. Run the broker's focused race and
+cancellation suite, then rerun the semantic oracle. Do not resume geometry or
+report the compiler gate green until the semantic `--compile` oracle passes
+through every package and configuration.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under `ADR-0186`: reconcile
@@ -9815,10 +9840,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Treat `CanonicalDocumentStore` directory validation as a storage/security
-  increment: preserve missing-path and regular-file rejection, avoid implicit
-  creation, run its direct and archival dependants, and then rerun the semantic
-  gate.
+- Treat `BrickRequestBroker` as a concurrency-sensitive increment: confirm
+  actor inheritance at the completion callback, preserve single-flight and
+  cancellation semantics, run its focused race/stale-publication tests, and
+  then rerun the semantic gate.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

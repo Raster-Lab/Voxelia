@@ -95,6 +95,12 @@ struct CanonicalDocumentStoreTests {
             )
             #expect(Bool(false), "Expected a missing directory to be rejected.")
         } catch CanonicalDocumentStoreError.invalidStoreDirectory {}
+        let regularFile = directory.appendingPathComponent("regular-file")
+        try Data().write(to: regularFile)
+        do {
+            _ = try CanonicalDocumentStore(directoryURL: regularFile)
+            #expect(Bool(false), "Expected a regular file to be rejected.")
+        } catch CanonicalDocumentStoreError.invalidStoreDirectory {}
 
         requireSendable(CanonicalDocumentName.self)
         requireSendable(CanonicalDocumentStoreError.self)
