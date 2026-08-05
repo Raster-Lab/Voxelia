@@ -83,15 +83,17 @@ removed the immutable residency manager's obsolete exception and proved the
 exact slice renderer is immutable checked composition.
 
 The complete semantic gate is not green. `check_swift_safety.py --compile`
-currently reports fourteen strict-memory-safety diagnostics across five
-`VoxeliaCore` files: four canonical literal/ingress implementations traverse
-`StaticString` unsafe buffers, while `ContentID` uses unsafe-buffer hashing and
-constant-time comparison calls. None is an accepted exception; recovery must
-use checked Swift without weakening canonical-byte or timing-safety contracts.
+currently reports seven strict-memory-safety diagnostics in
+`VoxeliaCore/ContentID.swift` for unsafe-buffer hashing and constant-time
+comparison calls. Four canonical literal/ingress implementations that formed
+the other seven diagnostics now use checked `StaticString` UTF-8 iteration and
+retain byte-exact focused evidence. No finding is an accepted exception;
+`ContentID` recovery must use checked Swift without weakening domain-separated
+digest or timing-safety contracts.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile red on five Core files | Focused canonical and identity recovery suites pending |
+| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile red on `ContentID.swift` | Focused identity recovery suite pending |
 
 ## Introducing an exception
 

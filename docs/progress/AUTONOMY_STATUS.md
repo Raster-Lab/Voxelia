@@ -39,10 +39,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   stored context became checked, and the sixth proved `ExactSliceRenderer` is
   immutable checked composition. The raw fail-closed escape-hatch scan now
   passes with zero findings and no accepted exceptions. The semantic
-  `--compile` gate remains red on fourteen strict-memory-safety diagnostics in
-  five `VoxeliaCore` files, so the complete Swift safety gate must not be
-  reported green. The last recorded strict product/test destination builds
-  remain historical evidence only; visionOS 26.5 is still unavailable.
+  `--compile` gate remains red on seven strict-memory-safety diagnostics in
+  `ContentID.swift`, so the complete Swift safety gate must not be reported
+  green. The four canonical-literal sites that formed the other seven
+  diagnostics now use checked UTF-8 iteration. The last recorded strict
+  product/test destination builds remain historical evidence only; visionOS
+  26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -3944,6 +3946,27 @@ oracle campaigns.
   intentionally not run under the narrow-test policy. The next recovery is the
   four related canonical-literal UTF-8 traversals, followed separately by the
   security-sensitive `ContentID` hashing/comparison boundary.
+- One-hundred-seventy-first autonomous increment (scheduled goal
+  continuation): removed all four canonical-literal strict-memory-safety
+  failures without changing the canonical grammar, byte limits, cancellation
+  cadence or typed errors. `CanonicalMetadataIngress` now compares each ASCII
+  grammar token through checked `StaticString.description.utf8` iteration
+  without constructing an unsafe-buffer-backed temporary array. The metadata,
+  derivation and provenance emission sinks use the same checked sequence and
+  continue routing every byte through their existing overflow-checked,
+  limit-charged, cancellation-aware writers; the obsolete pointer-closure
+  error bridges were removed. A direct Swift probe first confirmed the checked
+  description produces the exact literal bytes `[97, 98, 99]` for `"abc"`.
+  The focused canonical metadata, derivation, provenance, ingress and manifest
+  filter executed twenty-two tests across six suites with zero failures,
+  including byte-exact goldens, round trips, hostile input, depth/resource
+  limits and signature custody. Focused strict format lint and the raw safety
+  scan passed. The semantic `--compile` gate was rerun and now reports exactly
+  seven diagnostics in `ContentID.swift`, down from fourteen diagnostics across
+  five files; no canonical JSON or ingress file
+  remains in the compiler output. The complete suite was intentionally not run
+  under the narrow-test policy. The exact next recovery is the remaining
+  security-sensitive streaming hash and constant-time digest comparison.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9723,16 +9746,15 @@ and direct-volume-rendering increments through accepted `ADR-0182`. Accepted
 coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
 accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The unchecked-conformance recovery is complete: the
-fail-closed escape-hatch scan has zero findings. The complete semantic Swift
-safety gate remains red on fourteen strict-memory-safety diagnostics across
-five Core files. The exact next focused recovery is the four related canonical
-literal emit/ingress sites: replace `StaticString.withUTF8Buffer` traversal
-with checked bounded UTF-8 iteration while preserving byte-for-byte canonical
-metadata, derivation and provenance output plus exact ingress behavior. Then
-recover `ContentID`'s streaming hash and constant-time comparison boundary
-without weakening its security contract or adding a prohibited `unsafe`
-marker. Do not resume geometry or report the compiler gate green until both
-groups pass the semantic `--compile` oracle.
+fail-closed escape-hatch scan has zero findings, and checked literal iteration
+removed the canonical JSON/ingress failures. The complete semantic Swift
+safety gate remains red on seven strict-memory-safety diagnostics in
+`ContentID.swift`. The exact next focused recovery is its streaming hash and
+constant-time comparison boundary: replace pointer-backed CryptoKit updates
+and C comparison with checked APIs while preserving domain separation,
+chunk-invariant SHA-256 output, fixed-size validation and timing-independent
+claim comparison. Do not resume geometry or report the compiler gate green
+until the semantic `--compile` oracle passes.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under `ADR-0186`: reconcile
@@ -9757,13 +9779,7 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- For the canonical-literal recovery, run the focused metadata ingress,
-  metadata canonical JSON, derivation canonical JSON and provenance canonical
-  JSON suites, including registered byte fixtures and malformed ingress
-  rejection. Rerun the raw safety scan and semantic `--compile` gate; expect
-  only the separately recorded `ContentID` diagnostics until that second group
-  is recovered.
-- Treat `ContentID` as a separate security-sensitive increment with its
+- Treat `ContentID` as a security-sensitive increment with its
   streaming/chunk-boundary, digest, constant-time-comparison and malformed
   claim regressions before rerunning the semantic gate.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change

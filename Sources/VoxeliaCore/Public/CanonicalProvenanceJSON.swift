@@ -410,22 +410,8 @@ public enum CanonicalProvenanceJSON {
         }
 
         mutating func write(ascii literal: StaticString) throws {
-            var failure: ProvenanceJSONEmissionError?
-            literal.withUTF8Buffer { pointer in
-                for byte in pointer {
-                    do {
-                        try write(byte)
-                    } catch let error as ProvenanceJSONEmissionError {
-                        failure = error
-                        return
-                    } catch {
-                        failure = .outputByteLimitExceeded
-                        return
-                    }
-                }
-            }
-            if let failure {
-                throw failure
+            for byte in literal.description.utf8 {
+                try write(byte)
             }
         }
     }

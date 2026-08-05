@@ -63,9 +63,7 @@ struct VCMJIngress {
     }
 
     private mutating func expect(ascii literal: StaticString) throws {
-        var expected = [UInt8]()
-        literal.withUTF8Buffer { expected.append(contentsOf: $0) }
-        for byte in expected {
+        for byte in literal.description.utf8 {
             guard try nextByte() == byte else {
                 throw MetadataJSONIngressError.invalidDocument
             }

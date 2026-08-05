@@ -174,22 +174,8 @@ public enum CanonicalMetadataJSON {
         }
 
         mutating func write(ascii literal: StaticString) throws {
-            var failure: MetadataJSONEmissionError?
-            literal.withUTF8Buffer { pointer in
-                for byte in pointer {
-                    do {
-                        try write(byte)
-                    } catch let error as MetadataJSONEmissionError {
-                        failure = error
-                        return
-                    } catch {
-                        failure = .invalidValue
-                        return
-                    }
-                }
-            }
-            if let failure {
-                throw failure
+            for byte in literal.description.utf8 {
+                try write(byte)
             }
         }
     }

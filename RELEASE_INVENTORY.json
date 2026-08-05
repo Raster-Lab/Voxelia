@@ -366,8 +366,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/CanonicalDerivationJSON.swift",
-      "size": 9298,
-      "sha256": "44a023079e31bd9381f0f445b5564daf0f70c3026a9a3f3203b2276e5a4dbb56"
+      "size": 8801,
+      "sha256": "7b59b46f1b8dc860479c02cdcae4108670c35e28f426c5ce035f14de3694bcf9"
     },
     {
       "path": "Sources/VoxeliaCore/Public/CanonicalInstant.swift",
@@ -386,13 +386,13 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/CanonicalMetadataIngress.swift",
-      "size": 36752,
-      "sha256": "37c4bb9f346f2e81a4de2ebc4aab741d8292f59f41636cd8d20b2ace39b66b01"
+      "size": 36668,
+      "sha256": "dfd4e6810c83056948bfbadf706537bc17c568f4a12716572adde3c1453e332b"
     },
     {
       "path": "Sources/VoxeliaCore/Public/CanonicalMetadataJSON.swift",
-      "size": 19671,
-      "sha256": "ae84a0db7a2de2c1f35d8314ef52dba2ee219b614d40f5e650d5c291a13dd1e6"
+      "size": 19189,
+      "sha256": "72a4182b9f82eab937b75fd4e10810a02985cfcaa1986ec5f56e9ed050dbcf7e"
     },
     {
       "path": "Sources/VoxeliaCore/Public/CanonicalProvenanceIngress.swift",
@@ -401,8 +401,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/CanonicalProvenanceJSON.swift",
-      "size": 16719,
-      "sha256": "e330bfd268205c28e203c54d6616f53d686d827aeb022a815d765e5f2057f821"
+      "size": 16222,
+      "sha256": "00990d4d64f78d651339137e72f355eea4c772362b0349d842e89a4ace8d0da2"
     },
     {
       "path": "Sources/VoxeliaCore/Public/CodedConcept.swift",
@@ -3681,8 +3681,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 666162,
-      "sha256": "28e9d86bc05d708dd85452812d58cb847f40b7864e95f1e4ee49652e05ace343"
+      "size": 667329,
+      "sha256": "82106491156fb7a8a13cf9864de6668900c86f4518046e7bb3a95ffee8f48f03"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3996,8 +3996,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 6642,
-      "sha256": "3a6a3763e21c3f98c5e44bb4bed07a168fcbf0ba30e96318bf8e1c95ae348265"
+      "size": 6721,
+      "sha256": "34853ea717f187993c9ad18a45d5e7af689c3d3c194b897dddb3a3305edb9519"
     },
     {
       "path": "docs/shaders/README.md",
