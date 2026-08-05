@@ -13,6 +13,7 @@ struct PickResolverTests {
         viewportWidth: Int,
         viewportHeight: Int,
         crop: RenderCrop?,
+        geometry: SpatialGeometry?,
         scaling: PresentationScaling
     ) throws -> PresentationProvenance {
         let space = try #require(CoordinateSpaceID(rawValue: "patient"))
@@ -38,6 +39,7 @@ struct PickResolverTests {
                 )
             ],
             crop: crop,
+            geometry: geometry,
             scaling: scaling,
             renderMode: .slice,
             colourOutput: .greyscale8,
@@ -55,6 +57,7 @@ struct PickResolverTests {
                 viewportWidth: 4,
                 viewportHeight: 3,
                 crop: nil,
+                geometry: nil,
                 scaling: .identity
             )
         )
@@ -70,6 +73,7 @@ struct PickResolverTests {
             viewportWidth: 8,
             viewportHeight: 6,
             crop: nil,
+            geometry: nil,
             scaling: .nearestNeighbour(sourceWidth: 4, sourceHeight: 3)
         )
         let centrePick = try PickResolver.resolve(
@@ -93,6 +97,7 @@ struct PickResolverTests {
                 viewportWidth: 8,
                 viewportHeight: 6,
                 crop: nil,
+                geometry: nil,
                 scaling: .bilinear(sourceWidth: 4, sourceHeight: 3)
             )
         )
@@ -107,11 +112,56 @@ struct PickResolverTests {
                 viewportWidth: 2,
                 viewportHeight: 2,
                 crop: try RenderCrop(lowerX: 1, lowerY: 0, upperX: 3, upperY: 2),
+                geometry: nil,
                 scaling: .identity
             )
         )
         #expect(cropped.sourceX == 2)
         #expect(cropped.sourceY == 1)
+
+        // The ADR-0129 physical position: a calibrated claim maps the
+        // pick directly through the presented affine — the rescaled
+        // matrix of the registered fixture at pick (5, 3) gives
+        // (7.5, 24.5, 30) in the patient space — and an uncalibrated
+        // claim returns none.
+        let space = try CoordinateSpaceDescriptor(
+            id: try #require(CoordinateSpaceID(rawValue: "patient")),
+            convention: .dicomPatientLPS,
+            handedness: .unspecified,
+            unit: try MeasurementUnit(
+                namespace: "UCUM",
+                code: "mm",
+                dimension: .length
+            ),
+            externalReferences: []
+        )
+        let calibrated = try PickResolver.resolve(
+            try PickTarget(viewportX: 5, viewportY: 3),
+            in: try presentation(
+                viewportWidth: 8,
+                viewportHeight: 6,
+                crop: nil,
+                geometry: .affine(
+                    try AffineGridGeometry(
+                        spatialAxes: try SpatialAxisMapping(imageAxes: [0, 1]),
+                        indexToWorld: try Matrix4x4Double(elements: [
+                            0, -1, 0, 10.5,
+                            1, 0, 0, 19.5,
+                            0, 0, 1, 30,
+                            0, 0, 0, 1,
+                        ]),
+                        coordinateSpace: space
+                    )
+                ),
+                scaling: .nearestNeighbour(sourceWidth: 4, sourceHeight: 3)
+            )
+        )
+        let world = try #require(calibrated.worldPosition)
+        #expect(world.x == 7.5)
+        #expect(world.y == 24.5)
+        #expect(world.z == 30)
+        #expect(world.coordinateSpace.rawValue == "patient")
+        #expect(identity.worldPosition == nil)
 
         // An outside-viewport target rejects typed.
         do {
@@ -121,6 +171,7 @@ struct PickResolverTests {
                     viewportWidth: 4,
                     viewportHeight: 3,
                     crop: nil,
+                    geometry: nil,
                     scaling: .identity
                 )
             )

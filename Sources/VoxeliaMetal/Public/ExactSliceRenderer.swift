@@ -280,6 +280,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                 viewport: request.viewport,
                 layers: request.scene.layers,
                 crop: request.crop,
+                geometry: output.descriptor.spatialGeometry,
                 scaling: scaling,
                 renderMode: .slice,
                 colourOutput: .greyscale8,

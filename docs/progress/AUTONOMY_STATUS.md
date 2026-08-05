@@ -2346,6 +2346,27 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   calibrated layers with the calibration carried through at the
   widened version, keep geometry-free blends byte-identical, and
   reject axis and geometry mismatches typed.
+- Ninety-seventh autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0129`, fully discharging
+  `VOX-INT-006` with physical pick resolution.
+  `PresentationProvenance` gains the optional presented-geometry
+  claim, filled by the renderer from the final output's descriptor
+  per the claim-what-ran rule — an uncalibrated presentation honestly
+  claims none — and `PickResolution` gains the optional world
+  position: because the claimed geometry is the final object's, its
+  indices are viewport indices, and the frozen
+  translation-plus-ascending-products evaluation maps the pick target
+  directly to a point in the geometry's coordinate space; the
+  source-index inversion stays independent — index identification
+  walks the recipes, position reads the claim. Tests resolve a
+  calibrated pick through the registered rescaled matrix to exactly
+  (7.5, 24.5, 30) in the patient space and prove uncalibrated claims
+  return no position rather than a fabricated one. Process note: the
+  member addition to a shared presentation struct corrupted stale
+  incremental objects across module boundaries, producing impossible
+  test values and one unrelated crash; a clean rebuild restored the
+  suite, and the recorded rule is to clean-build after layout-changing
+  edits to cross-module value types.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

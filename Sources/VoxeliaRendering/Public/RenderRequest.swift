@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import VoxeliaCore
+import VoxeliaSpatial
 
 /// The closed version-one render mode per `ADR-0085`.
 public enum RenderMode: Sendable, Hashable {
@@ -112,6 +113,7 @@ public struct PresentationProvenance: Sendable, Hashable {
     public let viewport: ViewportSize
     public let layers: ContiguousArray<RenderLayer>
     public let crop: RenderCrop?
+    public let geometry: SpatialGeometry?
     public let scaling: PresentationScaling
     public let renderMode: RenderMode
     public let colourOutput: ColourOutputConfiguration
@@ -123,6 +125,7 @@ public struct PresentationProvenance: Sendable, Hashable {
         viewport: ViewportSize,
         layers: ContiguousArray<RenderLayer>,
         crop: RenderCrop?,
+        geometry: SpatialGeometry?,
         scaling: PresentationScaling,
         renderMode: RenderMode,
         colourOutput: ColourOutputConfiguration,
@@ -133,6 +136,7 @@ public struct PresentationProvenance: Sendable, Hashable {
         self.viewport = viewport
         self.layers = layers
         self.crop = crop
+        self.geometry = geometry
         self.scaling = scaling
         self.renderMode = renderMode
         self.colourOutput = colourOutput

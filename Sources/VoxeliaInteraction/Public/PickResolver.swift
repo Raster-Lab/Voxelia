@@ -2,6 +2,7 @@
 
 import Foundation
 import VoxeliaRendering
+import VoxeliaSpatial
 
 /// One resolved pick per `ADR-0125` (`VOX-INT-006`).
 ///
@@ -13,11 +14,21 @@ public struct PickResolution: Sendable, Hashable {
     public let layers: ContiguousArray<RenderLayer>
     public let sourceX: Int
     public let sourceY: Int
+    /// The exact physical position per `ADR-0129` when the claim
+    /// carries an affine; an uncalibrated presentation returns none
+    /// rather than a fabricated position.
+    public let worldPosition: Point3D?
 
-    init(layers: ContiguousArray<RenderLayer>, sourceX: Int, sourceY: Int) {
+    init(
+        layers: ContiguousArray<RenderLayer>,
+        sourceX: Int,
+        sourceY: Int,
+        worldPosition: Point3D?
+    ) {
         self.layers = layers
         self.sourceX = sourceX
         self.sourceY = sourceY
+        self.worldPosition = worldPosition
     }
 }
 
@@ -77,10 +88,35 @@ public enum PickResolver {
         // offset the presented index into the stored image.
         let sourceX = presentedX + (presentation.crop?.lowerX ?? 0)
         let sourceY = presentedY + (presentation.crop?.lowerY ?? 0)
+
+        // The ADR-0129 physical position: the claimed geometry is the
+        // final object's, so its indices are viewport indices — the
+        // frozen translation-plus-ascending-products evaluation maps
+        // the target directly, and an uncalibrated claim maps to none.
+        var worldPosition: Point3D?
+        if case .affine(let affine)? = presentation.geometry {
+            let elements = affine.indexToWorld.elements
+            let indices = [Double(target.viewportX), Double(target.viewportY)]
+            var world = [0.0, 0.0, 0.0]
+            for row in 0..<3 {
+                var component = elements[4 * row + 3]
+                for (slot, imageAxis) in affine.spatialAxes.imageAxes.enumerated() {
+                    component = component + (elements[4 * row + slot] * indices[imageAxis])
+                }
+                world[row] = component
+            }
+            worldPosition = try Point3D(
+                x: world[0],
+                y: world[1],
+                z: world[2],
+                coordinateSpace: affine.coordinateSpace.id
+            )
+        }
         return PickResolution(
             layers: presentation.layers,
             sourceX: sourceX,
-            sourceY: sourceY
+            sourceY: sourceY,
+            worldPosition: worldPosition
         )
     }
 

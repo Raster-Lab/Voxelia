@@ -110,7 +110,8 @@ allocated to display policy selection. `ADR-0125` is allocated to
 index-space pick resolution. `ADR-0126` is allocated to
 geometry-bearing resampling. `ADR-0127` is allocated to the bilinear
 geometry widening. `ADR-0128` is allocated to composite calibration
-passthrough. The next unallocated numeric identifier is `ADR-0129`.
+passthrough. `ADR-0129` is allocated to physical pick resolution. The
+next unallocated numeric identifier is `ADR-0130`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -222,3 +223,4 @@ passthrough. The next unallocated numeric identifier is `ADR-0129`.
 | [ADR-0126](ADR-0126-geometry-bearing-resampling.md) | Accepted | Geometry-bearing resampling |
 | [ADR-0127](ADR-0127-bilinear-geometry-widening.md) | Accepted | Bilinear geometry widening |
 | [ADR-0128](ADR-0128-composite-calibration-passthrough.md) | Accepted | Composite calibration passthrough |
+| [ADR-0129](ADR-0129-physical-pick-resolution.md) | Accepted | Physical pick resolution |

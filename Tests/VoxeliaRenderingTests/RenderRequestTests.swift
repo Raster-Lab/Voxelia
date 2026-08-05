@@ -54,6 +54,7 @@ struct RenderRequestTests {
             viewport: try ViewportSize(width: 512, height: 512),
             layers: [layer],
             crop: nil,
+            geometry: nil,
             scaling: .identity,
             renderMode: .slice,
             colourOutput: .greyscale8,
@@ -76,6 +77,7 @@ struct RenderRequestTests {
                 )
             ],
             crop: nil,
+            geometry: nil,
             scaling: .identity,
             renderMode: .slice,
             colourOutput: .greyscale8,
@@ -91,6 +93,7 @@ struct RenderRequestTests {
             viewport: try ViewportSize(width: 512, height: 512),
             layers: [layer],
             crop: nil,
+            geometry: nil,
             scaling: .nearestNeighbour(sourceWidth: 256, sourceHeight: 256),
             renderMode: .slice,
             colourOutput: .greyscale8,
