@@ -2336,8 +2336,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 2171,
-      "sha256": "74dd828448ab59fbbdfb324784eb9e091c149d9842cfb54fdca749244bc7c6c2"
+      "size": 2390,
+      "sha256": "a2e23a245d393cb19c15ddbe53cea137b4debf4ce79c5272d6b7aad0c394daa7"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2423,6 +2423,16 @@
       "path": "docs/algorithms/VOXELIA-ALG-0017-oblique-slice-sampling.md",
       "size": 4780,
       "sha256": "5db608c49aeafba104bfa9fef0c9e7f0da1316d5f35eb9251e2da7ae06395459"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0018-planar-polygon-area.md",
+      "size": 3391,
+      "sha256": "8d693ee8471f85567050022c8670fd582fecd2f0d94d4d95fc5e0cbf8b445aac"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0019-voxel-volume.md",
+      "size": 2742,
+      "sha256": "b3429daa82ad4f564ccba6396c94491b8fd49e03b3d6489adc2b0639ebc67c90"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3165,9 +3175,14 @@
       "sha256": "091a9066e45da596fff733b7554ebb837602a61da2c4d795781b279e9ca8b571"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0143-area-volume-measurement-design.md",
+      "size": 3364,
+      "sha256": "7bfc4f3b6eb6ad6c2bcfa57ec82f5190bcc465ff3099abaa3f105339e0e0b2f4"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 21120,
-      "sha256": "c03d68d028638ad022c5bfbadd54f0205db74bc6f8956617a0d6bcd21b6f93d7"
+      "size": 21294,
+      "sha256": "434c6c44ac73c4eee8fc12d2ec595ce0390c646df5c8b29058f6b8c186c595c1"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3251,8 +3266,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 586026,
-      "sha256": "4473ebcec1109c7e2e812b80c1b7d23a5ccc7d20718959a51542a3293b77c48f"
+      "size": 587349,
+      "sha256": "5214047f22411711ea955c3f8cb1789c3496d10949ba258af4accd9a2a544fe6"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3611,8 +3626,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 38518,
-      "sha256": "954d0a754894e8595e476c0a7678ae263f4da85962586d4d96a064a9d3999a6f"
+      "size": 38694,
+      "sha256": "dff62dabb44370dbf69be1dcbf6f6053a60e81822c8606c02ecfe2b9634557f5"
     }
   ]
 }

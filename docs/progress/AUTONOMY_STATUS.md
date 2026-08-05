@@ -2739,6 +2739,27 @@ oracle campaigns.
   would be surface for its own sake. A renderer-level oblique stage
   may earn its place when the interactive layer arrives; that decision
   belongs to the draw-loop arc.
+- One-hundred-thirteenth autonomous increment (owner broadened
+  standing mandate): authored and accepted `VOXELIA-ALG-0018`,
+  `VOXELIA-ALG-0019` and `ADR-0143`, freezing the remaining
+  `VOX-SPA-014` measures on paper. Area is the first-vertex-anchored
+  vector-area magnitude — the fan of cross products under the
+  accepted norm form — with the measured quantity declared rather
+  than planarity tested, because an epsilon test would be an
+  arbitrary threshold while the vector-area magnitude is well
+  defined for every admitted cycle; a degenerate cycle measures
+  exactly zero rather than erroring. Volume multiplies a supplied
+  voxel count by the exact cell volume taken from the accepted
+  determinant authority, never re-derived; version one deliberately
+  measures counts, not shapes, because the authority that produces a
+  count is its own future arc and inventing one inside a measurement
+  would smuggle in an undesigned model. Neither model claims a float
+  bound, per the polyline precedent — the frozen sequences are the
+  definitions. Ten fixtures are python-verified, exact or exactly
+  spelled, including the pentagon cross-checked against the rational
+  shoelace and the non-planar quadrilateral pinning two root six.
+  Implementation follows in the interaction module as its own
+  increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

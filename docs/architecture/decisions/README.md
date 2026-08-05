@@ -122,8 +122,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0139` is allocated to the world-to-viewport mapping.
 `ADR-0140` is allocated to the crosshair broadcast.
 `ADR-0141` is allocated to the oblique extraction design.
-`ADR-0142` is allocated to the oblique slice operation. The next
-unallocated numeric identifier is `ADR-0143`.
+`ADR-0142` is allocated to the oblique slice operation.
+`ADR-0143` is allocated to the area and volume measurement design. The
+next unallocated numeric identifier is `ADR-0144`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -249,3 +250,4 @@ unallocated numeric identifier is `ADR-0143`.
 | [ADR-0140](ADR-0140-crosshair-broadcast.md) | Accepted | Crosshair broadcast |
 | [ADR-0141](ADR-0141-oblique-extraction-design.md) | Accepted | Oblique extraction design |
 | [ADR-0142](ADR-0142-oblique-slice-operation.md) | Accepted | Oblique slice operation |
+| [ADR-0143](ADR-0143-area-volume-measurement-design.md) | Accepted | Area and volume measurement design |
