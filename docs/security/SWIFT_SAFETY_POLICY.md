@@ -75,14 +75,15 @@ policy does not treat them as passing.
 ## Current inventory
 
 The permitted-exception inventory remains empty. The checker currently reports
-seven ungoverned production `VoxeliaMetal` declarations introduced after the
+six ungoverned production `VoxeliaMetal` declarations introduced after the
 last green baseline; these are policy violations under active recovery, not
-accepted exceptions. Three test-only findings were removed on 2026-08-05 by
-replacing manual lock wrappers with checked `Synchronization.Mutex` storage.
+accepted exceptions. Three test-only findings and the production pipeline
+cache were removed on 2026-08-05 by replacing manual lock wrappers with checked
+`Synchronization.Mutex` state.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | Seven ungoverned production Metal declarations remain | VoxeliaMetal | Not accepted | Fail-closed checker remains red; recovery required | Focused recovery suites per declaration; complete strict gate pending |
+| None permitted | Six ungoverned production Metal declarations remain | VoxeliaMetal | Not accepted | Fail-closed checker remains red; recovery required | Focused recovery suites per declaration; complete strict gate pending |
 
 ## Introducing an exception
 

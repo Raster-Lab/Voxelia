@@ -30,8 +30,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   ten ungoverned `@unchecked Sendable` conformances introduced by the Metal,
   telemetry and brick-cache increments. The first recovery increment replaced
   all three test-only lock wrappers with checked `Synchronization.Mutex`
-  storage; the fail-closed Swift safety gate now reports the seven production
-  Metal classes only. None has an accepted exception under the standing
+  storage, and the second moved `MetalPipelineCache`'s dictionaries, counters
+  and compilation critical section behind one checked mutex state. The fail-
+  closed Swift safety gate now reports six production Metal classes. None has
+  an accepted exception under the standing
   zero-exception policy, so the earlier no-exception claim is not current and
   the gate must not be reported green. The last recorded strict product/test
   destination builds remain historical evidence only; visionOS 26.5 is still
@@ -3826,6 +3828,20 @@ oracle campaigns.
   classes, down from ten; the repository-wide gate therefore remains honestly
   red. The next focused recovery is the lock-backed `MetalPipelineCache`, then
   the immutable Metal handle wrappers and the renderer orchestration boundary.
+- One-hundred-sixty-sixth autonomous increment (scheduled goal
+  continuation): removed `MetalPipelineCache`'s ungoverned concurrency
+  exception without changing its compile-at-most-once contract. One private
+  checked `Synchronization.Mutex<State>` now owns both Metal-object maps and
+  both evidence counters, and compilation remains inside the same serialized
+  critical section as before; the public class is ordinary compiler-verified
+  `Sendable`. The existing reuse test remains green, and a new focused
+  concurrency test launches sixteen simultaneous window-kernel constructions
+  against one context and proves exactly one library plus the three distinct
+  entry-point pipelines were built. `MetalPipelineCacheTests` executed both
+  tests with zero failures. The raw safety inventory now reports exactly six
+  findings, down from seven, so the repository gate remains honestly red. The
+  next recovery is the `MetalExecutionContext` handle boundary, followed by
+  the three kernel wrappers, residency manager and slice renderer.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9605,15 +9621,15 @@ and direct-volume-rendering increments through accepted `ADR-0182`. Accepted
 coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
 accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The immediate exact next action is restoring the
-fail-closed Swift safety gate. The checked-Mutex collector increment removed
-all three test-only findings; seven ungoverned production Metal conformances
-remain. The exact next focused recovery is `MetalPipelineCache`: replace its
-manual `NSLock` plus separately mutable dictionaries/counters with one checked
-mutex-protected state, preserve compile-at-most-once identity and build-count
-evidence under contention, and remove its unchecked conformance only after the
-focused cache suite proves the same behavior. Then audit the immutable Metal
-handle wrappers and renderer orchestration boundary; do not suppress the
-checker or claim the historical zero-exception state.
+fail-closed Swift safety gate. Checked mutex recovery removed the three
+test-only findings and `MetalPipelineCache`; six ungoverned production Metal
+conformances remain. The exact next focused recovery is
+`MetalExecutionContext`: isolate the non-Sendable device and command-queue
+handles behind a checked synchronous borrowing boundary while preserving one
+device/queue acquisition, capability evidence and shared cache identity. Then
+audit the three kernel wrappers, residency manager and renderer orchestration
+boundary; do not suppress the checker or claim the historical zero-exception
+state.
 
 After that recovery, the geometry queue resumes with the explicit package
 dependency-resolution decision under `ADR-0186`: reconcile the MTA/CDMS demand

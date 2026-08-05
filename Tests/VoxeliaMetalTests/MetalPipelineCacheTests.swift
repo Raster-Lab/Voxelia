@@ -49,5 +49,25 @@ struct MetalPipelineCacheTests {
         requireSendable(MetalPipelineCacheError.self)
     }
 
+    @Test("[Concurrency][VOX-MTL-005][VOX-CON-003] contention builds each identity once")
+    func contentionBuildsEachIdentityOnce() async throws {
+        let context = try MetalExecutionContext()
+
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for _ in 0..<16 {
+                group.addTask {
+                    _ = try MetalWindowLevelKernel(
+                        context: context,
+                        telemetrySink: nil
+                    )
+                }
+            }
+            try await group.waitForAll()
+        }
+
+        #expect(context.pipelineCache.libraryBuildCount == 1)
+        #expect(context.pipelineCache.pipelineBuildCount == 3)
+    }
+
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
 }

@@ -1001,8 +1001,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalPipelineCache.swift",
-      "size": 3471,
-      "sha256": "318c1b4b93452f816f00590ea54d985b947bfc0fd8238d52fbe33fca0faa7f89"
+      "size": 3564,
+      "sha256": "3b43a07fec2c8f6d266ac3a957457b8a818d4aa732308fd5b4eae419702b83a1"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalRendererPlanner.swift",
@@ -1906,8 +1906,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalPipelineCacheTests.swift",
-      "size": 2379,
-      "sha256": "329efb4e64dff14f4b7e7aee79f20cea9f31680869b79bad69ad649add65e339"
+      "size": 3082,
+      "sha256": "c328f5db735bc28dd174392832519bd0222b92313858044ccc5ea98b02c89c05"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalRendererPlannerTests.swift",
@@ -3681,8 +3681,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 657145,
-      "sha256": "e2f435dd04a69103b5756f3a8fb604c2172ec7afefcc6c92c59c875179922bc7"
+      "size": 658237,
+      "sha256": "0540d34ec14f1081af0f35c36d5d043f0ff20927813694e350ad1a215cfb403d"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3996,8 +3996,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 6083,
-      "sha256": "097e35b51229e8a36fb725a1a66a49e8532927fb741ac8e9a5fc1094473ae033"
+      "size": 6111,
+      "sha256": "017d3161fc1b87f1404b786259e090461e93f04bbe1b35a6d992065e388bdf34"
     },
     {
       "path": "docs/shaders/README.md",

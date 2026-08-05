@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-import Foundation
 import Metal
+import Synchronization
 
 /// An error raised by pipeline-state caching.
 ///
@@ -18,11 +18,11 @@ public enum MetalPipelineCacheError: Error, Sendable, Equatable {
 /// pipeline states by kernel token, source digest and entry point —
 /// the stable identities of `VOX-MTL-005`; the manifest discipline
 /// pins each digest to its text, so lookup never compares source. The
-/// class is unchecked-`Sendable` on the recorded justification that
-/// the lock guards the maps and Metal pipeline objects are documented
-/// thread-safe. Build counts are exposed as reuse evidence per the
+/// complete mutable state is isolated behind a checked mutex, including
+/// compilation itself, so each stable identity is built at most once under
+/// contention. Build counts are exposed as reuse evidence per the
 /// coalescing-evidence precedent.
-public final class MetalPipelineCache: @unchecked Sendable {
+public final class MetalPipelineCache: Sendable {
     /// One stable pipeline identity.
     public struct Key: Sendable, Hashable {
         public let kernelToken: String
@@ -36,26 +36,25 @@ public final class MetalPipelineCache: @unchecked Sendable {
         }
     }
 
-    private let lock = NSLock()
-    private var libraries: [String: any MTLLibrary] = [:]
-    private var pipelines: [Key: any MTLComputePipelineState] = [:]
-    private var observedLibraryBuildCount = 0
-    private var observedPipelineBuildCount = 0
+    private struct State {
+        var libraries: [String: any MTLLibrary] = [:]
+        var pipelines: [Key: any MTLComputePipelineState] = [:]
+        var observedLibraryBuildCount = 0
+        var observedPipelineBuildCount = 0
+    }
+
+    private let state = Mutex(State())
 
     init() {}
 
     /// The number of library compilations this cache has performed.
     public var libraryBuildCount: Int {
-        lock.lock()
-        defer { lock.unlock() }
-        return observedLibraryBuildCount
+        state.withLock { $0.observedLibraryBuildCount }
     }
 
     /// The number of pipeline-state builds this cache has performed.
     public var pipelineBuildCount: Int {
-        lock.lock()
-        defer { lock.unlock() }
-        return observedPipelineBuildCount
+        state.withLock { $0.observedPipelineBuildCount }
     }
 
     /// Returns the pipeline state for one stable identity, compiling
@@ -67,34 +66,34 @@ public final class MetalPipelineCache: @unchecked Sendable {
         source: String,
         device: any MTLDevice
     ) throws -> any MTLComputePipelineState {
-        lock.lock()
-        defer { lock.unlock() }
-        if let cached = pipelines[key] {
-            return cached
-        }
-        let library: any MTLLibrary
-        if let cachedLibrary = libraries[key.sourceDigest] {
-            library = cachedLibrary
-        } else {
-            do {
-                library = try device.makeLibrary(source: source, options: nil)
-            } catch {
-                throw MetalPipelineCacheError.compilationFailed
+        try state.withLock { state in
+            if let cached = state.pipelines[key] {
+                return cached
             }
-            libraries[key.sourceDigest] = library
-            observedLibraryBuildCount += 1
+            let library: any MTLLibrary
+            if let cachedLibrary = state.libraries[key.sourceDigest] {
+                library = cachedLibrary
+            } else {
+                do {
+                    library = try device.makeLibrary(source: source, options: nil)
+                } catch {
+                    throw MetalPipelineCacheError.compilationFailed
+                }
+                state.libraries[key.sourceDigest] = library
+                state.observedLibraryBuildCount += 1
+            }
+            guard let function = library.makeFunction(name: key.entryPoint) else {
+                throw MetalPipelineCacheError.pipelineUnavailable
+            }
+            let pipeline: any MTLComputePipelineState
+            do {
+                pipeline = try device.makeComputePipelineState(function: function)
+            } catch {
+                throw MetalPipelineCacheError.pipelineUnavailable
+            }
+            state.pipelines[key] = pipeline
+            state.observedPipelineBuildCount += 1
+            return pipeline
         }
-        guard let function = library.makeFunction(name: key.entryPoint) else {
-            throw MetalPipelineCacheError.pipelineUnavailable
-        }
-        let pipeline: any MTLComputePipelineState
-        do {
-            pipeline = try device.makeComputePipelineState(function: function)
-        } catch {
-            throw MetalPipelineCacheError.pipelineUnavailable
-        }
-        pipelines[key] = pipeline
-        observedPipelineBuildCount += 1
-        return pipeline
     }
 }
