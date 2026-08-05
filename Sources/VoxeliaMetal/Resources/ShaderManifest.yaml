@@ -1,17 +1,17 @@
 schema_version: "0.2"
 shader_families:
   - family: "window-level"
-    semantic_version: "1.1.0"
+    semantic_version: "1.2.0"
     entry_points:
       - "voxelia_window_level_u8"
       - "voxelia_window_level_i16"
       - "voxelia_window_level_u16"
     source: "embedded (Sources/VoxeliaMetal/Internal/WindowLevelKernelSource.swift)"
-    source_digest_sha256: "e97eb8c7ac120b9d592827be29c3bf127256784328e9ee53139b01d9111a5197"
+    source_digest_sha256: "4aa39856054ed2f22b2f5de891c7a640c423288eec1415a2ba5f1120626beff4"
     kernel_token: "org.voxelia.kernel.window-level"
     precision_policy: "org.voxelia.precision.binary32-device"
     approximation_status: "approximate"
-    validation_evidence: "MetalWindowLevelKernelTests differential harnesses (ADR-0080, ADR-0093)"
+    validation_evidence: "MetalWindowLevelKernelTests differential harnesses (ADR-0080, ADR-0093, ADR-0146)"
   - family: "composite-layers"
     semantic_version: "1.0.0"
     entry_points:

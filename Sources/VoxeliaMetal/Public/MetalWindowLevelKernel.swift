@@ -117,7 +117,7 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         self.uint16Pipeline = try pipeline("voxelia_window_level_u16")
         self.kernelReference = try ExecutionComponentReference(
             identifier: try ExecutionClaimToken(rawValue: Self.kernelIdentifier),
-            version: try SemanticVersion(major: 1, minor: 1, patch: 0)
+            version: try SemanticVersion(major: 1, minor: 2, patch: 0)
         )
     }
 
@@ -127,30 +127,37 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
     public func mapSamples(
         _ storedSamples: [UInt8],
         center: Double,
-        width: Double
+        width: Double,
+        paddingValue: Int32?
     ) throws -> [UInt8] {
         try mapSamples(
             storedBytes: storedSamples,
             scalarType: .uint8,
             center: center,
-            width: width
+            width: width,
+            paddingValue: paddingValue
         )
     }
 
     /// Maps stored sample bytes of one admitted scalar type to display
-    /// samples on the device per `ADR-0093`.
+    /// samples on the device per `ADR-0093`, with the `ADR-0146`
+    /// padding sentinel.
     ///
     /// Window edges are precomputed once from the binary64 parameters
     /// and converted to `float32`; 16-bit samples are read in the
     /// platform's native little-endian order, and the kernel bounds
-    /// every thread by the explicit sample count.
+    /// every thread by the explicit sample count. An enabled sentinel
+    /// compares as integers before any float conversion, so the
+    /// exclusion is exact; absence is stated explicitly at every call
+    /// site.
     ///
     /// - Throws: ``MetalKernelError``.
     public func mapSamples(
         storedBytes: [UInt8],
         scalarType: ScalarType,
         center: Double,
-        width: Double
+        width: Double,
+        paddingValue: Int32?
     ) throws -> [UInt8] {
         let pipeline: any MTLComputePipelineState
         let bytesPerSample: Int
@@ -189,7 +196,9 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
             lowerEdge: Float(threshold - halfSpan),
             upperEdge: Float(threshold + halfSpan),
             widthMinusOne: Float(width - 1.0),
-            sampleCount: UInt32(sampleCount)
+            sampleCount: UInt32(sampleCount),
+            paddingValue: paddingValue ?? 0,
+            paddingEnabled: paddingValue == nil ? 0 : 1
         )
 
         guard
@@ -258,5 +267,7 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         var upperEdge: Float
         var widthMinusOne: Float
         var sampleCount: UInt32
+        var paddingValue: Int32
+        var paddingEnabled: UInt32
     }
 }

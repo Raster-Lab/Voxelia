@@ -33,7 +33,7 @@ struct MetalWindowLevelKernelTests {
         // source digest, so manifest and source can never drift.
         #expect(
             MetalWindowLevelKernel.sourceDigestHexText
-                == "e97eb8c7ac120b9d592827be29c3bf127256784328e9ee53139b01d9111a5197"
+                == "4aa39856054ed2f22b2f5de891c7a640c423288eec1415a2ba5f1120626beff4"
         )
 
         // The reference model reproduces the registered ALG-0002
@@ -56,7 +56,8 @@ struct MetalWindowLevelKernelTests {
         let fixtureOutput = try kernel.mapSamples(
             Array(0..<12),
             center: 6,
-            width: 8
+            width: 8,
+            paddingValue: nil
         )
         let fixtureExpected: [UInt8] = [0, 0, 0, 36, 73, 109, 146, 182, 219, 255, 255, 255]
         #expect(fixtureOutput.count == fixtureExpected.count)
@@ -64,10 +65,10 @@ struct MetalWindowLevelKernelTests {
             #expect(abs(Int(produced) - Int(expected)) <= 1)
         }
         do {
-            _ = try kernel.mapSamples([1, 2, 3], center: 6, width: 0.5)
+            _ = try kernel.mapSamples([1, 2, 3], center: 6, width: 0.5, paddingValue: nil)
             #expect(Bool(false), "Expected a sub-one width to be rejected.")
         } catch MetalKernelError.invalidWindowWidth {}
-        #expect(try kernel.mapSamples([], center: 6, width: 8) == [])
+        #expect(try kernel.mapSamples([], center: 6, width: 8, paddingValue: nil) == [])
 
         requireSendable(MetalWindowLevelKernel.self)
         requireSendable(MetalKernelError.self)
@@ -95,12 +96,14 @@ struct MetalWindowLevelKernelTests {
             let gpuOutput = try kernel.mapSamples(
                 storedSamples,
                 center: window.center,
-                width: window.width
+                width: window.width,
+                paddingValue: nil
             )
             let repeated = try kernel.mapSamples(
                 storedSamples,
                 center: window.center,
-                width: window.width
+                width: window.width,
+                paddingValue: nil
             )
             #expect(gpuOutput == repeated)
             for (stored, produced) in zip(storedSamples, gpuOutput) {
@@ -255,13 +258,15 @@ struct MetalWindowLevelKernelTests {
                     storedBytes: bytes,
                     scalarType: scalarType,
                     center: window.center,
-                    width: window.width
+                    width: window.width,
+                    paddingValue: nil
                 )
                 let repeated = try kernel.mapSamples(
                     storedBytes: bytes,
                     scalarType: scalarType,
                     center: window.center,
-                    width: window.width
+                    width: window.width,
+                    paddingValue: nil
                 )
                 #expect(gpuOutput == repeated)
                 #expect(gpuOutput.count == values.count)
@@ -298,7 +303,7 @@ struct MetalWindowLevelKernelTests {
         )
         #expect(exactMatchCount * 100 >= comparedCount * 99)
 
-        // The operation anchor: the device implementation at 1.1.0
+        // The operation anchor: the device implementation at 1.2.0
         // over a native int16 image stays within one display level of
         // the registered CPU implementation.
         let stored: [Int16] = [
@@ -315,6 +320,7 @@ struct MetalWindowLevelKernelTests {
             input: input,
             center: try MetadataFloatingPoint(value: 40),
             width: try MetadataFloatingPoint(value: 400),
+            paddingValue: nil,
             outputObjectID: try #require(DataObjectID(rawValue: "series-gpu")),
             outputProvenanceID: try #require(ProvenanceID(rawValue: "record-gpu")),
             createdAt: try CanonicalInstant(utcString: "2026-08-05T05:05:00Z"),
@@ -345,7 +351,7 @@ struct MetalWindowLevelKernelTests {
             implementation.identifier.rawValue == "org.voxelia.impl.window-level.metal"
         )
         #expect(
-            implementation.version == (try SemanticVersion(major: 1, minor: 1, patch: 0))
+            implementation.version == (try SemanticVersion(major: 1, minor: 2, patch: 0))
         )
 
         // Typed rejections: an unsupported scalar type and an odd
@@ -355,7 +361,8 @@ struct MetalWindowLevelKernelTests {
                 storedBytes: [1, 2, 3, 4],
                 scalarType: .int32,
                 center: 40,
-                width: 400
+                width: 400,
+                paddingValue: nil
             )
             #expect(Bool(false), "Expected an unsupported scalar type to be rejected.")
         } catch MetalKernelError.unsupportedScalarType {}
@@ -364,10 +371,138 @@ struct MetalWindowLevelKernelTests {
                 storedBytes: [1, 2, 3],
                 scalarType: .int16,
                 center: 40,
-                width: 400
+                width: 400,
+                paddingValue: nil
             )
             #expect(Bool(false), "Expected an odd byte count to be rejected.")
         } catch MetalKernelError.invalidSampleByteCount {}
+    }
+
+    @Test("[Unit][VOX-VAL-007][VOX-R2D-009] the padding sentinel excludes exactly on device")
+    func paddingSentinelExcludesExactlyOnDevice() throws {
+        // The ADR-0146 rule measured across all three scalar types:
+        // an enabled sentinel writes exactly zero at every sentinel
+        // position and leaves every other sample byte-identical to
+        // the unpadded dispatch — the exclusion is integer-exact even
+        // though the window map is approximate. Single-device
+        // evidence as always.
+        let kernel = try MetalWindowLevelKernel(
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
+        )
+        var checkedSamples = 0
+        var excludedSamples = 0
+
+        let storedU8: [UInt8] = [0, 7, 3, 6, 7, 9, 12, 7]
+        let paddedU8 = try kernel.mapSamples(
+            storedU8,
+            center: 6,
+            width: 8,
+            paddingValue: 7
+        )
+        let plainU8 = try kernel.mapSamples(
+            storedU8,
+            center: 6,
+            width: 8,
+            paddingValue: nil
+        )
+        for (index, stored) in storedU8.enumerated() {
+            if stored == 7 {
+                #expect(paddedU8[index] == 0)
+                excludedSamples += 1
+            } else {
+                #expect(paddedU8[index] == plainU8[index])
+            }
+            checkedSamples += 1
+        }
+
+        func packed16(_ values: [Int32], signed: Bool) -> [UInt8] {
+            var bytes = [UInt8]()
+            bytes.reserveCapacity(values.count * 2)
+            for value in values {
+                let bits =
+                    signed
+                    ? UInt16(bitPattern: Int16(value))
+                    : UInt16(value)
+                bytes.append(UInt8(bits & 0xFF))
+                bytes.append(UInt8(bits >> 8))
+            }
+            return bytes
+        }
+        for (scalarType, sentinel) in [
+            (ScalarType.int16, Int32(-1_024)), (ScalarType.uint16, Int32(60_000)),
+        ] {
+            var values = [Int32]()
+            for index in 0..<512 {
+                if index % 17 == 0 {
+                    values.append(sentinel)
+                } else if scalarType == .int16 {
+                    values.append(Int32(index - 256) * 7)
+                } else {
+                    values.append(Int32(index) * 100)
+                }
+            }
+            let bytes = packed16(values, signed: scalarType == .int16)
+            let padded = try kernel.mapSamples(
+                storedBytes: bytes,
+                scalarType: scalarType,
+                center: 40,
+                width: 400,
+                paddingValue: sentinel
+            )
+            let plain = try kernel.mapSamples(
+                storedBytes: bytes,
+                scalarType: scalarType,
+                center: 40,
+                width: 400,
+                paddingValue: nil
+            )
+            for (index, value) in values.enumerated() {
+                if value == sentinel {
+                    #expect(padded[index] == 0)
+                    excludedSamples += 1
+                } else {
+                    #expect(padded[index] == plain[index])
+                }
+                checkedSamples += 1
+            }
+        }
+        #expect(checkedSamples == 8 + 512 + 512)
+        print(
+            "ADR-0146 padding evidence: \(checkedSamples) samples, "
+                + "\(excludedSamples) excluded exactly (single device)"
+        )
+    }
+
+    @Test("[Unit][VOX-ERR-001] the device rejects an unrepresentable sentinel")
+    func deviceRejectsAnUnrepresentableSentinel() async throws {
+        // The CPU operation's exact representability rule and typed
+        // case, applied at the device admission per ADR-0146.
+        let kernel = try MetalWindowLevelKernel(
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
+        )
+        let software = try SoftwareIdentity(
+            name: "Voxelia",
+            version: try SemanticVersion(major: 1, minor: 0, patch: 0),
+            commit: nil,
+            buildIdentifier: nil
+        )
+        do {
+            _ = try await MetalWindowLevelOperation.execute(
+                input: try int16Image([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]),
+                center: try MetadataFloatingPoint(value: 40),
+                width: try MetadataFloatingPoint(value: 400),
+                paddingValue: 40_000,
+                outputObjectID: try #require(DataObjectID(rawValue: "series-pad")),
+                outputProvenanceID: try #require(ProvenanceID(rawValue: "record-pad")),
+                createdAt: try CanonicalInstant(utcString: "2026-08-05T09:40:00Z"),
+                software: software,
+                coordinator: StorageReadCoordinator(maximumRetainedResultByteCount: 64),
+                kernel: kernel
+            )
+            #expect(Bool(false), "Expected an unrepresentable sentinel to be rejected.")
+        } catch WindowLevelError.invalidPaddingValue {}
     }
 
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}

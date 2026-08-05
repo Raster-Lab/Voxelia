@@ -33,6 +33,7 @@ public enum MetalWindowLevelOperation {
         input: ImageData,
         center: MetadataFloatingPoint,
         width: MetadataFloatingPoint,
+        paddingValue: Int64?,
         outputObjectID: DataObjectID,
         outputProvenanceID: ProvenanceID,
         createdAt: CanonicalInstant,
@@ -76,6 +77,23 @@ public enum MetalWindowLevelOperation {
         guard width.value >= 1.0 else {
             throw WindowLevelError.invalidWindowWidth
         }
+        // The ADR-0113 sentinel must be representable in the admitted
+        // integer scalar type — the CPU operation's exact rule and
+        // typed case, per ADR-0146.
+        if let paddingValue {
+            let representable: Bool
+            switch scalarType {
+            case .uint8:
+                representable = paddingValue >= 0 && paddingValue <= 255
+            case .int16:
+                representable = paddingValue >= -32_768 && paddingValue <= 32_767
+            default:
+                representable = paddingValue >= 0 && paddingValue <= 65_535
+            }
+            guard representable else {
+                throw WindowLevelError.invalidPaddingValue
+            }
+        }
 
         // One budgeted coordinated full read; the retention is released
         // as soon as the owned bytes are staged.
@@ -93,7 +111,8 @@ public enum MetalWindowLevelOperation {
             storedBytes: storedBytes,
             scalarType: scalarType,
             center: center.value,
-            width: width.value
+            width: width.value,
+            paddingValue: paddingValue.map(Int32.init)
         )
 
         let outputStorage = AnyImageStorage(
@@ -133,7 +152,7 @@ public enum MetalWindowLevelOperation {
                 payload: try WindowLevelOperation.parameterCollection(
                     center: center,
                     width: width,
-                    paddingValue: nil
+                    paddingValue: paddingValue
                 ),
                 maximumOutputByteCount: Self.parameterDocumentByteCeiling
             )
@@ -141,8 +160,8 @@ public enum MetalWindowLevelOperation {
 
         // The registered operation at its current contract version
         // with the device implementation reference and honest claim.
-        let operationVersion = try SemanticVersion(major: 1, minor: 4, patch: 0)
-        let implementationVersion = try SemanticVersion(major: 1, minor: 1, patch: 0)
+        let operationVersion = try SemanticVersion(major: 1, minor: 5, patch: 0)
+        let implementationVersion = try SemanticVersion(major: 1, minor: 2, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: WindowLevelOperation.operationIdentifier
         )

@@ -27,12 +27,12 @@ func shaderManifestIsBundled() throws {
 
     #expect(manifest.contains(#"schema_version: "0.2""#))
     #expect(manifest.contains(#"family: "window-level""#))
-    #expect(manifest.contains(#"semantic_version: "1.1.0""#))
+    #expect(manifest.contains(#"semantic_version: "1.2.0""#))
     #expect(manifest.contains(#""voxelia_window_level_i16""#))
     #expect(manifest.contains(#""voxelia_window_level_u16""#))
     #expect(
         manifest.contains(
-            "e97eb8c7ac120b9d592827be29c3bf127256784328e9ee53139b01d9111a5197"
+            "4aa39856054ed2f22b2f5de891c7a640c423288eec1415a2ba5f1120626beff4"
         )
     )
     #expect(manifest.contains(#"family: "composite-layers""#))

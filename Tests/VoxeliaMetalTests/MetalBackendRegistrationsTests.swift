@@ -27,11 +27,11 @@ struct MetalBackendRegistrationsTests {
         #expect(window.count == 1)
         #expect(
             window[0].operationVersion
-                == (try SemanticVersion(major: 1, minor: 4, patch: 0))
+                == (try SemanticVersion(major: 1, minor: 5, patch: 0))
         )
         #expect(
             window[0].implementation.version
-                == (try SemanticVersion(major: 1, minor: 1, patch: 0))
+                == (try SemanticVersion(major: 1, minor: 2, patch: 0))
         )
         #expect(window[0].approximationStatus == .approximate)
         let invert = registry.implementations(

@@ -2799,6 +2799,35 @@ oracle campaigns.
   its own decision record before first emission. Absence alone was
   rejected as satisfaction: absence is an accident until a record
   states the rules that keep it true.
+- One-hundred-sixteenth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0146`, closing the
+  contract gap recorded when pixel padding landed — the device window
+  implementation claimed 1.4.0 because claiming the padding rule it
+  lacked would be false, and the debt named a padded device path as
+  its own increment. The shader family advances to 1.2.0 with the
+  sentinel rule in every entry point: the comparison is integer and
+  runs before any float conversion, so the exclusion itself is exact
+  on the device even though the window map is approximate — a
+  float-domain compare was rejected because 32-bit float cannot
+  distinguish every 16-bit sentinel-adjacent value. The kernel takes
+  the sentinel typed with absence stated at every call site, the
+  device operation validates representability under the CPU
+  operation's exact rule and typed case, digests the identical
+  parameter document including the padding entry, and claims contract
+  1.5.0 at implementation 1.2.0; the manifest re-pins the new source
+  digest and the metal registrations advance with the evidence
+  identifier naming this record. Measured evidence, single-device as
+  always: one thousand and thirty-two samples across all three scalar
+  types with sixty-five sentinel positions excluded exactly and every
+  other sample byte-identical to the unpadded dispatch, while the
+  established differentials stay perfect on the new source — one
+  thousand five hundred and thirty-six of one thousand five hundred
+  and thirty-six exact on the exhaustive eight-bit domain and
+  thirty-six thousand eight hundred and sixty-four of thirty-six
+  thousand eight hundred and sixty-four exact on the sixteen-bit
+  paths. An unrepresentable sentinel rejects typed at the device
+  admission. Renderer wiring still passes no sentinel, per the row's
+  own reading: the adapter that supplies padding values is gated.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

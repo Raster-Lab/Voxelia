@@ -58,7 +58,8 @@ struct MetalThroughputEvidenceTests {
             for _ in 0..<size {
                 samples.append(nextByte())
             }
-            let output = try windowKernel.mapSamples(samples, center: 128, width: 256)
+            let output = try windowKernel.mapSamples(
+                samples, center: 128, width: 256, paddingValue: nil)
             #expect(output.count == size)
         }
         let compositeElements = 262_144

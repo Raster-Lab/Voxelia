@@ -40,7 +40,8 @@ struct MetalPipelineCacheTests {
         // Distinct entry points hold distinct cached pipelines under
         // one library, and the cached kernels stay functional.
         let kernel = try MetalWindowLevelKernel(context: context, telemetrySink: nil)
-        let fixtureOutput = try kernel.mapSamples(Array(0..<12), center: 6, width: 8)
+        let fixtureOutput = try kernel.mapSamples(
+            Array(0..<12), center: 6, width: 8, paddingValue: nil)
         #expect(fixtureOutput.count == 12)
 
         requireSendable(MetalPipelineCache.self)

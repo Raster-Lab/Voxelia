@@ -64,11 +64,11 @@ public enum MetalBackendRegistrations {
             try entry(
                 operation: WindowLevelOperation.operationIdentifier,
                 implementation: MetalWindowLevelOperation.implementationIdentifier,
-                contract: (1, 4),
-                implementationVersion: (1, 1),
+                contract: (1, 5),
+                implementationVersion: (1, 2),
                 precision: binary32,
                 status: .approximate,
-                evidence: "adr-0093-device-window-level"
+                evidence: "adr-0146-padded-device-window"
             ),
             try entry(
                 operation: CompositeLayersOperation.operationIdentifier,

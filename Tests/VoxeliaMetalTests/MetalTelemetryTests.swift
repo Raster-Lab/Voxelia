@@ -42,7 +42,7 @@ struct MetalTelemetryTests {
             telemetrySink: { box.record($0) }
         )
 
-        _ = try windowKernel.mapSamples(Array(0..<12), center: 6, width: 8)
+        _ = try windowKernel.mapSamples(Array(0..<12), center: 6, width: 8, paddingValue: nil)
         _ = try compositeKernel.blendLayers(
             [Array(0..<12), Array(repeating: 255, count: 12)],
             opacities: [1.0, 0.5]
@@ -72,7 +72,9 @@ struct MetalTelemetryTests {
 
         // A kernel without a sink dispatches unchanged.
         let silent = try MetalWindowLevelKernel(context: context, telemetrySink: nil)
-        #expect(try silent.mapSamples(Array(0..<12), center: 6, width: 8).count == 12)
+        #expect(
+            try silent.mapSamples(Array(0..<12), center: 6, width: 8, paddingValue: nil).count == 12
+        )
         #expect(box.records.count == 2)
 
         requireSendable(MetalDispatchTelemetry.self)
