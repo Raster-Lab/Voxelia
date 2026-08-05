@@ -1696,6 +1696,20 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fixtures, and proved repeated execution bit-identical. A device
   composite operation behind this kernel is the recorded natural next
   increment.
+- Sixty-third autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0097`, extending the
+  `ADR-0076` evidence discipline to the archival cycle — hand-built
+  fixtures cannot prove that the records the real pipeline actually
+  produces survive the emit-persist-load-ingress cycle. The new
+  standing suite renders a two-layer scene to a doubled viewport
+  through the accepted renderer, producing the full five-record stage
+  history — origin, two window-levelled layers, the two-parent
+  composite and the resample — archives every published bundle
+  through a real directory store with the origin carrying no
+  derivation name and every stage carrying one, loads every document
+  back under its receipt identity, and decodes each through the
+  strict ingress to the exact published record. Every future pipeline
+  stage that publishes a new record shape joins this obligation.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
