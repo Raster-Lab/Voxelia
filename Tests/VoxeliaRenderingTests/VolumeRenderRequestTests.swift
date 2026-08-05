@@ -39,7 +39,8 @@ struct VolumeRenderRequestTests {
             lighting: .none,
             clip: nil,
             crop: nil,
-            mask: nil
+            mask: nil,
+            acceleration: nil
         )
         #expect(request.volumeObjectID.rawValue == "volume-7")
         #expect(request.quality == "org.voxelia.quality.full")

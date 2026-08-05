@@ -2,6 +2,7 @@
 
 import VoxeliaCore
 import VoxeliaSpatial
+import VoxeliaStorage
 
 /// One world-space axis-aligned clip per `ADR-0179` (`VOX-DVR-009`),
 /// mirroring the accepted interaction clip box exactly — the
@@ -102,6 +103,10 @@ public struct VolumeRenderRequest: Sendable, Hashable {
     /// stated.
     public let mask: VolumeMaskSelection?
 
+    /// The explicit optional empty-space-skipping brick grid; absence
+    /// is stated.
+    public let acceleration: BrickGridDescriptor?
+
     public init(
         volumeObjectID: DataObjectID,
         table: TransferFunction1D,
@@ -111,7 +116,8 @@ public struct VolumeRenderRequest: Sendable, Hashable {
         lighting: VolumeLightingModel,
         clip: VolumeClipBounds?,
         crop: ImageRegion?,
-        mask: VolumeMaskSelection?
+        mask: VolumeMaskSelection?,
+        acceleration: BrickGridDescriptor?
     ) {
         self.volumeObjectID = volumeObjectID
         self.table = table
@@ -122,5 +128,6 @@ public struct VolumeRenderRequest: Sendable, Hashable {
         self.clip = clip
         self.crop = crop
         self.mask = mask
+        self.acceleration = acceleration
     }
 }

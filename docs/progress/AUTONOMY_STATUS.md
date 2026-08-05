@@ -3722,6 +3722,43 @@ oracle campaigns.
   compositing only the un-skipped four through the masked entry,
   colour, alpha and consumed count all equal. Implementation follows
   as its own increment.
+- One-hundred-sixty-first autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0182`, empty-space
+  skipping live in the renderer — and corrected a genuine safety gap
+  in the design's own stated rule, caught by the differential proof
+  before anything was pushed. `ADR-0182`/`VOXELIA-ALG-0027` described
+  brick lookup by a sample's single nearest voxel; implementing it
+  against a real two-brick scenario showed accelerated and
+  unaccelerated renders disagreeing, traced to the one public
+  sampling authority's own trilinear window reaching one voxel past a
+  brick boundary even when the nearest voxel sits safely inside a
+  skippable brick — a wrong skip that would have silently dropped
+  real image content. The corrected, implemented rule requires every
+  one of a sample's (up to eight) trilinear corner voxels — not just
+  the nearest — to belong to a skippable brick before it is skipped;
+  `ExactVolumeRenderer.isSampleSkippable` restates the sampling
+  authority's own floor-and-clamp corner formula, since that function
+  is not exposed publicly. `ADR-0182` and `VOXELIA-ALG-0027` are
+  left as originally accepted, per the standing discipline against
+  editing a pushed record; this bullet is the correction of record,
+  and the actual implemented rule is the one the code and its tests
+  enforce. Skipping still composes entirely through the masked
+  `VolumeRayCompositor` entries `ADR-0180` built, now proven end to
+  end: a two-brick scenario with one uniformly zero-opacity brick
+  renders byte-identically accelerated and unaccelerated, and a
+  second scenario where one brick's value range straddles a
+  zero-opacity and a large-nonzero-opacity entry ALSO renders
+  byte-identically — proving the straddling brick was correctly never
+  skipped, since a wrong skip there would have dropped a large,
+  unmistakable contribution. `VolumeMaskSampler` gained a small
+  extracted `nearestVoxelIndex` helper (pure refactor, its own
+  `sample` behaviour unchanged) reused by the corner-tap computation.
+  `VolumeRenderRequest.acceleration: BrickGridDescriptor?` is explicit
+  at every call site; a grid whose extents mismatch the volume's own
+  rejects typed. The parameter collection digests the grid's nominal
+  brick extents only when declared. With this, the volume-rendering
+  arc's actionable queue is drained: multi-volume compositing and
+  multi-resolution volumes both remain deferred pending a consumer.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

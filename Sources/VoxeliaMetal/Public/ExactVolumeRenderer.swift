@@ -17,6 +17,7 @@ public enum VolumeRenderError: Error, Sendable, Equatable {
     case maskNotPublished
     case maskExtentMismatch
     case unsupportedMaskFormat
+    case accelerationExtentMismatch
 }
 
 /// The deterministic CPU volume renderer per `ADR-0175` — the
@@ -147,6 +148,52 @@ public final class ExactVolumeRenderer: Sendable {
             try await readCoordinator.release(maskRead.retention)
         }
 
+        // The per-brick skippability map, computed once from bytes
+        // already resident: a brick is skippable exactly when its
+        // accepted BrickStatistics included range has zero opacity at
+        // every table entry — declared only once the transfer
+        // function is known, never fabricated ahead of it.
+        var skippableBricks: [ContiguousArray<Int>: Bool] = [:]
+        if let grid = request.acceleration {
+            guard grid.volumeExtents == extents else {
+                throw VolumeRenderError.accelerationExtentMismatch
+            }
+            let counts = grid.brickCounts
+            let width = extents[0]
+            let height = extents[1]
+            for k in 0..<counts[2] {
+                for j in 0..<counts[1] {
+                    for i in 0..<counts[0] {
+                        let coordinate: ContiguousArray<Int> = [i, j, k]
+                        let core = try grid.coreRegion(of: coordinate)
+                        var payload = [UInt8]()
+                        for z in core.lowerBounds[2]..<core.upperBounds[2] {
+                            for y in core.lowerBounds[1]..<core.upperBounds[1] {
+                                for x in core.lowerBounds[0]..<core.upperBounds[0] {
+                                    payload.append(
+                                        storedBytes[x + width * (y + height * z)]
+                                    )
+                                }
+                            }
+                        }
+                        let stats = try BrickStatistics(
+                            overCorePayload: payload,
+                            sentinel: nil
+                        )
+                        var skippable = true
+                        if let lower = stats.includedMinimum,
+                            let upper = stats.includedMaximum
+                        {
+                            skippable = (Int(lower)...Int(upper)).allSatisfy {
+                                request.table.entry(at: $0).opacity == 0
+                            }
+                        }
+                        skippableBricks[coordinate] = skippable
+                    }
+                }
+            }
+        }
+
         // The headlight path builds the accepted inverse once; the
         // unshaded path calls the accepted compositor unchanged, so
         // its byte identity is structural.
@@ -164,26 +211,45 @@ public final class ExactVolumeRenderer: Sendable {
                 let plan = try sampler.plan(for: ray)
                 var samples = [UInt8]()
                 samples.reserveCapacity(plan.sampleCount)
+                var skipped = [Bool]()
+                skipped.reserveCapacity(plan.sampleCount)
                 for index in 0..<plan.sampleCount {
-                    samples.append(
-                        ObliqueSliceOperation.sample(
-                            Array(plan.indexPosition(at: index)),
+                    let position = Array(plan.indexPosition(at: index))
+                    var isSkipped = false
+                    if let grid = request.acceleration {
+                        isSkipped = Self.isSampleSkippable(
+                            atIndexPosition: position,
                             extents: extents,
-                            bytes: storedBytes
+                            grid: grid,
+                            skippableBricks: skippableBricks
                         )
+                    }
+                    skipped.append(isSkipped)
+                    samples.append(
+                        isSkipped
+                            ? 0
+                            : ObliqueSliceOperation.sample(
+                                position,
+                                extents: extents,
+                                bytes: storedBytes
+                            )
                     )
                 }
                 var inclusion: [Bool]?
-                if let maskSelection = request.mask, let maskBytes {
+                if request.mask != nil || request.acceleration != nil {
                     var flags = [Bool]()
                     flags.reserveCapacity(plan.sampleCount)
                     for index in 0..<plan.sampleCount {
-                        let label = VolumeMaskSampler.sample(
-                            Array(plan.indexPosition(at: index)),
-                            extents: extents,
-                            bytes: maskBytes
-                        )
-                        flags.append(maskSelection.visibleLabels.contains(label))
+                        var included = !skipped[index]
+                        if included, let maskSelection = request.mask, let maskBytes {
+                            let label = VolumeMaskSampler.sample(
+                                Array(plan.indexPosition(at: index)),
+                                extents: extents,
+                                bytes: maskBytes
+                            )
+                            included = maskSelection.visibleLabels.contains(label)
+                        }
+                        flags.append(included)
                     }
                     inclusion = flags
                 }
@@ -194,15 +260,17 @@ public final class ExactVolumeRenderer: Sendable {
                     factors.reserveCapacity(plan.sampleCount)
                     for index in 0..<plan.sampleCount {
                         factors.append(
-                            Self.shadingFactor(
-                                atIndexPosition: Array(
-                                    plan.indexPosition(at: index)
-                                ),
-                                extents: extents,
-                                bytes: storedBytes,
-                                inverse: inverse,
-                                unitRayDirection: unitDirection
-                            )
+                            skipped[index]
+                                ? 1.0
+                                : Self.shadingFactor(
+                                    atIndexPosition: Array(
+                                        plan.indexPosition(at: index)
+                                    ),
+                                    extents: extents,
+                                    bytes: storedBytes,
+                                    inverse: inverse,
+                                    unitRayDirection: unitDirection
+                                )
                         )
                     }
                     if let inclusion {
@@ -446,6 +514,50 @@ public final class ExactVolumeRenderer: Sendable {
         return 0.25 + (0.75 * diffuse)
     }
 
+    /// Whether a sample is safe to skip under `ADR-0182`: every one
+    /// of its trilinear corner voxels — not just its nearest one —
+    /// must belong to a skippable brick.
+    ///
+    /// A brick's nearest voxel alone is not a safe proxy: the
+    /// trilinear window the one public sampling authority actually
+    /// reads can reach one voxel past a boundary even when the
+    /// nearest voxel sits safely inside a skippable brick, so every
+    /// corner the interpolation could touch is checked. The per-axis
+    /// floor-and-clamp tap restates the sampling authority's own
+    /// corner rule, since that function is not exposed publicly.
+    static func isSampleSkippable(
+        atIndexPosition position: [Double],
+        extents: ContiguousArray<Int>,
+        grid: BrickGridDescriptor,
+        skippableBricks: [ContiguousArray<Int>: Bool]
+    ) -> Bool {
+        func taps(_ continuous: Double, extent: Int) -> Set<Int> {
+            let index = Int(continuous.rounded(.down))
+            return Set([
+                min(extent - 1, max(0, index)),
+                min(extent - 1, max(0, index + 1)),
+            ])
+        }
+        let xTaps = taps(position[0], extent: extents[0])
+        let yTaps = taps(position[1], extent: extents[1])
+        let zTaps = taps(position[2], extent: extents[2])
+        for x in xTaps {
+            for y in yTaps {
+                for z in zTaps {
+                    let brickCoordinate: ContiguousArray<Int> = [
+                        x / grid.nominalBrickExtents[0],
+                        y / grid.nominalBrickExtents[1],
+                        z / grid.nominalBrickExtents[2],
+                    ]
+                    guard skippableBricks[brickCoordinate] == true else {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+    }
+
     /// The full reproduction recipe: the table bytes, the camera, the
     /// viewport, the quality token and the lighting mode.
     static func parameterCollection(
@@ -579,6 +691,26 @@ public final class ExactVolumeRenderer: Sendable {
                     privacyClass: .technical
                 )
             )
+        }
+        // The acceleration grid's nominal brick extents join exactly
+        // when declared — the halo plays no role in classification,
+        // so only the extents that actually affect the render are
+        // digested.
+        if let grid = request.acceleration {
+            for axis in 0..<grid.nominalBrickExtents.count {
+                entries.append(
+                    MetadataEntry(
+                        key: try AnyMetadataKey(
+                            namespace: Self.operationIdentifier,
+                            name: "acceleration-nominal-brick-\(axis)"
+                        ),
+                        value: .signedInteger(
+                            Int64(grid.nominalBrickExtents[axis])
+                        ),
+                        privacyClass: .technical
+                    )
+                )
+            }
         }
         for (name, value) in cameraComponents {
             entries.append(

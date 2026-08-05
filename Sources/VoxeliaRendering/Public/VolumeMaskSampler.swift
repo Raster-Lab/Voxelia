@@ -11,6 +11,13 @@
 /// output-pixel-space grid, a different convention from the
 /// centres-at-integers index space every volume sample already uses.
 public enum VolumeMaskSampler {
+    /// The nearest voxel index for one axis: round half-away-from-
+    /// zero, clamped to `[0, extent - 1]` — the shared authority
+    /// `ADR-0182`'s brick lookup composes rather than restates.
+    public static func nearestVoxelIndex(_ continuous: Double, extent: Int) -> Int {
+        min(extent - 1, max(0, Int(continuous.rounded())))
+    }
+
     /// Samples one label at a continuous index-space position.
     ///
     /// Each axis rounds half-away-from-zero to the nearest voxel
@@ -31,9 +38,9 @@ public enum VolumeMaskSampler {
         }
         let width = extents[0]
         let height = extents[1]
-        let x = min(extents[0] - 1, max(0, Int(continuous[0].rounded())))
-        let y = min(extents[1] - 1, max(0, Int(continuous[1].rounded())))
-        let z = min(extents[2] - 1, max(0, Int(continuous[2].rounded())))
+        let x = Self.nearestVoxelIndex(continuous[0], extent: extents[0])
+        let y = Self.nearestVoxelIndex(continuous[1], extent: extents[1])
+        let z = Self.nearestVoxelIndex(continuous[2], extent: extents[2])
         return bytes[x + width * (y + height * z)]
     }
 }

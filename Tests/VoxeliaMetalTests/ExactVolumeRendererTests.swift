@@ -353,6 +353,139 @@ struct ExactVolumeRendererTests {
         )
     }
 
+    /// A `[4, 3, 3]` volume whose value depends only on `x`, for the
+    /// `ADR-0182` acceleration fixtures — two `[2, 3, 3]` bricks along
+    /// `x` fall out of the standard axis-ray geometry exactly as the
+    /// design record's worked example does.
+    private func accelerationVolume(valueForX: (Int) -> UInt8) throws -> ImageData {
+        var bytes = [UInt8](repeating: 0, count: 36)
+        for z in 0..<3 {
+            for y in 0..<3 {
+                for x in 0..<4 {
+                    bytes[x + 4 * (y + 3 * z)] = valueForX(x)
+                }
+            }
+        }
+        var axes = ContiguousArray<AxisDescriptor>()
+        let semantics: [AxisSemantic] = [.spatialX, .spatialY, .spatialZ]
+        let names = ["x", "y", "z"]
+        for index in 0..<3 {
+            axes.append(
+                try AxisDescriptor(
+                    id: try #require(AxisID(rawValue: names[index])),
+                    name: names[index],
+                    semantic: semantics[index],
+                    unit: nil,
+                    sampling: .indexOnly
+                )
+            )
+        }
+        return try ImageData(
+            descriptor: try ImageDescriptor(
+                shape: try ImageShape(extents: [4, 3, 3]),
+                scalarFormat: try ScalarFormat(
+                    type: .uint8,
+                    validBitCount: nil,
+                    byteOrder: .native
+                ),
+                components: try ComponentDescriptor(
+                    count: 1,
+                    interpretation: .scalar,
+                    layout: .interleaved,
+                    componentNames: nil
+                ),
+                semantic: .intensity,
+                axes: axes,
+                spatialGeometry: .affine(
+                    try AffineGridGeometry(
+                        spatialAxes: try SpatialAxisMapping(imageAxes: [0, 1, 2]),
+                        indexToWorld: Matrix4x4Double.identity,
+                        coordinateSpace: try space()
+                    )
+                ),
+                valueTransform: nil,
+                units: nil
+            ),
+            storage: AnyImageStorage(
+                erasing: try ContiguousImageStorage(
+                    binding: try LogicalSampleBinding(
+                        shape: try ImageShape(extents: [4, 3, 3]),
+                        scalarType: .uint8,
+                        componentCount: 1
+                    ),
+                    bytes: bytes
+                )
+            ),
+            metadata: try MetadataCollection(entries: []),
+            provenance: try ProvenanceRecord(
+                id: try #require(ProvenanceID(rawValue: "record-volume-accel")),
+                kind: .source,
+                createdAt: try CanonicalInstant(utcString: "2026-08-05T12:00:00Z"),
+                subject: .object(try #require(DataObjectID(rawValue: "volume-accel"))),
+                software: try software(),
+                activity: .origin,
+                inputs: [],
+                warnings: [],
+                validationClaim: .unknown,
+                declaresZeroInputGenerator: false
+            ),
+            identity: try DataIdentity(
+                objectID: try #require(DataObjectID(rawValue: "volume-accel")),
+                contentID: try ContentID.sampleBytesIdentity(
+                    overCanonicalPackedBytes: bytes
+                ),
+                sourceIdentities: [
+                    try SourceIdentity(
+                        namespace: "dicom.sop-instance-uid",
+                        identifier: "1.2.840.113619.15",
+                        version: nil,
+                        contentID: nil
+                    )
+                ],
+                derivation: nil
+            )
+        )
+    }
+
+    /// The standard `[2, 3, 3]`-along-`x` brick grid the acceleration
+    /// fixtures use, over the `[4, 3, 3]` acceleration volume.
+    private func accelerationGrid() throws -> BrickGridDescriptor {
+        try BrickGridDescriptor(
+            volumeExtents: [4, 3, 3],
+            nominalBrickExtents: [2, 3, 3],
+            haloExtents: [0, 0, 0]
+        )
+    }
+
+    /// A request over the acceleration volume with a one-pixel
+    /// viewport and a camera positioned so its single ray is exactly
+    /// the standard axis ray `(-2, 1, 1)` direction `+x` — the same
+    /// ray the design record's fixtures use, with zero per-pixel
+    /// offset since a `1x1` viewport centres on the camera's own
+    /// forward direction.
+    private func accelRequest(
+        acceleration: BrickGridDescriptor?
+    ) throws -> VolumeRenderRequest {
+        let id = try #require(CoordinateSpaceID(rawValue: "patient"))
+        return VolumeRenderRequest(
+            volumeObjectID: try #require(DataObjectID(rawValue: "volume-accel")),
+            table: try rampTable(),
+            camera: try RenderCamera(
+                position: try Point3D(x: -2, y: 1, z: 1, coordinateSpace: id),
+                target: try Point3D(x: 10, y: 1, z: 1, coordinateSpace: id),
+                up: try Vector3D(x: 0, y: 1, z: 0, coordinateSpace: id),
+                projection: .orthographic(planeHeight: 4)
+            ),
+            viewport: try ViewportSize(width: 1, height: 1),
+            quality: "org.voxelia.quality.full",
+            lighting: .none,
+            clip: nil,
+            crop: nil,
+            mask: nil,
+            acceleration: acceleration
+        )
+    }
+
     private func rampTable() throws -> TransferFunction1D {
         var entries = ContiguousArray<TransferFunctionEntry>()
         for index in 0..<256 {
@@ -371,7 +504,8 @@ struct ExactVolumeRendererTests {
 
     private func request(
         lighting: VolumeLightingModel = .none,
-        mask: VolumeMaskSelection? = nil
+        mask: VolumeMaskSelection? = nil,
+        acceleration: BrickGridDescriptor? = nil
     ) throws -> VolumeRenderRequest {
         let id = try #require(CoordinateSpaceID(rawValue: "patient"))
         return VolumeRenderRequest(
@@ -388,7 +522,8 @@ struct ExactVolumeRendererTests {
             lighting: lighting,
             clip: nil,
             crop: nil,
-            mask: mask
+            mask: mask,
+            acceleration: acceleration
         )
     }
 
@@ -705,7 +840,8 @@ struct ExactVolumeRendererTests {
                 lighting: .none,
                 clip: nil,
                 crop: nil,
-                mask: nil
+                mask: nil,
+                acceleration: nil
             )
         }
         let contiguousResult = try await renderer.render(
@@ -938,6 +1074,152 @@ struct ExactVolumeRendererTests {
         )
         await #expect(throws: VolumeRenderError.unsupportedMaskFormat) {
             try await render(malformed)
+        }
+    }
+
+    @Test("[Integration][VOX-DVR-012] acceleration skips provably empty bricks")
+    func accelerationSkipsProvablyEmptyBricksEndToEnd() async throws {
+        // The ADR-0182/ALG-0027 fixture: two [2,3,3] bricks along x,
+        // the first uniformly zero-opacity and the second not; the
+        // accepted axis ray's eight samples split four skippable and
+        // four not, and the accelerated render matches the
+        // unaccelerated one exactly.
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try accelerationVolume { x in x < 2 ? 0 : 200 },
+            mode: .complete
+        )
+        let renderer = ExactVolumeRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            software: try software()
+        )
+        let unaccelerated = try await renderer.render(
+            try accelRequest(acceleration: nil),
+            outputObjectID: try #require(DataObjectID(rawValue: "render-unaccel")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-unaccel")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:30:00Z")
+        )
+        let accelerated = try await renderer.render(
+            try accelRequest(acceleration: try accelerationGrid()),
+            outputObjectID: try #require(DataObjectID(rawValue: "render-accel")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-accel")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:31:00Z")
+        )
+        let outputRegion = try ImageRegion(lowerBounds: [0, 0], upperBounds: [1, 1])
+        let unacceleratedBytes = try #require(
+            await publisher.publishedImage(for: unaccelerated.outputObjectID)
+        ).storage.read(region: outputRegion).bytes
+        let acceleratedBytes = try #require(
+            await publisher.publishedImage(for: accelerated.outputObjectID)
+        ).storage.read(region: outputRegion).bytes
+        #expect(acceleratedBytes == unacceleratedBytes)
+        #expect(acceleratedBytes.contains { $0 != 0 })
+
+        // Determinism is structural: repetition is bit-identical.
+        let repeated = try await renderer.render(
+            try accelRequest(acceleration: try accelerationGrid()),
+            outputObjectID: try #require(DataObjectID(rawValue: "render-accel-2")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-accel-2")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:32:00Z")
+        )
+        let repeatedBytes = try #require(
+            await publisher.publishedImage(for: repeated.outputObjectID)
+        ).storage.read(region: outputRegion).bytes
+        #expect(repeatedBytes == acceleratedBytes)
+    }
+
+    @Test("[Integration][VOX-DVR-012] acceleration never skips a straddling brick")
+    func accelerationNeverSkipsAStraddlingBrick() async throws {
+        // The crux correctness property: a brick whose value range
+        // straddles a zero-opacity and a nonzero-opacity entry must
+        // never be classified skippable. Provable here because a
+        // wrong skip would drop the two large-opacity samples
+        // entirely, an unmistakable difference from the correct
+        // result.
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try accelerationVolume { x in
+                if x == 0 { return 0 }
+                if x == 1 { return 250 }
+                return 0
+            },
+            mode: .complete
+        )
+        let renderer = ExactVolumeRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            software: try software()
+        )
+        let unaccelerated = try await renderer.render(
+            try accelRequest(acceleration: nil),
+            outputObjectID: try #require(DataObjectID(rawValue: "render-straddle-unaccel")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-straddle-unaccel")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:33:00Z")
+        )
+        let accelerated = try await renderer.render(
+            try accelRequest(acceleration: try accelerationGrid()),
+            outputObjectID: try #require(DataObjectID(rawValue: "render-straddle-accel")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-render-straddle-accel")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T12:34:00Z")
+        )
+        let outputRegion = try ImageRegion(lowerBounds: [0, 0], upperBounds: [1, 1])
+        let unacceleratedBytes = try #require(
+            await publisher.publishedImage(for: unaccelerated.outputObjectID)
+        ).storage.read(region: outputRegion).bytes
+        let acceleratedBytes = try #require(
+            await publisher.publishedImage(for: accelerated.outputObjectID)
+        ).storage.read(region: outputRegion).bytes
+        #expect(acceleratedBytes == unacceleratedBytes)
+        // The two large-opacity samples must actually have
+        // contributed — otherwise this equality would trivially hold
+        // even with a wrong skip, since both sides would be
+        // (wrongly) empty together.
+        #expect(unacceleratedBytes.contains { $0 > 200 })
+    }
+
+    @Test("[Unit][VOX-ERR-001] acceleration admissions reject typed")
+    func accelerationAdmissionsRejectTyped() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try accelerationVolume { x in x < 2 ? 0 : 200 },
+            mode: .complete
+        )
+        let renderer = ExactVolumeRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            software: try software()
+        )
+        let mismatchedGrid = try BrickGridDescriptor(
+            volumeExtents: [3, 3, 3],
+            nominalBrickExtents: [2, 3, 3],
+            haloExtents: [0, 0, 0]
+        )
+        await #expect(throws: VolumeRenderError.accelerationExtentMismatch) {
+            _ = try await renderer.render(
+                try accelRequest(acceleration: mismatchedGrid),
+                outputObjectID: try #require(DataObjectID(rawValue: "render-accel-bad")),
+                outputProvenanceID: try #require(
+                    ProvenanceID(rawValue: "record-render-accel-bad")
+                ),
+                createdAt: try CanonicalInstant(utcString: "2026-08-05T12:35:00Z")
+            )
         }
     }
 }
