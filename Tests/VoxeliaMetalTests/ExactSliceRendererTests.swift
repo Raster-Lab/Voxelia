@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+import Synchronization
 import Testing
 import VoxeliaCore
 import VoxeliaExecution
@@ -11,6 +12,84 @@ import VoxeliaStorage
 
 @Suite("ExactSliceRenderer")
 struct ExactSliceRendererTests {
+    private final class NamingSequence: Sendable {
+        private let nextOrdinal = Mutex(0)
+
+        func names(
+            for stage: RenderPublicationStage
+        ) throws -> (
+            outputObjectID: DataObjectID,
+            provenanceID: ProvenanceID,
+            createdAt: CanonicalInstant
+        ) {
+            let ordinal = nextOrdinal.withLock { nextOrdinal in
+                defer { nextOrdinal += 1 }
+                return nextOrdinal
+            }
+            let suffix: String
+            switch stage {
+            case .cropped(let layerIndex):
+                suffix = "cr\(layerIndex)"
+            case .windowLevelled(let layerIndex):
+                suffix = "wl\(layerIndex)"
+            case .inverted(let layerIndex):
+                suffix = "iv\(layerIndex)"
+            case .composited:
+                suffix = "cp"
+            case .resampled:
+                suffix = "rs"
+            }
+            return (
+                outputObjectID: try #require(
+                    DataObjectID(
+                        rawValue: "render-concurrent-\(ordinal)-\(suffix)"
+                    )
+                ),
+                provenanceID: try #require(
+                    ProvenanceID(
+                        rawValue: "record-render-concurrent-\(ordinal)-\(suffix)"
+                    )
+                ),
+                createdAt: try CanonicalInstant(
+                    utcString: "2026-08-05T04:05:00Z"
+                )
+            )
+        }
+    }
+
+    private actor UncooperativeStageGate {
+        private var didStart = false
+        private var startWaiters = [CheckedContinuation<Void, Never>]()
+        private var releaseContinuation: CheckedContinuation<Void, Never>?
+
+        func suspend() async {
+            await withCheckedContinuation { continuation in
+                releaseContinuation = continuation
+                didStart = true
+                let waiters = startWaiters
+                startWaiters.removeAll()
+                for waiter in waiters {
+                    waiter.resume()
+                }
+            }
+        }
+
+        func waitUntilStarted() async {
+            guard !didStart else {
+                return
+            }
+            await withCheckedContinuation { continuation in
+                startWaiters.append(continuation)
+            }
+        }
+
+        func release() {
+            let continuation = releaseContinuation
+            releaseContinuation = nil
+            continuation?.resume()
+        }
+    }
+
     private func software() throws -> SoftwareIdentity {
         try SoftwareIdentity(
             name: "Voxelia",
@@ -593,6 +672,133 @@ struct ExactSliceRendererTests {
         let secondParent = try #require(ProvenanceID(rawValue: "record-render-3-wl1"))
         #expect(compositeRecord.inputs[0].parent == .graphNode(firstParent))
         #expect(compositeRecord.inputs[1].parent == .graphNode(secondParent))
+    }
+
+    @Test("[Concurrency][VOX-CON-003][VOX-VS1-019] one renderer executes concurrently")
+    func oneRendererExecutesConcurrently() async throws {
+        let publisher = PublicationCoordinator(
+            maximumPublishedObjectCount: 16,
+            graphLimits: try ProvenanceGraphLimits(
+                maximumRecordCount: 16,
+                maximumParentEdgeCount: 16,
+                maximumAncestryDepth: 8,
+                maximumUnresolvedExternalReferenceCount: 0,
+                maximumExternalResolutionByteCount: 8_192
+            ),
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            resultCache: nil
+        )
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let naming = NamingSequence()
+        let renderer = ExactSliceRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 96
+            ),
+            software: try software(),
+            naming: { try naming.names(for: $0) }
+        )
+        let request = RenderRequest(
+            scene: try scene([try layer("series-7")]),
+            viewport: try ViewportSize(width: 4, height: 3),
+            crop: nil,
+            interpolation: .nearestNeighbour,
+            quality: .full
+        )
+
+        var outputIDs = Set<String>()
+        try await withThrowingTaskGroup(of: RenderResult.self) { group in
+            for _ in 0..<8 {
+                group.addTask {
+                    try await renderer.render(request)
+                }
+            }
+            for try await result in group {
+                #expect(outputIDs.insert(result.outputObjectID.rawValue).inserted)
+                let published = try #require(
+                    await publisher.publishedImage(for: result.outputObjectID)
+                )
+                let bytes = try published.storage.read(
+                    region: try ImageRegion(
+                        lowerBounds: [0, 0],
+                        upperBounds: [4, 3]
+                    )
+                ).bytes
+                #expect(
+                    bytes == [
+                        0, 0, 0, 36, 73, 109,
+                        146, 182, 219, 255, 255, 255,
+                    ]
+                )
+            }
+        }
+        #expect(
+            outputIDs
+                == Set((0..<8).map { "render-concurrent-\($0)-wl0" })
+        )
+        #expect(await publisher.publishedObjectCount == 9)
+    }
+
+    @Test("[Concurrency][VOX-ERR-001] cancellation blocks an uncooperative stage publication")
+    func cancellationBlocksAnUncooperativeStagePublication() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let gate = UncooperativeStageGate()
+        let cancelledObjectID = try #require(
+            DataObjectID(rawValue: "render-cancel-wl0")
+        )
+        let renderer = ExactSliceRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 96
+            ),
+            software: try software(),
+            naming: { _ in
+                (
+                    outputObjectID: cancelledObjectID,
+                    provenanceID: try #require(
+                        ProvenanceID(rawValue: "record-render-cancel-wl0")
+                    ),
+                    createdAt: try CanonicalInstant(
+                        utcString: "2026-08-05T04:05:00Z"
+                    )
+                )
+            },
+            windowStage: { input, _, _ in
+                await gate.suspend()
+                return input
+            },
+            invertStage: { input, _ in input },
+            compositeStage: { layers, _, _ in
+                guard let first = layers.first else {
+                    throw SliceRendererError.unsupportedSceneShape
+                }
+                return first
+            }
+        )
+        let request = RenderRequest(
+            scene: try scene([try layer("series-7")]),
+            viewport: try ViewportSize(width: 4, height: 3),
+            crop: nil,
+            interpolation: .nearestNeighbour,
+            quality: .full
+        )
+
+        let task = Task {
+            try await renderer.render(request)
+        }
+        await gate.waitUntilStarted()
+        task.cancel()
+        await gate.release()
+        do {
+            _ = try await task.value
+            #expect(Bool(false), "Expected cancellation to prevent publication.")
+        } catch is CancellationError {}
+
+        #expect(await publisher.publishedObjectCount == 1)
+        #expect(await publisher.publishedImage(for: cancelledObjectID) == nil)
     }
 
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}

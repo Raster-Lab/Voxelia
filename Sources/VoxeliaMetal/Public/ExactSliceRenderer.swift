@@ -44,7 +44,10 @@ public typealias RenderPublicationNaming =
 /// coordinator, so each result carries a complete provenance chain.
 /// Oblique and perspective presentation stay pending their own
 /// models, and a GPU path may later arrive behind this same contract.
-public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
+/// The renderer is immutable: it stores only `Sendable` coordinators,
+/// values and stage closures, while each invocation owns its local
+/// pipeline state. Cancellation is checked before every publication.
+public final class ExactSliceRenderer: SliceRenderer {
     /// One injected window stage per `ADR-0092`: the single pipeline
     /// orchestration authority admits exactly one window executor, so
     /// backend choice is explicit and never a silent fallback.
@@ -165,6 +168,8 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
     /// - Throws: ``SliceRendererError``, or the audited typed errors
     ///   of the execution and publication contracts.
     public func render(_ request: RenderRequest) async throws -> RenderResult {
+        try Task.checkCancellation()
+
         // Window-level every published greyscale layer in scene order
         // — the value model consumes the stored domain — publishing
         // each stage, so the ancestry closure stays complete in the
@@ -202,6 +207,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                     software: software,
                     coordinator: readCoordinator
                 )
+                try Task.checkCancellation()
                 _ = try await publisher.publish(input, mode: .complete)
             } else {
                 input = published
@@ -209,6 +215,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
 
             let names = try naming(.windowLevelled(layerIndex: index))
             var staged = try await windowStage(input, window, names)
+            try Task.checkCancellation()
             _ = try await publisher.publish(staged, mode: .complete)
 
             // Inverted polarity runs the registered ADR-0112 exact
@@ -217,6 +224,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             if window.polarity == .inverted {
                 let invertNames = try naming(.inverted(layerIndex: index))
                 staged = try await invertStage(staged, invertNames)
+                try Task.checkCancellation()
                 _ = try await publisher.publish(staged, mode: .complete)
             }
             windowLevelled.append(staged)
@@ -237,6 +245,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                 request.scene.layers.map(\.opacity),
                 names
             )
+            try Task.checkCancellation()
             _ = try await publisher.publish(presented, mode: .complete)
         }
 
@@ -288,6 +297,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                     sourceHeight: extents[1]
                 )
             }
+            try Task.checkCancellation()
             _ = try await publisher.publish(output, mode: .complete)
         }
 

@@ -36,14 +36,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   synchronous borrowing boundary, and the fourth moved all three kernel
   wrappers' pipeline sets behind checked encoder-configuration borrows. The
   fifth removed `MetalResidencyManager`'s obsolete exception after its sole
-  stored context became checked. The fail-closed Swift safety gate now reports
-  one production Metal class. It has no accepted exception under the standing
-  zero-exception policy, so the earlier no-exception claim is not current and
-  the gate must not be reported green. The last recorded strict product/test
-  destination builds remain historical evidence only; visionOS 26.5 is still
-  unavailable. Recovery requires removing each remaining conformance through
-  actor/value isolation or accepting a governed exception with exact
-  invariants, focused stress/lifetime evidence and independent review.
+  stored context became checked, and the sixth proved `ExactSliceRenderer` is
+  immutable checked composition. The raw fail-closed escape-hatch scan now
+  passes with zero findings and no accepted exceptions. The semantic
+  `--compile` gate remains red on fourteen strict-memory-safety diagnostics in
+  five `VoxeliaCore` files, so the complete Swift safety gate must not be
+  reported green. The last recorded strict product/test destination builds
+  remain historical evidence only; visionOS 26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -3914,6 +3913,37 @@ oracle campaigns.
   narrow-test policy. The raw safety inventory now reports exactly one finding,
   down from two, so the repository gate remains honestly red. The next and
   final recovery is the `ExactSliceRenderer` orchestration boundary.
+- One-hundred-seventieth autonomous increment (scheduled goal continuation):
+  closed the ungoverned `Sendable` recovery inventory and strengthened
+  cancellation publication safety for `ExactSliceRenderer`. Source audit
+  disproved the ledger's prior mutable-generation assumption: the renderer has
+  no lock, generation counter, task handle or mutable stored state; it composes
+  only `Sendable` actors, immutable values and `@Sendable` stage/naming
+  closures, while every render owns its pipeline locals. The unnecessary
+  unchecked conformance was removed. Explicit cancellation checks now run at
+  render admission and immediately before all five possible derived-stage
+  publications, preventing even an injected uncooperative stage from
+  publishing after its task is cancelled. The original renderer filter first
+  executed eight tests with zero failures. Two new regressions then shared one
+  renderer across eight concurrent exact renders with host-unique naming and
+  proved all eight fixture outputs plus nine total published objects, and
+  cancelled an uncooperative suspended window stage before release, proving
+  only the origin remained published. The expanded renderer filter executed
+  ten tests with zero failures; the direct renderer, Metal renderer, planner
+  and archival filter executed eighteen tests across four suites with zero
+  failures, including the 12/12 window, 12/12 sixteen-bit and 12/12 fully-
+  device exact comparisons. Focused strict format lint passed. The raw Swift
+  safety inventory scan now passes with no prohibited escape-hatch syntax or
+  compiler configuration. The required semantic `--compile` follow-up did not
+  pass: it reported fourteen distinct strict-memory-safety diagnostics across
+  `CanonicalDerivationJSON.swift`, `CanonicalMetadataIngress.swift`,
+  `CanonicalMetadataJSON.swift`, `CanonicalProvenanceJSON.swift` and
+  `ContentID.swift`; a filtered rerun confirmed the same five-file set. Those
+  are pre-existing unmarked unsafe-buffer traversals, hashing and constant-time
+  comparison calls, not renderer regressions. The complete suite was
+  intentionally not run under the narrow-test policy. The next recovery is the
+  four related canonical-literal UTF-8 traversals, followed separately by the
+  security-sensitive `ContentID` hashing/comparison boundary.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9692,19 +9722,22 @@ and direct-volume-rendering increments through accepted `ADR-0182`. Accepted
 `ADR-0183` now opens the M6 geometry extraction arc. The full
 coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
 accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
-logical triangle topology. The immediate exact next action is restoring the
-fail-closed Swift safety gate. Checked mutex recovery removed the three
-test-only findings, `MetalPipelineCache`, `MetalExecutionContext` and the three
-kernel wrappers plus `MetalResidencyManager`; one ungoverned production Metal
-conformance remains. The exact next focused recovery is `ExactSliceRenderer`:
-isolate or eliminate its mutable generation/task orchestration state while
-preserving cancellation, stale-publication suppression, exact CPU rendering
-and concurrent render behavior. Do not suppress the checker or claim the
-historical zero-exception state until the strict gate passes with no findings.
+logical triangle topology. The unchecked-conformance recovery is complete: the
+fail-closed escape-hatch scan has zero findings. The complete semantic Swift
+safety gate remains red on fourteen strict-memory-safety diagnostics across
+five Core files. The exact next focused recovery is the four related canonical
+literal emit/ingress sites: replace `StaticString.withUTF8Buffer` traversal
+with checked bounded UTF-8 iteration while preserving byte-for-byte canonical
+metadata, derivation and provenance output plus exact ingress behavior. Then
+recover `ContentID`'s streaming hash and constant-time comparison boundary
+without weakening its security contract or adding a prohibited `unsafe`
+marker. Do not resume geometry or report the compiler gate green until both
+groups pass the semantic `--compile` oracle.
 
-After that recovery, the geometry queue resumes with the explicit package
-dependency-resolution decision under `ADR-0186`: reconcile the MTA/CDMS demand
-for a Spatial-owned coordinate space in canonical mesh values with the approved
+After that semantic safety recovery, the geometry queue resumes with the
+explicit package dependency-resolution decision under `ADR-0186`: reconcile
+the MTA/CDMS demand for a Spatial-owned coordinate space in canonical mesh
+values with the approved
 `VoxeliaGeometry -> VoxeliaCore` direct graph, including package-graph,
 ownership, API and downstream validation consequences. Do not add
 `VoxeliaGeometry -> VoxeliaSpatial`, duplicate its coordinate model or weaken
@@ -9724,13 +9757,15 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- A governance decision has no test surface. When the next accepted decision
-  authorises work, derive its policy from the smallest owning target as in
-  prior increments, plus documentation, requirement-index and
-  release-integrity checks and the package-graph checks whenever ownership
-  or module boundaries are affected. Do not rerun the complete scaffold
-  suite unless a cross-cutting change affects its gate or a release
-  candidate is being accepted.
+- For the canonical-literal recovery, run the focused metadata ingress,
+  metadata canonical JSON, derivation canonical JSON and provenance canonical
+  JSON suites, including registered byte fixtures and malformed ingress
+  rejection. Rerun the raw safety scan and semantic `--compile` gate; expect
+  only the separately recorded `ContentID` diagnostics until that second group
+  is recovered.
+- Treat `ContentID` as a separate security-sensitive increment with its
+  streaming/chunk-boundary, digest, constant-time-comparison and malformed
+  claim regressions before rerunning the semantic gate.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

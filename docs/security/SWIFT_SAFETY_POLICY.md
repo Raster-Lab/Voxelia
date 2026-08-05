@@ -74,19 +74,24 @@ policy does not treat them as passing.
 
 ## Current inventory
 
-The permitted-exception inventory remains empty. The checker currently reports
-one ungoverned production `VoxeliaMetal` declaration introduced after the
-last green baseline; this is a policy violation under active recovery, not an
-accepted exception. Three test-only findings and the production pipeline
-cache were removed on 2026-08-05 by replacing manual lock wrappers with checked
-`Synchronization.Mutex` state; the execution context's device/queue pair now
-uses the same checked synchronous borrowing boundary, and all three kernel
-wrappers isolate their pipeline sets during encoder configuration. The
-immutable residency manager now stores only that checked context.
+The permitted-exception inventory remains empty, and the raw escape-hatch scan
+now passes with no findings. The 2026-08-05 recovery replaced three test-only
+lock wrappers and the production pipeline cache with checked
+`Synchronization.Mutex` state, isolated the execution context's device/queue
+pair and all three kernel pipeline sets behind checked synchronous borrowing,
+removed the immutable residency manager's obsolete exception and proved the
+exact slice renderer is immutable checked composition.
+
+The complete semantic gate is not green. `check_swift_safety.py --compile`
+currently reports fourteen strict-memory-safety diagnostics across five
+`VoxeliaCore` files: four canonical literal/ingress implementations traverse
+`StaticString` unsafe buffers, while `ContentID` uses unsafe-buffer hashing and
+constant-time comparison calls. None is an accepted exception; recovery must
+use checked Swift without weakening canonical-byte or timing-safety contracts.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | One ungoverned production Metal declaration remains | VoxeliaMetal | Not accepted | Fail-closed checker remains red; recovery required | Focused recovery suite; complete strict gate pending |
+| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile red on five Core files | Focused canonical and identity recovery suites pending |
 
 ## Introducing an exception
 
