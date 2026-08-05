@@ -3565,6 +3565,26 @@ oracle campaigns.
   colour while every alpha byte matches the unshaded render, with
   repetition bit-identical. The arc's remaining increments are
   clipping and masks, then acceleration.
+- One-hundred-fifty-fifth autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0178`, freezing the
+  volume clipping design — the arc's fifth increment. The rendering
+  module gets its own clip value with the duplication recorded and
+  bound: the accepted clip box lives in the interaction module above
+  rendering, the broker-generation precedent, and the mirrored shape
+  must never drift. Clipping and cropping are both ray-interval
+  restrictions frozen as more slabs in the one accepted intersection
+  — the world clip's three slabs over the world ray, the index
+  crop's tightened pixel-centre support — in the declared order with
+  the zero clamp composing unchanged and the empty combined interval
+  the declared empty plan. A foreign-space clip rejects typed
+  because it would silently cut in the wrong frame. Post-hoc sample
+  masking was rejected because it could leak excluded samples into
+  boundary gradients; oriented planes were deferred to a consumer
+  that needs them; segmentation masks are their own record because
+  they change what composites, not where rays sample. Exact
+  python-verified fixtures pin the clipped, behind, parallel-outside,
+  cropped and all-containing cases. Implementation follows as its
+  own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
