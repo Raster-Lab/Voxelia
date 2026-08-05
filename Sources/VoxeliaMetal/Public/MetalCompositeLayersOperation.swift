@@ -61,16 +61,17 @@ public enum MetalCompositeLayersOperation {
             else {
                 throw CompositeError.unsupportedLayerFormat
             }
-            // The device implementation claims contract 1.1.0 — the
-            // geometry-free revision it implements — so calibrated
-            // layers stay outside its admitted format.
-            for axis in layer.descriptor.axes {
-                guard case .indexOnly = axis.sampling else {
-                    throw CompositeError.unsupportedLayerFormat
-                }
-            }
-            guard layer.descriptor.spatialGeometry == nil else {
-                throw CompositeError.unsupportedLayerFormat
+            // The ADR-0131 equality rule, mirroring the registered
+            // 1.2.0 contract: the blend is value arithmetic on the
+            // device while the calibration admission and passthrough
+            // are host-side, so the device implementation serves the
+            // full contract.
+            guard
+                layer.descriptor.axes == layers[0].descriptor.axes,
+                layer.descriptor.spatialGeometry
+                    == layers[0].descriptor.spatialGeometry
+            else {
+                throw CompositeError.layerCalibrationMismatch
             }
         }
         guard opacities.count == layers.count else {
@@ -122,7 +123,7 @@ public enum MetalCompositeLayersOperation {
             components: layers[0].descriptor.components,
             semantic: .intensity,
             axes: layers[0].descriptor.axes,
-            spatialGeometry: nil,
+            spatialGeometry: layers[0].descriptor.spatialGeometry,
             valueTransform: nil,
             units: nil
         )
@@ -140,8 +141,8 @@ public enum MetalCompositeLayersOperation {
 
         // The registered operation at its current contract version
         // with the device implementation reference and honest claim.
-        let operationVersion = try SemanticVersion(major: 1, minor: 1, patch: 0)
-        let implementationVersion = try SemanticVersion(major: 1, minor: 0, patch: 0)
+        let operationVersion = try SemanticVersion(major: 1, minor: 2, patch: 0)
+        let implementationVersion = try SemanticVersion(major: 1, minor: 1, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: CompositeLayersOperation.operationIdentifier
         )

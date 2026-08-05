@@ -2459,6 +2459,22 @@ memory-pressure injection, the priority-propagation and
 private-residency measurement workloads, and the external Ryu and V8
 oracle campaigns.
 
+- Ninety-ninth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0131`, closing the device
+  composite's calibration gap. The blend is value arithmetic while
+  calibration admission and passthrough are host-side, so the device
+  implementation adopts the `ADR-0128` equality rule verbatim,
+  carries the shared calibration to its output, and claims contract
+  1.2.0 with the implementation advanced to 1.1.0 — the
+  claim-what-you-implement rule cuts both ways, and an implementation
+  that serves the full contract should claim it; the kernel and its
+  measured evidence are unchanged. The real-device test blends
+  identically calibrated layers with the calibration carried through
+  and both widened versions in the recipe, and rejects a calibration
+  mismatch typed. Calibrated scenes now blend identically on both
+  backends, differing only in implementation reference and claim, as
+  designed.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

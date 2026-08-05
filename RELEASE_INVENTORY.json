@@ -921,8 +921,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalCompositeLayersOperation.swift",
-      "size": 10000,
-      "sha256": "af6e87795256d25237a5afbe20e8253d634c2e24764ca6744539119218b792f8"
+      "size": 10088,
+      "sha256": "580c382746ea4e360757dcddfd55414c0a12406db9a43288582125562d0a9a8b"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalExecutionContext.swift",
@@ -1711,8 +1711,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalCompositeLayersOperationTests.swift",
-      "size": 8823,
-      "sha256": "41b2c8d6e242ef6eac54b040d1e61ae6e41ca1b8fe1413c045ba9d0dcccd35ad"
+      "size": 12140,
+      "sha256": "05099f848612cca26d5ee0323e8f6a510bf5c9be827704103e256f37bef37226"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalExecutionContextTests.swift",
@@ -3015,9 +3015,14 @@
       "sha256": "08b2e8c3d8c90d1079352972e6fe5fb056519d96349c6504dffc34b56fdae2b8"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0131-device-composite-calibration.md",
+      "size": 2579,
+      "sha256": "6070cc3b38d104ee3e458682f0d1fac46f5d5bb0ed8afe770158d382ad6088a1"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 19349,
-      "sha256": "37ebf7b326893044101b3e39b8aafb08c8f940dab60e418b5e5236d710a33cb8"
+      "size": 19505,
+      "sha256": "7ebf1b783f0c4ef5ed9d78801924c24cd13e6d0c5b90e63b677522fed6e76947"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3101,8 +3106,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 567789,
-      "sha256": "1a682f398e2345c982631dbec3701d243aac41a9792b279f655c2216a28ceddf"
+      "size": 568728,
+      "sha256": "84b8b1cb9fad064fa2e657c9899383390a4e757dea5c566e685ec7de63c974a6"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3461,8 +3466,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 36700,
-      "sha256": "4db70485aae982887761beab1a49b79fd70bae4198c623e88e6e98552b5f8902"
+      "size": 36769,
+      "sha256": "c84323513479ed4670f17e435cc0949948c04dc22e71c2ca90c89f5918292b6a"
     }
   ]
 }

@@ -26,20 +26,25 @@ struct MetalCompositeLayersOperationTests {
         )
     }
 
-    private func axis(_ id: String) throws -> AxisDescriptor {
+    private func axis(
+        _ id: String,
+        sampling: AxisSampling = .indexOnly
+    ) throws -> AxisDescriptor {
         try AxisDescriptor(
             id: try #require(AxisID(rawValue: id)),
             name: id,
             semantic: .spatialX,
             unit: nil,
-            sampling: .indexOnly
+            sampling: sampling
         )
     }
 
     private func layer(
         bytes: [UInt8],
         name: String,
-        valueTransform: ValueTransform? = nil
+        valueTransform: ValueTransform? = nil,
+        sampling: AxisSampling = .indexOnly,
+        geometry: SpatialGeometry? = nil
     ) throws -> ImageData {
         try ImageData(
             descriptor: try ImageDescriptor(
@@ -56,8 +61,8 @@ struct MetalCompositeLayersOperationTests {
                     componentNames: nil
                 ),
                 semantic: .intensity,
-                axes: [try axis("x"), try axis("y")],
-                spatialGeometry: nil,
+                axes: [try axis("x", sampling: sampling), try axis("y")],
+                spatialGeometry: geometry,
                 valueTransform: valueTransform,
                 units: nil
             ),
@@ -193,6 +198,89 @@ struct MetalCompositeLayersOperationTests {
                 == reference.identity.derivation?.parameterDigest
         )
         #expect(device.provenance.inputs.count == 2)
+    }
+
+    @Test("[Integration][VOX-SPA-013][VOX-EXE-002] calibrated layers blend on the device")
+    func calibratedLayersBlendOnTheDevice() async throws {
+        // The ADR-0131 equality rule on the real device: identical
+        // calibration blends with the calibration carried through and
+        // both widened versions in the recipe; a mismatch rejects
+        // typed.
+        let kernel = try MetalCompositeKernel(
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
+        )
+        let space = try CoordinateSpaceDescriptor(
+            id: try #require(CoordinateSpaceID(rawValue: "patient")),
+            convention: .dicomPatientLPS,
+            handedness: .unspecified,
+            unit: try MeasurementUnit(
+                namespace: "UCUM",
+                code: "mm",
+                dimension: .length
+            ),
+            externalReferences: []
+        )
+        func geometry(translationX: Double) throws -> SpatialGeometry {
+            .affine(
+                try AffineGridGeometry(
+                    spatialAxes: try SpatialAxisMapping(imageAxes: [0, 1]),
+                    indexToWorld: try Matrix4x4Double(elements: [
+                        0, -2, 0, translationX,
+                        2, 0, 0, 20,
+                        0, 0, 1, 30,
+                        0, 0, 0, 1,
+                    ]),
+                    coordinateSpace: space
+                )
+            )
+        }
+        let sampling = AxisSampling.regular(origin: 5, spacing: 2.5)
+        let first = try layer(
+            bytes: Self.layerA,
+            name: "series-a",
+            sampling: sampling,
+            geometry: try geometry(translationX: 10)
+        )
+        let second = try layer(
+            bytes: Self.layerB,
+            name: "series-b",
+            sampling: sampling,
+            geometry: try geometry(translationX: 10)
+        )
+        let blended = try await execute(
+            layers: [first, second],
+            opacities: [1.0, 0.5],
+            kernel: kernel,
+            suffix: "cal"
+        )
+        #expect(blended.descriptor.axes == first.descriptor.axes)
+        #expect(
+            blended.descriptor.spatialGeometry == first.descriptor.spatialGeometry
+        )
+        #expect(
+            blended.identity.derivation?.operationVersion
+                == (try SemanticVersion(major: 1, minor: 2, patch: 0))
+        )
+        #expect(
+            blended.identity.derivation?.implementation?.version
+                == (try SemanticVersion(major: 1, minor: 1, patch: 0))
+        )
+        do {
+            let shifted = try layer(
+                bytes: Self.layerB,
+                name: "series-s",
+                sampling: sampling,
+                geometry: try geometry(translationX: 11)
+            )
+            _ = try await execute(
+                layers: [first, shifted],
+                opacities: [1.0, 0.5],
+                kernel: kernel,
+                suffix: "cal-mismatch"
+            )
+            #expect(Bool(false), "Expected a calibration mismatch to be rejected.")
+        } catch CompositeError.layerCalibrationMismatch {}
     }
 
     @Test("[Integration][VOX-ERR-001] device composite admission rejects typed")
