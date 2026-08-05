@@ -3436,6 +3436,25 @@ oracle campaigns.
   exactly including consumed counts, and repetition is bit-identical.
   The renderer record follows, freezing per-pixel ray generation
   with the presentation claims.
+- One-hundred-forty-eighth autonomous increment (owner broadened
+  standing mandate): authored and accepted `VOXELIA-ALG-0024` and
+  `ADR-0172`, freezing the volume renderer design. Ray generation
+  composes the accepted norm and cross forms into the frozen basis
+  and pixel-centre grid with exact fixtures; the true-up vector is
+  deliberately not renormalised because the basis is orthonormal up
+  to rounding by construction. The perspective projection is
+  deferred with its reasoning recorded — it changes no compositing
+  semantics while doubling the fixture surface, and no consumer
+  distinguishes it yet — rejected typed until the interactive arc
+  wants it. The surface decision revises the arc-opening
+  expectation explicitly: the slice-request vocabulary describes
+  windowed slice scenes, and forcing a volume scene through it
+  would misdescribe both, so a sibling volume request and renderer
+  surface arrive beside the slice renderers, with the render-mode
+  and colour-output claims widening additively and the transfer
+  table digested into the operation parameters so what ran is
+  reproducible. Implementation follows as its own increments, ray
+  generation first.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
