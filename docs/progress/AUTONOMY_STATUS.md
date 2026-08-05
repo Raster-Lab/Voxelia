@@ -4471,6 +4471,41 @@ oracle campaigns.
   bearing canonical triangle mesh under this accepted edge before adding
   product API.
 
+- One-hundred-eighty-sixth autonomous increment (owner's explicit broad
+  approval): authored and accepted `ADR-0188`, freezing the complete
+  coordinate-bearing triangle-mesh payload before product source. The design
+  binds one exact Spatial-owned `CoordinateSpaceDescriptor` to immutable
+  finite flattened `Double` position triples, composes the already checked
+  independent-triangle topology without merging the domains, and binds an
+  ordered collection of independently owned non-position vertex attributes.
+  Attribute payloads preserve exact scalar bytes under the existing scalar,
+  byte-order and component descriptors; interleaved and planar orders are
+  explicit, `storageDefined` rejects, and both derived byte multiplications are
+  overflow checked before exact count comparison. Mesh admission fixes
+  topology/position count, per-attribute vertex count, then duplicate-semantic
+  precedence. All three error families are typed and payload-free.
+
+  The boundary explicitly claims neither `Hashable`/`Codable` identity nor a
+  durable wire, content digest, backend residency, metadata or the still-
+  governed provenance publication wrapper. Supplied signed-zero bits and
+  attribute bytes are preserved without normalization; extraction operations
+  remain responsible for host budgets before allocation. Marching-cubes
+  equality, interpolation, ambiguity, ordering, normals, measurement and
+  acceleration remain later separately frozen contracts.
+
+  `Tools/Scripts/validate-docs.sh` passed seven front-matter documents, all 168
+  ADR records, the two primary and one companion Draft RFC records and text
+  checks for 274 Markdown files. `git diff --check` and the pre-regeneration
+  819-entry manifest path check passed. No product source, manifest edge or
+  runtime behavior changed, so no Swift build, test, semantic safety gate or
+  Apple destination matrix was rerun; none is claimed. Release-integrity
+  regeneration and read-only manifest/integrity verification passed with 820
+  manifest paths, 819 inventory records and 820 checksums; the repeated
+  documentation and diff gates also passed. The exact next increment
+  implements the three frozen values,
+  focused malformed-input/numerical/overflow/concurrency evidence and direct-
+  dependant strict builds before scalar extraction is designed.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -10271,12 +10306,14 @@ the exact Metal exception.
 Accepted `ADR-0187` and `CCR-0027` now resolve the package boundary: the live
 manifest and both fail-closed graph checkers declare
 `VoxeliaGeometry -> {VoxeliaCore, VoxeliaSpatial}` while module ownership stays
-singular and the graph remains acyclic. The exact next action is a separately
-frozen coordinate-bearing canonical triangle-mesh design: define immutable
-finite `Double` position ownership, exact vertex/topology cardinality,
-attribute-domain binding, coordinate descriptor semantics, typed payload-free
-admission precedence, limits and identity scope without selecting the scalar
-extraction numeric model. Product source follows only after that design.
+singular and the graph remains acyclic. Accepted `ADR-0188` now freezes the
+coordinate-bearing canonical triangle-mesh payload: exact finite `Double`
+position ownership and coordinate descriptor, independent checked topology,
+exact non-position vertex-attribute bytes and layout, checked byte arithmetic,
+fixed admission precedence and deliberately absent wire/content/provenance
+claims. The exact next action is its product implementation and focused
+numerical, malformed-input, overflow, concurrency and direct-dependant evidence
+without selecting the scalar-extraction numeric model.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -10290,10 +10327,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Freeze the complete coordinate-bearing canonical triangle-mesh contract under
-  accepted `ADR-0187`: positions, topology, coordinate descriptor, attributes,
-  admission precedence, overflow/resource rules and semantic identity. Validate
-  the ADR and fixtures before adding product source.
+- Implement accepted `ADR-0188` exactly: position domain, non-position vertex
+  attributes and mesh binding with their fixed admission precedence. Run the
+  focused Geometry tests, strict owning/direct-dependant builds, public API
+  documentation validation, safety inventory and release-integrity gates.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

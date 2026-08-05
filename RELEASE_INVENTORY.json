@@ -3635,9 +3635,14 @@
       "sha256": "fcb73a85ee18d8974841280eb2ab8cf823df5bcc5bda17794f80e873d08316d2"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0188-coordinate-bearing-triangle-mesh-design.md",
+      "size": 11751,
+      "sha256": "d7869ef013cf10d5c2d8ecf4e747a728bab9431922624f6b5832eedbe339eefc"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 27765,
-      "sha256": "75b88e09b9a0103752933f66a68422be92ca24a019ebd9b7bb91d283cc914bfb"
+      "size": 27886,
+      "sha256": "7cf3eae5ce74df51171235f42ba4a9f641d3a10964b9d6df891f9b34924ff1db"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3721,8 +3726,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 703823,
-      "sha256": "54a6e334d719c6464fb348afe901f84e3dc9347115b0eaa727cfe2d20f6034cc"
+      "size": 706297,
+      "sha256": "6592564052875534db5c293ec6b4c01f216ea6113b7c6b414e33e26e7ef85a41"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4091,8 +4096,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 44382,
-      "sha256": "3a87428c84fafdb40e32b46463240736ab744aaa571050d7a820cbef5df58953"
+      "size": 44462,
+      "sha256": "5b0094f4fece094b113cb43296df152734779a8832dbf4d06111cf7c8468dad0"
     }
   ]
 }
