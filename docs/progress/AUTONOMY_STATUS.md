@@ -3097,6 +3097,24 @@ oracle campaigns.
   refinement, the recorded interest-counted cancellation; third the
   planner's registry consultation, the revision path the
   registration record reserved; then the M6 opening assessment.
+- One-hundred-twenty-ninth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0156`, the bricked
+  image aggregate — the derived queue's first item. Image admission
+  accepts the decoded composite representation beside the strided
+  profile, reading the byte-order coherence from each descriptor's
+  own declaration while every representation-independent check stays
+  unchanged; the opaque case stays outside because an image is
+  decoded samples and opaque means not directly readable. A separate
+  bricked aggregate type was rejected: the coherence rules are
+  representation-independent and a parallel type would fork every
+  consuming surface for no admission difference. The end-to-end
+  story is proven: an aggregate constructs over the bricked
+  provider, and region extraction over the bricked-backed input
+  produces output byte-identical to the contiguous-backed equivalent
+  with matching output content identities — brickedness invisible
+  through the whole operation pipeline. The broker's
+  interest-counted abandonment refinement follows as the next queue
+  item.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

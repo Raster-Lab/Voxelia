@@ -60,12 +60,20 @@ public struct ImageData: Sendable {
         guard descriptor.components.count == binding.componentCount else {
             throw ImageDataError.componentCountMismatch
         }
-        guard
-            case .decodedStrided(let decoded) = storage.snapshot.representation
-        else {
+        // ADR-0156: an image is decoded samples — the strided and
+        // composite representations both qualify, with the byte-order
+        // coherence read from each descriptor's own declaration;
+        // opaque means not directly readable and stays outside.
+        let representationByteOrder: ByteOrder
+        switch storage.snapshot.representation {
+        case .decodedStrided(let decoded):
+            representationByteOrder = decoded.byteOrder
+        case .decodedComposite(let composite):
+            representationByteOrder = composite.byteOrder
+        case .opaque:
             throw ImageDataError.unsupportedRepresentation
         }
-        guard decoded.byteOrder == descriptor.scalarFormat.byteOrder else {
+        guard representationByteOrder == descriptor.scalarFormat.byteOrder else {
             throw ImageDataError.byteOrderMismatch
         }
 
