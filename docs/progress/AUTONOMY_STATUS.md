@@ -2289,6 +2289,27 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   design decision recorded as a future candidate, not an empty-target
   obligation; the umbrella target re-exports and gains substance
   last. Neither warrants invention now.
+- Ninety-fourth autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0008` revision 1.1 and
+  `ADR-0126`, opening the geometry-bearing presentation arc. The
+  registered rescale rules freeze under the pixel-centre convention:
+  a regular axis becomes origin plus the half-sample shift times
+  spacing with the spacing scaled, and an affine geometry updates in
+  two frozen passes — translations accumulate over the original
+  columns first, then spatial columns scale — so every resampled
+  sample keeps its physical position using physical spacing rather
+  than assuming isotropy or axis alignment. The nearest-neighbour
+  operation admits regular sampling and affine geometry at the 1.1.0
+  versions, rebuilds per-axis sampling and the geometry per the
+  registered rules, keeps irregular and categorical payloads typed
+  rejections — no linear rescale exists for them — and drops its
+  now-dead geometry rejection per the dead-case precedent. Tests
+  reproduce both rescale fixtures exactly — the regular axis at
+  4.375 and 1.25, and the affine matrix with its unscaled third
+  column — verify the coordinate space and the widened version, and
+  keep geometry-free outputs byte-identical. `VOX-MPR-003` is
+  discharged for the nearest policy; the bilinear widening and the
+  physical-picking decisions continue the arc.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

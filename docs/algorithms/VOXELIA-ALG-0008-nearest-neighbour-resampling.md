@@ -1,7 +1,7 @@
 ---
 document_id: "VOXELIA-ALG-0008"
 title: "Nearest-neighbour resampling binary64-v1"
-version: "1.0"
+version: "1.1"
 status: "Accepted"
 document_type: "Algorithm Specification"
 project: "Voxelia"
@@ -47,6 +47,38 @@ The mapping is a pure function of the dimensions: repeated evaluation
 is bit-identical, and identical dimensions produce the identity
 mapping. Dimension admission is the receiver's typed surface; no
 branch of the model itself can fail.
+
+## Geometry and sampling rescale
+
+Revision 1.1, selected by accepted
+[`ADR-0126`](../architecture/decisions/ADR-0126-geometry-bearing-resampling.md),
+adds the frozen rescale rules for regular sampling and affine
+geometry so every resampled sample keeps its physical position under
+the pixel-centre convention. With `scale = nIn / nOut` per axis and
+the half-sample shift `h = ((0.5 * scale) - 0.5)`, each operation
+correctly rounded in this order:
+
+- A regular axis `(origin, spacing)` becomes
+  `(origin + (h * spacing), scale * spacing)`.
+- An affine geometry updates in two frozen passes over the spatial
+  mapping slots in ascending order: first every translation component
+  `t[r]` accumulates `m[4r + s] * h(axis(s))` using the original
+  column values; then every spatial column `m[4r + s]` scales by
+  `scale(axis(s))`.
+
+Irregular and categorical payloads have no linear rescale and remain
+outside the admitted domain.
+
+### Rescale fixtures
+
+Independently computed for 4-by-3 to 8-by-6 (both scales one half):
+
+- Regular axis zero `(5, 2.5)` becomes `(4.375, 1.25)`.
+- The affine matrix with rows `(0, -2, 0, 10)`, `(2, 0, 0, 20)`,
+  `(0, 0, 1, 30)` over image axes `(0, 1)` becomes rows
+  `(0, -1, 0, 10.5)`, `(1, 0, 0, 19.5)`, `(0, 0, 0.5, 30)` — with
+  the third spatial column unscaled because no image axis maps to it,
+  exactly: `(0, 0, 1, 30)`.
 
 ## Conformance fixtures
 

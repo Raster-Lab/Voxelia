@@ -686,8 +686,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/Public/ResampleNearestOperation.swift",
-      "size": 10629,
-      "sha256": "ff97939b4122ccf2c178b3ed8ccaf70ece567b5b850728a418042ca9f0e79b13"
+      "size": 13185,
+      "sha256": "6970b077131edc9ee8c6bfc1a9bb221ac30984f1f81ce7875193ae4bbc870911"
     },
     {
       "path": "Sources/VoxeliaExecution/Public/SqueezeAxesOperation.swift",
@@ -1616,8 +1616,8 @@
     },
     {
       "path": "Tests/VoxeliaExecutionTests/ResampleNearestOperationTests.swift",
-      "size": 7709,
-      "sha256": "0f9b0bfecd56f9d937e8e1950e30b0aad558c90f5416577f53d00dce7d2a0067"
+      "size": 10169,
+      "sha256": "7c075b236c60323b1246ebebbc3d434cea20bafa39b26bc93478828051ef50cb"
     },
     {
       "path": "Tests/VoxeliaExecutionTests/SqueezeAxesOperationTests.swift",
@@ -2291,8 +2291,8 @@
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0008-nearest-neighbour-resampling.md",
-      "size": 2367,
-      "sha256": "5d65789758672bd9258dcd60a84ba8e1524520bf15db6a8b5a7168604859a65c"
+      "size": 3730,
+      "sha256": "bb360b9d7e7d3745f8d7ae2ed59d12922e56b89e8668b0f6e768c7c97e61105b"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0009-layered-linear-blend.md",
@@ -2985,9 +2985,14 @@
       "sha256": "5784c09fbad3d9ddde03f38112e5fc2494f0aaccf1f282062d2b396b6a874af8"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0126-geometry-bearing-resampling.md",
+      "size": 3401,
+      "sha256": "b28661644d3c896f8d8789a924a82f6a290c70bb3873314c47d63d0ff2cf6bc2"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 18586,
-      "sha256": "46d9fc07e14fd2b6064b98bb772ac275d3c27310755b8ef8e47058b1f43d7524"
+      "size": 18739,
+      "sha256": "22fe8c754bd2b0544ec1707b9846aa9a1b8b9225a1f47c4acfa28649cf00bdd7"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3071,8 +3076,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 557612,
-      "sha256": "f21d1908a3cef9222ea966fd4162786779be472879440c2c0b30aa9524cc8b9b"
+      "size": 558989,
+      "sha256": "232c8b2672790b4d8c5914ad4cc00a573d26a1a3ec449b74f24435cc169b494a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3431,8 +3436,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 36306,
-      "sha256": "96c5f9f8c6a6ab1e698b1907f4e0aaf3a9e175e353ed24014a57e933be2a5294"
+      "size": 36374,
+      "sha256": "c9ef22acf74f94c2fd7dbfa70c846417e5b4504bd984f77fce1a399847699a09"
     }
   ]
 }

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import VoxeliaCore
+import VoxeliaSpatial
 import VoxeliaStorage
 
 /// An error raised by nearest-neighbour resampling admission.
@@ -10,7 +11,6 @@ import VoxeliaStorage
 public enum ResampleError: Error, Sendable, Equatable {
     case unsupportedRank
     case unsupportedAxisSampling
-    case unsupportedGeometry
     case invalidOutputExtent
 }
 
@@ -50,18 +50,21 @@ public enum ResampleNearestOperation {
         software: SoftwareIdentity,
         coordinator: StorageReadCoordinator
     ) async throws -> ImageData {
-        // Version-one admission per ADR-0088.
+        // Admission per ADR-0088 widened by ADR-0126: regular
+        // sampling and affine geometry rescale under the registered
+        // rules; irregular and categorical payloads have no linear
+        // rescale.
         let extents = input.descriptor.shape.extents
         guard extents.count == 2 else {
             throw ResampleError.unsupportedRank
         }
         for axis in input.descriptor.axes {
-            guard case .indexOnly = axis.sampling else {
+            switch axis.sampling {
+            case .indexOnly, .regular:
+                continue
+            default:
                 throw ResampleError.unsupportedAxisSampling
             }
-        }
-        guard input.descriptor.spatialGeometry == nil else {
-            throw ResampleError.unsupportedGeometry
         }
         guard
             outputWidth >= 1, outputWidth <= Self.maximumOutputExtent,
@@ -117,13 +120,69 @@ public enum ResampleNearestOperation {
                 bytes: outputBytes
             )
         )
+        // The ADR-0126 rescale: per-axis regular sampling and the
+        // affine geometry update per the registered ALG-0008 rules,
+        // with h = ((0.5 * scale) - 0.5) per axis.
+        let scales = [
+            Double(inputWidth) / Double(outputWidth),
+            Double(inputHeight) / Double(outputHeight),
+        ]
+        var outputAxes = ContiguousArray<AxisDescriptor>()
+        for (axisIndex, axis) in input.descriptor.axes.enumerated() {
+            switch axis.sampling {
+            case .regular(let origin, let spacing):
+                let scale = scales[axisIndex]
+                let shift = ((0.5 * scale) - 0.5)
+                outputAxes.append(
+                    try AxisDescriptor(
+                        id: axis.id,
+                        name: axis.name,
+                        semantic: axis.semantic,
+                        unit: axis.unit,
+                        sampling: .regular(
+                            origin: origin + (shift * spacing),
+                            spacing: scale * spacing
+                        )
+                    )
+                )
+            default:
+                outputAxes.append(axis)
+            }
+        }
+        var outputGeometry: SpatialGeometry?
+        if case .affine(let affine)? = input.descriptor.spatialGeometry {
+            var elements = affine.indexToWorld.elements
+            // First pass: translations accumulate over the original
+            // columns in ascending slot order.
+            for (slot, imageAxis) in affine.spatialAxes.imageAxes.enumerated() {
+                let shift = ((0.5 * scales[imageAxis]) - 0.5)
+                for row in 0..<3 {
+                    elements[4 * row + 3] =
+                        elements[4 * row + 3] + (elements[4 * row + slot] * shift)
+                }
+            }
+            // Second pass: spatial columns scale.
+            for (slot, imageAxis) in affine.spatialAxes.imageAxes.enumerated() {
+                for row in 0..<3 {
+                    elements[4 * row + slot] =
+                        elements[4 * row + slot] * scales[imageAxis]
+                }
+            }
+            outputGeometry = .affine(
+                try AffineGridGeometry(
+                    spatialAxes: affine.spatialAxes,
+                    indexToWorld: try Matrix4x4Double(elements: elements),
+                    coordinateSpace: affine.coordinateSpace
+                )
+            )
+        }
         let outputDescriptor = try ImageDescriptor(
             shape: outputShape,
             scalarFormat: input.descriptor.scalarFormat,
             components: input.descriptor.components,
             semantic: input.descriptor.semantic,
-            axes: input.descriptor.axes,
-            spatialGeometry: nil,
+            axes: outputAxes,
+            spatialGeometry: outputGeometry,
             valueTransform: input.descriptor.valueTransform,
             units: input.descriptor.units
         )
@@ -143,7 +202,7 @@ public enum ResampleNearestOperation {
         // Registered tokens, derivation recipe, content identity and
         // the subject-bound record with its parent edge, per the
         // accepted operation pattern.
-        let version = try SemanticVersion(major: 1, minor: 0, patch: 0)
+        let version = try SemanticVersion(major: 1, minor: 1, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )

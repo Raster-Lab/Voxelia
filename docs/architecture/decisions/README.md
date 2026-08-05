@@ -107,8 +107,9 @@ measurement. `ADR-0121` is allocated to the window edge-case
 assessment. `ADR-0122` is allocated to render generations. `ADR-0123` is
 allocated to the bilinear resampling operation. `ADR-0124` is
 allocated to display policy selection. `ADR-0125` is allocated to
-index-space pick resolution. The next unallocated numeric identifier
-is `ADR-0126`.
+index-space pick resolution. `ADR-0126` is allocated to
+geometry-bearing resampling. The next unallocated numeric identifier
+is `ADR-0127`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -217,3 +218,4 @@ is `ADR-0126`.
 | [ADR-0123](ADR-0123-bilinear-resampling.md) | Accepted | Bilinear resampling operation |
 | [ADR-0124](ADR-0124-display-policy-selection.md) | Accepted | Display policy selection |
 | [ADR-0125](ADR-0125-pick-resolution.md) | Accepted | Index-space pick resolution |
+| [ADR-0126](ADR-0126-geometry-bearing-resampling.md) | Accepted | Geometry-bearing resampling |
