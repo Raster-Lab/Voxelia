@@ -3398,6 +3398,28 @@ oracle campaigns.
   foreign-space ray through the composed map's own case. The arc
   continues with the front-to-back compositing design, which brings
   the renderer surface.
+- One-hundred-forty-sixth autonomous increment (owner broadened
+  standing mandate): authored and accepted `VOXELIA-ALG-0023` and
+  `ADR-0170`, freezing the front-to-back compositing model — the
+  arc's third increment. Each midpoint sample is the accepted
+  trilinear sample byte, reusing that model's rounding and support
+  exactly because the transfer table is defined per eight-bit sample
+  and a second quantisation rule would fork the accepted one; the
+  binary64 conversion the table vocabulary deferred is declared here
+  where it is used. The accumulation order is frozen with the exact
+  dyadic termination threshold of two hundred fifty-five
+  two-hundred-fifty-sixths, remaining samples never consumed and the
+  consumed count part of the frozen behaviour. The table opacity is
+  per-sample at the full-quality interval by declaration — with one
+  registered quality token an interval-correction exponent would
+  always be one, an untestable no-op parameter — and the quality
+  tokens that change intervals must bring the correction rule in
+  their own records. The renderer surface is scoped out deliberately:
+  per-pixel ray generation from the camera vocabulary is its own
+  model, frozen in the renderer record after the compositing
+  implementation. Python-verified fixtures pin the frozen
+  accumulations, the one-sample termination and the below-threshold
+  three-sample ray. Implementation follows as its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

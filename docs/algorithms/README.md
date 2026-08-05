@@ -26,3 +26,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0020](VOXELIA-ALG-0020-intensity-projection.md) | Accepted | Intensity projection `exact-v1` |
 | [VOXELIA-ALG-0021](VOXELIA-ALG-0021-cubic-resampling.md) | Accepted | Cubic resampling `binary64-v1` |
 | [VOXELIA-ALG-0022](VOXELIA-ALG-0022-ray-sampling.md) | Accepted | Volume ray sampling `binary64-v1` |
+| [VOXELIA-ALG-0023](VOXELIA-ALG-0023-front-to-back-compositing.md) | Accepted | Front-to-back compositing `binary64-v1` |
