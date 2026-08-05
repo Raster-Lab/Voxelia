@@ -2393,6 +2393,72 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   reference documentation for the seventy accepted decisions of this
   window — and the owner-facing summary of the gates awaiting their
   decisions.
+
+=== OWNER SUMMARY (2026-08-05 morning, autonomous session window) ===
+
+While you were away the loop delivered forty-three pushed increments,
+`ADR-0088` through `ADR-0130`, taking the suite from 459 tests in 90
+suites to 509 tests in 112 suites with every push preceded by a
+verified full-suite pass. What exists now that did not before:
+
+- Eight registered operations (up from two): extraction and
+  window-level were joined by nearest-neighbour and bilinear
+  resampling, layer compositing, display inversion, axis
+  transposition and singleton squeeze — each with a frozen algorithm
+  specification, python-computed fixtures, typed admissions and full
+  identity, recipe and provenance assembly.
+- The complete presentation pipeline: multi-layer scenes with
+  per-layer opacity and monochrome polarity, cropping, three explicit
+  interpolation policies, pixel-padding exclusion, and honest
+  per-stage presentation claims — every stage a published object with
+  a complete provenance chain.
+- The device path: window-level and compositing Metal kernels,
+  digest-pinned manifests, measured differentials (36,864 of 36,864
+  exact for the 16-bit window paths; 13,311 of 13,312 for
+  compositing), the policy-driven backend planner, pipeline-state
+  caching proven by build counts, measured dispatch telemetry and
+  throughput evidence of roughly 16.9 billion samples per second at
+  the megasample size.
+- Durable history: canonical record archival through the document
+  store with manifest binding — a full render's five-record history
+  round-trips ingress-exact from disk.
+- Multiplanar reconstruction: axial, coronal and sagittal slices from
+  regular volumes with recipe-explicit geometry, plus linked
+  orthogonal views with validated crosshairs mapped to slice indices.
+- The geometry-bearing arc: calibration flows through the whole CPU
+  pipeline under registered rescale rules, presentations claim their
+  geometry, and calibrated picks resolve to exact physical positions.
+- The interaction vocabulary: the ten-concern command set, distance
+  and angle measurements under registered models, viewport
+  synchronisation, render generations and pick resolution.
+- Milestone state: M3 is fully discharged or honestly gated with
+  every row assessed; M4 is open with its dependency-free rows
+  substantially discharged.
+
+Four decisions are waiting for you — each a gate the loop
+deliberately did not take autonomously:
+
+1. The DICOMKit dependency. Every `VOX-DCM` row, `VOX-SPA-006` and
+   the exercise of `VOX-META-002` need the DICOMKit third-party
+   package. Adding external code changes the project's trust
+   boundary, so this supply-chain decision is yours; the package
+   manifest currently has no external dependency.
+2. The visionOS platform component: installation needs your password
+   and GUI session.
+3. Multi-device evidence: all GPU evidence is honestly labelled
+   single-device; broadening it needs hardware you would provide or
+   approve.
+4. `metallib` distribution: compiled-shader fingerprints and
+   ahead-of-time shader distribution await a packaging decision;
+   runtime source compilation is the current recorded approach.
+
+Everything else that remains open is recorded with its reason in the
+increments above: the affine-inverse numeric model, oblique
+reconstruction, the interactive draw loop, deletion governance,
+memory-pressure injection, the priority-propagation and
+private-residency measurement workloads, and the external Ryu and V8
+oracle campaigns.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
