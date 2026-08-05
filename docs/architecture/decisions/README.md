@@ -103,7 +103,8 @@ exclusion. `ADR-0114` is allocated to clinical pipeline assessments.
 is allocated to the multiplanar slice coordinator. `ADR-0118` is
 allocated to concurrency storm evidence. `ADR-0119` is allocated to
 the viewport synchronisation group. `ADR-0120` is allocated to angle
-measurement. The next unallocated numeric identifier is `ADR-0121`.
+measurement. `ADR-0121` is allocated to the window edge-case
+assessment. The next unallocated numeric identifier is `ADR-0122`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -207,3 +208,4 @@ measurement. The next unallocated numeric identifier is `ADR-0121`.
 | [ADR-0118](ADR-0118-concurrency-storm-evidence.md) | Accepted | Concurrency storm evidence |
 | [ADR-0119](ADR-0119-viewport-synchronisation.md) | Accepted | Viewport synchronisation group |
 | [ADR-0120](ADR-0120-angle-measurement.md) | Accepted | Angle measurement |
+| [ADR-0121](ADR-0121-window-edge-case-assessment.md) | Accepted | Window edge-case assessment |

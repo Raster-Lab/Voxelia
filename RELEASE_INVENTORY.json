@@ -2925,9 +2925,14 @@
       "sha256": "51092c3ba74d1b656e4e56bcfefb4cce9f81e1cef4ef6367dced5a000aba88eb"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0121-window-edge-case-assessment.md",
+      "size": 2590,
+      "sha256": "cca144dc1ac23682c69235fe678e8c13d88cd473f2094a287be6a85cc3e73168"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 17865,
-      "sha256": "5def686ea511dd25bb0e6d3e60847df2e4203b33c61bd6f38014ad72033a5a68"
+      "size": 18022,
+      "sha256": "8fbea21277a312cc5f76040a62d6cbb2d207b02e4e1127b64709bcb10d097490"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3011,8 +3016,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 551194,
-      "sha256": "60d35955324c19b7e46b3c6213c8aca6602ce847ff79d3b85715690ac9c6701e"
+      "size": 552587,
+      "sha256": "8c24867ca5b9ed64484c9426adf52228552948048f6b55d01e3368b76f176777"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3371,8 +3376,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 35595,
-      "sha256": "1f65b7b187138e6989752d3dfddc482b6a94099781acf4e665497141d047d595"
+      "size": 35663,
+      "sha256": "14b30aaec8b39e1c8a1ae604895d7f3ac71a983d54b2c29608bc07c95f22d683"
     }
   ]
 }

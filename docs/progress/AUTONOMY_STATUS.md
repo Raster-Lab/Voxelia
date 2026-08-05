@@ -2190,6 +2190,27 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   other — and reject degenerate rays and mixed spaces typed.
   `VOX-SPA-014` now covers distance and angle with area and volume
   recorded future models.
+- Eighty-ninth autonomous increment (owner broadened standing
+  mandate): the second M4 reassessment and its first outcome.
+  Reassessed honestly: `VOX-R2D-006` window edge cases — dischargeable
+  by assessment, the model froze the edges with fixtures;
+  `VOX-INT-007` render generations — executable as a contract-level
+  monotonic counter; `VOX-R2D-013` linear-interpolation display
+  policy — executable as a registered bilinear value model, the
+  largest remaining row; `VOX-META-002` format-metadata preservation
+  — the pass-through machinery exists and the format adapter that
+  would exercise it is DICOMKit-gated with the owner; `VOX-INT-006`
+  picking — partially executable as an index-space hit model, with
+  physical-position picking needing geometry-bearing volumes;
+  `VOX-R2D-014` — vacuous until interactive output exists. The first
+  outcome shipped as `ADR-0121`, discharging `VOX-R2D-006` by
+  assessment per the documentation-only precedent: the registered
+  model defines both edges exactly with the half-sample threshold and
+  frozen rounding, the degenerate unit-width window is a defined
+  fixture-pinned threshold whose interior is unreachable, and the
+  fixtures already run across three scalar domains, the composition
+  chain, both polarities, the padding sentinel and the measured
+  device path — the record's value is the binding, not more copies.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
