@@ -2828,6 +2828,47 @@ oracle campaigns.
   paths. An unrepresentable sentinel rejects typed at the device
   admission. Renderer wiring still passes no sentinel, per the row's
   own reading: the adapter that supplies padding values is gated.
+- One-hundred-seventeenth autonomous increment (owner broadened
+  standing mandate): the M5 opening assessment — compression and
+  large-volume storage, thirty-nine rows — under the sweep precedent
+  of assessing before executing. Already discharged by the accepted
+  register: `VOX-RGN-009`, whose accidental-mismatch detection is the
+  content-identity architecture itself — every object carries its
+  canonical-bytes digest and archival verifies it on the way back in.
+  Gated on a new owner supply-chain decision: `VOX-CMP-001` requires
+  the approved Raster-Lab codec libraries, and adding external codec
+  code changes the trust boundary exactly as DICOMKit does, so every
+  codec-bearing row — `VOX-CMP-001` through `014`, `VOX-SEC-003`'s
+  codec half, `VOX-VAL-013` — waits on that decision, to be surfaced
+  beside the DICOMKit question when the owner next engages; the
+  design-rule rows among them (module isolation, no direct texture
+  sampling of compressed data, no misrepresented transfer syntaxes)
+  will be frozen in the arc's design records when it opens. Gated on
+  existing recorded gates: `VOX-MTL-013` and the pressure half of
+  `VOX-STO-012` on a real memory-pressure mechanism, `VOX-PER-009` on
+  large-volume workloads, `VOX-MTL-011` on measured heap benefit,
+  `VOX-STO-009`'s source-checksum half on the adapter, and
+  `VOX-SEC-005` on any temporary file existing at all. Actionable and
+  now the derived queue, in dependency order: first the
+  bricked-volume vocabulary — `VOX-BRK-002/003/004/005`, brick
+  identity, coordinates, halo, boundary extents and resolution levels
+  as validated value models with policy-selected dimensions kept out
+  of the public shape; then the brick request lifecycle —
+  `VOX-BRK-001/006/007/010`, cancellable deduplicated
+  generation-guarded requests composing the accepted coordination
+  precedents; then the cache-and-observability design —
+  `VOX-BRK-008`, `VOX-CCH-007/008/009` and `VOX-ERR-006`, where the
+  brick cache is the real consumer the diagnostics assessment
+  required before any instrumentation vocabulary exists; then
+  `VOX-STO-012` eviction independence over the parts. Two standing
+  assessments recorded: a device oblique kernel does not earn its
+  place yet — the reference operation is complete, its interactive
+  value is the draw-loop arc's driver, and device volume sampling
+  belongs after bricked residency lands rather than before; and a
+  quantitative pixel-read convenience is declined under the wrapper
+  rule — pick resolution already identifies the layer and source
+  index, and the storage contracts already give the typed bounded
+  read.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
