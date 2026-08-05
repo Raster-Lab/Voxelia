@@ -136,6 +136,7 @@ Sources/VoxeliaExecution/Public/PublicationCoordinator.swift
 Sources/VoxeliaExecution/Public/RegionExtractionOperation.swift
 Sources/VoxeliaExecution/Public/ResampleNearestOperation.swift
 Sources/VoxeliaExecution/Public/StorageReadCoordinator.swift
+Sources/VoxeliaExecution/Public/TransposeAxesOperation.swift
 Sources/VoxeliaExecution/Public/WindowLevelOperation.swift
 Sources/VoxeliaExecution/VoxeliaExecution.docc/Architecture.md
 Sources/VoxeliaExecution/VoxeliaExecution.docc/Requirements.md
@@ -314,6 +315,7 @@ Tests/VoxeliaExecutionTests/PublicationCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/RegionExtractionOperationTests.swift
 Tests/VoxeliaExecutionTests/ResampleNearestOperationTests.swift
 Tests/VoxeliaExecutionTests/StorageReadCoordinatorTests.swift
+Tests/VoxeliaExecutionTests/TransposeAxesOperationTests.swift
 Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift
 Tests/VoxeliaExecutionTests/WindowLevelOperationTests.swift
 Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift
@@ -445,6 +447,7 @@ docs/algorithms/VOXELIA-ALG-0008-nearest-neighbour-resampling.md
 docs/algorithms/VOXELIA-ALG-0009-layered-linear-blend.md
 docs/algorithms/VOXELIA-ALG-0010-polyline-length.md
 docs/algorithms/VOXELIA-ALG-0011-display-inversion.md
+docs/algorithms/VOXELIA-ALG-0012-axis-transposition.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -565,6 +568,7 @@ docs/architecture/decisions/ADR-0111-interaction-command-vocabulary.md
 docs/architecture/decisions/ADR-0112-monochrome-presentation-polarity.md
 docs/architecture/decisions/ADR-0113-pixel-padding-exclusion.md
 docs/architecture/decisions/ADR-0114-clinical-pipeline-assessments.md
+docs/architecture/decisions/ADR-0115-axis-transposition-operation.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

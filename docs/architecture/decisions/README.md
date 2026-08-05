@@ -98,7 +98,8 @@ allocated to bounded frame contexts. `ADR-0111` is allocated to the
 interaction command vocabulary. `ADR-0112` is allocated to monochrome
 presentation polarity. `ADR-0113` is allocated to pixel padding
 exclusion. `ADR-0114` is allocated to clinical pipeline assessments.
-The next unallocated numeric identifier is `ADR-0115`.
+`ADR-0115` is allocated to the axis transposition operation. The next
+unallocated numeric identifier is `ADR-0116`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -196,3 +197,4 @@ The next unallocated numeric identifier is `ADR-0115`.
 | [ADR-0112](ADR-0112-monochrome-presentation-polarity.md) | Accepted | Monochrome presentation polarity |
 | [ADR-0113](ADR-0113-pixel-padding-exclusion.md) | Accepted | Pixel padding exclusion |
 | [ADR-0114](ADR-0114-clinical-pipeline-assessments.md) | Accepted | Clinical pipeline assessments |
+| [ADR-0115](ADR-0115-axis-transposition-operation.md) | Accepted | Axis transposition operation |

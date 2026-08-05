@@ -2076,6 +2076,26 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   and byte-readable beside every display-transformed stage, which is
   a distinct object, never a mutation. A future string-closure sweep
   is recorded as a candidate alongside emitter revisions.
+- Eighty-third autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0012` (axis
+  transposition `exact-v1`) and `ADR-0115`, opening the multiplanar
+  reconstruction arc with the sixth operation,
+  `org.voxelia.op.transpose-axes` 1.0.0. Extraction was found already
+  rank-general, so an axial slab of a regular volume is extractable
+  today; the missing piece was the value-neutral index remap. The
+  registered model reorders axes under a declared permutation with
+  whole-sample byte copies in exact integer arithmetic — the identity
+  permutation reproduces the input exactly and a permutation composed
+  with its inverse is the identity, both proven. Every per-axis
+  property travels with its axis — descriptors, semantics, units and
+  sampling payloads reorder intact, with the irregular payload's
+  travel proven by test — while remapping an affine geometry's
+  image-axis binding stays its own recorded decision, rejected typed.
+  The frozen `axis-order` parameter schema digests under the
+  registered projection with independent reproduction proven, and a
+  fused reslice was rejected: one operation, one model. Coronal and
+  sagittal presentation now composes as extract-then-transpose; the
+  composing coordinator is the arc's next increment.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

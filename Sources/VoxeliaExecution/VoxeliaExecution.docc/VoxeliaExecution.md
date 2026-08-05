@@ -41,6 +41,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``CompositeError``
 - ``InvertDisplayOperation``
 - ``InvertDisplayError``
+- ``TransposeAxesOperation``
+- ``TransposeError``
 
 ### Publication
 
