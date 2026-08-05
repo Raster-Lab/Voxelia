@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+import VoxeliaRendering
 import VoxeliaSpatial
 
 /// One plane-agnostic synchronised viewport per `ADR-0119`.
@@ -65,5 +66,81 @@ public struct ViewportSyncGroup: Sendable, Hashable {
             members: members,
             crosshair: CrosshairState(position: position)
         )
+    }
+
+    /// Broadcasts the shared crosshair to every member's claimed
+    /// presentation per `ADR-0140`.
+    ///
+    /// One claim per member identifier resolves through the
+    /// `ADR-0139` reverse mapping into per-member resolutions in
+    /// member order. A crosshair that left a member's view and an
+    /// uncalibrated member are normal view states reported as
+    /// outcomes, never fabricated pixels; a presentation set whose
+    /// identifiers do not exactly cover the members rejects typed,
+    /// and a claim in a foreign space or without both presented axes
+    /// propagates its own typed error — those are association
+    /// mistakes, not view states.
+    ///
+    /// - Throws: ``InteractionError`` and the world-to-index map's
+    ///   typed errors.
+    public func crosshairTargets(
+        presentations: [Int: PresentationProvenance]
+    ) throws -> [CrosshairSyncResolution] {
+        guard presentations.count == members.count else {
+            throw InteractionError.presentationMembershipMismatch
+        }
+        return try members.map { member in
+            guard let presentation = presentations[member.identifier] else {
+                throw InteractionError.presentationMembershipMismatch
+            }
+            do {
+                let target = try PickResolver.viewportTarget(
+                    for: crosshair.position,
+                    in: presentation
+                )
+                return CrosshairSyncResolution(
+                    identifier: member.identifier,
+                    outcome: .target(target)
+                )
+            } catch InteractionError.crosshairOutsideViewport {
+                return CrosshairSyncResolution(
+                    identifier: member.identifier,
+                    outcome: .outsideViewport
+                )
+            } catch InteractionError.presentationNotCalibrated {
+                return CrosshairSyncResolution(
+                    identifier: member.identifier,
+                    outcome: .notCalibrated
+                )
+            }
+        }
+    }
+}
+
+/// One member's crosshair outcome per `ADR-0140`.
+public enum CrosshairSyncOutcome: Sendable, Hashable {
+    /// The member presents the crosshair at this pixel.
+    case target(PickTarget)
+
+    /// The crosshair left this member's view — the host hides it
+    /// rather than presenting a fabricated nearest pixel.
+    case outsideViewport
+
+    /// The member's presentation claims no world mapping, so it
+    /// cannot follow the crosshair.
+    case notCalibrated
+}
+
+/// One member's resolution of the broadcast crosshair per `ADR-0140`.
+public struct CrosshairSyncResolution: Sendable, Hashable {
+    /// The member's host-owned identifier.
+    public let identifier: Int
+
+    /// The member's honest outcome.
+    public let outcome: CrosshairSyncOutcome
+
+    public init(identifier: Int, outcome: CrosshairSyncOutcome) {
+        self.identifier = identifier
+        self.outcome = outcome
     }
 }

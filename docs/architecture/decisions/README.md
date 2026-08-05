@@ -119,8 +119,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0136` is allocated to the affine inverse design.
 `ADR-0137` is allocated to the affine inverse implementation.
 `ADR-0138` is allocated to the world-to-index mapping.
-`ADR-0139` is allocated to the world-to-viewport mapping. The next
-unallocated numeric identifier is `ADR-0140`.
+`ADR-0139` is allocated to the world-to-viewport mapping.
+`ADR-0140` is allocated to the crosshair broadcast. The next
+unallocated numeric identifier is `ADR-0141`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -243,3 +244,4 @@ unallocated numeric identifier is `ADR-0140`.
 | [ADR-0137](ADR-0137-affine-inverse-implementation.md) | Accepted | Affine inverse implementation |
 | [ADR-0138](ADR-0138-world-to-index-mapping.md) | Accepted | World-to-index mapping |
 | [ADR-0139](ADR-0139-world-to-viewport-mapping.md) | Accepted | World-to-viewport mapping |
+| [ADR-0140](ADR-0140-crosshair-broadcast.md) | Accepted | Crosshair broadcast |

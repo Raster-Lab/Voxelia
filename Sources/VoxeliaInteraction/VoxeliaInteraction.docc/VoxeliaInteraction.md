@@ -28,6 +28,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``InteractionError``
 - ``SyncedViewport``
 - ``ViewportSyncGroup``
+- ``CrosshairSyncOutcome``
+- ``CrosshairSyncResolution``
 - ``RenderGeneration``
 - ``RenderGenerationCounter``
 - ``PickResolver``

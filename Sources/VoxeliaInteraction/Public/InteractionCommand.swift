@@ -24,6 +24,7 @@ public enum InteractionError: Error, Sendable, Equatable {
     case presentationNotCalibrated
     case viewportAxisNotMapped
     case crosshairOutsideViewport
+    case presentationMembershipMismatch
 }
 
 /// One validated pan delta per `ADR-0111`, in viewport-relative units.

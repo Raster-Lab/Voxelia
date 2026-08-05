@@ -2620,6 +2620,24 @@ oracle campaigns.
   boundary. The interaction arc's world round trip is closed: picks
   resolve to physical positions and physical positions resolve to
   pixels, both through the same honest claims.
+- One-hundred-eighth autonomous increment (owner broadened standing
+  mandate): implemented accepted `ADR-0140`, the crosshair broadcast
+  that turns one crosshair move into every linked pane's honest
+  outcome. The synchronisation group stays a vocabulary value —
+  presentations are supplied at the call because claims change per
+  frame while membership does not — and one claim per member resolves
+  through the accepted reverse mapping into per-member resolutions in
+  member order. The distinction the reverse mapping's typed cases
+  carry is folded honestly: a crosshair that left a member's view and
+  an uncalibrated member are normal view states a host renders as a
+  hidden crosshair or an unsynced pane, never a fabricated nearest
+  pixel, while a presentation set that does not exactly cover the
+  members and a claim in a foreign space are association mistakes
+  that reject typed. The mixed-outcome fixture exercises all three
+  states over the claimed forward evaluation in one broadcast. The
+  interaction story over axis-aligned and oblique geometry is now
+  closed end to end; the multiplanar oblique slab extraction remains
+  the recorded design gap.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
