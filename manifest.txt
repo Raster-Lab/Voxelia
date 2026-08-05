@@ -635,6 +635,7 @@ docs/architecture/decisions/ADR-0141-oblique-extraction-design.md
 docs/architecture/decisions/ADR-0142-oblique-slice-operation.md
 docs/architecture/decisions/ADR-0143-area-volume-measurement-design.md
 docs/architecture/decisions/ADR-0144-area-volume-measurements.md
+docs/architecture/decisions/ADR-0145-diagnostics-assessment.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

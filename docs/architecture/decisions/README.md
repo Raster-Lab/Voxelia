@@ -124,8 +124,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0141` is allocated to the oblique extraction design.
 `ADR-0142` is allocated to the oblique slice operation.
 `ADR-0143` is allocated to the area and volume measurement design.
-`ADR-0144` is allocated to the area and volume measurements. The next
-unallocated numeric identifier is `ADR-0145`.
+`ADR-0144` is allocated to the area and volume measurements.
+`ADR-0145` is allocated to the diagnostics and logging assessment. The
+next unallocated numeric identifier is `ADR-0146`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -253,3 +254,4 @@ unallocated numeric identifier is `ADR-0145`.
 | [ADR-0142](ADR-0142-oblique-slice-operation.md) | Accepted | Oblique slice operation |
 | [ADR-0143](ADR-0143-area-volume-measurement-design.md) | Accepted | Area and volume measurement design |
 | [ADR-0144](ADR-0144-area-volume-measurements.md) | Accepted | Area and volume measurements |
+| [ADR-0145](ADR-0145-diagnostics-assessment.md) | Accepted | Diagnostics and logging assessment |

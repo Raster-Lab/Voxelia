@@ -2779,6 +2779,26 @@ oracle campaigns.
   bit-identical repetition and all four admissions rejecting typed.
   The remaining sweep-queue item is the diagnostics-and-logging
   design.
+- One-hundred-fifteenth autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0145`, the
+  diagnostics-and-logging assessment — documentation-only under the
+  accepted assessment precedent, draining the sweep's actionable
+  queue. The decided position: no logging framework is built now,
+  because Voxelia emits no logs anywhere and a framework without a
+  consumer would be speculative surface whose guessed shape becomes
+  compatibility debt when the gated draw-loop and adapter arcs
+  arrive with real requirements. The record inventories the existing
+  surfaces as the security-row evidence — coded schema-versioned
+  warnings, timing-and-token-only telemetry, payload-free typed
+  errors with the practiced value-redaction rule, and the privacy
+  classes that exist precisely for logging policy — and binds any
+  future logging component to recorded rules: off by default,
+  structured coded records over free text, default exclusion of
+  image bytes, identifying-classified metadata and content-derived
+  digests, source context as identifiers never metadata text, and
+  its own decision record before first emission. Absence alone was
+  rejected as satisfaction: absence is an accident until a record
+  states the rules that keep it true.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
