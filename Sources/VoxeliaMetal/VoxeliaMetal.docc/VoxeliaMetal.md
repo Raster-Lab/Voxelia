@@ -33,6 +33,7 @@ milestone specifications introduce its substantive public API incrementally.
 - ``MetalSliceRenderer``
 - ``MetalCompositeKernel``
 - ``MetalCompositeKernelError``
+- ``MetalCompositeLayersOperation``
 
 ### Project documents
 

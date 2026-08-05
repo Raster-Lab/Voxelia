@@ -651,8 +651,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/Public/CompositeLayersOperation.swift",
-      "size": 11224,
-      "sha256": "a36e595ca4287cf64a157da8a09367ee4c9c090894fccf0c44ead4e2545947a7"
+      "size": 11370,
+      "sha256": "07277ecd34200e4510f51b71c5641aae03eec3a5bd22613418c6e57709da0e80"
     },
     {
       "path": "Sources/VoxeliaExecution/Public/ContentResultCache.swift",
@@ -870,6 +870,11 @@
       "sha256": "6650ecf51f30c44690c780fc9daec7d8b3788890a904c90f9ddb64eac6c6b768"
     },
     {
+      "path": "Sources/VoxeliaMetal/Public/MetalCompositeLayersOperation.swift",
+      "size": 9801,
+      "sha256": "aa8274da4c8c8740cb42d1621568767f59b260ef3974cdb78f0a55a9a9735e7b"
+    },
+    {
       "path": "Sources/VoxeliaMetal/Public/MetalExecutionContext.swift",
       "size": 2889,
       "sha256": "d316fc0a1990e9075db51e7e614a986f5b3b25b1c3eb7e212b8c16b66260cf04"
@@ -956,8 +961,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md",
-      "size": 834,
-      "sha256": "bf8459b7d42e2a0ede403bf60085bb87477bba253732327902202b08f19ded9f"
+      "size": 870,
+      "sha256": "f8d442a46b11c34a8ba1e353263f8ac04ee40962c568f89047e1ef7618d479c0"
     },
     {
       "path": "Sources/VoxeliaRendering/ApplePlatformGate.swift",
@@ -1588,6 +1593,11 @@
       "path": "Tests/VoxeliaMetalTests/MetalCompositeKernelTests.swift",
       "size": 6131,
       "sha256": "12411c4bb84f9f296018cae223144c558fd681494253e6fd84f4030579813085"
+    },
+    {
+      "path": "Tests/VoxeliaMetalTests/MetalCompositeLayersOperationTests.swift",
+      "size": 8759,
+      "sha256": "9b85c2ff33d640da8f7ebeee7027fd90cb4ac1f37d5892389e700b8e672145d8"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalExecutionContextTests.swift",
@@ -2670,9 +2680,14 @@
       "sha256": "6fca45aab5c84424b1039a7305a3b7431207a787e81c671093a41070deecaa5a"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0098-device-composite-operation.md",
+      "size": 3635,
+      "sha256": "8a763de24d20b1d6c8a4f886c6aed6d3d2a3284cd30b02e9ae1f2dde3257c4de"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 14418,
-      "sha256": "1812833dfa807bafab682e0ecc0f5b594fc065d8af9c92cf1edb1a10f20ecb5c"
+      "size": 14572,
+      "sha256": "4e886f53fad75fba38de27a193237f741ec48a1ea164cc70fa67f2c5d5a574a9"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2756,8 +2771,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 520280,
-      "sha256": "8795fa254ebaaf8a6e05ec781823e8b45bea217fb5cefd664862cc420b13e4fc"
+      "size": 521659,
+      "sha256": "a8169c3c31f2a0640d3af460e0409bec07ef2a76d80d3b5c9cc4f5c99fa04ee3"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3116,8 +3131,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 32484,
-      "sha256": "e87e715036052244ffa09de570484fda2b9ab18658e4214637809db3f89341a1"
+      "size": 32680,
+      "sha256": "9973a8112d9507312a33920ea970d31e35d48a5a4351a8c8e91c8d73699e9cb7"
     }
   ]
 }

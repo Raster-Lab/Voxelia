@@ -1,48 +1,33 @@
 // SPDX-License-Identifier: MIT
 
 import VoxeliaCore
+import VoxeliaExecution
 import VoxeliaStorage
 
-/// An error raised by layer compositing admission.
+/// The device implementation of the registered layer compositing
+/// operation per `ADR-0098`.
 ///
-/// Cases deliberately carry no payload; every other failure surfaces as
-/// the audited typed error of the underlying accepted contract.
-public enum CompositeError: Error, Sendable, Equatable {
-    case invalidLayerCount
-    case extentMismatch
-    case unsupportedLayerFormat
-    case unsupportedAxisSampling
-    case unsupportedGeometry
-    case invalidOpacity
-}
-
-/// The layer compositing operation registered by `ADR-0090` under the
-/// `layered-linear-blend/binary64-v1` model of `VOXELIA-ALG-0009`.
-///
-/// Every output element blends the declared layers over a black
-/// background through the frozen binary64 composite-over sequence with
-/// one opacity per layer; a first layer at opacity one reproduces its
-/// values exactly. The operation mints no identifiers and acquires no
-/// clock.
-public enum CompositeLayersOperation {
-    /// The registered operation token spelling.
-    public static let operationIdentifier = "org.voxelia.op.composite-layers"
-    /// The registered implementation token spelling.
-    public static let implementationIdentifier = "org.voxelia.impl.composite-layers.cpu"
-
-    /// The inclusive layer-count bounds, widened to a single layer by
-    /// `ADR-0094`; the ceiling matches the scene ceiling.
-    public static let minimumLayerCount = 1
-    public static let maximumLayerCount = 64
+/// The operation executes the accepted `ADR-0096` kernel and assembles
+/// the same output shape as the CPU implementation with the honest
+/// device claim: `binary32-device` precision, `approximate` status,
+/// the composite kernel component reference and the detected
+/// capability class — `MSL` has no 64-bit floating type, so
+/// `binary64-strict` is prohibited. Device admission mirrors the
+/// registered operation. The operation mints no identifiers and
+/// acquires no clock.
+public enum MetalCompositeLayersOperation {
+    /// The registered device implementation token spelling.
+    public static let implementationIdentifier = "org.voxelia.impl.composite-layers.metal"
 
     private static let parameterDocumentByteCeiling: UInt64 = 65_536
 
-    /// Executes one composite through the budgeted coordinated read
-    /// boundary.
+    /// Executes one composite on the device through the budgeted
+    /// coordinated read boundary.
     ///
-    /// - Throws: ``CompositeError``, or the audited typed errors of the
-    ///   storage, metadata, identity, provenance and aggregate
-    ///   contracts.
+    /// - Throws: ``VoxeliaExecution/CompositeError`` for device
+    ///   admission, ``MetalCompositeKernelError``, or the audited
+    ///   typed errors of the storage, identity, provenance and
+    ///   aggregate contracts.
     public static func execute(
         layers: [ImageData],
         opacities: [Double],
@@ -50,12 +35,14 @@ public enum CompositeLayersOperation {
         outputProvenanceID: ProvenanceID,
         createdAt: CanonicalInstant,
         software: SoftwareIdentity,
-        coordinator: StorageReadCoordinator
+        coordinator: StorageReadCoordinator,
+        kernel: MetalCompositeKernel
     ) async throws -> ImageData {
-        // Version-one admission per ADR-0090.
+        // Device admission mirroring the registered operation per
+        // ADR-0098.
         guard
-            layers.count >= Self.minimumLayerCount,
-            layers.count <= Self.maximumLayerCount
+            layers.count >= CompositeLayersOperation.minimumLayerCount,
+            layers.count <= CompositeLayersOperation.maximumLayerCount
         else {
             throw CompositeError.invalidLayerCount
         }
@@ -93,8 +80,8 @@ public enum CompositeLayersOperation {
         }
 
         // One budgeted coordinated full read per layer, in declared
-        // order; each retention is released as soon as the owned bytes
-        // are staged.
+        // order; the accepted kernel is the entire device numeric
+        // path.
         let fullRegion = try ImageRegion(
             lowerBounds: [0, 0],
             upperBounds: extents
@@ -109,24 +96,7 @@ public enum CompositeLayersOperation {
             layerBytes.append(read.result.bytes)
             try await coordinator.release(read.retention)
         }
-
-        // The frozen VOXELIA-ALG-0009 blend: acc starts at positive
-        // zero and every layer composites over it, no fused
-        // multiply-add.
-        let elementCount = extents[0] * extents[1]
-        var outputBytes = [UInt8]()
-        outputBytes.reserveCapacity(elementCount)
-        for index in 0..<elementCount {
-            var accumulator = 0.0
-            for (bytes, opacity) in zip(layerBytes, opacities) {
-                let transparency = 1.0 - opacity
-                let retained = accumulator * transparency
-                let contributed = Double(bytes[index]) * opacity
-                accumulator = retained + contributed
-            }
-            let rounded = accumulator.rounded(.toNearestOrEven)
-            outputBytes.append(UInt8(min(255.0, max(0.0, rounded))))
-        }
+        let outputBytes = try kernel.blendLayers(layerBytes, opacities: opacities)
 
         let outputShape = try ImageShape(extents: extents)
         let outputStorage = AnyImageStorage(
@@ -154,21 +124,23 @@ public enum CompositeLayersOperation {
             units: nil
         )
 
-        // The frozen parameter schema digested under the registered
-        // operation-parameters projection.
+        // The one frozen parameter authority per ADR-0098: both
+        // implementations digest identical parameter documents.
         let parameterDigest = try ContentID.operationParametersIdentity(
             overCanonicalBytes: try CanonicalMetadataJSON.encodeUniqueDocument(
-                payload: try parameterCollection(opacities: opacities),
+                payload: try CompositeLayersOperation.parameterCollection(
+                    opacities: opacities
+                ),
                 maximumOutputByteCount: Self.parameterDocumentByteCeiling
             )
         )
 
-        // Registered tokens, derivation recipe, content identity and
-        // the subject-bound record with one parent edge per layer, per
-        // the accepted operation pattern.
-        let version = try SemanticVersion(major: 1, minor: 1, patch: 0)
+        // The registered operation at its current contract version
+        // with the device implementation reference and honest claim.
+        let operationVersion = try SemanticVersion(major: 1, minor: 1, patch: 0)
+        let implementationVersion = try SemanticVersion(major: 1, minor: 0, patch: 0)
         let operationToken = try DerivationOperationToken(
-            rawValue: Self.operationIdentifier
+            rawValue: CompositeLayersOperation.operationIdentifier
         )
         let implementationToken = try DerivationOperationToken(
             rawValue: Self.implementationIdentifier
@@ -176,10 +148,10 @@ public enum CompositeLayersOperation {
         let layerRole = try DerivationInputRole(rawValue: "layer")
         let derivation = try DerivationIdentity(
             operationID: operationToken,
-            operationVersion: version,
+            operationVersion: operationVersion,
             implementation: DerivationImplementationReference(
                 identifier: implementationToken,
-                version: version
+                version: implementationVersion
             ),
             inputs: ContiguousArray(
                 layers.map { layer in
@@ -210,12 +182,15 @@ public enum CompositeLayersOperation {
             activity: .operation(
                 try OperationProvenance(
                     operationID: operationToken,
-                    operationVersion: version,
+                    operationVersion: operationVersion,
                     implementationID: implementationToken,
-                    implementationVersion: version,
+                    implementationVersion: implementationVersion,
                     parameterDigest: parameterDigest
                 ),
-                try executionClaim(version: version)
+                try deviceClaim(
+                    operationVersion: operationVersion,
+                    kernel: kernel
+                )
             ),
             inputs: ContiguousArray(
                 try layers.enumerated().map { position, layer in
@@ -241,56 +216,32 @@ public enum CompositeLayersOperation {
         )
     }
 
-    /// Builds the frozen parameter collection for one opacity list.
-    ///
-    /// Public per `ADR-0098` so every implementation of the registered
-    /// operation digests the one frozen schema authority.
-    public static func parameterCollection(
-        opacities: [Double]
-    ) throws -> MetadataCollection {
-        try MetadataCollection(entries: [
-            MetadataEntry(
-                key: try AnyMetadataKey(
-                    namespace: Self.operationIdentifier,
-                    name: "opacities"
-                ),
-                value: .array(
-                    try MetadataArray(
-                        values: try opacities.map {
-                            .floatingPoint(try MetadataFloatingPoint(value: $0))
-                        }
-                    )
-                ),
-                privacyClass: .technical
-            )
-        ])
-    }
-
-    private static func executionClaim(
-        version: SemanticVersion
+    private static func deviceClaim(
+        operationVersion: SemanticVersion,
+        kernel: MetalCompositeKernel
     ) throws -> ExecutionProvenanceClaim {
         ExecutionProvenanceClaim(
             profile: try ExecutionComponentReference(
                 identifier: try ExecutionClaimToken(
                     rawValue: "org.voxelia.profile.default"
                 ),
-                version: version
+                version: operationVersion
             ),
             backend: try ExecutionComponentReference(
                 identifier: try ExecutionClaimToken(
-                    rawValue: "org.voxelia.backend.cpu"
+                    rawValue: "org.voxelia.backend.metal"
                 ),
-                version: version
+                version: try SemanticVersion(major: 1, minor: 0, patch: 0)
             ),
             precisionPolicy: try ExecutionClaimToken(
-                rawValue: "org.voxelia.precision.binary64-strict"
+                rawValue: "org.voxelia.precision.binary32-device"
             ),
             qualityPolicy: try ExecutionClaimToken(
                 rawValue: "org.voxelia.quality.full"
             ),
-            approximationStatus: .exact,
-            capabilityClass: nil,
-            kernel: nil
+            approximationStatus: .approximate,
+            capabilityClass: kernel.context.capabilityClass,
+            kernel: kernel.kernelReference
         )
     }
 }

@@ -1710,6 +1710,28 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   back under its receipt identity, and decodes each through the
   strict ingress to the exact published record. Every future pipeline
   stage that publishes a new record shape joins this obligation.
+- Sixty-fourth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0098` and delivered the device
+  composite operation per the `ADR-0092` pattern.
+  `MetalCompositeLayersOperation` implements the registered
+  compositing operation at its current 1.1.0 contract version with
+  the new `org.voxelia.impl.composite-layers.metal` 1.0.0
+  implementation: device admission mirrors the registered operation
+  and rejects typed through the operation's own error surface, the
+  accepted `ADR-0096` kernel is the entire device numeric path, and
+  the output carries the identical descriptor, empty metadata,
+  sample-bytes identity, derivation recipe and subject-bound
+  provenance with one layer parent edge per layer under the honest
+  device claim — metal backend, `binary32-device` precision,
+  `approximate` status, the composite kernel component reference and
+  the detected capability class. The CPU implementation's
+  operation-parameters builder became public and is reused, so both
+  implementations digest one frozen schema authority. The device test
+  measured twelve of twelve samples exactly matching the CPU
+  implementation over the fixture scene on this device — printed
+  single-device evidence — verified every claim member and the shared
+  parameter digest, and rejected a transformed layer and an
+  out-of-range opacity typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

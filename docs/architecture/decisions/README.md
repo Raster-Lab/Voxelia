@@ -83,8 +83,9 @@ is allocated to the nearest-neighbour resampling operation.
 `ADR-0094` is allocated to single-layer fade admission. `ADR-0095`
 is allocated to canonical record archival. `ADR-0096` is allocated to
 the layer compositing Metal kernel. `ADR-0097` is allocated to
-end-to-end pipeline archival evidence. The next unallocated numeric
-identifier is `ADR-0098`.
+end-to-end pipeline archival evidence. `ADR-0098` is allocated to the
+device composite operation. The next unallocated numeric identifier
+is `ADR-0099`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -165,3 +166,4 @@ identifier is `ADR-0098`.
 | [ADR-0095](ADR-0095-canonical-record-archival.md) | Accepted | Canonical record archival |
 | [ADR-0096](ADR-0096-composite-metal-kernel.md) | Accepted | Layer compositing Metal kernel |
 | [ADR-0097](ADR-0097-pipeline-archival-evidence.md) | Accepted | End-to-end pipeline archival evidence |
+| [ADR-0098](ADR-0098-device-composite-operation.md) | Accepted | Device composite operation |
