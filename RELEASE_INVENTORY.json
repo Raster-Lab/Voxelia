@@ -3335,9 +3335,14 @@
       "sha256": "023bab47638bf35e6655e61436c10051a0fbc53cebad1b310200220c3f290385"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0161-brick-statistics-design.md",
+      "size": 3248,
+      "sha256": "5bf4b5a86a869041bcb74f683ebc44d396c2cd66bbc38cf6536c301e0dc63c76"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 23797,
-      "sha256": "6eb3edc945123bdd3f07e5698045ad2869d60ba31423366435f04ee7c38ebdc3"
+      "size": 23942,
+      "sha256": "d08b3e2c05cd93eb7203bb0a9b317c0f4cf5f756cde74d0dca5220fc87622d86"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3421,8 +3426,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 618157,
-      "sha256": "853055896a4064c050692ca4bf1860ae7c9592a6f3f109d0578940661ecde594"
+      "size": 619146,
+      "sha256": "f11c50e56c89edba4534a37ef759ce11345cc811af70e0b7d38f01a6d930e42a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3781,8 +3786,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 40584,
-      "sha256": "6230a34c2c173565a1fd40b0d9e9847ce2545e9a272eed32adb30dfc9f465528"
+      "size": 40648,
+      "sha256": "aebae4d72bc1f19e87af4b6259b4ab62d094c28e82b73f182deb77e8e37b7bb8"
     }
   ]
 }

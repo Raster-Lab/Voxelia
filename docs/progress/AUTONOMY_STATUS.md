@@ -3238,6 +3238,21 @@ oracle campaigns.
   set, and the combined two-backend registry advances to thirteen.
   The M6 queue continues with the per-brick occupancy and statistics
   vocabulary.
+- One-hundred-thirty-sixth autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0161`, freezing the
+  per-brick statistics design. Statistics derive from bytes through
+  a pure computing initializer over the core payload and optional
+  sentinel — the deriving-not-storing precedent, so statistics and
+  bytes can never disagree. Version one carries exact integers from
+  one ascending pass: total and included counts under the accepted
+  exclusion rule, included extremes that are absent rather than
+  fabricated when every sample is excluded, and the non-zero
+  included count as the occupancy signal. No emptiness verdict
+  exists in the vocabulary, because whether a brick is skippable
+  depends on the transfer function, and a verdict would bake one
+  consumer's rule into every consumer's value — the gated renderer
+  stays out. A histogram was deferred as speculative fields are
+  compatibility debt. Implementation follows as its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
