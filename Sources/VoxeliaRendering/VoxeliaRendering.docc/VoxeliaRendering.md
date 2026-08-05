@@ -20,6 +20,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``RenderCamera``
 - ``GreyscaleWindowFunction``
 - ``TransferFunction``
+- ``TransferFunction1D``
+- ``TransferFunctionEntry``
+- ``TransferFunctionError``
 - ``RenderQuality``
 - ``RenderLayer``
 - ``SceneSnapshot``

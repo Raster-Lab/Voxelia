@@ -3350,6 +3350,16 @@ oracle campaigns.
   were rejected to keep rounding in the one model that owns it;
   parameterised sizes and control-point authoring are recorded as
   deferred. Implementation follows as its own increment.
+- One-hundred-forty-third autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0167`, the transfer
+  function — the volume-rendering arc's first vocabulary live. The
+  entry carries four structurally valid eight-bit components, the
+  table admits exactly two hundred fifty-six entries with the one
+  typed size rejection, and the clamped entry lookup applies the
+  declared rule to any integer index. The suite proves the ramp
+  identity over the whole eight-bit domain, both clamp directions,
+  the typed rejections and bit-identical repetition. The arc
+  continues with the ray-sampling design.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

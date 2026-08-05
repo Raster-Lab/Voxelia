@@ -224,6 +224,7 @@ Sources/VoxeliaRendering/Public/RenderCamera.swift
 Sources/VoxeliaRendering/Public/RenderRequest.swift
 Sources/VoxeliaRendering/Public/SceneSnapshot.swift
 Sources/VoxeliaRendering/Public/TransferFunction.swift
+Sources/VoxeliaRendering/Public/TransferFunction1D.swift
 Sources/VoxeliaRendering/VoxeliaRendering.docc/Architecture.md
 Sources/VoxeliaRendering/VoxeliaRendering.docc/Requirements.md
 Sources/VoxeliaRendering/VoxeliaRendering.docc/VoxeliaRendering.md
@@ -383,6 +384,7 @@ Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift
 Tests/VoxeliaRenderingTests/RenderCameraTests.swift
 Tests/VoxeliaRenderingTests/RenderRequestTests.swift
 Tests/VoxeliaRenderingTests/SceneSnapshotTests.swift
+Tests/VoxeliaRenderingTests/TransferFunction1DTests.swift
 Tests/VoxeliaRenderingTests/TransferFunctionTests.swift
 Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift
 Tests/VoxeliaSpatialTests/AffineSpatialInverseTests.swift
@@ -676,6 +678,7 @@ docs/architecture/decisions/ADR-0163-cubic-resampling-design.md
 docs/architecture/decisions/ADR-0164-cubic-resampling-operation.md
 docs/architecture/decisions/ADR-0165-volume-rendering-arc.md
 docs/architecture/decisions/ADR-0166-transfer-function-design.md
+docs/architecture/decisions/ADR-0167-transfer-function.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
