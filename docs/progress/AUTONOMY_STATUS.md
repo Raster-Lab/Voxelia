@@ -2702,6 +2702,28 @@ oracle campaigns.
   pinning the rounded spelling. The Swift operation and its typed
   admissions follow as their own increment; no consumer may embed an
   ad-hoc oblique sampler meanwhile.
+- One-hundred-eleventh autonomous increment (owner broadened standing
+  mandate): implemented accepted `ADR-0142`, the oblique slice
+  operation — the ninth registered operation, discharging
+  `VOX-MPR-003`'s remainder at the operation level. The assembly
+  follows the accepted pattern with sampling running only through
+  accepted authorities: the claimed forward evaluation positions each
+  output sample, the world-to-index composition maps it, and the
+  trilinear reduction over the declared support produces the byte,
+  with no ad-hoc inverse anywhere in the operation. Seven payload-free
+  admissions reject the version-one value domain's complement — an
+  uncalibrated volume, an incomplete volume mapping, a non-canonical
+  request mapping, a foreign-space request and out-of-bounds extents
+  each carry their own case. The frozen parameter schema digests the
+  sixteen request matrix elements beside the coordinate space and
+  output extents — the full `VOX-MPR-004` reproduction recipe — and
+  the output claims the request geometry verbatim over fresh
+  index-only axes, because the claimed geometry is the one
+  calibration authority. Tests reproduce all four frozen fixtures
+  exactly, prove the integer-coordinate identity against the stored
+  plane, verify the verbatim claim and the graph-node parent edge,
+  and reject every typed admission. The multiplanar coordinator's
+  oblique surface follows as its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
