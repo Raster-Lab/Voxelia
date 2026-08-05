@@ -3051,6 +3051,28 @@ oracle campaigns.
   rejection. A lazy per-brick provider map was rejected for version
   one: laziness belongs to the cache tier that already exists.
   Implementation follows as its own increment.
+- One-hundred-twenty-seventh autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0155`, the bricked
+  image storage — `VOX-STO-005` discharged for the in-memory
+  uncompressed tier, and the storage half of `VOX-BRK-001` holds: a
+  volume serves the full read contract with no complete contiguous
+  copy anywhere. Implementation surfaced one honest design
+  correction, recorded in the accepted record before commit: the
+  first representation choice was the opaque case, and the accepted
+  transaction rightly rejected it — opaque means not directly
+  readable, the compression vocabulary's meaning — while the
+  canonical strided profile would misreport a fragmented layout. The
+  representation vocabulary therefore gains the decoded composite
+  case, carrying the format tag, fragment count, byte order and
+  known byte count, admitted for reads beside the strided profile
+  while opaque stays rejected; image-data admission still requires
+  the strided profile, and a bricked-backed image aggregate is its
+  own recorded future increment. Reads walk the accepted
+  axis-zero-run odometer with each run split across bricks through
+  the grid authority's core regions. The suite proves byte identity
+  against the contiguous provider over the boundary-bricks-on-every-
+  axis layout for all four obligated regions and rejects every typed
+  construction case.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

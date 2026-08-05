@@ -14,7 +14,51 @@ public enum StorageRepresentationLocality: String, Sendable, Hashable {
 /// establishes no provider equality, integrity or residency authority.
 public enum StorageRepresentationDescriptor: Sendable, Hashable {
     case decodedStrided(DecodedStridedRepresentation)
+    case decodedComposite(DecodedCompositeRepresentation)
     case opaque(OpaqueRepresentation)
+}
+
+/// A checked decoded composite representation per `ADR-0155`.
+///
+/// The samples are fully decoded and region-readable, but the layout
+/// is provider-internal across multiple owned fragments — a bricked
+/// volume, not a single strided backing — so neither the canonical
+/// strided profile nor the not-directly-readable opaque case
+/// describes it honestly. Addressing belongs to the provider; the
+/// descriptor declares the format, the fragment count, the sample
+/// byte order and the total decoded byte count.
+public struct DecodedCompositeRepresentation: Sendable, Hashable {
+    /// The hard inclusive tag byte ceiling, shared with the opaque
+    /// case.
+    public static let maximumFormatTagUTF8ByteCount = 255
+
+    public let formatTag: String
+    public let fragmentCount: Int
+    public let byteOrder: ByteOrder
+    public let knownByteCount: Int
+
+    /// - Throws: ``StorageContractError/incompatibleBinding`` for a
+    ///   blank or oversized tag, a non-positive fragment count or a
+    ///   negative byte count.
+    public init(
+        formatTag: String,
+        fragmentCount: Int,
+        byteOrder: ByteOrder,
+        knownByteCount: Int
+    ) throws {
+        guard
+            !metadataIdentityFieldIsBlank(formatTag),
+            formatTag.utf8.count <= Self.maximumFormatTagUTF8ByteCount,
+            fragmentCount >= 1,
+            knownByteCount >= 0
+        else {
+            throw StorageContractError.incompatibleBinding
+        }
+        self.formatTag = formatTag
+        self.fragmentCount = fragmentCount
+        self.byteOrder = byteOrder
+        self.knownByteCount = knownByteCount
+    }
 }
 
 /// A checked decoded strided representation.

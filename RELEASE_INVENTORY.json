@@ -581,8 +581,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/RegionReadTransaction.swift",
-      "size": 8024,
-      "sha256": "bc7ad09e273605d43387933dde815816219bc6cb3ff5eb3629208b6471784959"
+      "size": 8086,
+      "sha256": "9d6e49805e6072c75819641ebabe2c34ab4e7d03b65080ff55bdbb80824ee3fd"
     },
     {
       "path": "Sources/VoxeliaCore/Public/ScalarFormat.swift",
@@ -606,8 +606,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/StorageRepresentation.swift",
-      "size": 5951,
-      "sha256": "726ba4d1b72cbaa4f99a06b04eb469c1869925ca30da21babd098023ef4b7210"
+      "size": 7648,
+      "sha256": "0428e16371399bb6aeb52373b960eb24db67af822419b7ae1ea8d5247270b491"
     },
     {
       "path": "Sources/VoxeliaCore/Public/StorageSnapshotHandle.swift",
@@ -631,8 +631,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md",
-      "size": 4321,
-      "sha256": "72762929bbf2c8d3b82fd56bab856f79e2ebc5aaa7cbf1bc9202851eb94c08b8"
+      "size": 4358,
+      "sha256": "8b1bf31b689a1a3db9451930c087519ccbb0d59c5c906761f80733c0b37af608"
     },
     {
       "path": "Sources/VoxeliaExecution/ApplePlatformGate.swift",
@@ -1290,6 +1290,11 @@
       "sha256": "06dfcc60c70addd67177227e1c0b2829f9485083e9be0b72ae5755347dbb5bdf"
     },
     {
+      "path": "Sources/VoxeliaStorage/Public/BrickedImageStorage.swift",
+      "size": 7170,
+      "sha256": "e9b4c86927b680565d37373fe35a6d526a66e91b10751d0c8c566425d90a56bd"
+    },
+    {
       "path": "Sources/VoxeliaStorage/Public/CanonicalDocumentStore.swift",
       "size": 7286,
       "sha256": "6ca78ba511d2c2cdc19f04b85b47dfebcba561394824b0a4c30e033319929dfb"
@@ -1331,8 +1336,8 @@
     },
     {
       "path": "Sources/VoxeliaStorage/VoxeliaStorage.docc/VoxeliaStorage.md",
-      "size": 1014,
-      "sha256": "2bf5e1d90b5f9caccbd11e2e0cdb8bf73df28d4f3c357b3018eac71ee78d01d0"
+      "size": 1066,
+      "sha256": "757c94f74a3686d1f84bd8fe7bab35e52122176028bfb5f7c816ebeee7ea9245"
     },
     {
       "path": "Sources/VoxeliaValidation/ApplePlatformGate.swift",
@@ -2008,6 +2013,11 @@
       "path": "Tests/VoxeliaStorageTests/BrickVocabularyTests.swift",
       "size": 5191,
       "sha256": "9a934c76bac49150d547a630ee8eacd4521b976ed5b03e1655ef08ff9401e78e"
+    },
+    {
+      "path": "Tests/VoxeliaStorageTests/BrickedImageStorageTests.swift",
+      "size": 5278,
+      "sha256": "c588d135026e57fdaf4bebdb17c4017ff603f804ba626b6954b71bb5f2156198"
     },
     {
       "path": "Tests/VoxeliaStorageTests/CanonicalDocumentStoreTests.swift",
@@ -3275,9 +3285,14 @@
       "sha256": "890ab96ae2b2ede20a541ce126785034869f8a57f8d2a1728ee4ef17fd3aef36"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0155-bricked-image-storage.md",
+      "size": 3285,
+      "sha256": "2719590cf433ed0522cd08118d9a82043eda4f0ecb52ca8ce9dcb614051f70da"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 22885,
-      "sha256": "9852269277ef822101c8d3dcf72cd1a3e44b7623fe23f464ee6509d73f03c7d2"
+      "size": 23024,
+      "sha256": "246b9b201435cf86e84ae783a294934d842707bd2be76189845e51ad978a3e45"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3361,8 +3376,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 606193,
-      "sha256": "c800415fd36176994af1a29e8f1817f469be246ea6026c030f4137e1d6dbff2e"
+      "size": 607593,
+      "sha256": "305be72713d68ee33134cb33f7789bcf143fdd2753ae3293268399a7f165e6db"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3721,8 +3736,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 39832,
-      "sha256": "b0ecf0407c6df752677825efc0ead73c930896d115ba21d0acdd666f38eceab7"
+      "size": 40007,
+      "sha256": "de443c0e9404634590502b31d85575983708a75693940a62d20b772ba4a1bf97"
     }
   ]
 }

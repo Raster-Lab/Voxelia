@@ -74,6 +74,7 @@ storage semantics.
 - ``LogicalSampleBinding``
 - ``StorageRepresentationDescriptor``
 - ``DecodedStridedRepresentation``
+- ``DecodedCompositeRepresentation``
 - ``OpaqueRepresentation``
 - ``StorageRepresentationLocality``
 - ``StorageSnapshotHandle``

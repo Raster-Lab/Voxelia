@@ -98,7 +98,10 @@ public final class RegionReadTransaction {
     ///   ``StorageContractError/resourceLimitExceeded`` when the checked
     ///   expected byte count overflows.
     public init(handle: StorageSnapshotHandle, region: ImageRegion) throws {
-        guard case .decodedStrided = handle.representation else {
+        switch handle.representation {
+        case .decodedStrided, .decodedComposite:
+            break
+        case .opaque:
             throw StorageContractError.unsupportedOperation
         }
         let extents = handle.binding.shape.extents

@@ -134,8 +134,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0151` is allocated to the brick cache design.
 `ADR-0152` is allocated to the brick cache vocabulary.
 `ADR-0153` is allocated to the instrumented brick cache.
-`ADR-0154` is allocated to the bricked storage design. The next
-unallocated numeric identifier is `ADR-0155`.
+`ADR-0154` is allocated to the bricked storage design.
+`ADR-0155` is allocated to the bricked image storage. The next
+unallocated numeric identifier is `ADR-0156`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -273,3 +274,4 @@ unallocated numeric identifier is `ADR-0155`.
 | [ADR-0152](ADR-0152-brick-cache-vocabulary.md) | Accepted | Brick cache vocabulary |
 | [ADR-0153](ADR-0153-instrumented-brick-cache.md) | Accepted | Instrumented brick cache |
 | [ADR-0154](ADR-0154-bricked-storage-design.md) | Accepted | Bricked storage design |
+| [ADR-0155](ADR-0155-bricked-image-storage.md) | Accepted | Bricked image storage |
