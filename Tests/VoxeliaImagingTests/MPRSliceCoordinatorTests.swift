@@ -32,7 +32,8 @@ struct MPRSliceCoordinatorTests {
     private func volume(
         extents: [Int],
         name: String,
-        depthSampling: AxisSampling = .indexOnly
+        depthSampling: AxisSampling = .indexOnly,
+        geometry: SpatialGeometry? = nil
     ) throws -> ImageData {
         let semantics: [AxisSemantic] = [.spatialX, .spatialY, .spatialZ]
         let names = ["x", "y", "z"]
@@ -67,7 +68,7 @@ struct MPRSliceCoordinatorTests {
                 ),
                 semantic: .intensity,
                 axes: axes,
-                spatialGeometry: nil,
+                spatialGeometry: geometry,
                 valueTransform: nil,
                 units: nil
             ),
@@ -278,6 +279,107 @@ struct MPRSliceCoordinatorTests {
             )
             #expect(Bool(false), "Expected a non-regular fixed axis to be rejected.")
         } catch MPRError.unsupportedAxisSampling {}
+    }
+
+    private func obliqueGeometry() throws -> SpatialGeometry {
+        // The exact ALG-0016 rotation-scale fixture with translation
+        // (10, 20, 30): world x = 10 - 2·i1, y = 20 + 2·i0,
+        // z = 30 + i2.
+        var elements = [Double](repeating: 0, count: 16)
+        elements[1] = -2
+        elements[3] = 10
+        elements[4] = 2
+        elements[7] = 20
+        elements[10] = 1
+        elements[11] = 30
+        elements[15] = 1
+        return .affine(
+            try AffineGridGeometry(
+                spatialAxes: try SpatialAxisMapping(imageAxes: [0, 1, 2]),
+                indexToWorld: try Matrix4x4Double(elements: elements),
+                coordinateSpace: try CoordinateSpaceDescriptor(
+                    id: try #require(CoordinateSpaceID(rawValue: "patient")),
+                    convention: .dicomPatientLPS,
+                    handedness: .unspecified,
+                    unit: try MeasurementUnit(
+                        namespace: "UCUM",
+                        code: "mm",
+                        dimension: .length
+                    ),
+                    externalReferences: []
+                )
+            )
+        )
+    }
+
+    @Test("[Unit][VOX-MPR-005][VOX-SPA-004] world crosshair points map through oblique geometry")
+    func worldCrosshairPointsMapThroughObliqueGeometry() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try volume(
+                extents: [2, 3, 2],
+                name: "volume-1",
+                geometry: try obliqueGeometry()
+            ),
+            mode: .complete
+        )
+        _ = try await publisher.publish(
+            try volume(extents: [2, 3, 2], name: "volume-2"),
+            mode: .complete
+        )
+        let volumeID = try #require(DataObjectID(rawValue: "volume-1"))
+        let patient = try #require(CoordinateSpaceID(rawValue: "patient"))
+
+        // The world image of index (1, 2, 1) selects every plane's
+        // slice through the frozen ADR-0138 composition.
+        let point = try Point3D(x: 6, y: 22, z: 31, coordinateSpace: patient)
+        let axial = try await MPRSliceCoordinator.sliceIndex(
+            forWorldPoint: point,
+            plane: .axial,
+            volumeID: volumeID,
+            publisher: publisher
+        )
+        #expect(axial == 1)
+        let coronal = try await MPRSliceCoordinator.sliceIndex(
+            forWorldPoint: point,
+            plane: .coronal,
+            volumeID: volumeID,
+            publisher: publisher
+        )
+        #expect(coronal == 2)
+        let sagittal = try await MPRSliceCoordinator.sliceIndex(
+            forWorldPoint: point,
+            plane: .sagittal,
+            volumeID: volumeID,
+            publisher: publisher
+        )
+        #expect(sagittal == 1)
+
+        // A fixed-axis component that left the volume and a volume
+        // claiming no world mapping both reject typed.
+        do {
+            _ = try await MPRSliceCoordinator.sliceIndex(
+                forWorldPoint: try Point3D(
+                    x: 6,
+                    y: 22,
+                    z: 32.6,
+                    coordinateSpace: patient
+                ),
+                plane: .axial,
+                volumeID: volumeID,
+                publisher: publisher
+            )
+            #expect(Bool(false), "Expected an out-of-volume point to be rejected.")
+        } catch MPRError.crosshairOutsideVolume {}
+        do {
+            _ = try await MPRSliceCoordinator.sliceIndex(
+                forWorldPoint: point,
+                plane: .axial,
+                volumeID: try #require(DataObjectID(rawValue: "volume-2")),
+                publisher: publisher
+            )
+            #expect(Bool(false), "Expected an uncalibrated volume to be rejected.")
+        } catch MPRError.volumeNotSpatiallyCalibrated {}
     }
 
     @Test("[Unit][VOX-ERR-001] slice admission rejects typed")

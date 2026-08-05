@@ -55,6 +55,8 @@ None.
 - ``Matrix4x4DoubleError``
 - ``AffineSpatialInverse``
 - ``AffineSpatialInverseError``
+- ``AffineWorldToIndexMap``
+- ``AffineWorldToIndexError``
 
 ### Spatial-axis mappings
 

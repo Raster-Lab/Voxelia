@@ -2,6 +2,7 @@
 
 import VoxeliaCore
 import VoxeliaExecution
+import VoxeliaSpatial
 
 /// An error raised by multiplanar slice admission.
 ///
@@ -13,6 +14,7 @@ public enum MPRError: Error, Sendable, Equatable {
     case invalidSliceIndex
     case unsupportedAxisSampling
     case crosshairOutsideVolume
+    case volumeNotSpatiallyCalibrated
 }
 
 /// The closed multiplanar plane vocabulary per `ADR-0117`.
@@ -126,9 +128,9 @@ public enum MPRSliceCoordinator {
     /// `quotient = difference / spacing`, ties-to-even rounding — an
     /// out-of-volume component rejects typed, never clamps, because
     /// presenting a nearest slice for a crosshair that left the volume
-    /// would misreport where the views point. Mapping arbitrary world
-    /// points onto obliquely oriented volumes awaits the
-    /// affine-inverse model.
+    /// would misreport where the views point. World points on
+    /// obliquely oriented volumes map through
+    /// ``sliceIndex(forWorldPoint:plane:volumeID:publisher:)``.
     ///
     /// - Throws: ``MPRError``.
     public static func sliceIndex(
@@ -153,10 +155,66 @@ public enum MPRSliceCoordinator {
         }
         let difference = value - origin
         let quotient = difference / spacing
-        let index = Int(quotient.rounded(.toNearestOrEven))
-        guard index >= 0, index < extents[fixedAxis] else {
+        return try Self.admittedSliceIndex(
+            rounding: quotient,
+            extent: extents[fixedAxis]
+        )
+    }
+
+    /// Maps one world crosshair point to the plane's slice index per
+    /// `ADR-0138`.
+    ///
+    /// The published volume's claimed affine geometry supplies the
+    /// frozen `ADR-0138` world-to-index composition; the plane's
+    /// fixed-axis component rounds under the accepted `ADR-0130`
+    /// ties-to-even rule. Only the fixed-axis component gates
+    /// admission because the other components do not select the
+    /// slice. An uncalibrated volume rejects typed — presenting a
+    /// slice for a world point against a volume that claims no world
+    /// mapping would fabricate a registration.
+    ///
+    /// - Throws: ``MPRError`` and the world-to-index map's typed
+    ///   errors.
+    public static func sliceIndex(
+        forWorldPoint point: Point3D,
+        plane: MPRPlane,
+        volumeID: DataObjectID,
+        publisher: PublicationCoordinator
+    ) async throws -> Int {
+        guard let volume = await publisher.publishedImage(for: volumeID) else {
+            throw MPRError.volumeNotPublished
+        }
+        let extents = volume.descriptor.shape.extents
+        guard extents.count == 3 else {
+            throw MPRError.unsupportedVolumeShape
+        }
+        guard case .affine(let affine)? = volume.descriptor.spatialGeometry
+        else {
+            throw MPRError.volumeNotSpatiallyCalibrated
+        }
+        let fixedAxis = plane.fixedAxis
+        let map = try AffineWorldToIndexMap(geometry: affine)
+        let continuous = try map.continuousIndex(
+            forImageAxis: fixedAxis,
+            of: point
+        )
+        return try Self.admittedSliceIndex(
+            rounding: continuous,
+            extent: extents[fixedAxis]
+        )
+    }
+
+    /// The shared `ADR-0130` rounding admission: ties-to-even, then a
+    /// double-domain range check before integer conversion so absurd
+    /// magnitudes reject typed instead of trapping.
+    private static func admittedSliceIndex(
+        rounding value: Double,
+        extent: Int
+    ) throws -> Int {
+        let rounded = value.rounded(.toNearestOrEven)
+        guard rounded >= 0, rounded < Double(extent) else {
             throw MPRError.crosshairOutsideVolume
         }
-        return index
+        return Int(rounded)
     }
 }

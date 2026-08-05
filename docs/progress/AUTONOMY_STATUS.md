@@ -2579,6 +2579,27 @@ oracle campaigns.
   observed ratio zero point five three nine, headroom one point eight
   six. The consuming world-to-index mapping follows as its own
   increment; no consumer may embed an ad-hoc inverse.
+- One-hundred-sixth autonomous increment (owner broadened standing
+  mandate): implemented accepted `ADR-0138`, the world-to-index
+  mapping that completes the specification's consuming step. The
+  frozen composition lives once in the spatial module as
+  `AffineWorldToIndexMap` — three correctly rounded subtractions of
+  the translation, then per-slot ascending products with left-to-right
+  accumulation over the measured inverse, mirroring the claimed
+  forward evaluation — with typed rejections for a foreign coordinate
+  space and an unmapped image axis, because mapping either silently
+  would fabricate a calibration. The multiplanar coordinator gained
+  the world-point crosshair surface: a published volume's claimed
+  affine geometry maps the point and the plane's fixed-axis component
+  rounds under the accepted ties-to-even rule, with a new typed
+  rejection for an uncalibrated volume and a double-domain range check
+  shared with the axis-value path so absurd magnitudes reject typed
+  instead of trapping. Fixtures pin the exact rotation-scale
+  round-trip and the python-frozen symmetric slots whose final digit
+  differs from the nearest-to-exact spelling — the frozen order is the
+  claim, not the ideal. Obliquely oriented volumes now have their
+  crosshair mapping; the pick-side viewport consumer follows as its
+  own design.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
