@@ -8,7 +8,8 @@ import Testing
 struct MetalResidencyManagerTests {
     @Test("[Unit][VOX-PLT-014][VOX-EXE-002] policies fulfil by capability with real buffers")
     func policiesFulfilByCapabilityWithRealBuffers() throws {
-        let manager = MetalResidencyManager(context: try MetalExecutionContext())
+        let context = try MetalExecutionContext()
+        let manager = MetalResidencyManager(context: context)
 
         // Automatic and shared select shared storage on the detected
         // unified-memory capability, and a real shared buffer
@@ -18,15 +19,32 @@ struct MetalResidencyManagerTests {
         let sharedBuffer = try manager.makeBuffer(byteCount: 12, policy: .shared)
         #expect(sharedBuffer.length == 12)
         let payload: [UInt8] = Array(0..<12)
-        sharedBuffer.contents().copyMemory(from: payload, byteCount: 12)
-        let readBack = Array(
-            UnsafeBufferPointer(
-                start: sharedBuffer.contents().bindMemory(
-                    to: UInt8.self,
-                    capacity: 12
-                ),
-                count: 12
+        try MetalBufferTransfer.write(payload, to: sharedBuffer, offset: 0)
+        let (readbackBuffer, writer) = try context.withMetalHandles {
+            device, commandQueue in
+            let readbackBuffer = try #require(
+                device.makeBuffer(length: 12, options: [.storageModeShared])
             )
+            let writer = try #require(commandQueue.makeCommandBuffer())
+            let blit = try #require(writer.makeBlitCommandEncoder())
+            blit.copy(
+                from: sharedBuffer,
+                sourceOffset: 0,
+                to: readbackBuffer,
+                destinationOffset: 0,
+                size: 12
+            )
+            blit.endEncoding()
+            return (readbackBuffer, writer)
+        }
+        writer.commit()
+        writer.waitUntilCompleted()
+        withExtendedLifetime(sharedBuffer) {}
+        let readBack = try MetalBufferTransfer.readBytes(
+            from: readbackBuffer,
+            offset: 0,
+            count: 12,
+            after: writer
         )
         #expect(readBack == payload)
 

@@ -13,6 +13,9 @@ public enum MetalInvertKernelError: Error, Sendable, Equatable {
     case pipelineUnavailable
     case bufferAllocationFailed
     case executionFailed
+    /// The nonempty input count cannot be represented by the kernel's
+    /// exact unsigned 32-bit parameter field.
+    case invalidSampleByteCount
 }
 
 /// The display-inversion Metal kernel per `ADR-0132`: the registered
@@ -89,27 +92,31 @@ public final class MetalInvertKernel: Sendable {
         guard !storedSamples.isEmpty else {
             return []
         }
-        var parameters = KernelParameters(sampleCount: UInt32(storedSamples.count))
-        guard
-            let buffers = context.withMetalHandles({
-                device, _ -> (any MTLBuffer, any MTLBuffer)? in
+        let parameters = try Self.parameterBytes(sampleCount: storedSamples.count)
+        let buffers: (any MTLBuffer, any MTLBuffer)
+        do {
+            buffers = try context.withMetalHandles { device, _ in
+                let input = try MetalBufferTransfer.makeSharedBuffer(
+                    copying: storedSamples,
+                    using: device
+                )
                 guard
-                    let input = device.makeBuffer(
-                        bytes: storedSamples,
-                        length: storedSamples.count,
-                        options: [.storageModeShared]
-                    ),
                     let output = device.makeBuffer(
                         length: storedSamples.count,
                         options: [.storageModeShared]
                     )
                 else {
-                    return nil
+                    throw MetalBufferTransferError.bufferAllocationFailed
                 }
                 return (input, output)
-            })
-        else {
-            throw MetalInvertKernelError.bufferAllocationFailed
+            }
+        } catch {
+            switch MetalKernelBufferPreparationFailure.classify(error) {
+            case .allocation:
+                throw MetalInvertKernelError.bufferAllocationFailed
+            case .execution:
+                throw MetalInvertKernelError.executionFailed
+            }
         }
         let (inputBuffer, outputBuffer) = buffers
         guard
@@ -122,11 +129,16 @@ public final class MetalInvertKernel: Sendable {
         }
         encoder.setBuffer(inputBuffer, offset: 0, index: 0)
         encoder.setBuffer(outputBuffer, offset: 0, index: 1)
-        encoder.setBytes(
-            &parameters,
-            length: MemoryLayout<KernelParameters>.stride,
-            index: 2
-        )
+        do {
+            try MetalBufferTransfer.setInlineBytes(
+                parameters,
+                on: encoder,
+                index: 2
+            )
+        } catch {
+            encoder.endEncoding()
+            throw MetalInvertKernelError.executionFailed
+        }
         let threadWidth = pipeline.withLock { pipeline in
             encoder.setComputePipelineState(pipeline)
             return min(
@@ -141,7 +153,15 @@ public final class MetalInvertKernel: Sendable {
         encoder.endEncoding()
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
-        guard commandBuffer.status == .completed else {
+        let result: [UInt8]
+        do {
+            result = try MetalBufferTransfer.readBytes(
+                from: outputBuffer,
+                offset: 0,
+                count: storedSamples.count,
+                after: commandBuffer
+            )
+        } catch {
             throw MetalInvertKernelError.executionFailed
         }
         if let telemetrySink {
@@ -156,12 +176,17 @@ public final class MetalInvertKernel: Sendable {
                 )
             )
         }
-        let output = outputBuffer.contents()
-            .bindMemory(to: UInt8.self, capacity: storedSamples.count)
-        return Array(UnsafeBufferPointer(start: output, count: storedSamples.count))
+        return result
     }
 
-    private struct KernelParameters {
-        var sampleCount: UInt32
+    static func parameterBytes(sampleCount: Int) throws -> [UInt8] {
+        guard let sampleCountWord = UInt32(exactly: sampleCount) else {
+            throw MetalInvertKernelError.invalidSampleByteCount
+        }
+        do {
+            return try MetalKernelParameterBytes.littleEndianWords([sampleCountWord])
+        } catch {
+            throw MetalInvertKernelError.executionFailed
+        }
     }
 }

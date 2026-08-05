@@ -188,6 +188,7 @@ Sources/VoxeliaMetal/Internal/.gitkeep
 Sources/VoxeliaMetal/Internal/CompositeKernelSource.swift
 Sources/VoxeliaMetal/Internal/InvertKernelSource.swift
 Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift
+Sources/VoxeliaMetal/Internal/MetalKernelBufferPreparationFailure.swift
 Sources/VoxeliaMetal/Internal/MetalKernelParameterBytes.swift
 Sources/VoxeliaMetal/Internal/MetalSourceDigest.swift
 Sources/VoxeliaMetal/Internal/WindowLevelKernelSource.swift

@@ -84,8 +84,8 @@ of `Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift` and exactly its
 three `unsafe` marker findings. A missing policy or source, a changed byte,
 changed finding multiset, different prohibited category or marker at another
 path fails closed. The raw escape-hatch scan passes with that one governed
-exception and no unapproved finding. The 2026-08-05 recovery replaced three test-only
-lock wrappers and the production pipeline cache with checked
+exception and no unapproved finding. The 2026-08-05 recovery replaced three
+test-only lock wrappers and the production pipeline cache with checked
 `Synchronization.Mutex` state, isolated the execution context's device/queue
 pair and all three kernel pipeline sets behind checked synchronous borrowing,
 removed the immutable residency manager's obsolete exception and proved the
@@ -105,16 +105,13 @@ corrected and its five race/cancellation obligations pass. The gate proceeds
 through Execution and stops in Rendering because warnings-as-errors promotes
 the extraneous duplicate `pixelY` parameter spelling in
 `OrthographicRayGenerator.swift`. That public-selector-preserving cleanup and
-its direct numerical dependants now pass. The gate proceeds through Rendering
-and stops on sixteen strict-memory diagnostics across
-`MetalInvertKernel.swift`, `MetalCompositeKernel.swift` and
-`MetalWindowLevelKernel.swift`. The three C-format digest conversions are now
-one checked deterministic lowercase encoder, with all registered digest pins
-and kernel suites green. A filtered semantic rerun leaves exactly thirteen
-pointer-shaped upload, parameter and readback calls. Later targets and
-package/configuration phases remain unverified by that run. At that stage no
-finding was an accepted exception; the Metal transfer boundary required an
-installed-SDK and package-boundary audit before edits or governance decisions.
+its direct numerical dependants now pass. The gate then exposed sixteen
+strict-memory diagnostics across the three Metal kernels. The three C-format
+digest conversions became one checked deterministic lowercase encoder, and the
+remaining thirteen upload, parameter and readback calls now route through the
+governed boundary with exact 28/8/4-byte parameter blocks. At that earlier
+stage no finding was an accepted exception; the Metal transfer boundary first
+required an installed-SDK and package-boundary audit.
 That audit is now recorded: MetalKit can perform checked `Data` upload through
 its Model I/O-backed mesh allocator, but the supported SDK has no checked exact
 raw-buffer readback inverse. Blit and Metal I/O do not bridge arbitrary results
@@ -126,13 +123,18 @@ owner approved that option and an independent subagent review on 2026-08-05.
 Accepted `ADR-0186` fixes the exact three-operation byte-only scope; the
 boundary, checked word serializer, exact scanner fingerprint and focused range,
 storage, completion, lifetime, concurrency, serialization and scanner-fault
-evidence are implemented. The independent reviewer approved this exact
-boundary/scanner diff. Kernel and residency migration plus the complete
-semantic gate remain pending and require a later final migration review.
+evidence are implemented. All three kernels and the residency round trip are
+migrated, and the independent reviewer approved both the boundary/scanner and
+migration diffs. The semantic gate compiles all product modules and the focused
+Metal test target; its root debug test build now stops on six pre-existing
+test-only C-format initializers in `CanonicalFuzzEvidenceTests`,
+`CanonicalInstantTests` and `AffineSpatialInverseTests`. Later package and
+configuration phases remain unverified by that run, so the complete semantic
+gate remains pending without expanding this exception.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| `SWIFT-MEM-001` (enabled for exact fingerprint) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval, independent design review and independent boundary/scanner diff approval recorded under `ADR-0186` | Boundary fingerprint, range, storage, completion, lifetime, concurrency, serialization and scanner-mutation evidence pass; kernel, residency and complete semantic-gate evidence pending |
+| `SWIFT-MEM-001` (enabled for exact fingerprint) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval plus independent design, boundary/scanner and migration-diff approvals recorded under `ADR-0186` | Boundary fingerprint, range, storage, completion, lifetime, concurrency, serialization, scanner mutation, three kernels and residency pass; complete semantic gate pending six unrelated test-only formatting calls |
 
 ## Introducing an exception
 

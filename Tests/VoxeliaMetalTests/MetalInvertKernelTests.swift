@@ -43,6 +43,21 @@ struct MetalInvertKernelTests {
         requireSendable(MetalInvertKernelError.self)
     }
 
+    @Test("[Unit][VOX-SEC-001][VOX-REP-008] invert parameters have exact bytes")
+    func invertParametersHaveExactBytes() throws {
+        #expect(
+            try MetalInvertKernel.parameterBytes(sampleCount: 256)
+                == [0x00, 0x01, 0x00, 0x00]
+        )
+
+        do {
+            _ = try MetalInvertKernel.parameterBytes(
+                sampleCount: Int(UInt32.max) + 1
+            )
+            #expect(Bool(false), "Expected an unrepresentable sample count to reject.")
+        } catch MetalInvertKernelError.invalidSampleByteCount {}
+    }
+
     @Test("[Concurrency][VOX-CON-003][VOX-MTL-004] one invert kernel dispatches concurrently")
     func oneInvertKernelDispatchesConcurrently() async throws {
         let context = try MetalExecutionContext()

@@ -83,6 +83,54 @@ struct MetalCompositeKernelTests {
         requireSendable(MetalCompositeKernelError.self)
     }
 
+    @Test("[Unit][VOX-SEC-001][VOX-REP-008] composite parameters have exact bytes")
+    func compositeParametersHaveExactBytes() throws {
+        #expect(
+            try MetalCompositeKernel.parameterBytes(
+                elementCount: 12,
+                layerCount: 2
+            ) == [
+                0x0C, 0x00, 0x00, 0x00,
+                0x02, 0x00, 0x00, 0x00,
+            ]
+        )
+        #expect(
+            try MetalCompositeKernel.opacityBytes([0, 0.5, 1]) == [
+                0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x3F,
+                0x00, 0x00, 0x80, 0x3F,
+            ]
+        )
+        #expect(
+            try MetalCompositeKernel.validatedPackedSampleCount(
+                elementCount: 12,
+                layerCount: 2
+            ) == 24
+        )
+
+        do {
+            _ = try MetalCompositeKernel.parameterBytes(
+                elementCount: Int(UInt32.max) + 1,
+                layerCount: 2
+            )
+            #expect(Bool(false), "Expected an unrepresentable element count to reject.")
+        } catch MetalCompositeKernelError.invalidLayerShape {}
+        do {
+            _ = try MetalCompositeKernel.parameterBytes(
+                elementCount: 12,
+                layerCount: Int(UInt32.max) + 1
+            )
+            #expect(Bool(false), "Expected an unrepresentable layer count to reject.")
+        } catch MetalCompositeKernelError.invalidLayerShape {}
+        do {
+            _ = try MetalCompositeKernel.validatedPackedSampleCount(
+                elementCount: Int.max,
+                layerCount: 2
+            )
+            #expect(Bool(false), "Expected a packed-sample overflow to reject.")
+        } catch MetalCompositeKernelError.invalidLayerShape {}
+    }
+
     @Test("[Unit][VOX-VAL-007][VOX-EXE-003] the composite differential measures the GPU model")
     func compositeDifferentialMeasuresTheGPUModel() throws {
         let kernel = try MetalCompositeKernel(

@@ -286,6 +286,37 @@ struct MetalBufferTransferTests {
         } catch MetalKernelParameterBytesError.byteCountOverflow {}
     }
 
+    @Test("[Unit][VOX-ERR-001][VOX-MTL-014] kernel buffer faults classify typed")
+    func kernelBufferFaultsClassifyTyped() {
+        #expect(
+            MetalKernelBufferPreparationFailure.classify(
+                MetalBufferTransferError.invalidByteCount
+            ) == .allocation
+        )
+        #expect(
+            MetalKernelBufferPreparationFailure.classify(
+                MetalBufferTransferError.bufferAllocationFailed
+            ) == .allocation
+        )
+        for error in [
+            MetalBufferTransferError.invalidRange,
+            .unsupportedStorageMode,
+            .invalidInlineBinding,
+            .commandNotCompleted,
+            .commandFailed,
+        ] {
+            #expect(
+                MetalKernelBufferPreparationFailure.classify(error)
+                    == .execution
+            )
+        }
+        #expect(
+            MetalKernelBufferPreparationFailure.classify(
+                MetalKernelParameterBytesError.byteCountOverflow
+            ) == .execution
+        )
+    }
+
     @Test("[Concurrency][VOX-CON-003][VOX-MTL-004] independent transfers do not alias")
     func independentTransfersDoNotAlias() async throws {
         let context = try MetalExecutionContext()

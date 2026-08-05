@@ -38,7 +38,8 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fifth removed `MetalResidencyManager`'s obsolete exception after its sole
   stored context became checked, and the sixth proved `ExactSliceRenderer` is
   immutable checked composition. The raw fail-closed escape-hatch scan now
-  passes with zero findings and no accepted exceptions. Checked bounded
+  passes with the exact three-expression governed Metal boundary and no
+  unapproved finding. Checked bounded
   `Data` updates and a fixed-work Swift digest comparator have now removed all
   seven `ContentID.swift` diagnostics while preserving every registered
   identity golden. The semantic `--compile` gate advanced to its next failure:
@@ -47,26 +48,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   later on a warning-as-error for a redundant `await` in
   `BrickRequestBroker.swift`; that actor-isolated call is now corrected too.
   The duplicate internal `pixelY` spelling in `OrthographicRayGenerator` is
-  now removed without changing its public selector. The gate passes Rendering
-  and the three shader-source digest conversions now use one checked lowercase
-  encoder. The gate stops in Metal on the remaining thirteen upload, parameter
-  and readback diagnostics across its three compute-kernel wrappers. The
-  installed-SDK audit found a checked MetalKit upload route but no checked raw
-  readback API. The project owner approved Option A and an independent subagent
-  reviewer; accepted `ADR-0186` confines the exception to one fingerprinted
-  internal Metal byte-transfer file with three marked expressions. The
-  boundary, checked word serializer, exact fail-closed scanner fingerprint and
-  focused evidence are implemented; the independent reviewer approved that
-  boundary/scanner diff after the required coherency, lifetime, governance and
-  platform corrections. Kernel and residency migration and the complete
-  semantic gate remain pending, so that gate must not yet be reported green.
-  Independently, all four
+  now removed without changing its public selector. The three shader-source
+  digest conversions use one checked lowercase encoder. The installed-SDK
+  audit found a checked MetalKit upload route but no checked raw readback API.
+  The project owner approved Option A and an independent subagent reviewer;
+  accepted `ADR-0186` confines the exception to one fingerprinted internal
+  Metal byte-transfer file with three marked expressions. The boundary,
+  serializer, exact fail-closed scanner fingerprint, all three kernel
+  migrations and the residency round trip are implemented; the independent
+  reviewer approved the boundary/scanner and final migration diffs after all
+  coherency, lifetime, governance, platform, count and error-classification
+  corrections. The semantic gate now compiles every product and the focused
+  Metal test target, then stops in the root test build on six pre-existing
+  C-format initializers across three Core/Spatial test files. It must not yet be
+  reported green. Independently, all four
   pointer-backed sixteen-bit fixture serializers predicted in the Metal test
   target now use exact checked little-endian shifts, with their affected device
-  suites green. Strict compilation of that test target remains unproven until
-  the product Metal boundary is resolved. The last recorded strict product/test
-  destination builds remain historical evidence only; visionOS 26.5 is still
-  unavailable.
+  suites green. Strict compilation of the Metal test target now passes. The
+  last recorded full platform destination builds remain historical evidence
+  only; visionOS 26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -4254,6 +4254,67 @@ oracle campaigns.
   migrates the window-level, composite and invert kernels plus the residency
   round trip through this boundary, with exact parameter goldens and the
   independent migration review.
+- One-hundred-eighty-first autonomous increment (scheduled goal continuation):
+  migrated the three accepted compute kernels and the `ADR-0081` residency
+  round trip through the exact `ADR-0186` boundary. Window, composite and invert
+  uploads now allocate through the checked shared-buffer copy; fixed parameter
+  blocks bind through the synchronous-copy boundary; and each result becomes an
+  owned byte array only after its exact writer command completes. Invocation-
+  local input, output and parameter resources remain alive through the wait and
+  read. Window parameters serialize the four `Float.bitPattern` words, exact
+  `UInt32` sample count, `Int32` padding bits and enabled flag in the frozen
+  28-byte MSL order. Composite serializes exact 8-byte element/layer counts and
+  every demoted opacity word explicitly, preflighting element-times-layer
+  overflow before `flatMap`; invert serializes its exact 4-byte count and gains
+  the accepted additive payload-free `invalidSampleByteCount` public case. The
+  residency evidence writes the manager-created shared source through the
+  boundary, uses a real blit into a separate shared destination, retains the
+  source through completion and reads with that exact writer.
+
+  The first migration filter passed sixteen tests across the three kernel and
+  residency suites with unchanged numerical evidence: 1,536/1,536 uint8 and
+  36,864/36,864 sixteen-bit window samples exact, 13,311/13,312 composite
+  samples exact, 256/256 invert samples exact, 65/1,032 padding exclusions exact
+  and all shared-wrapper concurrency/residency checks green. The three-test
+  `MetalCompositeLayersOperation` dependent also passed, including its 12/12
+  CPU/device fixture and honest claims. Exact parameter goldens pin the
+  28/8/4-byte blocks, opacity bytes, signed padding, element/sample narrowing
+  and packed-product overflow.
+
+  Independent migration review first rejected one error collapse: all upload
+  preparation faults mapped to allocation, although unsupported storage is an
+  execution/coherency fault. One internal payload-free classifier now maps only
+  invalid/capacity byte counts and actual allocation failure to the public
+  allocation cases; invalid range, unsupported storage, inline binding,
+  incomplete/failed commands and unknown errors map to execution. Regression
+  evidence exercises every category, and a direct unrepresentable layer-count
+  assertion joined the element-count and product-overflow checks. The expanded
+  boundary/window/composite/invert/residency filter then passed twenty-five
+  tests across five suites with the same numerical counts. The independent
+  reviewer rechecked API compatibility, parameter layout, overflow, command and
+  resource lifetimes, same-writer readback, concurrency, error mapping,
+  residency and exception containment and issued final approval with no
+  remaining blocker. The exact boundary SHA remains
+  `161b5298d68bfc1e6e312f650458db3e41e6b9ca418f6a49c486ff86e53c7aa9`
+  and its raw marker inventory remains exactly three.
+
+  Strict format lint for all seven initial migration files and the final
+  classifier/test subset passed; `git diff --check`, the raw safety inventory
+  and a strict-memory/warnings-as-errors build of `VoxeliaMetalTests` passed.
+  The first complete `check_swift_safety.py --compile` run compiled every
+  product and all Metal test source, then exited one in the root debug test
+  build on six pre-existing C-format calls: one in
+  `CanonicalFuzzEvidenceTests`, four in `CanonicalInstantTests` and one in
+  `AffineSpatialInverseTests`. A later filtered incremental rerun exited one and
+  emitted only the affine diagnostic because cached failed test compilations
+  were not all replayed; it is not evidence that the other five are fixed. No
+  Metal diagnostic appeared in either run. Later package/configuration phases
+  and the full test suite were not reached/run and are not claimed. Release-
+  integrity regeneration and read-only verification passed with 817 manifest
+  paths, 816 inventory records and 817 checksums. The exact next recovery
+  replaces those six test-only C-format helpers with deterministic checked
+  zero-padding/hex encoding, preserving every fixture byte, before the complete
+  semantic gate reruns.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -10041,18 +10102,18 @@ document store now validates directory kind through checked URL resource
 values; the broker now uses a direct same-actor completion call; and the ray
 generator retains its exact public selector without the duplicate internal
 name; and all three shader fingerprints now use checked lowercase serialization
-with their registered digests unchanged. The complete semantic Swift safety
-gate passes Rendering and stops on thirteen transfer diagnostics across the
-three Metal compute-kernel wrappers. The installed-SDK audit proves there is no
-checked arbitrary raw-buffer readback path at the supported deployment floors.
-The owner approved Option A, the three-operation boundary/scanner stage is
-implemented and the independent reviewer issued final approval for its exact
-fingerprint. The exact next action is to migrate all three kernels and the
-residency round trip through that boundary, add their exact parameter goldens,
-run direct Metal/differential/concurrency and residency evidence, obtain the
-same reviewer's final migration-diff review and rerun the complete semantic
-gate. Do not add a foreign shim, broaden the exception, resume geometry or
-report the gate green before that evidence.
+with their registered digests unchanged. The owner approved Option A; the exact
+three-operation boundary/scanner stage, all three kernel migrations and the
+residency round trip are implemented and independently approved. The complete
+semantic Swift safety gate now compiles every product and the Metal test target,
+then stops in the root debug test build on six C-format initializers: one
+hexadecimal fixture in `CanonicalFuzzEvidenceTests`, four zero-padded calendar
+fields in `CanonicalInstantTests` and one hexadecimal fixture in
+`AffineSpatialInverseTests`. The exact next action is to replace those test-only
+formatters with checked deterministic Swift encoding while preserving every
+fixture byte, rerun their focused suites, then rerun the complete semantic gate.
+Do not broaden the Metal exception, resume geometry or report the gate green
+before that evidence.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under prospective `ADR-0187`: reconcile
@@ -10077,10 +10138,9 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Continue accepted `ADR-0186` exactly: migrate the three kernels and residency
-  test through the approved boundary, run their direct Metal, differential,
-  concurrency and exact-parameter evidence, obtain the independent migration-
-  diff review and run the complete semantic gate.
+- Replace the six test-only C-format initializers with checked deterministic
+  zero-padding and lowercase hexadecimal encoding, preserve the exact fixture
+  bytes, run the three focused suites, then rerun the complete semantic gate.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

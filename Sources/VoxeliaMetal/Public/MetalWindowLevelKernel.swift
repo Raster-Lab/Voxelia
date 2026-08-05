@@ -206,38 +206,37 @@ public final class MetalWindowLevelKernel: Sendable {
             return []
         }
 
-        let halfSpan = (width - 1.0) / 2.0
-        let threshold = center - 0.5
-        var parameters = KernelParameters(
-            threshold: Float(threshold),
-            lowerEdge: Float(threshold - halfSpan),
-            upperEdge: Float(threshold + halfSpan),
-            widthMinusOne: Float(width - 1.0),
-            sampleCount: UInt32(sampleCount),
-            paddingValue: paddingValue ?? 0,
-            paddingEnabled: paddingValue == nil ? 0 : 1
+        let parameters = try Self.parameterBytes(
+            center: center,
+            width: width,
+            sampleCount: sampleCount,
+            paddingValue: paddingValue
         )
 
-        guard
-            let buffers = context.withMetalHandles({
-                device, _ -> (any MTLBuffer, any MTLBuffer)? in
+        let buffers: (any MTLBuffer, any MTLBuffer)
+        do {
+            buffers = try context.withMetalHandles { device, _ in
+                let input = try MetalBufferTransfer.makeSharedBuffer(
+                    copying: storedBytes,
+                    using: device
+                )
                 guard
-                    let input = device.makeBuffer(
-                        bytes: storedBytes,
-                        length: storedBytes.count,
-                        options: [.storageModeShared]
-                    ),
                     let output = device.makeBuffer(
                         length: sampleCount,
                         options: [.storageModeShared]
                     )
                 else {
-                    return nil
+                    throw MetalBufferTransferError.bufferAllocationFailed
                 }
                 return (input, output)
-            })
-        else {
-            throw MetalKernelError.bufferAllocationFailed
+            }
+        } catch {
+            switch MetalKernelBufferPreparationFailure.classify(error) {
+            case .allocation:
+                throw MetalKernelError.bufferAllocationFailed
+            case .execution:
+                throw MetalKernelError.executionFailed
+            }
         }
         let (inputBuffer, outputBuffer) = buffers
 
@@ -251,11 +250,16 @@ public final class MetalWindowLevelKernel: Sendable {
         }
         encoder.setBuffer(inputBuffer, offset: 0, index: 0)
         encoder.setBuffer(outputBuffer, offset: 0, index: 1)
-        encoder.setBytes(
-            &parameters,
-            length: MemoryLayout<KernelParameters>.stride,
-            index: 2
-        )
+        do {
+            try MetalBufferTransfer.setInlineBytes(
+                parameters,
+                on: encoder,
+                index: 2
+            )
+        } catch {
+            encoder.endEncoding()
+            throw MetalKernelError.executionFailed
+        }
         let threadWidth = pipelines.withLock { pipelines in
             let pipeline: any MTLComputePipelineState
             switch pipelineKind {
@@ -276,7 +280,15 @@ public final class MetalWindowLevelKernel: Sendable {
         encoder.endEncoding()
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
-        guard commandBuffer.status == .completed else {
+        let result: [UInt8]
+        do {
+            result = try MetalBufferTransfer.readBytes(
+                from: outputBuffer,
+                offset: 0,
+                count: sampleCount,
+                after: commandBuffer
+            )
+        } catch {
             throw MetalKernelError.executionFailed
         }
         if let telemetrySink {
@@ -291,19 +303,32 @@ public final class MetalWindowLevelKernel: Sendable {
                 )
             )
         }
-
-        let output = outputBuffer.contents()
-            .bindMemory(to: UInt8.self, capacity: sampleCount)
-        return Array(UnsafeBufferPointer(start: output, count: sampleCount))
+        return result
     }
 
-    private struct KernelParameters {
-        var threshold: Float
-        var lowerEdge: Float
-        var upperEdge: Float
-        var widthMinusOne: Float
-        var sampleCount: UInt32
-        var paddingValue: Int32
-        var paddingEnabled: UInt32
+    static func parameterBytes(
+        center: Double,
+        width: Double,
+        sampleCount: Int,
+        paddingValue: Int32?
+    ) throws -> [UInt8] {
+        guard let sampleCountWord = UInt32(exactly: sampleCount) else {
+            throw MetalKernelError.invalidSampleByteCount
+        }
+        let halfSpan = (width - 1.0) / 2.0
+        let threshold = center - 0.5
+        do {
+            return try MetalKernelParameterBytes.littleEndianWords([
+                Float(threshold).bitPattern,
+                Float(threshold - halfSpan).bitPattern,
+                Float(threshold + halfSpan).bitPattern,
+                Float(width - 1.0).bitPattern,
+                sampleCountWord,
+                UInt32(bitPattern: paddingValue ?? 0),
+                paddingValue == nil ? 0 : 1,
+            ])
+        } catch {
+            throw MetalKernelError.executionFailed
+        }
     }
 }

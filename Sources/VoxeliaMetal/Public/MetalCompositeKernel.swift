@@ -114,38 +114,48 @@ public final class MetalCompositeKernel: Sendable {
             return []
         }
 
-        var parameters = KernelParameters(
-            elementCount: UInt32(elementCount),
-            layerCount: UInt32(layerSamples.count)
+        let packedSampleCount = try Self.validatedPackedSampleCount(
+            elementCount: elementCount,
+            layerCount: layerSamples.count
+        )
+        let parameters = try Self.parameterBytes(
+            elementCount: elementCount,
+            layerCount: layerSamples.count
         )
         let packedSamples = layerSamples.flatMap { $0 }
-        let packedOpacities = opacities.map(Float.init)
+        guard packedSamples.count == packedSampleCount else {
+            throw MetalCompositeKernelError.invalidLayerShape
+        }
+        let packedOpacities = try Self.opacityBytes(opacities)
 
-        guard
-            let buffers = context.withMetalHandles({
-                device, _ -> (any MTLBuffer, any MTLBuffer, any MTLBuffer)? in
+        let buffers: (any MTLBuffer, any MTLBuffer, any MTLBuffer)
+        do {
+            buffers = try context.withMetalHandles { device, _ in
+                let samples = try MetalBufferTransfer.makeSharedBuffer(
+                    copying: packedSamples,
+                    using: device
+                )
+                let opacityBuffer = try MetalBufferTransfer.makeSharedBuffer(
+                    copying: packedOpacities,
+                    using: device
+                )
                 guard
-                    let samples = device.makeBuffer(
-                        bytes: packedSamples,
-                        length: packedSamples.count,
-                        options: [.storageModeShared]
-                    ),
-                    let opacities = device.makeBuffer(
-                        bytes: packedOpacities,
-                        length: packedOpacities.count * MemoryLayout<Float>.stride,
-                        options: [.storageModeShared]
-                    ),
                     let output = device.makeBuffer(
                         length: elementCount,
                         options: [.storageModeShared]
                     )
                 else {
-                    return nil
+                    throw MetalBufferTransferError.bufferAllocationFailed
                 }
-                return (samples, opacities, output)
-            })
-        else {
-            throw MetalCompositeKernelError.bufferAllocationFailed
+                return (samples, opacityBuffer, output)
+            }
+        } catch {
+            switch MetalKernelBufferPreparationFailure.classify(error) {
+            case .allocation:
+                throw MetalCompositeKernelError.bufferAllocationFailed
+            case .execution:
+                throw MetalCompositeKernelError.executionFailed
+            }
         }
         let (samplesBuffer, opacitiesBuffer, outputBuffer) = buffers
 
@@ -160,11 +170,16 @@ public final class MetalCompositeKernel: Sendable {
         encoder.setBuffer(samplesBuffer, offset: 0, index: 0)
         encoder.setBuffer(opacitiesBuffer, offset: 0, index: 1)
         encoder.setBuffer(outputBuffer, offset: 0, index: 2)
-        encoder.setBytes(
-            &parameters,
-            length: MemoryLayout<KernelParameters>.stride,
-            index: 3
-        )
+        do {
+            try MetalBufferTransfer.setInlineBytes(
+                parameters,
+                on: encoder,
+                index: 3
+            )
+        } catch {
+            encoder.endEncoding()
+            throw MetalCompositeKernelError.executionFailed
+        }
         let threadWidth = pipeline.withLock { pipeline in
             encoder.setComputePipelineState(pipeline)
             return min(pipeline.maxTotalThreadsPerThreadgroup, elementCount)
@@ -176,7 +191,15 @@ public final class MetalCompositeKernel: Sendable {
         encoder.endEncoding()
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
-        guard commandBuffer.status == .completed else {
+        let result: [UInt8]
+        do {
+            result = try MetalBufferTransfer.readBytes(
+                from: outputBuffer,
+                offset: 0,
+                count: elementCount,
+                after: commandBuffer
+            )
+        } catch {
             throw MetalCompositeKernelError.executionFailed
         }
         if let telemetrySink {
@@ -191,14 +214,54 @@ public final class MetalCompositeKernel: Sendable {
                 )
             )
         }
-
-        let output = outputBuffer.contents()
-            .bindMemory(to: UInt8.self, capacity: elementCount)
-        return Array(UnsafeBufferPointer(start: output, count: elementCount))
+        return result
     }
 
-    private struct KernelParameters {
-        var elementCount: UInt32
-        var layerCount: UInt32
+    static func validatedPackedSampleCount(
+        elementCount: Int,
+        layerCount: Int
+    ) throws -> Int {
+        let (packedSampleCount, overflow) = elementCount.multipliedReportingOverflow(
+            by: layerCount
+        )
+        guard
+            elementCount > 0,
+            layerCount > 0,
+            !overflow,
+            packedSampleCount > 0
+        else {
+            throw MetalCompositeKernelError.invalidLayerShape
+        }
+        return packedSampleCount
+    }
+
+    static func parameterBytes(
+        elementCount: Int,
+        layerCount: Int
+    ) throws -> [UInt8] {
+        guard
+            let elementCountWord = UInt32(exactly: elementCount),
+            let layerCountWord = UInt32(exactly: layerCount)
+        else {
+            throw MetalCompositeKernelError.invalidLayerShape
+        }
+        do {
+            return try MetalKernelParameterBytes.littleEndianWords([
+                elementCountWord,
+                layerCountWord,
+            ])
+        } catch {
+            throw MetalCompositeKernelError.executionFailed
+        }
+    }
+
+    static func opacityBytes(_ opacities: [Double]) throws -> [UInt8] {
+        do {
+            return try MetalKernelParameterBytes.littleEndianWords(
+                opacities.map { Float($0).bitPattern }
+            )
+        } catch {
+            throw MetalCompositeKernelError.executionFailed
+        }
     }
 }

@@ -74,6 +74,39 @@ struct MetalWindowLevelKernelTests {
         requireSendable(MetalKernelError.self)
     }
 
+    @Test("[Unit][VOX-SEC-001][VOX-REP-008] window parameters have exact bytes")
+    func windowParametersHaveExactBytes() throws {
+        let bytes = try MetalWindowLevelKernel.parameterBytes(
+            center: 6,
+            width: 8,
+            sampleCount: 12,
+            paddingValue: -1_024
+        )
+
+        #expect(bytes.count == 28)
+        #expect(
+            bytes == [
+                0x00, 0x00, 0xB0, 0x40,  // threshold 5.5
+                0x00, 0x00, 0x00, 0x40,  // lower edge 2
+                0x00, 0x00, 0x10, 0x41,  // upper edge 9
+                0x00, 0x00, 0xE0, 0x40,  // width minus one 7
+                0x0C, 0x00, 0x00, 0x00,  // sample count 12
+                0x00, 0xFC, 0xFF, 0xFF,  // padding -1024
+                0x01, 0x00, 0x00, 0x00,  // padding enabled
+            ]
+        )
+
+        do {
+            _ = try MetalWindowLevelKernel.parameterBytes(
+                center: 6,
+                width: 8,
+                sampleCount: Int(UInt32.max) + 1,
+                paddingValue: nil
+            )
+            #expect(Bool(false), "Expected an unrepresentable sample count to reject.")
+        } catch MetalKernelError.invalidSampleByteCount {}
+    }
+
     @Test("[Unit][VOX-VAL-007][VOX-EXE-003] the differential harness measures the GPU model")
     func differentialHarnessMeasuresTheGPUModel() throws {
         // The exhaustive uint8 domain across a spread of windows,

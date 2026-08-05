@@ -88,14 +88,44 @@ reviewer's reruns passed all eight boundary tests, all fifty-two scanner unit
 tests, the raw inventory scan and diff validation, with no remaining boundary
 blocker.
 
-This approval completes the boundary/scanner stage only. The same reviewer must
-inspect the later three-kernel and residency migration diff, and the complete
-semantic gate must pass, before `ADR-0186` is declared fully implemented.
+This approval completed the boundary/scanner stage only. The same reviewer's
+later three-kernel and residency migration inspection is recorded below. The
+complete semantic gate still must pass before `ADR-0186` is declared fully
+implemented.
+
+## Migration implementation review
+
+The same independent reviewer inspected the three-kernel and residency
+migration. The first pass rejected one error-mapping collapse: each kernel
+mapped every upload-preparation failure to public `bufferAllocationFailed`,
+although `ADR-0186` requires an unexpected storage/coherency fault to map to
+`executionFailed`. The review also required a direct unrepresentable
+`layerCount` assertion alongside the existing element-count and packed-product
+checks.
+
+The corrected implementation shares one internal payload-free classifier.
+Only invalid/capacity byte count and allocation failure classify as allocation;
+range, unsupported storage, inline binding, incomplete/failed command and
+unknown errors classify as execution. Regression evidence covers every class,
+and direct element- and layer-count narrowing plus packed-product overflow are
+all exercised. The reviewer then independently rechecked the exact 28/8/4-byte
+MSL layouts, `Float` and `Int32` bit serialization, same-writer completed
+readback, per-dispatch resource lifetimes, residency blit lifetime, unchanged
+concurrency isolation, additive payload-free invert error and scanner
+containment.
+
+Final migration approval was issued with no remaining blocker. The reviewer's
+expanded filter passed all twenty-five tests across the boundary, window,
+composite, invert and residency suites with unchanged differential evidence;
+the raw safety inventory, exact three-marker count, unchanged boundary SHA-256
+and diff validation passed. The complete semantic gate progressed beyond every
+Metal product and test diagnostic but remains red on six unrelated test-only
+C-format initializers, so `ADR-0186` is still not declared fully implemented.
 
 ## Governance-draft review
 
 The reviewer inspected the complete ADR, policy, register, ledger and evidence
 diff after the create-only correction, exact public-error compatibility wording,
 historical policy clarification and prospective geometry renumbering. The
-governance design is accepted with no remaining objection. This acceptance does
-not substitute for the pending implementation-diff review.
+governance design is accepted with no remaining objection. The later boundary/
+scanner and migration implementation reviews are recorded above.
