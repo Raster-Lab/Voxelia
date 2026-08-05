@@ -62,5 +62,53 @@ struct MetalResidencyManagerTests {
         requireSendable(MetalResidencyError.self)
     }
 
+    @Test(
+        "[Concurrency][VOX-CON-003][VOX-MTL-007][VOX-MTL-008] concurrent requests preserve policy"
+    )
+    func concurrentRequestsPreservePolicy() async throws {
+        let manager = MetalResidencyManager(context: try MetalExecutionContext())
+
+        try await withThrowingTaskGroup(of: Int.self) { group in
+            for index in 0..<24 {
+                group.addTask {
+                    let byteCount = (index + 1) * 16
+                    let policy: ResidencyPolicy
+                    let expectedSelection: MetalResidencySelection
+                    switch index % 3 {
+                    case 0:
+                        policy = .automatic
+                        expectedSelection = .shared
+                    case 1:
+                        policy = .shared
+                        expectedSelection = .shared
+                    default:
+                        policy = .gpuOptimised
+                        expectedSelection = .privateDevice
+                    }
+
+                    #expect(try manager.selection(for: policy) == expectedSelection)
+                    let buffer = try manager.makeBuffer(
+                        byteCount: byteCount,
+                        policy: policy
+                    )
+                    #expect(buffer.length == byteCount)
+                    switch expectedSelection {
+                    case .shared:
+                        #expect(buffer.storageMode == .shared)
+                    case .privateDevice:
+                        #expect(buffer.storageMode == .private)
+                    }
+                    return buffer.length
+                }
+            }
+
+            var observedLengths = Set<Int>()
+            for try await length in group {
+                #expect(observedLengths.insert(length).inserted)
+            }
+            #expect(observedLengths.count == 24)
+        }
+    }
+
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
 }

@@ -75,17 +75,18 @@ policy does not treat them as passing.
 ## Current inventory
 
 The permitted-exception inventory remains empty. The checker currently reports
-two ungoverned production `VoxeliaMetal` declarations introduced after the
-last green baseline; these are policy violations under active recovery, not
-accepted exceptions. Three test-only findings and the production pipeline
+one ungoverned production `VoxeliaMetal` declaration introduced after the
+last green baseline; this is a policy violation under active recovery, not an
+accepted exception. Three test-only findings and the production pipeline
 cache were removed on 2026-08-05 by replacing manual lock wrappers with checked
 `Synchronization.Mutex` state; the execution context's device/queue pair now
 uses the same checked synchronous borrowing boundary, and all three kernel
-wrappers isolate their pipeline sets during encoder configuration.
+wrappers isolate their pipeline sets during encoder configuration. The
+immutable residency manager now stores only that checked context.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | Two ungoverned production Metal declarations remain | VoxeliaMetal | Not accepted | Fail-closed checker remains red; recovery required | Focused recovery suites per declaration; complete strict gate pending |
+| None permitted | One ungoverned production Metal declaration remains | VoxeliaMetal | Not accepted | Fail-closed checker remains red; recovery required | Focused recovery suite; complete strict gate pending |
 
 ## Introducing an exception
 

@@ -28,10 +28,10 @@ public enum MetalResidencySelection: Sendable, Hashable {
 /// storage classes through capability detection and never mutates a
 /// declared policy: every unfulfillable request is a typed rejection,
 /// so caller intent is never silently rewritten. Buffer handles stay
-/// module-internal like the device itself. The class is
-/// unchecked-`Sendable` on the recorded justification that Metal
-/// device and buffer objects are documented thread-safe.
-public final class MetalResidencyManager: @unchecked Sendable {
+/// module-internal like the device itself. The manager is immutable and
+/// stores only the checked execution context; allocated buffers remain
+/// local to each request rather than becoming shared manager state.
+public final class MetalResidencyManager: Sendable {
     private let context: MetalExecutionContext
 
     /// Creates a manager over one acquired context.

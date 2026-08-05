@@ -35,8 +35,9 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   moved `MetalExecutionContext`'s device and command queue behind one checked
   synchronous borrowing boundary, and the fourth moved all three kernel
   wrappers' pipeline sets behind checked encoder-configuration borrows. The
-  fail-closed Swift safety gate now reports two production Metal classes. None
-  has an accepted exception under the standing
+  fifth removed `MetalResidencyManager`'s obsolete exception after its sole
+  stored context became checked. The fail-closed Swift safety gate now reports
+  one production Metal class. It has no accepted exception under the standing
   zero-exception policy, so the earlier no-exception claim is not current and
   the gate must not be reported green. The last recorded strict product/test
   destination builds remain historical evidence only; visionOS 26.5 is still
@@ -3897,6 +3898,22 @@ oracle campaigns.
   The raw safety inventory now reports exactly two findings, down from five,
   so the repository gate remains honestly red. The next recovery is the now-
   context-only `MetalResidencyManager`, then `ExactSliceRenderer`.
+- One-hundred-sixty-ninth autonomous increment (scheduled goal continuation):
+  removed `MetalResidencyManager`'s ungoverned concurrency exception without
+  adding isolation or mutable state that its semantics do not require. The
+  manager is immutable and stores only the compiler-verified `Sendable`
+  execution context; every allocated non-`Sendable` Metal buffer remains local
+  to the requesting call. A new focused regression shares one manager across
+  twenty-four simultaneous tasks: eight each select and allocate `automatic`,
+  `shared` and `gpuOptimised`, prove the exact selected class, requested unique
+  lengths from 16 through 384 bytes and shared/private storage modes, and
+  return only integer evidence across task boundaries. The complete residency
+  filter executed both tests with zero failures, including the existing shared
+  CPU round-trip, private allocation and typed rejection matrix. Focused strict
+  format lint passed; the complete suite was intentionally not run under the
+  narrow-test policy. The raw safety inventory now reports exactly one finding,
+  down from two, so the repository gate remains honestly red. The next and
+  final recovery is the `ExactSliceRenderer` orchestration boundary.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9678,12 +9695,12 @@ accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The immediate exact next action is restoring the
 fail-closed Swift safety gate. Checked mutex recovery removed the three
 test-only findings, `MetalPipelineCache`, `MetalExecutionContext` and the three
-kernel wrappers; two ungoverned production Metal conformances remain. The
-exact next focused recovery is `MetalResidencyManager`: remove its now-obsolete
-exception only after concurrent selection/allocation evidence proves that its
-sole stored context and capability-driven policy behavior are compiler-checked
-and unchanged. Then recover the `ExactSliceRenderer` orchestration boundary;
-do not suppress the checker or claim the historical zero-exception state.
+kernel wrappers plus `MetalResidencyManager`; one ungoverned production Metal
+conformance remains. The exact next focused recovery is `ExactSliceRenderer`:
+isolate or eliminate its mutable generation/task orchestration state while
+preserving cancellation, stale-publication suppression, exact CPU rendering
+and concurrent render behavior. Do not suppress the checker or claim the
+historical zero-exception state until the strict gate passes with no findings.
 
 After that recovery, the geometry queue resumes with the explicit package
 dependency-resolution decision under `ADR-0186`: reconcile the MTA/CDMS demand
