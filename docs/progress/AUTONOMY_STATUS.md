@@ -3286,6 +3286,19 @@ oracle campaigns.
   policy its own registered operation — because the kernels are
   different models with different claims, not revisions of one rule.
   Implementation follows as the eleventh registered operation.
+- One-hundred-thirty-ninth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0164`, the cubic
+  resampling — the eleventh registered operation, discharging
+  `VOX-IMG-005` at the operation level. The assembly mirrors the
+  accepted linear operation with the four-tap helper and the frozen
+  Catmull-Rom weight order, the identical rank-two admission, the
+  shared geometry rescale authority, and the modelled output clamp.
+  Tests reproduce every specification fixture — the ramp upscale,
+  the overshoot ray whose raw interior value exceeds the domain
+  before the clamp with its undershoot mirror, and the separable
+  two-dimensional upscale — prove the exact identity and
+  bit-identical repetition, and reject the typed admissions. The
+  registry entry follows as its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
