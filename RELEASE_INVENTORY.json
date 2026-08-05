@@ -3215,9 +3215,14 @@
       "sha256": "70876381912f24c586ec1af5871291555911b8d617a3a1ca974d2eafc6128930"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0149-brick-request-lifecycle-design.md",
+      "size": 4917,
+      "sha256": "d08298c1951e7c7201cc92e85ac58e062d0237e58da740a44084af9a9b63f0a3"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 22021,
-      "sha256": "49992978e720f059876e4506cb269aa4a1c157ec3ba6be9a994508c2ad1fd8fa"
+      "size": 22187,
+      "sha256": "96ed54b732f9485cbe81733bc09f15af17ea03db7db8540a9f2b3540cdca2078"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3301,8 +3306,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 596651,
-      "sha256": "2a0f8ce9efefd4354e1fd1dce4c72db702289700fd105a616503af942497043f"
+      "size": 598096,
+      "sha256": "aa4bf2d76b7ea2550cb98234b038dc9e6edffadc11b72d0c5c64f39cd57dd2cf"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3661,8 +3666,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 39109,
-      "sha256": "bf0a2cea82c12dea2a85ba70a47b236ac5728938de5f6e80535fb3d3e604187f"
+      "size": 39180,
+      "sha256": "bd01b74f677f56dcc2d4e92c2f020e245c9e4db2cc815061d69aece611a05ba2"
     }
   ]
 }

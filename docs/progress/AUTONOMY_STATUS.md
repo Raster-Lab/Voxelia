@@ -2904,6 +2904,28 @@ oracle campaigns.
   repeated derivation identical, and reject all thirteen typed
   admission paths. The brick request lifecycle design follows as the
   next queue item.
+- One-hundred-twentieth autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0149`, freezing the
+  brick request lifecycle on paper. One broker actor beside the
+  accepted coordination actors keys in-flight work by brick identity
+  and representation; the first request computes and every concurrent
+  duplicate awaits the same result under the accepted deduplication
+  precedent, declared safe only because the computation must be a
+  pure function of its key. Cancellation is per awaiter and clean —
+  one viewport abandoning a brick must not steal it from another, so
+  the started computation completes for its followers, with
+  whole-computation abandonment recorded as a future refinement
+  rather than a silent behaviour. The generation guard is the
+  broker's own counter mirroring the accepted render-generation
+  pattern, duplicated deliberately because the interaction module
+  sits above execution and a downward import would couple the layers
+  backwards; a stale result rejects typed for every awaiter and is
+  discarded, never returned. The typed vocabulary is one case, with
+  cancellation surfacing the standard error and a failed computation
+  propagating identically to every awaiter. Four evidence obligations
+  bind the implementing increment, including the sixty-four-request
+  storm resolving to one computation and the stale-generation
+  rejection with the computation count still one.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
