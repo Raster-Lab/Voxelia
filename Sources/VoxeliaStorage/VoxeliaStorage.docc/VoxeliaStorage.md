@@ -21,6 +21,13 @@ public API is introduced only by reviewed milestone specifications.
 - ``CodecIdentifierError``
 - ``CompressedRegionAccess``
 
+### Bricked volumes
+
+- ``BrickResolutionLevel``
+- ``BrickGridDescriptor``
+- ``BrickIdentity``
+- ``BrickVocabularyError``
+
 ### Canonical document persistence
 
 - ``CanonicalDocumentStore``

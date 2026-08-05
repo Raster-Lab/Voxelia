@@ -2889,6 +2889,21 @@ oracle campaigns.
   brick's smaller extents and both clamped haloed regions.
   Implementation follows as its own increment; no consumer may embed
   ad-hoc brick arithmetic meanwhile.
+- One-hundred-nineteenth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0148`, the brick
+  vocabulary. The three value models joined the storage module
+  exactly as designed — the resolution level, the grid descriptor as
+  the one layout authority whose dimensions are caller-supplied
+  policy inputs, and the minimal identity from which every region
+  derives through the frozen integer arithmetic, with derived
+  regions expressed as the accepted region value rather than a
+  second bounds vocabulary. One payload-free error names each frozen
+  admission rule. Tests reproduce every design fixture — the
+  ceiling-division counts, the structural boundary brick, both
+  clamped haloed regions and both level-extent derivations — prove
+  repeated derivation identical, and reject all thirteen typed
+  admission paths. The brick request lifecycle design follows as the
+  next queue item.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
