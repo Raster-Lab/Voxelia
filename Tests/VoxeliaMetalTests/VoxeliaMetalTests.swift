@@ -35,4 +35,11 @@ func shaderManifestIsBundled() throws {
             "e97eb8c7ac120b9d592827be29c3bf127256784328e9ee53139b01d9111a5197"
         )
     )
+    #expect(manifest.contains(#"family: "composite-layers""#))
+    #expect(manifest.contains(#""voxelia_composite_layers""#))
+    #expect(
+        manifest.contains(
+            "6ed663f6d20d71091c5c704e11e1f7dc7c8cda955253c89770c782cecfd1f1c7"
+        )
+    )
 }

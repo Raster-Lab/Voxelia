@@ -1674,6 +1674,28 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   through the strict ingress to the exact original record, prove
   re-archive idempotent and both presence mismatches typed with
   nothing touching the store.
+- Sixty-second autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0096` and delivered the layer
+  compositing Metal kernel, the second digest-pinned shader family.
+  The embedded `voxelia_composite_layers` kernel mirrors the
+  registered `VOXELIA-ALG-0009` uniform composite-over structure in
+  `float32` over packed equally sized layers with one demoted opacity
+  per layer; the manifest gains the `composite-layers` family at
+  1.0.0 with its own pinned source digest and kernel token, and
+  claims stay `binary32-device` with `approximate` status — device
+  accumulation may contract multiplications and additions, which the
+  approximation claim honestly covers and the differential measures
+  rather than legislates. `MetalCompositeKernel` compiles the pinned
+  source, exposes the kernel component reference, and rejects ragged
+  layers and malformed opacity lists typed before anything touches
+  the device. The differential harness measured deterministic
+  seeded-LCG stacks at two, four, eight and the 64-layer scene
+  ceiling — 13,311 of 13,312 comparisons exact on this device with
+  the single deviation within the asserted one-display-level bound,
+  printed as single-device evidence — anchored all three registered
+  fixtures, and proved repeated execution bit-identical. A device
+  composite operation behind this kernel is the recorded natural next
+  increment.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

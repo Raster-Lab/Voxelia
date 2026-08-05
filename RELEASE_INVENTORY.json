@@ -845,6 +845,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaMetal/Internal/CompositeKernelSource.swift",
+      "size": 1705,
+      "sha256": "f3bafbc826192f76033b831e273ae2501657b5b54e55761a32881ec399d65b52"
+    },
+    {
       "path": "Sources/VoxeliaMetal/Internal/WindowLevelKernelSource.swift",
       "size": 3056,
       "sha256": "37f34d4797acdef04ecadbe24f46fe61da6ae10e4d1bd71d04872908e5488618"
@@ -858,6 +863,11 @@
       "path": "Sources/VoxeliaMetal/Public/ExactSliceRenderer.swift",
       "size": 7984,
       "sha256": "c7d0bd142073447aef2d9d53e38fe2feaa142659fd18a59b401059f7b0ed202b"
+    },
+    {
+      "path": "Sources/VoxeliaMetal/Public/MetalCompositeKernel.swift",
+      "size": 6650,
+      "sha256": "6650ecf51f30c44690c780fc9daec7d8b3788890a904c90f9ddb64eac6c6b768"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalExecutionContext.swift",
@@ -891,8 +901,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Resources/ShaderManifest.yaml",
-      "size": 973,
-      "sha256": "90bb7cb1b2c9cdadb5d7704188e57236078332eea1a3c54667bf4d5d0ee4c876"
+      "size": 1506,
+      "sha256": "5b72a2e8d28175c84c54f431ad53c7b9b945da9f5f9f652412d650c09b09c7a3"
     },
     {
       "path": "Sources/VoxeliaMetal/Resources/Shaders/Common/README.md",
@@ -946,8 +956,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md",
-      "size": 775,
-      "sha256": "096ff1226ac52c7730d07754f9668869918d94666a910b10872b2a4c278dafc4"
+      "size": 834,
+      "sha256": "bf8459b7d42e2a0ede403bf60085bb87477bba253732327902202b08f19ded9f"
     },
     {
       "path": "Sources/VoxeliaRendering/ApplePlatformGate.swift",
@@ -1575,6 +1585,11 @@
       "sha256": "1469788d4e5cc3f2446e32c1ae2a626cacb7b65bb5de8960c9e0b449008bf2be"
     },
     {
+      "path": "Tests/VoxeliaMetalTests/MetalCompositeKernelTests.swift",
+      "size": 6131,
+      "sha256": "12411c4bb84f9f296018cae223144c558fd681494253e6fd84f4030579813085"
+    },
+    {
       "path": "Tests/VoxeliaMetalTests/MetalExecutionContextTests.swift",
       "size": 2435,
       "sha256": "94056d9b42d3be96744b249c430bfaf5ec90cb104961433dd5d80c4e46883281"
@@ -1601,8 +1616,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift",
-      "size": 1130,
-      "sha256": "ea536c06c26145373ebffb64e6e8ccb48f43b10791293e4e4dd74204a3084020"
+      "size": 1391,
+      "sha256": "95c4e333cf5556bde9c0dc5d1fa8ba919ac7f77aa89ef30e5c5bc67eed1615a1"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift",
@@ -2640,9 +2655,14 @@
       "sha256": "3b2ef07d9cab4fd1ff2f06479b0568593b2502c2b7c998d619ed68ca8d9cc3c0"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0096-composite-metal-kernel.md",
+      "size": 3784,
+      "sha256": "582cebf390398bac033f31c69b106b97cd7fc89e957420e59f19cb174d58620e"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 14088,
-      "sha256": "2c4f6327a82e916a927b5572e942d89302f56339c21310089eb6c2819c77e48d"
+      "size": 14246,
+      "sha256": "216cf864d34c7fcecb0dcf5eef13b6815d600120fb89d33aeee8814d7915636c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2726,8 +2746,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 517944,
-      "sha256": "2d0f08379f73af2f92669c9f7722909d61f1951b9d6f5a805c27a71351d3fe9f"
+      "size": 519363,
+      "sha256": "d898798281df6d1c6410fb670dc24a07701fc238a6446c3d4f240978d66266b3"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3086,8 +3106,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 32133,
-      "sha256": "fe71b2180580cc83c67d67bc0f7864825c783e4c763a899f1b840ce6cbf4beb8"
+      "size": 32365,
+      "sha256": "a5632e304ba7311b7ba72dcf184b8efb2643a664ff50a44a9cb73d3cc65f36e2"
     }
   ]
 }

@@ -81,8 +81,9 @@ is allocated to the nearest-neighbour resampling operation.
 `ADR-0092` is allocated to the GPU slice presentation path.
 `ADR-0093` is allocated to the sixteen-bit device window-level paths.
 `ADR-0094` is allocated to single-layer fade admission. `ADR-0095`
-is allocated to canonical record archival. The next unallocated
-numeric identifier is `ADR-0096`.
+is allocated to canonical record archival. `ADR-0096` is allocated to
+the layer compositing Metal kernel. The next unallocated numeric
+identifier is `ADR-0097`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -161,3 +162,4 @@ numeric identifier is `ADR-0096`.
 | [ADR-0093](ADR-0093-sixteen-bit-device-window-level.md) | Accepted | Sixteen-bit device window-level paths |
 | [ADR-0094](ADR-0094-single-layer-fade.md) | Accepted | Single-layer fade admission |
 | [ADR-0095](ADR-0095-canonical-record-archival.md) | Accepted | Canonical record archival |
+| [ADR-0096](ADR-0096-composite-metal-kernel.md) | Accepted | Layer compositing Metal kernel |

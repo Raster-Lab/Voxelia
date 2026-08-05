@@ -12,6 +12,16 @@ shader_families:
     precision_policy: "org.voxelia.precision.binary32-device"
     approximation_status: "approximate"
     validation_evidence: "MetalWindowLevelKernelTests differential harnesses (ADR-0080, ADR-0093)"
+  - family: "composite-layers"
+    semantic_version: "1.0.0"
+    entry_points:
+      - "voxelia_composite_layers"
+    source: "embedded (Sources/VoxeliaMetal/Internal/CompositeKernelSource.swift)"
+    source_digest_sha256: "6ed663f6d20d71091c5c704e11e1f7dc7c8cda955253c89770c782cecfd1f1c7"
+    kernel_token: "org.voxelia.kernel.composite-layers"
+    precision_policy: "org.voxelia.precision.binary32-device"
+    approximation_status: "approximate"
+    validation_evidence: "MetalCompositeKernelTests differential harness (ADR-0096)"
 notes:
   - "Each family records source digest, semantic version, entry points and validation evidence."
   - "The suite verifies each embedded source digest against this manifest so the two can never drift silently."
