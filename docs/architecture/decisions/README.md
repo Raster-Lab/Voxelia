@@ -113,8 +113,8 @@ geometry widening. `ADR-0128` is allocated to composite calibration
 passthrough. `ADR-0129` is allocated to physical pick resolution. `ADR-0130` is
 allocated to crosshair slice mapping. `ADR-0131` is allocated to
 device composite calibration. `ADR-0132` is allocated to the device
-invert kernel. The next unallocated numeric identifier is
-`ADR-0133`.
+invert kernel. `ADR-0133` is allocated to the device invert
+operation. The next unallocated numeric identifier is `ADR-0134`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -230,3 +230,4 @@ invert kernel. The next unallocated numeric identifier is
 | [ADR-0130](ADR-0130-crosshair-slice-mapping.md) | Accepted | Crosshair slice mapping |
 | [ADR-0131](ADR-0131-device-composite-calibration.md) | Accepted | Device composite calibration |
 | [ADR-0132](ADR-0132-device-invert-kernel.md) | Accepted | Device invert kernel |
+| [ADR-0133](ADR-0133-device-invert-operation.md) | Accepted | Device invert operation |

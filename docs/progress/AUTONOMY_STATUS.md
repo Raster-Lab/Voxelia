@@ -2492,6 +2492,22 @@ oracle campaigns.
   on this device, with double inversion reproducing the input and
   repeats bit-identical. The device invert operation and the
   renderer's invert-stage injection compose next.
+- One-hundred-first autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0133`, completing the device
+  value-stage set. `MetalInvertDisplayOperation` implements the
+  registered inversion with the accepted integer-exact kernel as its
+  entire device path, the whole descriptor passing through
+  calibration included, and a claim carrying the metal backend with
+  exact precision and status plus the kernel reference and capability
+  class — the first device operation whose claim is exactness,
+  because the arithmetic is. The shared pipeline's inversion stage
+  became injectable mirroring the window and composite stages, the
+  device renderer takes the invert kernel with the planner acquiring
+  it alongside the others, and the device test rendered an inverted
+  scene fully on the device into exactly the inverted registered
+  fixture with every claim member verified. All three device value
+  stages now exist, and device renders of inverted, composited,
+  calibrated scenes carry per-stage device claims throughout.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

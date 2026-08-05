@@ -86,6 +86,8 @@ public enum MetalRendererPlanner {
                 let context = try? MetalExecutionContext(),
                 let windowKernel = try? MetalWindowLevelKernel(
                     context: context, telemetrySink: nil),
+                let invertKernel = try? MetalInvertKernel(
+                    context: context, telemetrySink: nil),
                 let compositeKernel = try? MetalCompositeKernel(
                     context: context, telemetrySink: nil)
             else {
@@ -94,6 +96,7 @@ public enum MetalRendererPlanner {
             return RendererPlan(
                 renderer: MetalSliceRenderer(
                     kernel: windowKernel,
+                    invertKernel: invertKernel,
                     compositeKernel: compositeKernel,
                     publisher: publisher,
                     readCoordinator: readCoordinator,

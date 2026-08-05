@@ -23,6 +23,7 @@ public final class MetalSliceRenderer: SliceRenderer, Sendable {
     /// coordinators and host-owned naming.
     public init(
         kernel: MetalWindowLevelKernel,
+        invertKernel: MetalInvertKernel,
         compositeKernel: MetalCompositeKernel,
         publisher: PublicationCoordinator,
         readCoordinator: StorageReadCoordinator,
@@ -45,6 +46,17 @@ public final class MetalSliceRenderer: SliceRenderer, Sendable {
                     software: software,
                     coordinator: readCoordinator,
                     kernel: kernel
+                )
+            },
+            invertStage: { input, names in
+                try await MetalInvertDisplayOperation.execute(
+                    input: input,
+                    outputObjectID: names.outputObjectID,
+                    outputProvenanceID: names.provenanceID,
+                    createdAt: names.createdAt,
+                    software: software,
+                    coordinator: readCoordinator,
+                    kernel: invertKernel
                 )
             },
             compositeStage: { layers, opacities, names in

@@ -59,6 +59,18 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             )
         ) async throws -> ImageData
 
+    /// One injected inversion stage per `ADR-0133`, mirroring the
+    /// window stage.
+    typealias InvertStageExecutor =
+        @Sendable (
+            _ input: ImageData,
+            _ names: (
+                outputObjectID: DataObjectID,
+                provenanceID: ProvenanceID,
+                createdAt: CanonicalInstant
+            )
+        ) async throws -> ImageData
+
     /// One injected composite stage per `ADR-0099`, mirroring the
     /// window stage.
     typealias CompositeStageExecutor =
@@ -77,6 +89,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
     private let software: SoftwareIdentity
     private let naming: RenderPublicationNaming
     private let windowStage: WindowStageExecutor
+    private let invertStage: InvertStageExecutor
     private let compositeStage: CompositeStageExecutor
 
     /// Creates a renderer over accepted coordinators with host-owned
@@ -105,6 +118,16 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                     coordinator: readCoordinator
                 )
             },
+            invertStage: { input, names in
+                try await InvertDisplayOperation.execute(
+                    input: input,
+                    outputObjectID: names.outputObjectID,
+                    outputProvenanceID: names.provenanceID,
+                    createdAt: names.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
+            },
             compositeStage: { layers, opacities, names in
                 try await CompositeLayersOperation.execute(
                     layers: layers,
@@ -125,6 +148,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
         software: SoftwareIdentity,
         naming: @escaping RenderPublicationNaming,
         windowStage: @escaping WindowStageExecutor,
+        invertStage: @escaping InvertStageExecutor,
         compositeStage: @escaping CompositeStageExecutor
     ) {
         self.publisher = publisher
@@ -132,6 +156,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
         self.software = software
         self.naming = naming
         self.windowStage = windowStage
+        self.invertStage = invertStage
         self.compositeStage = compositeStage
     }
 
@@ -191,14 +216,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             // independence from the value model made structural.
             if window.polarity == .inverted {
                 let invertNames = try naming(.inverted(layerIndex: index))
-                staged = try await InvertDisplayOperation.execute(
-                    input: staged,
-                    outputObjectID: invertNames.outputObjectID,
-                    outputProvenanceID: invertNames.provenanceID,
-                    createdAt: invertNames.createdAt,
-                    software: software,
-                    coordinator: readCoordinator
-                )
+                staged = try await invertStage(staged, invertNames)
                 _ = try await publisher.publish(staged, mode: .complete)
             }
             windowLevelled.append(staged)

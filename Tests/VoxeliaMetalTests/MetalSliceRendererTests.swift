@@ -120,6 +120,7 @@ struct MetalSliceRendererTests {
         let context = try MetalExecutionContext()
         return MetalSliceRenderer(
             kernel: try MetalWindowLevelKernel(context: context, telemetrySink: nil),
+            invertKernel: try MetalInvertKernel(context: context, telemetrySink: nil),
             compositeKernel: try MetalCompositeKernel(context: context, telemetrySink: nil),
             publisher: publisher,
             readCoordinator: StorageReadCoordinator(
@@ -513,6 +514,92 @@ struct MetalSliceRendererTests {
         #expect(
             operation.implementationID.rawValue
                 == "org.voxelia.impl.window-level.metal"
+        )
+    }
+
+    @Test("[Integration][VOX-R2D-005][VOX-PLT-013] inverted scenes run fully on the device")
+    func invertedScenesRunFullyOnTheDevice() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage("series-7"), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "grender-5")
+
+        // The ADR-0133 device inversion: the integer-exact kernel
+        // produces exactly the inverted registered fixture, and the
+        // stage record carries the exact device claim.
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: try SceneSnapshot(
+                    layers: [
+                        try RenderLayer(
+                            imageObjectID: try #require(
+                                DataObjectID(rawValue: "series-7")
+                            ),
+                            transferFunction: .greyscaleWindow(
+                                try GreyscaleWindowFunction(
+                                    center: 6,
+                                    width: 8,
+                                    polarity: .inverted
+                                )
+                            ),
+                            opacity: 1
+                        )
+                    ],
+                    camera: try RenderCamera(
+                        position: try Point3D(
+                            x: 0,
+                            y: 0,
+                            z: -100,
+                            coordinateSpace: try #require(
+                                CoordinateSpaceID(rawValue: "patient")
+                            )
+                        ),
+                        target: try Point3D(
+                            x: 0,
+                            y: 0,
+                            z: 0,
+                            coordinateSpace: try #require(
+                                CoordinateSpaceID(rawValue: "patient")
+                            )
+                        ),
+                        up: try Vector3D(
+                            x: 0,
+                            y: 1,
+                            z: 0,
+                            coordinateSpace: try #require(
+                                CoordinateSpaceID(rawValue: "patient")
+                            )
+                        ),
+                        projection: .orthographic(planeHeight: 250)
+                    )
+                ),
+                viewport: try ViewportSize(width: 4, height: 3),
+                crop: nil,
+                interpolation: .nearestNeighbour,
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "grender-5-iv0")
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        #expect(
+            try published.storage.read(
+                region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 3])
+            ).bytes == [255, 255, 255, 219, 182, 146, 109, 73, 36, 0, 0, 0]
+        )
+        guard case .operation(let operation, let claim) = published.provenance.activity
+        else {
+            #expect(Bool(false), "Expected an operation activity.")
+            return
+        }
+        #expect(
+            operation.implementationID.rawValue
+                == "org.voxelia.impl.invert-display.metal"
+        )
+        #expect(claim.precisionPolicy.rawValue == "org.voxelia.precision.exact")
+        #expect(claim.approximationStatus == .exact)
+        #expect(
+            claim.kernel?.identifier.rawValue == "org.voxelia.kernel.invert-display"
         )
     }
 
