@@ -42,4 +42,11 @@ func shaderManifestIsBundled() throws {
             "6ed663f6d20d71091c5c704e11e1f7dc7c8cda955253c89770c782cecfd1f1c7"
         )
     )
+    #expect(manifest.contains(#"family: "invert-display""#))
+    #expect(manifest.contains(#""voxelia_invert_display_u8""#))
+    #expect(
+        manifest.contains(
+            "eeb2126fe4c6e66801c5444a33a0f371520c2528c5d5a807e7bfe95ccc9652c5"
+        )
+    )
 }

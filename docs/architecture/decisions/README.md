@@ -112,8 +112,9 @@ geometry-bearing resampling. `ADR-0127` is allocated to the bilinear
 geometry widening. `ADR-0128` is allocated to composite calibration
 passthrough. `ADR-0129` is allocated to physical pick resolution. `ADR-0130` is
 allocated to crosshair slice mapping. `ADR-0131` is allocated to
-device composite calibration. The next unallocated numeric identifier
-is `ADR-0132`.
+device composite calibration. `ADR-0132` is allocated to the device
+invert kernel. The next unallocated numeric identifier is
+`ADR-0133`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -228,3 +229,4 @@ is `ADR-0132`.
 | [ADR-0129](ADR-0129-physical-pick-resolution.md) | Accepted | Physical pick resolution |
 | [ADR-0130](ADR-0130-crosshair-slice-mapping.md) | Accepted | Crosshair slice mapping |
 | [ADR-0131](ADR-0131-device-composite-calibration.md) | Accepted | Device composite calibration |
+| [ADR-0132](ADR-0132-device-invert-kernel.md) | Accepted | Device invert kernel |

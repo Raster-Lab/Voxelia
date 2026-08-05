@@ -2474,6 +2474,24 @@ oracle campaigns.
   mismatch typed. Calibrated scenes now blend identically on both
   backends, differing only in implementation reference and claim, as
   designed.
+- One-hundredth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0132` and delivered the third
+  shader family — the device invert kernel, the first device
+  implementation with an honest exact claim. The registered
+  involution is pure unsigned eight-bit integer arithmetic, so the
+  `MSL` kernel computes the registered model exactly with no
+  floating-point step: the manifest family carries the `exact`
+  precision policy and status, and the manifest note now
+  distinguishes floating-point families, which must claim
+  approximation, from integer-exact families, which must not.
+  `MetalInvertKernel` acquires its pipeline through the accepted
+  cache and delivers telemetry through the host-owned sink; the
+  evidence obligation is equality, not a tolerance — a single
+  deviation would falsify the exact claim — and the exhaustive
+  256-value involution measured exactly equal to the registered model
+  on this device, with double inversion reproducing the input and
+  repeats bit-identical. The device invert operation and the
+  renderer's invert-stage injection compose next.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

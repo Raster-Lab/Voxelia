@@ -22,7 +22,17 @@ shader_families:
     precision_policy: "org.voxelia.precision.binary32-device"
     approximation_status: "approximate"
     validation_evidence: "MetalCompositeKernelTests differential harness (ADR-0096)"
+  - family: "invert-display"
+    semantic_version: "1.0.0"
+    entry_points:
+      - "voxelia_invert_display_u8"
+    source: "embedded (Sources/VoxeliaMetal/Internal/InvertKernelSource.swift)"
+    source_digest_sha256: "eeb2126fe4c6e66801c5444a33a0f371520c2528c5d5a807e7bfe95ccc9652c5"
+    kernel_token: "org.voxelia.kernel.invert-display"
+    precision_policy: "org.voxelia.precision.exact"
+    approximation_status: "exact"
+    validation_evidence: "MetalInvertKernelTests exhaustive involution (ADR-0132)"
 notes:
   - "Each family records source digest, semantic version, entry points and validation evidence."
   - "The suite verifies each embedded source digest against this manifest so the two can never drift silently."
-  - "MSL has no binary64: GPU families approximate registered binary64 models and must be claimed as such."
+  - "MSL has no binary64: floating-point GPU families approximate registered binary64 models and must be claimed as such; integer-exact families compute their registered models exactly and claim exactness."
