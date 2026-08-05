@@ -96,8 +96,8 @@ is allocated to shader fingerprint evidence. `ADR-0109` is allocated
 to the kernel throughput measurement campaign. `ADR-0110` is
 allocated to bounded frame contexts. `ADR-0111` is allocated to the
 interaction command vocabulary. `ADR-0112` is allocated to monochrome
-presentation polarity. The next unallocated numeric identifier is
-`ADR-0113`.
+presentation polarity. `ADR-0113` is allocated to pixel padding
+exclusion. The next unallocated numeric identifier is `ADR-0114`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -193,3 +193,4 @@ presentation polarity. The next unallocated numeric identifier is
 | [ADR-0110](ADR-0110-bounded-frame-contexts.md) | Accepted | Bounded frame contexts |
 | [ADR-0111](ADR-0111-interaction-command-vocabulary.md) | Accepted | Interaction command vocabulary |
 | [ADR-0112](ADR-0112-monochrome-presentation-polarity.md) | Accepted | Monochrome presentation polarity |
+| [ADR-0113](ADR-0113-pixel-padding-exclusion.md) | Accepted | Pixel padding exclusion |

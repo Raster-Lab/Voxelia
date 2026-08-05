@@ -326,6 +326,7 @@ struct MetalWindowLevelKernelTests {
             input: input,
             center: try MetadataFloatingPoint(value: 40),
             width: try MetadataFloatingPoint(value: 400),
+            paddingValue: nil,
             outputObjectID: try #require(DataObjectID(rawValue: "series-cpu")),
             outputProvenanceID: try #require(ProvenanceID(rawValue: "record-cpu")),
             createdAt: try CanonicalInstant(utcString: "2026-08-05T05:05:00Z"),

@@ -1,7 +1,7 @@
 ---
 document_id: "VOXELIA-ALG-0002"
 title: "Window-level linear mapping binary64-v1"
-version: "1.1"
+version: "1.2"
 status: "Accepted"
 document_type: "Algorithm Specification"
 project: "Voxelia"
@@ -90,6 +90,26 @@ The mapping is a pure function of the stored bytes, the byte order,
 IEEE-754 binary64 implementation. A width below one is a typed
 admission failure in the receiver, never a clamped or substituted
 value; no branch of the model itself can fail.
+
+## Pixel padding exclusion
+
+Revision 1.2, selected by accepted
+[`ADR-0113`](../architecture/decisions/ADR-0113-pixel-padding-exclusion.md),
+adds the optional stored-domain padding sentinel. When a padding
+value is declared, any stored integer sample exactly equal to it is
+excluded before every stored-to-real step and displays exactly zero;
+no other sample is affected, and an absent padding value leaves the
+model of revision 1.1 byte-identical. The sentinel must be
+representable in the admitted integer scalar type.
+
+### Padding fixtures
+
+Independently computed:
+
+- `uint8` samples `0...11`, centre 6, width 8, padding 5:
+  `[0, 0, 0, 36, 73, 0, 146, 182, 219, 255, 255, 255]`.
+- The `int16` fixture samples, centre 40, width 400, padding 3000:
+  `[0, 0, 38, 102, 115, 128, 141, 153, 179, 230, 255, 0]`.
 
 ## Conformance fixtures
 

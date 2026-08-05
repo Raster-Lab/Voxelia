@@ -126,6 +126,7 @@ struct PublicationCoordinatorTests {
             input: input,
             center: try MetadataFloatingPoint(value: 6),
             width: try MetadataFloatingPoint(value: 8),
+            paddingValue: nil,
             outputObjectID: try #require(DataObjectID(rawValue: "series-8")),
             outputProvenanceID: try #require(ProvenanceID(rawValue: "record-out")),
             createdAt: try CanonicalInstant(utcString: "2026-08-04T12:05:00Z"),

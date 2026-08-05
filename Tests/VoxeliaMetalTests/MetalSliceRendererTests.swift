@@ -235,7 +235,8 @@ struct MetalSliceRendererTests {
             overCanonicalBytes: try CanonicalMetadataJSON.encodeUniqueDocument(
                 payload: try WindowLevelOperation.parameterCollection(
                     center: try MetadataFloatingPoint(value: 6),
-                    width: try MetadataFloatingPoint(value: 8)
+                    width: try MetadataFloatingPoint(value: 8),
+                    paddingValue: nil
                 ),
                 maximumOutputByteCount: 65_536
             )
@@ -481,6 +482,7 @@ struct MetalSliceRendererTests {
             input: origin,
             center: try MetadataFloatingPoint(value: 40),
             width: try MetadataFloatingPoint(value: 400),
+            paddingValue: nil,
             outputObjectID: try #require(DataObjectID(rawValue: "reference-ct")),
             outputProvenanceID: try #require(
                 ProvenanceID(rawValue: "record-reference-ct")

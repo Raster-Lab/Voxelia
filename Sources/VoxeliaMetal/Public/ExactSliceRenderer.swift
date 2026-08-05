@@ -97,6 +97,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                     input: input,
                     center: try MetadataFloatingPoint(value: window.center),
                     width: try MetadataFloatingPoint(value: window.width),
+                    paddingValue: nil,
                     outputObjectID: names.outputObjectID,
                     outputProvenanceID: names.provenanceID,
                     createdAt: names.createdAt,

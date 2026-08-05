@@ -132,7 +132,8 @@ public enum MetalWindowLevelOperation {
             overCanonicalBytes: try CanonicalMetadataJSON.encodeUniqueDocument(
                 payload: try WindowLevelOperation.parameterCollection(
                     center: center,
-                    width: width
+                    width: width,
+                    paddingValue: nil
                 ),
                 maximumOutputByteCount: Self.parameterDocumentByteCeiling
             )

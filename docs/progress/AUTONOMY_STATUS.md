@@ -2040,6 +2040,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   inverted registered fixture with the stage published, and reject a
   value transform typed; `VOX-R2D-005` and `VOX-R2D-008` are
   discharged.
+- Eighty-first autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0113` with `VOXELIA-ALG-0002`
+  revision 1.2, delivering `VOX-R2D-009` pixel-padding exclusion at
+  the operation level. The registered rule: a stored integer sample
+  exactly equal to the declared padding sentinel is excluded before
+  every stored-to-real step and displays exactly zero, with an absent
+  padding value leaving revision 1.1 byte-identical. The window
+  operation takes the optional sentinel with absence stated
+  explicitly, rejects an unrepresentable sentinel typed, and advances
+  to 1.5.0 under the established widening rule; the frozen parameter
+  schema gains the `padding` entry exactly when declared, so every
+  unpadded parameter document and digest is unchanged — proven by
+  test. The device window implementation continues to claim contract
+  1.4.0, the revision it implements, because claiming a rule it lacks
+  would be false; a padded device path is its own future increment.
+  Renderer wiring waits for the adapter that supplies padding values,
+  per the row's own wording. Tests reproduce both padding fixtures,
+  prove unpadded byte-identity and digest stability, and reject the
+  unrepresentable sentinel typed.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -115,12 +115,14 @@ struct WindowLevelOperationTests {
         input: ImageData,
         center: Double,
         width: Double,
+        paddingValue: Int64? = nil,
         budget: UInt64 = 64
     ) async throws -> ImageData {
         try await WindowLevelOperation.execute(
             input: input,
             center: try MetadataFloatingPoint(value: center),
             width: try MetadataFloatingPoint(value: width),
+            paddingValue: paddingValue,
             outputObjectID: try #require(DataObjectID(rawValue: "series-8")),
             outputProvenanceID: try #require(ProvenanceID(rawValue: "record-out")),
             createdAt: try CanonicalInstant(utcString: "2026-08-04T12:05:00Z"),
@@ -184,7 +186,7 @@ struct WindowLevelOperationTests {
         )
         #expect(
             unsignedWide.identity.derivation?.operationVersion
-                == (try SemanticVersion(major: 1, minor: 4, patch: 0))
+                == (try SemanticVersion(major: 1, minor: 5, patch: 0))
         )
 
         // The parameter digest reproduces independently from the frozen
@@ -365,10 +367,66 @@ struct WindowLevelOperationTests {
                 == [21, 21, 21, 106, 149, 255, 255, 255, 255, 255, 255, 255]
         )
 
-        let advanced = try SemanticVersion(major: 1, minor: 4, patch: 0)
+        let advanced = try SemanticVersion(major: 1, minor: 5, patch: 0)
         let derivation = try #require(hounsfield.identity.derivation)
         #expect(derivation.operationVersion == advanced)
         #expect(derivation.implementation?.version == advanced)
+    }
+
+    @Test("[Unit][VOX-EXE-002][VOX-R2D-009] padding excludes stored sentinels exactly")
+    func paddingExcludesStoredSentinelsExactly() async throws {
+        // The ADR-0113 fixtures: the declared stored-domain sentinel
+        // displays exactly zero before any stored-to-real step, an
+        // absent padding value stays byte-identical to the accepted
+        // results, and the padded parameter digest is distinct while
+        // unpadded digests are unchanged.
+        let padded = try await execute(
+            input: try input(),
+            center: 6,
+            width: 8,
+            paddingValue: 5
+        )
+        #expect(
+            try outputBytes(padded)
+                == [0, 0, 0, 36, 73, 0, 146, 182, 219, 255, 255, 255]
+        )
+        let unpadded = try await execute(input: try input(), center: 6, width: 8)
+        #expect(
+            try outputBytes(unpadded)
+                == [0, 0, 0, 36, 73, 109, 146, 182, 219, 255, 255, 255]
+        )
+        #expect(
+            padded.identity.derivation?.parameterDigest
+                != unpadded.identity.derivation?.parameterDigest
+        )
+        #expect(
+            unpadded.identity.derivation?.parameterDigest
+                == (try ContentID.operationParametersIdentity(
+                    overCanonicalBytes: try CanonicalMetadataJSON.encodeUniqueDocument(
+                        payload: try WindowLevelOperation.parameterCollection(
+                            center: try MetadataFloatingPoint(value: 6),
+                            width: try MetadataFloatingPoint(value: 8),
+                            paddingValue: nil
+                        ),
+                        maximumOutputByteCount: 65_536
+                    )
+                ))
+        )
+        #expect(
+            padded.identity.derivation?.operationVersion
+                == (try SemanticVersion(major: 1, minor: 5, patch: 0))
+        )
+
+        // An unrepresentable sentinel rejects typed.
+        do {
+            _ = try await execute(
+                input: try input(),
+                center: 6,
+                width: 8,
+                paddingValue: 300
+            )
+            #expect(Bool(false), "Expected an unrepresentable sentinel to be rejected.")
+        } catch WindowLevelError.invalidPaddingValue {}
     }
 
     @Test("[Unit][VOX-EXE-006][VOX-ERR-001] admission and budgets reject typed")

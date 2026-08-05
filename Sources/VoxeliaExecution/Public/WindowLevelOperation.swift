@@ -16,6 +16,7 @@ public enum WindowLevelError: Error, Sendable, Equatable {
     case unsupportedChainStage
     case chainStageLimitExceeded
     case invalidWindowWidth
+    case invalidPaddingValue
 }
 
 /// The window-level operation registered by `ADR-0065` under the
@@ -51,6 +52,7 @@ public enum WindowLevelOperation {
         input: ImageData,
         center: MetadataFloatingPoint,
         width: MetadataFloatingPoint,
+        paddingValue: Int64?,
         outputObjectID: DataObjectID,
         outputProvenanceID: ProvenanceID,
         createdAt: CanonicalInstant,
@@ -118,6 +120,22 @@ public enum WindowLevelOperation {
         guard width.value >= 1.0 else {
             throw WindowLevelError.invalidWindowWidth
         }
+        // The ADR-0113 stored-domain padding sentinel must be
+        // representable in the admitted integer scalar type.
+        if let paddingValue {
+            let representable: Bool
+            switch scalarType {
+            case .uint8:
+                representable = paddingValue >= 0 && paddingValue <= 255
+            case .int16:
+                representable = paddingValue >= -32_768 && paddingValue <= 32_767
+            default:
+                representable = paddingValue >= 0 && paddingValue <= 65_535
+            }
+            guard representable else {
+                throw WindowLevelError.invalidPaddingValue
+            }
+        }
 
         // One budgeted coordinated full read; the retention is released
         // as soon as the owned bytes are staged.
@@ -138,7 +156,8 @@ public enum WindowLevelOperation {
             byteOrder: input.descriptor.scalarFormat.byteOrder,
             storedToReal: storedToReal,
             center: center.value,
-            width: width.value
+            width: width.value,
+            paddingValue: paddingValue
         )
         let outputBinding = try LogicalSampleBinding(
             shape: input.descriptor.shape,
@@ -175,7 +194,11 @@ public enum WindowLevelOperation {
         // operation-parameters projection.
         let parameterDigest = try ContentID.operationParametersIdentity(
             overCanonicalBytes: try CanonicalMetadataJSON.encodeUniqueDocument(
-                payload: try parameterCollection(center: center, width: width),
+                payload: try parameterCollection(
+                    center: center,
+                    width: width,
+                    paddingValue: paddingValue
+                ),
                 maximumOutputByteCount: Self.parameterDocumentByteCeiling
             )
         )
@@ -183,7 +206,7 @@ public enum WindowLevelOperation {
         // Registered tokens (advanced to 1.1.0 by ADR-0066), derivation
         // recipe, content identity and the subject-bound record with
         // its parent edge.
-        let version = try SemanticVersion(major: 1, minor: 4, patch: 0)
+        let version = try SemanticVersion(major: 1, minor: 5, patch: 0)
         let operationToken = try DerivationOperationToken(
             rawValue: Self.operationIdentifier
         )
@@ -255,12 +278,15 @@ public enum WindowLevelOperation {
     /// Builds the frozen parameter collection for one window.
     ///
     /// Public per `ADR-0092` so every implementation of the registered
-    /// operation digests the one frozen schema authority.
+    /// operation digests the one frozen schema authority; the optional
+    /// `ADR-0113` padding entry appears exactly when a padding value
+    /// is declared, so unpadded parameter documents are unchanged.
     public static func parameterCollection(
         center: MetadataFloatingPoint,
-        width: MetadataFloatingPoint
+        width: MetadataFloatingPoint,
+        paddingValue: Int64?
     ) throws -> MetadataCollection {
-        try MetadataCollection(entries: [
+        var entries = [
             MetadataEntry(
                 key: try AnyMetadataKey(
                     namespace: Self.operationIdentifier,
@@ -277,7 +303,20 @@ public enum WindowLevelOperation {
                 value: .floatingPoint(width),
                 privacyClass: .technical
             ),
-        ])
+        ]
+        if let paddingValue {
+            entries.append(
+                MetadataEntry(
+                    key: try AnyMetadataKey(
+                        namespace: Self.operationIdentifier,
+                        name: "padding"
+                    ),
+                    value: .signedInteger(paddingValue),
+                    privacyClass: .technical
+                )
+            )
+        }
+        return try MetadataCollection(entries: entries)
     }
 
     /// One stored-to-real mapping admitted by the composable set.
@@ -321,7 +360,8 @@ public enum WindowLevelOperation {
         byteOrder: ByteOrder,
         storedToReal: StoredToRealMapping,
         center: Double,
-        width: Double
+        width: Double,
+        paddingValue: Int64?
     ) -> [UInt8] {
         let halfSpan = (width - 1.0) / 2.0
         let threshold = center - 0.5
@@ -386,13 +426,20 @@ public enum WindowLevelOperation {
                     high = storedBytes[offset + 1]
                 }
                 let bits = UInt16(high) << 8 | UInt16(low)
-                let sample: Double
+                let storedInteger: Int64
                 if scalarType == .int16 {
-                    sample = Double(Int16(bitPattern: bits))
+                    storedInteger = Int64(Int16(bitPattern: bits))
                 } else {
-                    sample = Double(bits)
+                    storedInteger = Int64(bits)
                 }
-                output.append(window(sample))
+                // The ADR-0113 padding sentinel excludes the stored
+                // sample before any stored-to-real step: excluded
+                // samples display black exactly.
+                if let paddingValue, storedInteger == paddingValue {
+                    output.append(0)
+                } else {
+                    output.append(window(Double(storedInteger)))
+                }
                 offset += 2
             }
             return output
@@ -400,7 +447,11 @@ public enum WindowLevelOperation {
             var output = [UInt8]()
             output.reserveCapacity(storedBytes.count)
             for byte in storedBytes {
-                output.append(window(Double(byte)))
+                if let paddingValue, Int64(byte) == paddingValue {
+                    output.append(0)
+                } else {
+                    output.append(window(Double(byte)))
+                }
             }
             return output
         }
