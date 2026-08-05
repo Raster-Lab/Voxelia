@@ -1806,6 +1806,16 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   Tests render a cropped scene end to end with the cropped stage
   published and the exact windowed sub-region bytes, verify the crop
   and identity-scaling claims, and reject invalid bounds typed.
+- Sixty-ninth autonomous increment (owner broadened standing
+  mandate): sixteen-bit pipeline render evidence under the existing
+  `ADR-0093` and `ADR-0099` obligations — no new decision surface.
+  The device renderer suite now publishes a native `int16` origin and
+  renders it end to end through the device path, measuring twelve of
+  twelve samples exactly matching the registered CPU implementation
+  on this device — printed single-device evidence — and verifying the
+  metal implementation token on the published stage record, so the
+  sixteen-bit device admission is proven inside the full pipeline
+  rather than only at the operation boundary.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -355,6 +355,157 @@ struct MetalSliceRendererTests {
         )
     }
 
+    private func int16Origin(_ objectName: String) throws -> ImageData {
+        let stored: [Int16] = [
+            -1024, -200, -100, 0, 20, 40, 60, 80, 120, 200, 1000, 3000,
+        ]
+        var bytes = [UInt8]()
+        for value in stored {
+            withUnsafeBytes(of: value.littleEndian) { bytes.append(contentsOf: $0) }
+        }
+        return try ImageData(
+            descriptor: try ImageDescriptor(
+                shape: try ImageShape(extents: [4, 3]),
+                scalarFormat: try ScalarFormat(
+                    type: .int16,
+                    validBitCount: nil,
+                    byteOrder: .native
+                ),
+                components: try ComponentDescriptor(
+                    count: 1,
+                    interpretation: .scalar,
+                    layout: .interleaved,
+                    componentNames: nil
+                ),
+                semantic: .intensity,
+                axes: [try axis("x"), try axis("y")],
+                spatialGeometry: nil,
+                valueTransform: nil,
+                units: nil
+            ),
+            storage: AnyImageStorage(
+                erasing: try ContiguousImageStorage(
+                    binding: try LogicalSampleBinding(
+                        shape: try ImageShape(extents: [4, 3]),
+                        scalarType: .int16,
+                        componentCount: 1
+                    ),
+                    bytes: bytes
+                )
+            ),
+            metadata: try MetadataCollection(entries: []),
+            provenance: try ProvenanceRecord(
+                id: try #require(ProvenanceID(rawValue: "record-\(objectName)")),
+                kind: .source,
+                createdAt: try CanonicalInstant(utcString: "2026-08-05T05:00:00Z"),
+                subject: .object(try #require(DataObjectID(rawValue: objectName))),
+                software: try software(),
+                activity: .origin,
+                inputs: [],
+                warnings: [],
+                validationClaim: .unknown,
+                declaresZeroInputGenerator: false
+            ),
+            identity: try DataIdentity(
+                objectID: try #require(DataObjectID(rawValue: objectName)),
+                contentID: try ContentID.sampleBytesIdentity(
+                    overCanonicalPackedBytes: bytes
+                ),
+                sourceIdentities: [
+                    try SourceIdentity(
+                        namespace: "dicom.sop-instance-uid",
+                        identifier: "1.2.840.113619.\(objectName)",
+                        version: nil,
+                        contentID: nil
+                    )
+                ],
+                derivation: nil
+            )
+        )
+    }
+
+    @Test("[Integration][VOX-VAL-007][VOX-PLT-011] a sixteen-bit scene renders on the device")
+    func sixteenBitSceneRendersOnTheDevice() async throws {
+        let publisher = try publisher()
+        let origin = try int16Origin("series-ct")
+        _ = try await publisher.publish(origin, mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "grender-4")
+
+        // The ADR-0093 sixteen-bit device path proves itself inside
+        // the full pipeline: an int16 origin renders end to end and
+        // stays within one display level of the CPU implementation,
+        // measured on this hardware.
+        let space = try #require(CoordinateSpaceID(rawValue: "patient"))
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: try SceneSnapshot(
+                    layers: [
+                        try RenderLayer(
+                            imageObjectID: origin.identity.objectID,
+                            transferFunction: .greyscaleWindow(
+                                try GreyscaleWindowFunction(center: 40, width: 400)
+                            ),
+                            opacity: 1
+                        )
+                    ],
+                    camera: try RenderCamera(
+                        position: try Point3D(
+                            x: 0,
+                            y: 0,
+                            z: -100,
+                            coordinateSpace: space
+                        ),
+                        target: try Point3D(x: 0, y: 0, z: 0, coordinateSpace: space),
+                        up: try Vector3D(x: 0, y: 1, z: 0, coordinateSpace: space),
+                        projection: .orthographic(planeHeight: 250)
+                    )
+                ),
+                viewport: try ViewportSize(width: 4, height: 3),
+                crop: nil,
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "grender-4-wl0")
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let outputBytes = try published.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 3])
+        ).bytes
+        let reference = try await WindowLevelOperation.execute(
+            input: origin,
+            center: try MetadataFloatingPoint(value: 40),
+            width: try MetadataFloatingPoint(value: 400),
+            outputObjectID: try #require(DataObjectID(rawValue: "reference-ct")),
+            outputProvenanceID: try #require(
+                ProvenanceID(rawValue: "record-reference-ct")
+            ),
+            createdAt: try CanonicalInstant(utcString: "2026-08-05T05:05:00Z"),
+            software: try software(),
+            coordinator: StorageReadCoordinator(maximumRetainedResultByteCount: 64)
+        )
+        let referenceBytes = try reference.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 3])
+        ).bytes
+        let exactCount = zip(outputBytes, referenceBytes).count(where: ==)
+        for (produced, expected) in zip(outputBytes, referenceBytes) {
+            #expect(abs(Int(produced) - Int(expected)) <= 1)
+        }
+        print(
+            "ADR-0093 pipeline evidence: \(exactCount)/\(referenceBytes.count) "
+                + "sixteen-bit device samples exactly match the CPU implementation."
+        )
+        guard case .operation(let operation, _) = published.provenance.activity
+        else {
+            #expect(Bool(false), "Expected an operation activity.")
+            return
+        }
+        #expect(
+            operation.implementationID.rawValue
+                == "org.voxelia.impl.window-level.metal"
+        )
+    }
+
     @Test("[Integration][VOX-ERR-001] device admission rejects a value transform typed")
     func deviceAdmissionRejectsAValueTransformTyped() async throws {
         let publisher = try publisher()
