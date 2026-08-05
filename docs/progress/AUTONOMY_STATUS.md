@@ -3208,6 +3208,25 @@ oracle campaigns.
   Python-verified fixtures pin every half-even boundary direction
   and the padded, all-excluded and depth-one rays. Implementation
   follows as the tenth registered operation.
+- One-hundred-thirty-fourth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0160`, the intensity
+  projection — the tenth registered operation, discharging
+  `VOX-MPR-007/008/009` with the `VOX-MPR-010` treatments live. The
+  assembly follows the accepted pattern with one streaming ascending
+  pass per ray and no floating-point step anywhere — the operation
+  claims the exact policy; the closed mode vocabulary and the axis
+  digest beside the padding entry exactly when declared. Admission
+  follows the squeeze precedent for geometry-bearing inputs, because
+  projecting away an axis's calibration silently would misreport it,
+  and the output preserves the remaining axis descriptors under the
+  squeeze convention. Tests reproduce every specification fixture —
+  the primary volume across all three axes with independently
+  computed expectations, the half-even boundary rounding in every
+  direction including at the top of the domain, the sentinel set
+  with the all-excluded ray exactly zero, and the depth-one
+  identity for every mode — prove repetition bit-identical, and
+  reject all four typed admissions. The registry entry follows as
+  its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
