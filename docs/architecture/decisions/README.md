@@ -141,8 +141,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0158` is allocated to the planner registry consultation.
 `ADR-0159` is allocated to the intensity projection design.
 `ADR-0160` is allocated to the project intensity operation.
-`ADR-0161` is allocated to the brick statistics design. The next
-unallocated numeric identifier is `ADR-0162`.
+`ADR-0161` is allocated to the brick statistics design.
+`ADR-0162` is allocated to the brick statistics. The next unallocated
+numeric identifier is `ADR-0163`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -287,3 +288,4 @@ unallocated numeric identifier is `ADR-0162`.
 | [ADR-0159](ADR-0159-intensity-projection-design.md) | Accepted | Intensity projection design |
 | [ADR-0160](ADR-0160-project-intensity-operation.md) | Accepted | Project intensity operation |
 | [ADR-0161](ADR-0161-brick-statistics-design.md) | Accepted | Brick statistics design |
+| [ADR-0162](ADR-0162-brick-statistics.md) | Accepted | Brick statistics |

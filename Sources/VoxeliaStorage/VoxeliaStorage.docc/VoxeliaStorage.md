@@ -35,6 +35,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``BrickCacheVocabularyError``
 - ``BrickedImageStorage``
 - ``BrickedStorageError``
+- ``BrickStatistics``
+- ``BrickStatisticsError``
 
 ### Canonical document persistence
 

@@ -3253,6 +3253,21 @@ oracle campaigns.
   consumer's rule into every consumer's value — the gated renderer
   stays out. A histogram was deferred as speculative fields are
   compatibility debt. Implementation follows as its own increment.
+- One-hundred-thirty-seventh autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0162`, the brick
+  statistics — the fact vocabulary for empty-space skipping and load
+  prioritisation, obtainable only through the pure computing
+  initializer so statistics and bytes can never disagree. One
+  ascending pass produces the total and included counts under the
+  accepted exclusion rule, the included extremes absent rather than
+  fabricated when every sample is excluded, and the non-zero
+  occupancy count; the empty payload rejects typed. The suite
+  reproduces every design fixture — partial exclusion, the
+  all-excluded payload with absent extremes, the all-zero payload
+  whose zero occupancy is the empty-space fact without a verdict,
+  the mixed payload with bit-identical repetition and the domain
+  boundary values. The M6 queue continues with the cubic
+  interpolation model design.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
