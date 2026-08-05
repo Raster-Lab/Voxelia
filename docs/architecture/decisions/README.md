@@ -92,8 +92,9 @@ allocated to interactive quality equivalence. `ADR-0104` is allocated
 to backend policy planning. `ADR-0105` is allocated to the device
 capability model. `ADR-0106` is allocated to pipeline state caching.
 `ADR-0107` is allocated to kernel dispatch telemetry. `ADR-0108`
-is allocated to shader fingerprint evidence. The next unallocated
-numeric identifier is `ADR-0109`.
+is allocated to shader fingerprint evidence. `ADR-0109` is allocated
+to the kernel throughput measurement campaign. The next unallocated
+numeric identifier is `ADR-0110`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -185,3 +186,4 @@ numeric identifier is `ADR-0109`.
 | [ADR-0106](ADR-0106-pipeline-state-caching.md) | Accepted | Pipeline state caching |
 | [ADR-0107](ADR-0107-kernel-telemetry.md) | Accepted | Kernel dispatch telemetry |
 | [ADR-0108](ADR-0108-shader-fingerprint-evidence.md) | Accepted | Shader fingerprint evidence |
+| [ADR-0109](ADR-0109-throughput-measurement-campaign.md) | Accepted | Kernel throughput measurement campaign |

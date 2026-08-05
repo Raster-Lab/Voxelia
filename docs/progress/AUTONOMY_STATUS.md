@@ -1951,6 +1951,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   sweep's executable rows are now fully discharged: `VOX-MTL-002`,
   `VOX-MTL-005`, `VOX-MTL-015` and `VOX-VAL-010` all carry recorded
   decisions and measured evidence.
+- Seventy-seventh autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0109` and ran the kernel
+  throughput measurement campaign. The standing harness dispatches
+  both families over scaled seeded corpora — 4,096 through 1,048,576
+  window samples and a 262,144-element two-layer composite — timed by
+  the platform's own command-buffer timestamps through the `ADR-0107`
+  sink. Measured on this device: the window kernel reached roughly
+  16.9 billion samples per second at the megasample size and the
+  composite roughly 7.1 billion, with every dispatch delivering
+  telemetry at its exact sample count. The `VOX-MTL-007`
+  justification is now measured rather than assumed: on this
+  unified-memory device the shared-storage buffers are host memory,
+  no upload pass exists to measure, and that measured absence with
+  the sampling cost printed beside it is the copy-reduction evidence.
+  `VOX-MTL-008` stays honestly open — a private-residency benefit is
+  measurable only for a repeated-sampling workload through
+  buffer-injected kernel paths that do not exist, and building them
+  solely to benchmark was rejected; the harness is the instrument a
+  future repeated-sampling design will extend.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
