@@ -101,8 +101,9 @@ exclusion. `ADR-0114` is allocated to clinical pipeline assessments.
 `ADR-0115` is allocated to the axis transposition operation.
 `ADR-0116` is allocated to the singleton axis squeeze. `ADR-0117`
 is allocated to the multiplanar slice coordinator. `ADR-0118` is
-allocated to concurrency storm evidence. The next unallocated numeric
-identifier is `ADR-0119`.
+allocated to concurrency storm evidence. `ADR-0119` is allocated to
+the viewport synchronisation group. The next unallocated numeric
+identifier is `ADR-0120`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -204,3 +205,4 @@ identifier is `ADR-0119`.
 | [ADR-0116](ADR-0116-singleton-axis-squeeze.md) | Accepted | Singleton axis squeeze |
 | [ADR-0117](ADR-0117-mpr-slice-coordinator.md) | Accepted | Multiplanar slice coordinator |
 | [ADR-0118](ADR-0118-concurrency-storm-evidence.md) | Accepted | Concurrency storm evidence |
+| [ADR-0119](ADR-0119-viewport-synchronisation.md) | Accepted | Viewport synchronisation group |

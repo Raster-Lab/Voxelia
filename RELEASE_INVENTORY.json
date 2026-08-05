@@ -841,8 +841,13 @@
     },
     {
       "path": "Sources/VoxeliaInteraction/Public/InteractionCommand.swift",
-      "size": 6149,
-      "sha256": "65d20e7bcffb82f7c31de89feb0a1feb83efd4f388f35745e17445a381e1725e"
+      "size": 6242,
+      "sha256": "723b78276cbfc56f81daddeb33f1d112701acda9318de168873bd0734331e9cd"
+    },
+    {
+      "path": "Sources/VoxeliaInteraction/Public/ViewportSyncGroup.swift",
+      "size": 2632,
+      "sha256": "9094c4f6c72f063e533d2def6182ba4a09fbfac9374b4381fa018ee63d9858cc"
     },
     {
       "path": "Sources/VoxeliaInteraction/VoxeliaInteraction.docc/Architecture.md",
@@ -856,8 +861,8 @@
     },
     {
       "path": "Sources/VoxeliaInteraction/VoxeliaInteraction.docc/VoxeliaInteraction.md",
-      "size": 596,
-      "sha256": "38cd9387a99dad880d97675d8a1f9d99d75ed1b9f0621de86aa4def45d4055d7"
+      "size": 641,
+      "sha256": "32fd416150f7ec228ffc5a9dd1cd968736504859d43fa88d2447a57fb17313f5"
     },
     {
       "path": "Sources/VoxeliaMetal/ApplePlatformGate.swift",
@@ -1648,6 +1653,11 @@
       "path": "Tests/VoxeliaInteractionTests/InteractionCommandTests.swift",
       "size": 4937,
       "sha256": "275836407faa0165b424b4482f19e9bc78ccfbda03344a8b8ee0d6e2ae4ba7ed"
+    },
+    {
+      "path": "Tests/VoxeliaInteractionTests/ViewportSyncGroupTests.swift",
+      "size": 3553,
+      "sha256": "fc627572e0e882080817439cd657d4eba12b9c03eeb69993b09c6e27d3e40402"
     },
     {
       "path": "Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift",
@@ -2900,9 +2910,14 @@
       "sha256": "bb119002ad2b1f393f0505e58a42975f359d0998490fa8db836740d27ebcc858"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0119-viewport-synchronisation.md",
+      "size": 3220,
+      "sha256": "a2316e48b7622b870636ce9d2056888c98772f4ebdbf93b50a5fc0c60df78479"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 17582,
-      "sha256": "82b4f601a9773c4bcdffb6753cfd7878553cd8a55038a83883bbd6054ae7d16c"
+      "size": 17742,
+      "sha256": "8cb073ff530a4a762adcb892379bbc0e51a3eb011733824305ed151873a4ede8"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2986,8 +3001,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 548904,
-      "sha256": "341c17ce9bfe28f5027c005f02936e1eb170d8b3c19106a6557ec41010c8e158"
+      "size": 550050,
+      "sha256": "121e0da10c1d270cc6aea72ba9ab87fe69c29b47e5bbefc3ae491bc0f2f42463"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3346,8 +3361,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 35301,
-      "sha256": "430bf4bc68041d1f1f807b14f7606226ba9d922d8473dfa5941e7246778e955f"
+      "size": 35483,
+      "sha256": "dc7beb3fbc673bb2333e252fd30ca68f56e2877ef149d5ada72069d74b26d413"
     }
   ]
 }

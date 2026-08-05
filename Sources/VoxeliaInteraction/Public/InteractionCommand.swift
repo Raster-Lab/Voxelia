@@ -15,6 +15,9 @@ public enum InteractionError: Error, Sendable, Equatable {
     case invalidClipBounds
     case emptyMeasurement
     case coordinateSpaceMismatch
+    case emptySyncGroup
+    case syncGroupLimitExceeded
+    case duplicateViewportIdentifier
 }
 
 /// One validated pan delta per `ADR-0111`, in viewport-relative units.

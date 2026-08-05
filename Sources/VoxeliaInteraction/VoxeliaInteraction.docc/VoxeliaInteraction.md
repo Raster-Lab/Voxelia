@@ -25,6 +25,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``CrosshairState``
 - ``MeasurementConstruction``
 - ``InteractionError``
+- ``SyncedViewport``
+- ``ViewportSyncGroup``
 
 ### Project documents
 

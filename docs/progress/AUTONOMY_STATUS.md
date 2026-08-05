@@ -2154,6 +2154,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   tooling, and simulated callbacks would be fabricated signals —
   and race detection beyond compiler-enforced actor isolation remains
   the sanitizer campaign's subject, recorded with it.
+- Eighty-seventh autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0119` and delivered the
+  viewport synchronisation group. `SyncedViewport` binds one
+  host-owned integer identifier to one coordinate space —
+  plane-agnostic, because the plane vocabulary lives in the imaging
+  layer and the linkage rule needs only the frame — and
+  `ViewportSyncGroup` takes a non-empty member list bounded at
+  sixteen with unique identifiers plus the shared crosshair, with
+  every member's space and the crosshair's space validated as one
+  space at construction and on every crosshair move:
+  frame-of-reference compatibility is construction, not convention,
+  and a crosshair can never drift into a foreign frame. Tests link
+  three orthogonal-view members over one patient frame, move the
+  crosshair with revalidation proven, and reject empty, over-bound,
+  duplicate-identifier, foreign-member and foreign-move groups typed.
+  `VOX-INT-005` is discharged; the linkage half of `VOX-MPR-005` is
+  discharged with crosshair-to-slice-index mapping recorded open on
+  geometry-bearing volumes and the binding remap.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
