@@ -30,6 +30,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``ViewportSyncGroup``
 - ``RenderGeneration``
 - ``RenderGenerationCounter``
+- ``PickResolver``
+- ``PickResolution``
 
 ### Project documents
 

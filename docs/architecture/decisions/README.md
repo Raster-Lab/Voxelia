@@ -106,8 +106,9 @@ the viewport synchronisation group. `ADR-0120` is allocated to angle
 measurement. `ADR-0121` is allocated to the window edge-case
 assessment. `ADR-0122` is allocated to render generations. `ADR-0123` is
 allocated to the bilinear resampling operation. `ADR-0124` is
-allocated to display policy selection. The next unallocated numeric
-identifier is `ADR-0125`.
+allocated to display policy selection. `ADR-0125` is allocated to
+index-space pick resolution. The next unallocated numeric identifier
+is `ADR-0126`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -215,3 +216,4 @@ identifier is `ADR-0125`.
 | [ADR-0122](ADR-0122-render-generations.md) | Accepted | Render generations |
 | [ADR-0123](ADR-0123-bilinear-resampling.md) | Accepted | Bilinear resampling operation |
 | [ADR-0124](ADR-0124-display-policy-selection.md) | Accepted | Display policy selection |
+| [ADR-0125](ADR-0125-pick-resolution.md) | Accepted | Index-space pick resolution |

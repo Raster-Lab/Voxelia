@@ -20,6 +20,7 @@ public enum InteractionError: Error, Sendable, Equatable {
     case syncGroupLimitExceeded
     case duplicateViewportIdentifier
     case degenerateAngleRay
+    case pickOutsideViewport
 }
 
 /// One validated pan delta per `ADR-0111`, in viewport-relative units.

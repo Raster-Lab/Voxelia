@@ -2264,6 +2264,31 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   carrying the exact pre-resample extents and the published record's
   operation identity verified. All three policies are now registered,
   selectable and claimed.
+- Ninety-third autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0125` and delivered
+  index-space pick resolution, plus the empty-scaffold assessment.
+  `PickResolver.resolve` is a pure value function from a pick target
+  and a presentation claim to a resolution: the claims are the map —
+  identity is the index itself, nearest-neighbour inverts the
+  registered forward map exactly to the source sample the displayed
+  pixel came from, bilinear resolves the frozen dominant-tap rule
+  because a blended pixel has four contributors and a pick must name
+  one, and a claimed crop offsets by its lower bounds because
+  cropping ran before scaling. The resolution carries every claimed
+  layer with its object identifier — a composited pixel blends all of
+  them — and an outside-viewport target rejects typed. The
+  index-space halves of `VOX-INT-006` are discharged; the
+  physical-position half stays gated on geometry-bearing
+  presentation. Scaffold assessment: `VoxeliaGeometry` is chartered
+  by `VOX-ARC-007` for mesh and geometry-operation abstractions
+  beyond the accepted ray-bounds primitives it already hosts, with
+  its consumers in later milestones; `VoxeliaCPU` is chartered by
+  `VOX-ARC-010` for deterministic reference kernels and backend
+  registration — the reference implementations currently live as the
+  operations' own CPU paths, and relocating or registering them is a
+  design decision recorded as a future candidate, not an empty-target
+  obligation; the umbrella target re-exports and gains substance
+  last. Neither warrants invention now.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
