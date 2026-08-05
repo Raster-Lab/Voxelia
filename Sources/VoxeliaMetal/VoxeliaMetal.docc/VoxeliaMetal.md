@@ -44,6 +44,7 @@ milestone specifications introduce its substantive public API incrementally.
 - ``MetalInvertKernel``
 - ``MetalInvertKernelError``
 - ``MetalInvertDisplayOperation``
+- ``MetalBackendRegistrations``
 - ``MetalRendererPlanner``
 - ``BackendPolicy``
 - ``RendererBackendSelection``

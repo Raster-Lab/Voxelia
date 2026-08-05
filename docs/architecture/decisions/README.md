@@ -115,7 +115,8 @@ allocated to crosshair slice mapping. `ADR-0131` is allocated to
 device composite calibration. `ADR-0132` is allocated to the device
 invert kernel. `ADR-0133` is allocated to the device invert
 operation. `ADR-0134` is allocated to implementation registration.
-The next unallocated numeric identifier is `ADR-0135`.
+`ADR-0135` is allocated to the metal backend registrations. The next
+unallocated numeric identifier is `ADR-0136`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -233,3 +234,4 @@ The next unallocated numeric identifier is `ADR-0135`.
 | [ADR-0132](ADR-0132-device-invert-kernel.md) | Accepted | Device invert kernel |
 | [ADR-0133](ADR-0133-device-invert-operation.md) | Accepted | Device invert operation |
 | [ADR-0134](ADR-0134-implementation-registration.md) | Accepted | Implementation registration |
+| [ADR-0135](ADR-0135-metal-backend-registrations.md) | Accepted | Metal backend registrations |

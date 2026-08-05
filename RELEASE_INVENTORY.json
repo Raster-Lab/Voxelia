@@ -930,6 +930,11 @@
       "sha256": "76ad6c94cbb5e8015499319f7026c77913b7eaf94cb65ed828c81e5ddb202019"
     },
     {
+      "path": "Sources/VoxeliaMetal/Public/MetalBackendRegistrations.swift",
+      "size": 3867,
+      "sha256": "46cbbfd387cf2693fefa003f33c310eb52f9345e82240297df9d3b1c129dcaa9"
+    },
+    {
       "path": "Sources/VoxeliaMetal/Public/MetalCompositeKernel.swift",
       "size": 7377,
       "sha256": "750c82c8d43a370cb4c829adc3e2329eb2b22f614c17a468f8016d0291af62df"
@@ -1051,8 +1056,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md",
-      "size": 1238,
-      "sha256": "dcc1e94e54bd8783178fa8550fc4ebaed9f3db11bf4b826fb58fabe26e5ffbb3"
+      "size": 1270,
+      "sha256": "6730e40eff89065b452215fb3e91d12bf2112172da3d551b829ec8c5467ec2b0"
     },
     {
       "path": "Sources/VoxeliaRendering/ApplePlatformGate.swift",
@@ -1735,6 +1740,11 @@
       "sha256": "48272080800d30e816f5bf6f51a24da863252fd2082cebbcbfd88957595d0100"
     },
     {
+      "path": "Tests/VoxeliaMetalTests/MetalBackendRegistrationsTests.swift",
+      "size": 1671,
+      "sha256": "90345d723b28c33d7b2c9d6fb877f80572102af6873aa8c87bc9b81786478d1a"
+    },
+    {
       "path": "Tests/VoxeliaMetalTests/MetalCompositeKernelTests.swift",
       "size": 6276,
       "sha256": "8caadd032ce3a71cd7e0686eeb4924779ece029aa5f531877e9a4b9277671151"
@@ -1973,6 +1983,11 @@
       "path": "Tests/VoxeliaTests/VoxeliaTests.swift",
       "size": 284,
       "sha256": "6a537869f637ac3c2333fe359f73a5cf45070a207a5831a1800efc94279247f4"
+    },
+    {
+      "path": "Tests/VoxeliaValidationTests/CombinedRegistryTests.swift",
+      "size": 1252,
+      "sha256": "889b8d8fd1d514bf91cbc39c7a976864474b00821f2799aa07bf014dbff10815"
     },
     {
       "path": "Tests/VoxeliaValidationTests/VoxeliaValidationTests.swift",
@@ -3070,9 +3085,14 @@
       "sha256": "8d27b44df10d011e12c345fec0e5231fd0257dd527c68dbf16f94ef7db155b7b"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0135-metal-backend-registrations.md",
+      "size": 2480,
+      "sha256": "2100cd3247de8a0c4a77f9cd40332dae2bde58d9746869daccaa3783370ac7ef"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 19939,
-      "sha256": "04cd401a68c96302443a8982eebed243436077415b1e3f4793e7dae3a84d2c86"
+      "size": 20096,
+      "sha256": "f09c3c94664401a2c9fba293ad382bc81a44d5fff1c6344f7309eedac4590098"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3516,8 +3536,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 37358,
-      "sha256": "75991d8508ae1e50840d680bb59b9e98367629df09a903ba83e6e0db2c0a514c"
+      "size": 37604,
+      "sha256": "3f664e72d316fa1967452412275819898ebf8f7be8745a2d53e759c5cc87600b"
     }
   ]
 }
