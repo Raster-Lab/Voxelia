@@ -4404,6 +4404,44 @@ oracle campaigns.
   Release-integrity regeneration and read-only manifest/integrity verification
   passed with 817 manifest paths, 816 inventory records and 817 checksums.
 
+- One-hundred-eighty-fourth autonomous increment (scheduled goal continuation):
+  audited the coordinate-bearing mesh ownership conflict and drafted proposed
+  `ADR-0187`, without changing the package graph, product source or governance
+  authority. The Requirements Baseline assigns coordinate spaces to
+  `VoxeliaSpatial`, meshes to `VoxeliaGeometry` and requires geometry positions
+  to declare their space. MTA/CDMS bind the full Spatial-owned
+  `CoordinateSpaceDescriptor`; accepted `ADR-0043` supplies its exact
+  length-unit, convention, handedness and external-reference admission. The
+  RPSS/MTA graph instead declares only `VoxeliaGeometry -> VoxeliaCore`, while
+  Core already depends on Spatial and deliberately does not redeclare or
+  re-export its types under `ADR-0021`.
+
+  The proposal recommends the minimal explicit resolution: retain the Core
+  edge and add `VoxeliaGeometry -> VoxeliaSpatial`. Spatial remains the sole
+  coordinate-space owner; Geometry remains the sole mesh owner; canonical
+  positions later bind the exact descriptor rather than an identifier string,
+  wrapper or alias. The added direct edge would introduce no cycle, package,
+  product or new resolved module because Spatial is already transitively
+  present. Acceptance would first authorise controlled correction `CCR-0027`,
+  then one graph-only migration of the manifest, dynamic/static checkers,
+  module/release graph documentation and direct test dependencies. The complete
+  mesh aggregate and extraction numeric model remain separate design gates.
+
+  Before drafting, `python3 Tools/Scripts/check_package_graph.py`,
+  `check_package_graph_static.py` and `check_prohibited_imports.py` all passed
+  the unchanged baseline graph, proving Geometry currently declares only Core.
+  After adding the Proposed record and register entry, the direct ADR checker
+  passed all 167 records; `Tools/Scripts/validate-docs.sh` passed seven
+  front-matter documents, all 167 ADRs, the two primary and one companion Draft
+  RFC records and text checks for 272 Markdown files. The same dynamic/static
+  graph and prohibited-import checks passed unchanged, and `git diff --check`
+  passed. No Swift target changed, so no build, test, semantic safety or Apple
+  destination gate was rerun; none is claimed by this documentation-only
+  increment. Release-integrity regeneration and read-only manifest/integrity
+  verification passed with 818 manifest paths, 817 inventory records and 818
+  checksums. Explicit owner acceptance or rejection is now required before any
+  graph correction or coordinate-bearing mesh source.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -10201,15 +10239,16 @@ builds every repository package in debug and release. The strict-safety
 recovery and accepted `ADR-0186` implementation are complete without broadening
 the exact Metal exception.
 
-The exact next action is the explicit package dependency-resolution decision
-under prospective `ADR-0187`: reconcile the MTA/CDMS demand for a Spatial-owned
-coordinate space in canonical mesh values with the approved
-`VoxeliaGeometry -> VoxeliaCore` direct graph, including package-graph,
-ownership, API and downstream validation consequences. Do not add
-`VoxeliaGeometry -> VoxeliaSpatial`, duplicate its coordinate model or weaken
-the space identity before that decision, and do not freeze the
-marching-cubes-class numeric model until the complete coordinate-bearing output
-contract exists.
+Proposed `ADR-0187` now records the explicit package dependency resolution. It
+recommends retaining `VoxeliaGeometry -> VoxeliaCore` and adding the direct
+`VoxeliaGeometry -> VoxeliaSpatial` edge, with Spatial's exact
+`CoordinateSpaceDescriptor` as the canonical mesh space and no alias, wrapper,
+re-export or duplicated identifier. The exact next action is project-owner
+acceptance or rejection of that proposal. Until that decision, do not create
+`CCR-0027`, change the package graph or add coordinate-bearing mesh source. If
+accepted, execute the controlled graph-only migration before designing the
+complete mesh aggregate; if rejected, revise the proposal rather than silently
+using a transitive import or weakening coordinate identity.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -10223,11 +10262,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Audit the exact MTA/CDMS coordinate-space ownership statements, the approved
-  package graph and the coordinate-bearing mesh consumers; draft prospective
-  `ADR-0187` with explicit alternatives, compatibility, migration and
-  validation consequences. Run the focused ADR/document and package-graph
-  checks. Do not change dependencies or product source before owner acceptance.
+- Obtain explicit owner acceptance or rejection of proposed `ADR-0187`. On
+  acceptance, create `CCR-0027` and execute the graph-only migration with the
+  focused documentation, dynamic/static graph, prohibited-import and direct-
+  dependant build checks. Do not change dependencies or product source first.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

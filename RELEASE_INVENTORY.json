@@ -3625,9 +3625,14 @@
       "sha256": "1f80abe32565bf5fc2d68fe63a23df097e154a684bf4aff144b2488c22ed300c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0187-geometry-coordinate-space-dependency.md",
+      "size": 10992,
+      "sha256": "eb6b196bfb61ed8c66b974caae94c1ff979cb03733c4a07d65a424c4b21a224f"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 27581,
-      "sha256": "93a8c6d51e3f1c9ae741318783811e4c8706376d9b2553082c3fedf7fbaf77e9"
+      "size": 27774,
+      "sha256": "e25997d1ad73105376f182f816a15eada223cfcde417745f582376d2082dc80c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3711,8 +3716,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 699375,
-      "sha256": "7026e3ae0b3dcbb5a6ce75843070bc3fecea65c7a400c9637526be606c7870d9"
+      "size": 702053,
+      "sha256": "cea0d72c7a3ece1fcc15022dff2bb7d3333bc1c7c193c905c28dd106ba321463"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4081,8 +4086,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 44226,
-      "sha256": "92f1fbbaa04584135c7d37448c983da5053f904ab1ff3f30b4a60f6af1ab2c89"
+      "size": 44303,
+      "sha256": "dae5eb1c9ec28db4e48d10086249f858d741530083e693b88056a9734f1ca60e"
     }
   ]
 }
