@@ -3270,9 +3270,14 @@
       "sha256": "4d1c5bd18b3e25d81dd78ce0e0312e9269c7f569879e8d57b150e086193e442f"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0154-bricked-storage-design.md",
+      "size": 3948,
+      "sha256": "890ab96ae2b2ede20a541ce126785034869f8a57f8d2a1728ee4ef17fd3aef36"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 22743,
-      "sha256": "2aa5cb465b6a52e85c1dddabb70e26424480bd17547971fdd8ab0d0ecac71c05"
+      "size": 22885,
+      "sha256": "9852269277ef822101c8d3dcf72cd1a3e44b7623fe23f464ee6509d73f03c7d2"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3356,8 +3361,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 604766,
-      "sha256": "b97495ca1fe851dde893e4a0599753805998f6457e0800fc3c65283ea1f5bf79"
+      "size": 606193,
+      "sha256": "c800415fd36176994af1a29e8f1817f469be246ea6026c030f4137e1d6dbff2e"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3716,8 +3721,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 39769,
-      "sha256": "35de4002b2cc47999ad900ba9e8525d835f71720aaa4e3c56be3140fb456fef0"
+      "size": 39832,
+      "sha256": "b0ecf0407c6df752677825efc0ead73c930896d115ba21d0acdd666f38eceab7"
     }
   ]
 }

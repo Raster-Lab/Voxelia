@@ -3029,6 +3029,28 @@ oracle campaigns.
   sweep is `VOX-STO-005` itself — a bricked storage implementation
   serving the accepted region-read contract from per-brick stores —
   which becomes the next design-first increment.
+- One-hundred-twenty-sixth autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0154`, freezing the
+  bricked storage design. The provider conforms to the accepted
+  contract and serves reads through the existing transaction
+  machinery — brickedness is invisible at the boundary, which is
+  exactly the storage half of processing a volume without one
+  complete resident copy. Construction is write-once from a complete
+  brick set: full-volume binding, a grid whose rank and extents must
+  equal the binding's shape, and one payload per coordinate holding
+  exactly the core-region bytes — the halo is a fetch policy and
+  deliberately absent from storage, because halo-inclusive payloads
+  would hold duplicated voxels whose provenance belongs to the
+  neighbouring brick. Assembly walks the accepted axis-zero-run
+  odometer with each run split across consecutive bricks through the
+  grid authority's core regions; no new ceilings exist because the
+  binding bounds construction structurally and the coordinated read
+  boundary already budgets consumption. The binding obligation is
+  byte identity against the contiguous provider over a
+  boundary-brick-on-every-axis layout, plus every typed construction
+  rejection. A lazy per-brick provider map was rejected for version
+  one: laziness belongs to the cache tier that already exists.
+  Implementation follows as its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
