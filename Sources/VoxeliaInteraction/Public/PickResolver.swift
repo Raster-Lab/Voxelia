@@ -120,6 +120,60 @@ public enum PickResolver {
         )
     }
 
+    /// Maps one world point back to the viewport pixel whose claimed
+    /// final-object geometry contains it, per `ADR-0139`.
+    ///
+    /// The claimed geometry is the final object's, so its indices are
+    /// viewport indices — the frozen `ADR-0138` composition recovers
+    /// the slot values and the geometry's own axis mapping assigns
+    /// them to the two presented axes. Out-of-plane slot components
+    /// do not gate admission because they do not select the pixel —
+    /// each viewport presents its own plane's projection of a shared
+    /// crosshair. Rounding is ties-to-even per the accepted
+    /// `ADR-0130` rule with a double-domain range check, and a pixel
+    /// that left the view rejects typed — a nearest pixel would
+    /// misreport where the crosshair is.
+    ///
+    /// - Throws: ``InteractionError`` and the world-to-index map's
+    ///   typed errors.
+    public static func viewportTarget(
+        for point: Point3D,
+        in presentation: PresentationProvenance
+    ) throws -> PickTarget {
+        guard case .affine(let affine)? = presentation.geometry else {
+            throw InteractionError.presentationNotCalibrated
+        }
+        let map = try AffineWorldToIndexMap(geometry: affine)
+        let slots = try map.continuousSlotIndices(of: point)
+        var continuousX: Double?
+        var continuousY: Double?
+        for (slot, imageAxis) in map.spatialAxes.imageAxes.enumerated() {
+            if imageAxis == 0 {
+                continuousX = slots[slot]
+            }
+            if imageAxis == 1 {
+                continuousY = slots[slot]
+            }
+        }
+        guard let continuousX, let continuousY else {
+            throw InteractionError.viewportAxisNotMapped
+        }
+        let roundedX = continuousX.rounded(.toNearestOrEven)
+        let roundedY = continuousY.rounded(.toNearestOrEven)
+        guard
+            roundedX >= 0,
+            roundedX < Double(presentation.viewport.width),
+            roundedY >= 0,
+            roundedY < Double(presentation.viewport.height)
+        else {
+            throw InteractionError.crosshairOutsideViewport
+        }
+        return try PickTarget(
+            viewportX: Int(roundedX),
+            viewportY: Int(roundedY)
+        )
+    }
+
     /// The exact inverse of the registered `VOXELIA-ALG-0008` forward
     /// map: the source sample the displayed pixel came from.
     static func nearestSourceIndex(

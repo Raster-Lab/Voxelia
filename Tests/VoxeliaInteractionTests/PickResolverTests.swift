@@ -181,5 +181,138 @@ struct PickResolverTests {
         requireSendable(PickResolution.self)
     }
 
+    private func calibratedGeometry(
+        imageAxes: [Int] = [0, 1]
+    ) throws -> SpatialGeometry {
+        // The claimed ADR-0129 forward fixture: world x = 10.5 - vy,
+        // y = 19.5 + vx, z = 30.
+        let space = try #require(CoordinateSpaceID(rawValue: "patient"))
+        return .affine(
+            try AffineGridGeometry(
+                spatialAxes: try SpatialAxisMapping(imageAxes: imageAxes),
+                indexToWorld: try Matrix4x4Double(elements: [
+                    0, -1, 0, 10.5,
+                    1, 0, 0, 19.5,
+                    0, 0, 1, 30,
+                    0, 0, 0, 1,
+                ]),
+                coordinateSpace: try CoordinateSpaceDescriptor(
+                    id: space,
+                    convention: .dicomPatientLPS,
+                    handedness: .unspecified,
+                    unit: try MeasurementUnit(
+                        namespace: "UCUM",
+                        code: "mm",
+                        dimension: .length
+                    ),
+                    externalReferences: []
+                )
+            )
+        )
+    }
+
+    @Test("[Unit][VOX-INT-006][VOX-SPA-004] world points map back to viewport pixels")
+    func worldPointsMapBackToViewportPixels() throws {
+        // The reverse of the claimed forward fixture: pixel (5, 3)
+        // produced world (7.5, 24.5, 30), so the frozen ADR-0138
+        // composition recovers it exactly; an off-plane point
+        // projects to the same pixel because out-of-plane components
+        // do not select it, and the half-pixel boundary rounds
+        // ties-to-even.
+        let space = try #require(CoordinateSpaceID(rawValue: "patient"))
+        let calibrated = try presentation(
+            viewportWidth: 8,
+            viewportHeight: 6,
+            crop: nil,
+            geometry: try calibratedGeometry(),
+            scaling: .nearestNeighbour(sourceWidth: 4, sourceHeight: 3)
+        )
+        let exact = try PickResolver.viewportTarget(
+            for: try Point3D(x: 7.5, y: 24.5, z: 30, coordinateSpace: space),
+            in: calibrated
+        )
+        #expect(exact == (try PickTarget(viewportX: 5, viewportY: 3)))
+        let projected = try PickResolver.viewportTarget(
+            for: try Point3D(x: 7.5, y: 24.5, z: 35, coordinateSpace: space),
+            in: calibrated
+        )
+        #expect(projected == (try PickTarget(viewportX: 5, viewportY: 3)))
+        let tied = try PickResolver.viewportTarget(
+            for: try Point3D(x: 9.5, y: 22, z: 30, coordinateSpace: space),
+            in: calibrated
+        )
+        #expect(tied == (try PickTarget(viewportX: 2, viewportY: 1)))
+    }
+
+    @Test("[Unit][VOX-INT-006][VOX-ERR-001] viewport mapping admissions reject typed")
+    func viewportMappingAdmissionsRejectTyped() throws {
+        // An uncalibrated claim, a foreign-space point, both
+        // out-of-viewport sides and an unmapped presented axis all
+        // reject typed — a fabricated nearest pixel would misreport
+        // where the crosshair is.
+        let space = try #require(CoordinateSpaceID(rawValue: "patient"))
+        let calibrated = try presentation(
+            viewportWidth: 8,
+            viewportHeight: 6,
+            crop: nil,
+            geometry: try calibratedGeometry(),
+            scaling: .identity
+        )
+        do {
+            _ = try PickResolver.viewportTarget(
+                for: try Point3D(x: 7.5, y: 24.5, z: 30, coordinateSpace: space),
+                in: try presentation(
+                    viewportWidth: 8,
+                    viewportHeight: 6,
+                    crop: nil,
+                    geometry: nil,
+                    scaling: .identity
+                )
+            )
+            #expect(Bool(false), "Expected an uncalibrated claim to be rejected.")
+        } catch InteractionError.presentationNotCalibrated {}
+        do {
+            _ = try PickResolver.viewportTarget(
+                for: try Point3D(
+                    x: 7.5,
+                    y: 24.5,
+                    z: 30,
+                    coordinateSpace: try #require(
+                        CoordinateSpaceID(rawValue: "device")
+                    )
+                ),
+                in: calibrated
+            )
+            #expect(Bool(false), "Expected a foreign-space point to be rejected.")
+        } catch AffineWorldToIndexError.coordinateSpaceMismatch {}
+        do {
+            _ = try PickResolver.viewportTarget(
+                for: try Point3D(x: 7.5, y: 27.5, z: 30, coordinateSpace: space),
+                in: calibrated
+            )
+            #expect(Bool(false), "Expected a beyond-width pixel to be rejected.")
+        } catch InteractionError.crosshairOutsideViewport {}
+        do {
+            _ = try PickResolver.viewportTarget(
+                for: try Point3D(x: 11.5, y: 24.5, z: 30, coordinateSpace: space),
+                in: calibrated
+            )
+            #expect(Bool(false), "Expected a negative pixel to be rejected.")
+        } catch InteractionError.crosshairOutsideViewport {}
+        do {
+            _ = try PickResolver.viewportTarget(
+                for: try Point3D(x: 7.5, y: 24.5, z: 30, coordinateSpace: space),
+                in: try presentation(
+                    viewportWidth: 8,
+                    viewportHeight: 6,
+                    crop: nil,
+                    geometry: try calibratedGeometry(imageAxes: [0]),
+                    scaling: .identity
+                )
+            )
+            #expect(Bool(false), "Expected an unmapped presented axis to be rejected.")
+        } catch InteractionError.viewportAxisNotMapped {}
+    }
+
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
 }

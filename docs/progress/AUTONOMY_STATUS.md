@@ -2600,6 +2600,26 @@ oracle campaigns.
   claim, not the ideal. Obliquely oriented volumes now have their
   crosshair mapping; the pick-side viewport consumer follows as its
   own design.
+- One-hundred-seventh autonomous increment (owner broadened standing
+  mandate): implemented accepted `ADR-0139`, the reverse pick mapping
+  that lets linked viewports follow one world crosshair. The claims
+  stay the map: the presentation's claimed geometry is the final
+  object's, so the frozen world-to-index composition recovers viewport
+  indices directly and the geometry's own axis mapping assigns the
+  slots to the two presented axes — no scaling or crop inversion
+  exists on this path because the claim already describes the
+  presented object. Out-of-plane components do not gate admission,
+  mirroring the multiplanar rule, because each viewport presents its
+  own plane's projection of a shared crosshair. Three typed cases
+  joined the interaction vocabulary — an uncalibrated claim, an
+  unmapped presented axis and a crosshair that left the view — chosen
+  over an optional return because a caller must distinguish a
+  presentation that cannot sync from a crosshair that merely left one
+  view. Fixtures mirror the claimed forward evaluation exactly,
+  including the off-plane projection and the ties-to-even half-pixel
+  boundary. The interaction arc's world round trip is closed: picks
+  resolve to physical positions and physical positions resolve to
+  pixels, both through the same honest claims.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
