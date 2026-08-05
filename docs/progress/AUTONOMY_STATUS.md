@@ -54,9 +54,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   installed-SDK audit found a checked MetalKit upload route but no checked raw
   readback API; policy currently permits no explicit memory boundary. An owner
   decision and independent review mechanism are required, so the complete
-  Swift safety gate must not yet be reported green. The last recorded strict
-  product/test destination builds remain historical evidence only; visionOS
-  26.5 is still unavailable.
+  Swift safety gate must not yet be reported green. Independently, all four
+  pointer-backed sixteen-bit fixture serializers predicted in the Metal test
+  target now use exact checked little-endian shifts, with their affected device
+  suites green. Strict compilation of that test target remains unproven until
+  the product Metal boundary is resolved. The last recorded strict product/test
+  destination builds remain historical evidence only; visionOS 26.5 is still
+  unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -4126,6 +4130,32 @@ oracle campaigns.
   was made. The 811-entry manifest path check, raw safety scan and diff
   validation passed; release-integrity regeneration and read-only verification
   passed with 811 manifest paths, 810 inventory records and 811 checksums.
+- One-hundred-seventy-eighth autonomous increment (scheduled goal
+  continuation): recovered the four independently unblocked pointer-backed
+  sixteen-bit fixture serializers identified by the Metal transfer audit.
+  Accepted `ADR-0093` and `VOXELIA-ALG-0002` require exact two-byte native
+  little-endian samples on supported Apple Silicon. A controlled
+  `StrictMemorySafety` compiler probe reproduced two diagnostics for the former
+  `withUnsafeBytes` expression. One test-target helper now appends the low and
+  high `UInt16` octets explicitly with checked shifts; signed fixtures preserve
+  their exact two's-complement bits through `UInt16(bitPattern:)`. All four
+  window-level and slice-renderer call sites use that helper, and an exact
+  `0000`, `0001`, `1234`, `FFFF` golden prevents byte-order regression. A
+  paired strict compiler probe of the replacement passed, and static search
+  found no pointer or `withUnsafeBytes` spelling left in `VoxeliaMetalTests`.
+  Strict format lint for the three edited files, the raw safety scan and diff
+  validation passed. The focused combined helper, `MetalWindowLevelKernel` and
+  `MetalSliceRenderer` filter executed twelve tests across the two suites with
+  zero failures; device evidence remained 36,864/36,864 for the sixteen-bit
+  differential and all other registered affected exactness, padding,
+  concurrency and admission checks stayed green. The complete semantic gate
+  was intentionally not rerun because its known thirteen product-Metal
+  diagnostics occur before test compilation; this increment neither changes
+  nor bypasses the pending owner decision. A checked `NSMutableData` /
+  `Data(referencing:)` probe was also rejected as a replacement for the
+  accepted `MetadataBinary` no-copy adversary because the referenced data did
+  not observe backing mutation; that test remains unchanged rather than
+  weakening `ADR-0030` evidence.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

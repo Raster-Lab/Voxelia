@@ -135,7 +135,7 @@ struct MetalWindowLevelKernelTests {
     private func int16Image(_ values: [Int16]) throws -> ImageData {
         var bytes = [UInt8]()
         for value in values {
-            withUnsafeBytes(of: value.littleEndian) { bytes.append(contentsOf: $0) }
+            appendLittleEndianUInt16(UInt16(bitPattern: value), to: &bytes)
         }
         let software = try SoftwareIdentity(
             name: "Voxelia",
@@ -235,14 +235,10 @@ struct MetalWindowLevelKernelTests {
         for _ in 0..<4096 {
             let signed = Int16(truncatingIfNeeded: nextValue() >> 16)
             int16Values.append(signed)
-            withUnsafeBytes(of: signed.littleEndian) {
-                int16Bytes.append(contentsOf: $0)
-            }
+            appendLittleEndianUInt16(UInt16(bitPattern: signed), to: &int16Bytes)
             let unsigned = UInt16(truncatingIfNeeded: nextValue() >> 24)
             uint16Values.append(unsigned)
-            withUnsafeBytes(of: unsigned.littleEndian) {
-                uint16Bytes.append(contentsOf: $0)
-            }
+            appendLittleEndianUInt16(unsigned, to: &uint16Bytes)
         }
 
         var comparedCount = 0

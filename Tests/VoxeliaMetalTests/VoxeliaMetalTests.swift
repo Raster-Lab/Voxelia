@@ -6,6 +6,23 @@ import VoxeliaTestSupport
 
 @testable import VoxeliaMetal
 
+/// Appends one exact little-endian 16-bit fixture without exposing memory
+/// layout or pointer-backed storage to the test target.
+func appendLittleEndianUInt16(_ value: UInt16, to bytes: inout [UInt8]) {
+    bytes.append(UInt8(truncatingIfNeeded: value))
+    bytes.append(UInt8(truncatingIfNeeded: value >> 8))
+}
+
+@Test("[Unit][VOX-VAL-007][VOX-PLT-011] sixteen-bit fixtures serialize explicitly")
+func sixteenBitFixturesSerializeExplicitly() {
+    var bytes = [UInt8]()
+    for value: UInt16 in [0x0000, 0x0001, 0x1234, 0xFFFF] {
+        appendLittleEndianUInt16(value, to: &bytes)
+    }
+
+    #expect(bytes == [0x00, 0x00, 0x01, 0x00, 0x34, 0x12, 0xFF, 0xFF])
+}
+
 @Test("VoxeliaMetal M0 target is linked")
 func targetIsLinked() {
     #expect(_VoxeliaMetalModuleMarker.name == "VoxeliaMetal")

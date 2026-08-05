@@ -369,7 +369,7 @@ struct MetalSliceRendererTests {
         ]
         var bytes = [UInt8]()
         for value in stored {
-            withUnsafeBytes(of: value.littleEndian) { bytes.append(contentsOf: $0) }
+            appendLittleEndianUInt16(UInt16(bitPattern: value), to: &bytes)
         }
         return try ImageData(
             descriptor: try ImageDescriptor(
