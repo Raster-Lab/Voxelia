@@ -154,6 +154,7 @@ struct MetalRendererPlannerTests {
             let prefix = "plan-\(index)"
             let plan = MetalRendererPlanner.plan(
                 policy: expectation.0,
+                registry: try MetalBackendRegistrations.standard(),
                 publisher: publisher,
                 readCoordinator: StorageReadCoordinator(
                     maximumRetainedResultByteCount: 96
@@ -204,6 +205,34 @@ struct MetalRendererPlannerTests {
         requireSendable(BackendPolicy.self)
         requireSendable(RendererBackendSelection.self)
         requireSendable(RendererPlan.self)
+    }
+
+    @Test("[Unit][VOX-ARC-010][VOX-CCH-003] an unlisted device falls back honestly")
+    func unlistedDeviceFallsBackHonestly() throws {
+        // The ADR-0158 rule: a registry without metal-backend entries
+        // reports the exact CPU selection under a device-preferring
+        // policy — the plan is the report, and registration is part
+        // of device availability.
+        let plan = MetalRendererPlanner.plan(
+            policy: .gpuPreferred,
+            registry: try ImplementationRegistry(implementations: []),
+            publisher: try publisher(),
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 96
+            ),
+            software: try software(),
+            naming: { _ in
+                (
+                    outputObjectID: DataObjectID(rawValue: "fallback")!,
+                    provenanceID: ProvenanceID(rawValue: "record-fallback")!,
+                    createdAt: try CanonicalInstant(
+                        utcString: "2026-08-05T10:40:00Z"
+                    )
+                )
+            }
+        )
+        #expect(plan.policy == .gpuPreferred)
+        #expect(plan.selection == .exactCPU)
     }
 
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}

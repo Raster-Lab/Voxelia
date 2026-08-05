@@ -42,21 +42,26 @@ public struct RendererPlan: Sendable {
     }
 }
 
-/// The version-one execution planner per `ADR-0104`.
+/// The execution planner per `ADR-0104`, consulting the registry per
+/// `ADR-0158`.
 ///
 /// `reference` and `cpuPreferred` select the exact CPU pipeline — the
 /// registered binary64 reference; `gpuPreferred` and `automatic`
-/// select the device pipeline when the context and both kernels
-/// acquire, and otherwise report the exact CPU selection. Every
-/// selectable implementation carries measured validation evidence, so
-/// the `VOX-CCH-003` fail-closed rule holds by construction; the
-/// version-one `gpuPreferred` and `automatic` rules coincide, and
-/// `automatic` may later weigh locality, latency and memory cost
-/// through its own revisions.
+/// select the device pipeline when the registry lists a metal-backend
+/// implementation for each device operation and the context and
+/// kernels acquire, and otherwise report the exact CPU selection.
+/// The reference needs no registry proof — it is the baseline the
+/// fail-closed rule falls back to, and gating the fallback on proof
+/// would leave no plan at all. Every selectable implementation
+/// carries measured validation evidence, so the `VOX-CCH-003`
+/// fail-closed rule holds by construction; `automatic` may later
+/// weigh locality, latency and memory cost through its own revisions.
 public enum MetalRendererPlanner {
-    /// Plans one renderer for the requested policy.
+    /// Plans one renderer for the requested policy against the
+    /// host-composed registry.
     public static func plan(
         policy: BackendPolicy,
+        registry: ImplementationRegistry,
         publisher: PublicationCoordinator,
         readCoordinator: StorageReadCoordinator,
         software: SoftwareIdentity,
@@ -78,10 +83,14 @@ public enum MetalRendererPlanner {
         case .reference, .cpuPreferred:
             return exactPlan()
         case .gpuPreferred, .automatic:
-            // Device selection requires the context and both kernels;
-            // any acquisition failure reports the exact CPU selection
-            // — preference is not requirement, and the fallback is
-            // validated.
+            // Device selection requires registered metal
+            // implementations for every device operation, then the
+            // context and kernels; any failure reports the exact CPU
+            // selection — preference is not requirement, and the
+            // fallback is validated.
+            guard Self.deviceImplementationsListed(in: registry) else {
+                return exactPlan()
+            }
             guard
                 let context = try? MetalExecutionContext(),
                 let windowKernel = try? MetalWindowLevelKernel(
@@ -107,5 +116,28 @@ public enum MetalRendererPlanner {
                 selection: .device
             )
         }
+    }
+
+    /// Whether the registry lists a metal-backend implementation for
+    /// each operation the device path runs.
+    private static func deviceImplementationsListed(
+        in registry: ImplementationRegistry
+    ) -> Bool {
+        let operations = [
+            WindowLevelOperation.operationIdentifier,
+            InvertDisplayOperation.operationIdentifier,
+            CompositeLayersOperation.operationIdentifier,
+        ]
+        for operation in operations {
+            guard
+                let token = try? DerivationOperationToken(rawValue: operation),
+                registry.implementations(for: token).contains(where: {
+                    $0.backend.rawValue == MetalBackendRegistrations.backendIdentifier
+                })
+            else {
+                return false
+            }
+        }
+        return true
     }
 }

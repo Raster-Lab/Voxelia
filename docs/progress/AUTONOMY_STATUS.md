@@ -3135,6 +3135,23 @@ oracle campaigns.
   unchanged — followers still complete while any awaiter remains.
   The planner's registry consultation follows as the next queue
   item.
+- One-hundred-thirty-first autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0158`, the planner's
+  registry consultation — the revision path the registration record
+  reserved. The planner takes the host-composed registry explicitly
+  and returns a device plan only when a metal-backend implementation
+  is listed for each of the three operations the device path runs,
+  in addition to the existing context and kernel acquisitions; an
+  unlisted device reports the exact CPU selection through the plan.
+  The asymmetry is deliberate and recorded: the reference selection
+  needs no registry proof because it is the baseline the fail-closed
+  rule falls back to, and gating the fallback on proof would leave
+  no plan at all. Version negotiation through the registry's
+  contract versions is deferred until a consumer needs it. The suite
+  passes the metal registrations for the device-bearing expectations
+  and proves the empty-registry fallback under a device-preferring
+  policy. The derived queue is drained; the M6 opening assessment
+  follows.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
