@@ -5,9 +5,9 @@ Point, curve, mesh and geometry data models.
 ## Canonical mesh status
 
 Accepted geometry records provide the immutable canonical triangle-mesh
-payload and scalar-surface request/publication values used by the M6 extraction
-arc. The CPU reader and numerical kernel, stable geometry bytes and backend
-acceleration remain separate governed contracts.
+payload and scalar/labelled-surface request/publication values used by the M6
+extraction arc. The labelled CPU reader and numerical kernel, stable geometry
+bytes and backend acceleration remain separate governed contracts.
 
 ## Direct dependencies
 
@@ -38,6 +38,15 @@ acceleration remain separate governed contracts.
 - ``ScalarSurfaceExtractionPublicationContext``
 - ``ScalarSurfaceExtractionResult``
 - ``ScalarSurfaceExtractionError``
+
+### Labelled-surface operation
+
+- ``LabelledSurfaceLabelSet``
+- ``LabelledSurfaceExtractionLimits``
+- ``LabelledSurfaceExtractionRequest``
+- ``LabelledSurfaceExtractionPublicationContext``
+- ``LabelledSurfaceExtractionResult``
+- ``LabelledSurfaceExtractionError``
 
 ### Project documents
 

@@ -820,6 +820,11 @@
       "sha256": "9152f1902c116eeb41be6d666fdc40070a188b07d9128f8b1ba697db3ce7da4a"
     },
     {
+      "path": "Sources/VoxeliaGeometry/Public/LabelledSurfaceExtraction.swift",
+      "size": 16945,
+      "sha256": "6bebe3e7e25666de650d6d8e8b686e8c2a1affeddadde5d6c761bb4c5ebd3e2c"
+    },
+    {
       "path": "Sources/VoxeliaGeometry/Public/MeshPrimitive.swift",
       "size": 451,
       "sha256": "c4e2048272678a6f815e9d6fa8a88faa60ac206141e8f0c05c0bcc4084278598"
@@ -861,8 +866,8 @@
     },
     {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/VoxeliaGeometry.md",
-      "size": 1124,
-      "sha256": "a42ecef7e2b4f27d1f711b7475c6667b69e201eae98340b5419fb8169a2c8db5"
+      "size": 1407,
+      "sha256": "3bb3e756c9ca0ea15ff4341feb76c37fe12154597ba6fc6f95dc194b5fb533af"
     },
     {
       "path": "Sources/VoxeliaImaging/ApplePlatformGate.swift",
@@ -1893,6 +1898,11 @@
       "path": "Tests/VoxeliaGeometryTests/GeometryTaxonomyTests.swift",
       "size": 11622,
       "sha256": "82d0cbdf8a5111b09b1c2c207b77c446cda088a7faef0a8dce73c995005fd2bd"
+    },
+    {
+      "path": "Tests/VoxeliaGeometryTests/LabelledSurfaceExtractionTests.swift",
+      "size": 38475,
+      "sha256": "1963e4d2591ea280b8714b0c733fb907f0bf3f7a99c6b85628fecc5e3f3c3209"
     },
     {
       "path": "Tests/VoxeliaGeometryTests/ScalarSurfaceExtractionTests.swift",
@@ -3826,8 +3836,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 747640,
-      "sha256": "ecfa388c50e8732cf52bff8d3e5d08e00fbf2967f810c472fe7bff7a086820fa"
+      "size": 752012,
+      "sha256": "0b1cfd6c90e333f28dbdad24c5a2347b7480e38fb50a2541d56491a85c6e86a4"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4206,8 +4216,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 45903,
-      "sha256": "ccd56fdaa6e38bafbea25be902064933ee7b76b484f5547b7069c398f9829690"
+      "size": 46030,
+      "sha256": "1118f69eb36c6aa9e592e57438e3667115f2b3197c6c1bb94e7fb2f20053afe7"
     }
   ]
 }

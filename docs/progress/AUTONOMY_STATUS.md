@@ -5173,6 +5173,75 @@ oracle campaigns.
   manifest/integrity verification passed with 842 manifest paths, 841 inventory
   records and 842 checksums.
 
+- One-hundred-ninety-fourth autonomous increment (scheduled goal
+  continuation): completed `ADR-0192` migration step one without adding a CPU
+  read, numerical kernel, public operation or registry entry. Geometry now owns
+  the five immutable `Sendable` declaration/publication values
+  `LabelledSurfaceLabelSet`, `LabelledSurfaceExtractionLimits`,
+  `LabelledSurfaceExtractionRequest`,
+  `LabelledSurfaceExtractionPublicationContext` and
+  `LabelledSurfaceExtractionResult`, plus the exact eight-case payload-free
+  `LabelledSurfaceExtractionError`. The unadmitted request preserves complete
+  signed or unsigned 64-bit label identity and caller limits; publication
+  revalidates a nonempty, strictly increasing, unique set, its hard cardinality
+  ceiling, exact affine coordinate-space binding and the complete scalar-style
+  identity/provenance correspondence before exposing a result.
+
+  The six-entry technical parameter document contains the algorithm, integer
+  domain, exact selected-label array, membership, adjacency and boundary
+  declarations. Independent canonical reconstruction pins signed `[-9, 4, 71]`
+  to
+  `79d1e815a2b2146e24de98a35b1e25d7091a7c19ee7fe7a20331e81ad713d350`.
+  The worst-case 65,536-element unsigned declaration is exactly 2,819,178
+  canonical bytes, below the frozen 4,194,304-byte ceiling. A one-past-bound
+  declaration fails before allocation of metadata values; after independent
+  review the implementation was tightened so the constant-time nonempty and
+  hard-count checks precede every ordering scan. Combined oversized/unordered
+  regressions now pin both the `resourceLimitExceeded` parameter classification
+  and payload-free `publicationFailed` result mapping.
+
+  Five focused tests cover immutable construction and detached `Sendable`
+  transfer, signed/unsigned extrema, exact schema/digest separation, the maximum
+  document proof, every constructible result-binding adversary, missing affine
+  geometry, privacy and closed request failures. The initial red run revealed
+  only two deliberately provisional goldens (the digest and maximum byte count)
+  and one structurally invalid missing-derivation fixture; the independently
+  reconstructed values and a Core-admissible fixture corrected those test-only
+  issues without changing the frozen product semantics. The final focused run
+  passed 5 tests, and the owning Geometry run passed 40 tests across six suites:
+
+  ```bash
+  swift test --filter LabelledSurfaceExtractionTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter 'VoxeliaGeometryTests\.' \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  ```
+
+  Strict debug/release builds of Geometry and its direct dependants passed, the
+  generated public symbol graph exposed only the intended labelled-surface
+  surface and no private parameter helper, and the complete semantic Swift
+  safety gate built every repository package in debug and release with no
+  compiler-classified unsafe Swift or unchecked-`Sendable` exception. Strict
+  formatting, the raw safety scan, prohibited-import check, documentation
+  validation, the 486-record requirement-index check and `git diff --check`
+  passed. Documentation validation covered seven front-matter documents, all
+  172 ADRs, two primary and one companion Draft RFC and 281 Markdown files.
+  The complete repository test suite, package-wide DocC archive, Apple
+  destination matrix, unavailable visionOS SDK and external device/fuzz
+  evidence were intentionally not rerun and are not promoted as new evidence.
+
+  The authorised independent reviewer initially found the unbounded
+  count-after-order scan and two result-guard evidence gaps. The cardinality
+  precedence and regressions were corrected, nil source geometry gained an
+  isolated adversary, and review confirmed that Core's `DataIdentity` invariant
+  makes a claim-free missing-derivation identity unconstructible: every admitted
+  such state necessarily fails the immediately preceding content/source guard.
+  Their second pass reproduced the focused strict gates and issued approval
+  with no remaining API, numerical, memory, concurrency, privacy, provenance or
+  validation finding. Release-integrity regeneration and final manifest/
+  integrity verification passed with 844 manifest paths, 843 inventory records
+  and 844 checksums.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11002,11 +11071,13 @@ are complete. Accepted `ADR-0192` and `VOXELIA-ALG-0029` now freeze the
 separate exact integer label-set union, selected/unselected adjacency,
 midpoint/topology/winding, closed source and failure boundary, limits,
 cancellation, publication identity and exhaustive categorical oracle. The
-exact next action is `ADR-0192` migration step one: add only the five immutable
-Geometry declaration/publication values and payload-free error family, prove
-the 65,536-label maximum parameter document fits its 4,194,304-byte ceiling,
-and add focused construction, digest, binding, privacy and `Sendable` evidence
-before any CPU source adapter, kernel, public operation or registration.
+five immutable Geometry declaration/publication values, payload-free error
+family, exact parameter digest, maximum-document proof and complete structural
+binding are now implemented and independently approved. The exact next action
+is `ADR-0192` migration step two: add only the internal exact integer source
+adapter and labelled Freudenthal kernel with exhaustive differential, limit and
+cancellation evidence before any public CPU operation, atomic publication or
+registration.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -11020,14 +11091,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform only `ADR-0192` migration step one next. Add the immutable Geometry
-  limits, signed/unsigned label set, request, publication context, validated
-  result and eight-case payload-free error family with complete public API
-  documentation. Prove the maximum canonical parameter document bound and add
-  focused construction, exact schema/digest, complete result-binding, privacy
-  and strict-concurrency transfer tests. Do not add a CPU source adapter,
-  numerical kernel, public CPU operation, registration, normals, measurement,
-  rendering or acceleration in that increment.
+- Perform only `ADR-0192` migration step two next. Add the internal CPU exact
+  integer source adapter and labelled Freudenthal kernel with one-read ownership,
+  all eight integer widths/orders/extrema, exact signedness and transform
+  admission, checked sizes/limits, frozen cancellation cadence and exhaustive
+  independent-oracle differential evidence. Do not add the public CPU
+  operation, atomic publication, registration, normals, measurement, rendering
+  or acceleration in that increment.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
