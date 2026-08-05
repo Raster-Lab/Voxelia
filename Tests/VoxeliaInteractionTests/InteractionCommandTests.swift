@@ -166,5 +166,137 @@ struct InteractionCommandTests {
         } catch InteractionError.coordinateSpaceMismatch {}
     }
 
+    private func measurementGeometry(spatial: [Double]) throws -> AffineGridGeometry {
+        var elements = [Double](repeating: 0, count: 16)
+        for row in 0...2 {
+            for column in 0...2 {
+                elements[4 * row + column] = spatial[3 * row + column]
+            }
+        }
+        elements[15] = 1
+        return try AffineGridGeometry(
+            spatialAxes: try SpatialAxisMapping(imageAxes: [0, 1, 2]),
+            indexToWorld: try Matrix4x4Double(elements: elements),
+            coordinateSpace: try CoordinateSpaceDescriptor(
+                id: try #require(CoordinateSpaceID(rawValue: "patient")),
+                convention: .dicomPatientLPS,
+                handedness: .unspecified,
+                unit: try MeasurementUnit(
+                    namespace: "UCUM",
+                    code: "mm",
+                    dimension: .length
+                ),
+                externalReferences: []
+            )
+        )
+    }
+
+    @Test("[Unit][VOX-SPA-014][VOX-INT-009] polygon areas reproduce the frozen fixtures")
+    func polygonAreasReproduceTheFrozenFixtures() throws {
+        // The five VOXELIA-ALG-0018 fixtures: exact planar areas, the
+        // rational-shoelace-checked pentagon, the declared non-planar
+        // vector-area magnitude, and the degenerate zero — with the
+        // exact input vertices preserved and repetition bit-identical.
+        let triangle = try PolygonAreaMeasurement(vertices: [
+            try point(0, 0, 0), try point(2, 0, 0), try point(0, 2, 0),
+        ])
+        #expect(triangle.derivedArea == 2)
+        #expect(triangle.vertices.count == 3)
+        let square = try PolygonAreaMeasurement(vertices: [
+            try point(1, 1, 1), try point(3, 1, 1),
+            try point(3, 3, 1), try point(1, 3, 1),
+        ])
+        #expect(square.derivedArea == 4)
+        let pentagon = try PolygonAreaMeasurement(vertices: [
+            try point(10, 10, 2), try point(14, 10, 2), try point(15, 13, 2),
+            try point(12, 15, 2), try point(9, 13, 2),
+        ])
+        #expect(pentagon.derivedArea == 21)
+        let skew = try PolygonAreaMeasurement(vertices: [
+            try point(0, 0, 0), try point(2, 0, 0),
+            try point(2, 2, 2), try point(0, 2, 0),
+        ])
+        #expect(skew.derivedArea == 4.898979485566356)
+        let collinear = try PolygonAreaMeasurement(vertices: [
+            try point(0, 0, 0), try point(1, 1, 1), try point(2, 2, 2),
+        ])
+        #expect(collinear.derivedArea == 0)
+        let repeated = try PolygonAreaMeasurement(vertices: skew.vertices)
+        #expect(repeated == skew)
+        #expect(repeated.derivedArea.bitPattern == skew.derivedArea.bitPattern)
+    }
+
+    @Test("[Unit][VOX-SPA-014][VOX-INT-009] voxel volumes reproduce the frozen fixtures")
+    func voxelVolumesReproduceTheFrozenFixtures() throws {
+        // The five VOXELIA-ALG-0019 fixtures against the accepted
+        // determinant authority, with the calibration and count
+        // preserved and repetition bit-identical.
+        let identity = try measurementGeometry(
+            spatial: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+        )
+        let seven = try VoxelVolumeMeasurement(geometry: identity, voxelCount: 7)
+        #expect(seven.derivedVolume == 7)
+        #expect(seven.cellVolume == 1)
+        let diagonal = try measurementGeometry(
+            spatial: [2, 0, 0, 0, 4, 0, 0, 0, 5]
+        )
+        #expect(
+            try VoxelVolumeMeasurement(geometry: diagonal, voxelCount: 3)
+                .derivedVolume == 120
+        )
+        let rotationScale = try measurementGeometry(
+            spatial: [0, -2, 0, 2, 0, 0, 0, 0, 1]
+        )
+        #expect(
+            try VoxelVolumeMeasurement(geometry: rotationScale, voxelCount: 10)
+                .derivedVolume == 40
+        )
+        let symmetric = try measurementGeometry(
+            spatial: [4, 1, 0, 1, 5, 2, 0, 2, 6]
+        )
+        #expect(
+            try VoxelVolumeMeasurement(geometry: symmetric, voxelCount: 2)
+                .derivedVolume == 196
+        )
+        let zero = try VoxelVolumeMeasurement(geometry: symmetric, voxelCount: 0)
+        #expect(zero.derivedVolume == 0)
+        #expect(zero.derivedVolume.sign == .plus)
+        let repeated = try VoxelVolumeMeasurement(geometry: symmetric, voxelCount: 2)
+        #expect(
+            repeated
+                == (try VoxelVolumeMeasurement(geometry: symmetric, voxelCount: 2))
+        )
+    }
+
+    @Test("[Unit][VOX-SPA-014][VOX-ERR-001] measurement admissions reject typed")
+    func measurementAdmissionsRejectTyped() throws {
+        // Too few vertices, a mixed-space cycle, a negative count and
+        // an over-bound count each carry their own case.
+        #expect(throws: InteractionError.insufficientVertices) {
+            try PolygonAreaMeasurement(vertices: [
+                try self.point(0, 0, 0), try self.point(1, 0, 0),
+            ])
+        }
+        #expect(throws: InteractionError.coordinateSpaceMismatch) {
+            try PolygonAreaMeasurement(vertices: [
+                try self.point(0, 0, 0),
+                try self.point(1, 0, 0),
+                try self.point(0, 1, 0, space: "detector"),
+            ])
+        }
+        let geometry = try measurementGeometry(
+            spatial: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+        )
+        #expect(throws: InteractionError.invalidVoxelCount) {
+            try VoxelVolumeMeasurement(geometry: geometry, voxelCount: -1)
+        }
+        #expect(throws: InteractionError.invalidVoxelCount) {
+            try VoxelVolumeMeasurement(
+                geometry: geometry,
+                voxelCount: VoxelVolumeMeasurement.maximumVoxelCount + 1
+            )
+        }
+    }
+
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
 }

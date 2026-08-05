@@ -25,6 +25,8 @@ public enum InteractionError: Error, Sendable, Equatable {
     case viewportAxisNotMapped
     case crosshairOutsideViewport
     case presentationMembershipMismatch
+    case insufficientVertices
+    case invalidVoxelCount
 }
 
 /// One validated pan delta per `ADR-0111`, in viewport-relative units.
@@ -214,6 +216,95 @@ public struct AngleMeasurement: Sendable, Hashable {
         self.vertex = vertex
         self.secondRayPoint = secondRayPoint
         self.derivedRadians = acos(cosine)
+    }
+}
+
+/// One planar polygon area measurement per `ADR-0144`
+/// (`VOX-SPA-014`).
+///
+/// The exact ordered vertices are preserved — one shared coordinate
+/// space — beside the derived value, computed once at construction
+/// under the registered `VOXELIA-ALG-0018` model. The measured
+/// quantity is the declared vector-area magnitude of the
+/// first-vertex-anchored fan: exactly the enclosed area for planar
+/// simple polygons, the algebraic magnitude otherwise, with no
+/// epsilon planarity test. A degenerate cycle measures exactly zero
+/// rather than erroring.
+public struct PolygonAreaMeasurement: Sendable, Hashable {
+    public let vertices: [Point3D]
+    public let derivedArea: Double
+
+    /// Creates a validated measurement with its derived area.
+    ///
+    /// - Throws: ``InteractionError/insufficientVertices`` or
+    ///   ``InteractionError/coordinateSpaceMismatch``.
+    public init(vertices: [Point3D]) throws {
+        guard vertices.count >= 3 else {
+            throw InteractionError.insufficientVertices
+        }
+        let space = vertices[0].coordinateSpace
+        guard vertices.allSatisfy({ $0.coordinateSpace == space }) else {
+            throw InteractionError.coordinateSpaceMismatch
+        }
+        self.vertices = vertices
+        // The frozen VOXELIA-ALG-0018 evaluation: first-vertex
+        // anchoring, the fan of cross products accumulated
+        // componentwise left to right, the accepted norm form, no
+        // fused multiply-add.
+        let anchor = vertices[0]
+        let relative = vertices.dropFirst().map { vertex in
+            (x: vertex.x - anchor.x, y: vertex.y - anchor.y, z: vertex.z - anchor.z)
+        }
+        var sumX = 0.0
+        var sumY = 0.0
+        var sumZ = 0.0
+        for index in 0..<(relative.count - 1) {
+            let p = relative[index]
+            let q = relative[index + 1]
+            sumX += (p.y * q.z) - (p.z * q.y)
+            sumY += (p.z * q.x) - (p.x * q.z)
+            sumZ += (p.x * q.y) - (p.y * q.x)
+        }
+        let norm = (((sumX * sumX) + (sumY * sumY)) + (sumZ * sumZ)).squareRoot()
+        derivedArea = 0.5 * norm
+    }
+}
+
+/// One calibrated voxel volume measurement per `ADR-0144`
+/// (`VOX-SPA-014`).
+///
+/// The exact calibration and count are preserved beside the derived
+/// value, computed once at construction under the registered
+/// `VOXELIA-ALG-0019` model: the typed count bound guarantees an
+/// exact binary64 conversion, and the cell volume is the magnitude
+/// of the accepted `VOXELIA-ALG-0016` determinant authority's value,
+/// never re-derived.
+public struct VoxelVolumeMeasurement: Sendable, Hashable {
+    /// The inclusive count ceiling guaranteeing exact conversion.
+    public static let maximumVoxelCount = 1 << 53
+
+    public let geometry: AffineGridGeometry
+    public let voxelCount: Int
+    public let cellVolume: Double
+    public let derivedVolume: Double
+
+    /// Creates a validated measurement with its derived volume.
+    ///
+    /// - Throws: ``InteractionError/invalidVoxelCount``, or the
+    ///   spatial inverse admission — unreachable for a validated
+    ///   geometry, whose own admission computes the identical frozen
+    ///   determinant.
+    public init(geometry: AffineGridGeometry, voxelCount: Int) throws {
+        guard voxelCount >= 0, voxelCount <= Self.maximumVoxelCount else {
+            throw InteractionError.invalidVoxelCount
+        }
+        let inverse = try AffineSpatialInverse(
+            spatialPartOf: geometry.indexToWorld
+        )
+        self.geometry = geometry
+        self.voxelCount = voxelCount
+        cellVolume = inverse.determinant.magnitude
+        derivedVolume = Double(voxelCount) * cellVolume
     }
 }
 

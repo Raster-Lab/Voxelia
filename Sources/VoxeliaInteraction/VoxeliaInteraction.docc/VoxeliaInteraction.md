@@ -25,6 +25,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``CrosshairState``
 - ``MeasurementConstruction``
 - ``AngleMeasurement``
+- ``PolygonAreaMeasurement``
+- ``VoxelVolumeMeasurement``
 - ``InteractionError``
 - ``SyncedViewport``
 - ``ViewportSyncGroup``

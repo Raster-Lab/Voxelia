@@ -2760,6 +2760,25 @@ oracle campaigns.
   shoelace and the non-planar quadrilateral pinning two root six.
   Implementation follows in the interaction module as its own
   increment.
+- One-hundred-fourteenth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0144`, completing
+  `VOX-SPA-014` at the model level across all four measures. The
+  polygon area value preserves its ordered vertices in one shared
+  space beside the derived vector-area magnitude computed once under
+  the frozen anchored-fan sequence; the voxel volume value preserves
+  the whole validated calibration and the typed count — nonnegative,
+  bounded at two to the fifty-third so the binary64 conversion is
+  exact — beside the derived volume whose cell factor is read from
+  the accepted determinant authority, never re-derived. Two typed
+  cases joined the vocabulary: reusing the empty-measurement case
+  for a two-vertex cycle was rejected because a two-vertex cycle is
+  not empty, and one case for both rules would misreport which
+  fired. All ten frozen fixtures reproduce exactly — the pentagon
+  against its rational shoelace cross-check, the non-planar
+  quadrilateral at the frozen spelling of two root six — with
+  bit-identical repetition and all four admissions rejecting typed.
+  The remaining sweep-queue item is the diagnostics-and-logging
+  design.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
