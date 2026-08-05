@@ -46,7 +46,8 @@ struct MetalWindowLevelKernelTests {
         // one-display-level bound of ADR-0080, and a sub-one width
         // rejects typed.
         let kernel = try MetalWindowLevelKernel(
-            context: try MetalExecutionContext()
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
         )
         #expect(
             kernel.kernelReference.identifier.rawValue
@@ -80,7 +81,8 @@ struct MetalWindowLevelKernelTests {
         // one display level, repeated execution bit-identical, and the
         // exact-match count recorded as single-device evidence.
         let kernel = try MetalWindowLevelKernel(
-            context: try MetalExecutionContext()
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
         )
         let storedSamples = Array(UInt8(0)...UInt8(255))
         let windows: [(center: Double, width: Double)] = [
@@ -210,7 +212,8 @@ struct MetalWindowLevelKernelTests {
     @Test("[Unit][VOX-VAL-007][VOX-PLT-011] the sixteen-bit paths measure their differentials")
     func sixteenBitPathsMeasureTheirDifferentials() async throws {
         let kernel = try MetalWindowLevelKernel(
-            context: try MetalExecutionContext()
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
         )
 
         // Deterministic seeded-LCG corpora per ADR-0093: the uint8

@@ -125,7 +125,8 @@ struct MetalCompositeLayersOperationTests {
     @Test("[Integration][VOX-EXE-002][VOX-PLT-013] the device composite carries honest claims")
     func deviceCompositeCarriesHonestClaims() async throws {
         let kernel = try MetalCompositeKernel(
-            context: try MetalExecutionContext()
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
         )
         let first = try layer(bytes: Self.layerA, name: "series-a")
         let second = try layer(bytes: Self.layerB, name: "series-b")
@@ -197,7 +198,8 @@ struct MetalCompositeLayersOperationTests {
     @Test("[Integration][VOX-ERR-001] device composite admission rejects typed")
     func deviceCompositeAdmissionRejectsTyped() async throws {
         let kernel = try MetalCompositeKernel(
-            context: try MetalExecutionContext()
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
         )
         let first = try layer(bytes: Self.layerA, name: "series-a")
 

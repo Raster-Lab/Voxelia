@@ -16,19 +16,19 @@ struct MetalPipelineCacheTests {
         #expect(context.pipelineCache.libraryBuildCount == 0)
         #expect(context.pipelineCache.pipelineBuildCount == 0)
 
-        _ = try MetalWindowLevelKernel(context: context)
+        _ = try MetalWindowLevelKernel(context: context, telemetrySink: nil)
         #expect(context.pipelineCache.libraryBuildCount == 1)
         #expect(context.pipelineCache.pipelineBuildCount == 3)
 
-        _ = try MetalWindowLevelKernel(context: context)
+        _ = try MetalWindowLevelKernel(context: context, telemetrySink: nil)
         #expect(context.pipelineCache.libraryBuildCount == 1)
         #expect(context.pipelineCache.pipelineBuildCount == 3)
 
-        _ = try MetalCompositeKernel(context: context)
+        _ = try MetalCompositeKernel(context: context, telemetrySink: nil)
         #expect(context.pipelineCache.libraryBuildCount == 2)
         #expect(context.pipelineCache.pipelineBuildCount == 4)
 
-        _ = try MetalCompositeKernel(context: context)
+        _ = try MetalCompositeKernel(context: context, telemetrySink: nil)
         #expect(context.pipelineCache.libraryBuildCount == 2)
         #expect(context.pipelineCache.pipelineBuildCount == 4)
         print(
@@ -39,7 +39,7 @@ struct MetalPipelineCacheTests {
 
         // Distinct entry points hold distinct cached pipelines under
         // one library, and the cached kernels stay functional.
-        let kernel = try MetalWindowLevelKernel(context: context)
+        let kernel = try MetalWindowLevelKernel(context: context, telemetrySink: nil)
         let fixtureOutput = try kernel.mapSamples(Array(0..<12), center: 6, width: 8)
         #expect(fixtureOutput.count == 12)
 

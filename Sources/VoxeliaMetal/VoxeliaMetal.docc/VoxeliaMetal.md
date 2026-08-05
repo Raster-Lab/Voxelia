@@ -24,6 +24,7 @@ milestone specifications introduce its substantive public API incrementally.
 - ``MetalDeviceCapabilities``
 - ``MetalPipelineCache``
 - ``MetalPipelineCacheError``
+- ``MetalDispatchTelemetry``
 - ``MetalWindowLevelKernel``
 - ``MetalKernelError``
 - ``MetalResidencyManager``

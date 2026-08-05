@@ -32,7 +32,8 @@ struct MetalCompositeKernelTests {
                 == "6ed663f6d20d71091c5c704e11e1f7dc7c8cda955253c89770c782cecfd1f1c7"
         )
         let kernel = try MetalCompositeKernel(
-            context: try MetalExecutionContext()
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
         )
         #expect(
             kernel.kernelReference.identifier.rawValue
@@ -85,7 +86,8 @@ struct MetalCompositeKernelTests {
     @Test("[Unit][VOX-VAL-007][VOX-EXE-003] the composite differential measures the GPU model")
     func compositeDifferentialMeasuresTheGPUModel() throws {
         let kernel = try MetalCompositeKernel(
-            context: try MetalExecutionContext()
+            context: try MetalExecutionContext(),
+            telemetrySink: nil
         )
 
         // Deterministic seeded-LCG layer stacks per ADR-0096,

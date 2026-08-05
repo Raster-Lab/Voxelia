@@ -1915,6 +1915,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   compiled across four kernel constructions on one context, with the
   second constructions compiling nothing and distinct entry points
   holding distinct cached pipelines.
+- Seventy-fifth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0107` and delivered
+  `VOX-MTL-015` kernel dispatch telemetry for every currently
+  existing subject. Both kernel families take an explicit optional
+  host-owned `MetalTelemetrySink` — absence stated explicitly — and
+  invoke it after every completed dispatch with the kernel token,
+  entry point, sample count, and the platform's own measured GPU and
+  command-buffer latency seconds from the completed command buffer;
+  Voxelia values still mint no clock, and the host owns recording
+  policy. Upload time, frame time and residency-change telemetry
+  remain open with their reasons — no blit path, no frame
+  architecture and no runtime residency transitions exist, and
+  inventing numbers for absent subjects would be fabricated evidence.
+  The real-device test measured and printed roughly seven
+  microseconds of GPU time for the window dispatch and six for the
+  composite dispatch over the fixture, verified one value per
+  dispatch with exact counts and non-negative durations, and proved a
+  sinkless kernel dispatches unchanged.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

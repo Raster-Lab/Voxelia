@@ -84,8 +84,10 @@ public enum MetalRendererPlanner {
             // validated.
             guard
                 let context = try? MetalExecutionContext(),
-                let windowKernel = try? MetalWindowLevelKernel(context: context),
-                let compositeKernel = try? MetalCompositeKernel(context: context)
+                let windowKernel = try? MetalWindowLevelKernel(
+                    context: context, telemetrySink: nil),
+                let compositeKernel = try? MetalCompositeKernel(
+                    context: context, telemetrySink: nil)
             else {
                 return exactPlan()
             }

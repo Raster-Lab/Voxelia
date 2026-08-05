@@ -325,6 +325,7 @@ Tests/VoxeliaMetalTests/MetalPipelineCacheTests.swift
 Tests/VoxeliaMetalTests/MetalRendererPlannerTests.swift
 Tests/VoxeliaMetalTests/MetalResidencyManagerTests.swift
 Tests/VoxeliaMetalTests/MetalSliceRendererTests.swift
+Tests/VoxeliaMetalTests/MetalTelemetryTests.swift
 Tests/VoxeliaMetalTests/MetalWindowLevelKernelTests.swift
 Tests/VoxeliaMetalTests/PipelineArchivalTests.swift
 Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift
@@ -547,6 +548,7 @@ docs/architecture/decisions/ADR-0103-interactive-quality-equivalence.md
 docs/architecture/decisions/ADR-0104-backend-policy-planning.md
 docs/architecture/decisions/ADR-0105-device-capability-model.md
 docs/architecture/decisions/ADR-0106-pipeline-state-caching.md
+docs/architecture/decisions/ADR-0107-kernel-telemetry.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

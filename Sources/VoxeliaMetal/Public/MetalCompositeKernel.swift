@@ -46,14 +46,21 @@ public final class MetalCompositeKernel: @unchecked Sendable {
     public let kernelReference: ExecutionComponentReference
 
     let context: MetalExecutionContext
+    private let telemetrySink: MetalTelemetrySink?
     private let pipeline: any MTLComputePipelineState
 
     /// Acquires the compute pipeline through the context's `ADR-0106`
-    /// cache, compiling at most once per stable identity.
+    /// cache, compiling at most once per stable identity; the
+    /// `ADR-0107` telemetry sink is host-owned with absence stated
+    /// explicitly.
     ///
     /// - Throws: ``MetalCompositeKernelError``.
-    public init(context: MetalExecutionContext) throws {
+    public init(
+        context: MetalExecutionContext,
+        telemetrySink: MetalTelemetrySink?
+    ) throws {
         self.context = context
+        self.telemetrySink = telemetrySink
         do {
             self.pipeline = try context.pipelineCache.pipeline(
                 key: MetalPipelineCache.Key(
@@ -159,6 +166,18 @@ public final class MetalCompositeKernel: @unchecked Sendable {
         commandBuffer.waitUntilCompleted()
         guard commandBuffer.status == .completed else {
             throw MetalCompositeKernelError.executionFailed
+        }
+        if let telemetrySink {
+            telemetrySink(
+                MetalDispatchTelemetry(
+                    kernelToken: Self.kernelIdentifier,
+                    entryPoint: "voxelia_composite_layers",
+                    sampleCount: elementCount,
+                    gpuSeconds: commandBuffer.gpuEndTime - commandBuffer.gpuStartTime,
+                    commandBufferLatencySeconds: commandBuffer.gpuEndTime
+                        - commandBuffer.kernelStartTime
+                )
+            )
         }
 
         let output = outputBuffer.contents()

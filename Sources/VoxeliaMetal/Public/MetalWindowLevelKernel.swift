@@ -18,6 +18,36 @@ public enum MetalKernelError: Error, Sendable, Equatable {
     case invalidSampleByteCount
 }
 
+/// One measured dispatch telemetry value per `ADR-0107`.
+///
+/// The durations are the platform's own measured timestamps from the
+/// completed command buffer — Voxelia values mint no clock, and the
+/// host-owned sink owns recording policy.
+public struct MetalDispatchTelemetry: Sendable, Hashable {
+    public let kernelToken: String
+    public let entryPoint: String
+    public let sampleCount: Int
+    public let gpuSeconds: Double
+    public let commandBufferLatencySeconds: Double
+
+    init(
+        kernelToken: String,
+        entryPoint: String,
+        sampleCount: Int,
+        gpuSeconds: Double,
+        commandBufferLatencySeconds: Double
+    ) {
+        self.kernelToken = kernelToken
+        self.entryPoint = entryPoint
+        self.sampleCount = sampleCount
+        self.gpuSeconds = gpuSeconds
+        self.commandBufferLatencySeconds = commandBufferLatencySeconds
+    }
+}
+
+/// The host-owned telemetry sink per `ADR-0107`.
+public typealias MetalTelemetrySink = @Sendable (MetalDispatchTelemetry) -> Void
+
 /// The first Voxelia-owned Metal kernel per `ADR-0080`: the `float32`
 /// window-level approximation of the registered `VOXELIA-ALG-0002`
 /// binary64 model.
@@ -48,17 +78,23 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
     public let kernelReference: ExecutionComponentReference
 
     let context: MetalExecutionContext
+    private let telemetrySink: MetalTelemetrySink?
     private let uint8Pipeline: any MTLComputePipelineState
     private let int16Pipeline: any MTLComputePipelineState
     private let uint16Pipeline: any MTLComputePipelineState
 
     /// Acquires one compute pipeline per manifest entry point through
     /// the context's `ADR-0106` cache, compiling at most once per
-    /// stable identity.
+    /// stable identity; the `ADR-0107` telemetry sink is host-owned
+    /// with absence stated explicitly.
     ///
     /// - Throws: ``MetalKernelError``.
-    public init(context: MetalExecutionContext) throws {
+    public init(
+        context: MetalExecutionContext,
+        telemetrySink: MetalTelemetrySink?
+    ) throws {
         self.context = context
+        self.telemetrySink = telemetrySink
         func pipeline(_ name: String) throws -> any MTLComputePipelineState {
             do {
                 return try context.pipelineCache.pipeline(
@@ -118,16 +154,20 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
     ) throws -> [UInt8] {
         let pipeline: any MTLComputePipelineState
         let bytesPerSample: Int
+        let entryPoint: String
         switch scalarType {
         case .uint8:
             pipeline = uint8Pipeline
             bytesPerSample = 1
+            entryPoint = "voxelia_window_level_u8"
         case .int16:
             pipeline = int16Pipeline
             bytesPerSample = 2
+            entryPoint = "voxelia_window_level_i16"
         case .uint16:
             pipeline = uint16Pipeline
             bytesPerSample = 2
+            entryPoint = "voxelia_window_level_u16"
         default:
             throw MetalKernelError.unsupportedScalarType
         }
@@ -193,6 +233,18 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         commandBuffer.waitUntilCompleted()
         guard commandBuffer.status == .completed else {
             throw MetalKernelError.executionFailed
+        }
+        if let telemetrySink {
+            telemetrySink(
+                MetalDispatchTelemetry(
+                    kernelToken: Self.kernelIdentifier,
+                    entryPoint: entryPoint,
+                    sampleCount: sampleCount,
+                    gpuSeconds: commandBuffer.gpuEndTime - commandBuffer.gpuStartTime,
+                    commandBufferLatencySeconds: commandBuffer.gpuEndTime
+                        - commandBuffer.kernelStartTime
+                )
+            )
         }
 
         let output = outputBuffer.contents()

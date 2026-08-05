@@ -119,8 +119,8 @@ struct MetalSliceRendererTests {
     ) throws -> MetalSliceRenderer {
         let context = try MetalExecutionContext()
         return MetalSliceRenderer(
-            kernel: try MetalWindowLevelKernel(context: context),
-            compositeKernel: try MetalCompositeKernel(context: context),
+            kernel: try MetalWindowLevelKernel(context: context, telemetrySink: nil),
+            compositeKernel: try MetalCompositeKernel(context: context, telemetrySink: nil),
             publisher: publisher,
             readCoordinator: StorageReadCoordinator(
                 maximumRetainedResultByteCount: 96
