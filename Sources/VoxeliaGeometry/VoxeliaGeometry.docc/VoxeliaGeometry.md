@@ -6,8 +6,10 @@ Point, curve, mesh and geometry data models.
 
 Accepted geometry records provide the immutable canonical triangle-mesh
 payload and scalar/labelled-surface request/publication values used by the M6
-extraction arc. The labelled CPU reader and numerical kernel, stable geometry
-bytes and backend acceleration remain separate governed contracts.
+extraction arc. Geometry also owns the immutable deterministic vertex-normal
+request/publication values; their numerical CPU kernel remains a later
+governed migration step. Stable geometry bytes and backend acceleration remain
+separate contracts.
 
 ## Direct dependencies
 
@@ -47,6 +49,14 @@ bytes and backend acceleration remain separate governed contracts.
 - ``LabelledSurfaceExtractionPublicationContext``
 - ``LabelledSurfaceExtractionResult``
 - ``LabelledSurfaceExtractionError``
+
+### Vertex-normal operation
+
+- ``TriangleMeshVertexNormalGenerationLimits``
+- ``TriangleMeshVertexNormalGenerationRequest``
+- ``TriangleMeshVertexNormalGenerationPublicationContext``
+- ``TriangleMeshVertexNormalGenerationResult``
+- ``TriangleMeshVertexNormalGenerationError``
 
 ### Project documents
 

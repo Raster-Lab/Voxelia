@@ -5541,6 +5541,102 @@ oracle campaigns.
   git diff --check
   ```
 
+- One-hundred-ninety-eighth autonomous increment (scheduled goal
+  continuation): completed `ADR-0193` migration step one by adding the four
+  immutable Geometry declaration/publication values and the closed payload-
+  free error family without adding the CPU kernel or a public execution entry
+  point. `TriangleMeshVertexNormalGenerationRequest` retains one immutable
+  source mesh, structurally corresponding `DataIdentity` and
+  `ProvenanceRecord` claims and four explicit unadmitted host ceilings. Its
+  nonthrowing construction deliberately preserves zero limits and mismatched
+  claims so the later asynchronous operation can maintain cancellation-first
+  admission precedence. The API explicitly disclaims cryptographic mesh-byte
+  binding until a canonical mesh projection exists.
+
+  The fixed eight-entry technical VCMJ-1 parameter document is 1,631 bytes and
+  independently reproduces operation-parameters digest
+  `47ec10650da98d295f3f696caadbc1911f32214bbc8d28ec582120934182592f`
+  under the standard 65,536-byte ceiling. Limits, source claims, cancellation,
+  publication authority and software remain excluded. The public symbol graph
+  exposes only the five intended normal-generation types and their public
+  members; the parameter document/digest helpers remain internal.
+
+  Result construction now proves source-claim correspondence, output
+  authority, nil mesh content identity, empty top-level source identities,
+  exact operation/version/parameter claims, corresponding implementation
+  claims, and the single `source-mesh` derivation/provenance input with
+  occurrence one and exact source parent. It additionally proves the full
+  coordinate descriptor, every source position bit including signed zero,
+  topology, checked source-plus-one attribute cardinality, byte-exact ordered
+  source attributes with exact UTF-8 generic/component-name comparison, and
+  one final 24-byte-per-vertex normal attribute with the frozen descriptor.
+  The backend-neutral binder neither fixes the future CPU implementation or
+  execution claims nor authenticates the numerical normal bytes.
+
+  Seven focused tests cover unadmitted construction, payload-free error cases,
+  detached `Sendable` transfer, independent parameter reconstruction and
+  digest golden, every identity/provenance claim crossing including zero/two
+  input counts, a corresponding alternate implementation/backend positive
+  case, signed-zero/position/space/topology preservation, dropped/reordered/
+  modified/extended source attributes, NFC/NFD traps for semantic,
+  interpretation and component names, every final normal-descriptor field,
+  missing/non-final/extra attributes, and the deliberately structural-only
+  normal-byte boundary. A fresh isolated root-package compilation with
+  `-strict-memory-safety` and `-warnings-as-errors` passed before all seven
+  tests passed. Focused Geometry, direct Rendering/CPU dependant and umbrella
+  debug builds also passed. Swift-format strict lint, the fail-closed safety
+  inventory, prohibited-import scan, dynamic and static package graphs,
+  documentation validation, the 486-record requirement index, manifest
+  preflight and `git diff --check` passed. Release-integrity regeneration and
+  verification passed with 856 manifest paths, 855 inventory records and 856
+  checksums.
+
+  Repository-wide and nominal Geometry-scheme DocC builds were attempted but
+  both stop before Geometry documentation at the pre-existing ambiguous
+  `VoxeliaSpatial.AxisAlignedBounds3D.intersection(with:)` link; this increment
+  neither caused nor conceals that separate documentation defect. Release-mode
+  compilation, the repository-wide semantic safety gate across the auxiliary
+  packages, complete test suite, unavailable visionOS destination and external
+  device/fuzz evidence were not rerun or promoted. Independent review
+  reproduced the parameter document/digest, inspected the public symbol graph,
+  reran the focused/static gates and approved the API, exact binding,
+  concurrency, privacy, backend neutrality and coverage with no finding.
+
+  ```bash
+  swift test --filter TriangleMeshVertexNormalGenerationTests
+  swift build --target VoxeliaGeometry
+  swift build --target VoxeliaRendering
+  swift build --target VoxeliaCPU
+  swift build --target Voxelia
+  python3 Tools/Scripts/check_swift_safety.py
+  python3 Tools/Scripts/check_prohibited_imports.py
+  python3 Tools/Scripts/check_package_graph.py
+  python3 Tools/Scripts/check_package_graph_static.py
+  swift package dump-symbol-graph --minimum-access-level public
+  jq -r '.symbols[].pathComponents[0]' \
+    .build/arm64-apple-macosx/symbolgraph/VoxeliaGeometry.symbols.json
+  Tools/Scripts/build-docc.sh
+  VOX_DOCC_DIR=$(mktemp -d -t voxelia-geometry-docc.XXXXXX)
+  xcodebuild -quiet docbuild -scheme VoxeliaGeometry \
+    -destination 'generic/platform=macOS' \
+    -derivedDataPath "$VOX_DOCC_DIR" ARCHS=arm64 ONLY_ACTIVE_ARCH=YES \
+    OTHER_DOCC_FLAGS='--warnings-as-errors'
+  VOX_NORMAL_BUILD=$(mktemp -d -t voxelia-normal-step1.XXXXXX)
+  swift test --scratch-path "$VOX_NORMAL_BUILD" \
+    --filter TriangleMeshVertexNormalGenerationTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift format lint --strict \
+    Sources/VoxeliaGeometry/Public/TriangleMeshVertexNormalGeneration.swift \
+    Tests/VoxeliaGeometryTests/TriangleMeshVertexNormalGenerationTests.swift
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  python3 Tools/Scripts/check_manifest_paths.py
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  python3 Tools/Scripts/check_manifest_paths.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11384,11 +11480,17 @@ freeze deterministic triangle-area-weighted vertex normal generation,
 including ordered binary64 arithmetic, degeneracy and failure semantics,
 maximum-component normalization, resource limits, cancellation, provenance and
 independent analytical fixtures. The exact next action is `ADR-0193` migration
-step one: add the four immutable Geometry declaration/publication values and
-closed payload-free error family, with exact parameter-digest, structural
-result-binding, source-preservation, privacy and `Sendable` regression
-evidence. Do not add the internal CPU kernel, public operation entry point,
-measurement, rendering or acceleration in that increment.
+step two. Migration step one now implements the four immutable Geometry
+declaration/publication values and closed payload-free error family with exact
+parameter-digest, structural result-binding, source-preservation, privacy,
+backend-neutrality and `Sendable` regression evidence. Step two must add only
+the internal stateless CPU serial reference kernel: fixed cancellation-first
+admission, count and checked 48-byte-per-vertex limits, cancellable existing-
+normal/triangle/vertex scans, every separated binary64 operation and the exact
+descriptor/serialization from `ALG-0030`, with all twelve analytical fixtures,
+resource boundaries, failure precedence, repeat determinism and cancellation
+cadences. Do not add the public operation/identity/provenance assembly,
+registry entry, measurement, rendering or acceleration in that increment.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -11402,15 +11504,16 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform only `ADR-0193` migration step one next. Add the four immutable
-  Geometry declaration/publication values and closed payload-free error family;
-  cover exact construction and validation precedence, the registered
-  parameter document and digest, every structural result-binding adversary,
-  exact source preservation, privacy-safe diagnostics and compile-time
-  `Sendable` evidence. Compile the owning Geometry target and run only its
-  focused tests plus direct affected dependants required by a new public API.
-  Do not add the internal CPU kernel, public operation entry point,
-  measurement, rendering or acceleration in that increment.
+- Perform only `ADR-0193` migration step two next. Add the internal stateless
+  CPU serial normal-generation kernel with cancellation-first admission,
+  positive/count/checked-byte limits, cancellable attribute/triangle/vertex
+  traversals and exact `ALG-0030` arithmetic/serialization. Reproduce all
+  twelve independent analytical fixtures bit-for-bit or by exact payload-free
+  failure, both checked byte boundaries, zero/existing-normal/source-claim
+  precedence, every cancellation cadence and repeat determinism. Compile CPU
+  and run only the focused kernel/direct Geometry evidence. Do not add the
+  public operation, identity/provenance assembly, registry entry, measurement,
+  rendering or acceleration in that increment.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

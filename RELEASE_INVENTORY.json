@@ -870,19 +870,24 @@
       "sha256": "3196ee0381f2e4f320969cb101865cce090d71148604d8be949613ad80d603a0"
     },
     {
+      "path": "Sources/VoxeliaGeometry/Public/TriangleMeshVertexNormalGeneration.swift",
+      "size": 21427,
+      "sha256": "1359748010ba684a6484d2ec8bfb8397e99617516eedb78027c461e8eff9fc5b"
+    },
+    {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/Architecture.md",
       "size": 966,
       "sha256": "5a5e05a795fef3a1fc7a4f69f760b166a63b5fc140b6d907638c532169167891"
     },
     {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/Requirements.md",
-      "size": 765,
-      "sha256": "4500d4e0917ac4d397533934fa0357b72a32eaa35bea0b4cddbcc7c9ed0d9f71"
+      "size": 812,
+      "sha256": "bf342f97cf051036aeb7f0eb61f95a2ba61bb8cfd9cf069981937407290c72f0"
     },
     {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/VoxeliaGeometry.md",
-      "size": 1407,
-      "sha256": "3bb3e756c9ca0ea15ff4341feb76c37fe12154597ba6fc6f95dc194b5fb533af"
+      "size": 1786,
+      "sha256": "bd985c7be54912134eaba932fc97055be81ea1282fa18e82d390d72a3cdb1f05"
     },
     {
       "path": "Sources/VoxeliaImaging/ApplePlatformGate.swift",
@@ -1953,6 +1958,11 @@
       "path": "Tests/VoxeliaGeometryTests/TriangleMeshTopologyTests.swift",
       "size": 4000,
       "sha256": "af406de692796f51468420453032c6c21f8b3a71bd0fcd49cc7ce3384661af0a"
+    },
+    {
+      "path": "Tests/VoxeliaGeometryTests/TriangleMeshVertexNormalGenerationTests.swift",
+      "size": 49610,
+      "sha256": "06dfc57306de6b0fc97e2183773cb18b41c8952067f239fc23b06dbd98a636af"
     },
     {
       "path": "Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift",
@@ -3881,8 +3891,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 770840,
-      "sha256": "4c4adc68455600dd5e6b9482fe7d08b761c22dd2ce8c9c1d001114b740b8ff6c"
+      "size": 777115,
+      "sha256": "5f4322e32f1ad31418442dca02d6669148608f08e827b44ae4d852d78d21816e"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4266,8 +4276,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 46724,
-      "sha256": "0be59673bf96982d819aec6e2b98ca39af58a782c4de94436ae8cd7b579f3ffe"
+      "size": 46869,
+      "sha256": "73d3dd84f5aeccfa6a6cb3c4774e199f8bb6f915d7df9148ccefdc82cdaf6c58"
     }
   ]
 }
