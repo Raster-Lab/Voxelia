@@ -3376,8 +3376,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 607593,
-      "sha256": "305be72713d68ee33134cb33f7789bcf143fdd2753ae3293268399a7f165e6db"
+      "size": 609171,
+      "sha256": "19ff7b27b054e9bffd38a53a887e551f22a353334b8ed56eeba3820ab12d3b75"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",

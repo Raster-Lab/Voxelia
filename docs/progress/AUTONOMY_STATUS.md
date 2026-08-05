@@ -3073,6 +3073,30 @@ oracle campaigns.
   against the contiguous provider over the boundary-bricks-on-every-
   axis layout for all four obligated regions and rejects every typed
   construction case.
+- One-hundred-twenty-eighth autonomous increment (owner broadened
+  standing mandate): the queue re-derivation sweep — the recorded-debt
+  scan across the accepted register beside the milestone table. Most
+  recorded debts are already closed by later records and the scan
+  names them: the derivation-ingress debt closed by the ingress
+  codec, the renderer-conformer debt by the exact renderer, the
+  multi-layer and display-policy lifts by the compositing and policy
+  records, the padded device path by its closing record, and the
+  inverse-consumer and oblique-implementation debts by their
+  consuming records. Still recorded and deliberately not actionable:
+  the leap-aware time-scale revision, which has no consumer; the
+  storage arc's gated later steps, per their own record; and the
+  oblique sampler's padding-sentinel revision, which waits on the
+  same adapter gate as the renderer's padding wiring. The milestones
+  ahead — diagnostic three-dimensional visualisation at forty-six
+  rows, then advanced processing — open under the sweep precedent
+  when reached. The derived executable queue, in dependency order:
+  first the bricked-backed image aggregate, widening image-data
+  admission to the decoded composite representation so bricked
+  volumes become first-class images flowing through the operation
+  pipeline; second the broker's whole-computation abandonment
+  refinement, the recorded interest-counted cancellation; third the
+  planner's registry consultation, the revision path the
+  registration record reserved; then the M6 opening assessment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
