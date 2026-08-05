@@ -3195,9 +3195,14 @@
       "sha256": "d5f226acb2c9f4b3cf2a9590f4610fd0d03b6a26655b523283649a62a1ff7eb9"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0147-brick-vocabulary-design.md",
+      "size": 4451,
+      "sha256": "2f2a5dfa1a58f4bbec7b27f3281bad2d7613ab1c91839cd7d1f0668fcd370639"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 21752,
-      "sha256": "e11c7b8cecb28e6bcbf71d0b925938096ed93832791dc1b6aac6f793aec54e1b"
+      "size": 21897,
+      "sha256": "a18bf7879de4d87d5509d1bd53f350cc5d0006520995239e381256417e916e8d"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3281,8 +3286,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 594418,
-      "sha256": "3f11a19f4169c6fec9351eb6ad9504f0ea92ac42a770e347b36a427465db50d1"
+      "size": 595720,
+      "sha256": "f0af0d984ffcc3791c75ffae9408145e014406df2495290de05d97be3b339fe9"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3641,8 +3646,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 38883,
-      "sha256": "c0fa3b719ec126f667befafa31c4e295cf9876e12b8f22f3bb354791bb2f266c"
+      "size": 38947,
+      "sha256": "d7b4092f60d8751a0e53f7332abebeaaf9fc0f686e3bc0a97f9b65a334f18877"
     }
   ]
 }

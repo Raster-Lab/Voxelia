@@ -2869,6 +2869,26 @@ oracle campaigns.
   rule — pick resolution already identifies the layer and source
   index, and the storage contracts already give the typed bounded
   read.
+- One-hundred-eighteenth autonomous increment (owner broadened
+  standing mandate): authored and accepted `ADR-0147`, freezing the
+  bricked-volume vocabulary on paper — the M5 queue's first item
+  under the plan-first discipline. Three value models: the resolution
+  level with its per-axis factors, the grid descriptor as the one
+  layout authority whose brick dimensions are policy inputs and never
+  public-model constants, and the minimal brick identity from which
+  every region is derived rather than stored, so identity and layout
+  can never disagree. The derivations are frozen integer arithmetic —
+  ceiling-division counts, boundary bricks structural in the core
+  region's clamp, and a halo that clamps at the volume boundary
+  because replicating edge voxels into the halo would fabricate data
+  at the vocabulary level; a consumer needing replication must claim
+  it explicitly. Spatial relationships between levels are the
+  accepted rescale authority applied with the level's factors,
+  referenced never re-derived. Python-verified fixtures freeze the
+  hundred-by-sixty-four-by-thirty layout including the boundary
+  brick's smaller extents and both clamped haloed regions.
+  Implementation follows as its own increment; no consumer may embed
+  ad-hoc brick arithmetic meanwhile.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

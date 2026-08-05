@@ -126,8 +126,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0143` is allocated to the area and volume measurement design.
 `ADR-0144` is allocated to the area and volume measurements.
 `ADR-0145` is allocated to the diagnostics and logging assessment.
-`ADR-0146` is allocated to the padded device window. The next
-unallocated numeric identifier is `ADR-0147`.
+`ADR-0146` is allocated to the padded device window.
+`ADR-0147` is allocated to the brick vocabulary design. The next
+unallocated numeric identifier is `ADR-0148`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -257,3 +258,4 @@ unallocated numeric identifier is `ADR-0147`.
 | [ADR-0144](ADR-0144-area-volume-measurements.md) | Accepted | Area and volume measurements |
 | [ADR-0145](ADR-0145-diagnostics-assessment.md) | Accepted | Diagnostics and logging assessment |
 | [ADR-0146](ADR-0146-padded-device-window.md) | Accepted | Padded device window |
+| [ADR-0147](ADR-0147-brick-vocabulary-design.md) | Accepted | Brick vocabulary design |
