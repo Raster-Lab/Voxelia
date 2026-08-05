@@ -35,8 +35,13 @@ public actor BrickRequestBroker {
         let continuation: CheckedContinuation<ContiguousArray<UInt8>, any Error>
     }
 
+    private struct InFlightEntry {
+        var waiters: [UInt64: Waiter] = [:]
+        var computation: Task<Void, Never>?
+    }
+
     private var currentGeneration: UInt64 = 0
-    private var inFlight: [RequestKey: [UInt64: Waiter]] = [:]
+    private var inFlight: [RequestKey: InFlightEntry] = [:]
     private var nextWaiterID: UInt64 = 0
 
     /// The number of computations ever started; suite evidence that
@@ -63,11 +68,16 @@ public actor BrickRequestBroker {
         representation: ExecutionClaimToken
     ) -> Int {
         inFlight[RequestKey(identity: identity, representation: representation)]?
-            .count ?? 0
+            .waiters.count ?? 0
     }
 
     /// Resolves one brick request through the deduplicated in-flight
     /// table.
+    ///
+    /// The computation must support cooperative cancellation per
+    /// `ADR-0157`: when the last awaiter cancels, the computation
+    /// task is cancelled, and one that ignores cancellation still
+    /// completes harmlessly into the no-waiter path.
     ///
     /// - Throws: ``BrickRequestError/staleGeneration``,
     ///   `CancellationError` for a cancelled awaiter, or the
@@ -112,10 +122,16 @@ public actor BrickRequestBroker {
         continuation: CheckedContinuation<ContiguousArray<UInt8>, any Error>,
         compute: @escaping @Sendable () async throws -> ContiguousArray<UInt8>
     ) {
+        let waiter = Waiter(generation: generation, continuation: continuation)
         if inFlight[key] == nil {
-            inFlight[key] = [:]
+            var entry = InFlightEntry()
+            entry.waiters[waiterID] = waiter
+            inFlight[key] = entry
             startedComputationCount += 1
-            Task {
+            // Actor isolation guarantees the completion cannot
+            // interleave before this method returns, so storing the
+            // handle after starting the task is race-free.
+            let computation = Task {
                 let outcome: Result<ContiguousArray<UInt8>, any Error>
                 do {
                     outcome = .success(try await compute())
@@ -124,11 +140,10 @@ public actor BrickRequestBroker {
                 }
                 await self.complete(key: key, outcome: outcome)
             }
+            inFlight[key]?.computation = computation
+        } else {
+            inFlight[key]?.waiters[waiterID] = waiter
         }
-        inFlight[key]?[waiterID] = Waiter(
-            generation: generation,
-            continuation: continuation
-        )
     }
 
     /// Publishes one outcome: every current-generation waiter receives
@@ -138,10 +153,12 @@ public actor BrickRequestBroker {
         key: RequestKey,
         outcome: Result<ContiguousArray<UInt8>, any Error>
     ) {
-        guard let waiters = inFlight.removeValue(forKey: key) else {
+        // An abandoned computation's entry is already gone: the
+        // orphaned completion resumes nobody, per ADR-0157.
+        guard let entry = inFlight.removeValue(forKey: key) else {
             return
         }
-        for waiter in waiters.values {
+        for waiter in entry.waiters.values {
             guard waiter.generation == currentGeneration else {
                 waiter.continuation.resume(
                     throwing: BrickRequestError.staleGeneration
@@ -158,10 +175,22 @@ public actor BrickRequestBroker {
     }
 
     /// Removes and resumes exactly the cancelled waiter; the shared
-    /// computation continues for its followers.
+    /// computation continues for its followers, and when the last
+    /// awaiter cancels the entry is removed and the computation task
+    /// is cancelled — abandoned work stops promptly per ADR-0157,
+    /// and a fresh request afterwards starts a new computation.
     private func cancelWaiter(key: RequestKey, waiterID: UInt64) {
-        guard let waiter = inFlight[key]?.removeValue(forKey: waiterID) else {
+        guard
+            var entry = inFlight[key],
+            let waiter = entry.waiters.removeValue(forKey: waiterID)
+        else {
             return
+        }
+        if entry.waiters.isEmpty {
+            inFlight.removeValue(forKey: key)
+            entry.computation?.cancel()
+        } else {
+            inFlight[key] = entry
         }
         waiter.continuation.resume(throwing: CancellationError())
     }

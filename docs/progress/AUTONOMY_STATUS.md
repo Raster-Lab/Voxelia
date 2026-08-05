@@ -3115,6 +3115,26 @@ oracle campaigns.
   through the whole operation pipeline. The broker's
   interest-counted abandonment refinement follows as the next queue
   item.
+- One-hundred-thirtieth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0157`, the brick
+  request abandonment — the refinement the lifecycle design recorded
+  rather than behaved silently, and that design record now carries
+  the supersession note. The in-flight entry holds the computation
+  task beside its waiters; when the last awaiter cancels, the entry
+  is removed immediately and the task is cancelled, so abandoned
+  work stops promptly and a fresh request afterwards starts a new
+  computation rather than joining a cancelled one — keeping the
+  abandoned entry until the task observed cancellation was rejected
+  because a newcomer would receive a cancellation it never asked
+  for. The compute contract documents cooperative cancellation, and
+  a computation that ignores it completes harmlessly into the
+  no-waiter path through the guard that is now load-bearing. The
+  all-cancelled storm proves the computation observes its own
+  cancellation after the gate with the fresh-request restart
+  counted, while the partial-cancellation storm stays green
+  unchanged — followers still complete while any awaiter remains.
+  The planner's registry consultation follows as the next queue
+  item.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

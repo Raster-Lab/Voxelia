@@ -205,6 +205,73 @@ struct BrickRequestBrokerTests {
         #expect(await broker.startedComputationCount == 1)
     }
 
+    @Test("[Unit][VOX-BRK-006][VOX-PER-007] full abandonment cancels the computation")
+    func fullAbandonmentCancelsTheComputation() async throws {
+        // The ADR-0157 refinement: when every awaiter cancels, the
+        // computation task is cancelled and observes it after the
+        // gate, and a fresh request afterwards starts a new
+        // computation rather than joining the abandoned one.
+        actor CancellationProbe {
+            private(set) var observed: Bool?
+
+            func record(_ cancelled: Bool) {
+                observed = cancelled
+            }
+        }
+        let broker = BrickRequestBroker()
+        let gate = ComputationGate()
+        let probe = CancellationProbe()
+        let identity = try identity()
+        let decoded = try token("org.voxelia.representation.decoded-u8")
+        let generation = await broker.generation()
+        let tasks = (0..<64).map { _ in
+            Task {
+                try await broker.result(
+                    for: identity,
+                    representation: decoded,
+                    generation: generation
+                ) {
+                    await gate.wait()
+                    await probe.record(Task.isCancelled)
+                    return [8]
+                }
+            }
+        }
+        await awaitWaiters(
+            broker,
+            identity: identity,
+            representation: decoded,
+            count: 64
+        )
+        for task in tasks {
+            task.cancel()
+        }
+        var cancelledCount = 0
+        for task in tasks {
+            if case .failure(let error) = await task.result {
+                #expect(error is CancellationError)
+                cancelledCount += 1
+            }
+        }
+        #expect(cancelledCount == 64)
+        await gate.open()
+        while await probe.observed == nil {
+            await Task.yield()
+        }
+        #expect(await probe.observed == true)
+        #expect(await broker.startedComputationCount == 1)
+
+        let fresh = try await broker.result(
+            for: identity,
+            representation: decoded,
+            generation: generation
+        ) {
+            [9]
+        }
+        #expect(fresh == [9])
+        #expect(await broker.startedComputationCount == 2)
+    }
+
     @Test("[Unit][VOX-BRK-007] a failed computation propagates identically")
     func failedComputationPropagatesIdentically() async throws {
         // Followers must not receive a different outcome than the

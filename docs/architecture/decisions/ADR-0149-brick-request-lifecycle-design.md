@@ -115,7 +115,9 @@ None; implementation follows as its own increment.
 ## Supersession
 
 Continues the M5 arc over accepted `ADR-0147` and `ADR-0148`; no
-record is superseded.
+record is superseded. Decision 2's version-one completion rule is
+superseded by accepted `ADR-0157`, which delivers the recorded
+abandonment refinement.
 
 ## References
 
