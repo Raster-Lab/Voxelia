@@ -22,7 +22,7 @@ public enum CPUBackendRegistrations {
         return identifier
     }
 
-    /// Builds the standard registry of all eight CPU implementations.
+    /// Builds the standard registry of all nine CPU implementations.
     ///
     /// - Throws: The audited typed errors of the claim and registry
     ///   contracts.
@@ -120,6 +120,14 @@ public enum CPUBackendRegistrations {
                 minor: 1,
                 precision: binary64,
                 evidence: "adr-0123-resample-linear"
+            ),
+            try entry(
+                operation: ObliqueSliceOperation.operationIdentifier,
+                implementation: ObliqueSliceOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0142-oblique-slice"
             ),
         ])
     }

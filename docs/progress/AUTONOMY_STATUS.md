@@ -2724,6 +2724,21 @@ oracle campaigns.
   plane, verify the verbatim claim and the graph-node parent edge,
   and reject every typed admission. The multiplanar coordinator's
   oblique surface follows as its own increment.
+- One-hundred-twelfth autonomous increment (owner broadened standing
+  mandate): registry completeness for the ninth operation. The CPU
+  backend's standard registry gains the oblique slice entry at its
+  honest opening versions with the evidence identifier naming the
+  accepting record, the registry suite pins nine implementations with
+  the extended token set, and the combined two-backend registry
+  advances to twelve. The multiplanar coordinator assessment recorded:
+  no oblique convenience surface is added, revising the previous
+  bullet's expectation — the axis-aligned surface earns its existence
+  by orchestrating two operations with staged publication, while the
+  oblique case is one operation call whose output the publication
+  coordinator already publishes, and a wrapper adding no orchestration
+  would be surface for its own sake. A renderer-level oblique stage
+  may earn its place when the interactive layer arrives; that decision
+  belongs to the draw-loop arc.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
