@@ -326,8 +326,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift",
-      "size": 5486,
-      "sha256": "7b0a204dc84b4078cfe35a36806e0a59f7f4d9906f3825a1cd11f73b9fbcc736"
+      "size": 5822,
+      "sha256": "a2841a97ec219c33631cfec7138d76294fd317274053e414d5a14d059572fd5c"
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/Architecture.md",
@@ -1401,8 +1401,8 @@
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift",
-      "size": 2849,
-      "sha256": "29674bbb0d9daede46655e798efdf278d689dd82c6182c82822ff8581274820e"
+      "size": 2912,
+      "sha256": "176031d5c845cab4d16285c9fee12dff6d315a9c1638241269691e3f46c89392"
     },
     {
       "path": "Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift",
@@ -2081,8 +2081,8 @@
     },
     {
       "path": "Tests/VoxeliaValidationTests/CombinedRegistryTests.swift",
-      "size": 1252,
-      "sha256": "5df245406027fead4c502d87fc0cc2f7494cb3607c7944258481f036008a91e3"
+      "size": 1254,
+      "sha256": "eea268e8de52975f22e5087bde0ddc9e96ac83a9db5cffac0da3b35736025865"
     },
     {
       "path": "Tests/VoxeliaValidationTests/VoxeliaValidationTests.swift",
@@ -3421,8 +3421,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 617477,
-      "sha256": "c61e0c65f70446d20dbe10cf18c5217afd6dcc1bf2cfbb55a4970bb66e58cf85"
+      "size": 618157,
+      "sha256": "853055896a4064c050692ca4bf1860ae7c9592a6f3f109d0578940661ecde594"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",

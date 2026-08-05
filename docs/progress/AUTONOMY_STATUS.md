@@ -3227,6 +3227,17 @@ oracle campaigns.
   identity for every mode — prove repetition bit-identical, and
   reject all four typed admissions. The registry entry follows as
   its own increment.
+- One-hundred-thirty-fifth autonomous increment (owner broadened
+  standing mandate): registry completeness for the tenth operation.
+  The CPU backend's standard registry gains the project-intensity
+  entry at its honest opening versions with the exact precision
+  claim — the second exact-claiming CPU entry after the descriptor
+  operations, because no floating-point step exists in the model —
+  and the evidence identifier naming the accepting record; the
+  registry suite pins ten implementations with the extended token
+  set, and the combined two-backend registry advances to thirteen.
+  The M6 queue continues with the per-brick occupancy and statistics
+  vocabulary.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
