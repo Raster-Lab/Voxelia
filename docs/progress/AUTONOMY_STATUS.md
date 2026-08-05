@@ -2019,6 +2019,27 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fixtures exactly and reject invalid payloads, mixed spaces and
   empty measurements typed, discharging `VOX-INT-001/002/004/009` at
   the vocabulary level.
+- Eightieth autonomous increment (owner broadened standing mandate):
+  authored and accepted `VOXELIA-ALG-0011` (display inversion
+  `exact-v1` — the eight-bit involution `255 - x`, no floating-point
+  step) and `ADR-0112`, delivering both monochrome presentation
+  conventions. Inversion is the fifth operation,
+  `org.voxelia.op.invert-display` 1.0.0 with an empty frozen
+  parameter schema, admitting eight-bit single-component intensity of
+  any rank with no value transform — a parameter on the window
+  operation was rejected because `VOX-R2D-008` demands independence
+  from source-value transformation, and a separate published
+  operation makes that independence structural.
+  `GreyscaleWindowFunction` gains the explicit closed
+  `PresentationPolarity` — `standard` for `MONOCHROME2`, `inverted`
+  for `MONOCHROME1` — so the polarity travels inside every per-layer
+  presentation claim, and the renderer composes the inversion over
+  the window output under the new `inverted` publication stage.
+  Tests reproduce the fixtures and the involution through the full
+  operation, render an inverted layer end to end into exactly the
+  inverted registered fixture with the stage published, and reject a
+  value transform typed; `VOX-R2D-005` and `VOX-R2D-008` are
+  discharged.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

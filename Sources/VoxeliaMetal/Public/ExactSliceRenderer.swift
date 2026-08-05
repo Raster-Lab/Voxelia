@@ -19,6 +19,7 @@ public enum SliceRendererError: Error, Sendable, Equatable {
 public enum RenderPublicationStage: Sendable, Equatable {
     case cropped(layerIndex: Int)
     case windowLevelled(layerIndex: Int)
+    case inverted(layerIndex: Int)
     case composited
     case resampled
 }
@@ -181,8 +182,24 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
             }
 
             let names = try naming(.windowLevelled(layerIndex: index))
-            let staged = try await windowStage(input, window, names)
+            var staged = try await windowStage(input, window, names)
             _ = try await publisher.publish(staged, mode: .complete)
+
+            // Inverted polarity runs the registered ADR-0112 exact
+            // involution over the window output, also published —
+            // independence from the value model made structural.
+            if window.polarity == .inverted {
+                let invertNames = try naming(.inverted(layerIndex: index))
+                staged = try await InvertDisplayOperation.execute(
+                    input: staged,
+                    outputObjectID: invertNames.outputObjectID,
+                    outputProvenanceID: invertNames.provenanceID,
+                    createdAt: invertNames.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
+                _ = try await publisher.publish(staged, mode: .complete)
+            }
             windowLevelled.append(staged)
         }
 

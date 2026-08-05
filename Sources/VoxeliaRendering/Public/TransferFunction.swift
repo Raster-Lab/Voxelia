@@ -1,6 +1,19 @@
 // SPDX-License-Identifier: MIT
 
-/// One validated greyscale display window per `ADR-0083`.
+/// The closed presentation polarity per `ADR-0112`.
+///
+/// `standard` presents the minimum display value black — the
+/// `MONOCHROME2` convention — and `inverted` presents it white, the
+/// `MONOCHROME1` convention, evaluated as the registered
+/// `VOXELIA-ALG-0011` exact involution independently of any
+/// source-value transformation.
+public enum PresentationPolarity: Sendable, Hashable {
+    case standard
+    case inverted
+}
+
+/// One validated greyscale display window per `ADR-0083`, with the
+/// explicit presentation polarity added by `ADR-0112`.
 ///
 /// The centre and width are expressed in the input's real value
 /// domain — exactly the parameter semantics the registered
@@ -10,16 +23,22 @@
 public struct GreyscaleWindowFunction: Sendable, Hashable {
     public let center: Double
     public let width: Double
+    public let polarity: PresentationPolarity
 
     /// Creates a validated window description.
     ///
     /// - Throws: ``RenderModelError/invalidWindowParameter``.
-    public init(center: Double, width: Double) throws {
+    public init(
+        center: Double,
+        width: Double,
+        polarity: PresentationPolarity
+    ) throws {
         guard center.isFinite, width.isFinite, width >= 1 else {
             throw RenderModelError.invalidWindowParameter
         }
         self.center = center
         self.width = width
+        self.polarity = polarity
     }
 }
 

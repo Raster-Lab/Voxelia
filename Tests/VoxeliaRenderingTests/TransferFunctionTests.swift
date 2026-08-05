@@ -10,10 +10,10 @@ struct TransferFunctionTests {
     func windowsValidateInTheRealValueDomain() throws {
         // Valid windows admit, including the degenerate unit width the
         // registered model proves total.
-        let softTissue = try GreyscaleWindowFunction(center: 40, width: 400)
+        let softTissue = try GreyscaleWindowFunction(center: 40, width: 400, polarity: .standard)
         #expect(softTissue.center == 40)
         #expect(softTissue.width == 400)
-        _ = try GreyscaleWindowFunction(center: -600, width: 1)
+        _ = try GreyscaleWindowFunction(center: -600, width: 1, polarity: .standard)
 
         // Non-finite centres and sub-one or non-finite widths reject
         // typed.
@@ -22,7 +22,7 @@ struct TransferFunctionTests {
             (40.0, 0.5), (40.0, .nan), (40.0, -.infinity),
         ] {
             do {
-                _ = try GreyscaleWindowFunction(center: center, width: width)
+                _ = try GreyscaleWindowFunction(center: center, width: width, polarity: .standard)
                 #expect(Bool(false), "Expected an invalid window to be rejected.")
             } catch RenderModelError.invalidWindowParameter {}
         }
@@ -32,13 +32,13 @@ struct TransferFunctionTests {
         #expect(
             function
                 == .greyscaleWindow(
-                    try GreyscaleWindowFunction(center: 40, width: 400)
+                    try GreyscaleWindowFunction(center: 40, width: 400, polarity: .standard)
                 )
         )
         #expect(
             function
                 != .greyscaleWindow(
-                    try GreyscaleWindowFunction(center: 40, width: 401)
+                    try GreyscaleWindowFunction(center: 40, width: 401, polarity: .standard)
                 )
         )
 

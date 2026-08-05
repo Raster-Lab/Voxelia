@@ -28,7 +28,7 @@ struct InteractionCommandTests {
         // registered ALG-0010 fixtures reproduce through measurement
         // construction with the exact input points preserved.
         let commands: [InteractionCommand] = [
-            .windowLevel(try GreyscaleWindowFunction(center: 40, width: 400)),
+            .windowLevel(try GreyscaleWindowFunction(center: 40, width: 400, polarity: .standard)),
             .pan(try PanDelta(deltaX: 12.5, deltaY: -4)),
             .zoom(try ZoomFactor(factor: 1.5)),
             .scroll(sliceDelta: -3),

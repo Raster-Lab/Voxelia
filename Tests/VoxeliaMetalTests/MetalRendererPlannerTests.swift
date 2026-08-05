@@ -118,7 +118,7 @@ struct MetalRendererPlannerTests {
                     try RenderLayer(
                         imageObjectID: try #require(DataObjectID(rawValue: "series-7")),
                         transferFunction: .greyscaleWindow(
-                            try GreyscaleWindowFunction(center: 6, width: 8)
+                            try GreyscaleWindowFunction(center: 6, width: 8, polarity: .standard)
                         ),
                         opacity: 1
                     )
@@ -163,6 +163,8 @@ struct MetalRendererPlannerTests {
                     switch stage {
                     case .cropped(let layerIndex):
                         suffix = "cr\(layerIndex)"
+                    case .inverted(let layerIndex):
+                        suffix = "iv\(layerIndex)"
                     case .windowLevelled(let layerIndex):
                         suffix = "wl\(layerIndex)"
                     case .composited:

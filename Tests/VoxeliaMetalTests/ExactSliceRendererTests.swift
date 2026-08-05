@@ -108,6 +108,8 @@ struct ExactSliceRendererTests {
                 switch stage {
                 case .cropped(let layerIndex):
                     suffix = "cr\(layerIndex)"
+                case .inverted(let layerIndex):
+                    suffix = "iv\(layerIndex)"
                 case .windowLevelled(let layerIndex):
                     suffix = "wl\(layerIndex)"
                 case .composited:
@@ -152,7 +154,7 @@ struct ExactSliceRendererTests {
         try RenderLayer(
             imageObjectID: try #require(DataObjectID(rawValue: objectName)),
             transferFunction: .greyscaleWindow(
-                try GreyscaleWindowFunction(center: center, width: width)
+                try GreyscaleWindowFunction(center: center, width: width, polarity: .standard)
             ),
             opacity: opacity
         )
@@ -348,6 +350,56 @@ struct ExactSliceRendererTests {
             let cached = try #require(await cache.lookup(claim))
             #expect(try claim.matchesDigest(ofCanonicalBytes: cached))
         }
+    }
+
+    @Test("[Unit][VOX-R2D-005][VOX-R2D-008] inverted polarity presents monochrome-one")
+    func invertedPolarityPresentsMonochromeOne() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "render-8")
+
+        // An inverted layer runs the registered ADR-0112 involution
+        // after the window stage, published, producing exactly the
+        // inverted registered fixture — MONOCHROME1 semantics
+        // independent of any source-value transformation.
+        let invertedScene = try scene([
+            try RenderLayer(
+                imageObjectID: try #require(DataObjectID(rawValue: "series-7")),
+                transferFunction: .greyscaleWindow(
+                    try GreyscaleWindowFunction(
+                        center: 6,
+                        width: 8,
+                        polarity: .inverted
+                    )
+                ),
+                opacity: 1
+            )
+        ])
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: invertedScene,
+                viewport: try ViewportSize(width: 4, height: 3),
+                crop: nil,
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "render-8-iv0")
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let outputBytes = try published.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 3])
+        ).bytes
+        #expect(
+            outputBytes == [255, 255, 255, 219, 182, 146, 109, 73, 36, 0, 0, 0]
+        )
+        #expect(await publisher.publishedObjectCount == 3)
+        guard case .operation(let operation, _) = published.provenance.activity
+        else {
+            #expect(Bool(false), "Expected an operation activity.")
+            return
+        }
+        #expect(operation.operationID.rawValue == "org.voxelia.op.invert-display")
     }
 
     @Test("[Unit][VOX-ARC-008][VOX-VS1-019] both qualities execute identically")

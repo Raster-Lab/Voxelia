@@ -131,6 +131,8 @@ struct MetalSliceRendererTests {
                 switch stage {
                 case .cropped(let layerIndex):
                     suffix = "cr\(layerIndex)"
+                case .inverted(let layerIndex):
+                    suffix = "iv\(layerIndex)"
                 case .windowLevelled(let layerIndex):
                     suffix = "wl\(layerIndex)"
                 case .composited:
@@ -159,7 +161,7 @@ struct MetalSliceRendererTests {
                 try RenderLayer(
                     imageObjectID: try #require(DataObjectID(rawValue: objectName)),
                     transferFunction: .greyscaleWindow(
-                        try GreyscaleWindowFunction(center: 6, width: 8)
+                        try GreyscaleWindowFunction(center: 6, width: 8, polarity: .standard)
                     ),
                     opacity: opacity
                 )
@@ -263,7 +265,8 @@ struct MetalSliceRendererTests {
                                 DataObjectID(rawValue: "series-7")
                             ),
                             transferFunction: .greyscaleWindow(
-                                try GreyscaleWindowFunction(center: 6, width: 8)
+                                try GreyscaleWindowFunction(
+                                    center: 6, width: 8, polarity: .standard)
                             ),
                             opacity: 1
                         ),
@@ -272,7 +275,8 @@ struct MetalSliceRendererTests {
                                 DataObjectID(rawValue: "series-7")
                             ),
                             transferFunction: .greyscaleWindow(
-                                try GreyscaleWindowFunction(center: 3, width: 6)
+                                try GreyscaleWindowFunction(
+                                    center: 3, width: 6, polarity: .standard)
                             ),
                             opacity: 0.5
                         ),
@@ -443,7 +447,8 @@ struct MetalSliceRendererTests {
                         try RenderLayer(
                             imageObjectID: origin.identity.objectID,
                             transferFunction: .greyscaleWindow(
-                                try GreyscaleWindowFunction(center: 40, width: 400)
+                                try GreyscaleWindowFunction(
+                                    center: 40, width: 400, polarity: .standard)
                             ),
                             opacity: 1
                         )

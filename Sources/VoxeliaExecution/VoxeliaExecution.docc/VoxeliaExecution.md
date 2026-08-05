@@ -39,6 +39,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``ResampleError``
 - ``CompositeLayersOperation``
 - ``CompositeError``
+- ``InvertDisplayOperation``
+- ``InvertDisplayError``
 
 ### Publication
 

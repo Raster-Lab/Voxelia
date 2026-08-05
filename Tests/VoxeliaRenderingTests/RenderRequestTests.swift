@@ -29,7 +29,7 @@ struct RenderRequestTests {
     @Test("[Unit][VOX-ARC-008][VOX-ERR-001] requests and results compose validated members")
     func requestsAndResultsComposeValidatedMembers() async throws {
         let transferFunction = TransferFunction.greyscaleWindow(
-            try GreyscaleWindowFunction(center: 40, width: 400)
+            try GreyscaleWindowFunction(center: 40, width: 400, polarity: .standard)
         )
         let layer = try RenderLayer(
             imageObjectID: try #require(DataObjectID(rawValue: "series-7")),

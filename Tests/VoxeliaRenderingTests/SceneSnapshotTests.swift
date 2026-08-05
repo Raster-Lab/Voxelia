@@ -25,7 +25,7 @@ struct SceneSnapshotTests {
         try RenderLayer(
             imageObjectID: try #require(DataObjectID(rawValue: objectName)),
             transferFunction: .greyscaleWindow(
-                try GreyscaleWindowFunction(center: 40, width: 400)
+                try GreyscaleWindowFunction(center: 40, width: 400, polarity: .standard)
             ),
             opacity: opacity
         )
