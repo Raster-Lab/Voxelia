@@ -52,9 +52,13 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   encoder. The gate stops in Metal on the remaining thirteen upload, parameter
   and readback diagnostics across its three compute-kernel wrappers. The
   installed-SDK audit found a checked MetalKit upload route but no checked raw
-  readback API; policy currently permits no explicit memory boundary. An owner
-  decision and independent review mechanism are required, so the complete
-  Swift safety gate must not yet be reported green. Independently, all four
+  readback API. The project owner has now approved Option A and an independent
+  subagent reviewer; accepted `ADR-0186` confines the future exception to one
+  fingerprinted internal Metal byte-transfer file with three marked
+  expressions. The independent design review approved that scope with
+  conditions, but implementation, focused evidence and final review remain
+  pending, so the complete Swift safety gate must not yet be reported green.
+  Independently, all four
   pointer-backed sixteen-bit fixture serializers predicted in the Metal test
   target now use exact checked little-endian shifts, with their affected device
   suites green. Strict compilation of that test target remains unproven until
@@ -3834,7 +3838,8 @@ oracle campaigns.
   resolution. The wider verification pass also exposed the ten pre-existing
   ungoverned `@unchecked Sendable` conformances now failing the repository
   safety gate; restoring that fail-closed gate is the exact next action before
-  the geometry dependency decision under `ADR-0186`.
+  the geometry dependency decision, now prospectively `ADR-0187` after the
+  intervening Metal transfer governance record.
 - One-hundred-sixty-fifth autonomous increment (scheduled goal
   continuation): removed the three test-only ungoverned concurrency
   exceptions without weakening the zero-exception policy. The brick-cache
@@ -4156,6 +4161,44 @@ oracle campaigns.
   accepted `MetadataBinary` no-copy adversary because the referenced data did
   not observe backing mutation; that test remains unchanged rather than
   weakening `ADR-0030` evidence.
+- One-hundred-seventy-ninth autonomous increment (owner-approved goal
+  resumption): accepted the recommended Option A governance before product
+  edits. The project owner explicitly approved one narrow Swift Metal transfer
+  boundary and authorised an independent subagent reviewer. Accepted
+  `ADR-0186` now fixes one internal `MetalBufferTransfer.swift`, one stateless
+  namespace, one payload-free internal error and exactly three byte-owned
+  operations: checked shared upload, bounded synchronously copied inline
+  binding and exact owned readback after the same writer command completes.
+  It prohibits public/raw/generic/no-copy signatures, implicit Swift struct or
+  `[Float]` layout transfer, non-shared content access, foreign shims and new
+  dependencies. Allocation size, offset-plus-count overflow, buffer coverage,
+  local 256-byte inline ceiling, storage mode, exact command status and
+  per-invocation logical ownership are explicit invariants; scalar parameters
+  will serialize as checked little-endian `UInt32` words with exact 28/8/4-byte
+  shapes and exact count narrowing. `SWIFT-MEM-001` is recorded in the safety
+  policy as approved but not yet enabled. The independent read-only reviewer
+  approved the design with conditions and requires a full-file SHA-256 plus
+  exact three-marker scanner multiset, focused fault/lifetime/concurrency and
+  serialization evidence, all affected kernel/residency suites and a final
+  implementation-diff review. Its identity, independence, conditions and
+  blocking objections are durable evidence under
+  `docs/progress/evidence/ADR-0186-metal-buffer-transfer-independent-review.md`.
+  `ADR-0186` was the next unallocated identifier; the earlier prospective label
+  for the still-unaccepted geometry dependency record therefore moves to
+  `ADR-0187`. No product source or scanner exception was enabled in this
+  governance increment. The independent reviewer re-read the corrected
+  governance diff and accepted it with no remaining objection; final product
+  diff review is still required. `check_adr_register.py` passed for 166
+  records, the 486-record requirement index was current, the 813-entry manifest
+  path check and raw safety inventory passed, and diff validation was clean.
+  One initial command used the nonexistent historical spelling
+  `check_requirement_index.py` and failed before later checks; it was corrected
+  immediately to `generate_requirement_index.py --check`, which passed.
+  Release-integrity regeneration and read-only verification passed with 813
+  manifest paths, 812 inventory records and 813 checksums. The semantic
+  `--compile` gate was intentionally not rerun because this increment changes
+  no executable source and its known thirteen Metal diagnostics are the next
+  implementation subject.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9946,18 +9989,18 @@ with their registered digests unchanged. The complete semantic Swift safety
 gate passes Rendering and stops on thirteen transfer diagnostics across the
 three Metal compute-kernel wrappers. The installed-SDK audit proves there is no
 checked arbitrary raw-buffer readback path at the supported deployment floors.
-The exact next action requires the project owner's choice: approve the
-recommended single internal Swift memory boundary plus an independent reviewer,
-or preserve the zero-exception policy and direct a larger operational-Metal
-deferral/redesign. If the narrow boundary is approved, author and accept the
-dedicated ADR/policy change before implementation; confine the compiler-marked
-operations, add bounds/storage/completion/lifetime fault evidence, replace all
-three kernel transfers and the residency test, and rerun the complete semantic
-gate. Do not change the scanner, add a foreign shim, resume geometry or report
-the gate green before that decision and evidence.
+The owner has approved Option A and the independent design reviewer has
+approved accepted `ADR-0186` with conditions. The exact next action is its
+implementation: add the three-operation internal byte boundary and checked word
+serializer; pin its exact file hash and three-marker multiset in the scanner;
+add range/storage/completion/lifetime, concurrency, serializer and scanner fault
+evidence; migrate all three kernels and the residency round trip; then obtain
+the same reviewer's final diff review and rerun the complete semantic gate. Do
+not add a foreign shim, broaden the exception, resume geometry or report the
+gate green before that evidence.
 
 After that semantic safety recovery, the geometry queue resumes with the
-explicit package dependency-resolution decision under `ADR-0186`: reconcile
+explicit package dependency-resolution decision under prospective `ADR-0187`: reconcile
 the MTA/CDMS demand for a Spatial-owned coordinate space in canonical mesh
 values with the approved
 `VoxeliaGeometry -> VoxeliaCore` direct graph, including package-graph,
@@ -9979,11 +10022,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Await the owner decision on the Metal memory boundary. If the recommended
-  narrow Swift option and independent review are approved, treat its ADR,
-  policy exception, bounds/lifetime/coherency tests and three-kernel migration
-  as the next safety-critical sequence; otherwise keep operational Metal and
-  the semantic gate explicitly red pending redesign.
+- Implement accepted `ADR-0186` exactly: first add focused boundary, serializer
+  and scanner fault evidence, then migrate the three kernels and residency
+  test, run their direct Metal/differential/concurrency evidence, obtain the
+  independent final diff review and run the complete semantic gate.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

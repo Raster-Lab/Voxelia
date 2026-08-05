@@ -165,7 +165,8 @@ the bricked and multi-resolution volume assessment. `ADR-0182` is
 allocated to the volume acceleration design. `ADR-0183` is allocated to
 the geometry extraction arc. `ADR-0184` is allocated to the triangle mesh
 topology design. `ADR-0185` is allocated to the triangle mesh topology.
-The next unallocated numeric identifier is `ADR-0186`.
+`ADR-0186` is allocated to the governed Metal shared-buffer transfer boundary.
+The next unallocated numeric identifier is `ADR-0187`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -334,3 +335,4 @@ The next unallocated numeric identifier is `ADR-0186`.
 | [ADR-0183](ADR-0183-geometry-arc.md) | Accepted | Geometry extraction arc |
 | [ADR-0184](ADR-0184-triangle-mesh-topology-design.md) | Accepted | Triangle mesh topology design |
 | [ADR-0185](ADR-0185-triangle-mesh-topology.md) | Accepted | Triangle mesh topology |
+| [ADR-0186](ADR-0186-governed-metal-buffer-transfer.md) | Accepted | Governed Metal shared-buffer transfer boundary |

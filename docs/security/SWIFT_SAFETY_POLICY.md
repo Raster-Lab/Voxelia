@@ -1,18 +1,22 @@
 # Swift safety policy
 
-Voxelia currently permits no compiler-classified unsafe Swift constructs or
-concurrency-checking exceptions in repository-owned executable source. This
-preserves the project's M1 baseline while storage ownership, no-copy access and
-type-erasure contracts remain under governance review.
+Voxelia permits no concurrency-checking exception and only one explicitly
+approved compiler-classified memory boundary in repository-owned executable
+Swift. `ADR-0186` confines that boundary to three internal Metal byte-transfer
+expressions; it grants no public API, pointer signature, no-copy storage,
+compiler flag or concurrency annotation. Every other finding remains
+prohibited.
 
 `Tools/Scripts/check_swift_safety.py` inventories Swift package manifests,
 product source, tests, validation tools, benchmarks, repository tools and
-active shell, workflow and Xcode build configuration. It rejects:
+active shell, workflow and Xcode build configuration. Until `SWIFT-MEM-001` is
+implemented and fingerprinted it rejects every marker; afterward it exempts
+only that exact reviewed three-expression multiset and rejects:
 
 - `@unchecked Sendable`, `@preconcurrency`, `nonisolated(unsafe)` and unsafe
   executor inheritance;
-- every Swift `unsafe` marker and a conditional that tests the strict-memory-
-  safety compiler mode;
+- every other Swift `unsafe` marker and every conditional that tests the
+  strict-memory-safety compiler mode;
 - SwiftPM unsafe flags, external compilation conditions, direct script/compiler
   execution and compiler escape channels;
 - settings that suppress warnings or weaken memory safety, exclusivity, Swift
@@ -74,8 +78,8 @@ policy does not treat them as passing.
 
 ## Current inventory
 
-The permitted-exception inventory remains empty, and the raw escape-hatch scan
-now passes with no findings. The 2026-08-05 recovery replaced three test-only
+The executable exception has not yet been enabled, so the raw escape-hatch scan
+still passes with no findings. The 2026-08-05 recovery replaced three test-only
 lock wrappers and the production pipeline cache with checked
 `Synchronization.Mutex` state, isolated the execution context's device/queue
 pair and all three kernel pipeline sets behind checked synchronous borrowing,
@@ -103,22 +107,26 @@ and stops on sixteen strict-memory diagnostics across
 one checked deterministic lowercase encoder, with all registered digest pins
 and kernel suites green. A filtered semantic rerun leaves exactly thirteen
 pointer-shaped upload, parameter and readback calls. Later targets and
-package/configuration phases remain unverified by that run. No finding is an
-accepted exception; the Metal transfer boundary now requires an installed-SDK
-and package-boundary audit before edits or governance decisions. That audit is
-now recorded: MetalKit can perform checked `Data` upload through its Model
-I/O-backed mesh allocator, but the supported SDK has no checked exact raw-buffer
-readback inverse. Blit and Metal I/O do not bridge arbitrary results to owned
-collections, and tensor/texture readback remains pointer-shaped. The current
-zero-exception policy therefore cannot coexist with the accepted operational
-kernel APIs without deferral/redesign. The recommended resolution is a single
+package/configuration phases remain unverified by that run. At that stage no
+finding was an accepted exception; the Metal transfer boundary required an
+installed-SDK and package-boundary audit before edits or governance decisions.
+That audit is now recorded: MetalKit can perform checked `Data` upload through
+its Model I/O-backed mesh allocator, but the supported SDK has no checked exact
+raw-buffer readback inverse. Blit and Metal I/O do not bridge arbitrary results
+to owned collections, and tensor/texture readback remains pointer-shaped. The
+then-current zero-exception policy therefore could not coexist with the
+accepted operational kernel APIs without deferral/redesign. The recommended resolution is a single
 explicit internal Swift transfer boundary, but it requires owner approval and
 the independent review/evidence process below before the exception inventory or
-scanner changes.
+scanner changes. The project owner approved that recommended option and an
+independent subagent review on 2026-08-05. Accepted `ADR-0186` now fixes the
+exact three-operation byte-only scope; the independent design review approved
+it with conditions, while implementation, focused evidence and final diff
+review remain pending before the scanner fingerprint is enabled.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on 13 transfer diagnostics in three Metal kernels | Owner decision and independent review mechanism pending |
+| `SWIFT-MEM-001` (approved, not yet enabled) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval and independent design review recorded under `ADR-0186`; final implementation review pending | Fingerprint, range, storage, completion, lifetime, concurrency, serialization, kernel and semantic-gate evidence pending |
 
 ## Introducing an exception
 
@@ -130,7 +138,8 @@ exception requires a dedicated policy change that:
 3. explains why checked Swift cannot express the required behaviour;
 4. adds focused stress, lifetime and failure tests;
 5. records an independent reviewer and review evidence; and
-6. narrows any scanner exception to that exact reviewed declaration.
+6. narrows any scanner exception to the exact reviewed operation or
+   declaration.
 
 The exception may be enabled only after the governing public contract is
 accepted. Proposed ADRs and RFCs are review material and grant no exception.

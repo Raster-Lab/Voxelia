@@ -3600,9 +3600,14 @@
       "sha256": "ccb0142952e887755cf24b13a993f6d8f6f7696796cb8a7069f5cb6156b9e6c3"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0186-governed-metal-buffer-transfer.md",
+      "size": 10179,
+      "sha256": "1f80abe32565bf5fc2d68fe63a23df097e154a684bf4aff144b2488c22ed300c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 27383,
-      "sha256": "b987ba2f7ff94a47be65c26068e465c36b0fd060636b3d57c3798a7b852a6458"
+      "size": 27581,
+      "sha256": "93a8c6d51e3f1c9ae741318783811e4c8706376d9b2553082c3fedf7fbaf77e9"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3686,8 +3691,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 682384,
-      "sha256": "dc8ba7cce4ac411dd7b4bda545aab1df3ff62ae98129fc6a8e1b840c3b0a4c85"
+      "size": 685428,
+      "sha256": "777bc02827d14519810bfc082b08a78541e22d6f3077992fd6825305cdda1d59"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3743,6 +3748,11 @@
       "path": "docs/progress/evidence/ADR-0041-storage-read-lifetime-probe.swift",
       "size": 107062,
       "sha256": "567fd60ea5e4137499126c7949f564da81c6019513c12def229f0d29f525afe7"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0186-metal-buffer-transfer-independent-review.md",
+      "size": 3787,
+      "sha256": "a402735bed0c110feab789d5420dab8f5025544454e436bdf61de626afff3900"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4006,8 +4016,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 8640,
-      "sha256": "5eeb18fd1c73e48938618490c28cf200fddbff656d75e68459bbaa53752aa6e0"
+      "size": 9627,
+      "sha256": "66a28fe247bc31011ffb6e0ea2c7d78c2a5b641aeed67057a2ff23658dcc26cd"
     },
     {
       "path": "docs/shaders/README.md",
@@ -4051,8 +4061,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 43834,
-      "sha256": "5447b20f5fb357d4ab534dfc5f0103ab6443ccaf5a259d91154ce994fc1a6f74"
+      "size": 43981,
+      "sha256": "240717e8ef40a6755340a7c32b02025a2a6aa4fb38f5412869a56dffbce9dbde"
     }
   ]
 }
