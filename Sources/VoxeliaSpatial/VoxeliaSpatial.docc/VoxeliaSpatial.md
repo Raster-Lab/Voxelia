@@ -53,6 +53,8 @@ None.
 
 - ``Matrix4x4Double``
 - ``Matrix4x4DoubleError``
+- ``AffineSpatialInverse``
+- ``AffineSpatialInverseError``
 
 ### Spatial-axis mappings
 

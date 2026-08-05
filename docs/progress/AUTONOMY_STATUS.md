@@ -2562,6 +2562,23 @@ oracle campaigns.
   was rejected as data-dependent branching; the Swift model, harness
   and consuming world-to-index operation follow as their own
   increments.
+- One-hundred-fifth autonomous increment (owner broadened standing
+  mandate): implemented accepted `ADR-0137`, the `AffineSpatialInverse`
+  authority in the spatial module realising the frozen
+  `VOXELIA-ALG-0016` model — the one cofactor form, the row-zero
+  determinant expansion and one correctly rounded division per entry
+  over the validated matrix type, leaving exactly one typed rejection
+  for a sub-threshold determinant. The specification's conservative
+  elementwise bounds are computed at construction from the same
+  rounded intermediates, and the measurement obligation is discharged:
+  the harness reproduces all three conformance fixtures exactly,
+  rejects the rank-deficient and subnormal-determinant cases typed,
+  and the host python rational oracle inverted ten thousand seeded
+  strictly diagonally dominant matrices across four magnitude regimes
+  with every one of ninety thousand entries inside its bound — maximum
+  observed ratio zero point five three nine, headroom one point eight
+  six. The consuming world-to-index mapping follows as its own
+  increment; no consumer may embed an ad-hoc inverse.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
