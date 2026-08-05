@@ -142,8 +142,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0159` is allocated to the intensity projection design.
 `ADR-0160` is allocated to the project intensity operation.
 `ADR-0161` is allocated to the brick statistics design.
-`ADR-0162` is allocated to the brick statistics. The next unallocated
-numeric identifier is `ADR-0163`.
+`ADR-0162` is allocated to the brick statistics.
+`ADR-0163` is allocated to the cubic resampling design. The next
+unallocated numeric identifier is `ADR-0164`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -289,3 +290,4 @@ numeric identifier is `ADR-0163`.
 | [ADR-0160](ADR-0160-project-intensity-operation.md) | Accepted | Project intensity operation |
 | [ADR-0161](ADR-0161-brick-statistics-design.md) | Accepted | Brick statistics design |
 | [ADR-0162](ADR-0162-brick-statistics.md) | Accepted | Brick statistics |
+| [ADR-0163](ADR-0163-cubic-resampling-design.md) | Accepted | Cubic resampling design |

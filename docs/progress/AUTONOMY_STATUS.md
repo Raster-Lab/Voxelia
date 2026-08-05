@@ -3268,6 +3268,24 @@ oracle campaigns.
   the mixed payload with bit-identical repetition and the domain
   boundary values. The M6 queue continues with the cubic
   interpolation model design.
+- One-hundred-thirty-eighth autonomous increment (owner broadened
+  standing mandate): authored and accepted `VOXELIA-ALG-0021` and
+  `ADR-0163`, freezing the cubic resampling model. The kernel is
+  Catmull-Rom with exact dyadic coefficients and a frozen weight
+  order — B-spline and Mitchell-Netravali rejected because they
+  smooth rather than interpolate, and every accepted resampler holds
+  the exact-identity discipline; a tension parameter rejected as
+  speculative. Boundary behaviour is the accepted clamped-tap
+  convention extended to four taps, documented by reference rather
+  than invented. The output clamp is modelled, not defensive: the
+  weights are negative outside the bracketing pair, and the frozen
+  fixtures pin a real overshoot whose raw interior value is exactly
+  two hundred seventy-eight and twenty-nine thirty-seconds before
+  the clamp, with its undershoot mirror. Version one is a new
+  operation mirroring the nearest and linear pattern — each display
+  policy its own registered operation — because the kernels are
+  different models with different claims, not revisions of one rule.
+  Implementation follows as the eleventh registered operation.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

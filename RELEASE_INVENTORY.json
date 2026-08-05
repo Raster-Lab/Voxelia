@@ -2411,8 +2411,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 2500,
-      "sha256": "41e2bbc0e2645db685aa22942f4d31d18bef24f37cf758342bb5c1408899ac0b"
+      "size": 2605,
+      "sha256": "a6e0653561b1cab13d6ca0179c29ffee674fc80e2933972db080334a420a7d84"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2513,6 +2513,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0020-intensity-projection.md",
       "size": 4203,
       "sha256": "5008db25f3d5890801674baa51bec2588ccf423f99292545ad008dedf34a02c1"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0021-cubic-resampling.md",
+      "size": 3470,
+      "sha256": "99ccf04dd6364c3c22e1887dfd146b56bcd78be70dc4576cf027719858bc0601"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3355,9 +3360,14 @@
       "sha256": "1ad0da985a358b06c26a7bf0c6eb4fa7ded9b8f35be42140480bceac15512d5d"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0163-cubic-resampling-design.md",
+      "size": 3144,
+      "sha256": "4e113fba12a79180e25ad4cac03dcc694078a9b27f217934f59451d8aa19d065"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 24066,
-      "sha256": "4b5ff9da7aadc676321d90235cd957af027fc60e87e750a8cee1fb76f0027d2b"
+      "size": 24211,
+      "sha256": "76c059886a1b01252874d6d774553bfacdc4a3baecba7fdd4303ff2ef8934d3b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3441,8 +3451,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 620073,
-      "sha256": "f77549e6e197aa0ec3edf5c3ea07098e87a889a83a6a50194eb6c67c88adc7f3"
+      "size": 621261,
+      "sha256": "d193d95dd2d879ec856f3102b0508d336b78367237a88a774c5ce444f98e809e"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3801,8 +3811,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 40810,
-      "sha256": "19aff671a55a71ea061290d9042ee11695c425e1930d25696758383369e0883d"
+      "size": 40927,
+      "sha256": "8ef95d58fa67b7562df165da63e6a18ac8c1089459af19c21cb9018cf3506680"
     }
   ]
 }

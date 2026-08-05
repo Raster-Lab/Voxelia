@@ -24,3 +24,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0018](VOXELIA-ALG-0018-planar-polygon-area.md) | Accepted | Planar polygon area `binary64-v1` |
 | [VOXELIA-ALG-0019](VOXELIA-ALG-0019-voxel-volume.md) | Accepted | Calibrated voxel volume `binary64-v1` |
 | [VOXELIA-ALG-0020](VOXELIA-ALG-0020-intensity-projection.md) | Accepted | Intensity projection `exact-v1` |
+| [VOXELIA-ALG-0021](VOXELIA-ALG-0021-cubic-resampling.md) | Accepted | Cubic resampling `binary64-v1` |
