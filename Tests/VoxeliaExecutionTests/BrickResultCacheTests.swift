@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import Foundation
+import Synchronization
 import Testing
 import VoxeliaCore
 import VoxeliaStorage
@@ -9,22 +10,19 @@ import VoxeliaStorage
 
 /// A lock-guarded synchronous event collector: the sink runs inside
 /// the actor's own sequencing, so the observed order is the story.
-private final class EventCollector: @unchecked Sendable {
-    private let lock = NSLock()
-    private var storedEvents: [BrickCacheEvent] = []
+private final class EventCollector: Sendable {
+    private let storedEvents = Mutex<[BrickCacheEvent]>([])
 
     var sink: BrickCacheEventSink {
         { event in
-            self.lock.lock()
-            self.storedEvents.append(event)
-            self.lock.unlock()
+            self.storedEvents.withLock { events in
+                events.append(event)
+            }
         }
     }
 
     var events: [BrickCacheEvent] {
-        lock.lock()
-        defer { lock.unlock() }
-        return storedEvents
+        storedEvents.withLock { $0 }
     }
 }
 

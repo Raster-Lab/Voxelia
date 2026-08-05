@@ -1716,8 +1716,8 @@
     },
     {
       "path": "Tests/VoxeliaExecutionTests/BrickResultCacheTests.swift",
-      "size": 10406,
-      "sha256": "aba6a1928dd5ab447e22dc131f3ed881103d08ba941627bf30a454583720438b"
+      "size": 10348,
+      "sha256": "11bf985e17f2f864977cafb9f8874217ad5b494403b0630940cdace48adb192b"
     },
     {
       "path": "Tests/VoxeliaExecutionTests/BrickedPipelineTests.swift",
@@ -1926,13 +1926,13 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalTelemetryTests.swift",
-      "size": 3088,
-      "sha256": "a8fdd8a9c96f3aa1a429b8add4da2d4ffdd840d4cf401aadaf806e3d2c5617a8"
+      "size": 3022,
+      "sha256": "12bf0a5a2a40cae81d8db21112f1a9ff683d0ecb306a7d152039ef693cd63084"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalThroughputEvidenceTests.swift",
-      "size": 3877,
-      "sha256": "07b45e71ef21e07215aaa007b950659790d3bc68792e44986fbfbe6191e0dd25"
+      "size": 3811,
+      "sha256": "1447c34853ab07fcb7321533b66e75113ed3b8cb059134634488ca94f0fc2c04"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalWindowLevelKernelTests.swift",
@@ -3681,8 +3681,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 655616,
-      "sha256": "433eb45eecc99e71b92d1811570331a17267b5ead691d75e2593c8c5233a0ecb"
+      "size": 657145,
+      "sha256": "e2f435dd04a69103b5756f3a8fb604c2172ec7afefcc6c92c59c875179922bc7"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3996,8 +3996,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 5711,
-      "sha256": "dd34b69877da3663a2833d258bbf04b11b50119a2dcc780f3c3fd18906fc036f"
+      "size": 6083,
+      "sha256": "097e35b51229e8a36fb725a1a66a49e8532927fb741ac8e9a5fc1094473ae033"
     },
     {
       "path": "docs/shaders/README.md",

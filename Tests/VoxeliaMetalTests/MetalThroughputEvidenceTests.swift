@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import Foundation
+import Synchronization
 import Testing
 import VoxeliaCore
 
@@ -8,20 +9,17 @@ import VoxeliaCore
 
 @Suite("MetalThroughputEvidence")
 struct MetalThroughputEvidenceTests {
-    private final class TelemetryBox: @unchecked Sendable {
-        private let lock = NSLock()
-        private var stored = [MetalDispatchTelemetry]()
+    private final class TelemetryBox: Sendable {
+        private let stored = Mutex<[MetalDispatchTelemetry]>([])
 
         func record(_ telemetry: MetalDispatchTelemetry) {
-            lock.lock()
-            defer { lock.unlock() }
-            stored.append(telemetry)
+            stored.withLock { records in
+                records.append(telemetry)
+            }
         }
 
         var records: [MetalDispatchTelemetry] {
-            lock.lock()
-            defer { lock.unlock() }
-            return stored
+            stored.withLock { $0 }
         }
     }
 

@@ -27,16 +27,17 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   containment, explicit region emptiness and checked region element counts are
   implemented and locally verified.
 - Supporting safety status: the post-M3 continuation audit on 2026-08-05 found
-  that the fail-closed Swift safety gate currently fails on ten
-  `@unchecked Sendable` conformances introduced by the Metal, telemetry and
-  brick-cache increments: seven production Metal classes and three test-only
-  collectors. None has an accepted exception under the standing zero-exception
-  policy, so the earlier no-exception claim is no longer current and the gate
-  must not be reported green. The last recorded strict product/test destination
-  builds remain historical evidence only; visionOS 26.5 is still unavailable.
-  Recovery requires removing each unchecked conformance through actor/value
-  isolation or accepting a governed exception with exact invariants, focused
-  stress/lifetime evidence and independent review.
+  ten ungoverned `@unchecked Sendable` conformances introduced by the Metal,
+  telemetry and brick-cache increments. The first recovery increment replaced
+  all three test-only lock wrappers with checked `Synchronization.Mutex`
+  storage; the fail-closed Swift safety gate now reports the seven production
+  Metal classes only. None has an accepted exception under the standing
+  zero-exception policy, so the earlier no-exception claim is not current and
+  the gate must not be reported green. The last recorded strict product/test
+  destination builds remain historical evidence only; visionOS 26.5 is still
+  unavailable. Recovery requires removing each remaining conformance through
+  actor/value isolation or accepting a governed exception with exact
+  invariants, focused stress/lifetime evidence and independent review.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -3811,6 +3812,20 @@ oracle campaigns.
   ungoverned `@unchecked Sendable` conformances now failing the repository
   safety gate; restoring that fail-closed gate is the exact next action before
   the geometry dependency decision under `ADR-0186`.
+- One-hundred-sixty-fifth autonomous increment (scheduled goal
+  continuation): removed the three test-only ungoverned concurrency
+  exceptions without weakening the zero-exception policy. The brick-cache
+  `EventCollector` and both Metal telemetry collectors now store their arrays
+  in Swift's checked `Synchronization.Mutex` and declare ordinary compiler-
+  verified `Sendable`; their synchronous append/snapshot behavior and exact
+  ordering are unchanged. The focused filter covering `BrickResultCacheTests`,
+  `MetalTelemetryTests` and `MetalThroughputEvidenceTests` executed six tests
+  across the three suites with zero failures, including the real-device
+  telemetry and scaled throughput paths. The raw safety inventory was rerun:
+  it now reports exactly seven findings, all production `VoxeliaMetal`
+  classes, down from ten; the repository-wide gate therefore remains honestly
+  red. The next focused recovery is the lock-backed `MetalPipelineCache`, then
+  the immutable Metal handle wrappers and the renderer orchestration boundary.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9590,10 +9605,15 @@ and direct-volume-rendering increments through accepted `ADR-0182`. Accepted
 coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
 accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The immediate exact next action is restoring the
-fail-closed Swift safety gate, which now reports ten ungoverned pre-existing
-`@unchecked Sendable` conformances from the M3/brick-cache continuation. Audit
-and remove them in focused concurrency increments; do not suppress the checker
-or claim the historical zero-exception state.
+fail-closed Swift safety gate. The checked-Mutex collector increment removed
+all three test-only findings; seven ungoverned production Metal conformances
+remain. The exact next focused recovery is `MetalPipelineCache`: replace its
+manual `NSLock` plus separately mutable dictionaries/counters with one checked
+mutex-protected state, preserve compile-at-most-once identity and build-count
+evidence under contention, and remove its unchecked conformance only after the
+focused cache suite proves the same behavior. Then audit the immutable Metal
+handle wrappers and renderer orchestration boundary; do not suppress the
+checker or claim the historical zero-exception state.
 
 After that recovery, the geometry queue resumes with the explicit package
 dependency-resolution decision under `ADR-0186`: reconcile the MTA/CDMS demand
