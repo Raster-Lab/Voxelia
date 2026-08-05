@@ -2059,6 +2059,23 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   per the row's own wording. Tests reproduce both padding fixtures,
   prove unpadded byte-identity and digest stability, and reject the
   unrepresentable sentinel typed.
+- Eighty-second autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0114`, recording three
+  clinical pipeline assessments per the documentation-only precedent.
+  `VOX-META-011` is discharged structurally: provenance members are a
+  closed set of grammar-bounded tokens, digests, versions, instants
+  and host-supplied identifiers, the warning schema has no free-text
+  member by reflected proof, image metadata never enters a record,
+  and the fixed-schema emitter's golden byte-equality fixtures pin
+  every byte — the deliberate opening is the row's own host-supplied
+  arm. `VOX-SPA-013` is discharged by construction: every operation
+  passes spatial geometry through with its coordinate space intact or
+  rejects geometry-bearing input typed; no path drops a
+  frame-of-reference silently. `VOX-R2D-012` is discharged by the
+  append-only publication discipline: stored origins remain published
+  and byte-readable beside every display-transformed stage, which is
+  a distinct object, never a mutation. A future string-closure sweep
+  is recorded as a candidate alongside emitter revisions.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

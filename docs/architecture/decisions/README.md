@@ -97,7 +97,8 @@ to the kernel throughput measurement campaign. `ADR-0110` is
 allocated to bounded frame contexts. `ADR-0111` is allocated to the
 interaction command vocabulary. `ADR-0112` is allocated to monochrome
 presentation polarity. `ADR-0113` is allocated to pixel padding
-exclusion. The next unallocated numeric identifier is `ADR-0114`.
+exclusion. `ADR-0114` is allocated to clinical pipeline assessments.
+The next unallocated numeric identifier is `ADR-0115`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -194,3 +195,4 @@ exclusion. The next unallocated numeric identifier is `ADR-0114`.
 | [ADR-0111](ADR-0111-interaction-command-vocabulary.md) | Accepted | Interaction command vocabulary |
 | [ADR-0112](ADR-0112-monochrome-presentation-polarity.md) | Accepted | Monochrome presentation polarity |
 | [ADR-0113](ADR-0113-pixel-padding-exclusion.md) | Accepted | Pixel padding exclusion |
+| [ADR-0114](ADR-0114-clinical-pipeline-assessments.md) | Accepted | Clinical pipeline assessments |

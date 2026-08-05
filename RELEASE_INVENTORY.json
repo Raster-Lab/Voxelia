@@ -2830,9 +2830,14 @@
       "sha256": "6401394cfc47ed4a41e5f9759702a98a203ea839bae0bf69bd4a11e2e8f8c6bf"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0114-clinical-pipeline-assessments.md",
+      "size": 3731,
+      "sha256": "4ee9d3f56f17c3fc12a4874a6412469a6386e806317d1e6f196d0a44866a084b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 16816,
-      "sha256": "81ffbbfff4929fc1fe562244a6447f7654bda8434e38d4cb442b3ff9fa17a346"
+      "size": 16975,
+      "sha256": "b250cc0dd9a89fc5532d5036c7272435edf9773469dd51cc22e435557ea0d4d4"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2916,8 +2921,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 542655,
-      "sha256": "03380499582f14a504bd3cd0ff185db65aa9dca53b652d6343a4af20818fbf27"
+      "size": 543788,
+      "sha256": "f6eaab0b55f84b0abaa987bed1104ae19adc9314fad4fc5414b8f8b5fbd28cde"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3276,8 +3281,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 34445,
-      "sha256": "f4c85073ab0d35f0a28c1f2c598a88eeb90e1ecfed1eee20f5f143ccc7d07ad7"
+      "size": 34515,
+      "sha256": "f1fb5b81dd51a4dc22d8913a236b9243e066c2d86f9496c7f305b19af81b9b6d"
     }
   ]
 }
