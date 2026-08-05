@@ -3455,6 +3455,21 @@ oracle campaigns.
   table digested into the operation parameters so what ran is
   reproducible. Implementation follows as its own increments, ray
   generation first.
+- One-hundred-forty-ninth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0173`, the
+  orthographic ray generator. Implementation surfaced one honest
+  simplification, recorded in the accepted record before commit: the
+  degenerate-basis obligations are discharged by the accepted
+  camera's own no-epsilon admission — a zero view vector and an up
+  parallel to the view direction cannot construct a camera at all —
+  so the generator's planned duplicate case was removed as dead
+  surface and its basis divisions are total for every validated
+  camera; the deferred perspective projection stays the one typed
+  case. The suite reproduces the specification fixture exactly, the
+  basis up to signed zeros and every pixel origin, proves
+  bit-identical repetition, and documents the camera-side discharge.
+  The volume renderer implementation follows with the sibling
+  request, the widened claims and the end-to-end tiny render.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
