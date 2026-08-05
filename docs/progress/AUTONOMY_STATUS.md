@@ -3299,6 +3299,16 @@ oracle campaigns.
   two-dimensional upscale — prove the exact identity and
   bit-identical repetition, and reject the typed admissions. The
   registry entry follows as its own increment.
+- One-hundred-fortieth autonomous increment (owner broadened
+  standing mandate): registry completeness for the eleventh
+  operation. The CPU backend's standard registry gains the
+  resample-cubic entry at its honest opening versions with the
+  binary64 claim and the evidence identifier naming the accepting
+  record; the registry suite pins eleven implementations with the
+  extended token set, and the combined two-backend registry advances
+  to fourteen. The M6 queue continues with the
+  direct-volume-rendering reference arc design — the largest
+  remaining actionable arc, opened design-first.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

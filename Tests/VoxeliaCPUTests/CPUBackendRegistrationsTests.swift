@@ -10,12 +10,12 @@ import VoxeliaExecution
 struct CPUBackendRegistrationsTests {
     @Test("[Unit][VOX-ARC-010][VOX-ERR-001] the standard registry names every implementation")
     func standardRegistryNamesEveryImplementation() throws {
-        // All ten CPU implementations register with tokens
+        // All eleven CPU implementations register with tokens
         // structurally equal to the operations' own constants, the
         // pinned current contract versions, and the CPU backend
         // claim.
         let registry = try CPUBackendRegistrations.standard()
-        #expect(registry.implementations.count == 10)
+        #expect(registry.implementations.count == 11)
         #expect(
             registry.implementations.allSatisfy {
                 $0.backend.rawValue == "org.voxelia.backend.cpu"
@@ -52,6 +52,7 @@ struct CPUBackendRegistrationsTests {
                 ResampleLinearOperation.operationIdentifier,
                 ObliqueSliceOperation.operationIdentifier,
                 ProjectIntensityOperation.operationIdentifier,
+                ResampleCubicOperation.operationIdentifier,
             ]
         )
 

@@ -22,7 +22,7 @@ public enum CPUBackendRegistrations {
         return identifier
     }
 
-    /// Builds the standard registry of all ten CPU implementations.
+    /// Builds the standard registry of all eleven CPU implementations.
     ///
     /// - Throws: The audited typed errors of the claim and registry
     ///   contracts.
@@ -136,6 +136,14 @@ public enum CPUBackendRegistrations {
                 minor: 0,
                 precision: exact,
                 evidence: "adr-0160-project-intensity"
+            ),
+            try entry(
+                operation: ResampleCubicOperation.operationIdentifier,
+                implementation: ResampleCubicOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0164-resample-cubic"
             ),
         ])
     }
