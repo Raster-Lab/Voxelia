@@ -2636,8 +2636,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 3575,
-      "sha256": "888e3f91cabf0c675116114624a37258f775d593978bda152960ff1c7b93630e"
+      "size": 3722,
+      "sha256": "fb975f4f86dc24699fa1142df15c1086b46c726d45985a6cffe113fc30dbdb09"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2783,6 +2783,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0029-freudenthal-label-set-surface.md",
       "size": 13408,
       "sha256": "53f07bde89eb85c23a3731fe39bf485df0f335fd679f712103bdc46c202250be"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0030-triangle-area-weighted-vertex-normals.md",
+      "size": 15359,
+      "sha256": "960b85e05a4afbaadc65c0d31ff9581a1c5919848ad144f3337e8093d33d6937"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3785,9 +3790,14 @@
       "sha256": "d3d5423858e528aee0a8f466f3079c0879f2ab831c1f7d49f1aab5385d18389e"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0193-deterministic-triangle-mesh-vertex-normals-design.md",
+      "size": 18381,
+      "sha256": "36aaa583e610e95c027928302325baaad237965c8772bd429860cdb0225552f4"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 28665,
-      "sha256": "00cae15fe7b23c6e92de4df3593ed7f074485417449d6dde73ff2bde6accf7c6"
+      "size": 28806,
+      "sha256": "4b14dba596a9ccf1ab264bb79b5f01efdc0a55612ec178ff7d381f6a8533eeaf"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3871,8 +3881,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 764830,
-      "sha256": "71150270bf6250b0c055e456712b9af806277ccf74b8b05f9979c2720d8d5721"
+      "size": 770840,
+      "sha256": "4c4adc68455600dd5e6b9482fe7d08b761c22dd2ce8c9c1d001114b740b8ff6c"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3943,6 +3953,11 @@
       "path": "docs/progress/evidence/ADR-0192-labelled-surface-extraction-oracle.py",
       "size": 15614,
       "sha256": "3c7dea8a7bcb0f8c0ebf045b0efe27b4b364ac6d24349cb4844f8206913a113b"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0193-deterministic-vertex-normal-oracle.py",
+      "size": 11994,
+      "sha256": "808fcc18442cb620f4ce79da1b903e8ebcc57c658ef9c116a3696abff80cd385"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4251,8 +4266,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 46490,
-      "sha256": "51e326579e6902baf3c0d089e8c37cbef61f787249b48dc80c77aab23f7945cf"
+      "size": 46724,
+      "sha256": "0be59673bf96982d819aec6e2b98ca39af58a782c4de94436ae8cd7b579f3ffe"
     }
   ]
 }

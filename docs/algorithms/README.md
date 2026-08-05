@@ -33,3 +33,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0027](VOXELIA-ALG-0027-empty-space-skipping.md) | Accepted | Empty-space skipping `binary64-v1` |
 | [VOXELIA-ALG-0028](VOXELIA-ALG-0028-freudenthal-surface-extraction.md) | Accepted | Freudenthal scalar-surface extraction `binary64-v1` |
 | [VOXELIA-ALG-0029](VOXELIA-ALG-0029-freudenthal-label-set-surface.md) | Accepted | Freudenthal label-set surface `binary64-v1` |
+| [VOXELIA-ALG-0030](VOXELIA-ALG-0030-triangle-area-weighted-vertex-normals.md) | Accepted | Triangle area-weighted vertex normals `binary64-v1` |

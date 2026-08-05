@@ -172,7 +172,7 @@ topology design. `ADR-0185` is allocated to the triangle mesh topology.
 the scalar surface extraction design. `ADR-0191` is allocated to its public
 operation and publication boundary. `ADR-0192` is allocated to the labelled
 surface extraction design.
-The next unallocated numeric identifier is `ADR-0193`.
+The next unallocated numeric identifier is `ADR-0194`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -348,3 +348,4 @@ The next unallocated numeric identifier is `ADR-0193`.
 | [ADR-0190](ADR-0190-scalar-surface-extraction-design.md) | Accepted | Scalar surface extraction design |
 | [ADR-0191](ADR-0191-scalar-surface-operation-boundary.md) | Accepted | Scalar surface operation and publication boundary |
 | [ADR-0192](ADR-0192-labelled-surface-extraction-design.md) | Accepted | Labelled surface extraction design |
+| [ADR-0193](ADR-0193-deterministic-triangle-mesh-vertex-normals-design.md) | Accepted | Deterministic triangle-mesh vertex normals design |

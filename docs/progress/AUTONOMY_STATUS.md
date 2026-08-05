@@ -5446,6 +5446,101 @@ oracle campaigns.
   verification passed with 851 manifest paths, 850 inventory records and 851
   checksums.
 
+- One-hundred-ninety-seventh autonomous increment (scheduled goal
+  continuation): accepted `ADR-0193` and `VOXELIA-ALG-0030`, freezing the next
+  `ADR-0183` dependency without adding product source. Version one is one
+  smooth vertex-domain normal per canonical triangle-mesh vertex, computed by
+  serially accumulating each triangle's right-hand oriented doubled-area
+  vector in topology/corner/component order. Face-domain streams, flat-shading
+  duplication, crease/smoothing groups, tangents, normal replacement,
+  topology repair, measurement, rendering and acceleration remain separate.
+
+  The exact binary64 model evaluates ordered edge differences and cross
+  products without fusion, adds face vectors serially, then normalizes each
+  final accumulator using a maximum-component-scaled Euclidean expression.
+  Degenerate zero-vector faces contribute nothing; an isolated, completely
+  degenerate or exactly cancelled vertex fails the whole operation as
+  `undefinedNormal`. Non-finite differences, products, cross components,
+  additions or normalization intermediates fail as
+  `normalNotRepresentable`; underflow and gradual subnormals remain part of the
+  frozen arithmetic. Output zeros are explicitly positive. The output retains
+  every source position bit, topology index and existing attribute and appends
+  one interleaved three-component vector `.normal` attribute in exact
+  little-endian float64 bytes.
+
+  The future immutable Geometry request carries a source mesh plus structurally
+  corresponding identity/provenance claims and four required ceilings: vertex,
+  triangle, existing-attribute and additional logical bytes. It explicitly
+  disclaims cryptographic mesh binding until a canonical mesh projection
+  exists. An existing built-in normal rejects instead of being overwritten.
+  The governed additional payload is exactly one 24-byte accumulator and one
+  24-byte output record per vertex; checked `UInt64` arithmetic and the
+  384,307,168,202,282,325-vertex boundary also prove each accepted buffer count
+  fits Apple `Int`. Attribute, triangle and vertex scans poll at 4,096, 64 and
+  4,096 item cadences, and final cancellation precedes all identity/provenance
+  construction.
+
+  The fixed operation/implementation tokens, version `1.0.0`, eight-entry
+  parameter schema, `source-mesh` role/one-based provenance, default CPU
+  binary64-strict/full/exact claims and validation `.unknown` are frozen.
+  Result binding preserves source domains—including exact UTF-8 generic/name
+  strings—and validates one appended normal descriptor without pretending to
+  re-execute the numerical oracle or authenticate source claims. The staged
+  migration keeps public Geometry values, the internal CPU kernel and public
+  claim assembly/registration in three separately verified increments.
+
+  The independent standard-library oracle forces every displayed binary64
+  operation and locks twelve analytical cases: exact positive-Z, unequal-area
+  `(0, 2, 1)` weighting with hard-coded component bits, serial-topology-order
+  and non-contracted-cross discriminators, reversed winding,
+  degenerate-plus-valid contribution, least-subnormal preservation,
+  positive-zero serialization, opposite cancellation, isolated vertex,
+  difference overflow and serial accumulation overflow. It asserts both
+  registered digests internally and reproduced identical output under two
+  hash seeds:
+
+  ```text
+  fixtureSHA256=1306df51656d104cfacc9cafc5f2fd7910bbe0104e10a435326310d94d6c94fc
+  normalAttributeBytesSHA256=076b11f527589e716986a14a99ff86590b592b95f948ca6b6309627baff96d17
+  fixtures=12 successful=8 failures=4
+  maximumAdditionalByteVertexCount=384307168202282325
+  triangleCancellationOrdinals=0,64,128,... vertexCancellationOrdinals=0,4096,8192,...
+  orientation=right-hand-area-weighted zeroComponents=positive
+  ```
+
+  Independent review found and closed the stale ADR allocator, the
+  repeated-position representability wording and the original oracle's
+  inability to distinguish contraction or accumulation reordering. The
+  reviewer independently reproduced the new separated-versus-fused cross bits
+  in Swift, the serial-order discriminator and all registered hashes under
+  three hash seeds, then approved the design and oracle with no remaining
+  substantive finding. No reviewer-authored file edits were accepted.
+
+  Documentation validation passed seven front-matter documents, all 173 ADRs,
+  two primary and one companion Draft RFC and 283 Markdown files. The
+  486-record requirement index, manifest-path preflight, direct oracle and
+  `git diff --check` passed. Release-integrity regeneration and verification
+  passed with 854 manifest paths, 853 inventory records and 854 checksums. No
+  Swift product source, public symbol, package edge or platform code changed,
+  so Swift builds/tests, the previously compiler-crashing broad semantic
+  release-test gate, DocC archives, Apple destination matrix, unavailable
+  visionOS SDK and external device/fuzz evidence were intentionally not rerun
+  or promoted.
+
+  ```bash
+  PYTHONHASHSEED=0 python3 \
+    docs/progress/evidence/ADR-0193-deterministic-vertex-normal-oracle.py
+  PYTHONHASHSEED=1 python3 \
+    docs/progress/evidence/ADR-0193-deterministic-vertex-normal-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  python3 Tools/Scripts/check_manifest_paths.py
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  python3 Tools/Scripts/check_manifest_paths.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11284,12 +11379,16 @@ evidence. `ADR-0192` migration step three now adds the public atomic result
 boundary, independently reproduced parameter digest, fixed CPU
 identity/provenance/execution claims, final prepublication cancellation and the
 evidence-backed thirteenth CPU registry entry. All three `ADR-0192` product
-migration stages are complete. The exact next action is the next accepted
-geometry dependency: assess and freeze deterministic reference normal
-generation in a separate design/algorithm increment, including orientation,
-degeneracy, accumulation, normalisation, precision, cancellation, limits,
-provenance and independent analytical fixtures before any normal-generation
-source becomes public.
+migration stages are complete. Accepted `ADR-0193` and `VOXELIA-ALG-0030` now
+freeze deterministic triangle-area-weighted vertex normal generation,
+including ordered binary64 arithmetic, degeneracy and failure semantics,
+maximum-component normalization, resource limits, cancellation, provenance and
+independent analytical fixtures. The exact next action is `ADR-0193` migration
+step one: add the four immutable Geometry declaration/publication values and
+closed payload-free error family, with exact parameter-digest, structural
+result-binding, source-preservation, privacy and `Sendable` regression
+evidence. Do not add the internal CPU kernel, public operation entry point,
+measurement, rendering or acceleration in that increment.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -11303,14 +11402,15 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform only the deterministic-normal design/algorithm increment next.
-  Reconcile the governing requirements and accepted mesh/extraction
-  orientation with exact face/vertex-domain ownership, degenerate-triangle and
-  zero-vector behavior, deterministic accumulation/reduction order,
-  normalization and extreme-binary64 failure semantics, checked limits,
-  cancellation, operation/provenance identity and independent analytical
-  fixtures. Do not add product source, measurement, rendering or acceleration
-  until that contract is independently reviewed and accepted.
+- Perform only `ADR-0193` migration step one next. Add the four immutable
+  Geometry declaration/publication values and closed payload-free error family;
+  cover exact construction and validation precedence, the registered
+  parameter document and digest, every structural result-binding adversary,
+  exact source preservation, privacy-safe diagnostics and compile-time
+  `Sendable` evidence. Compile the owning Geometry target and run only its
+  focused tests plus direct affected dependants required by a new public API.
+  Do not add the internal CPU kernel, public operation entry point,
+  measurement, rendering or acceleration in that increment.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
