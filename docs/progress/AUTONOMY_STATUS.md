@@ -1896,6 +1896,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   limit and positive reported limits and prints the detected sparse,
   ray-tracing, threadgroup and working-set values as single-device
   evidence.
+- Seventy-fourth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0106` and delivered
+  `VOX-MTL-005` pipeline-state caching. `MetalExecutionContext` owns
+  a `MetalPipelineCache`: compiled libraries keyed by the exact
+  source digest and pipeline states by kernel token, source digest
+  and entry point — the stable identities, with lookup never
+  comparing source text because the manifest discipline pins each
+  digest to its text. Both kernel families now acquire their
+  pipelines through the cache and map its typed failures into their
+  own error surfaces, so repeated kernel construction on one context
+  reuses every compiled state; a process-global cache was rejected
+  because pipeline states are device-bound and the context is the
+  device boundary, and eviction was rejected as a future governed
+  decision over a set bounded by the closed family registry. Build
+  counts are exposed per the coalescing-evidence precedent, and the
+  test proved reuse by observation: two libraries and four pipelines
+  compiled across four kernel constructions on one context, with the
+  second constructions compiling nothing and distinct entry points
+  holding distinct cached pipelines.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

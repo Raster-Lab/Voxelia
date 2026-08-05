@@ -90,8 +90,8 @@ presentation scaling claim. `ADR-0101` is allocated to record
 manifest archival. `ADR-0102` is allocated to crop presentation. `ADR-0103` is
 allocated to interactive quality equivalence. `ADR-0104` is allocated
 to backend policy planning. `ADR-0105` is allocated to the device
-capability model. The next unallocated numeric identifier is
-`ADR-0106`.
+capability model. `ADR-0106` is allocated to pipeline state caching.
+The next unallocated numeric identifier is `ADR-0107`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -180,3 +180,4 @@ capability model. The next unallocated numeric identifier is
 | [ADR-0103](ADR-0103-interactive-quality-equivalence.md) | Accepted | Interactive quality equivalence |
 | [ADR-0104](ADR-0104-backend-policy-planning.md) | Accepted | Backend policy planning |
 | [ADR-0105](ADR-0105-device-capability-model.md) | Accepted | Device capability model |
+| [ADR-0106](ADR-0106-pipeline-state-caching.md) | Accepted | Pipeline state caching |

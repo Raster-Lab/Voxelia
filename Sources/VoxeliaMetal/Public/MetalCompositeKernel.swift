@@ -48,30 +48,24 @@ public final class MetalCompositeKernel: @unchecked Sendable {
     let context: MetalExecutionContext
     private let pipeline: any MTLComputePipelineState
 
-    /// Compiles the embedded source and builds the compute pipeline on
-    /// one acquired context.
+    /// Acquires the compute pipeline through the context's `ADR-0106`
+    /// cache, compiling at most once per stable identity.
     ///
     /// - Throws: ``MetalCompositeKernelError``.
     public init(context: MetalExecutionContext) throws {
         self.context = context
-        let library: any MTLLibrary
         do {
-            library = try context.device.makeLibrary(
+            self.pipeline = try context.pipelineCache.pipeline(
+                key: MetalPipelineCache.Key(
+                    kernelToken: Self.kernelIdentifier,
+                    sourceDigest: Self.sourceDigestHexText,
+                    entryPoint: "voxelia_composite_layers"
+                ),
                 source: CompositeKernelSource.metalSource,
-                options: nil
+                device: context.device
             )
-        } catch {
+        } catch MetalPipelineCacheError.compilationFailed {
             throw MetalCompositeKernelError.compilationFailed
-        }
-        guard
-            let function = library.makeFunction(name: "voxelia_composite_layers")
-        else {
-            throw MetalCompositeKernelError.pipelineUnavailable
-        }
-        do {
-            self.pipeline = try context.device.makeComputePipelineState(
-                function: function
-            )
         } catch {
             throw MetalCompositeKernelError.pipelineUnavailable
         }

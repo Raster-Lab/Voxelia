@@ -77,6 +77,8 @@ public final class MetalExecutionContext: @unchecked Sendable {
     public let deviceRegistryIdentifier: UInt64
     /// The detected device-capability model per `ADR-0105`.
     public let capabilities: MetalDeviceCapabilities
+    /// The per-context pipeline-state cache per `ADR-0106`.
+    public let pipelineCache: MetalPipelineCache
 
     let device: any MTLDevice
     let commandQueue: any MTLCommandQueue
@@ -113,5 +115,6 @@ public final class MetalExecutionContext: @unchecked Sendable {
             maximumThreadsPerThreadgroupWidth: device.maxThreadsPerThreadgroup.width,
             recommendedMaximumWorkingSetByteCount: device.recommendedMaxWorkingSetSize
         )
+        self.pipelineCache = MetalPipelineCache()
     }
 }

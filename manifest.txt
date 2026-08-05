@@ -174,6 +174,7 @@ Sources/VoxeliaMetal/Public/ExactSliceRenderer.swift
 Sources/VoxeliaMetal/Public/MetalCompositeKernel.swift
 Sources/VoxeliaMetal/Public/MetalCompositeLayersOperation.swift
 Sources/VoxeliaMetal/Public/MetalExecutionContext.swift
+Sources/VoxeliaMetal/Public/MetalPipelineCache.swift
 Sources/VoxeliaMetal/Public/MetalRendererPlanner.swift
 Sources/VoxeliaMetal/Public/MetalResidencyManager.swift
 Sources/VoxeliaMetal/Public/MetalSliceRenderer.swift
@@ -320,6 +321,7 @@ Tests/VoxeliaMetalTests/ExactSliceRendererTests.swift
 Tests/VoxeliaMetalTests/MetalCompositeKernelTests.swift
 Tests/VoxeliaMetalTests/MetalCompositeLayersOperationTests.swift
 Tests/VoxeliaMetalTests/MetalExecutionContextTests.swift
+Tests/VoxeliaMetalTests/MetalPipelineCacheTests.swift
 Tests/VoxeliaMetalTests/MetalRendererPlannerTests.swift
 Tests/VoxeliaMetalTests/MetalResidencyManagerTests.swift
 Tests/VoxeliaMetalTests/MetalSliceRendererTests.swift
@@ -544,6 +546,7 @@ docs/architecture/decisions/ADR-0102-crop-presentation.md
 docs/architecture/decisions/ADR-0103-interactive-quality-equivalence.md
 docs/architecture/decisions/ADR-0104-backend-policy-planning.md
 docs/architecture/decisions/ADR-0105-device-capability-model.md
+docs/architecture/decisions/ADR-0106-pipeline-state-caching.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

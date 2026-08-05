@@ -52,29 +52,26 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
     private let int16Pipeline: any MTLComputePipelineState
     private let uint16Pipeline: any MTLComputePipelineState
 
-    /// Compiles the embedded source and builds one compute pipeline
-    /// per manifest entry point on one acquired context.
+    /// Acquires one compute pipeline per manifest entry point through
+    /// the context's `ADR-0106` cache, compiling at most once per
+    /// stable identity.
     ///
     /// - Throws: ``MetalKernelError``.
     public init(context: MetalExecutionContext) throws {
         self.context = context
-        let library: any MTLLibrary
-        do {
-            library = try context.device.makeLibrary(
-                source: WindowLevelKernelSource.metalSource,
-                options: nil
-            )
-        } catch {
-            throw MetalKernelError.compilationFailed
-        }
         func pipeline(_ name: String) throws -> any MTLComputePipelineState {
-            guard let function = library.makeFunction(name: name) else {
-                throw MetalKernelError.pipelineUnavailable
-            }
             do {
-                return try context.device.makeComputePipelineState(
-                    function: function
+                return try context.pipelineCache.pipeline(
+                    key: MetalPipelineCache.Key(
+                        kernelToken: Self.kernelIdentifier,
+                        sourceDigest: Self.sourceDigestHexText,
+                        entryPoint: name
+                    ),
+                    source: WindowLevelKernelSource.metalSource,
+                    device: context.device
                 )
+            } catch MetalPipelineCacheError.compilationFailed {
+                throw MetalKernelError.compilationFailed
             } catch {
                 throw MetalKernelError.pipelineUnavailable
             }
