@@ -34,6 +34,10 @@ milestone specifications introduce its substantive public API incrementally.
 - ``MetalCompositeKernel``
 - ``MetalCompositeKernelError``
 - ``MetalCompositeLayersOperation``
+- ``MetalRendererPlanner``
+- ``BackendPolicy``
+- ``RendererBackendSelection``
+- ``RendererPlan``
 
 ### Project documents
 

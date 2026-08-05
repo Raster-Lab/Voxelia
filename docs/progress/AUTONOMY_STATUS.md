@@ -1844,6 +1844,40 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   token today were both rejected as false. The suite proves the
   equivalence: one scene rendered under both qualities publishes
   identical bytes with identical full quality-policy claims.
+- Seventy-second autonomous increment (owner broadened standing
+  mandate): the M3 baseline row sweep and its first executable
+  outcome. All 37 M3 rows were assessed against delivered work.
+  Delivered or satisfied by construction: `VOX-PLT-001/011/013/014`,
+  `VOX-REP-008`, `VOX-ARC-008`, `VOX-API-008`, `VOX-SPA-004`,
+  `VOX-META-007`, `VOX-CON-004`, `VOX-MTL-001/003/004/007/014/016`,
+  `VOX-R2D-001/002`, `VOX-ERR-004`, `VOX-VAL-006`, `VOX-DOC-007`
+  (manifest version identities with the algorithm and decision
+  records as the family specifications). Substantially satisfied:
+  `VOX-META-008` — camera, viewport, per-layer transfer functions and
+  opacities, crop and scaling are presentation claims, executed
+  quality and software identity live on every stage record; a single
+  scene-identity field remains future work. Vacuously satisfied until
+  their subjects exist: `VOX-EXE-014/015` (no adaptive or preview
+  path), `VOX-CON-005` (no draw callbacks), `VOX-ADP-006` (no MPS).
+  Open and executable: `VOX-MTL-002` capability-model widening,
+  `VOX-MTL-005` pipeline-state caching, `VOX-MTL-015` telemetry
+  capture, `VOX-VAL-010` digest-bearing evidence lines. Open and
+  gated: `VOX-MTL-006` frame contexts (needs the interactive frame
+  architecture), `VOX-MTL-008` private-residency justification and
+  `VOX-CON-008` priority propagation (need measurement campaigns).
+  The first executable outcome shipped as `ADR-0104`:
+  `MetalRendererPlanner` with the closed `VOX-CCH-002` policy set —
+  reference, CPU-preferred, GPU-preferred, automatic — returning an
+  evidence-carrying `RendererPlan` whose selection is always
+  reported, never silent; reference and CPU-preferred select the
+  exact CPU pipeline, the device policies select the device pipeline
+  when the context and both kernels acquire and otherwise report the
+  CPU fallback, and the `VOX-CCH-003` fail-closed rule holds by
+  construction because every selectable implementation carries
+  measured validation evidence. Tests plan all four policies on this
+  device-bearing host, verify the reported selections and render the
+  registered fixture through policy-selected renderers on both
+  backends.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
