@@ -4844,6 +4844,132 @@ oracle campaigns.
   device/fuzz/differential evidence were not rerun or promoted under this
   focused public-boundary increment.
 
+- One-hundred-ninety-first autonomous increment (scheduled goal continuation):
+  implemented accepted `ADR-0191` migration step three in `VoxeliaCPU` without
+  publication assembly or backend registration. The internal stateless
+  operation preserves the frozen cancellation-first precedence, admits the
+  exact Geometry request domain, performs exactly one full-rank read through
+  `StorageReadCoordinator`, retains the read result's owned packed bytes and
+  releases the coordinator token before transform admission, finite-value
+  validation or numerical traversal. No full `[Double]` lattice, storage
+  implementation, mutable service or incomplete public mesh-only entry point
+  was introduced.
+
+  The source adapter accepts only rank-three affine scalar intensity,
+  probability or parametric images, the nine exact-binary64 scalar containers,
+  all declared byte orders, a complete zero-through-two spatial-axis
+  permutation, binary64-representable maximum indices and a finite non-zero
+  determinant. It rejects 64-bit integer containers and every other semantic
+  or component interpretation before reading. One shared manual decoder and
+  pure transform evaluator implement absent/identity, exact multiply-then-add
+  linear, overflow-aware clamped integer lookup and bounded non-nested composed
+  transforms. The axis-zero-fastest validation pass reports the first
+  non-finite authoritative sample and checks cancellation before ordinal zero
+  and each multiple of 4,096; cell corners are re-decoded on demand from the
+  same packed bytes.
+
+  The CPU reference kernel implements the complete registered sixteen-case
+  Freudenthal table, exact cell/tetrahedron/triangle/edge ordering,
+  `sample >= isovalue` classification, sorted sample/edge keys, exact endpoint
+  collapse and binary64 interpolation sequence. It omits only repeated-key
+  triangles, reuses exact keys across seams, maps image positions through the
+  frozen spatial-axis and affine evaluation order, and composes determinant
+  sign with permutation parity for physical winding. Every ordinal, output
+  count, component count and caller ceiling is checked before mutation; the
+  vertex map remains bounded by the vertex limit. Traversal checks
+  cancellation at cell zero, every 64-cell boundary and finally after complete
+  mesh construction. Failures remain the public payload-free Geometry error
+  family and no diagnostic retains source bytes, values or identifiers.
+
+  Three new test-support/reference suites prove exactly one read and released
+  retained-byte budget, closed admission/error precedence, all accepted and
+  rejected semantics/components/scalars, `validBitCount` non-interpretation,
+  native/little/big-endian decoding, signed and floating negative values,
+  integer extremes, every accepted transform form and malformed transform,
+  decoded/transformed non-finites, read/budget failures, sample ordinals 0,
+  4,095, 4,096 and 4,097, cell ordinals 0 and 64, final cancellation, empty
+  output, exact-isovalue collapse, seam reuse, reflected/permuted spaces,
+  interpolation/position failure and both output ceilings. The exhaustive
+  Swift 256-mask serialization matches the independent registered Python
+  oracle digest
+  `4bed958ac7d25a4539de8a0cea28524271a89303c3e9e3fb0de0d311e5c6931d`
+  with the registered maxima of 13 vertices and 12 triangles. Review-driven
+  strengthening additionally binds every complete-mask output position's
+  fixed-width binary64 bit pattern and topology under digest
+  `154f1d57f1fe6491f9fe6267109fa46074ffba860d16f7284736388a434536aa`,
+  and the full two-cell seam output under
+  `348948097129d59454615bae09372c8ff16b5564ac0db7f95433b168cb05f86e`.
+  Independent oracle runs under `PYTHONHASHSEED=1` and `987654` reproduced all
+  three digests and maxima. A separate FMA-sensitive fixture proves the linear
+  transform rounds multiplication before addition: the accepted sequence
+  yields positive zero where a fused operation yields `-2^-54`.
+
+  The final focused and owning-module tests passed under strict memory safety
+  and warnings-as-errors:
+
+  ```bash
+  swift test --filter ScalarSurfaceReferenceKernelTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter ScalarSurfaceSourceAdapterTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter VoxeliaCPUTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  ```
+
+  The kernel suite passed seven tests, including 27 accepted scalar/byte-order
+  cases and 18 negative signed/floating cases; the adapter suite passed 15
+  tests; and the complete CPU target passed 24 tests across its three suites.
+  Development failures were retained as evidence: the first human-readable
+  `CPU scalar-surface` filter compiled but selected no tests; the corrected
+  `ScalarSurface` filter exposed four incorrect absent/identity fixture
+  expectations caused by an isovalue equal to the zero samples; and two test
+  compile iterations caught collection type inference/switch-expression
+  issues and an accidentally malformed parameter-case loop. The fixtures and
+  syntax were corrected without weakening product behavior before the final
+  green runs.
+
+  Strict warnings-as-errors debug/release builds passed for `VoxeliaCPU` and
+  its direct dependant `VoxeliaValidation`. The complete fail-closed Swift
+  safety gate then built every repository package in debug and release and
+  reported no compiler-classified unsafe Swift or unchecked `Sendable`
+  exception:
+
+  ```bash
+  for configuration in debug release; do
+    for target in VoxeliaCPU VoxeliaValidation; do
+      swift build -c "$configuration" --target "$target" \
+        -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+    done
+  done
+  python3 Tools/Scripts/check_swift_safety.py --compile
+  ```
+
+  Strict `swift-format` lint over all six new Swift files, dynamic/static
+  package-graph checks, prohibited imports, documentation validation and
+  `git diff --check` passed. Documentation validation covered seven
+  front-matter documents, all 171 ADRs, the two primary and one companion
+  Draft RFC records and 279 Markdown files. A raw changed-file scan found no
+  unsafe syntax, fatal assertion or public declaration. The complete repository
+  test suite, package-wide DocC archive, Apple destination matrix, unavailable
+  visionOS SDK and external device/fuzz evidence were intentionally not rerun
+  under the focused internal CPU numerical increment and are not promoted to
+  new evidence.
+
+  The authorised independent reviewer found no production-source defect and
+  approved the decoding, transform, numerical, winding, overflow, memory,
+  token-release, cancellation, diagnostics, concurrency and internal-API
+  boundaries. Their first evidence review correctly blocked the claim that the
+  rational-only digest bound `Double.bitPattern`, and found that the original
+  seam existence/uniqueness assertions could pass if only one adjacent cell
+  were traversed. The independent Python binary64-mask and complete-seam
+  digests above close both findings; the FMA-sensitive fixture closes their
+  remaining transform-rounding risk. Their final re-review reproduced both new
+  digests, passed the seven-test kernel suite, fifteen-test adapter suite,
+  optimized-release FMA fixture, Python oracle, strict formatter and diff
+  check, and issued approval with no remaining semantic or validation blocker.
+  Release-integrity regeneration and final manifest/integrity verification
+  passed with 838 manifest paths, 837 inventory records and 838 checksums.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -10661,10 +10787,15 @@ ownership, payload-free error precedence, Core-compatible operation/role/
 occurrence spellings, parameter schema and CPU placement without a reverse
 package edge. Migration step two now implements the four immutable Geometry
 values and closed error family with focused construction, complete binding,
-privacy, digest-golden and `Sendable` evidence. The exact next action is
-migration step three: add the CPU source adapter and Freudenthal reference
-kernel behind exactly one coordinated full read, without adding publication
-assembly or CPU registration from migration step four.
+privacy, digest-golden and `Sendable` evidence. Migration step three now adds
+the internal CPU source adapter and exact Freudenthal reference kernel behind
+exactly one coordinated full read, with closed decoding/transform,
+cancellation, resource-limit and exhaustive-oracle evidence and without an
+incomplete public entry point. The exact next action is migration step four:
+assemble the fixed CPU identity/provenance claims, add the atomic public
+`execute(request:publication:coordinator:)` result boundary, reproduce every
+result-binding failure, and register the CPU operation only after its complete
+conformance evidence passes.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -10678,14 +10809,17 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Implement only `ADR-0191` migration step three: the CPU source adapter and
-  Freudenthal binary64-v1 reference kernel behind exactly one coordinated full
-  read. Prove admission/error precedence, every accepted and rejected scalar,
-  component interpretation and image semantic, byte order, accepted transform
-  forms and failures, token release, limits, source-validation/cell/final
-  cancellation points, empty output and exact/differential `ALG-0028` fixtures.
-  Keep identity/provenance assembly, atomic public result return and CPU
-  registration in migration step four.
+- Implement only `ADR-0191` migration step four: fixed CPU identity and
+  transformed provenance assembly, the atomic public
+  `execute(request:publication:coordinator:)` result return and CPU backend
+  registration after conformance passes. Reproduce the exact four-entry
+  parameter schema independently; prove fixed implementation/execution claims,
+  corrected token/role/occurrence, derivation/provenance/result binding,
+  cancellation immediately before publication, empty-result publication and
+  payload-free mapping of every construction failure. Re-run the owning CPU
+  tests and direct dependant builds because the entry point and registry are
+  public. Do not change the step-three decoder, kernel, algorithm identity,
+  numerical ordering or source-read policy without a new accepted contract.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

@@ -61,6 +61,9 @@ Sources/Voxelia/Voxelia.docc/Requirements.md
 Sources/Voxelia/Voxelia.docc/Voxelia.md
 Sources/VoxeliaCPU/ApplePlatformGate.swift
 Sources/VoxeliaCPU/Internal/.gitkeep
+Sources/VoxeliaCPU/Internal/CPUScalarSurfaceExtractionOperation.swift
+Sources/VoxeliaCPU/Internal/ScalarSurfaceReferenceKernel.swift
+Sources/VoxeliaCPU/Internal/ScalarSurfaceSourceAdapter.swift
 Sources/VoxeliaCPU/Module.swift
 Sources/VoxeliaCPU/Public/.gitkeep
 Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift
@@ -297,6 +300,9 @@ Tests/Support/ApplePlatformGate.swift
 Tests/Support/Resources/README.md
 Tests/Support/TestSupport.swift
 Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift
+Tests/VoxeliaCPUTests/ScalarSurfaceExtractionTestSupport.swift
+Tests/VoxeliaCPUTests/ScalarSurfaceReferenceKernelTests.swift
+Tests/VoxeliaCPUTests/ScalarSurfaceSourceAdapterTests.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationIngressTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationJSONTests.swift

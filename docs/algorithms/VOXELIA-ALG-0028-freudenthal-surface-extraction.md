@@ -255,12 +255,16 @@ The independent exact-rational oracle is
 It proves all six tetrahedra have positive unit determinant, all fourteen
 nonempty tetrahedron cases have outward winding, all 256 binary cube masks are
 complete and in bounds, shared-face triangulation conforms, reflected winding
-reverses, and exact-isovalue key collapse omits repeated-index triangles.
+reverses, and exact-isovalue key collapse omits repeated-index triangles. It
+also serializes the independently derived dyadic positions as fixed-width
+binary64 bit patterns for the complete mask corpus and the two-cell shared-seam
+fixture, so the Swift differential cannot normalize signed zero or omit either
+cell unnoticed.
 
 Its registered output is:
 
 ```text
-cubeMaskSHA256=4bed958ac7d25a4539de8a0cea28524271a89303c3e9e3fb0de0d311e5c6931d maximumVertices=13 maximumTriangles=12 singleCorner=7v/6t equality=0v/0t sharedFace=conforming winding=outward
+cubeMaskSHA256=4bed958ac7d25a4539de8a0cea28524271a89303c3e9e3fb0de0d311e5c6931d cubeMaskBinary64SHA256=154f1d57f1fe6491f9fe6267109fa46074ffba860d16f7284736388a434536aa sharedSeamBinary64SHA256=348948097129d59454615bae09372c8ff16b5564ac0db7f95433b168cb05f86e maximumVertices=13 maximumTriangles=12 singleCorner=7v/6t equality=0v/0t sharedFace=conforming winding=outward
 ```
 
 For the `2 × 2 × 2` identity-geometry fixture with corner zero equal to `1`,

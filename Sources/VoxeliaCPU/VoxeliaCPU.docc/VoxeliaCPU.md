@@ -2,10 +2,13 @@
 
 Deterministic CPU reference and optimised implementations.
 
-## M0 status
+## Current status
 
-This target is part of the repository and dependency scaffold. Its substantive
-public API is introduced only by reviewed milestone specifications.
+Reviewed milestone specifications now authorize deterministic CPU operations
+and backend registrations. The scalar-surface migration currently contains an
+internal one-read source adapter and the exact binary64 Freudenthal reference
+kernel. Its public execution/result assembly and registration remain withheld
+until the next accepted migration stage passes its publication evidence.
 
 ## Direct dependencies
 

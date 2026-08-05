@@ -6,6 +6,7 @@
 from fractions import Fraction
 import hashlib
 import json
+import struct
 
 
 CORNERS = (
@@ -93,6 +94,28 @@ def ordinal(coordinate, extents):
 
 def fraction_text(value):
     return f"{value.numerator}/{value.denominator}"
+
+
+def binary64_text(value):
+    return struct.pack(">d", float(value)).hex()
+
+
+def binary64_record(vertices, triangles, mask=None):
+    record = {
+        "triangles": triangles,
+        "vertexBits": [
+            [binary64_text(component) for component in vertex]
+            for vertex in vertices
+        ],
+    }
+    if mask is not None:
+        record["mask"] = mask
+    return record
+
+
+def record_digest(record):
+    encoded = json.dumps(record, separators=(",", ":"), sort_keys=True).encode()
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def extract(extents, samples, isovalue, reverse_winding=False):
@@ -271,10 +294,12 @@ def validate_equality_and_seam_fixtures():
             if seam_index in triangle
         }
         assert using_cells == {0, 1}
+    return record_digest(binary64_record(vertices, triangles))
 
 
 def cube_mask_digest():
     records = []
+    binary64_records = []
     maximum_vertices = 0
     maximum_triangles = 0
     for mask in range(256):
@@ -297,19 +322,30 @@ def cube_mask_digest():
                 "triangles": triangles,
             }
         )
+        binary64_records.append(binary64_record(vertices, triangles, mask))
     encoded = json.dumps(records, separators=(",", ":"), sort_keys=True).encode()
-    return hashlib.sha256(encoded).hexdigest(), maximum_vertices, maximum_triangles
+    binary64_encoded = json.dumps(
+        binary64_records, separators=(",", ":"), sort_keys=True
+    ).encode()
+    return (
+        hashlib.sha256(encoded).hexdigest(),
+        hashlib.sha256(binary64_encoded).hexdigest(),
+        maximum_vertices,
+        maximum_triangles,
+    )
 
 
 def main():
     validate_tetrahedron_table()
     validate_single_corner_fixture()
-    validate_equality_and_seam_fixtures()
-    digest, maximum_vertices, maximum_triangles = cube_mask_digest()
+    seam_digest = validate_equality_and_seam_fixtures()
+    digest, binary64_digest, maximum_vertices, maximum_triangles = cube_mask_digest()
     print(
         " ".join(
             (
                 f"cubeMaskSHA256={digest}",
+                f"cubeMaskBinary64SHA256={binary64_digest}",
+                f"sharedSeamBinary64SHA256={seam_digest}",
                 f"maximumVertices={maximum_vertices}",
                 f"maximumTriangles={maximum_triangles}",
                 "singleCorner=7v/6t",
