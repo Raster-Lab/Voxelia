@@ -29,14 +29,27 @@ struct MPRSliceCoordinatorTests {
         )
     }
 
-    private func volume(extents: [Int], name: String) throws -> ImageData {
+    private func volume(
+        extents: [Int],
+        name: String,
+        depthSampling: AxisSampling = .indexOnly
+    ) throws -> ImageData {
         let semantics: [AxisSemantic] = [.spatialX, .spatialY, .spatialZ]
         let names = ["x", "y", "z"]
         let count = extents.reduce(1, *)
         let bytes = (0..<count).map { UInt8($0) }
         var axes = ContiguousArray<AxisDescriptor>()
         for index in 0..<extents.count {
-            axes.append(try axis(names[index], semantic: semantics[index]))
+            let sampling = index == 2 ? depthSampling : AxisSampling.indexOnly
+            axes.append(
+                try AxisDescriptor(
+                    id: try #require(AxisID(rawValue: names[index])),
+                    name: names[index],
+                    semantic: semantics[index],
+                    unit: nil,
+                    sampling: sampling
+                )
+            )
         }
         return try ImageData(
             descriptor: try ImageDescriptor(
@@ -213,6 +226,58 @@ struct MPRSliceCoordinatorTests {
         requireSendable(MPRPlane.self)
         requireSendable(MPRPublicationStage.self)
         requireSendable(MPRError.self)
+    }
+
+    @Test("[Unit][VOX-MPR-005][VOX-ERR-001] crosshair components map to slice indices")
+    func crosshairComponentsMapToSliceIndices() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try volume(
+                extents: [2, 3, 2],
+                name: "volume-1",
+                depthSampling: .regular(origin: 10, spacing: 2.5)
+            ),
+            mode: .complete
+        )
+        let volumeID = try #require(DataObjectID(rawValue: "volume-1"))
+
+        // The ADR-0130 frozen rule: exact indices including the
+        // ties-to-even case at the half-slice boundary.
+        let exact = try await MPRSliceCoordinator.sliceIndex(
+            forAxisValue: 12.5,
+            plane: .axial,
+            volumeID: volumeID,
+            publisher: publisher
+        )
+        #expect(exact == 1)
+        let tied = try await MPRSliceCoordinator.sliceIndex(
+            forAxisValue: 11.25,
+            plane: .axial,
+            volumeID: volumeID,
+            publisher: publisher
+        )
+        #expect(tied == 0)
+
+        // Out-of-volume components and non-regular fixed axes reject
+        // typed — never a clamp.
+        do {
+            _ = try await MPRSliceCoordinator.sliceIndex(
+                forAxisValue: 16,
+                plane: .axial,
+                volumeID: volumeID,
+                publisher: publisher
+            )
+            #expect(Bool(false), "Expected an out-of-volume component to be rejected.")
+        } catch MPRError.crosshairOutsideVolume {}
+        do {
+            _ = try await MPRSliceCoordinator.sliceIndex(
+                forAxisValue: 12.5,
+                plane: .sagittal,
+                volumeID: volumeID,
+                publisher: publisher
+            )
+            #expect(Bool(false), "Expected a non-regular fixed axis to be rejected.")
+        } catch MPRError.unsupportedAxisSampling {}
     }
 
     @Test("[Unit][VOX-ERR-001] slice admission rejects typed")

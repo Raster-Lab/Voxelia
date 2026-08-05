@@ -11,6 +11,8 @@ public enum MPRError: Error, Sendable, Equatable {
     case volumeNotPublished
     case unsupportedVolumeShape
     case invalidSliceIndex
+    case unsupportedAxisSampling
+    case crosshairOutsideVolume
 }
 
 /// The closed multiplanar plane vocabulary per `ADR-0117`.
@@ -115,5 +117,46 @@ public enum MPRSliceCoordinator {
         )
         _ = try await publisher.publish(slice, mode: .complete)
         return slice
+    }
+
+    /// Maps one axis-domain crosshair component to the plane's slice
+    /// index per `ADR-0130`.
+    ///
+    /// The frozen rule: `difference = value - origin`,
+    /// `quotient = difference / spacing`, ties-to-even rounding — an
+    /// out-of-volume component rejects typed, never clamps, because
+    /// presenting a nearest slice for a crosshair that left the volume
+    /// would misreport where the views point. Mapping arbitrary world
+    /// points onto obliquely oriented volumes awaits the
+    /// affine-inverse model.
+    ///
+    /// - Throws: ``MPRError``.
+    public static func sliceIndex(
+        forAxisValue value: Double,
+        plane: MPRPlane,
+        volumeID: DataObjectID,
+        publisher: PublicationCoordinator
+    ) async throws -> Int {
+        guard let volume = await publisher.publishedImage(for: volumeID) else {
+            throw MPRError.volumeNotPublished
+        }
+        let extents = volume.descriptor.shape.extents
+        guard extents.count == 3 else {
+            throw MPRError.unsupportedVolumeShape
+        }
+        let fixedAxis = plane.fixedAxis
+        guard
+            case .regular(let origin, let spacing) =
+                volume.descriptor.axes[fixedAxis].sampling
+        else {
+            throw MPRError.unsupportedAxisSampling
+        }
+        let difference = value - origin
+        let quotient = difference / spacing
+        let index = Int(quotient.rounded(.toNearestOrEven))
+        guard index >= 0, index < extents[fixedAxis] else {
+            throw MPRError.crosshairOutsideVolume
+        }
+        return index
     }
 }

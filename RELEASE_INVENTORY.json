@@ -811,8 +811,8 @@
     },
     {
       "path": "Sources/VoxeliaImaging/Public/MPRSliceCoordinator.swift",
-      "size": 4212,
-      "sha256": "99eb975d12c8be1e0aa81c5f7fd57efce43148a9fbbd8f6a8bfdbd6dacad7950"
+      "size": 5875,
+      "sha256": "657586c2019174b501abaeaafb928978f2110f347c4bedd043656cfd283c7f34"
     },
     {
       "path": "Sources/VoxeliaImaging/VoxeliaImaging.docc/Architecture.md",
@@ -1666,8 +1666,8 @@
     },
     {
       "path": "Tests/VoxeliaImagingTests/MPRSliceCoordinatorTests.swift",
-      "size": 9740,
-      "sha256": "491455d01724fac7af5c6dcd8a5e80b4602e9f8cffa81eefc01475dff50cacde"
+      "size": 12065,
+      "sha256": "d4d02584e630d8aeabe6dd52fd8a4d6a651da5aad9612e90c6df056865ddfe83"
     },
     {
       "path": "Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift",
@@ -3010,9 +3010,14 @@
       "sha256": "160dc557c3186276ee0ced5c42b1b43cd6dc1f3b9f4fa0ada6a2ec51ec50daa0"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0130-crosshair-slice-mapping.md",
+      "size": 3007,
+      "sha256": "08b2e8c3d8c90d1079352972e6fe5fb056519d96349c6504dffc34b56fdae2b8"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 19208,
-      "sha256": "bdc53feccd931f99978a42976dbf132480aa46dadbc4c401bc86ab7e21521733"
+      "size": 19349,
+      "sha256": "37ebf7b326893044101b3e39b8aafb08c8f940dab60e418b5e5236d710a33cb8"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3096,8 +3101,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 562649,
-      "sha256": "5278dd38dcf47884458b60ccb9a30071cc179712cc1e3765a788e4256d3bbbbd"
+      "size": 564284,
+      "sha256": "0f978a32ac040e801492c4e92b56f1fb3fbea63027460d47271ff4ba9a51a7fa"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3456,8 +3461,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 36636,
-      "sha256": "feb9467510fe5c72f2da55c440fa6e00d07681da17e1115f06f697c0e311c09f"
+      "size": 36700,
+      "sha256": "4db70485aae982887761beab1a49b79fd70bae4198c623e88e6e98552b5f8902"
     }
   ]
 }

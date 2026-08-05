@@ -2367,6 +2367,32 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   test values and one unrelated crash; a clean rebuild restored the
   suite, and the recorded rule is to clean-build after layout-changing
   edits to cross-module value types.
+- Ninety-eighth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0130`, completing
+  `VOX-MPR-005` for axis-aligned volumes, and reassessed the
+  geometry-bearing arc. `MPRSliceCoordinator.sliceIndex` maps one
+  axis-domain crosshair component through the frozen rule —
+  difference, quotient, ties-to-even rounding — with an out-of-volume
+  component the typed rejection rather than a clamp, because
+  presenting a nearest slice for a crosshair that left the volume
+  would misreport where the views point; non-regular fixed axes
+  reject typed, and mapping arbitrary world points onto obliquely
+  oriented volumes awaits the affine-inverse model, the arc's
+  recorded remaining opening. Tests map exact indices including the
+  half-slice ties-to-even case and reject all four admission
+  failures typed. Arc reassessment: the geometry-bearing presentation
+  arc is complete for axis-aligned calibrated data — calibration
+  flows window through resample with registered rescale rules,
+  presentations claim their geometry, picks resolve to physical
+  positions, linked views map crosshairs to slices — and its
+  remaining openings are the affine-inverse model, the device
+  composite's calibration widening, and oblique reconstruction, each
+  recorded. The wider queue's remaining rows stay DICOMKit-gated,
+  draw-loop-gated or measurement-workload-gated as recorded; the
+  natural next work is consolidation — the register and format
+  reference documentation for the seventy accepted decisions of this
+  window — and the owner-facing summary of the gates awaiting their
+  decisions.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
