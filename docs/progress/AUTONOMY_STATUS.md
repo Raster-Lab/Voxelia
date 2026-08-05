@@ -3585,6 +3585,28 @@ oracle campaigns.
   python-verified fixtures pin the clipped, behind, parallel-outside,
   cropped and all-containing cases. Implementation follows as its
   own increment.
+- One-hundred-fifty-sixth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0179`, volume clipping
+  live in the renderer. `VolumeClipBounds` joined `VoxeliaRendering`
+  mirroring the accepted clip box's admission exactly — one
+  coordinate space, strictly ordered bounds on every axis — with the
+  duplication recorded and bound never to drift. The sampler's
+  construction gained the explicit optional clip and crop: the crop
+  tightens the pixel-centre support and the clip contributes three
+  world slabs in the declared order after the volume and crop
+  support, with the absent case leaving the accepted path untouched
+  so unclipped byte identity is structural rather than asserted. A
+  foreign-space clip and an out-of-volume crop reject typed. The
+  volume request gained both, explicit absence stated at every call
+  site, and the parameter collection digests the clip corners and
+  crop bounds only when declared, the padding-entry precedent, so
+  undeclared documents and digests are unchanged. The suites
+  reproduce every `ADR-0178` fixture exactly — the clipped interval,
+  the behind and parallel-outside empties, the tightened crop and the
+  all-containing identity — prove the unclipped request unchanged
+  through the untouched path, prove bit-identical repetition, and
+  reject the foreign-space clip and out-of-volume crop typed. The
+  arc's remaining increments are masks, then acceleration.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

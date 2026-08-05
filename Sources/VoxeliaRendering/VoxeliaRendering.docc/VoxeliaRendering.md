@@ -31,6 +31,7 @@ public API is introduced only by reviewed milestone specifications.
 - ``OrthographicRayGenerator``
 - ``RayGenerationError``
 - ``VolumeRenderRequest``
+- ``VolumeClipBounds``
 - ``VolumeLightingModel``
 - ``RenderQuality``
 - ``RenderLayer``

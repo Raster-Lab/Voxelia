@@ -1,6 +1,35 @@
 // SPDX-License-Identifier: MIT
 
 import VoxeliaCore
+import VoxeliaSpatial
+
+/// One world-space axis-aligned clip per `ADR-0179` (`VOX-DVR-009`),
+/// mirroring the accepted interaction clip box exactly — the
+/// interaction module sits above rendering and cannot be imported
+/// downward, and the design record binds this mirror never to drift.
+public struct VolumeClipBounds: Sendable, Hashable {
+    public let minimum: Point3D
+    public let maximum: Point3D
+
+    /// Creates a validated clip.
+    ///
+    /// - Throws: ``RenderModelError/coordinateSpaceMismatch`` or
+    ///   ``RenderModelError/invalidClipBounds``.
+    public init(minimum: Point3D, maximum: Point3D) throws {
+        guard minimum.coordinateSpace == maximum.coordinateSpace else {
+            throw RenderModelError.coordinateSpaceMismatch
+        }
+        guard
+            minimum.x < maximum.x,
+            minimum.y < maximum.y,
+            minimum.z < maximum.z
+        else {
+            throw RenderModelError.invalidClipBounds
+        }
+        self.minimum = minimum
+        self.maximum = maximum
+    }
+}
 
 /// The closed volume lighting vocabulary per `ADR-0177`
 /// (`VOX-DVR-008`): `none` composites the accepted unshaded model
@@ -41,13 +70,21 @@ public struct VolumeRenderRequest: Sendable, Hashable {
     /// The explicit lighting mode; absence is not a default.
     public let lighting: VolumeLightingModel
 
+    /// The explicit optional world-space clip; absence is stated.
+    public let clip: VolumeClipBounds?
+
+    /// The explicit optional index-space crop; absence is stated.
+    public let crop: ImageRegion?
+
     public init(
         volumeObjectID: DataObjectID,
         table: TransferFunction1D,
         camera: RenderCamera,
         viewport: ViewportSize,
         quality: String,
-        lighting: VolumeLightingModel
+        lighting: VolumeLightingModel,
+        clip: VolumeClipBounds?,
+        crop: ImageRegion?
     ) {
         self.volumeObjectID = volumeObjectID
         self.table = table
@@ -55,5 +92,7 @@ public struct VolumeRenderRequest: Sendable, Hashable {
         self.viewport = viewport
         self.quality = quality
         self.lighting = lighting
+        self.clip = clip
+        self.crop = crop
     }
 }

@@ -180,7 +180,9 @@ struct ExactVolumeRendererTests {
             ),
             viewport: try ViewportSize(width: 2, height: 2),
             quality: "org.voxelia.quality.full",
-            lighting: lighting
+            lighting: lighting,
+            clip: nil,
+            crop: nil
         )
     }
 
@@ -230,7 +232,9 @@ struct ExactVolumeRendererTests {
         let sampler = try VolumeRaySampler(
             geometry: geometry,
             extents: extents,
-            quality: request.quality
+            quality: request.quality,
+            clip: nil,
+            crop: nil
         )
         var expected = [UInt8]()
         for pixelY in 0..<2 {

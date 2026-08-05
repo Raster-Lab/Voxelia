@@ -36,7 +36,9 @@ struct VolumeRenderRequestTests {
             ),
             viewport: try ViewportSize(width: 2, height: 2),
             quality: "org.voxelia.quality.full",
-            lighting: .none
+            lighting: .none,
+            clip: nil,
+            crop: nil
         )
         #expect(request.volumeObjectID.rawValue == "volume-7")
         #expect(request.quality == "org.voxelia.quality.full")

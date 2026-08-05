@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import Foundation
+import VoxeliaCore
 import VoxeliaSpatial
 
 /// An error raised by volume ray-sampler admission.
@@ -13,6 +14,11 @@ public enum VolumeRaySamplingError: Error, Sendable, Equatable {
     case invalidVolumeExtents
     case unsupportedVolumeMapping
     case unsupportedQualityPolicy
+    /// The clip's coordinate space is not the volume's — a foreign
+    /// clip would silently cut in the wrong frame.
+    case clipCoordinateSpaceMismatch
+    /// The crop is not a rank-three region within the volume.
+    case invalidCropRegion
 }
 
 /// One ray's sample plan per `ADR-0169` (`VOX-DVR-002/003`).
@@ -81,15 +87,22 @@ public struct VolumeRaySampler: Sendable {
     private let map: AffineWorldToIndexMap
     private let extents: ContiguousArray<Int>
     private let interval: Double
+    private let clip: VolumeClipBounds?
+    private let supportLower: [Double]
+    private let supportUpper: [Double]
 
-    /// Builds a sampler for one calibrated volume at one quality.
+    /// Builds a sampler for one calibrated volume at one quality,
+    /// with the explicit optional clip and crop per `ADR-0179` — the
+    /// absent case leaves the accepted path untouched.
     ///
     /// - Throws: ``VolumeRaySamplingError``, or the audited typed
     ///   errors of the spatial contracts.
     public init(
         geometry: AffineGridGeometry,
         extents: ContiguousArray<Int>,
-        quality: String
+        quality: String,
+        clip: VolumeClipBounds?,
+        crop: ImageRegion?
     ) throws {
         guard extents.count == 3, extents.allSatisfy({ $0 >= 1 }) else {
             throw VolumeRaySamplingError.invalidVolumeExtents
@@ -100,6 +113,39 @@ public struct VolumeRaySampler: Sendable {
         guard quality == Self.fullQualityToken else {
             throw VolumeRaySamplingError.unsupportedQualityPolicy
         }
+        if let clip {
+            guard clip.minimum.coordinateSpace == geometry.coordinateSpace.id
+            else {
+                throw VolumeRaySamplingError.clipCoordinateSpaceMismatch
+            }
+        }
+        var lower = [-0.5, -0.5, -0.5]
+        var upper = [
+            Double(extents[0]) - 0.5,
+            Double(extents[1]) - 0.5,
+            Double(extents[2]) - 0.5,
+        ]
+        if let crop {
+            guard
+                crop.rank == 3,
+                (0...2).allSatisfy({ axis in
+                    crop.lowerBounds[axis] >= 0
+                        && crop.upperBounds[axis] <= extents[axis]
+                        && crop.upperBounds[axis] > crop.lowerBounds[axis]
+                })
+            else {
+                throw VolumeRaySamplingError.invalidCropRegion
+            }
+            // The crop tightens the pixel-centre support per the
+            // declared rule.
+            for axis in 0...2 {
+                lower[axis] = Double(crop.lowerBounds[axis]) - 0.5
+                upper[axis] = Double(crop.upperBounds[axis]) - 0.5
+            }
+        }
+        self.clip = clip
+        self.supportLower = lower
+        self.supportUpper = upper
         let m = geometry.indexToWorld.elements
         var minimumSpacing = Double.infinity
         for column in 0...2 {
@@ -144,14 +190,15 @@ public struct VolumeRaySampler: Sendable {
             indexDirection[axis] = component
         }
 
-        // The ALG-0001 slab rule restated over the pixel-centre
-        // support; the entry starts at zero, so the inside-camera
-        // clamp is structural.
+        // The ALG-0001 slab rule restated over the (possibly
+        // crop-tightened) pixel-centre support, then the clip's three
+        // world slabs per the ADR-0178 declared order; the entry
+        // starts at zero, so the inside-camera clamp is structural.
         var entry = 0.0
         var exit = Double.infinity
         for axis in 0...2 {
-            let lower = -0.5
-            let upper = Double(extents[axis]) - 0.5
+            let lower = supportLower[axis]
+            let upper = supportUpper[axis]
             let origin = indexOrigin[axis]
             let direction = indexDirection[axis]
             if direction == 0 {
@@ -171,6 +218,32 @@ public struct VolumeRaySampler: Sendable {
             }
             entry = max(entry, near)
             exit = min(exit, far)
+        }
+        if let clip {
+            let lowers = [clip.minimum.x, clip.minimum.y, clip.minimum.z]
+            let uppers = [clip.maximum.x, clip.maximum.y, clip.maximum.z]
+            let origins = [ray.origin.x, ray.origin.y, ray.origin.z]
+            for axis in 0...2 {
+                let origin = origins[axis]
+                let direction = unit[axis]
+                if direction == 0 {
+                    guard origin >= lowers[axis], origin <= uppers[axis] else {
+                        return Self.emptyPlan(
+                            interval: interval,
+                            indexOrigin: indexOrigin,
+                            indexDirection: indexDirection
+                        )
+                    }
+                    continue
+                }
+                var near = (lowers[axis] - origin) / direction
+                var far = (uppers[axis] - origin) / direction
+                if near > far {
+                    swap(&near, &far)
+                }
+                entry = max(entry, near)
+                exit = min(exit, far)
+            }
         }
         guard exit > entry else {
             return Self.emptyPlan(

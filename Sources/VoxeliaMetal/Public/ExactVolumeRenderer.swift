@@ -90,7 +90,9 @@ public final class ExactVolumeRenderer: Sendable {
         let sampler = try VolumeRaySampler(
             geometry: geometry,
             extents: extents,
-            quality: request.quality
+            quality: request.quality,
+            clip: request.clip,
+            crop: request.crop
         )
 
         // One budgeted coordinated full read; the retention is
@@ -445,6 +447,41 @@ public final class ExactVolumeRenderer: Sendable {
         ]
         if case .orthographic(let planeHeight) = camera.projection {
             cameraComponents.append(("camera-plane-height", planeHeight))
+        }
+        // The clip corners and crop bounds join exactly when
+        // declared — the padding-entry precedent, so undeclared
+        // documents and digests are unchanged.
+        if let clip = request.clip {
+            cameraComponents.append(("clip-minimum-x", clip.minimum.x))
+            cameraComponents.append(("clip-minimum-y", clip.minimum.y))
+            cameraComponents.append(("clip-minimum-z", clip.minimum.z))
+            cameraComponents.append(("clip-maximum-x", clip.maximum.x))
+            cameraComponents.append(("clip-maximum-y", clip.maximum.y))
+            cameraComponents.append(("clip-maximum-z", clip.maximum.z))
+        }
+        if let crop = request.crop {
+            for axis in 0..<crop.rank {
+                entries.append(
+                    MetadataEntry(
+                        key: try AnyMetadataKey(
+                            namespace: Self.operationIdentifier,
+                            name: "crop-lower-\(axis)"
+                        ),
+                        value: .signedInteger(Int64(crop.lowerBounds[axis])),
+                        privacyClass: .technical
+                    )
+                )
+                entries.append(
+                    MetadataEntry(
+                        key: try AnyMetadataKey(
+                            namespace: Self.operationIdentifier,
+                            name: "crop-upper-\(axis)"
+                        ),
+                        value: .signedInteger(Int64(crop.upperBounds[axis])),
+                        privacyClass: .technical
+                    )
+                )
+            }
         }
         for (name, value) in cameraComponents {
             entries.append(

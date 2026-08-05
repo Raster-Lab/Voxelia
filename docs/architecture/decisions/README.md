@@ -158,8 +158,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0175` is allocated to the exact volume renderer.
 `ADR-0176` is allocated to the gradient lighting design.
 `ADR-0177` is allocated to the gradient lighting.
-`ADR-0178` is allocated to the volume clipping design. The next
-unallocated numeric identifier is `ADR-0179`.
+`ADR-0178` is allocated to the volume clipping design. `ADR-0179` is
+allocated to the volume clipping implementation. The next unallocated
+numeric identifier is `ADR-0180`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -321,3 +322,4 @@ unallocated numeric identifier is `ADR-0179`.
 | [ADR-0176](ADR-0176-gradient-lighting-design.md) | Accepted | Gradient lighting design |
 | [ADR-0177](ADR-0177-gradient-lighting.md) | Accepted | Gradient lighting |
 | [ADR-0178](ADR-0178-volume-clipping-design.md) | Accepted | Volume clipping design |
+| [ADR-0179](ADR-0179-volume-clipping.md) | Accepted | Volume clipping |

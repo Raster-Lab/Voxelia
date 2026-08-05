@@ -956,8 +956,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/ExactVolumeRenderer.swift",
-      "size": 19113,
-      "sha256": "52c23665035c4c6ad7eb007f6286174ce61d9f1719c221fb55f36b6d3c891675"
+      "size": 20794,
+      "sha256": "23ab539ef61e212610dffe1fafe09f94a5ed500ad5502407f6742e323e579867"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalBackendRegistrations.swift",
@@ -1121,8 +1121,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderCamera.swift",
-      "size": 4429,
-      "sha256": "46e5a057dd2f5add1174bb98474c978c200fe5f998cf8bebf0d31dc36ce6393b"
+      "size": 4456,
+      "sha256": "0822765660cf6a00a2f8cd45b5097944270ded9d9d6ee2efb39bb86011c38025"
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderRequest.swift",
@@ -1151,13 +1151,13 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Public/VolumeRaySampler.swift",
-      "size": 7899,
-      "sha256": "a8b7682eba4bfc470ebc7cd1384579ce28c1b2a479eedacf5a9e1883c2884aeb"
+      "size": 10877,
+      "sha256": "d3522f99cf869e5551f0e78bac780b83055afe466eb2f93f824efb93456d6c78"
     },
     {
       "path": "Sources/VoxeliaRendering/Public/VolumeRenderRequest.swift",
-      "size": 1991,
-      "sha256": "62598771f47b7c7a389d56190604ffb325616bae8bdfc02ea4135b7e7456fa22"
+      "size": 3349,
+      "sha256": "26c35e85c083a0ac01747d0e256d815eea29ffbf6ab82ec4717f0ce77fb88408"
     },
     {
       "path": "Sources/VoxeliaRendering/VoxeliaRendering.docc/Architecture.md",
@@ -1171,8 +1171,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/VoxeliaRendering.docc/VoxeliaRendering.md",
-      "size": 1130,
-      "sha256": "4724106ffcdc2175ae9b0ef1f824d03ab25fc0310a2fcc738e512c2da05bf37f"
+      "size": 1153,
+      "sha256": "0d8d85b1905df13bac5200ef85cb2b1363709d192778e6da370853c07222f80d"
     },
     {
       "path": "Sources/VoxeliaSpatial/ApplePlatformGate.swift",
@@ -1856,8 +1856,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/ExactVolumeRendererTests.swift",
-      "size": 17495,
-      "sha256": "66c1ab2bdacd8580633209e8cae60d4d7e73ef2f3208a883be5057b0e1f5da7f"
+      "size": 17587,
+      "sha256": "a21ce8a029c24874e1bcac075489c104a3c2352c4979eb9155303d3f6167fbe2"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalBackendRegistrationsTests.swift",
@@ -1981,13 +1981,13 @@
     },
     {
       "path": "Tests/VoxeliaRenderingTests/VolumeRaySamplerTests.swift",
-      "size": 4648,
-      "sha256": "3f6af0c9846f1424c6059d7c356de37912130524ac96bf230ea3416e51cd2fd4"
+      "size": 9650,
+      "sha256": "f81445c1dbda2da68e25c2ec1c81cfc34b10d26b849c125e8c580e55fbaa07a4"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/VolumeRenderRequestTests.swift",
-      "size": 2145,
-      "sha256": "70e19f083dcc54d83afc0e5f476d3370110496dec40d0188f5dfd4fe90d2cb6b"
+      "size": 2191,
+      "sha256": "8f01f9298cd090ab5fd3f83e7e12e51c125f877673d5e57e890615f89b195ac8"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift",
@@ -3530,9 +3530,14 @@
       "sha256": "7856f782e2a853e9e0442d711ed6c11c8ea146acff4fd125261c957a2130d8a4"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0179-volume-clipping.md",
+      "size": 2754,
+      "sha256": "b9b877f1f30ea3def142af95644829f1c00532139aa89fb14490973aeb045c4a"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 26308,
-      "sha256": "ea326ed25aec52790dc7dd72477fd61c2ba081fd94545f3b2815a0bc022f4a55"
+      "size": 26444,
+      "sha256": "34e04e7ed60efc25af5211d61a1be01eb0737f225c7aca21d264c2ef40ca1a75"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3616,8 +3621,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 640444,
-      "sha256": "dde3421300066c7844d159c902be0b024e8fddfeef5d1608a09509e9c770fd01"
+      "size": 641901,
+      "sha256": "27e56e65a64db686cb0f0d9b4db0f7c0119b0ef11c5a965a1c4dba773c34a949"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3976,8 +3981,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 42909,
-      "sha256": "f17c2f2be3314db8691e99a772cdad971815b283741f0fd7cb366de15e96fb9b"
+      "size": 42965,
+      "sha256": "4762733cdbfb29cc3ae81677863f4327829e9bf9de6b074f3f110b5707a9ad3e"
     }
   ]
 }

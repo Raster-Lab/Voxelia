@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import Testing
+import VoxeliaCore
 import VoxeliaSpatial
 
 @testable import VoxeliaRendering
@@ -52,7 +53,9 @@ struct VolumeRaySamplerTests {
         let identity = try VolumeRaySampler(
             geometry: try geometry(diagonal: 1),
             extents: [3, 3, 3],
-            quality: VolumeRaySampler.fullQualityToken
+            quality: VolumeRaySampler.fullQualityToken,
+            clip: nil,
+            crop: nil
         )
         let axis = try identity.plan(for: try ray(-2, 1, 1))
         #expect(axis.entryDistance == 1.5)
@@ -69,7 +72,9 @@ struct VolumeRaySamplerTests {
         let scaled = try VolumeRaySampler(
             geometry: try geometry(diagonal: 2),
             extents: [3, 3, 3],
-            quality: VolumeRaySampler.fullQualityToken
+            quality: VolumeRaySampler.fullQualityToken,
+            clip: nil,
+            crop: nil
         )
         let widened = try scaled.plan(for: try ray(-3, 1, 1))
         #expect(widened.entryDistance == 2)
@@ -88,33 +93,161 @@ struct VolumeRaySamplerTests {
         #expect(try identity.plan(for: try ray(-2, 1, 1)) == axis)
     }
 
+    private func clip(
+        _ minimum: (Double, Double, Double),
+        _ maximum: (Double, Double, Double),
+        spaceID: String = "patient"
+    ) throws -> VolumeClipBounds {
+        let id = try #require(CoordinateSpaceID(rawValue: spaceID))
+        return try VolumeClipBounds(
+            minimum: try Point3D(
+                x: minimum.0,
+                y: minimum.1,
+                z: minimum.2,
+                coordinateSpace: id
+            ),
+            maximum: try Point3D(
+                x: maximum.0,
+                y: maximum.1,
+                z: maximum.2,
+                coordinateSpace: id
+            )
+        )
+    }
+
+    @Test("[Unit][VOX-DVR-009] clip and crop restrict the interval per the fixtures")
+    func clipAndCropRestrictTheIntervalPerTheFixtures() throws {
+        // The ADR-0178 fixtures: the clipped interval, the behind and
+        // parallel-outside empties, the tightened crop, and the
+        // all-containing identity against the unclipped plan.
+        let unclipped = try VolumeRaySampler(
+            geometry: try geometry(diagonal: 1),
+            extents: [3, 3, 3],
+            quality: VolumeRaySampler.fullQualityToken,
+            clip: nil,
+            crop: nil
+        )
+        let baseline = try unclipped.plan(for: try ray(-2, 1, 1))
+
+        let clipped = try VolumeRaySampler(
+            geometry: try geometry(diagonal: 1),
+            extents: [3, 3, 3],
+            quality: VolumeRaySampler.fullQualityToken,
+            clip: try clip((0.5, -10, -10), (1.5, 10, 10)),
+            crop: nil
+        )
+        let restricted = try clipped.plan(for: try ray(-2, 1, 1))
+        #expect(restricted.entryDistance == 2.5)
+        #expect(restricted.exitDistance == 3.5)
+        #expect(restricted.sampleCount == 2)
+        #expect(restricted.sampleDistance(at: 0) == 2.75)
+        #expect(restricted.sampleDistance(at: 1) == 3.25)
+
+        let behind = try VolumeRaySampler(
+            geometry: try geometry(diagonal: 1),
+            extents: [3, 3, 3],
+            quality: VolumeRaySampler.fullQualityToken,
+            clip: try clip((-4, -10, -10), (-3, 10, 10)),
+            crop: nil
+        )
+        #expect(try behind.plan(for: try ray(-2, 1, 1)).sampleCount == 0)
+
+        let outside = try VolumeRaySampler(
+            geometry: try geometry(diagonal: 1),
+            extents: [3, 3, 3],
+            quality: VolumeRaySampler.fullQualityToken,
+            clip: try clip((-10, 5, -10), (10, 6, 10)),
+            crop: nil
+        )
+        #expect(try outside.plan(for: try ray(-2, 1, 1)).sampleCount == 0)
+
+        let cropped = try VolumeRaySampler(
+            geometry: try geometry(diagonal: 1),
+            extents: [3, 3, 3],
+            quality: VolumeRaySampler.fullQualityToken,
+            clip: nil,
+            crop: try ImageRegion(lowerBounds: [1, 0, 0], upperBounds: [3, 3, 3])
+        )
+        let tightened = try cropped.plan(for: try ray(-2, 1, 1))
+        #expect(tightened.entryDistance == 2.5)
+        #expect(tightened.exitDistance == 4.5)
+        #expect(tightened.sampleCount == 4)
+        #expect(tightened.sampleDistance(at: 0) == 2.75)
+        #expect(tightened.sampleDistance(at: 3) == 4.25)
+
+        let containing = try VolumeRaySampler(
+            geometry: try geometry(diagonal: 1),
+            extents: [3, 3, 3],
+            quality: VolumeRaySampler.fullQualityToken,
+            clip: try clip((-100, -100, -100), (100, 100, 100)),
+            crop: nil
+        )
+        #expect(try containing.plan(for: try ray(-2, 1, 1)) == baseline)
+    }
+
+    @Test("[Unit][VOX-DVR-009][VOX-ERR-001] clip and crop admissions reject typed")
+    func clipAndCropAdmissionsRejectTyped() throws {
+        #expect(throws: VolumeRaySamplingError.clipCoordinateSpaceMismatch) {
+            try VolumeRaySampler(
+                geometry: try self.geometry(diagonal: 1),
+                extents: [3, 3, 3],
+                quality: VolumeRaySampler.fullQualityToken,
+                clip: try self.clip((0, 0, 0), (1, 1, 1), spaceID: "device"),
+                crop: nil
+            )
+        }
+        #expect(throws: VolumeRaySamplingError.invalidCropRegion) {
+            try VolumeRaySampler(
+                geometry: try self.geometry(diagonal: 1),
+                extents: [3, 3, 3],
+                quality: VolumeRaySampler.fullQualityToken,
+                clip: nil,
+                crop: try ImageRegion(
+                    lowerBounds: [0, 0, 0],
+                    upperBounds: [4, 3, 3]
+                )
+            )
+        }
+        #expect(throws: RenderModelError.invalidClipBounds) {
+            try self.clip((1, 0, 0), (1, 1, 1))
+        }
+    }
+
     @Test("[Unit][VOX-ERR-001] sampler admissions reject typed")
     func samplerAdmissionsRejectTyped() throws {
         #expect(throws: VolumeRaySamplingError.invalidVolumeExtents) {
             try VolumeRaySampler(
                 geometry: try self.geometry(diagonal: 1),
                 extents: [3, 3],
-                quality: VolumeRaySampler.fullQualityToken
+                quality: VolumeRaySampler.fullQualityToken,
+                clip: nil,
+                crop: nil
             )
         }
         #expect(throws: VolumeRaySamplingError.unsupportedVolumeMapping) {
             try VolumeRaySampler(
                 geometry: try self.geometry(diagonal: 1, imageAxes: [0, 1]),
                 extents: [3, 3, 3],
-                quality: VolumeRaySampler.fullQualityToken
+                quality: VolumeRaySampler.fullQualityToken,
+                clip: nil,
+                crop: nil
             )
         }
         #expect(throws: VolumeRaySamplingError.unsupportedQualityPolicy) {
             try VolumeRaySampler(
                 geometry: try self.geometry(diagonal: 1),
                 extents: [3, 3, 3],
-                quality: "org.voxelia.quality.interactive"
+                quality: "org.voxelia.quality.interactive",
+                clip: nil,
+                crop: nil
             )
         }
         let sampler = try VolumeRaySampler(
             geometry: try geometry(diagonal: 1),
             extents: [3, 3, 3],
-            quality: VolumeRaySampler.fullQualityToken
+            quality: VolumeRaySampler.fullQualityToken,
+            clip: nil,
+            crop: nil
         )
         #expect(throws: AffineWorldToIndexError.coordinateSpaceMismatch) {
             try sampler.plan(for: try self.ray(-2, 1, 1, spaceID: "device"))
