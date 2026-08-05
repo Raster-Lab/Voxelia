@@ -32,3 +32,11 @@ The public ``CPULabelledSurfaceExtractionOperation`` applies the same atomic
 publication discipline to the exact integer label-set union. Its parameter
 digest binds the integer domain and every selected value, while the mesh carries
 no label or segment attribute that could misrepresent a multi-label union.
+
+The public ``CPUTriangleMeshVertexNormalGenerationOperation`` completes the
+accepted `ADR-0193` reference boundary for `VOX-GEO-009`, `VOX-CPU-001`,
+`VOX-CPU-006`, `VOX-CON-006`, `VOX-CON-007`, `VOX-META-003` through
+`VOX-META-006`, `VOX-ERR-001`, `VOX-SEC-001` and `VOX-SEC-011`. It publishes
+only after exact serial normal generation and final cancellation, binds the
+fixed CPU binary64-strict/full/exact execution claim, and registers no
+diagnostic-validation or canonical mesh-content assurance.

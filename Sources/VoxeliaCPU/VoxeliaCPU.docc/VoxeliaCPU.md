@@ -7,12 +7,15 @@ Deterministic CPU reference and optimised implementations.
 Reviewed milestone specifications now authorize deterministic CPU operations
 and backend registrations. The scalar- and labelled-surface migrations each
 contain an internal one-read source adapter, an exact binary64 Freudenthal
-reference kernel and a public atomic result operation. Each operation binds
-caller-owned output authority to fixed CPU execution and transformed provenance
-claims; the registered results carry no provisional mesh content digest or
-diagnostic validation claim. The labelled operation preserves exact signed or
-unsigned 64-bit label identity in its technical parameter digest without
-attaching a misleading per-vertex or per-primitive label attribute.
+reference kernel and a public atomic result operation. Deterministic triangle-
+mesh vertex-normal generation uses a separate stateless serial binary64
+reference and public atomic result operation with no storage service. Each
+operation binds caller-owned output authority to fixed CPU execution and
+transformed provenance claims; the registered results carry no provisional
+mesh content digest or diagnostic validation claim. The labelled operation
+preserves exact signed or unsigned 64-bit label identity in its technical
+parameter digest without attaching a misleading per-vertex or per-primitive
+label attribute.
 
 ## Direct dependencies
 
@@ -28,6 +31,10 @@ attaching a misleading per-vertex or per-primitive label attribute.
 
 - ``CPUScalarSurfaceExtractionOperation``
 - ``CPULabelledSurfaceExtractionOperation``
+
+### Geometry derivation
+
+- ``CPUTriangleMeshVertexNormalGenerationOperation``
 
 ### Project documents
 

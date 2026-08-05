@@ -1,6 +1,6 @@
 # Voxelia autonomous progress ledger
 
-Last updated: 2026-08-05 (Asia/Kolkata)
+Last updated: 2026-08-06 (Asia/Kolkata)
 
 ## Goal
 
@@ -5733,6 +5733,110 @@ oracle campaigns.
   python3 Tools/Scripts/check_prohibited_imports.py
   python3 Tools/Scripts/generate_requirement_index.py --check
   Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_manifest_paths.py
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  python3 Tools/Scripts/check_manifest_paths.py
+  git diff --check
+  ```
+
+- Two-hundredth autonomous increment (scheduled goal continuation): completed
+  `ADR-0193` migration step three and therefore the accepted deterministic
+  triangle-mesh vertex-normal product migration. Added the stateless public
+  async `CPUTriangleMeshVertexNormalGenerationOperation` over the verified
+  serial kernel. The public surface is exactly the operation type, its fixed
+  implementation identifier and `execute(request:publication:)`; injected
+  execution, result assembly, parameter reconstruction and the numerical
+  kernel remain non-public. The operation bridges structured `Task`
+  cancellation into the frozen checkpoints, performs exactly one final check
+  after complete mesh construction and before claim assembly, and returns no
+  partial aggregate on cancellation or failure.
+
+  Publication independently reconstructs the fixed eight-entry VCMJ-1
+  parameter document and registered
+  `47ec10650da98d295f3f696caadbc1911f32214bbc8d28ec582120934182592f`
+  digest. It binds version `1.0.0`, operation and CPU implementation tokens,
+  one `source-mesh` derivation/input at occurrence one, the source object and
+  source-provenance parent, caller output authority, the default CPU
+  binary64-strict/full/exact execution claim, nil capability and kernel,
+  warning-free transformed provenance and validation `.unknown`. Output
+  content identity remains nil and top-level source identities remain empty;
+  the API documents that structural correspondence is not canonical mesh-
+  content assurance, source-graph admission, execution authenticity or
+  diagnostic validation. All assembly failures map to the closed payload-free
+  `publicationFailed` case.
+
+  Four focused operation tests cover non-empty and empty publication, exact
+  normal bytes and source preservation, every identity/provenance/execution
+  crossing, independent parameter reproduction and golden, detached
+  `Sendable` transfer, the public `Task.isCancelled` bridge, deterministic
+  injected final cancellation, isolated kernel failure and atomic assembly
+  failure. The first development compile exposed a nonexistent provenance
+  member assertion and a helper-shadowing test variable; both test-only errors
+  were corrected before the final strict run. Exact semantic-version tests now
+  assert nil prerelease and build metadata as well as numeric equality. CPU
+  registration advances to fourteen implementations and the combined
+  CPU/Metal registry to seventeen with the exact
+  `adr-0193-triangle-mesh-vertex-normals` evidence token.
+
+  The authorised independent reviewer initially identified the semantic-
+  version metadata evidence gap. After the exact prerelease/build assertions
+  were added, the reviewer reran the focused strict suites and approved the
+  public API containment, cancellation/atomicity boundary, independent digest,
+  fixed claims, registration and documentation with no remaining actionable
+  finding. The intentional residual evidence boundary is that the public test
+  proves `Task.isCancelled` at admission while deterministic injected tests
+  prove the kernel and final checkpoints; it avoids a nondeterministic wall-
+  clock mid-traversal race.
+
+  Strict debug CPU and direct Validation builds, strict release CPU and
+  Validation builds, the four operation tests, both registry tests and the
+  direct seven-test Geometry declaration/binding suite passed with warnings as
+  errors and strict memory safety. The exported symbol graph contains only the
+  three approved public symbols. Swift-format lint, the fail-closed Swift-
+  safety inventory, dynamic and static package graphs, prohibited-import scan,
+  documentation validation, the 486-record requirement index and
+  `git diff --check` passed. The known unrelated optimized test-target Swift
+  frontend signal-11 limitation was not rerun; product targets remain green.
+  The repository-wide suite, package-wide DocC archive, Apple destination
+  matrix, unavailable visionOS SDK and external device/fuzz/differential
+  campaigns were not rerun for this focused publication-boundary increment.
+  Release-integrity regeneration and read-only verification passed with 860
+  manifest paths, 859 inventory records and 860 checksums.
+
+  ```bash
+  swift build --target VoxeliaCPU
+  # Initial test-only compile errors were corrected; the final run passed 4/4.
+  swift test --filter CPUTriangleMeshVertexNormalGenerationOperationTests
+  swift test --filter CPUTriangleMeshVertexNormalGenerationOperationTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter CPUBackendRegistrationsTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter CombinedRegistryTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter TriangleMeshVertexNormalGenerationTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build --target VoxeliaCPU \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build --target VoxeliaValidation \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build -c release --target VoxeliaCPU \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift build -c release --target VoxeliaValidation \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift package dump-symbol-graph --minimum-access-level public
+  xcrun swift-format lint --strict \
+    Sources/VoxeliaCPU/Public/CPUTriangleMeshVertexNormalGenerationOperation.swift \
+    Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift \
+    Tests/VoxeliaCPUTests/CPUTriangleMeshVertexNormalGenerationOperationTests.swift \
+    Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift \
+    Tests/VoxeliaValidationTests/CombinedRegistryTests.swift
+  python3 Tools/Scripts/check_swift_safety.py
+  python3 Tools/Scripts/check_package_graph.py
+  python3 Tools/Scripts/check_package_graph_static.py
+  python3 Tools/Scripts/check_prohibited_imports.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/generate_requirement_index.py --check
   python3 Tools/Scripts/check_manifest_paths.py
   python3 Tools/Scripts/check_release_integrity.py --write
   python3 Tools/Scripts/check_release_integrity.py
@@ -11590,11 +11694,19 @@ backend-neutrality and `Sendable` regression evidence. Migration step two now
 adds only the internal stateless CPU serial reference kernel with exact
 cancellation-first admission, checked 48-byte-per-vertex limits, ordered
 binary64 primitives, source-preserving descriptor/serialization and all twelve
-analytical fixtures. The exact next action is `ADR-0193` migration step three:
-add the public atomic CPU operation and final cancellation boundary, exact
-identity/provenance/execution claim assembly, independent parameter-digest
-reproduction and the evidence-backed CPU registry entry. Do not add
-measurement, rendering or acceleration in that increment.
+analytical fixtures. Migration step three now adds the public atomic CPU
+operation and final cancellation boundary, exact identity/provenance/execution
+claim assembly, independent parameter-digest reproduction and the evidence-
+backed fourteenth CPU registry entry. All three `ADR-0193` product migration
+stages are complete and independently approved. The exact next action is the
+design-first authoritative triangle-mesh measurement stage required by
+`ADR-0183` and `VOX-GEO-010`: audit the existing accepted `ADR-0143` polygon-
+area and counted-cell-volume models against the canonical mesh and determine
+the separately governed mesh quantities, units, topology/orientation
+admission, binary64 evaluation order, error/cancellation/resource boundary,
+identity/provenance claims and independent analytical oracle. Do not implement
+a mesh-measurement API, registry entry, rendering or acceleration before that
+separate contract is accepted.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -11608,16 +11720,15 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform only `ADR-0193` migration step three next. Add the public atomic CPU
-  normal-generation operation over the verified internal kernel, preserve the
-  exact final-cancellation-before-publication boundary, assemble the frozen
-  identity/provenance/execution claims, independently reproduce the parameter
-  digest and add the evidence-backed CPU registry entry. Cover public success,
-  every claim crossing, final cancellation, registry metadata and atomic
-  failure without reimplementing the numerical oracle. Compile CPU and direct
-  Validation dependants and run only the focused operation/registry/Geometry
-  evidence. Do not add measurement, rendering or acceleration in that
-  increment.
+- Perform only the authoritative triangle-mesh measurement design audit next.
+  Reconcile `ADR-0183`, `VOX-GEO-010`, the accepted canonical mesh and the
+  existing `ADR-0143` polygon-area/counted-cell-volume contracts. Freeze no
+  product API and add no registry claim until a separate governed record
+  settles exact quantities, units, topology/orientation admission, binary64
+  ordering, limits, cancellation, identity/provenance and an independent
+  analytical oracle. For a documentation-only decision increment, run only
+  the oracle and the relevant ADR/document/register/index/integrity checks;
+  product builds and tests are not evidence unless source changes.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

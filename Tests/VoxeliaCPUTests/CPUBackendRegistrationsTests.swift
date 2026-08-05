@@ -11,12 +11,12 @@ import VoxeliaGeometry
 struct CPUBackendRegistrationsTests {
     @Test("[Unit][VOX-ARC-010][VOX-ERR-001] the standard registry names every implementation")
     func standardRegistryNamesEveryImplementation() throws {
-        // All thirteen CPU implementations register with tokens
+        // All fourteen CPU implementations register with tokens
         // structurally equal to the operations' own constants, the
         // pinned current contract versions, and the CPU backend
         // claim.
         let registry = try CPUBackendRegistrations.standard()
-        #expect(registry.implementations.count == 13)
+        #expect(registry.implementations.count == 14)
         #expect(
             registry.implementations.allSatisfy {
                 $0.backend.rawValue == "org.voxelia.backend.cpu"
@@ -56,6 +56,7 @@ struct CPUBackendRegistrationsTests {
                 ResampleCubicOperation.operationIdentifier,
                 ScalarSurfaceExtractionRequest.operationIdentifier,
                 LabelledSurfaceExtractionRequest.operationIdentifier,
+                TriangleMeshVertexNormalGenerationRequest.operationIdentifier,
             ]
         )
         let surfaceEntries = registry.implementations(
@@ -130,6 +131,39 @@ struct CPUBackendRegistrationsTests {
         #expect(
             labelledSurfaceEntry.evidence.rawValue
                 == "adr-0192-labelled-surface-extraction"
+        )
+        let normalEntries = registry.implementations(
+            for: try DerivationOperationToken(
+                rawValue: TriangleMeshVertexNormalGenerationRequest
+                    .operationIdentifier
+            )
+        )
+        #expect(normalEntries.count == 1)
+        let normalEntry = normalEntries[0]
+        #expect(
+            normalEntry.implementation.identifier.rawValue
+                == CPUTriangleMeshVertexNormalGenerationOperation
+                .implementationIdentifier
+        )
+        let expectedNormalVersion = try SemanticVersion(
+            major: 1,
+            minor: 0,
+            patch: 0
+        )
+        #expect(normalEntry.operationVersion == expectedNormalVersion)
+        #expect(normalEntry.operationVersion.prerelease == nil)
+        #expect(normalEntry.operationVersion.buildMetadata == nil)
+        #expect(normalEntry.implementation.version == expectedNormalVersion)
+        #expect(normalEntry.implementation.version.prerelease == nil)
+        #expect(normalEntry.implementation.version.buildMetadata == nil)
+        #expect(
+            normalEntry.precisionPolicy.rawValue
+                == "org.voxelia.precision.binary64-strict"
+        )
+        #expect(normalEntry.approximationStatus == .exact)
+        #expect(
+            normalEntry.evidence.rawValue
+                == "adr-0193-triangle-mesh-vertex-normals"
         )
 
         // Duplicate registration rejects typed.

@@ -351,8 +351,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift",
-      "size": 6953,
-      "sha256": "9c5225e565ff20a249f424a243fb87bb08728dffaa9a5cbefd77b0b517846dde"
+      "size": 7423,
+      "sha256": "aaccd6bd5ed4272b4202abcf4e3bebdb0819d30f6827b6d0d891be2839548a98"
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPULabelledSurfaceExtractionOperation.swift",
@@ -365,19 +365,24 @@
       "sha256": "bf7f6db139511b08eae0bbcca6e6c7f408ccaa8be2a59d88a5876ed21ce5c418"
     },
     {
+      "path": "Sources/VoxeliaCPU/Public/CPUTriangleMeshVertexNormalGenerationOperation.swift",
+      "size": 10721,
+      "sha256": "5d92e15509fe8a77495e9138b58e58cbaf19b71110ec134ea063749bc5785753"
+    },
+    {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/Architecture.md",
       "size": 1624,
       "sha256": "61cacf7a8bc7766af5fba6b5202501668c7c1447b3dc38c4b17cbc854ea83b59"
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/Requirements.md",
-      "size": 1992,
-      "sha256": "b158a5d18158d0ce8cdee76dd01c9de89362591f959f55779cf05b387ede2a54"
+      "size": 2493,
+      "sha256": "da92ed82ba2b9d56123d2595d268a1208908e8c1eb0277bfffdae538adf1ffcf"
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md",
-      "size": 1102,
-      "sha256": "26d39b268bf2cac18078ecc34e0df88db398ee3876fd29c4793e02ade9aee470"
+      "size": 1347,
+      "sha256": "d06bc3d9656dd80c0ff3a66f26fc5fd4da806d9075a715d06a139af6244e879e"
     },
     {
       "path": "Sources/VoxeliaCore/ApplePlatformGate.swift",
@@ -891,8 +896,8 @@
     },
     {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/VoxeliaGeometry.md",
-      "size": 1786,
-      "sha256": "bd985c7be54912134eaba932fc97055be81ea1282fa18e82d390d72a3cdb1f05"
+      "size": 1782,
+      "sha256": "3d5ff234d479a61ca5e2107e2681cb5e0629272e30c865e146b32555e77c885e"
     },
     {
       "path": "Sources/VoxeliaImaging/ApplePlatformGate.swift",
@@ -1536,8 +1541,8 @@
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift",
-      "size": 6103,
-      "sha256": "c0a87a415017164de6370169b287d59fa73a8a286934d352489bf20f52e56c6c"
+      "size": 7571,
+      "sha256": "652fd6e84a176289bf024073ae38524aaa8fc8d363c7d7f7bb707ae12db5561c"
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPULabelledSurfaceExtractionOperationTests.swift",
@@ -1548,6 +1553,11 @@
       "path": "Tests/VoxeliaCPUTests/CPUScalarSurfaceExtractionOperationTests.swift",
       "size": 12330,
       "sha256": "26c4918f6076789164ad904aadc44765aaff5004e3acb1f537a737278ea046f4"
+    },
+    {
+      "path": "Tests/VoxeliaCPUTests/CPUTriangleMeshVertexNormalGenerationOperationTests.swift",
+      "size": 18431,
+      "sha256": "a1719a004e277fbe658cc18830d03634858e427bfc3536f810a1c732e9dfdf26"
     },
     {
       "path": "Tests/VoxeliaCPUTests/LabelledSurfaceExtractionTestSupport.swift",
@@ -2336,8 +2346,8 @@
     },
     {
       "path": "Tests/VoxeliaValidationTests/CombinedRegistryTests.swift",
-      "size": 1253,
-      "sha256": "6200eb543b0635accd6d0cbfcc07792bb7299889f25a374e9dd5770bb5a83a54"
+      "size": 1255,
+      "sha256": "b64b79e311e226f480f890f0a2e2ed6c9b48b78ee5e5d1b4440010818d8646eb"
     },
     {
       "path": "Tests/VoxeliaValidationTests/VoxeliaValidationTests.swift",
@@ -3901,8 +3911,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 783391,
-      "sha256": "ea30e1a2326c2be289441bdc7d36cd73c07009d65052096d02477ef364dd03b1"
+      "size": 790262,
+      "sha256": "b80d579559bc4185f1aa72cbf6da8acf73d5f86b09c864830aa1f030078610e2"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4286,8 +4296,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 47016,
-      "sha256": "7c5fbb6dc5c7a5a56a668c4eee1e278db6b6c87d0590c7ae8057b6d900198b4f"
+      "size": 47175,
+      "sha256": "2ae67136aa504566b3e6c8d99c2e5159e8ac3faa588175cf2da777543b111ed5"
     }
   ]
 }

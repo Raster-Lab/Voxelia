@@ -23,7 +23,7 @@ public enum CPUBackendRegistrations {
         return identifier
     }
 
-    /// Builds the standard registry of all thirteen CPU implementations.
+    /// Builds the standard registry of all fourteen CPU implementations.
     ///
     /// - Throws: The audited typed errors of the claim and registry
     ///   contracts.
@@ -163,6 +163,18 @@ public enum CPUBackendRegistrations {
                 minor: 0,
                 precision: binary64,
                 evidence: "adr-0192-labelled-surface-extraction"
+            ),
+            try entry(
+                operation:
+                    TriangleMeshVertexNormalGenerationRequest
+                    .operationIdentifier,
+                implementation:
+                    CPUTriangleMeshVertexNormalGenerationOperation
+                    .implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0193-triangle-mesh-vertex-normals"
             ),
         ])
     }
