@@ -119,6 +119,44 @@ struct ContentIDTests {
         #expect(first.digest[0] != copy[0])
     }
 
+    @Test("[Unit][CDMS-32.2][VOX-SEC-011] hashing is chunk-boundary invariant")
+    func hashingIsChunkBoundaryInvariant() throws {
+        // The production 4,096-byte update boundary and both adjacent
+        // sizes must agree with an independent whole-frame SHA-256 oracle.
+        for payloadByteCount in [4_095, 4_096, 4_097, 8_191, 8_192, 8_193] {
+            let payload = (0..<payloadByteCount).map {
+                UInt8(truncatingIfNeeded: $0 &* 31 &+ 17)
+            }
+            let identity = try ContentID.completeMetadataRecordIdentity(
+                overCanonicalBytes: payload
+            )
+            let frame =
+                ContentID.completeRecordFrameHeader(
+                    payloadByteCount: UInt64(payload.count)
+                ) + payload
+            #expect(identity.digest == ContiguousArray(SHA256.hash(data: frame)))
+        }
+
+        // Every possible two-part split of this bounded frame produces
+        // the same digest as both the whole-frame oracle and production.
+        let payload = (0..<97).map { UInt8(truncatingIfNeeded: $0 &* 19) }
+        let frame =
+            ContentID.completeRecordFrameHeader(
+                payloadByteCount: UInt64(payload.count)
+            ) + payload
+        let expected = ContiguousArray(SHA256.hash(data: frame))
+        let identity = try ContentID.completeMetadataRecordIdentity(
+            overCanonicalBytes: payload
+        )
+        #expect(identity.digest == expected)
+        for splitIndex in 0...frame.count {
+            var hasher = SHA256()
+            hasher.update(data: Data(frame[..<splitIndex]))
+            hasher.update(data: Data(frame[splitIndex...]))
+            #expect(ContiguousArray(hasher.finalize()) == expected)
+        }
+    }
+
     @Test("[Unit][CDMS-32.2][VOX-API-004] the four-field wire is exact")
     func fourFieldWireIsExact() throws {
         let identity = try emptyDocumentIdentity()

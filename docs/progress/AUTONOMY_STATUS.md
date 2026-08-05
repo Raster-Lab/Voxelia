@@ -38,13 +38,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fifth removed `MetalResidencyManager`'s obsolete exception after its sole
   stored context became checked, and the sixth proved `ExactSliceRenderer` is
   immutable checked composition. The raw fail-closed escape-hatch scan now
-  passes with zero findings and no accepted exceptions. The semantic
-  `--compile` gate remains red on seven strict-memory-safety diagnostics in
-  `ContentID.swift`, so the complete Swift safety gate must not be reported
-  green. The four canonical-literal sites that formed the other seven
-  diagnostics now use checked UTF-8 iteration. The last recorded strict
-  product/test destination builds remain historical evidence only; visionOS
-  26.5 is still unavailable.
+  passes with zero findings and no accepted exceptions. Checked bounded
+  `Data` updates and a fixed-work Swift digest comparator have now removed all
+  seven `ContentID.swift` diagnostics while preserving every registered
+  identity golden. The semantic `--compile` gate advanced to its next failure:
+  Foundation's pointer-backed directory-kind query in
+  `CanonicalDocumentStore.swift`, so the complete Swift safety gate must not
+  yet be reported green. The last recorded strict product/test destination
+  builds remain historical evidence only; visionOS 26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
   module without attaching allocation or capability behavior.
@@ -3967,6 +3968,38 @@ oracle campaigns.
   remains in the compiler output. The complete suite was intentionally not run
   under the narrow-test policy. The exact next recovery is the remaining
   security-sensitive streaming hash and constant-time digest comparison.
+- One-hundred-seventy-second autonomous increment (scheduled goal
+  continuation): removed all seven `ContentID` strict-memory-safety
+  diagnostics without changing the domain-separated frame, registered
+  profiles, SHA-256 output, 4,096-byte payload/cancellation cadence or
+  payload-free failure model. Incremental CryptoKit input now uses checked,
+  bounded `Data` values for the fixed header and each bounded payload slice;
+  the Darwin pointer comparator was replaced by a reviewed fixed-size Swift
+  loop that accumulates all 32 XOR differences without a data-dependent early
+  exit after the public profile invariants are validated. The expanded
+  `ContentIDTests` filter executed seven tests with zero failures, including a
+  new independent whole-frame oracle at 4,095/4,096/4,097 and
+  8,191/8,192/8,193 payload bytes plus every two-part split of one bounded
+  frame. The sample-byte, operation-parameter, derivation, provenance and
+  manifest filter executed ten tests across five suites with zero failures,
+  preserving every registered golden, crossed-profile rejection and signature
+  custody check. Focused format lint first reported six layout diagnostics in
+  the new test; after the mechanical layout correction, the same two-file lint
+  passed and the seven-test identity filter reran with zero failures. That
+  rebuild also emitted the pre-existing duplicate-parameter-name warning in
+  `OrthographicRayGenerator.swift`, which did not fail this narrow command and
+  is not counted as passing strict evidence. Focused diff validation and the
+  raw safety scan passed. The semantic `--compile` gate recompiled
+  `ContentID.swift` cleanly and advanced to its first remaining failure: the
+  pointer-shaped
+  `FileManager.fileExists(atPath:isDirectory:)` call in
+  `CanonicalDocumentStore.swift`. Because the semantic script stops at that
+  root debug build failure, later package/configuration phases are not yet new
+  evidence and the repository gate remains honestly red. The complete suite
+  was intentionally not run under the narrow-test policy. Release-integrity
+  regeneration and its read-only verification passed with 809 manifest paths,
+  808 inventory records and 809 checksums. The exact next recovery is the
+  document-store directory-kind validation boundary.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9746,15 +9779,18 @@ and direct-volume-rendering increments through accepted `ADR-0182`. Accepted
 coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
 accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The unchecked-conformance recovery is complete: the
-fail-closed escape-hatch scan has zero findings, and checked literal iteration
-removed the canonical JSON/ingress failures. The complete semantic Swift
-safety gate remains red on seven strict-memory-safety diagnostics in
-`ContentID.swift`. The exact next focused recovery is its streaming hash and
-constant-time comparison boundary: replace pointer-backed CryptoKit updates
-and C comparison with checked APIs while preserving domain separation,
-chunk-invariant SHA-256 output, fixed-size validation and timing-independent
-claim comparison. Do not resume geometry or report the compiler gate green
-until the semantic `--compile` oracle passes.
+fail-closed escape-hatch scan has zero findings, checked literal iteration
+removed the canonical JSON/ingress failures, and the checked bounded
+`ContentID` recovery preserves all registered identity oracles. The complete
+semantic Swift safety gate now stops at Foundation's pointer-shaped
+directory-kind query in `CanonicalDocumentStore.swift`. The exact next focused
+recovery is to replace that initializer query with a checked URL resource-value
+API while preserving the existing-directory requirement, rejection of regular
+files and payload-free `invalidStoreDirectory` result. Add the missing
+regular-file regression, run the focused document-store/archival tests, then
+rerun the semantic oracle. Do not resume geometry or report the compiler gate
+green until the semantic `--compile` oracle passes through every package and
+configuration.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under `ADR-0186`: reconcile
@@ -9779,9 +9815,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Treat `ContentID` as a security-sensitive increment with its
-  streaming/chunk-boundary, digest, constant-time-comparison and malformed
-  claim regressions before rerunning the semantic gate.
+- Treat `CanonicalDocumentStore` directory validation as a storage/security
+  increment: preserve missing-path and regular-file rejection, avoid implicit
+  creation, run its direct and archival dependants, and then rerun the semantic
+  gate.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

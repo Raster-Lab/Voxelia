@@ -83,17 +83,20 @@ removed the immutable residency manager's obsolete exception and proved the
 exact slice renderer is immutable checked composition.
 
 The complete semantic gate is not green. `check_swift_safety.py --compile`
-currently reports seven strict-memory-safety diagnostics in
-`VoxeliaCore/ContentID.swift` for unsafe-buffer hashing and constant-time
-comparison calls. Four canonical literal/ingress implementations that formed
-the other seven diagnostics now use checked `StaticString` UTF-8 iteration and
-retain byte-exact focused evidence. No finding is an accepted exception;
-`ContentID` recovery must use checked Swift without weakening domain-separated
-digest or timing-safety contracts.
+now compiles `VoxeliaCore/ContentID.swift` cleanly after its incremental hashing
+was moved to checked bounded `Data` inputs and direct verification to a
+fixed-size Swift loop that accumulates all 32 byte differences without an early
+exit. Registered goldens, chunk boundaries and first/middle/last mismatch
+evidence remain green. The gate currently stops in the root debug build at the
+pointer-shaped Foundation directory-kind query in
+`VoxeliaStorage/CanonicalDocumentStore.swift`; later package/configuration
+phases remain unverified by that run. No finding is an accepted exception; the
+store recovery must preserve existing-directory and non-directory rejection
+with checked Swift.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile red on `ContentID.swift` | Focused identity recovery suite pending |
+| None permitted | No escape-hatch declaration remains | Repository | No exception accepted | Raw scan green; semantic compile stops on `CanonicalDocumentStore.swift` | Focused directory-kind recovery pending |
 
 ## Introducing an exception
 

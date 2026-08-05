@@ -416,8 +416,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/ContentID.swift",
-      "size": 30270,
-      "sha256": "6e4adb179c8f0bdd3d752b2e54ca08900d537dc4c0edb8f36135830db26816db"
+      "size": 30330,
+      "sha256": "60b30af6d36af4832ee36459319aff9e81e3f1a3da56db458d82cba3c1ba0210"
     },
     {
       "path": "Sources/VoxeliaCore/Public/ContentIdentityTaxonomy.swift",
@@ -1521,8 +1521,8 @@
     },
     {
       "path": "Tests/VoxeliaCoreTests/ContentIDTests.swift",
-      "size": 12873,
-      "sha256": "0d76f994f4ce294ef3a4dc85a0eab7cbf58f43e3ca4a078e48dc35455d1bace0"
+      "size": 14627,
+      "sha256": "6130a8724e67e620f8633b0ac2aca4e6e05effc7ba75ab6d96004622292e223c"
     },
     {
       "path": "Tests/VoxeliaCoreTests/ContentIdentityTaxonomyTests.swift",
@@ -3681,8 +3681,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 667329,
-      "sha256": "82106491156fb7a8a13cf9864de6668900c86f4518046e7bb3a95ffee8f48f03"
+      "size": 669986,
+      "sha256": "01a1593a64cf970bcd87908799182d1609fac40163cddcb614fb08804faefb3f"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3996,8 +3996,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 6721,
-      "sha256": "34853ea717f187993c9ad18a45d5e7af689c3d3c194b897dddb3a3305edb9519"
+      "size": 6945,
+      "sha256": "ce810bbc3eb4380f23d3570a7d2d838003af580a60b086196f3299ebebd91c46"
     },
     {
       "path": "docs/shaders/README.md",

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import CryptoKit
-import Darwin
+import Foundation
 
 /// One exact major/minor content-projection version.
 ///
@@ -470,14 +470,12 @@ extension ContentID {
         }
 
         var hasher = SHA256()
-        header.withUnsafeBytes { hasher.update(bufferPointer: $0) }
+        hasher.update(data: Data(header))
 
         var offset = 0
         while offset < payloadBytes.count {
             let end = min(offset + Self.hashChunkByteCount, payloadBytes.count)
-            payloadBytes[offset..<end].withUnsafeBytes {
-                hasher.update(bufferPointer: $0)
-            }
+            hasher.update(data: Data(payloadBytes[offset..<end]))
             offset = end
             if Task.isCancelled {
                 throw ContentIdentityError.cancelled
@@ -503,9 +501,9 @@ extension ContentID {
     /// this record's own registered scope and projection.
     ///
     /// The complete candidate digest is calculated first; the fixed 32
-    /// digest bytes are then compared with the platform timing-safe byte
-    /// comparator. A mismatch is a result, not an error, and carries
-    /// neither digest.
+    /// digest bytes are then compared by accumulating every byte mismatch
+    /// without data-dependent early exit. A mismatch is a result, not an
+    /// error, and carries neither digest.
     public func matchesDigest(
         ofCanonicalBytes canonicalBytes: [UInt8]
     ) throws -> Bool {
@@ -514,23 +512,27 @@ extension ContentID {
             projection: projection,
             overPayloadBytes: canonicalBytes
         )
-        return storage.withUnsafeBufferPointer { expected in
-            candidate.storage.withUnsafeBufferPointer { computed in
-                guard
-                    let expectedBase = expected.baseAddress,
-                    let computedBase = computed.baseAddress,
-                    expected.count == Self.sha256DigestByteCount,
-                    computed.count == Self.sha256DigestByteCount
-                else {
-                    return false
-                }
-                return timingsafe_bcmp(
-                    expectedBase,
-                    computedBase,
-                    Self.sha256DigestByteCount
-                ) == 0
-            }
+        return Self.digestBytesMatch(storage, candidate.storage)
+    }
+
+    /// Compares exactly one accepted SHA-256 digest without a
+    /// data-dependent early exit. Length is a public profile invariant;
+    /// every accepted comparison performs all 32 byte loads and XORs.
+    private static func digestBytesMatch(
+        _ expected: ContiguousArray<UInt8>,
+        _ computed: ContiguousArray<UInt8>
+    ) -> Bool {
+        guard
+            expected.count == Self.sha256DigestByteCount,
+            computed.count == Self.sha256DigestByteCount
+        else {
+            return false
         }
+        var difference: UInt8 = 0
+        for index in 0..<Self.sha256DigestByteCount {
+            difference |= expected[index] ^ computed[index]
+        }
+        return difference == 0
     }
 
     // MARK: - Digest text
