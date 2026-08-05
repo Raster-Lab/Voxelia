@@ -3485,6 +3485,27 @@ oracle campaigns.
   rule communicates less than the documentation naming it. The
   renderer surface with the end-to-end tiny render follows in the
   metal module per the exact-renderer precedent.
+- One-hundred-fifty-first autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0175`, the exact
+  volume renderer — conventional direct volume rendering exists end
+  to end as a deterministic CPU reference with complete provenance.
+  The surface composes the accepted generator, sampler, the one
+  public sampling authority and the compositor per pixel over the
+  published volume through the coordinated read boundary, publishing
+  a four-component image whose provenance is the operation pattern
+  with the full reproduction recipe digested — the transfer table's
+  bytes, the camera, the viewport and the quality token. The claim
+  shape was assessed, not forced: an empty layer list, because the
+  layer vocabulary's transfer function is the windowed slice claim
+  and fabricating a window that never ran would misreport, with the
+  volume scene's inputs in the operation parameters instead. The
+  suite proves the tiny render byte-identical to per-ray
+  expectations composed from the same authorities inside the test,
+  verifies the claims and provenance, proves the second render
+  bit-identical — determinism structural per the arc — and rejects
+  the typed admissions. Registry listing follows the established
+  precedent; the gradient, clipping, mask and acceleration
+  increments extend this surface.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

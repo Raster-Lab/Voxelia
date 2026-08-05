@@ -34,6 +34,8 @@ milestone specifications introduce its substantive public API incrementally.
 - ``MetalResidencySelection``
 - ``MetalResidencyError``
 - ``ExactSliceRenderer``
+- ``ExactVolumeRenderer``
+- ``VolumeRenderError``
 - ``SliceRendererError``
 - ``RenderPublicationStage``
 - ``MetalWindowLevelOperation``
