@@ -2225,6 +2225,26 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   and dropping stale ones is the interactive draw loop's behaviour,
   gated on its own architecture; this vocabulary is the contract it
   will consume.
+- Ninety-first autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0015` (bilinear
+  resampling `binary64-v1`) and `ADR-0123`, the eighth operation
+  `org.voxelia.op.resample-linear` 1.0.0 — the linear interpolation
+  display policy of `VOX-R2D-013`. The registered model aligns pixel
+  centres with edge replication through clamped taps and the
+  unclamped-floor weight, interpolates in the frozen declared order
+  with no fused multiply-add under ties-to-even rounding and the
+  modelled clamp, and reproduces the input exactly at equal
+  dimensions by construction — proven by fixture beside the upscale
+  and downscale fixtures. Version-one admission is the display-policy
+  value domain — rank-two eight-bit intensity, no transform, bounded
+  extents — because interpolation reads values and the admission
+  names its domain; a mode parameter on the nearest-neighbour
+  operation was rejected so recipes stay distinguishable by operation
+  identity. All three `VOX-R2D-013` policies now have registered
+  semantics — nearest-neighbour, linear and the identity
+  no-interpolation presentation — with the renderer-side policy
+  selection and the `PresentationScaling` widening recorded as their
+  own following decision.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

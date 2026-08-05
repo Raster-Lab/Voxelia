@@ -45,6 +45,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``TransposeError``
 - ``SqueezeAxesOperation``
 - ``SqueezeError``
+- ``ResampleLinearOperation``
+- ``ResampleLinearError``
 
 ### Publication
 

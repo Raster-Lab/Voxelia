@@ -134,6 +134,7 @@ Sources/VoxeliaExecution/Public/InvertDisplayOperation.swift
 Sources/VoxeliaExecution/Public/MetadataIdentityCoordinator.swift
 Sources/VoxeliaExecution/Public/PublicationCoordinator.swift
 Sources/VoxeliaExecution/Public/RegionExtractionOperation.swift
+Sources/VoxeliaExecution/Public/ResampleLinearOperation.swift
 Sources/VoxeliaExecution/Public/ResampleNearestOperation.swift
 Sources/VoxeliaExecution/Public/SqueezeAxesOperation.swift
 Sources/VoxeliaExecution/Public/StorageReadCoordinator.swift
@@ -318,6 +319,7 @@ Tests/VoxeliaExecutionTests/InvertDisplayOperationTests.swift
 Tests/VoxeliaExecutionTests/MetadataIdentityCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/PublicationCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/RegionExtractionOperationTests.swift
+Tests/VoxeliaExecutionTests/ResampleLinearOperationTests.swift
 Tests/VoxeliaExecutionTests/ResampleNearestOperationTests.swift
 Tests/VoxeliaExecutionTests/SqueezeAxesOperationTests.swift
 Tests/VoxeliaExecutionTests/StorageReadCoordinatorTests.swift
@@ -459,6 +461,7 @@ docs/algorithms/VOXELIA-ALG-0011-display-inversion.md
 docs/algorithms/VOXELIA-ALG-0012-axis-transposition.md
 docs/algorithms/VOXELIA-ALG-0013-singleton-axis-squeeze.md
 docs/algorithms/VOXELIA-ALG-0014-three-point-angle.md
+docs/algorithms/VOXELIA-ALG-0015-bilinear-resampling.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -587,6 +590,7 @@ docs/architecture/decisions/ADR-0119-viewport-synchronisation.md
 docs/architecture/decisions/ADR-0120-angle-measurement.md
 docs/architecture/decisions/ADR-0121-window-edge-case-assessment.md
 docs/architecture/decisions/ADR-0122-render-generations.md
+docs/architecture/decisions/ADR-0123-bilinear-resampling.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
