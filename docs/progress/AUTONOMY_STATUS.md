@@ -4601,6 +4601,75 @@ oracle campaigns.
   numerical contract; no case table or extraction source is authorised by this
   mesh implementation.
 
+- One-hundred-eighty-eighth autonomous increment (scheduled goal
+  continuation): authored and accepted `ADR-0190` and
+  `VOXELIA-ALG-0028`, freezing the scalar-surface extraction numerical
+  reference without adding product source. The initial validated marching-
+  cubes-class method is the global Freudenthal/Kuhn decomposition: six
+  positively oriented tetrahedra per sample-centre cube and one exhaustive
+  16-case table. Adjacent cubes induce identical shared-face diagonals, so
+  ambiguity is resolved structurally rather than by an unstated table or
+  data-dependent decider. The fixed diagonal bias and possible twelve-
+  triangle/13-vertex single-cube output are explicit limitations, not hidden
+  optimisations.
+
+  The model consumes a complete finite authoritative binary64 scalar lattice
+  after accepted storage decoding/value transformation. It fixes exact
+  `sample >= isovalue` classification, interior-cells-only boundaries, direct
+  versioned interpolation with typed rejection instead of clamping/rescaling,
+  exact-isovalue sample keys, repeated-key triangle omission, axis-zero-fastest
+  cell order, first-reference vertex order and complete table-order topology.
+  Image coordinates map through the source affine in one frozen binary64 row
+  sequence; determinant sign composed with spatial-axis permutation parity
+  preserves physical inside-to-outside winding. Host vertex/triangle limits,
+  checked count arithmetic, a 64-cell cancellation cadence, final prepublish
+  cancellation and atomic no-partial mesh/identity/provenance publication are
+  required. The operation/algorithm identifiers, `sourceVolume` input role,
+  isovalue/rule parameter claims and privacy-safe payload-free failure family
+  are frozen.
+
+  The new independent Python exact-rational oracle checks all six tetrahedron
+  determinants, all fourteen nonempty cases and their outward winding,
+  exhausts all 256 binary cube masks, verifies every index, proves shared-face
+  conformity, exact-isovalue collapse and reflected winding, and pins the
+  single-corner seven-position/six-triangle golden. It passed and printed:
+
+  ```bash
+  python3 \
+    docs/progress/evidence/ADR-0190-scalar-surface-extraction-oracle.py
+  ```
+
+  ```text
+  cubeMaskSHA256=4bed958ac7d25a4539de8a0cea28524271a89303c3e9e3fb0de0d311e5c6931d maximumVertices=13 maximumTriangles=12 singleCorner=7v/6t equality=0v/0t sharedFace=conforming winding=outward
+  ```
+
+  Two repeat runs under `PYTHONHASHSEED=1` and `987654` printed the same line
+  and digest, proving the evidence script does not accidentally derive its
+  registered ordering from Python hash iteration.
+
+  ```bash
+  PYTHONHASHSEED=1 python3 \
+    docs/progress/evidence/ADR-0190-scalar-surface-extraction-oracle.py
+  PYTHONHASHSEED=987654 python3 \
+    docs/progress/evidence/ADR-0190-scalar-surface-extraction-oracle.py
+  ```
+
+  `Tools/Scripts/validate-docs.sh` passed seven front-matter documents, all 170
+  ADR records, the two primary and one companion Draft RFC records and text
+  checks for 277 Markdown files. `git diff --check` and the pre-regeneration
+  825-entry manifest path check passed. The oracle proves the exact rational
+  table/topology fixtures only; it is not Swift product code, a binary64
+  differential, storage/value-transform adapter, cancellation/resource test or
+  atomic publication proof. No Swift build, test, semantic safety gate, Apple
+  destination matrix or external device/fuzz evidence was rerun for this
+  documentation/evidence-only increment, and none is claimed. Release-
+  integrity regeneration and read-only manifest/integrity verification passed
+  with 828 manifest paths, 827 inventory records and 828 checksums; the
+  repeated documentation and diff gates also passed. The exact next action is
+  the separately frozen public request/limit/result and CPU/storage/publication
+  boundary that can implement this numerical identity without introducing a
+  reverse package dependency or provisional provenance.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -10406,12 +10475,15 @@ singular and the graph remains acyclic. Accepted `ADR-0188` and implemented
 exact finite `Double` position ownership and coordinate descriptor, independent
 checked topology, exact non-position vertex-attribute bytes and layout, checked
 byte arithmetic, fixed admission precedence and deliberately absent
-wire/content/provenance claims. The exact next action is a separately frozen
-scalar-surface extraction numerical contract: select and version the
-marching-cubes-class table, sample/equality and boundary conventions, ambiguous-
-case handling, interpolation, deterministic vertex/topology order, resource and
-cancellation bounds, independently generated fixtures and provenance inputs
-before adding extraction source.
+wire/content/provenance claims. Accepted `ADR-0190` and
+`VOXELIA-ALG-0028` now freeze the Freudenthal marching-tetrahedra binary64-v1
+reference, complete case table, ambiguity/equality/boundary/interpolation,
+ordering, spatial winding, limits, cancellation, provenance fields and
+independent exhaustive oracle. The exact next action is a separately frozen
+public operation/publication boundary: request and host limits, output
+mesh/identity/provenance aggregate, source-read/value-transform ownership,
+payload-free error precedence and CPU implementation placement without a
+reverse package edge. Product source follows only after that boundary is exact.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -10425,10 +10497,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Freeze the scalar-surface extraction numerical contract before product source:
-  exact case/table authority, equality and boundary handling, ambiguity policy,
-  interpolation precision/order, deterministic topology, resource/cancellation
-  limits, provenance parameters and independent analytic/enumerated fixtures.
+- Freeze the scalar-extraction public operation/publication boundary before
+  product source: immutable request/limits/result values, source-read and
+  value-transform ownership, identity/provenance assembly, error precedence,
+  CPU placement, cancellation/no-partial-publication and package dependencies.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

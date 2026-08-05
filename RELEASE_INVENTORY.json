@@ -2546,8 +2546,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 3304,
-      "sha256": "09b3ae7e63f5fbaa3dce6b2c89eb8bcc5b7fd561acab7b7c846573a534f87df6"
+      "size": 3444,
+      "sha256": "057f0bd9219a2b19bfe68a69c6fbfad9bdd36e290dea5f5c0a03d0dcb79b8b6a"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2683,6 +2683,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0027-empty-space-skipping.md",
       "size": 4963,
       "sha256": "46cc8427a63e523b71719340cc58230ad1c8396d7274304b54b8d5230a9803b9"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0028-freudenthal-surface-extraction.md",
+      "size": 13558,
+      "sha256": "74de541f9fbf8d20b0aa6e3add4e6c5b39322a802a86372fe27698b96a6a3ca2"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3665,9 +3670,14 @@
       "sha256": "73ba9961144d884d384d64666ea16bc93b1e5adb83a8af1a3f13e97fe24fec39"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0190-scalar-surface-extraction-design.md",
+      "size": 13078,
+      "sha256": "9b0b196914ea61c87aafc4617325d949ba3f524bb8526406139ca7ad3fccc57b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 27993,
-      "sha256": "a591ec64c00e8b66e76c742da817fcaae1e2510d239d895f4fbc9c9337dad454"
+      "size": 28288,
+      "sha256": "1757350ef7fc0e7b8ab28352ab6b406aad3c78871f9ba095b21e220b7ad61245"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3751,8 +3761,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 711727,
-      "sha256": "201d725f1f77032cf01d5214d77ac5e8df594b882897bbfb38cb118c6ad3701e"
+      "size": 715936,
+      "sha256": "bc3b47a55aed10053f48bb1a355a5d818fda0e4a069814dfb71aad23f0cc2397"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3813,6 +3823,11 @@
       "path": "docs/progress/evidence/ADR-0186-metal-buffer-transfer-independent-review.md",
       "size": 7497,
       "sha256": "ba954270d665138f38f012639655af4695c858000a1d21b80f7ebcc31d5cdbe0"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0190-scalar-surface-extraction-oracle.py",
+      "size": 10640,
+      "sha256": "744fa5fef4fcb730e284e5705de0085ce1ff1a1fad8925e379b1336115a03110"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4121,8 +4136,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 44765,
-      "sha256": "4f910b3bc2aa14a0171145c012907245af24be29c852b55b58d988813328fa0d"
+      "size": 44973,
+      "sha256": "bfb91a9c4f603959e348bb5af8d42b9950a73972a80bad7d5d5ff58d7e6ffe22"
     }
   ]
 }

@@ -167,7 +167,10 @@ the geometry extraction arc. `ADR-0184` is allocated to the triangle mesh
 topology design. `ADR-0185` is allocated to the triangle mesh topology.
 `ADR-0186` is allocated to the governed Metal shared-buffer transfer boundary.
 `ADR-0187` is allocated to the Geometry coordinate-space dependency.
-The next unallocated numeric identifier is `ADR-0190`.
+`ADR-0188` is allocated to the coordinate-bearing triangle mesh design.
+`ADR-0189` is allocated to its implementation, and `ADR-0190` is allocated to
+the scalar surface extraction design.
+The next unallocated numeric identifier is `ADR-0191`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -340,3 +343,4 @@ The next unallocated numeric identifier is `ADR-0190`.
 | [ADR-0187](ADR-0187-geometry-coordinate-space-dependency.md) | Accepted | Geometry coordinate-space dependency |
 | [ADR-0188](ADR-0188-coordinate-bearing-triangle-mesh-design.md) | Accepted | Coordinate-bearing triangle mesh design |
 | [ADR-0189](ADR-0189-coordinate-bearing-triangle-mesh.md) | Accepted | Coordinate-bearing triangle mesh |
+| [ADR-0190](ADR-0190-scalar-surface-extraction-design.md) | Accepted | Scalar surface extraction design |
