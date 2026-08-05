@@ -63,8 +63,38 @@ struct InteractionCommandTests {
         #expect(single.derivedLength == 0.0)
         #expect(single.points == [try point(10.5, -2.25, 7)])
 
+        // The ADR-0120 angle fixtures: right angle, collinear
+        // opposite, forty-five degrees, and the same-direction clamp,
+        // each exact, with inputs preserved.
+        let rightAngle = try AngleMeasurement(
+            rayPoint: try point(1, 0, 0),
+            vertex: try point(0, 0, 0),
+            secondRayPoint: try point(0, 1, 0)
+        )
+        #expect(rightAngle.derivedRadians == 1.5707963267948966)
+        #expect(rightAngle.vertex == (try point(0, 0, 0)))
+        let collinear = try AngleMeasurement(
+            rayPoint: try point(1, 0, 0),
+            vertex: try point(0, 0, 0),
+            secondRayPoint: try point(-2, 0, 0)
+        )
+        #expect(collinear.derivedRadians == 3.141592653589793)
+        let diagonal = try AngleMeasurement(
+            rayPoint: try point(1, 0, 0),
+            vertex: try point(0, 0, 0),
+            secondRayPoint: try point(1, 1, 0)
+        )
+        #expect(diagonal.derivedRadians == 0.7853981633974484)
+        let sameDirection = try AngleMeasurement(
+            rayPoint: try point(3, 0, 0),
+            vertex: try point(0, 0, 0),
+            secondRayPoint: try point(2, 0, 0)
+        )
+        #expect(sameDirection.derivedRadians == 0.0)
+
         requireSendable(InteractionCommand.self)
         requireSendable(MeasurementConstruction.self)
+        requireSendable(AngleMeasurement.self)
         requireSendable(CrosshairState.self)
         requireSendable(InteractionError.self)
     }
@@ -114,6 +144,25 @@ struct InteractionCommandTests {
                 points: [try point(0, 0, 0), try point(1, 1, 1, space: "detector")]
             )
             #expect(Bool(false), "Expected a mixed-space measurement to be rejected.")
+        } catch InteractionError.coordinateSpaceMismatch {}
+
+        // The ADR-0120 angle admissions: a zero-length ray and a
+        // mixed-space triple reject typed.
+        do {
+            _ = try AngleMeasurement(
+                rayPoint: try point(0, 0, 0),
+                vertex: try point(0, 0, 0),
+                secondRayPoint: try point(1, 0, 0)
+            )
+            #expect(Bool(false), "Expected a zero-length ray to be rejected.")
+        } catch InteractionError.degenerateAngleRay {}
+        do {
+            _ = try AngleMeasurement(
+                rayPoint: try point(1, 0, 0),
+                vertex: try point(0, 0, 0),
+                secondRayPoint: try point(0, 1, 0, space: "detector")
+            )
+            #expect(Bool(false), "Expected a mixed-space angle to be rejected.")
         } catch InteractionError.coordinateSpaceMismatch {}
     }
 

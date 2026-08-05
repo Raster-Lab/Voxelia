@@ -17,3 +17,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0011](VOXELIA-ALG-0011-display-inversion.md) | Accepted | Display inversion `exact-v1` |
 | [VOXELIA-ALG-0012](VOXELIA-ALG-0012-axis-transposition.md) | Accepted | Axis transposition `exact-v1` |
 | [VOXELIA-ALG-0013](VOXELIA-ALG-0013-singleton-axis-squeeze.md) | Accepted | Singleton axis squeeze `exact-v1` |
+| [VOXELIA-ALG-0014](VOXELIA-ALG-0014-three-point-angle.md) | Accepted | Three-point angle `binary64-v1` |

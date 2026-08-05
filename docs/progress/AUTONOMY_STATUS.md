@@ -2172,6 +2172,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `VOX-INT-005` is discharged; the linkage half of `VOX-MPR-005` is
   discharged with crosshair-to-slice-index mapping recorded open on
   geometry-bearing volumes and the binding remap.
+- Eighty-eighth autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0014` (three-point
+  angle `binary64-v1`) and `ADR-0120`, extending the measurement
+  vocabulary. `AngleMeasurement` preserves the exact ray point,
+  vertex and second ray point in one shared coordinate space beside
+  the derived radians computed once at construction — the frozen
+  componentwise subtraction, declared-order dot and norms, the
+  modelled cosine clamp that makes boundary angles exact, and the
+  platform arccosine. A zero-length ray rejects as the new typed
+  `degenerateAngleRay` before the model runs, because a fabricated
+  angle for an undirected ray would be false, and a measurement mode
+  on the polyline value was rejected — different admissions,
+  different derived quantities. Tests reproduce all four fixtures
+  exactly — the right angle, collinear opposite rays through one
+  clamp end, forty-five degrees, and same-direction rays through the
+  other — and reject degenerate rays and mixed spaces typed.
+  `VOX-SPA-014` now covers distance and angle with area and volume
+  recorded future models.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived

@@ -24,6 +24,7 @@ public API is introduced only by reviewed milestone specifications.
 - ``ClipBox``
 - ``CrosshairState``
 - ``MeasurementConstruction``
+- ``AngleMeasurement``
 - ``InteractionError``
 - ``SyncedViewport``
 - ``ViewportSyncGroup``

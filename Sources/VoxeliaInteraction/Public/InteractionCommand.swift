@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+import Foundation
 import VoxeliaRendering
 import VoxeliaSpatial
 
@@ -18,6 +19,7 @@ public enum InteractionError: Error, Sendable, Equatable {
     case emptySyncGroup
     case syncGroupLimitExceeded
     case duplicateViewportIdentifier
+    case degenerateAngleRay
 }
 
 /// One validated pan delta per `ADR-0111`, in viewport-relative units.
@@ -160,6 +162,53 @@ public struct MeasurementConstruction: Sendable, Hashable {
             total += squared.squareRoot()
         }
         self.derivedLength = total
+    }
+}
+
+/// One angle measurement per `ADR-0120` (`VOX-SPA-014`).
+///
+/// The exact ray point, vertex and second ray point are preserved —
+/// one shared coordinate space — beside the derived radians, computed
+/// once at construction under the registered `VOXELIA-ALG-0014` model
+/// with its modelled cosine clamp.
+public struct AngleMeasurement: Sendable, Hashable {
+    public let rayPoint: Point3D
+    public let vertex: Point3D
+    public let secondRayPoint: Point3D
+    public let derivedRadians: Double
+
+    /// Creates a validated measurement with its derived angle.
+    ///
+    /// - Throws: ``InteractionError/coordinateSpaceMismatch`` or
+    ///   ``InteractionError/degenerateAngleRay``.
+    public init(rayPoint: Point3D, vertex: Point3D, secondRayPoint: Point3D) throws {
+        let space = vertex.coordinateSpace
+        guard
+            rayPoint.coordinateSpace == space,
+            secondRayPoint.coordinateSpace == space
+        else {
+            throw InteractionError.coordinateSpaceMismatch
+        }
+        // The frozen VOXELIA-ALG-0014 evaluation: componentwise ray
+        // subtraction, declared-order dot and norms, the modelled
+        // clamp, no fused multiply-add.
+        let uX = rayPoint.x - vertex.x
+        let uY = rayPoint.y - vertex.y
+        let uZ = rayPoint.z - vertex.z
+        let vX = secondRayPoint.x - vertex.x
+        let vY = secondRayPoint.y - vertex.y
+        let vZ = secondRayPoint.z - vertex.z
+        let normU = (((uX * uX) + (uY * uY)) + (uZ * uZ)).squareRoot()
+        let normV = (((vX * vX) + (vY * vY)) + (vZ * vZ)).squareRoot()
+        guard normU > 0, normV > 0 else {
+            throw InteractionError.degenerateAngleRay
+        }
+        let dot = ((uX * vX) + (uY * vY)) + (uZ * vZ)
+        let cosine = min(1.0, max(-1.0, dot / (normU * normV)))
+        self.rayPoint = rayPoint
+        self.vertex = vertex
+        self.secondRayPoint = secondRayPoint
+        self.derivedRadians = acos(cosine)
     }
 }
 
