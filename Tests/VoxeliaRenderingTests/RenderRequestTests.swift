@@ -51,6 +51,7 @@ struct RenderRequestTests {
             camera: try camera(),
             viewport: try ViewportSize(width: 512, height: 512),
             layers: [layer],
+            scaling: .identity,
             renderMode: .slice,
             colourOutput: .greyscale8,
             accumulation: .none,
@@ -71,12 +72,28 @@ struct RenderRequestTests {
                     opacity: 0.5
                 )
             ],
+            scaling: .identity,
             renderMode: .slice,
             colourOutput: .greyscale8,
             accumulation: .none,
             denoising: .none
         )
         #expect(presentation != differentOpacity)
+
+        // The ADR-0100 scaling claim participates in presentation
+        // identity.
+        let scaled = PresentationProvenance(
+            camera: try camera(),
+            viewport: try ViewportSize(width: 512, height: 512),
+            layers: [layer],
+            scaling: .nearestNeighbour(sourceWidth: 256, sourceHeight: 256),
+            renderMode: .slice,
+            colourOutput: .greyscale8,
+            accumulation: .none,
+            denoising: .none
+        )
+        #expect(presentation != scaled)
+        requireSendable(PresentationScaling.self)
 
         // The backend-neutral contract renders through a conforming
         // stub.

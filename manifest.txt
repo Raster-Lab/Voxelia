@@ -536,6 +536,7 @@ docs/architecture/decisions/ADR-0096-composite-metal-kernel.md
 docs/architecture/decisions/ADR-0097-pipeline-archival-evidence.md
 docs/architecture/decisions/ADR-0098-device-composite-operation.md
 docs/architecture/decisions/ADR-0099-fully-device-renderer-path.md
+docs/architecture/decisions/ADR-0100-presentation-scaling-claim.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

@@ -189,6 +189,7 @@ struct ExactSliceRendererTests {
         #expect(result.outputObjectID.rawValue == "render-1-wl0")
         #expect(result.presentation.renderMode == .slice)
         #expect(result.presentation.colourOutput == .greyscale8)
+        #expect(result.presentation.scaling == .identity)
         let published = try #require(
             await publisher.publishedImage(for: result.outputObjectID)
         )
@@ -255,6 +256,10 @@ struct ExactSliceRendererTests {
             )
         )
         #expect(result.outputObjectID.rawValue == "render-2-rs")
+        #expect(
+            result.presentation.scaling
+                == .nearestNeighbour(sourceWidth: 4, sourceHeight: 3)
+        )
         let published = try #require(
             await publisher.publishedImage(for: result.outputObjectID)
         )

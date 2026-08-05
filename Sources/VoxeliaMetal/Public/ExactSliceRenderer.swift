@@ -183,11 +183,13 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
         // object with no presentation meaning.
         let extents = presented.descriptor.shape.extents
         let output: ImageData
+        let scaling: PresentationScaling
         if extents.count == 2,
             extents[0] == request.viewport.width,
             extents[1] == request.viewport.height
         {
             output = presented
+            scaling = .identity
         } else {
             let resampleNames = try naming(.resampled)
             output = try await ResampleNearestOperation.execute(
@@ -201,6 +203,12 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                 coordinator: readCoordinator
             )
             _ = try await publisher.publish(output, mode: .complete)
+            // The claim records what happened: the pre-resample source
+            // extents under the registered ALG-0008 model.
+            scaling = .nearestNeighbour(
+                sourceWidth: extents[0],
+                sourceHeight: extents[1]
+            )
         }
 
         return RenderResult(
@@ -209,6 +217,7 @@ public final class ExactSliceRenderer: SliceRenderer, @unchecked Sendable {
                 camera: request.scene.camera,
                 viewport: request.viewport,
                 layers: request.scene.layers,
+                scaling: scaling,
                 renderMode: .slice,
                 colourOutput: .greyscale8,
                 accumulation: .none,

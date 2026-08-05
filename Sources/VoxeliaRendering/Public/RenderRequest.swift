@@ -22,6 +22,19 @@ public enum DenoisingState: Sendable, Hashable {
     case none
 }
 
+/// The closed presentation scaling claim per `ADR-0100`.
+///
+/// The producer records what the pipeline actually did — never what
+/// was requested: `identity` when the resample stage never ran, or
+/// nearest-neighbour per the registered `VOXELIA-ALG-0008` model with
+/// the pre-resample source extents from the presented image's
+/// validated descriptor. Richer geometric cases widen this closed set
+/// through their own decisions.
+public enum PresentationScaling: Sendable, Hashable {
+    case identity
+    case nearestNeighbour(sourceWidth: Int, sourceHeight: Int)
+}
+
 /// One render request per `ADR-0085`: already-validated members
 /// composed memberwise.
 public struct RenderRequest: Sendable, Hashable {
@@ -53,6 +66,7 @@ public struct PresentationProvenance: Sendable, Hashable {
     public let camera: RenderCamera
     public let viewport: ViewportSize
     public let layers: ContiguousArray<RenderLayer>
+    public let scaling: PresentationScaling
     public let renderMode: RenderMode
     public let colourOutput: ColourOutputConfiguration
     public let accumulation: AccumulationState
@@ -62,6 +76,7 @@ public struct PresentationProvenance: Sendable, Hashable {
         camera: RenderCamera,
         viewport: ViewportSize,
         layers: ContiguousArray<RenderLayer>,
+        scaling: PresentationScaling,
         renderMode: RenderMode,
         colourOutput: ColourOutputConfiguration,
         accumulation: AccumulationState,
@@ -70,6 +85,7 @@ public struct PresentationProvenance: Sendable, Hashable {
         self.camera = camera
         self.viewport = viewport
         self.layers = layers
+        self.scaling = scaling
         self.renderMode = renderMode
         self.colourOutput = colourOutput
         self.accumulation = accumulation

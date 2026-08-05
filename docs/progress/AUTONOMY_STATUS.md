@@ -1749,6 +1749,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   fixture — printed single-device evidence — and verified both stage
   records carry their device implementation tokens and kernel
   references.
+- Sixty-sixth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0100` and added the
+  presentation scaling claim. `PresentationProvenance` now carries a
+  required closed `PresentationScaling` — `identity`, or
+  `nearestNeighbour` with the pre-resample source extents per the
+  registered `VOXELIA-ALG-0008` model — a pre-release revision of the
+  `ADR-0085`/`ADR-0091` shape discharging the presentation-transform
+  deferral for the axis-aligned scaling case. The renderer fills the
+  claim from what actually happened, never from the request: identity
+  when the resample stage never ran, and the presented image's
+  validated pre-resample extents otherwise, so a consumer reads the
+  scaling honestly from the result while graph inspection remains
+  corroboration. A general transform matrix was rejected — the
+  pipeline performs axis-aligned nearest-neighbour scaling only, and
+  a matrix would imply a model that does not exist. Tests verify the
+  identity claim on equal-extent renders, the exact source extents on
+  resampled renders and the claim's participation in presentation
+  identity.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
