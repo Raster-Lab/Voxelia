@@ -35,12 +35,14 @@ struct VolumeRenderRequestTests {
                 projection: .orthographic(planeHeight: 4)
             ),
             viewport: try ViewportSize(width: 2, height: 2),
-            quality: "org.voxelia.quality.full"
+            quality: "org.voxelia.quality.full",
+            lighting: .none
         )
         #expect(request.volumeObjectID.rawValue == "volume-7")
         #expect(request.quality == "org.voxelia.quality.full")
         #expect(request == request)
 
+        #expect(VolumeLightingModel.headlight != VolumeLightingModel.none)
         #expect(RenderMode.volumeDirect != RenderMode.slice)
         #expect(
             ColourOutputConfiguration.rgba8

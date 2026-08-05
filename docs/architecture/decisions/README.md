@@ -156,8 +156,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0173` is allocated to the orthographic ray generator.
 `ADR-0174` is allocated to the volume render vocabulary.
 `ADR-0175` is allocated to the exact volume renderer.
-`ADR-0176` is allocated to the gradient lighting design. The next
-unallocated numeric identifier is `ADR-0177`.
+`ADR-0176` is allocated to the gradient lighting design.
+`ADR-0177` is allocated to the gradient lighting. The next
+unallocated numeric identifier is `ADR-0178`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -317,3 +318,4 @@ unallocated numeric identifier is `ADR-0177`.
 | [ADR-0174](ADR-0174-volume-render-vocabulary.md) | Accepted | Volume render vocabulary |
 | [ADR-0175](ADR-0175-exact-volume-renderer.md) | Accepted | Exact volume renderer |
 | [ADR-0176](ADR-0176-gradient-lighting-design.md) | Accepted | Gradient lighting design |
+| [ADR-0177](ADR-0177-gradient-lighting.md) | Accepted | Gradient lighting |

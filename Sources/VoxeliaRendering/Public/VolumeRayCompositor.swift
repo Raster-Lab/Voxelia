@@ -61,6 +61,45 @@ public enum VolumeRayCompositor {
         )
     }
 
+    /// Composites one ray with per-sample shading factors aligned to
+    /// the samples, per `VOXELIA-ALG-0025`: each colour component is
+    /// modulated by its factor before the accepted conversion —
+    /// `(component * factor) / 255` — and opacity is never modulated,
+    /// because lighting changes appearance, never coverage. The
+    /// unshaded mode calls the accepted unshaded entry instead, so
+    /// byte identity is structural.
+    public static func composite(
+        samples: [UInt8],
+        shadingFactors: [Double],
+        table: TransferFunction1D
+    ) -> CompositedRay {
+        var red = 0.0
+        var green = 0.0
+        var blue = 0.0
+        var accumulated = 0.0
+        var consumed = 0
+        for (sample, factor) in zip(samples, shadingFactors) {
+            let entry = table.entry(at: Int(sample))
+            let alpha = Double(entry.opacity) / 255.0
+            let weight = (1.0 - accumulated) * alpha
+            red = red + (weight * ((Double(entry.red) * factor) / 255.0))
+            green = green + (weight * ((Double(entry.green) * factor) / 255.0))
+            blue = blue + (weight * ((Double(entry.blue) * factor) / 255.0))
+            accumulated = accumulated + weight
+            consumed += 1
+            if accumulated >= Self.terminationThreshold {
+                break
+            }
+        }
+        return CompositedRay(
+            red: Self.outputByte(red),
+            green: Self.outputByte(green),
+            blue: Self.outputByte(blue),
+            alpha: Self.outputByte(accumulated),
+            consumedSampleCount: consumed
+        )
+    }
+
     /// The declared output conversion:
     /// `clamp(roundHalfToEven(value * 255), 0, 255)`.
     private static func outputByte(_ value: Double) -> UInt8 {

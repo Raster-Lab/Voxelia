@@ -3546,6 +3546,25 @@ oracle campaigns.
   grazing and forty-five-degree factors, the calibration-invariant
   normal and the zero-gradient identity. Implementation follows as
   its own increment.
+- One-hundred-fifty-fourth autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0177`, gradient
+  lighting live in the renderer. The closed none-and-headlight
+  vocabulary joined the rendering module with the request's explicit
+  lighting member stated at every call site; the shaded per-sample
+  path takes six extra trilinear samples through the one public
+  sampling authority, transforms the gradient through the accepted
+  inverse's transpose, and modulates colour through a shaded
+  compositor entry whose factor sequence aligns with the samples —
+  while the unshaded mode calls the accepted compositor unchanged,
+  so byte identity is structural rather than asserted, and opacity
+  is never modulated. The lighting token joined the digested
+  parameters. The suites reproduce every specification fixture
+  exactly — head-on one, grazing one quarter, the forty-five-degree
+  frozen spelling, the calibration-invariant normal and the
+  zero-gradient identity — and prove the shaded render differs in
+  colour while every alpha byte matches the unshaded render, with
+  repetition bit-identical. The arc's remaining increments are
+  clipping and masks, then acceleration.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

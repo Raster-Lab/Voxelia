@@ -106,6 +106,13 @@ public final class ExactVolumeRenderer: Sendable {
         let storedBytes = read.result.bytes
         try await readCoordinator.release(read.retention)
 
+        // The headlight path builds the accepted inverse once; the
+        // unshaded path calls the accepted compositor unchanged, so
+        // its byte identity is structural.
+        let inverse: AffineSpatialInverse? =
+            request.lighting == .headlight
+            ? try AffineSpatialInverse(spatialPartOf: geometry.indexToWorld)
+            : nil
         var outputBytes = [UInt8]()
         outputBytes.reserveCapacity(
             request.viewport.width * request.viewport.height * 4
@@ -125,10 +132,35 @@ public final class ExactVolumeRenderer: Sendable {
                         )
                     )
                 }
-                let composited = VolumeRayCompositor.composite(
-                    samples: samples,
-                    table: request.table
-                )
+                let composited: CompositedRay
+                if let inverse {
+                    let unitDirection = Self.unitDirection(of: ray)
+                    var factors = [Double]()
+                    factors.reserveCapacity(plan.sampleCount)
+                    for index in 0..<plan.sampleCount {
+                        factors.append(
+                            Self.shadingFactor(
+                                atIndexPosition: Array(
+                                    plan.indexPosition(at: index)
+                                ),
+                                extents: extents,
+                                bytes: storedBytes,
+                                inverse: inverse,
+                                unitRayDirection: unitDirection
+                            )
+                        )
+                    }
+                    composited = VolumeRayCompositor.composite(
+                        samples: samples,
+                        shadingFactors: factors,
+                        table: request.table
+                    )
+                } else {
+                    composited = VolumeRayCompositor.composite(
+                        samples: samples,
+                        table: request.table
+                    )
+                }
                 outputBytes.append(composited.red)
                 outputBytes.append(composited.green)
                 outputBytes.append(composited.blue)
@@ -269,8 +301,83 @@ public final class ExactVolumeRenderer: Sendable {
         )
     }
 
+    /// The accepted `VOXELIA-ALG-0010` normalisation: the ray
+    /// parameter is world distance, so the headlight is the negated
+    /// unit direction.
+    static func unitDirection(of ray: Ray3D) -> [Double] {
+        let dx = ray.direction.x
+        let dy = ray.direction.y
+        let dz = ray.direction.z
+        let norm = (((dx * dx) + (dy * dy)) + (dz * dz)).squareRoot()
+        return [dx / norm, dy / norm, dz / norm]
+    }
+
+    /// The frozen `VOXELIA-ALG-0025` factor at one sample position:
+    /// central differences through the one public sampling authority,
+    /// the world gradient through the accepted inverse's transpose,
+    /// and the declared headlight Lambert factor — exactly one for a
+    /// zero gradient, because shading a surface that does not exist
+    /// would fabricate one.
+    static func shadingFactor(
+        atIndexPosition position: [Double],
+        extents: ContiguousArray<Int>,
+        bytes: [UInt8],
+        inverse: AffineSpatialInverse,
+        unitRayDirection: [Double]
+    ) -> Double {
+        var gradientIndex = [0.0, 0.0, 0.0]
+        for axis in 0...2 {
+            var forward = position
+            var backward = position
+            forward[axis] = position[axis] + 1.0
+            backward[axis] = position[axis] - 1.0
+            let ahead = Double(
+                ObliqueSliceOperation.sample(
+                    forward,
+                    extents: extents,
+                    bytes: bytes
+                )
+            )
+            let behind = Double(
+                ObliqueSliceOperation.sample(
+                    backward,
+                    extents: extents,
+                    bytes: bytes
+                )
+            )
+            gradientIndex[axis] = (ahead - behind) / 2.0
+        }
+        var world = [0.0, 0.0, 0.0]
+        for row in 0...2 {
+            var component = 0.0
+            for slot in 0...2 {
+                component =
+                    component
+                    + (inverse.elements[3 * slot + row] * gradientIndex[slot])
+            }
+            world[row] = component
+        }
+        let norm =
+            (((world[0] * world[0]) + (world[1] * world[1]))
+            + (world[2] * world[2]))
+            .squareRoot()
+        guard norm > 0 else {
+            return 1.0
+        }
+        let normalX = -world[0] / norm
+        let normalY = -world[1] / norm
+        let normalZ = -world[2] / norm
+        let lightX = -unitRayDirection[0]
+        let lightY = -unitRayDirection[1]
+        let lightZ = -unitRayDirection[2]
+        let dot =
+            ((normalX * lightX) + (normalY * lightY)) + (normalZ * lightZ)
+        let diffuse = max(0.0, dot)
+        return 0.25 + (0.75 * diffuse)
+    }
+
     /// The full reproduction recipe: the table bytes, the camera, the
-    /// viewport and the quality token.
+    /// viewport, the quality token and the lighting mode.
     static func parameterCollection(
         request: VolumeRenderRequest
     ) throws -> MetadataCollection {
@@ -297,6 +404,14 @@ public final class ExactVolumeRenderer: Sendable {
                     name: "quality"
                 ),
                 value: .string(request.quality),
+                privacyClass: .technical
+            ),
+            MetadataEntry(
+                key: try AnyMetadataKey(
+                    namespace: Self.operationIdentifier,
+                    name: "lighting"
+                ),
+                value: .string(request.lighting.rawValue),
                 privacyClass: .technical
             ),
             MetadataEntry(

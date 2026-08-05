@@ -165,7 +165,9 @@ struct ExactVolumeRendererTests {
         return try TransferFunction1D(entries: entries)
     }
 
-    private func request() throws -> VolumeRenderRequest {
+    private func request(
+        lighting: VolumeLightingModel = .none
+    ) throws -> VolumeRenderRequest {
         let id = try #require(CoordinateSpaceID(rawValue: "patient"))
         return VolumeRenderRequest(
             volumeObjectID: try #require(DataObjectID(rawValue: "volume-7")),
@@ -177,7 +179,8 @@ struct ExactVolumeRendererTests {
                 projection: .orthographic(planeHeight: 4)
             ),
             viewport: try ViewportSize(width: 2, height: 2),
-            quality: "org.voxelia.quality.full"
+            quality: "org.voxelia.quality.full",
+            lighting: lighting
         )
     }
 
@@ -295,6 +298,132 @@ struct ExactVolumeRendererTests {
             region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [2, 2])
         ).bytes
         #expect(secondBytes == rendered)
+    }
+
+    @Test("[Unit][VOX-DVR-008] headlight shading modulates colour, never opacity")
+    func headlightShadingModulatesColourNeverOpacity() async throws {
+        // The ADR-0177 obligations at the surface: the shaded render
+        // differs from the unshaded one in colour somewhere, every
+        // alpha byte is untouched, and repetition is bit-identical.
+        let publisher = try publisher()
+        _ = try await publisher.publish(
+            try volume(geometry: .affine(try identityGeometry())),
+            mode: .complete
+        )
+        let renderer = ExactVolumeRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            software: try software()
+        )
+        func rendered(
+            _ lighting: VolumeLightingModel,
+            name: String
+        ) async throws -> [UInt8] {
+            let result = try await renderer.render(
+                try request(lighting: lighting),
+                outputObjectID: try #require(DataObjectID(rawValue: name)),
+                outputProvenanceID: try #require(
+                    ProvenanceID(rawValue: "record-\(name)")
+                ),
+                createdAt: try CanonicalInstant(
+                    utcString: "2026-08-05T12:20:00Z"
+                )
+            )
+            let image = try #require(
+                await publisher.publishedImage(for: result.outputObjectID)
+            )
+            return try image.storage.read(
+                region: try ImageRegion(
+                    lowerBounds: [0, 0],
+                    upperBounds: [2, 2]
+                )
+            ).bytes
+        }
+        let unshaded = try await rendered(.none, name: "render-plain")
+        let shaded = try await rendered(.headlight, name: "render-lit")
+        let repeated = try await rendered(.headlight, name: "render-lit-2")
+        #expect(shaded == repeated)
+        #expect(shaded != unshaded)
+        for pixel in 0..<4 {
+            #expect(shaded[pixel * 4 + 3] == unshaded[pixel * 4 + 3])
+        }
+    }
+
+    @Test("[Unit][VOX-DVR-008] the frozen factors reproduce the fixtures")
+    func frozenFactorsReproduceTheFixtures() throws {
+        // The ALG-0025 fixtures through the internal factor helper:
+        // the linear field's exact gradient, head-on, grazing and
+        // forty-five-degree factors, the calibration-invariant
+        // normal, and the zero-gradient identity.
+        var bytes = [UInt8](repeating: 0, count: 27)
+        for i2 in 0..<3 {
+            for i1 in 0..<3 {
+                for i0 in 0..<3 {
+                    bytes[i0 + 3 * (i1 + 3 * i2)] = UInt8(8 * i0)
+                }
+            }
+        }
+        let extents: ContiguousArray<Int> = [3, 3, 3]
+        let identity = try AffineSpatialInverse(
+            spatialPartOf: Matrix4x4Double.identity
+        )
+        let position = [1.0, 1.0, 1.0]
+        let headOn = ExactVolumeRenderer.shadingFactor(
+            atIndexPosition: position,
+            extents: extents,
+            bytes: bytes,
+            inverse: identity,
+            unitRayDirection: [1, 0, 0]
+        )
+        #expect(headOn == 1)
+        let grazing = ExactVolumeRenderer.shadingFactor(
+            atIndexPosition: position,
+            extents: extents,
+            bytes: bytes,
+            inverse: identity,
+            unitRayDirection: [0, 0, 1]
+        )
+        #expect(grazing == 0.25)
+        let inv = 1.0 / 2.0.squareRoot()
+        let angled = ExactVolumeRenderer.shadingFactor(
+            atIndexPosition: position,
+            extents: extents,
+            bytes: bytes,
+            inverse: identity,
+            unitRayDirection: [inv, 0, inv]
+        )
+        #expect(angled == 0.7803300858899106)
+
+        // The diagonal spacing-two calibration scales the gradient
+        // but not the factor: normalisation absorbs the magnitude.
+        let scaled = try AffineSpatialInverse(
+            spatialPartOf: try Matrix4x4Double(elements: [
+                2, 0, 0, 0,
+                0, 2, 0, 0,
+                0, 0, 2, 0,
+                0, 0, 0, 1,
+            ])
+        )
+        let calibrated = ExactVolumeRenderer.shadingFactor(
+            atIndexPosition: position,
+            extents: extents,
+            bytes: bytes,
+            inverse: scaled,
+            unitRayDirection: [1, 0, 0]
+        )
+        #expect(calibrated == 1)
+
+        // A flat region has no surface: factor exactly one.
+        let flat = ExactVolumeRenderer.shadingFactor(
+            atIndexPosition: position,
+            extents: extents,
+            bytes: [UInt8](repeating: 9, count: 27),
+            inverse: identity,
+            unitRayDirection: [1, 0, 0]
+        )
+        #expect(flat == 1)
     }
 
     @Test("[Unit][VOX-ERR-001] volume render admissions reject typed")
