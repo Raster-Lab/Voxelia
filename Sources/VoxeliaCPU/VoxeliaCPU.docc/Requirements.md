@@ -11,6 +11,16 @@ admission, exact byte decoding and value transforms, one bounded coordinated
 read, deterministic Freudenthal topology and spatial winding, checked output
 limits, cancellation checkpoints and payload-free failures.
 
+The internal labelled-surface source adapter and categorical reference kernel
+add focused evidence for `VOX-GEO-007`, `VOX-GEO-008`, `VOX-CPU-001`,
+`VOX-CPU-006`, `VOX-CON-006`, `VOX-CON-007`, `VOX-ERR-001` and `VOX-SEC-001`
+under accepted `ADR-0192` and `VOXELIA-ALG-0029`. Evidence covers exact
+same-domain decoding for all integer widths and byte orders, exhaustive binary,
+ternary-union and shared-face differentials, one-read ownership, midpoint and
+affine failure, checked output limits and fixed cancellation checkpoints. It
+does not yet provide a public labelled operation, provenance result or backend
+registration.
+
 The public ``CPUScalarSurfaceExtractionOperation`` completes the accepted CPU
 reference boundary by returning the immutable mesh/identity/provenance result
 only after final cancellation and full binding validation. Its fixed

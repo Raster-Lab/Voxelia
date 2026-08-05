@@ -315,6 +315,21 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaCPU/Internal/CPULabelledSurfaceExtractionOperation.swift",
+      "size": 5348,
+      "sha256": "bd86eb30ba816f1d00a374d8975ee030f039352f66b5587a28328d3c09935623"
+    },
+    {
+      "path": "Sources/VoxeliaCPU/Internal/LabelledSurfaceReferenceKernel.swift",
+      "size": 15971,
+      "sha256": "958486b680962224cd7ec2204b228997bd121fdf99551c7a4da0a30da54135d8"
+    },
+    {
+      "path": "Sources/VoxeliaCPU/Internal/LabelledSurfaceSourceAdapter.swift",
+      "size": 9251,
+      "sha256": "772b259eaf522698ce7b2b712028eeca089c052e05a2f97d2979c9188e248589"
+    },
+    {
       "path": "Sources/VoxeliaCPU/Internal/ScalarSurfaceReferenceKernel.swift",
       "size": 15826,
       "sha256": "94e4fe52ccae04e2464f3dd6890f32ad7ddf05672c567d5ff1b9d057def35f81"
@@ -346,18 +361,18 @@
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/Architecture.md",
-      "size": 1037,
-      "sha256": "857e6db8c661e5270408172764d399cc1c04357028baf3fead40aa1cde92f60a"
+      "size": 1555,
+      "sha256": "819d908afbf71e8671371b5929ef1f90f75ba2b72f555d4feabefdbb9df47390"
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/Requirements.md",
-      "size": 1116,
-      "sha256": "80ac19f224b27679dc5c33d498b111fa1ae3c9191d68ea08f1cb35d5ead09f58"
+      "size": 1742,
+      "sha256": "4fbaa723e19f3747dd9aad00f6cc74d0940b5afc08243ac22cad067b18a4e8bc"
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md",
-      "size": 860,
-      "sha256": "d494cfbee87c44867ca3b6fdbfee2ac9d687df74c1c0f726399e2cda0aaf1d78"
+      "size": 1062,
+      "sha256": "049c17064ae1b262217c37a3e08977a1e140e6a0903596b7704d17888a70fa0e"
     },
     {
       "path": "Sources/VoxeliaCore/ApplePlatformGate.swift",
@@ -1518,6 +1533,21 @@
       "path": "Tests/VoxeliaCPUTests/CPUScalarSurfaceExtractionOperationTests.swift",
       "size": 12330,
       "sha256": "26c4918f6076789164ad904aadc44765aaff5004e3acb1f537a737278ea046f4"
+    },
+    {
+      "path": "Tests/VoxeliaCPUTests/LabelledSurfaceExtractionTestSupport.swift",
+      "size": 10378,
+      "sha256": "8a5fe4282a2f4aabed4a4cf90572aeeb59e03330c56d0f56840362c1c63fcff0"
+    },
+    {
+      "path": "Tests/VoxeliaCPUTests/LabelledSurfaceReferenceKernelTests.swift",
+      "size": 25847,
+      "sha256": "b8aebd4b5529ed120dc1bbcf1d5c49e2c169ec3d2b0a3e21a2d641ab9def012a"
+    },
+    {
+      "path": "Tests/VoxeliaCPUTests/LabelledSurfaceSourceAdapterTests.swift",
+      "size": 15679,
+      "sha256": "f0d7e4cde49457f5e7eda5a80031ca4a14fdbbf4e04340b15f51df7b14cdadca"
     },
     {
       "path": "Tests/VoxeliaCPUTests/ScalarSurfaceExtractionTestSupport.swift",
@@ -3771,8 +3801,8 @@
     },
     {
       "path": "docs/architecture/modules/VoxeliaCPU.md",
-      "size": 659,
-      "sha256": "01d8e3ca2d540cf088595e2783aa383d9fb678a4e12a9db651884ec74efd619d"
+      "size": 932,
+      "sha256": "e9c97968f5d824f1b0d67f516ba3b2077ddcdb90191f36361aea799d22094a86"
     },
     {
       "path": "docs/architecture/modules/VoxeliaCore.md",
@@ -3836,8 +3866,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 752012,
-      "sha256": "0b1cfd6c90e333f28dbdad24c5a2347b7480e38fb50a2541d56491a85c6e86a4"
+      "size": 757034,
+      "sha256": "7753d3be60145b5877982398b27192afaa944dd576f90591433fc575aec50686"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4216,8 +4246,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 46030,
-      "sha256": "1118f69eb36c6aa9e592e57438e3667115f2b3197c6c1bb94e7fb2f20053afe7"
+      "size": 46421,
+      "sha256": "2ae8cf150bbe04e54581026dbb8b7c6e2f24886195c09e2e8767a37b37b7dcab"
     }
   ]
 }

@@ -5242,6 +5242,85 @@ oracle campaigns.
   integrity verification passed with 844 manifest paths, 843 inventory records
   and 844 checksums.
 
+- One-hundred-ninety-fifth autonomous increment (scheduled goal
+  continuation): completed `ADR-0192` migration step two without exposing a
+  public labelled operation, publication aggregate or registry entry. CPU now
+  owns an internal stateless mesh-only boundary, closed source admission,
+  shared exact-integer adapter and the
+  `freudenthal-label-set-surface/binary64-v1` categorical reference kernel. The
+  operation applies cancellation-first limit/set/source precedence, performs
+  exactly one coordinated full-rank read, stages owned packed bytes, releases
+  the retention token before decoding, scans labels/samples at the frozen
+  cadence and returns no partial mesh on failure.
+
+  Admission is exact to rank-three, one-component `.scalar`, `.label`, absent
+  units, absent/exact-identity transform, absent/full-width valid-bit metadata,
+  affine axis permutations and all eight matching signed/unsigned integer
+  containers. The decoder preserves `Int64.min`, `Int64.max` and `UInt64.max`
+  without binary64 conversion and binary-searches the caller's bounded sorted
+  declaration without an execution hash-set copy. The kernel uses the frozen
+  cell/tetrahedron/table order, ascending ordinal-pair vertex keys, exact
+  dyadic midpoint checks, ordered affine evaluation, determinant/permutation
+  winding, checked cell/ordinal/output arithmetic and prospective caller
+  ceilings before mutation.
+
+  Thirteen focused tests across the adapter and kernel suites, including 24
+  parameterized native/explicit-byte-order cases, cover closed admission,
+  signedness, full-width valid bits, transform/unit rejection, coordinator and
+  packed-byte failures, label/sample/cell/final cancellation at item zero and
+  every frozen cadence boundary, exact integer extrema, absent/all-present
+  unions, selected-selected suppression, open boundaries, midpoint and affine
+  failures, reflected/permuted winding, a nontrivial finite affine golden and
+  atomic output limits. The Swift differential independently reconstructs and
+  matches all five registered oracle digests over 256 cube memberships, 45,927
+  ternary unions, 4,096 shared-face masks and 48 integer-container records:
+
+  ```text
+  cubeMembershipSHA256=4bed958ac7d25a4539de8a0cea28524271a89303c3e9e3fb0de0d311e5c6931d
+  cubeBinary64SHA256=154f1d57f1fe6491f9fe6267109fa46074ffba860d16f7284736388a434536aa
+  ternaryUnionSHA256=b4bfe7adc07d80b0231bff3be93e82adb42a3c7c8d0d72684899d7aa7ac6ef95
+  sharedFaceSHA256=d656b3f812750fd97813431fb9168d26e8f87ea1148f326cf6e2a83ef0a831e9
+  integerContainerSHA256=3bf3a336dfd94d366f4981ce0431e2ea42f126f48647e0ab39d3b6c3e6f54253
+  ```
+
+  The direct Python oracle reproduced the same digests and cardinalities. The
+  final focused strict run passed 13 tests across two suites in 1.5 seconds;
+  the owning CPU target run passed 41 tests across six suites in 1.5 seconds:
+
+  ```bash
+  swift test --filter 'LabelledSurface(SourceAdapter|ReferenceKernel)Tests' \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter 'VoxeliaCPUTests\.' \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  python3 \
+    docs/progress/evidence/ADR-0192-labelled-surface-extraction-oracle.py
+  ```
+
+  The first strict test compile exposed only a missing test-only
+  `VoxeliaSpatial` import. Strict debug/release builds of `VoxeliaCPU` and the
+  umbrella `Voxelia` target then passed. Strict formatting, raw Swift safety,
+  prohibited-import, documentation, 486-record requirement-index and diff
+  checks passed; documentation validation covered seven front-matter
+  documents, all 172 ADRs, two primary and one companion Draft RFC and 281
+  Markdown files. No package edge or public symbol changed. The complete
+  repository test suite, package-wide DocC archive, Apple destination matrix,
+  unavailable visionOS SDK and external device/fuzz evidence were intentionally
+  not rerun or promoted.
+
+  The authorised independent reviewer found no production defect. Their first
+  pass identified missing positive evidence for reflected/permuted world
+  coordinates, permutation-parity winding, a finite nontrivial ordered affine
+  result and the cell-zero cancellation boundary. Exact position/topology
+  goldens and the missing cadence regression were added; all focused strict
+  tests remained green. The reviewer reproduced both Python hash-seed runs and
+  all five digests, then approved API containment, integer decoding, one-read
+  lifetime, cancellation, overflow, midpoint, affine, winding, privacy and
+  strict-concurrency behavior with no remaining blocker. Their first
+  human-readable filter selected zero tests; a corrected type-qualified filter
+  executed the intended suites, and no zero-test run is claimed as evidence.
+  Release-integrity regeneration and final manifest/integrity verification
+  passed with 850 manifest paths, 849 inventory records and 850 checksums.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11073,11 +11152,12 @@ midpoint/topology/winding, closed source and failure boundary, limits,
 cancellation, publication identity and exhaustive categorical oracle. The
 five immutable Geometry declaration/publication values, payload-free error
 family, exact parameter digest, maximum-document proof and complete structural
-binding are now implemented and independently approved. The exact next action
-is `ADR-0192` migration step two: add only the internal exact integer source
-adapter and labelled Freudenthal kernel with exhaustive differential, limit and
-cancellation evidence before any public CPU operation, atomic publication or
-registration.
+binding are now implemented and independently approved. The internal exact
+integer source adapter, one-read mesh boundary and labelled Freudenthal kernel
+now reproduce every registered differential with closed limit/cancellation
+evidence. The exact next action is `ADR-0192` migration step three: add the
+public CPU operation and atomic identity/provenance result boundary, then
+register it only after complete operation-level conformance is green.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -11091,13 +11171,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform only `ADR-0192` migration step two next. Add the internal CPU exact
-  integer source adapter and labelled Freudenthal kernel with one-read ownership,
-  all eight integer widths/orders/extrema, exact signedness and transform
-  admission, checked sizes/limits, frozen cancellation cadence and exhaustive
-  independent-oracle differential evidence. Do not add the public CPU
-  operation, atomic publication, registration, normals, measurement, rendering
-  or acceleration in that increment.
+- Perform only `ADR-0192` migration step three next. Promote the stateless
+  `CPULabelledSurfaceExtractionOperation` public atomic entry, assemble the
+  exact operation/implementation/execution and one-based source provenance
+  claims, perform final cancellation before result publication and add the
+  registry entry only with complete public-operation, digest, cancellation,
+  binding and registration evidence. Do not add normals, measurement,
+  rendering or acceleration in that increment.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

@@ -10,7 +10,9 @@ internal one-read source adapter, the exact binary64 Freudenthal reference
 kernel and a public atomic result operation. The operation binds caller-owned
 output authority to fixed CPU execution and transformed provenance claims; its
 registered result carries no provisional mesh content digest or diagnostic
-validation claim.
+validation claim. Independently, labelled-surface migration step two provides
+only its internal exact-integer one-read adapter and categorical Freudenthal
+kernel; no labelled public operation or registration exists yet.
 
 ## Direct dependencies
 
