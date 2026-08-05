@@ -5844,6 +5844,89 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-first autonomous increment (scheduled goal continuation):
+  completed the read-only authoritative triangle-mesh measurement contract
+  audit required after `ADR-0193`. No product source, test, accepted ADR,
+  algorithm, registry or public API was changed. The controlled authority is
+  intentionally incomplete: `VOX-GEO-010` and MTA section 30.4 require
+  authoritative-geometry `Double` measurements, VBS section 31.2 requires
+  comparison of surface area and enclosed volume, and `ADR-0183` orders an
+  authoritative mesh-measurement operation/registry stage; none fixes an
+  implementable numerical or publication contract.
+
+  Accepted `ADR-0143`/`VOXELIA-ALG-0018` applies only to one ordered polygon's
+  anchored vector-area magnitude. It can inform a face primitive but does not
+  select total-facet versus union area, per-face norm and reduction order,
+  representability, duplicate/degenerate handling, limits or cancellation for
+  a triangle mesh. Accepted `ADR-0143`/`VOXELIA-ALG-0019` is explicitly a
+  supplied voxel count multiplied by affine cell volume and rejected mesh or
+  contour volume; it grants no authority for a polyhedral volume operation.
+
+  The canonical `TriangleMesh` guarantees finite positions, complete in-bounds
+  triples and an explicit length-dimension coordinate descriptor, but
+  deliberately preserves degenerates, duplicates, winding and non-manifold
+  topology. It proves neither closure, orientation consistency, connected or
+  nested shell meaning, self-intersection status nor a canonical mesh content
+  identity. Consequently a tetrahedral sum over an arbitrary admitted mesh is
+  only an algebraic signed-volume quantity and cannot honestly be published as
+  VBS's enclosed volume. Existing scalar/labelled extraction can also produce
+  boundary-touching surfaces, so provenance alone is not a closure oracle.
+
+  Units and publication are independently unresolved. `MeasurementUnit`
+  classifies the coordinate unit as length but defines no squared/cubed unit
+  algebra; the older Interaction measurements expose bare `Double` values even
+  though their algorithm documents describe squared/cubed source units.
+  `ADR-0193` supplies a useful structural precedent for a source mesh claim,
+  caller output authority, final cancellation, CPU execution claim and nil
+  provisional content identity, but it does not authorize a measurement
+  result aggregate, parameter document, result identity or registry evidence.
+
+  The authorised independent reviewer reached the same conclusion with no
+  contrary accepted authority. The recommended Option A is a separately
+  governed **total facet area** stage only: unsigned scalar triangle areas
+  accumulated in exact topology order, empty/degenerate facets contributing
+  positive zero, repeated/duplicate facets retaining multiplicity, and no
+  winding/manifold/self-intersection claim. Its new record must still freeze a
+  scaled binary64 norm, representability and sum order, powered-length unit
+  representation, limits, cancellation, payload-free errors, atomic
+  identity/provenance publication, parameter digest and independent fixtures.
+  Enclosed volume then remains a distinct governed stage with explicit
+  watertightness, edge/vertex manifoldness, orientation, disconnected/nested
+  shell and cavity meaning, degeneracy/duplicate/self-intersection policy,
+  signed-versus-magnitude semantics, reference origin/reduction order and
+  predicate-resource limits. Option B is to govern facet area and certified
+  enclosed volume together now; it is materially larger and is not the
+  recommended small acceptance increment. Publishing unverified algebraic
+  volume under the enclosed-volume name is rejected under both options.
+
+  This is a genuine scientific-product and public-API decision. The project
+  owner's earlier Option A approval applies to the `ADR-0186` Metal boundary,
+  not mesh measurement, and the standing external-action rule forbids changing
+  governance without fresh explicit authorization. Product tests/builds are
+  intentionally absent because no source changed. Documentation validation,
+  the ADR register, the 486-record requirement index, manifest-path and
+  release-integrity regeneration/read-only checks and `git diff --check` cover
+  this progress-only audit increment. Integrity remains 860 manifest paths,
+  859 inventory records and 860 checksums. The broader suite, DocC archive, Apple
+  destination matrix, unavailable visionOS SDK and external device/fuzz/
+  differential campaigns were not run and are not evidence here.
+
+  ```bash
+  git status --short
+  git log -6 --oneline --decorate
+  rg -n -i \
+    'surface area|enclosed volume|authoritative geometry|mesh measurement' \
+    docs Sources Tests
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  python3 Tools/Scripts/check_manifest_paths.py
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  python3 Tools/Scripts/check_manifest_paths.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11698,15 +11781,17 @@ analytical fixtures. Migration step three now adds the public atomic CPU
 operation and final cancellation boundary, exact identity/provenance/execution
 claim assembly, independent parameter-digest reproduction and the evidence-
 backed fourteenth CPU registry entry. All three `ADR-0193` product migration
-stages are complete and independently approved. The exact next action is the
-design-first authoritative triangle-mesh measurement stage required by
-`ADR-0183` and `VOX-GEO-010`: audit the existing accepted `ADR-0143` polygon-
-area and counted-cell-volume models against the canonical mesh and determine
-the separately governed mesh quantities, units, topology/orientation
-admission, binary64 evaluation order, error/cancellation/resource boundary,
-identity/provenance claims and independent analytical oracle. Do not implement
-a mesh-measurement API, registry entry, rendering or acceleration before that
-separate contract is accepted.
+stages are complete and independently approved. The authoritative triangle-
+mesh measurement audit required by `ADR-0183` and `VOX-GEO-010` is now
+complete. It proves that no accepted record selects mesh-wide area or enclosed-
+volume semantics, powered units, topology/orientation admission, binary64
+order, error/cancellation/resource boundaries, identity/provenance claims or
+an oracle. Product work is blocked on one fresh owner decision: approve
+Option A (recommended), a separately governed total-facet-area stage followed
+later by certified enclosed volume, or Option B, one larger record governing
+both total facet area and certified enclosed volume. Do not create or accept
+the new record, algorithm, mesh-measurement API, registry entry, rendering or
+acceleration until that explicit choice authorizes the governance change.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -11720,15 +11805,16 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform only the authoritative triangle-mesh measurement design audit next.
-  Reconcile `ADR-0183`, `VOX-GEO-010`, the accepted canonical mesh and the
-  existing `ADR-0143` polygon-area/counted-cell-volume contracts. Freeze no
-  product API and add no registry claim until a separate governed record
-  settles exact quantities, units, topology/orientation admission, binary64
-  ordering, limits, cancellation, identity/provenance and an independent
-  analytical oracle. For a documentation-only decision increment, run only
-  the oracle and the relevant ADR/document/register/index/integrity checks;
-  product builds and tests are not evidence unless source changes.
+- Await explicit owner approval of mesh-measurement Option A or Option B. Do
+  not modify accepted governance or product source while the decision is open.
+  If Option A is approved, the next increment is design-only: freeze total
+  facet area, an explicit powered-length-unit representation, scaled binary64
+  arithmetic and reduction, exact failure/limits/cancellation/publication
+  semantics and independent fixtures in a new accepted record and algorithm.
+  Run only the oracle and relevant ADR/document/register/index/integrity checks
+  for that design increment; product builds/tests are not evidence until source
+  changes. If Option B is selected, first expand that record to settle the full
+  certified-enclosed-volume topology and predicate contract recorded above.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
