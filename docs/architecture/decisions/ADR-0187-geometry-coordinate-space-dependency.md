@@ -1,7 +1,7 @@
 ---
 document_id: "ADR-0187"
 title: "Geometry coordinate-space dependency"
-status: "Proposed"
+status: "Accepted"
 date: "2026-08-05"
 owners:
   - "Voxelia Project"
@@ -45,13 +45,10 @@ Accepted `ADR-0184` therefore separated the independently valid logical
 topology, implemented by `ADR-0185`, and blocked the coordinate-bearing mesh on
 this explicit graph decision. The remaining conflict cannot be resolved by an
 incidental import, a duplicate identifier, a Core type alias or a weakened
-string field. This proposed record recommends the smallest acyclic graph
-correction. It grants no implementation or governance authority until the
-project owner accepts it.
+string field. The project owner explicitly approved this smallest acyclic graph
+correction on 2026-08-05 and authorised the governed implementation work.
 
 ## Decision
-
-If accepted:
 
 1. **Geometry gains one explicit foundational edge.** The production target
    will depend directly on both `VoxeliaCore` and `VoxeliaSpatial`:
@@ -84,13 +81,15 @@ If accepted:
    projection, provenance aggregate, resource ceilings or extraction numeric
    model. Those remain separate design-first increments downstream of
    `ADR-0183` and the implemented `TriangleMeshTopology`.
-5. **The graph correction is controlled and fail closed.** Acceptance will
-   authorise `CCR-0027` to correct the MTA section 8 graph and the RPSS section
+5. **The graph correction is controlled and fail closed.** `CCR-0027` corrects
+   the MTA section 8 graph and the RPSS section
    13 graph, package sketch and Appendix B matrix without editing immutable
    v0.1.1 files. The root manifest, dynamic/static graph checkers, Geometry
-   module documentation and release package-graph evidence will then change in
-   one migration increment. A test target that directly imports Spatial to
-   construct Geometry values will declare that test dependency explicitly.
+   module documentation and current progress evidence change in one migration
+   increment. The historical v0.1.1 release graph remains unchanged; the next
+   release candidate will record the corrected edge. A test target that
+   directly imports Spatial to construct Geometry values will declare that test
+   dependency explicitly.
 6. **No re-export policy changes.** The focused `VoxeliaGeometry` product still
    exposes Geometry only; adding a target dependency does not re-export Spatial
    declarations or change the umbrella module policy. Consumers construct
@@ -177,9 +176,10 @@ its real public semantic dependency and is already transitively required.
 
 ## Validation impact
 
-This proposal requires the ADR/documentation, current dynamic/static package-
-graph, prohibited-import, manifest and release-integrity checks only. It does
-not claim that the proposed edge or mesh API has been compiled.
+The acceptance increment requires the ADR/documentation, current dynamic/static
+package-graph, prohibited-import, manifest and release-integrity checks only.
+It does not claim that the edge or mesh API has been compiled until the separate
+graph migration executes.
 
 After acceptance, the graph migration must prove the exact two-dependency
 Geometry edge in both graph checkers, cycle freedom, prohibited-import policy,
@@ -190,8 +190,8 @@ attribute, overflow, `Sendable`, identity and payload-redaction tests.
 
 ## Migration
 
-1. Obtain explicit project-owner acceptance or rejection of this record.
-2. If accepted, add `CCR-0027` with the exact MTA/RPSS graph corrections.
+1. Record the project owner's explicit acceptance of this record (complete).
+2. Add `CCR-0027` with the exact MTA/RPSS graph corrections.
 3. In one graph-only increment, update `Package.swift`, both package-graph
    checkers, Geometry module documentation, affected test dependency declarations
    and release graph evidence; run the graph and direct-dependant build gates.
@@ -202,7 +202,7 @@ attribute, overflow, `Sendable`, identity and payload-redaction tests.
 
 ## Supersession
 
-This proposal supersedes no accepted record. If accepted, it composes
+This record supersedes no accepted record. It composes
 `ADR-0021`, `ADR-0043`, `ADR-0183`, `ADR-0184` and `ADR-0185` and corrects only
 the exact package-graph statements that prevent those ownership decisions from
 coexisting.

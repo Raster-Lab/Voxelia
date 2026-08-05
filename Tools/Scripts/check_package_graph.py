@@ -14,7 +14,7 @@ EXPECTED = {
     "VoxeliaStorage": {"VoxeliaCore"},
     "VoxeliaExecution": {"VoxeliaStorage"},
     "VoxeliaImaging": {"VoxeliaExecution"},
-    "VoxeliaGeometry": {"VoxeliaCore"},
+    "VoxeliaGeometry": {"VoxeliaCore", "VoxeliaSpatial"},
     "VoxeliaRendering": {"VoxeliaImaging", "VoxeliaGeometry"},
     "VoxeliaInteraction": {"VoxeliaRendering"},
     "VoxeliaCPU": {"VoxeliaImaging", "VoxeliaGeometry"},

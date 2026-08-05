@@ -2,6 +2,8 @@
 
 **Purpose:** Point, curve, mesh and geometry data models.
 
-**Direct dependencies:** VoxeliaCore
+**Direct dependencies:** VoxeliaCore, VoxeliaSpatial
 
-**M0 status:** Scaffold only. Substantive APIs require a reviewed specification.
+`VoxeliaSpatial` owns the coordinate-space values consumed by canonical
+Geometry APIs; Geometry does not redeclare or re-export them. The direct edge is
+governed by accepted `ADR-0187` and controlled correction `CCR-0027`.

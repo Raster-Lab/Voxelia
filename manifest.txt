@@ -557,6 +557,7 @@ docs/architecture/corrections/CCR-0023-adr-0057-provenance-claim-leaves.md
 docs/architecture/corrections/CCR-0024-adr-0058-provenance-record.md
 docs/architecture/corrections/CCR-0025-adr-0063-image-data-aggregate.md
 docs/architecture/corrections/CCR-0026-adr-0077-retention-and-enrichment.md
+docs/architecture/corrections/CCR-0027-adr-0187-geometry-spatial-dependency.md
 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
 docs/architecture/decisions/ADR-0023-value-transform-shape.md

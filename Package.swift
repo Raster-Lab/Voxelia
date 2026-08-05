@@ -31,7 +31,10 @@ let package = Package(
         .target(name: "VoxeliaStorage", dependencies: ["VoxeliaCore"]),
         .target(name: "VoxeliaExecution", dependencies: ["VoxeliaStorage"]),
         .target(name: "VoxeliaImaging", dependencies: ["VoxeliaExecution"]),
-        .target(name: "VoxeliaGeometry", dependencies: ["VoxeliaCore"]),
+        .target(
+            name: "VoxeliaGeometry",
+            dependencies: ["VoxeliaCore", "VoxeliaSpatial"]
+        ),
         .target(
             name: "VoxeliaRendering",
             dependencies: ["VoxeliaImaging", "VoxeliaGeometry"]

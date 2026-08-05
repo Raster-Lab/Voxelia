@@ -166,7 +166,7 @@ allocated to the volume acceleration design. `ADR-0183` is allocated to
 the geometry extraction arc. `ADR-0184` is allocated to the triangle mesh
 topology design. `ADR-0185` is allocated to the triangle mesh topology.
 `ADR-0186` is allocated to the governed Metal shared-buffer transfer boundary.
-`ADR-0187` is allocated to the Geometry coordinate-space dependency proposal.
+`ADR-0187` is allocated to the Geometry coordinate-space dependency.
 The next unallocated numeric identifier is `ADR-0188`.
 
 | ID | Status | Decision |
@@ -337,4 +337,4 @@ The next unallocated numeric identifier is `ADR-0188`.
 | [ADR-0184](ADR-0184-triangle-mesh-topology-design.md) | Accepted | Triangle mesh topology design |
 | [ADR-0185](ADR-0185-triangle-mesh-topology.md) | Accepted | Triangle mesh topology |
 | [ADR-0186](ADR-0186-governed-metal-buffer-transfer.md) | Accepted | Governed Metal shared-buffer transfer boundary |
-| [ADR-0187](ADR-0187-geometry-coordinate-space-dependency.md) | Proposed | Geometry coordinate-space dependency |
+| [ADR-0187](ADR-0187-geometry-coordinate-space-dependency.md) | Accepted | Geometry coordinate-space dependency |

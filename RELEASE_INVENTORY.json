@@ -246,8 +246,8 @@
     },
     {
       "path": "Package.swift",
-      "size": 4363,
-      "sha256": "70d256e6750fb7c1f9d3485adebbd7b9dd7b9ee4ad698e84e3c996c7e09ce9da"
+      "size": 4415,
+      "sha256": "3012face3769efade1cc1961012fcca55a4ed428c69c55299b6fef4f12ddc953"
     },
     {
       "path": "README.md",
@@ -2291,13 +2291,13 @@
     },
     {
       "path": "Tools/Scripts/check_package_graph.py",
-      "size": 2466,
-      "sha256": "219a23e2ec6beaed9d4958dcb572f21998766f60874a6ae7a74e990690666f1b"
+      "size": 2484,
+      "sha256": "eaafc1565cea13ccbc06c0a490c0b8eeedc3f63166fc1e05efacf00dd635d48e"
     },
     {
       "path": "Tools/Scripts/check_package_graph_static.py",
-      "size": 2757,
-      "sha256": "517f960cc4f216a6a5c287e1890f953d7d8192cd58ad4d1111c097a7c060283a"
+      "size": 2775,
+      "sha256": "d87c3c8d8eca31d9f74a57da805f55ff4f91b03e190061d6e4e8731d84a8730a"
     },
     {
       "path": "Tools/Scripts/check_prohibited_imports.py",
@@ -2793,6 +2793,11 @@
       "path": "docs/architecture/corrections/CCR-0026-adr-0077-retention-and-enrichment.md",
       "size": 1999,
       "sha256": "e947400e511b6115bc46c17dc4ae661bbf4e0486ad2fc8debe8fe6903b1c254d"
+    },
+    {
+      "path": "docs/architecture/corrections/CCR-0027-adr-0187-geometry-spatial-dependency.md",
+      "size": 2820,
+      "sha256": "8d61936c890b7fa12febee932e82735b8e8c0a2e478c60ab22bf0bbbd30cdd03"
     },
     {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
@@ -3626,13 +3631,13 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0187-geometry-coordinate-space-dependency.md",
-      "size": 10992,
-      "sha256": "eb6b196bfb61ed8c66b974caae94c1ff979cb03733c4a07d65a424c4b21a224f"
+      "size": 11057,
+      "sha256": "fcb73a85ee18d8974841280eb2ab8cf823df5bcc5bda17794f80e873d08316d2"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 27774,
-      "sha256": "e25997d1ad73105376f182f816a15eada223cfcde417745f582376d2082dc80c"
+      "size": 27765,
+      "sha256": "75b88e09b9a0103752933f66a68422be92ca24a019ebd9b7bb91d283cc914bfb"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3666,8 +3671,8 @@
     },
     {
       "path": "docs/architecture/modules/VoxeliaGeometry.md",
-      "size": 197,
-      "sha256": "94e7317a150d2a2ae784d97fbe9c141830f5fd60bebe06d98444c60f91368c70"
+      "size": 355,
+      "sha256": "d750473448b52dfcbeea93b95e7a62a88e7e32c349d3da64582d74ea85a68363"
     },
     {
       "path": "docs/architecture/modules/VoxeliaImaging.md",
@@ -3716,8 +3721,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 702053,
-      "sha256": "cea0d72c7a3ece1fcc15022dff2bb7d3333bc1c7c193c905c28dd106ba321463"
+      "size": 703823,
+      "sha256": "54a6e334d719c6464fb348afe901f84e3dc9347115b0eaa727cfe2d20f6034cc"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4086,8 +4091,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 44303,
-      "sha256": "dae5eb1c9ec28db4e48d10086249f858d741530083e693b88056a9734f1ca60e"
+      "size": 44382,
+      "sha256": "3a87428c84fafdb40e32b46463240736ab744aaa571050d7a820cbef5df58953"
     }
   ]
 }
