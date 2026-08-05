@@ -100,8 +100,9 @@ presentation polarity. `ADR-0113` is allocated to pixel padding
 exclusion. `ADR-0114` is allocated to clinical pipeline assessments.
 `ADR-0115` is allocated to the axis transposition operation.
 `ADR-0116` is allocated to the singleton axis squeeze. `ADR-0117`
-is allocated to the multiplanar slice coordinator. The next
-unallocated numeric identifier is `ADR-0118`.
+is allocated to the multiplanar slice coordinator. `ADR-0118` is
+allocated to concurrency storm evidence. The next unallocated numeric
+identifier is `ADR-0119`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -202,3 +203,4 @@ unallocated numeric identifier is `ADR-0118`.
 | [ADR-0115](ADR-0115-axis-transposition-operation.md) | Accepted | Axis transposition operation |
 | [ADR-0116](ADR-0116-singleton-axis-squeeze.md) | Accepted | Singleton axis squeeze |
 | [ADR-0117](ADR-0117-mpr-slice-coordinator.md) | Accepted | Multiplanar slice coordinator |
+| [ADR-0118](ADR-0118-concurrency-storm-evidence.md) | Accepted | Concurrency storm evidence |

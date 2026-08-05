@@ -1560,6 +1560,11 @@
       "sha256": "aa94e3f9bdb6bfd3358054d8d1e483d7f9fb5c1b0d3357e1caa7dcf7c44d892c"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/ConcurrencyStormTests.swift",
+      "size": 11045,
+      "sha256": "40b7578342f19f00b5ee98425e3d9860f7ebbca33fd66a7d048580778096d8aa"
+    },
+    {
       "path": "Tests/VoxeliaExecutionTests/ContentResultCacheTests.swift",
       "size": 5153,
       "sha256": "ee946069bda89958a015335740eeaf6f26c5b2b54fff6223ce3dac21305c2f87"
@@ -2890,9 +2895,14 @@
       "sha256": "b02f094683903eca47cdeeb0214db823bd3a5e7e4c985b35752b2f28b3748ce4"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0118-concurrency-storm-evidence.md",
+      "size": 3027,
+      "sha256": "bb119002ad2b1f393f0505e58a42975f359d0998490fa8db836740d27ebcc858"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 17432,
-      "sha256": "23c6b5c3ea7e3c357624e0a117dd0bd2999ff8270aab08d1a292d3429faa3f01"
+      "size": 17582,
+      "sha256": "82b4f601a9773c4bcdffb6753cfd7878553cd8a55038a83883bbd6054ae7d16c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -2976,8 +2986,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 547654,
-      "sha256": "e2b1edd18322cff46e49e1248ae8c3ac770e418afcd8378f07780250e777fd54"
+      "size": 548904,
+      "sha256": "341c17ce9bfe28f5027c005f02936e1eb170d8b3c19106a6557ec41010c8e158"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3336,8 +3346,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 35178,
-      "sha256": "5cd540c602c3664ca9fea76ba6fd3a2ef435bb09d1a4623617b4ca369395387b"
+      "size": 35301,
+      "sha256": "430bf4bc68041d1f1f807b14f7606226ba9d922d8473dfa5941e7246778e955f"
     }
   ]
 }

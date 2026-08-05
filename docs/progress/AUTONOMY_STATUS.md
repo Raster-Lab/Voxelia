@@ -2135,6 +2135,25 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   volume, a rank-two volume and out-of-range indices typed;
   `VOX-MPR-001` is discharged for axis-aligned reconstruction with
   oblique sampling gated on its own model.
+- Eighty-sixth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0118` and ran the
+  `VOX-CON-009` concurrency storm campaign with seeded-LCG
+  determinism — irreproducible failures are not evidence. Measured on
+  this host: sixty-four concurrent coalescing reads through one small
+  budget with thirty-two cancelled mid-flight, every survivor exact
+  and the coordinator ending fully released at a zero charged-byte
+  count; sixty-four concurrent identity requests served by exactly
+  two started computations — coalescing held under the storm — with
+  every survivor yielding the golden identity; sixteen distinct
+  publishes interleaved with sixteen duplicates of one bundle
+  yielding exactly one duplicate win and fifteen typed rejections
+  with an exact registry count; and one hundred strictly increasing
+  snapshot generation successions with equal generations rejected
+  typed at every step. The memory-pressure scenario stays recorded
+  open — no synthetic pressure injection exists without process-level
+  tooling, and simulated callbacks would be fabricated signals —
+  and race detection beyond compiler-enforced actor isolation remains
+  the sanitizer campaign's subject, recorded with it.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
