@@ -2391,8 +2391,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 2390,
-      "sha256": "a2e23a245d393cb19c15ddbe53cea137b4debf4ce79c5272d6b7aad0c394daa7"
+      "size": 2500,
+      "sha256": "41e2bbc0e2645db685aa22942f4d31d18bef24f37cf758342bb5c1408899ac0b"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2488,6 +2488,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0019-voxel-volume.md",
       "size": 2742,
       "sha256": "b3429daa82ad4f564ccba6396c94491b8fd49e03b3d6489adc2b0639ebc67c90"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0020-intensity-projection.md",
+      "size": 4203,
+      "sha256": "5008db25f3d5890801674baa51bec2588ccf423f99292545ad008dedf34a02c1"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3310,9 +3315,14 @@
       "sha256": "dd6d8f8547597714c42cda704a978ee22310904cbd04b0091cfb4e216ca761fd"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0159-intensity-projection-design.md",
+      "size": 3673,
+      "sha256": "251fd246371b1946196287524e861f7b9802876e1388d1cdeac87f766206ce9e"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 23483,
-      "sha256": "23a3072383f2b8cc8c4c98822aa64ebf62a293ed6865567589f0c144017aca65"
+      "size": 23640,
+      "sha256": "e4f0e2785a3c61e6fa3e73a7d23015da3fda213baf01a2b2d8c7c69f802e52ca"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3396,8 +3406,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 614820,
-      "sha256": "ddd6c617534ef5580e071c2d37fd128a17318ead70f1a6b21ea6acab541a82ce"
+      "size": 616260,
+      "sha256": "b407647dcb6a66ad6ffe17b72c37d9e89dc569f5901cb4297dd1d71589172c43"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3756,8 +3766,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 40262,
-      "sha256": "8496b887a76f3850796640f68411e9e251b1acd4410d8cdd5de8c1d4e65be5a9"
+      "size": 40387,
+      "sha256": "aabf69a137aa85e804aea34d8a4146114d249849cdcffb714d45ea3e2dca960f"
     }
   ]
 }

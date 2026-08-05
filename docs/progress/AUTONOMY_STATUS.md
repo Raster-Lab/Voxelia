@@ -3186,6 +3186,28 @@ oracle campaigns.
   overlay arc — `VOX-R2D-010/011/015` and the VOI verification.
   Each arc opens design-first with frozen specifications and
   python-verified fixtures, per the accepted precedent.
+- One-hundred-thirty-third autonomous increment (owner broadened
+  standing mandate): authored and accepted `VOXELIA-ALG-0020` and
+  `ADR-0159`, freezing the intensity-projection model — the M6
+  queue's first arc opened design-first. One operation with the
+  closed three-mode vocabulary, because the modes share identical
+  admission, ray semantics, padding rule and provenance shape and
+  three operations would triplicate every register row for a
+  one-token difference — the inversion precedent split because its
+  row demanded structural independence, and these rows are siblings.
+  The model is exact everywhere: integer extremes, and an average
+  that accumulates an exact integer sum in ascending ray order and
+  rounds the exact rational half to even in integer arithmetic — no
+  floating-point step exists, so the operation will claim the exact
+  policy. Thick-slab reconstruction is composition with the accepted
+  extraction, exactly as the axis-aligned slice already composes;
+  the declared treatments never coerce — sentinels exclude under the
+  accepted padding rule with all-excluded rays outputting exactly
+  zero, missingness is declared absent from the admitted domain, and
+  out-of-bounds slabs are the extraction's typed rejection.
+  Python-verified fixtures pin every half-even boundary direction
+  and the padded, all-excluded and depth-one rays. Implementation
+  follows as the tenth registered operation.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

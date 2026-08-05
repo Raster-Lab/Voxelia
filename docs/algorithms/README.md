@@ -23,3 +23,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0017](VOXELIA-ALG-0017-oblique-slice-sampling.md) | Accepted | Oblique slice sampling `binary64-v1` |
 | [VOXELIA-ALG-0018](VOXELIA-ALG-0018-planar-polygon-area.md) | Accepted | Planar polygon area `binary64-v1` |
 | [VOXELIA-ALG-0019](VOXELIA-ALG-0019-voxel-volume.md) | Accepted | Calibrated voxel volume `binary64-v1` |
+| [VOXELIA-ALG-0020](VOXELIA-ALG-0020-intensity-projection.md) | Accepted | Intensity projection `exact-v1` |

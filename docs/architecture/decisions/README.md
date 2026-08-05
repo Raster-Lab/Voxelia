@@ -138,8 +138,9 @@ operation. `ADR-0134` is allocated to implementation registration.
 `ADR-0155` is allocated to the bricked image storage.
 `ADR-0156` is allocated to the bricked image aggregate.
 `ADR-0157` is allocated to the brick request abandonment.
-`ADR-0158` is allocated to the planner registry consultation. The
-next unallocated numeric identifier is `ADR-0159`.
+`ADR-0158` is allocated to the planner registry consultation.
+`ADR-0159` is allocated to the intensity projection design. The next
+unallocated numeric identifier is `ADR-0160`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -281,3 +282,4 @@ next unallocated numeric identifier is `ADR-0159`.
 | [ADR-0156](ADR-0156-bricked-image-aggregate.md) | Accepted | Bricked image aggregate |
 | [ADR-0157](ADR-0157-brick-request-abandonment.md) | Accepted | Brick request abandonment |
 | [ADR-0158](ADR-0158-planner-registry-consultation.md) | Accepted | Planner registry consultation |
+| [ADR-0159](ADR-0159-intensity-projection-design.md) | Accepted | Intensity projection design |
