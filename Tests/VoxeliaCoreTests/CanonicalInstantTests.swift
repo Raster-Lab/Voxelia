@@ -7,6 +7,18 @@ import Testing
 
 @Suite("CanonicalInstant")
 struct CanonicalInstantTests {
+    private func decimalField(_ value: Int, width: Int) -> String? {
+        guard value >= 0, width > 0 else {
+            return nil
+        }
+        let digits = String(value)
+        let digitCount = digits.utf8.count
+        guard digitCount <= width else {
+            return nil
+        }
+        return String(repeating: "0", count: width - digitCount) + digits
+    }
+
     @Test("[Unit][CDMS-7.7][VOX-META-003] accepts the canonical profile exactly")
     func acceptsCanonicalProfile() throws {
         let validValues = [
@@ -58,15 +70,17 @@ struct CanonicalInstantTests {
                     case 4, 6, 9, 11: 30
                     default: isLeap ? 29 : 28
                     }
-                let yearField = String(format: "%04d", year)
-                let monthField = String(format: "%02d", month)
-                let lastDay = String(format: "%02d", expectedDays)
+                let yearField = try #require(decimalField(year, width: 4))
+                let monthField = try #require(decimalField(month, width: 2))
+                let lastDay = try #require(decimalField(expectedDays, width: 2))
 
                 _ = try CanonicalInstant(
                     utcString: "\(yearField)-\(monthField)-\(lastDay)T00:00:00Z"
                 )
                 if expectedDays < 31 {
-                    let overflowDay = String(format: "%02d", expectedDays + 1)
+                    let overflowDay = try #require(
+                        decimalField(expectedDays + 1, width: 2)
+                    )
                     #expect(throws: CanonicalInstantError.dayOutOfRange) {
                         try CanonicalInstant(
                             utcString:

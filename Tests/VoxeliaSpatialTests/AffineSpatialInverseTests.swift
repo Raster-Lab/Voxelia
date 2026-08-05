@@ -2,6 +2,7 @@
 
 import Foundation
 import Testing
+import VoxeliaTestSupport
 
 @testable import VoxeliaSpatial
 
@@ -120,7 +121,7 @@ struct AffineSpatialInverseTests {
                     + inverse.elements.map(\.bitPattern)
                     + inverse.elementwiseErrorBounds.map(\.bitPattern)
                 lines.append(
-                    words.map { String(format: "%016llx", $0) }
+                    words.map(VoxeliaTestSupport.lowercaseHex16)
                         .joined(separator: " ")
                 )
             }

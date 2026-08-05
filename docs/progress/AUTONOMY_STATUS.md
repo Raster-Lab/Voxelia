@@ -58,10 +58,12 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   migrations and the residency round trip are implemented; the independent
   reviewer approved the boundary/scanner and final migration diffs after all
   coherency, lifetime, governance, platform, count and error-classification
-  corrections. The semantic gate now compiles every product and the focused
-  Metal test target, then stops in the root test build on six pre-existing
-  C-format initializers across three Core/Spatial test files. It must not yet be
-  reported green. Independently, all four
+  corrections. The six test-only C-format initializers are now replaced by
+  checked deterministic Swift hexadecimal and decimal encoders with their
+  fixture bytes preserved. The semantic gate gets beyond those sites and now
+  stops in the root debug test build on the pointer-backed no-copy mutation
+  adversary in `MetadataBinaryTests`. It must not yet be reported green.
+  Independently, all four
   pointer-backed sixteen-bit fixture serializers predicted in the Metal test
   target now use exact checked little-endian shifts, with their affected device
   suites green. Strict compilation of the Metal test target now passes. The
@@ -4315,6 +4317,43 @@ oracle campaigns.
   replaces those six test-only C-format helpers with deterministic checked
   zero-padding/hex encoding, preserving every fixture byte, before the complete
   semantic gate reruns.
+
+- One-hundred-eighty-second autonomous increment (scheduled goal continuation):
+  replaced the six test-only C-format initializers that blocked the complete
+  semantic safety gate. `VoxeliaTestSupport.lowercaseHex16` now serializes one
+  exact lowercase, zero-padded 64-bit word by bounded nibble shifts into sixteen
+  owned UTF-8 bytes; a leading-zero and alphabetic-digit golden pins the fixture
+  spelling. Both the independent Python canonical-number round trip and the
+  affine exact-rational oracle use that helper. The canonical-instant Gregorian
+  oracle now builds its bounded positive year, month and day fields through a
+  failable width-checked decimal helper. No C varargs formatter remains under
+  `Sources` or `Tests`, and no production API or value semantics changed.
+
+  `xcrun swift-format lint --strict` passed for all four edited Swift files and
+  `git diff --check` passed. `swift test --filter
+  'Canonical(FuzzEvidence|Instant)|AffineSpatialInverse'` executed sixteen tests
+  across the three owning suites with zero failures: the 256-value Python/Swift
+  bit-identical number round trip, 400-year Gregorian oracle, deterministic
+  mutation campaigns and 10,000-matrix exact-rational affine oracle all passed;
+  the affine maximum error-bound ratio remained `0.5388787303162411` with
+  `1.8557050849142807` headroom. `rg -n 'String\\(format:' Sources Tests`
+  returned no matches.
+
+  The complete `python3 Tools/Scripts/check_swift_safety.py --compile` rerun
+  exited one after compiling every product, the Metal test target and the six
+  repaired sites. Its next fail-closed diagnostics are the allocation,
+  deallocation, copy and `Data(bytesNoCopy:)` expressions in the single
+  `MetadataBinaryTests` no-copy mutation adversary. Later package/configuration
+  phases were not reached, and the complete suite was intentionally not run
+  under the narrow-test policy; neither is claimed green. The next focused
+  recovery must preserve that test's ownership oracle while removing or
+  explicitly governing its pointer-shaped fixture, then rerun its owning suite
+  and the complete semantic gate. The Metal exception is unchanged and must not
+  be broadened for this test fixture. A final raw
+  `python3 Tools/Scripts/check_swift_safety.py` scan, repeated focused strict
+  format lint and diff validation passed. Release-integrity regeneration and
+  read-only manifest/integrity verification passed with 817 manifest paths, 816
+  inventory records and 817 checksums.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -10104,16 +10143,16 @@ generator retains its exact public selector without the duplicate internal
 name; and all three shader fingerprints now use checked lowercase serialization
 with their registered digests unchanged. The owner approved Option A; the exact
 three-operation boundary/scanner stage, all three kernel migrations and the
-residency round trip are implemented and independently approved. The complete
-semantic Swift safety gate now compiles every product and the Metal test target,
-then stops in the root debug test build on six C-format initializers: one
-hexadecimal fixture in `CanonicalFuzzEvidenceTests`, four zero-padded calendar
-fields in `CanonicalInstantTests` and one hexadecimal fixture in
-`AffineSpatialInverseTests`. The exact next action is to replace those test-only
-formatters with checked deterministic Swift encoding while preserving every
-fixture byte, rerun their focused suites, then rerun the complete semantic gate.
-Do not broaden the Metal exception, resume geometry or report the gate green
-before that evidence.
+residency round trip are implemented and independently approved. All six
+test-only C-format initializers are now replaced by bounded deterministic Swift
+encoding, their three focused suites pass and the complete semantic gate gets
+beyond them. It now stops in the root debug test build on the pointer-backed
+allocation, mutation, no-copy `Data` construction and deallocation expressions
+inside the single `MetadataBinaryTests` ownership adversary. The exact next
+action is to preserve that copy-ownership oracle without ungoverned pointer-
+shaped fixture code, run the focused `MetadataBinary` suite, then rerun the
+complete semantic gate. Do not broaden the Metal exception, resume geometry or
+report the gate green before that evidence.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under prospective `ADR-0187`: reconcile
@@ -10138,9 +10177,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Replace the six test-only C-format initializers with checked deterministic
-  zero-padding and lowercase hexadecimal encoding, preserve the exact fixture
-  bytes, run the three focused suites, then rerun the complete semantic gate.
+- Replace or formally govern the pointer-backed no-copy mutation fixture in
+  `MetadataBinaryTests` without weakening its proof that `MetadataBinary` owns
+  an immutable copy, run the focused suite, then rerun the complete semantic
+  gate.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

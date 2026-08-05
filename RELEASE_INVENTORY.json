@@ -1466,8 +1466,8 @@
     },
     {
       "path": "Tests/Support/TestSupport.swift",
-      "size": 173,
-      "sha256": "d1813c466f8048cb442be856fa98eed03204a8bfbd1876d95bf245f8796fb366"
+      "size": 655,
+      "sha256": "b40ff14b16611022a600d6e7f590796da966d545febf059811e150529e1e52c1"
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift",
@@ -1491,13 +1491,13 @@
     },
     {
       "path": "Tests/VoxeliaCoreTests/CanonicalFuzzEvidenceTests.swift",
-      "size": 13373,
-      "sha256": "ea2a9c10d2b5ba29aaeebf160561086ebe67c994f12d4683cdc92939d8733f64"
+      "size": 13571,
+      "sha256": "82f1ab4ea18a4c1da4b6bb1ed7ff4b66f727fc0d27da1fb0771441e1ef1064b0"
     },
     {
       "path": "Tests/VoxeliaCoreTests/CanonicalInstantTests.swift",
-      "size": 11289,
-      "sha256": "9e76761d0e32aec0bc68ed0219be2cb7c90e1023aa95d7235eb55e3d884b844a"
+      "size": 11769,
+      "sha256": "aac71aae4660eb5861ea7e19e012a7f76fb89970652acae7b38a596f8a4dc0cb"
     },
     {
       "path": "Tests/VoxeliaCoreTests/CanonicalManifestTests.swift",
@@ -2041,8 +2041,8 @@
     },
     {
       "path": "Tests/VoxeliaSpatialTests/AffineSpatialInverseTests.swift",
-      "size": 8493,
-      "sha256": "3df39fb975da84eef72c79d73de1b98e87faedbe5135d0531282c5eae6559ff5"
+      "size": 8520,
+      "sha256": "11665e2297d1e7820bd9bc8b3909c20e595b7734b65d9573d22d6c302074ad97"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/AffineWorldToIndexMapTests.swift",
@@ -3711,8 +3711,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 693488,
-      "sha256": "7c4706440062e9631e359099f3803d4577d7b618d524aa6aff7e6e2902999b8d"
+      "size": 696136,
+      "sha256": "729b2bac5de329a934f2b28e17c795b6d0284d95326467f5d4c56d1b9ed690ea"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3771,8 +3771,8 @@
     },
     {
       "path": "docs/progress/evidence/ADR-0186-metal-buffer-transfer-independent-review.md",
-      "size": 7056,
-      "sha256": "2999888d541c11c255269b1fd1d1f2e6d552ffc0bfeb9a2e8c7eff18603d3f14"
+      "size": 7190,
+      "sha256": "3a08d40e179b9072837e85ed1fd53809e2c6bbd85965abbe233b98482d75d08c"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4036,8 +4036,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 10298,
-      "sha256": "fff43e4ecfef13d4c893df9d338c8251934880dab099a21dcb99ea7b718ac9cb"
+      "size": 10446,
+      "sha256": "f722fb5aa5b7b45243ef7ccbc47cd4d2659489356200f1f4e55a5bc658101da2"
     },
     {
       "path": "docs/shaders/README.md",

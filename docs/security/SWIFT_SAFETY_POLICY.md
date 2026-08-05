@@ -126,15 +126,17 @@ storage, completion, lifetime, concurrency, serialization and scanner-fault
 evidence are implemented. All three kernels and the residency round trip are
 migrated, and the independent reviewer approved both the boundary/scanner and
 migration diffs. The semantic gate compiles all product modules and the focused
-Metal test target; its root debug test build now stops on six pre-existing
-test-only C-format initializers in `CanonicalFuzzEvidenceTests`,
-`CanonicalInstantTests` and `AffineSpatialInverseTests`. Later package and
-configuration phases remain unverified by that run, so the complete semantic
-gate remains pending without expanding this exception.
+Metal test target. Its six test-only C-format initializers are now replaced with
+bounded deterministic Swift encoders, and the gate gets beyond those sites.
+The root debug test build now stops on the allocation, deallocation, copy and
+no-copy `Data` expressions in the single `MetadataBinaryTests` copy-ownership
+adversary. Later package and configuration phases remain unverified by that
+run, so the complete semantic gate remains pending without expanding this
+exception.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| `SWIFT-MEM-001` (enabled for exact fingerprint) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval plus independent design, boundary/scanner and migration-diff approvals recorded under `ADR-0186` | Boundary fingerprint, range, storage, completion, lifetime, concurrency, serialization, scanner mutation, three kernels and residency pass; complete semantic gate pending six unrelated test-only formatting calls |
+| `SWIFT-MEM-001` (enabled for exact fingerprint) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval plus independent design, boundary/scanner and migration-diff approvals recorded under `ADR-0186` | Boundary fingerprint, range, storage, completion, lifetime, concurrency, serialization, scanner mutation, three kernels and residency pass; complete semantic gate pending the unrelated `MetadataBinaryTests` no-copy ownership fixture |
 
 ## Introducing an exception
 

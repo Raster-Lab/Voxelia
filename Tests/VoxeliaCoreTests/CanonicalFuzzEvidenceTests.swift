@@ -2,6 +2,7 @@
 
 import Foundation
 import Testing
+import VoxeliaTestSupport
 
 @testable import VoxeliaCore
 
@@ -152,6 +153,10 @@ struct CanonicalFuzzEvidenceTests {
         // 256 deterministic finite binary64 values; the host python3
         // interpreter's independent parser must round-trip every token
         // to the bit-identical value, and so must Swift's own parser.
+        #expect(
+            VoxeliaTestSupport.lowercaseHex16(0x0123_4567_89AB_CDEF)
+                == "0123456789abcdef"
+        )
         var generator = DeterministicGenerator(state: 0x0AC1_E000)
         var lines = [String]()
         while lines.count < 256 {
@@ -168,7 +173,9 @@ struct CanonicalFuzzEvidenceTests {
             let text = String(decoding: token, as: UTF8.self)
             let swiftParsed = try #require(Double(text))
             #expect(swiftParsed.bitPattern == value.bitPattern)
-            lines.append(String(format: "%016llx", bitPattern) + " " + text)
+            lines.append(
+                VoxeliaTestSupport.lowercaseHex16(bitPattern) + " " + text
+            )
         }
 
         let script = """

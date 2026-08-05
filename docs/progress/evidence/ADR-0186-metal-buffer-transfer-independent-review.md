@@ -118,9 +118,11 @@ Final migration approval was issued with no remaining blocker. The reviewer's
 expanded filter passed all twenty-five tests across the boundary, window,
 composite, invert and residency suites with unchanged differential evidence;
 the raw safety inventory, exact three-marker count, unchanged boundary SHA-256
-and diff validation passed. The complete semantic gate progressed beyond every
-Metal product and test diagnostic but remains red on six unrelated test-only
-C-format initializers, so `ADR-0186` is still not declared fully implemented.
+and diff validation passed. The six unrelated test-only C-format initializers
+were subsequently replaced with bounded Swift encoders and their focused suites
+passed. The complete semantic gate progressed beyond them but remains red on
+the unrelated `MetadataBinaryTests` pointer-backed no-copy ownership fixture,
+so `ADR-0186` is still not declared fully implemented.
 
 ## Governance-draft review
 
