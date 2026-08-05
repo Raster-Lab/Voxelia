@@ -277,6 +277,79 @@ struct ExactSliceRendererTests {
         #expect(await publisher.publishedImage(for: croppedID) != nil)
     }
 
+    @Test("[Unit][VOX-VS1-017][VOX-EXE-004] the composed pipeline renders every stage cached")
+    func composedPipelineRendersEveryStageCached() async throws {
+        // Every stage kind in one render — two crops, two windows,
+        // one composite and one resample — through a publisher wired
+        // with a content result cache.
+        let cache = ContentResultCache(
+            maximumEntryCount: 16,
+            maximumTotalByteCount: 4_096
+        )
+        let publisher = PublicationCoordinator(
+            maximumPublishedObjectCount: 8,
+            graphLimits: try ProvenanceGraphLimits(
+                maximumRecordCount: 16,
+                maximumParentEdgeCount: 16,
+                maximumAncestryDepth: 16,
+                maximumUnresolvedExternalReferenceCount: 0,
+                maximumExternalResolutionByteCount: 8_192
+            ),
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 64
+            ),
+            resultCache: cache
+        )
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "render-6")
+
+        let crop = try RenderCrop(lowerX: 1, lowerY: 0, upperX: 3, upperY: 2)
+        let result = try await renderer.render(
+            RenderRequest(
+                scene: try scene([
+                    try layer("series-7"),
+                    try layer("series-7", center: 3, width: 6, opacity: 0.5),
+                ]),
+                viewport: try ViewportSize(width: 4, height: 4),
+                crop: crop,
+                quality: .full
+            )
+        )
+        #expect(result.outputObjectID.rawValue == "render-6-rs")
+        #expect(result.presentation.crop == crop)
+        #expect(
+            result.presentation.scaling
+                == .nearestNeighbour(sourceWidth: 2, sourceHeight: 2)
+        )
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let outputBytes = try published.storage.read(
+            region: try ImageRegion(lowerBounds: [0, 0], upperBounds: [4, 4])
+        ).bytes
+        #expect(
+            outputBytes == [
+                26, 26, 51, 51, 26, 26, 51, 51,
+                182, 182, 200, 200, 182, 182, 200, 200,
+            ]
+        )
+        #expect(await publisher.publishedObjectCount == 7)
+
+        // Every published stage's verified bytes reached the cache as
+        // an alias, verifiable under its own content claim.
+        let stages = [
+            "render-6-cr0", "render-6-cr1", "render-6-wl0", "render-6-wl1",
+            "render-6-cp", "render-6-rs",
+        ]
+        for stage in stages {
+            let objectID = try #require(DataObjectID(rawValue: stage))
+            let image = try #require(await publisher.publishedImage(for: objectID))
+            let claim = try #require(image.identity.contentID)
+            let cached = try #require(await cache.lookup(claim))
+            #expect(try claim.matchesDigest(ofCanonicalBytes: cached))
+        }
+    }
+
     @Test("[Unit][VOX-VS1-017][VOX-VS1-019] a differing viewport resamples both stages")
     func differingViewportResamplesBothStages() async throws {
         let publisher = try publisher()

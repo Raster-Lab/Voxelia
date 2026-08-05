@@ -1816,6 +1816,19 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   metal implementation token on the published stage record, so the
   sixteen-bit device admission is proven inside the full pipeline
   rather than only at the operation boundary.
+- Seventieth autonomous increment (owner broadened standing mandate):
+  composed-pipeline and cache-alias evidence under existing
+  obligations — no new decision surface. One render now exercises
+  every stage kind together — two crops, two window-levels, the
+  composite and the resample, seven published objects with a
+  depth-five complete chain — reproducing the independently computed
+  composed fixture exactly, claiming the crop and the pre-resample
+  scaling honestly. The publisher is wired with a content result
+  cache for the first time in the pipeline suites, and every
+  published stage's verified bytes are proven present in the cache as
+  an alias, loadable and re-verified under its own sample-bytes
+  claim — exercising the `ADR-0067` best-effort alias phase through
+  the real pipeline.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
