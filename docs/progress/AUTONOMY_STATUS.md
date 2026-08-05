@@ -1970,6 +1970,24 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   buffer-injected kernel paths that do not exist, and building them
   solely to benchmark was rejected; the harness is the instrument a
   future repeated-sampling design will extend.
+- Seventy-eighth autonomous increment (owner broadened standing
+  mandate): authored and accepted `ADR-0110` and delivered
+  `VOX-MTL-006` bounded frame contexts at the contract level.
+  `MetalFrameScheduler` takes an explicit inclusive in-flight ceiling
+  of at least one — no permissive default — and hands out identity
+  `MetalFrameToken` values carrying monotonic frame indices as
+  ordering evidence; acquisition at the bound is the typed rejection
+  per the budget-ledger precedent, because pacing is the interactive
+  loop's own future decision and the caller owns the cadence, and
+  release-once reuse mirrors the retention-token discipline — a slot
+  can never be freed twice or by a token that never held it.
+  Suspending acquisition and preallocated frame pools were both
+  rejected for version one: continuation queues encode a pacing
+  policy no consumer has chosen, and no resources exist to pool.
+  Tests acquire to the bound, reject the over-bound acquisition and
+  double and foreign releases typed, and prove slot reuse with
+  monotonic indices; the interactive draw-loop integration remains
+  gated on its own architecture.
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
