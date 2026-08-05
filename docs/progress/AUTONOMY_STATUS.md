@@ -2542,6 +2542,26 @@ oracle campaigns.
   without collision at eleven implementations, with
   dual-implementation operations listing both backends. Planner
   consultation now has its complete input.
+- One-hundred-fourth autonomous increment (owner broadened standing
+  mandate): authored and accepted `VOXELIA-ALG-0016` and `ADR-0136`,
+  freezing the affine spatial inverse on paper before any
+  implementation exists — the plan-first discipline for a numeric
+  model that must not appear incidentally inside a consumer. The
+  specification fixes the adjugate-over-determinant evaluation with
+  one frozen cofactor form, the declared row-zero determinant
+  expansion, no fused multiply-add and the no-epsilon determinant
+  admission; three exact fixtures are cross-checked against a
+  rational oracle, including the symmetric matrix whose exact inverse
+  row is thirteen, minus three and one forty-ninths. The elementwise
+  gamma-style bound is stated with a measurement obligation binding
+  the implementing increment — the harness must verify it against an
+  exact rational oracle over at least ten thousand seeded diagonally
+  dominant matrices and report the maximum ratio with headroom, per
+  the accepted precedent, because a bound asserted without
+  measurement would be a claim without evidence. Gaussian elimination
+  was rejected as data-dependent branching; the Swift model, harness
+  and consuming world-to-index operation follow as their own
+  increments.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and

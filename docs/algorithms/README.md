@@ -19,3 +19,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0013](VOXELIA-ALG-0013-singleton-axis-squeeze.md) | Accepted | Singleton axis squeeze `exact-v1` |
 | [VOXELIA-ALG-0014](VOXELIA-ALG-0014-three-point-angle.md) | Accepted | Three-point angle `binary64-v1` |
 | [VOXELIA-ALG-0015](VOXELIA-ALG-0015-bilinear-resampling.md) | Accepted | Bilinear resampling `binary64-v1` |
+| [VOXELIA-ALG-0016](VOXELIA-ALG-0016-affine-inverse.md) | Accepted | Affine spatial inverse `binary64-v1` |
