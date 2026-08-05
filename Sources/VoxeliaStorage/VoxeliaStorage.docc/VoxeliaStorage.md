@@ -27,6 +27,12 @@ public API is introduced only by reviewed milestone specifications.
 - ``BrickGridDescriptor``
 - ``BrickIdentity``
 - ``BrickVocabularyError``
+- ``BrickEvictionConsideration``
+- ``CacheFormatID``
+- ``CacheFormatVersion``
+- ``BrickCacheEvent``
+- ``BrickCacheEventSink``
+- ``BrickCacheVocabularyError``
 
 ### Canonical document persistence
 

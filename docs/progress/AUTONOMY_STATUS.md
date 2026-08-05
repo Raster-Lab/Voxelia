@@ -2969,6 +2969,24 @@ oracle campaigns.
   bound to the recorded exclusion rules; the observability
   remainder is mapped to its gated arcs rather than smuggled in.
   Implementation follows separately, values first.
+- One-hundred-twenty-third autonomous increment (owner broadened
+  standing mandate): implemented accepted `ADR-0152`, the brick cache
+  vocabulary values. The eviction consideration carries the designed
+  inputs with negativity structurally unrepresentable in its unsigned
+  fields and the active-reference count typed nonnegative;
+  `evictsBefore` is the one ordering authority under the frozen
+  weightless lexicographic order with its evictable-only domain
+  documented, and the never-evict rule stays the consuming cache's
+  filter. The format identifier validates inline under the storage
+  module's own pattern — the spatial module's shared validator is
+  deliberately file-private — beside the semantic version binding
+  future persistence. The closed five-event set's payload shapes
+  enforce the recorded exclusion rules structurally: no field can
+  carry image bytes, metadata values or digests. Tests cover every
+  lexicographic rank in isolation, prove visibility outranks every
+  later field, pin the tie-break and the never-evictable rule, and
+  reject the typed admissions. The instrumented cache actor follows
+  as its own increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
