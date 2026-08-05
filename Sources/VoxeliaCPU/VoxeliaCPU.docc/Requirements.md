@@ -11,7 +11,10 @@ admission, exact byte decoding and value transforms, one bounded coordinated
 read, deterministic Freudenthal topology and spatial winding, checked output
 limits, cancellation checkpoints and payload-free failures.
 
-These internal components do not complete scalar-surface publication. The
-public immutable result, identity/provenance binding and CPU registration must
-pass the separately prescribed migration-step-four evidence before the
-operation is advertised as available.
+The public ``CPUScalarSurfaceExtractionOperation`` completes the accepted CPU
+reference boundary by returning the immutable mesh/identity/provenance result
+only after final cancellation and full binding validation. Its fixed
+implementation, execution and parameter claims are registered through
+``CPUBackendRegistrations``; registration does not imply diagnostic validation,
+external source-graph assurance, a canonical mesh digest or host stale-result
+publication.

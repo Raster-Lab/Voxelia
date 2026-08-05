@@ -93,7 +93,8 @@ enum ScalarSurfaceReferenceKernel {
     static func extract(
         request: ScalarSurfaceExtractionRequest,
         source: ScalarSurfaceSourceAdapter,
-        cancellation: CPUScalarSurfaceCancellationProbe
+        cancellation: CPUScalarSurfaceCancellationProbe,
+        checksFinalCancellation: Bool = true
     ) throws -> TriangleMesh {
         let admission = source.admission
         let extents = admission.extents
@@ -240,7 +241,7 @@ enum ScalarSurfaceReferenceKernel {
         } catch {
             throw ScalarSurfaceExtractionError.publicationFailed
         }
-        if cancellation(.final) {
+        if checksFinalCancellation, cancellation(.final) {
             throw ScalarSurfaceExtractionError.cancelled
         }
         return mesh

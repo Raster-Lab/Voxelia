@@ -3,6 +3,7 @@
 import Testing
 import VoxeliaCore
 import VoxeliaExecution
+import VoxeliaGeometry
 
 @testable import VoxeliaCPU
 
@@ -10,12 +11,12 @@ import VoxeliaExecution
 struct CPUBackendRegistrationsTests {
     @Test("[Unit][VOX-ARC-010][VOX-ERR-001] the standard registry names every implementation")
     func standardRegistryNamesEveryImplementation() throws {
-        // All eleven CPU implementations register with tokens
+        // All twelve CPU implementations register with tokens
         // structurally equal to the operations' own constants, the
         // pinned current contract versions, and the CPU backend
         // claim.
         let registry = try CPUBackendRegistrations.standard()
-        #expect(registry.implementations.count == 11)
+        #expect(registry.implementations.count == 12)
         #expect(
             registry.implementations.allSatisfy {
                 $0.backend.rawValue == "org.voxelia.backend.cpu"
@@ -53,7 +54,41 @@ struct CPUBackendRegistrationsTests {
                 ObliqueSliceOperation.operationIdentifier,
                 ProjectIntensityOperation.operationIdentifier,
                 ResampleCubicOperation.operationIdentifier,
+                ScalarSurfaceExtractionRequest.operationIdentifier,
             ]
+        )
+        let surfaceEntries = registry.implementations(
+            for: try DerivationOperationToken(
+                rawValue: ScalarSurfaceExtractionRequest.operationIdentifier
+            )
+        )
+        #expect(surfaceEntries.count == 1)
+        let surfaceEntry = surfaceEntries[0]
+        #expect(
+            surfaceEntry.implementation.identifier.rawValue
+                == CPUScalarSurfaceExtractionOperation.implementationIdentifier
+        )
+        let expectedSurfaceVersion = try SemanticVersion(
+            major: 1,
+            minor: 0,
+            patch: 0
+        )
+        #expect(
+            surfaceEntry.operationVersion == expectedSurfaceVersion
+        )
+        #expect(surfaceEntry.operationVersion.prerelease == nil)
+        #expect(surfaceEntry.operationVersion.buildMetadata == nil)
+        #expect(surfaceEntry.implementation.version == expectedSurfaceVersion)
+        #expect(surfaceEntry.implementation.version.prerelease == nil)
+        #expect(surfaceEntry.implementation.version.buildMetadata == nil)
+        #expect(
+            surfaceEntry.precisionPolicy.rawValue
+                == "org.voxelia.precision.binary64-strict"
+        )
+        #expect(surfaceEntry.approximationStatus == .exact)
+        #expect(
+            surfaceEntry.evidence.rawValue
+                == "adr-0191-scalar-surface-extraction"
         )
 
         // Duplicate registration rejects typed.

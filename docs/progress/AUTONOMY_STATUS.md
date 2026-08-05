@@ -4970,6 +4970,118 @@ oracle campaigns.
   Release-integrity regeneration and final manifest/integrity verification
   passed with 838 manifest paths, 837 inventory records and 838 checksums.
 
+- One-hundred-ninety-second autonomous increment (scheduled goal
+  continuation): completed accepted `ADR-0191` migration step four. The public
+  stateless `CPUScalarSurfaceExtractionOperation` now exposes the exact
+  implementation token and async
+  `execute(request:publication:coordinator:)` boundary. It composes the
+  already-verified one-read adapter and Freudenthal kernel, observes the final
+  cancellation point after complete mesh construction and immediately before
+  any publication claim construction, then returns only the fully validated
+  immutable `ScalarSurfaceExtractionResult`. It mints no identifier, reads no
+  clock, mutates no host publication state and exposes no callback, partial
+  mesh or provisional content digest.
+
+  The synchronous assembly stage independently reproduces the exact ordered
+  four-entry technical parameter schema and canonical digest. It binds semantic
+  operation and CPU implementation version `1.0.0`, one derivation input with
+  role `source-volume`, caller-authorized output object and record IDs, the
+  exact source provenance parent, transformed kind, no warnings and validation
+  claim `.unknown`. The fixed execution claim is profile
+  `org.voxelia.profile.default`, backend `org.voxelia.backend.cpu`, precision
+  `org.voxelia.precision.binary64-strict`, quality
+  `org.voxelia.quality.full`, exact approximation and nil capability/kernel.
+  Every metadata, identity, provenance or result-binding construction failure
+  is erased to the payload-free `publicationFailed` case. The independently
+  reproduced isovalue-`0.5` parameter digest golden is
+  `ad7724afc9ce3d4469d8c1cc17c46ac6ebcacdcbedb9c0f8bb63b8cfc7b31721`.
+
+  The final cancellation check moved from the internal numerical kernel return
+  to the operation boundary when public execution is used. Internal mesh-only
+  conformance probes retain their existing default final check, so step-three
+  test behavior is unchanged. No table, decoder, transform, interpolation,
+  mapping, winding, topology, resource-limit or numerical-output rule changed.
+  The standard CPU registry now contains twelve implementations and names the
+  scalar-surface operation directly from its Geometry constant, implementation
+  directly from the CPU operation constant, binary64-strict precision, exact
+  approximation, version `1.0.0` and evidence
+  `adr-0191-scalar-surface-extraction`. The combined CPU/Metal registry now
+  contains fifteen non-colliding entries.
+
+  Four focused publication tests prove the exact public mesh, complete fixed
+  identity/provenance/execution fields, an independently reconstructed
+  parameter digest and golden, one released read, strict-concurrency transfer,
+  coherent empty-volume publication, cancellation immediately before
+  publication, coordinate-binding failure and non-finite parameter
+  construction mapping. The focused operation, CPU registry and combined
+  registry suites passed; the complete CPU target passed 28 tests across four
+  suites; and the cross-module `ScalarSurface` filter passed 31 tests across
+  the CPU adapter/kernel/publication and Geometry binding suites:
+
+  ```bash
+  swift test --filter CPUScalarSurfaceExtractionOperationTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter CPUBackendRegistrationsTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter CombinedRegistryTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter VoxeliaCPUTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter ScalarSurface \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  ```
+
+  Development failures were retained rather than hidden. The first focused
+  compile rejected a throwing computed-version property inside six nonthrowing
+  `#expect` autoclosures and caught an incompletely constructed custom
+  coordinate descriptor; local validated witnesses and a valid distinct DICOM
+  coordinate descriptor corrected the fixtures. The next run passed three
+  publication tests and exposed only the deliberately provisional `0.5`
+  parameter golden; replacing it with the independently reproduced exact
+  digest above made all four tests pass without changing product source.
+
+  Strict warnings-as-errors debug/release builds passed for `VoxeliaCPU`, its
+  registry consumer `VoxeliaValidation` and the umbrella `Voxelia` target. The
+  public symbol-graph gate emitted the operation, implementation identifier and
+  exact three-argument async entry point with documentation. The complete
+  fail-closed Swift safety gate built every repository package in debug and
+  release and found no compiler-classified unsafe Swift or unchecked
+  `Sendable` exception:
+
+  ```bash
+  for configuration in debug release; do
+    for target in VoxeliaCPU VoxeliaValidation Voxelia; do
+      swift build -c "$configuration" --target "$target" \
+        -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+    done
+  done
+  swift package dump-symbol-graph --minimum-access-level public
+  python3 Tools/Scripts/check_swift_safety.py --compile
+  ```
+
+  Strict formatting over every changed Swift file, dynamic/static package-
+  graph checks, prohibited imports, documentation validation, raw changed-file
+  safety scanning and `git diff --check` passed. Documentation validation
+  covered seven front-matter documents, all 171 ADRs, two primary and one
+  companion Draft RFC records and 279 Markdown files. The complete repository
+  test suite, package-wide DocC archive, Apple destination matrix, unavailable
+  visionOS SDK and external device/fuzz evidence were intentionally not rerun
+  under this focused public-operation increment and are not promoted to new
+  evidence.
+
+  The authorised independent reviewer found no production semantic defect.
+  Their first pass required two evidence corrections: public documentation had
+  to distinguish the stateless operation and absence of host publication
+  mutation from observable coordinator/provider read-accounting effects and
+  limit its result assurance to structural binding; registration tests also had
+  to pin implementation version, nil prerelease/build metadata, evidence ID
+  and exact approximation. After both corrections, their independent focused
+  registry, strict-format and diff gates passed and they issued approval with no
+  remaining API, concurrency, cancellation, provenance or registration
+  blocker. Release-integrity regeneration and final manifest/integrity
+  verification passed with 839 manifest paths, 838 inventory records and 839
+  checksums.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -10791,11 +10903,15 @@ privacy, digest-golden and `Sendable` evidence. Migration step three now adds
 the internal CPU source adapter and exact Freudenthal reference kernel behind
 exactly one coordinated full read, with closed decoding/transform,
 cancellation, resource-limit and exhaustive-oracle evidence and without an
-incomplete public entry point. The exact next action is migration step four:
-assemble the fixed CPU identity/provenance claims, add the atomic public
-`execute(request:publication:coordinator:)` result boundary, reproduce every
-result-binding failure, and register the CPU operation only after its complete
-conformance evidence passes.
+incomplete public entry point. Migration step four now adds the public atomic
+result boundary, independently reproduced parameter digest, fixed CPU
+identity/provenance/execution claims, final prepublication cancellation and the
+evidence-backed registry entry. All four `ADR-0191` product migration stages
+are complete. The exact next action in the accepted `ADR-0183` dependency order
+is the labelled-surface extraction design: freeze label membership, requested
+label-set semantics, adjacency/boundary policy, deterministic topology/order,
+limits, cancellation, source admission, publication claims and an independent
+enumerated oracle in a separate accepted record before adding product source.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -10809,17 +10925,16 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Implement only `ADR-0191` migration step four: fixed CPU identity and
-  transformed provenance assembly, the atomic public
-  `execute(request:publication:coordinator:)` result return and CPU backend
-  registration after conformance passes. Reproduce the exact four-entry
-  parameter schema independently; prove fixed implementation/execution claims,
-  corrected token/role/occurrence, derivation/provenance/result binding,
-  cancellation immediately before publication, empty-result publication and
-  payload-free mapping of every construction failure. Re-run the owning CPU
-  tests and direct dependant builds because the entry point and registry are
-  public. Do not change the step-three decoder, kernel, algorithm identity,
-  numerical ordering or source-read policy without a new accepted contract.
+- Perform only the labelled-surface extraction design/evidence increment next.
+  Audit the governing v0.1.1 label requirements and existing scalar/mesh/read/
+  publication contracts; freeze exact label container/source admission,
+  membership and requested-set semantics, adjacency and source-boundary
+  treatment, coordinate/winding/topology order, output limits, cancellation,
+  payload-free errors, identity/provenance parameters and CPU placement. Add an
+  independent exhaustive or analytical oracle for every frozen case. Do not
+  add labelled extraction product source, registration, normals, measurement,
+  rendering or acceleration until that separate record is accepted and its
+  correction surface is closed.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

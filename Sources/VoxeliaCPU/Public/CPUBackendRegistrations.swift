@@ -2,6 +2,7 @@
 
 import VoxeliaCore
 import VoxeliaExecution
+import VoxeliaGeometry
 
 /// The CPU backend registrations per `ADR-0134` (`VOX-ARC-010`) — the
 /// first substantive `VoxeliaCPU` API.
@@ -22,7 +23,7 @@ public enum CPUBackendRegistrations {
         return identifier
     }
 
-    /// Builds the standard registry of all eleven CPU implementations.
+    /// Builds the standard registry of all twelve CPU implementations.
     ///
     /// - Throws: The audited typed errors of the claim and registry
     ///   contracts.
@@ -144,6 +145,15 @@ public enum CPUBackendRegistrations {
                 minor: 0,
                 precision: binary64,
                 evidence: "adr-0164-resample-cubic"
+            ),
+            try entry(
+                operation: ScalarSurfaceExtractionRequest.operationIdentifier,
+                implementation:
+                    CPUScalarSurfaceExtractionOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0191-scalar-surface-extraction"
             ),
         ])
     }

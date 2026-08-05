@@ -6,9 +6,11 @@ Deterministic CPU reference and optimised implementations.
 
 Reviewed milestone specifications now authorize deterministic CPU operations
 and backend registrations. The scalar-surface migration currently contains an
-internal one-read source adapter and the exact binary64 Freudenthal reference
-kernel. Its public execution/result assembly and registration remain withheld
-until the next accepted migration stage passes its publication evidence.
+internal one-read source adapter, the exact binary64 Freudenthal reference
+kernel and a public atomic result operation. The operation binds caller-owned
+output authority to fixed CPU execution and transformed provenance claims; its
+registered result carries no provisional mesh content digest or diagnostic
+validation claim.
 
 ## Direct dependencies
 
@@ -19,6 +21,10 @@ until the next accepted migration stage passes its publication evidence.
 ### Backend registration
 
 - ``CPUBackendRegistrations``
+
+### Geometry extraction
+
+- ``CPUScalarSurfaceExtractionOperation``
 
 ### Project documents
 
