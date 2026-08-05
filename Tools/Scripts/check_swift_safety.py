@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import bisect
+import hashlib
 import io
 import json
 import os
@@ -153,6 +154,29 @@ class SafetyFinding:
             f"{self.path}:{self.line}:{self.column}: {self.category}: "
             f"{self.token}"
         )
+
+
+@dataclass(frozen=True)
+class ApprovedSourceException:
+    """One exact reviewed source fingerprint and permitted finding multiset."""
+
+    sha256: str
+    expected_findings: tuple[tuple[str, str], ...]
+
+
+APPROVED_SOURCE_EXCEPTIONS = {
+    Path(
+        "Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift"
+    ): ApprovedSourceException(
+        sha256="161b5298d68bfc1e6e312f650458db3e41e6b9ca418f6a49c486ff86e53c7aa9",
+        expected_findings=(
+            ("reserved Swift unsafe marker", "unsafe"),
+            ("reserved Swift unsafe marker", "unsafe"),
+            ("reserved Swift unsafe marker", "unsafe"),
+        ),
+    )
+}
+APPROVED_EXCEPTION_POLICY_PATH = Path("docs/security/SWIFT_SAFETY_POLICY.md")
 
 
 class SubprocessOutputLimitExceeded(RuntimeError):
@@ -581,8 +605,80 @@ def _manifest_policy_findings(
     return findings
 
 
+def _apply_approved_source_exception(
+    *,
+    path: Path,
+    root: Path,
+    findings: list[SafetyFinding],
+) -> list[SafetyFinding]:
+    """Suppress only one exact reviewed finding multiset and file fingerprint."""
+
+    relative = path.relative_to(root)
+    approved = APPROVED_SOURCE_EXCEPTIONS.get(relative)
+    if approved is None:
+        return findings
+
+    if not _is_regular_file(root / APPROVED_EXCEPTION_POLICY_PATH):
+        return sorted(
+            findings
+            + [
+                SafetyFinding(
+                    path=APPROVED_EXCEPTION_POLICY_PATH,
+                    line=1,
+                    column=1,
+                    category="approved source exception policy missing",
+                    token=APPROVED_EXCEPTION_POLICY_PATH.as_posix(),
+                )
+            ]
+        )
+
+    try:
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError as error:
+        return sorted(
+            findings
+            + [
+                SafetyFinding(
+                    path=relative,
+                    line=1,
+                    column=1,
+                    category="approved source exception cannot be fingerprinted",
+                    token=str(error),
+                )
+            ]
+        )
+    actual_findings = tuple(
+        sorted((finding.category, finding.token) for finding in findings)
+    )
+    expected_findings = tuple(sorted(approved.expected_findings))
+    if digest == approved.sha256 and actual_findings == expected_findings:
+        return []
+
+    mismatch_category = (
+        "approved source exception fingerprint mismatch"
+        if digest != approved.sha256
+        else "approved source exception finding mismatch"
+    )
+    return sorted(
+        findings
+        + [
+            SafetyFinding(
+                path=relative,
+                line=1,
+                column=1,
+                category=mismatch_category,
+                token=(
+                    f"observed sha256 {digest}; expected {approved.sha256}; "
+                    f"observed findings {len(actual_findings)}; "
+                    f"expected {len(expected_findings)}"
+                ),
+            )
+        ]
+    )
+
+
 def scan_file(path: Path, root: Path) -> list[SafetyFinding]:
-    """Find prohibited spellings in one Swift file under zero-exception policy."""
+    """Find prohibited spellings under the governed exception policy."""
 
     source, read_finding = _read_scannable_text(path, root)
     if read_finding is not None:
@@ -651,7 +747,11 @@ def scan_file(path: Path, root: Path) -> list[SafetyFinding]:
                 token=f"{omitted_count} additional matches",
             )
         )
-    return findings
+    return _apply_approved_source_exception(
+        path=path,
+        root=root,
+        findings=findings,
+    )
 
 
 def scan_configuration_file(path: Path, root: Path) -> list[SafetyFinding]:
@@ -769,6 +869,38 @@ def repository_scope_findings(root: Path) -> list[SafetyFinding]:
     def add(finding: SafetyFinding) -> None:
         if len(findings) < MAX_REPOSITORY_FINDINGS:
             findings.append(finding)
+
+    exception_governance_present = (
+        root.resolve() == ROOT.resolve()
+        or _is_regular_file(root / APPROVED_EXCEPTION_POLICY_PATH)
+        or any(
+            _is_regular_file(root / relative)
+            for relative in APPROVED_SOURCE_EXCEPTIONS
+        )
+    )
+    if exception_governance_present:
+        if not _is_regular_file(root / APPROVED_EXCEPTION_POLICY_PATH):
+            add(
+                SafetyFinding(
+                    path=APPROVED_EXCEPTION_POLICY_PATH,
+                    line=1,
+                    column=1,
+                    category="approved source exception policy missing",
+                    token=APPROVED_EXCEPTION_POLICY_PATH.as_posix(),
+                )
+            )
+        for relative in APPROVED_SOURCE_EXCEPTIONS:
+            if _is_regular_file(root / relative):
+                continue
+            add(
+                SafetyFinding(
+                    path=relative,
+                    line=1,
+                    column=1,
+                    category="approved source exception missing",
+                    token=relative.as_posix(),
+                )
+            )
 
     for path in swift_files(root):
         relative = path.relative_to(root)
@@ -1259,7 +1391,7 @@ def main(argv: list[str] | None = None) -> int:
         for finding in findings:
             print(f"- {finding.diagnostic()}")
         print(
-            "Current policy permits no exceptions. See "
+            "Current policy permits no ungoverned exceptions. See "
             "docs/security/SWIFT_SAFETY_POLICY.md."
         )
         return 1
@@ -1276,7 +1408,7 @@ def main(argv: list[str] | None = None) -> int:
         )
     else:
         print(
-            "Swift safety inventory scan passed: no prohibited escape-hatch "
+            "Swift safety inventory scan passed: no unapproved escape-hatch "
             "syntax or compiler configuration found. Use --compile for the "
             "semantic compiler gate."
         )

@@ -65,8 +65,32 @@ APIs.
 
 ## Final implementation review
 
-Pending. The same independent reviewer will inspect the complete implementation
-and verification diff before the exception fingerprint is accepted for push.
+The independent reviewer inspected the complete boundary/scanner implementation
+after two corrective passes and issued final approval for enabling
+`SWIFT-MEM-001` at the exact fingerprint
+`161b5298d68bfc1e6e312f650458db3e41e6b9ca418f6a49c486ff86e53c7aa9`.
+The first pass rejected tests that paired readback with an unrelated completed
+command, permitted the scanner exception without its policy and referenced
+macOS-only managed storage on every platform. The corrected tests use a real
+upload-to-readback blit and pass its exact writer, the scanner requires both
+governance artifacts, and managed-storage evidence is macOS-conditional while
+private-storage rejection remains cross-platform. Negative allocation and
+transfer counts were added.
+
+The second pass found that two blit tests relied on Metal's retained-reference
+default instead of satisfying the stricter documented caller-lifetime rule.
+Both now retain their upload buffer explicitly through exact command
+completion, including the concurrent asynchronous path. After that correction,
+the reviewer independently rechecked the exact three markers and file hash,
+owned-byte signatures, overflow and storage validation, same-writer status
+split, owned readback, scalar serialization and fail-closed scanner rules. The
+reviewer's reruns passed all eight boundary tests, all fifty-two scanner unit
+tests, the raw inventory scan and diff validation, with no remaining boundary
+blocker.
+
+This approval completes the boundary/scanner stage only. The same reviewer must
+inspect the later three-kernel and residency migration diff, and the complete
+semantic gate must pass, before `ADR-0186` is declared fully implemented.
 
 ## Governance-draft review
 

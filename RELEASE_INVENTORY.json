@@ -945,6 +945,16 @@
       "sha256": "5003032a1578878060245a85c70b0f8563a63912c3510df8a62d4d62a8667d79"
     },
     {
+      "path": "Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift",
+      "size": 4623,
+      "sha256": "161b5298d68bfc1e6e312f650458db3e41e6b9ca418f6a49c486ff86e53c7aa9"
+    },
+    {
+      "path": "Sources/VoxeliaMetal/Internal/MetalKernelParameterBytes.swift",
+      "size": 1303,
+      "sha256": "f56f081bac556bf4d67b8e294b94055b5c5d14b9a98c32f903b31e50dedaed97"
+    },
+    {
       "path": "Sources/VoxeliaMetal/Internal/MetalSourceDigest.swift",
       "size": 631,
       "sha256": "465c9d9df20d02be6faac6006f86335a81afa51c81cd1e17a24c5e28f47a7a0b"
@@ -1885,6 +1895,11 @@
       "sha256": "c1738ae26985e1e451eb60f90052f2cca7673603d982d3394d93983460f67594"
     },
     {
+      "path": "Tests/VoxeliaMetalTests/MetalBufferTransferTests.swift",
+      "size": 13816,
+      "sha256": "ec2cde401d477f47040cd85f4eb3b6b9b073666dea4c3d97df2765528905bf71"
+    },
+    {
       "path": "Tests/VoxeliaMetalTests/MetalCompositeKernelTests.swift",
       "size": 7337,
       "sha256": "138ab9a1ef3a2f64c71c700d16701f50da4662e82944b8c2ae8d864ae1b4a757"
@@ -2301,8 +2316,8 @@
     },
     {
       "path": "Tools/Scripts/check_swift_safety.py",
-      "size": 43768,
-      "sha256": "ebad5f0799faa3d918486a9eb9c6b304f9a6f9c9ca423b7432c1dfa66e8878fa"
+      "size": 47940,
+      "sha256": "557e89a90b966eaa31d69a3fb838c6ddf35833f77789b48436137f2900fc42a8"
     },
     {
       "path": "Tools/Scripts/generate-sbom.sh",
@@ -2406,8 +2421,8 @@
     },
     {
       "path": "Tools/Tests/Python/test_swift_safety.py",
-      "size": 31690,
-      "sha256": "02aab077341d96af0cf347d2adc967d5884fc40d5034812ea15b73d9069442c7"
+      "size": 36415,
+      "sha256": "8b0d1087590df2772cb8c4a3b087f75f6b9199aa5713789b88b4444847ce5b4b"
     },
     {
       "path": "Tools/Tests/VoxeliaRepositoryToolTests/RepositoryToolTests.swift",
@@ -3691,8 +3706,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 685428,
-      "sha256": "777bc02827d14519810bfc082b08a78541e22d6f3077992fd6825305cdda1d59"
+      "size": 689303,
+      "sha256": "d6381b928a5e9e4d922f0429a947ec036e053ceaa61e04189e43d4441eaf6590"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3751,8 +3766,8 @@
     },
     {
       "path": "docs/progress/evidence/ADR-0186-metal-buffer-transfer-independent-review.md",
-      "size": 3787,
-      "sha256": "a402735bed0c110feab789d5420dab8f5025544454e436bdf61de626afff3900"
+      "size": 5306,
+      "sha256": "c3679d4696928d1017e3bf17d511a2696fe564a69b048e8f02b02d00e4303d60"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4016,8 +4031,8 @@
     },
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
-      "size": 9627,
-      "sha256": "66a28fe247bc31011ffb6e0ea2c7d78c2a5b641aeed67057a2ff23658dcc26cd"
+      "size": 10119,
+      "sha256": "7e3b8ce1ce3a9a406c881cd91287f5b880eaae1fc093354df539b5278129aa61"
     },
     {
       "path": "docs/shaders/README.md",
@@ -4061,8 +4076,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 43981,
-      "sha256": "240717e8ef40a6755340a7c32b02025a2a6aa4fb38f5412869a56dffbce9dbde"
+      "size": 44154,
+      "sha256": "c54fe9606dd2f99b3cb854bb0a3050d372b158defcc8ebb4be8087dd1e6df4e9"
     }
   ]
 }

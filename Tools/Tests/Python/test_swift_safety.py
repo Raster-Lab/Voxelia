@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -69,6 +70,124 @@ class SwiftSafetyTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("inventory scan passed", result.stdout)
         self.assertIn("Use --compile", result.stdout)
+
+    def test_accepts_exact_reviewed_metal_transfer_boundary(self) -> None:
+        relative = "Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift"
+        reviewed = (ROOT / relative).read_text(encoding="utf-8")
+        self.write(
+            "docs/security/SWIFT_SAFETY_POLICY.md",
+            "# Swift safety policy\n",
+        )
+        path = self.write(relative, reviewed)
+
+        self.assertEqual(CHECKER.scan_file(path, self.root), [])
+
+    def test_rejects_reviewed_boundary_without_governing_policy(self) -> None:
+        relative = "Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift"
+        reviewed = (ROOT / relative).read_text(encoding="utf-8")
+        path = self.write(relative, reviewed)
+
+        findings = CHECKER.scan_file(path, self.root)
+
+        categories = [finding.category for finding in findings]
+        self.assertEqual(categories.count("reserved Swift unsafe marker"), 3)
+        self.assertIn("approved source exception policy missing", categories)
+
+    def test_rejects_one_byte_change_to_reviewed_boundary(self) -> None:
+        relative = "Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift"
+        reviewed = (ROOT / relative).read_text(encoding="utf-8")
+        self.write(
+            "docs/security/SWIFT_SAFETY_POLICY.md",
+            "# Swift safety policy\n",
+        )
+        path = self.write(relative, reviewed + "\n")
+
+        findings = CHECKER.scan_file(path, self.root)
+
+        self.assertIn(
+            "approved source exception fingerprint mismatch",
+            {finding.category for finding in findings},
+        )
+
+    def test_rejects_extra_or_removed_reviewed_boundary_marker(self) -> None:
+        relative = "Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift"
+        reviewed = (ROOT / relative).read_text(encoding="utf-8")
+        self.write(
+            "docs/security/SWIFT_SAFETY_POLICY.md",
+            "# Swift safety policy\n",
+        )
+        extra = self.write(relative, reviewed + "let extra = unsafe 1\n")
+        extra_findings = CHECKER.scan_file(extra, self.root)
+        self.assertIn(
+            "approved source exception fingerprint mismatch",
+            {finding.category for finding in extra_findings},
+        )
+
+        removed_source = reviewed.replace(
+            "        unsafe buffer.contents()",
+            "        buffer.contents()",
+            1,
+        )
+        removed = self.write(relative, removed_source)
+        removed_findings = CHECKER.scan_file(removed, self.root)
+        self.assertIn(
+            "approved source exception fingerprint mismatch",
+            {finding.category for finding in removed_findings},
+        )
+
+    def test_rejects_reviewed_markers_at_a_different_path(self) -> None:
+        reviewed = (
+            ROOT / "Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift"
+        ).read_text(encoding="utf-8")
+        path = self.write(
+            "Sources/VoxeliaMetal/Internal/DifferentBoundary.swift",
+            reviewed,
+        )
+
+        findings = CHECKER.scan_file(path, self.root)
+
+        self.assertEqual(
+            [finding.category for finding in findings],
+            ["reserved Swift unsafe marker"] * 3,
+        )
+
+    def test_rejects_different_category_in_reviewed_boundary(self) -> None:
+        relative = "Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift"
+        reviewed = (ROOT / relative).read_text(encoding="utf-8")
+        self.write(
+            "docs/security/SWIFT_SAFETY_POLICY.md",
+            "# Swift safety policy\n",
+        )
+        path = self.write(relative, reviewed + "// @unchecked\n")
+
+        findings = CHECKER.scan_file(path, self.root)
+
+        categories = {finding.category for finding in findings}
+        self.assertIn("unchecked Sendable conformance", categories)
+        self.assertIn("approved source exception fingerprint mismatch", categories)
+
+    def test_rejects_missing_reviewed_boundary_when_policy_is_present(self) -> None:
+        self.write(
+            "docs/security/SWIFT_SAFETY_POLICY.md",
+            "# Swift safety policy\n",
+        )
+
+        findings = CHECKER.scan_repository(self.root)
+
+        self.assertEqual(len(findings), 1)
+        self.assertEqual(findings[0].category, "approved source exception missing")
+
+    def test_governing_repository_requires_policy_and_boundary(self) -> None:
+        with mock.patch.object(CHECKER, "ROOT", self.root):
+            findings = CHECKER.scan_repository(self.root)
+
+        self.assertEqual(
+            {finding.category for finding in findings},
+            {
+                "approved source exception missing",
+                "approved source exception policy missing",
+            },
+        )
 
     def test_accepts_checked_sendable_value_and_safe_vocabulary(self) -> None:
         findings = self.findings(

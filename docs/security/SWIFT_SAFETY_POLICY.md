@@ -9,9 +9,9 @@ prohibited.
 
 `Tools/Scripts/check_swift_safety.py` inventories Swift package manifests,
 product source, tests, validation tools, benchmarks, repository tools and
-active shell, workflow and Xcode build configuration. Until `SWIFT-MEM-001` is
-implemented and fingerprinted it rejects every marker; afterward it exempts
-only that exact reviewed three-expression multiset and rejects:
+active shell, workflow and Xcode build configuration. `SWIFT-MEM-001` is
+implemented and fingerprinted; the checker exempts only that exact reviewed
+three-expression multiset when its governing policy is present and rejects:
 
 - `@unchecked Sendable`, `@preconcurrency`, `nonisolated(unsafe)` and unsafe
   executor inheritance;
@@ -78,8 +78,13 @@ policy does not treat them as passing.
 
 ## Current inventory
 
-The executable exception has not yet been enabled, so the raw escape-hatch scan
-still passes with no findings. The 2026-08-05 recovery replaced three test-only
+The executable exception is enabled only for the raw-byte SHA-256
+`161b5298d68bfc1e6e312f650458db3e41e6b9ca418f6a49c486ff86e53c7aa9`
+of `Sources/VoxeliaMetal/Internal/MetalBufferTransfer.swift` and exactly its
+three `unsafe` marker findings. A missing policy or source, a changed byte,
+changed finding multiset, different prohibited category or marker at another
+path fails closed. The raw escape-hatch scan passes with that one governed
+exception and no unapproved finding. The 2026-08-05 recovery replaced three test-only
 lock wrappers and the production pipeline cache with checked
 `Synchronization.Mutex` state, isolated the execution context's device/queue
 pair and all three kernel pipeline sets behind checked synchronous borrowing,
@@ -115,18 +120,19 @@ its Model I/O-backed mesh allocator, but the supported SDK has no checked exact
 raw-buffer readback inverse. Blit and Metal I/O do not bridge arbitrary results
 to owned collections, and tensor/texture readback remains pointer-shaped. The
 then-current zero-exception policy therefore could not coexist with the
-accepted operational kernel APIs without deferral/redesign. The recommended resolution is a single
-explicit internal Swift transfer boundary, but it requires owner approval and
-the independent review/evidence process below before the exception inventory or
-scanner changes. The project owner approved that recommended option and an
-independent subagent review on 2026-08-05. Accepted `ADR-0186` now fixes the
-exact three-operation byte-only scope; the independent design review approved
-it with conditions, while implementation, focused evidence and final diff
-review remain pending before the scanner fingerprint is enabled.
+accepted operational kernel APIs without deferral/redesign. The selected
+resolution is a single explicit internal Swift transfer boundary. The project
+owner approved that option and an independent subagent review on 2026-08-05.
+Accepted `ADR-0186` fixes the exact three-operation byte-only scope; the
+boundary, checked word serializer, exact scanner fingerprint and focused range,
+storage, completion, lifetime, concurrency, serialization and scanner-fault
+evidence are implemented. The independent reviewer approved this exact
+boundary/scanner diff. Kernel and residency migration plus the complete
+semantic gate remain pending and require a later final migration review.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| `SWIFT-MEM-001` (approved, not yet enabled) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval and independent design review recorded under `ADR-0186`; final implementation review pending | Fingerprint, range, storage, completion, lifetime, concurrency, serialization, kernel and semantic-gate evidence pending |
+| `SWIFT-MEM-001` (enabled for exact fingerprint) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval, independent design review and independent boundary/scanner diff approval recorded under `ADR-0186` | Boundary fingerprint, range, storage, completion, lifetime, concurrency, serialization and scanner-mutation evidence pass; kernel, residency and complete semantic-gate evidence pending |
 
 ## Introducing an exception
 

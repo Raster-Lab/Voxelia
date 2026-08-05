@@ -52,12 +52,14 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   encoder. The gate stops in Metal on the remaining thirteen upload, parameter
   and readback diagnostics across its three compute-kernel wrappers. The
   installed-SDK audit found a checked MetalKit upload route but no checked raw
-  readback API. The project owner has now approved Option A and an independent
-  subagent reviewer; accepted `ADR-0186` confines the future exception to one
-  fingerprinted internal Metal byte-transfer file with three marked
-  expressions. The independent design review approved that scope with
-  conditions, but implementation, focused evidence and final review remain
-  pending, so the complete Swift safety gate must not yet be reported green.
+  readback API. The project owner approved Option A and an independent subagent
+  reviewer; accepted `ADR-0186` confines the exception to one fingerprinted
+  internal Metal byte-transfer file with three marked expressions. The
+  boundary, checked word serializer, exact fail-closed scanner fingerprint and
+  focused evidence are implemented; the independent reviewer approved that
+  boundary/scanner diff after the required coherency, lifetime, governance and
+  platform corrections. Kernel and residency migration and the complete
+  semantic gate remain pending, so that gate must not yet be reported green.
   Independently, all four
   pointer-backed sixteen-bit fixture serializers predicted in the Metal test
   target now use exact checked little-endian shifts, with their affected device
@@ -4199,6 +4201,59 @@ oracle campaigns.
   `--compile` gate was intentionally not rerun because this increment changes
   no executable source and its known thirteen Metal diagnostics are the next
   implementation subject.
+- One-hundred-eightieth autonomous increment (owner-approved goal resumption):
+  implemented the accepted `ADR-0186` boundary/scanner stage without migrating
+  a kernel call site. Internal `MetalBufferTransfer` is the only reviewed
+  boundary and exposes only owned bytes and Metal objects: a checked shared
+  allocation convenience delegates to bounded shared-buffer write, inline
+  binding accepts at most 256 synchronously copied bytes, and readback returns
+  a fresh owned array only after the exact writer reports completed. Positive
+  counts, `device.maxBufferLength`, buffer coverage, checked offset-plus-count,
+  shared storage and the completed/error/not-completed status split reject
+  payload-free typed before content access. `MetalKernelParameterBytes`
+  serializes checked `UInt32` words explicitly in little-endian order without
+  borrowing Swift struct or collection layouts. The exact source SHA-256 is
+  `161b5298d68bfc1e6e312f650458db3e41e6b9ca418f6a49c486ff86e53c7aa9`,
+  with exactly three markers at the bounded write, inline bind and completed
+  read. The scanner suppresses only that raw-byte hash, path and exact
+  three-finding multiset when the governing policy is a regular file; changed
+  bytes/categories/count/path, missing policy/source and stale canonical-root
+  inventory fail closed.
+
+  The first focused Metal test compile failed because synchronous
+  `waitUntilCompleted()` is unavailable from an asynchronous test context; the
+  concurrent path was corrected to `await writer.completed()`. Independent
+  review then found that early readback tests paired an unrelated empty command
+  with a CPU-written buffer, the scanner accepted the exact source without its
+  policy, `.storageModeManaged` was referenced outside macOS and negative
+  counts were incomplete. The corrected tests use the exact command that blits
+  a retained upload into the readback destination, require policy governance,
+  guard managed storage to macOS and cover negative allocation and transfer
+  counts. A second review found two upload buffers were not explicitly retained
+  through completion; both now use `withExtendedLifetime` after the exact
+  synchronous or asynchronous completion. The independent reviewer then
+  approved the exact boundary/scanner diff with no remaining blocker.
+
+  Strict format lint passed for both product files and the test. Direct strict-
+  memory type checking of the two product files and `swift build --target
+  VoxeliaMetal` passed. The focused `MetalBufferTransfer` suite passed all
+  eight tests, including exact 1/13/28-byte copy and snapshot lifetimes,
+  real-blit same-writer coherency, lower/upper and negative/zero/overflow
+  bounds, private/managed storage rejection, command-state classification,
+  256-byte inline binding, exact 28/8/4-byte serialization and twenty-four
+  concurrent non-aliasing transfers. The scanner suite passed fifty-two tests,
+  the raw inventory scan and diff validation passed, and the boundary hash and
+  exact three-marker count were rechecked. A filtered
+  `check_swift_safety.py --compile` rerun exited one and confirmed the same
+  thirteen unique legacy kernel-call locations (with duplicate diagnostics
+  emitted by compile jobs); no boundary or serializer location appeared. The
+  semantic gate was not treated as passing. The full suite and unaffected
+  packages were intentionally skipped under the narrow-test policy. Release-
+  integrity regeneration and read-only verification passed with 816 manifest
+  paths, 815 inventory records and 816 checksums. The exact next increment
+  migrates the window-level, composite and invert kernels plus the residency
+  round trip through this boundary, with exact parameter goldens and the
+  independent migration review.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9978,7 +10033,8 @@ and direct-volume-rendering increments through accepted `ADR-0182`. Accepted
 coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
 accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The unchecked-conformance recovery is complete: the
-fail-closed escape-hatch scan has zero findings, checked literal iteration
+fail-closed escape-hatch scan has no unapproved findings beyond the exact
+governed Metal boundary, checked literal iteration
 removed the canonical JSON/ingress failures, and the checked bounded
 `ContentID` recovery preserves all registered identity oracles; the
 document store now validates directory kind through checked URL resource
@@ -9989,15 +10045,14 @@ with their registered digests unchanged. The complete semantic Swift safety
 gate passes Rendering and stops on thirteen transfer diagnostics across the
 three Metal compute-kernel wrappers. The installed-SDK audit proves there is no
 checked arbitrary raw-buffer readback path at the supported deployment floors.
-The owner has approved Option A and the independent design reviewer has
-approved accepted `ADR-0186` with conditions. The exact next action is its
-implementation: add the three-operation internal byte boundary and checked word
-serializer; pin its exact file hash and three-marker multiset in the scanner;
-add range/storage/completion/lifetime, concurrency, serializer and scanner fault
-evidence; migrate all three kernels and the residency round trip; then obtain
-the same reviewer's final diff review and rerun the complete semantic gate. Do
-not add a foreign shim, broaden the exception, resume geometry or report the
-gate green before that evidence.
+The owner approved Option A, the three-operation boundary/scanner stage is
+implemented and the independent reviewer issued final approval for its exact
+fingerprint. The exact next action is to migrate all three kernels and the
+residency round trip through that boundary, add their exact parameter goldens,
+run direct Metal/differential/concurrency and residency evidence, obtain the
+same reviewer's final migration-diff review and rerun the complete semantic
+gate. Do not add a foreign shim, broaden the exception, resume geometry or
+report the gate green before that evidence.
 
 After that semantic safety recovery, the geometry queue resumes with the
 explicit package dependency-resolution decision under prospective `ADR-0187`: reconcile
@@ -10022,10 +10077,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Implement accepted `ADR-0186` exactly: first add focused boundary, serializer
-  and scanner fault evidence, then migrate the three kernels and residency
-  test, run their direct Metal/differential/concurrency evidence, obtain the
-  independent final diff review and run the complete semantic gate.
+- Continue accepted `ADR-0186` exactly: migrate the three kernels and residency
+  test through the approved boundary, run their direct Metal, differential,
+  concurrency and exact-parameter evidence, obtain the independent migration-
+  diff review and run the complete semantic gate.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
