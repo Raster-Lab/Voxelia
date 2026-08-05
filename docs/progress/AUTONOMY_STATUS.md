@@ -3008,6 +3008,27 @@ oracle campaigns.
   eight-event integrated story observed in exact order and the
   pinned entry surviving pressure with the typed rejection until
   released.
+- One-hundred-twenty-fifth autonomous increment (owner broadened
+  standing mandate): the `VOX-STO-012` eviction-independence
+  assessment, recorded in the ledger rather than as a decision record
+  because there is nothing to build — the row's property is
+  structural today. The decoded-brick tier owns its eviction inside
+  the instrumented cache under the frozen ordering authority; the
+  GPU-resident tier's buffers are owned by the residency manager and
+  the frame scheduler's release-once tokens with no reference to any
+  cache; the two tiers share no eviction machinery, no budget and no
+  policy state, so evicting in one can never force the other. The
+  compressed tier does not exist and joins under the owner's codec
+  gate; when it arrives it must own its own eviction under the same
+  rule, and no future increment may couple the tiers' eviction
+  decisions — displacing a GPU resource must never imply discarding
+  its decoded source, whose re-decode cost is exactly what the
+  eviction inputs weigh. Pressure-responsive residency stays gated on
+  a real memory-pressure mechanism as recorded. With this, every
+  actionable M5 queue item is closed; the honest remainder of the M5
+  sweep is `VOX-STO-005` itself — a bricked storage implementation
+  serving the accepted region-read contract from per-brick stores —
+  which becomes the next design-first increment.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
