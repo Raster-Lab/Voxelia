@@ -2,6 +2,7 @@
 
 import CryptoKit
 import Metal
+import Synchronization
 import VoxeliaCore
 
 /// An error raised by the layer compositing Metal kernel.
@@ -25,10 +26,10 @@ public enum MetalCompositeKernelError: Error, Sendable, Equatable {
 /// `org.voxelia.precision.binary32-device` with approximation status
 /// `approximate` and the kernel component reference — never as
 /// `binary64-strict`. The embedded source is digest-pinned by the
-/// shader manifest, and the class is unchecked-`Sendable` on the
-/// recorded justification that Metal pipeline objects are documented
-/// thread-safe.
-public final class MetalCompositeKernel: @unchecked Sendable {
+/// shader manifest. Its non-`Sendable` pipeline is retained behind a
+/// checked mutex and borrowed only while configuring an encoder;
+/// command execution is not serialized by the wrapper.
+public final class MetalCompositeKernel: Sendable {
     /// The registered kernel token spelling.
     public static let kernelIdentifier = "org.voxelia.kernel.composite-layers"
 
@@ -47,7 +48,7 @@ public final class MetalCompositeKernel: @unchecked Sendable {
 
     let context: MetalExecutionContext
     private let telemetrySink: MetalTelemetrySink?
-    private let pipeline: any MTLComputePipelineState
+    private let pipeline: Mutex<any MTLComputePipelineState>
 
     /// Acquires the compute pipeline through the context's `ADR-0106`
     /// cache, compiling at most once per stable identity; the
@@ -62,17 +63,19 @@ public final class MetalCompositeKernel: @unchecked Sendable {
         self.context = context
         self.telemetrySink = telemetrySink
         do {
-            self.pipeline = try context.withMetalHandles { device, _ in
-                try context.pipelineCache.pipeline(
-                    key: MetalPipelineCache.Key(
-                        kernelToken: Self.kernelIdentifier,
-                        sourceDigest: Self.sourceDigestHexText,
-                        entryPoint: "voxelia_composite_layers"
-                    ),
-                    source: CompositeKernelSource.metalSource,
-                    device: device
-                )
-            }
+            self.pipeline = Mutex(
+                try context.withMetalHandles { device, _ in
+                    try context.pipelineCache.pipeline(
+                        key: MetalPipelineCache.Key(
+                            kernelToken: Self.kernelIdentifier,
+                            sourceDigest: Self.sourceDigestHexText,
+                            entryPoint: "voxelia_composite_layers"
+                        ),
+                        source: CompositeKernelSource.metalSource,
+                        device: device
+                    )
+                }
+            )
         } catch MetalPipelineCacheError.compilationFailed {
             throw MetalCompositeKernelError.compilationFailed
         } catch {
@@ -157,7 +160,6 @@ public final class MetalCompositeKernel: @unchecked Sendable {
         else {
             throw MetalCompositeKernelError.executionFailed
         }
-        encoder.setComputePipelineState(pipeline)
         encoder.setBuffer(samplesBuffer, offset: 0, index: 0)
         encoder.setBuffer(opacitiesBuffer, offset: 0, index: 1)
         encoder.setBuffer(outputBuffer, offset: 0, index: 2)
@@ -166,10 +168,10 @@ public final class MetalCompositeKernel: @unchecked Sendable {
             length: MemoryLayout<KernelParameters>.stride,
             index: 3
         )
-        let threadWidth = min(
-            pipeline.maxTotalThreadsPerThreadgroup,
-            elementCount
-        )
+        let threadWidth = pipeline.withLock { pipeline in
+            encoder.setComputePipelineState(pipeline)
+            return min(pipeline.maxTotalThreadsPerThreadgroup, elementCount)
+        }
         encoder.dispatchThreads(
             MTLSize(width: elementCount, height: 1, depth: 1),
             threadsPerThreadgroup: MTLSize(width: threadWidth, height: 1, depth: 1)

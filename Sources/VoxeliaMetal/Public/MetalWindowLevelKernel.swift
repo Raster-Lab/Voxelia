@@ -2,6 +2,7 @@
 
 import CryptoKit
 import Metal
+import Synchronization
 import VoxeliaCore
 
 /// An error raised by the window-level Metal kernel.
@@ -57,10 +58,10 @@ public typealias MetalTelemetrySink = @Sendable (MetalDispatchTelemetry) -> Void
 /// `org.voxelia.precision.binary32-device` with approximation status
 /// `approximate` and the kernel component reference — never as
 /// `binary64-strict`. The embedded source is digest-pinned by the
-/// shader manifest, and the class is unchecked-`Sendable` on the
-/// recorded justification that Metal pipeline objects are documented
-/// thread-safe.
-public final class MetalWindowLevelKernel: @unchecked Sendable {
+/// shader manifest. Its non-`Sendable` pipeline set is retained behind
+/// one checked mutex and borrowed only while configuring an encoder;
+/// command execution is not serialized by the wrapper.
+public final class MetalWindowLevelKernel: Sendable {
     /// The registered kernel token spelling.
     public static let kernelIdentifier = "org.voxelia.kernel.window-level"
 
@@ -79,9 +80,19 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
 
     let context: MetalExecutionContext
     private let telemetrySink: MetalTelemetrySink?
-    private let uint8Pipeline: any MTLComputePipelineState
-    private let int16Pipeline: any MTLComputePipelineState
-    private let uint16Pipeline: any MTLComputePipelineState
+    private let pipelines: Mutex<Pipelines>
+
+    private struct Pipelines {
+        let uint8: any MTLComputePipelineState
+        let int16: any MTLComputePipelineState
+        let uint16: any MTLComputePipelineState
+    }
+
+    private enum PipelineKind {
+        case uint8
+        case int16
+        case uint16
+    }
 
     /// Acquires one compute pipeline per manifest entry point through
     /// the context's `ADR-0106` cache, compiling at most once per
@@ -114,9 +125,16 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
                 throw MetalKernelError.pipelineUnavailable
             }
         }
-        self.uint8Pipeline = try pipeline("voxelia_window_level_u8")
-        self.int16Pipeline = try pipeline("voxelia_window_level_i16")
-        self.uint16Pipeline = try pipeline("voxelia_window_level_u16")
+        let uint8Pipeline = try pipeline("voxelia_window_level_u8")
+        let int16Pipeline = try pipeline("voxelia_window_level_i16")
+        let uint16Pipeline = try pipeline("voxelia_window_level_u16")
+        self.pipelines = Mutex(
+            Pipelines(
+                uint8: uint8Pipeline,
+                int16: int16Pipeline,
+                uint16: uint16Pipeline
+            )
+        )
         self.kernelReference = try ExecutionComponentReference(
             identifier: try ExecutionClaimToken(rawValue: Self.kernelIdentifier),
             version: try SemanticVersion(major: 1, minor: 2, patch: 0)
@@ -161,20 +179,20 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         width: Double,
         paddingValue: Int32?
     ) throws -> [UInt8] {
-        let pipeline: any MTLComputePipelineState
+        let pipelineKind: PipelineKind
         let bytesPerSample: Int
         let entryPoint: String
         switch scalarType {
         case .uint8:
-            pipeline = uint8Pipeline
+            pipelineKind = .uint8
             bytesPerSample = 1
             entryPoint = "voxelia_window_level_u8"
         case .int16:
-            pipeline = int16Pipeline
+            pipelineKind = .int16
             bytesPerSample = 2
             entryPoint = "voxelia_window_level_i16"
         case .uint16:
-            pipeline = uint16Pipeline
+            pipelineKind = .uint16
             bytesPerSample = 2
             entryPoint = "voxelia_window_level_u16"
         default:
@@ -234,7 +252,6 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
         else {
             throw MetalKernelError.executionFailed
         }
-        encoder.setComputePipelineState(pipeline)
         encoder.setBuffer(inputBuffer, offset: 0, index: 0)
         encoder.setBuffer(outputBuffer, offset: 0, index: 1)
         encoder.setBytes(
@@ -242,10 +259,19 @@ public final class MetalWindowLevelKernel: @unchecked Sendable {
             length: MemoryLayout<KernelParameters>.stride,
             index: 2
         )
-        let threadWidth = min(
-            pipeline.maxTotalThreadsPerThreadgroup,
-            sampleCount
-        )
+        let threadWidth = pipelines.withLock { pipelines in
+            let pipeline: any MTLComputePipelineState
+            switch pipelineKind {
+            case .uint8:
+                pipeline = pipelines.uint8
+            case .int16:
+                pipeline = pipelines.int16
+            case .uint16:
+                pipeline = pipelines.uint16
+            }
+            encoder.setComputePipelineState(pipeline)
+            return min(pipeline.maxTotalThreadsPerThreadgroup, sampleCount)
+        }
         encoder.dispatchThreads(
             MTLSize(width: sampleCount, height: 1, depth: 1),
             threadsPerThreadgroup: MTLSize(width: threadWidth, height: 1, depth: 1)

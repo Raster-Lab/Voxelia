@@ -2,6 +2,7 @@
 
 import CryptoKit
 import Metal
+import Synchronization
 import VoxeliaCore
 
 /// An error raised by the display-inversion Metal kernel.
@@ -22,11 +23,11 @@ public enum MetalInvertKernelError: Error, Sendable, Equatable {
 /// No floating-point step exists, so this kernel computes the
 /// registered model exactly and its claims carry the `exact`
 /// precision policy — the first device implementation with an exact
-/// claim. The embedded source is digest-pinned by the shader
-/// manifest, and the class is unchecked-`Sendable` on the recorded
-/// justification that Metal pipeline objects are documented
-/// thread-safe.
-public final class MetalInvertKernel: @unchecked Sendable {
+/// claim. The embedded source is digest-pinned by the shader manifest.
+/// Its non-`Sendable` pipeline is retained behind a checked mutex and
+/// borrowed only while configuring an encoder; command execution is not
+/// serialized by the wrapper.
+public final class MetalInvertKernel: Sendable {
     /// The registered kernel token spelling.
     public static let kernelIdentifier = "org.voxelia.kernel.invert-display"
 
@@ -45,7 +46,7 @@ public final class MetalInvertKernel: @unchecked Sendable {
 
     let context: MetalExecutionContext
     private let telemetrySink: MetalTelemetrySink?
-    private let pipeline: any MTLComputePipelineState
+    private let pipeline: Mutex<any MTLComputePipelineState>
 
     /// Acquires the compute pipeline through the context's `ADR-0106`
     /// cache, compiling at most once per stable identity; the
@@ -60,17 +61,19 @@ public final class MetalInvertKernel: @unchecked Sendable {
         self.context = context
         self.telemetrySink = telemetrySink
         do {
-            self.pipeline = try context.withMetalHandles { device, _ in
-                try context.pipelineCache.pipeline(
-                    key: MetalPipelineCache.Key(
-                        kernelToken: Self.kernelIdentifier,
-                        sourceDigest: Self.sourceDigestHexText,
-                        entryPoint: "voxelia_invert_display_u8"
-                    ),
-                    source: InvertKernelSource.metalSource,
-                    device: device
-                )
-            }
+            self.pipeline = Mutex(
+                try context.withMetalHandles { device, _ in
+                    try context.pipelineCache.pipeline(
+                        key: MetalPipelineCache.Key(
+                            kernelToken: Self.kernelIdentifier,
+                            sourceDigest: Self.sourceDigestHexText,
+                            entryPoint: "voxelia_invert_display_u8"
+                        ),
+                        source: InvertKernelSource.metalSource,
+                        device: device
+                    )
+                }
+            )
         } catch MetalPipelineCacheError.compilationFailed {
             throw MetalInvertKernelError.compilationFailed
         } catch {
@@ -120,7 +123,6 @@ public final class MetalInvertKernel: @unchecked Sendable {
         else {
             throw MetalInvertKernelError.executionFailed
         }
-        encoder.setComputePipelineState(pipeline)
         encoder.setBuffer(inputBuffer, offset: 0, index: 0)
         encoder.setBuffer(outputBuffer, offset: 0, index: 1)
         encoder.setBytes(
@@ -128,10 +130,13 @@ public final class MetalInvertKernel: @unchecked Sendable {
             length: MemoryLayout<KernelParameters>.stride,
             index: 2
         )
-        let threadWidth = min(
-            pipeline.maxTotalThreadsPerThreadgroup,
-            storedSamples.count
-        )
+        let threadWidth = pipeline.withLock { pipeline in
+            encoder.setComputePipelineState(pipeline)
+            return min(
+                pipeline.maxTotalThreadsPerThreadgroup,
+                storedSamples.count
+            )
+        }
         encoder.dispatchThreads(
             MTLSize(width: storedSamples.count, height: 1, depth: 1),
             threadsPerThreadgroup: MTLSize(width: threadWidth, height: 1, depth: 1)

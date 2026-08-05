@@ -33,9 +33,10 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   storage, and the second moved `MetalPipelineCache`'s dictionaries, counters
   and compilation critical section behind one checked mutex state. The third
   moved `MetalExecutionContext`'s device and command queue behind one checked
-  synchronous borrowing boundary. The fail-closed Swift safety gate now
-  reports five production Metal classes. None has an accepted exception under
-  the standing
+  synchronous borrowing boundary, and the fourth moved all three kernel
+  wrappers' pipeline sets behind checked encoder-configuration borrows. The
+  fail-closed Swift safety gate now reports two production Metal classes. None
+  has an accepted exception under the standing
   zero-exception policy, so the earlier no-exception claim is not current and
   the gate must not be reported green. The last recorded strict product/test
   destination builds remain historical evidence only; visionOS 26.5 is still
@@ -3871,6 +3872,31 @@ oracle campaigns.
   exactly five findings, down from six, so the repository gate remains
   honestly red. The next recovery is the three immutable kernel wrappers,
   followed by residency manager and slice renderer.
+- One-hundred-sixty-eighth autonomous increment (scheduled goal
+  continuation): removed the three immutable Metal kernel wrappers'
+  ungoverned concurrency exceptions without serializing command execution.
+  `MetalWindowLevelKernel` now owns its three non-`Sendable` pipelines in one
+  checked `Synchronization.Mutex<Pipelines>`; `MetalCompositeKernel` and
+  `MetalInvertKernel` each own their single pipeline in a checked mutex. Each
+  wrapper borrows its selected pipeline only long enough to bind it to that
+  dispatch's encoder and read its threadgroup limit, then releases the mutex
+  before dispatch and completion. The first narrow inversion test build found
+  two mechanical closure-delimiter parse errors and ran no tests; both were
+  corrected, and the same filter then passed its one exactness test. Three new
+  regressions share one wrapper across sixteen simultaneous dispatch tasks
+  apiece, compare every result to the serial oracle and prove the stable cache
+  build counts remain one library/three pipelines for windowing and one/one
+  for each single-pipeline wrapper. The complete wrapper filter executed
+  eleven tests across three suites with zero failures: uint8 differential
+  1536/1536 exact, 16-bit differential 36864/36864 exact, composite
+  differential 13311/13312 exact, inversion 256/256 exact and padding 65/1032
+  exact exclusions. The cache/telemetry follow-up executed three tests across
+  two suites with zero failures, retaining two-library/four-pipeline reuse and
+  nonnegative measured dispatch telemetry. Focused strict format lint passed;
+  the complete suite was intentionally not run under the narrow-test policy.
+  The raw safety inventory now reports exactly two findings, down from five,
+  so the repository gate remains honestly red. The next recovery is the now-
+  context-only `MetalResidencyManager`, then `ExactSliceRenderer`.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -9651,13 +9677,13 @@ coordinate-bearing mesh audit exposed the approved-graph conflict recorded by
 accepted `ADR-0184`; implemented `ADR-0185` now supplies its complete checked
 logical triangle topology. The immediate exact next action is restoring the
 fail-closed Swift safety gate. Checked mutex recovery removed the three
-test-only findings, `MetalPipelineCache` and `MetalExecutionContext`; five
-ungoverned production Metal conformances remain. The exact next focused
-recovery is the three immutable kernel wrappers: place each non-`Sendable`
-pipeline set behind checked synchronous borrowing without changing stable
-pipeline identities, telemetry, differential behavior or parallel dispatch.
-Then audit residency manager and the renderer orchestration boundary; do not
-suppress the checker or claim the historical zero-exception state.
+test-only findings, `MetalPipelineCache`, `MetalExecutionContext` and the three
+kernel wrappers; two ungoverned production Metal conformances remain. The
+exact next focused recovery is `MetalResidencyManager`: remove its now-obsolete
+exception only after concurrent selection/allocation evidence proves that its
+sole stored context and capability-driven policy behavior are compiler-checked
+and unchanged. Then recover the `ExactSliceRenderer` orchestration boundary;
+do not suppress the checker or claim the historical zero-exception state.
 
 After that recovery, the geometry queue resumes with the explicit package
 dependency-resolution decision under `ADR-0186`: reconcile the MTA/CDMS demand

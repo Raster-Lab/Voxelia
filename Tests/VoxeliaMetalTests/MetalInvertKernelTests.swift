@@ -43,5 +43,30 @@ struct MetalInvertKernelTests {
         requireSendable(MetalInvertKernelError.self)
     }
 
+    @Test("[Concurrency][VOX-CON-003][VOX-MTL-004] one invert kernel dispatches concurrently")
+    func oneInvertKernelDispatchesConcurrently() async throws {
+        let context = try MetalExecutionContext()
+        let kernel = try MetalInvertKernel(
+            context: context,
+            telemetrySink: nil
+        )
+        let samples = Array(UInt8(0)...UInt8(255))
+        let expected = samples.map { 255 - $0 }
+
+        try await withThrowingTaskGroup(of: [UInt8].self) { group in
+            for _ in 0..<16 {
+                group.addTask {
+                    try kernel.invertSamples(samples)
+                }
+            }
+            for try await produced in group {
+                #expect(produced == expected)
+            }
+        }
+
+        #expect(context.pipelineCache.libraryBuildCount == 1)
+        #expect(context.pipelineCache.pipelineBuildCount == 1)
+    }
+
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
 }

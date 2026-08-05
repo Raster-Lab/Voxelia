@@ -145,5 +145,33 @@ struct MetalCompositeKernelTests {
         #expect(exactMatchCount * 100 >= comparedCount * 99)
     }
 
+    @Test("[Concurrency][VOX-CON-003][VOX-MTL-004] one composite kernel dispatches concurrently")
+    func oneCompositeKernelDispatchesConcurrently() async throws {
+        let context = try MetalExecutionContext()
+        let kernel = try MetalCompositeKernel(
+            context: context,
+            telemetrySink: nil
+        )
+        let first = Array(UInt8(0)...UInt8(255))
+        let second = first.reversed()
+        let layers = [first, Array(second)]
+        let opacities = [1.0, 0.5]
+        let expected = try kernel.blendLayers(layers, opacities: opacities)
+
+        try await withThrowingTaskGroup(of: [UInt8].self) { group in
+            for _ in 0..<16 {
+                group.addTask {
+                    try kernel.blendLayers(layers, opacities: opacities)
+                }
+            }
+            for try await produced in group {
+                #expect(produced == expected)
+            }
+        }
+
+        #expect(context.pipelineCache.libraryBuildCount == 1)
+        #expect(context.pipelineCache.pipelineBuildCount == 1)
+    }
+
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
 }

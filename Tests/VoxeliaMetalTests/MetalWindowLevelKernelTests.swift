@@ -505,5 +505,40 @@ struct MetalWindowLevelKernelTests {
         } catch WindowLevelError.invalidPaddingValue {}
     }
 
+    @Test("[Concurrency][VOX-CON-003][VOX-MTL-004] one window kernel dispatches concurrently")
+    func oneWindowKernelDispatchesConcurrently() async throws {
+        let context = try MetalExecutionContext()
+        let kernel = try MetalWindowLevelKernel(
+            context: context,
+            telemetrySink: nil
+        )
+        let samples = Array(UInt8(0)...UInt8(255))
+        let expected = try kernel.mapSamples(
+            samples,
+            center: 96,
+            width: 192,
+            paddingValue: nil
+        )
+
+        try await withThrowingTaskGroup(of: [UInt8].self) { group in
+            for _ in 0..<16 {
+                group.addTask {
+                    try kernel.mapSamples(
+                        samples,
+                        center: 96,
+                        width: 192,
+                        paddingValue: nil
+                    )
+                }
+            }
+            for try await produced in group {
+                #expect(produced == expected)
+            }
+        }
+
+        #expect(context.pipelineCache.libraryBuildCount == 1)
+        #expect(context.pipelineCache.pipelineBuildCount == 3)
+    }
+
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
 }
