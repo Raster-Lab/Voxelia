@@ -4624,9 +4624,10 @@ oracle campaigns.
   preserves physical inside-to-outside winding. Host vertex/triangle limits,
   checked count arithmetic, a 64-cell cancellation cadence, final prepublish
   cancellation and atomic no-partial mesh/identity/provenance publication are
-  required. The operation/algorithm identifiers, `sourceVolume` input role,
-  isovalue/rule parameter claims and privacy-safe payload-free failure family
-  are frozen.
+  required. `ADR-0191` subsequently corrected the operation token, input role
+  and occurrence to the exact Core-compatible spellings; the algorithm
+  identity, isovalue/rule parameter claims and privacy-safe payload-free
+  failure family remain frozen.
 
   The new independent Python exact-rational oracle checks all six tetrahedron
   determinants, all fourteen nonempty cases and their outward winding,
@@ -4669,6 +4670,88 @@ oracle campaigns.
   the separately frozen public request/limit/result and CPU/storage/publication
   boundary that can implement this numerical identity without introducing a
   reverse package dependency or provisional provenance.
+
+- One-hundred-eighty-ninth autonomous increment (scheduled goal
+  continuation): authored and accepted `ADR-0191`, freezing the public scalar-
+  surface request, limits, publication context, immutable
+  mesh/identity/provenance result and closed ten-case error family before
+  product source. Geometry owns the backend-neutral declarations and result
+  binding; CPU owns the stateless reference execution; the accepted
+  `StorageReadCoordinator` supplies one budgeted full read.
+  `CCR-0028` and the live manifest now make CPU's already-used Execution API
+  dependency direct instead of hiding it behind Imaging; both fail-closed graph
+  checkers enforce the acyclic three-dependency CPU row. Returning the
+  completely validated immutable aggregate is the library's atomic publication
+  boundary, while host generation/stale-result suppression remains outside the
+  operation.
+
+  The audit caught and corrected three previously unimplementable provenance
+  spellings: the registered Core operation token is now
+  `org.voxelia.op.scalar-surface-extraction`, the exact input role is
+  `source-volume`, and its first provenance occurrence is Core's one-based
+  occurrence `1`. `ADR-0190` and `VOXELIA-ALG-0028` now carry those corrected
+  spellings; their numerical model and algorithm identity are unchanged. The
+  parameter schema, CPU implementation token/version, fixed execution claims,
+  derivation/provenance correspondence and the absence of a premature mesh
+  content digest are exact.
+
+  Source admission is closed to rank-three, exactly one `.scalar` component,
+  and intensity, probability or parametric affine image semantics with exact
+  three-axis mapping and binary64-representable maximum indices. Every other
+  component interpretation rejects even if its count is one. The first adapter
+  accepts the nine
+  scalar containers whose complete value domains convert exactly to binary64,
+  rejects `int64`/`uint64`, and composes only accepted value-transform shapes.
+  It performs an axis-zero-fastest finite-value validation pass and re-decodes
+  cell corners on demand from the staged packed bytes, avoiding an unbudgeted
+  second full binary64 lattice; cancellation polls before sample zero and each
+  4,096-sample boundary. Pixel padding and missing values are never
+  guessed from arbitrary metadata; callers must first publish a complete
+  authoritative lattice.
+
+  The focused documentation checks passed:
+
+  ```bash
+  python3 Tools/Scripts/check_adr_register.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_manifest_paths.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  python3 Tools/Scripts/check_front_matter.py
+  python3 Tools/Scripts/check_document_text.py
+  python3 Tools/Scripts/check_package_graph.py
+  python3 Tools/Scripts/check_package_graph_static.py
+  python3 Tools/Scripts/check_prohibited_imports.py
+  for configuration in debug release; do
+    for target in VoxeliaCPU VoxeliaValidation; do
+      swift build -c "$configuration" --target "$target" \
+        -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+    done
+  done
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
+  The ADR register reported 171 accepted records, document validation reported
+  seven front-matter documents, 171 ADRs, two primary plus one companion Draft
+  RFC and 279 Markdown files, the pre-regeneration manifest check passed 828
+  entries, and the requirement index remained current at 486 records. A direct
+  path probe also proved the new ADR's Core and algorithm references exist.
+  The dynamic and static graph checkers passed with the exact
+  `VoxeliaCPU -> {VoxeliaExecution, VoxeliaGeometry, VoxeliaImaging}` row and no
+  cycle, and the prohibited-import checker passed. Strict memory-safety,
+  warnings-as-errors builds of `VoxeliaCPU` and its direct dependant
+  `VoxeliaValidation` passed in debug and release.
+  This graph/design increment adds no operation product source. No test suite,
+  complete semantic safety gate, platform destination, external device/fuzz
+  evidence or CPU numerical differential was run or claimed beyond those
+  graph-affected builds. The authorised independent reviewer initially found
+  the hidden public Execution dependency and missing `.scalar` interpretation
+  gate, then issued final approval after `CCR-0028`, the exact graph migration
+  and closed component admission resolved both blockers; their independent
+  graph, import, documentation and diff checks passed. Release-integrity
+  regeneration and final manifest/integrity verification passed with 830
+  manifest paths, 829 inventory records and 830 checksums.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
@@ -10479,11 +10562,16 @@ wire/content/provenance claims. Accepted `ADR-0190` and
 `VOXELIA-ALG-0028` now freeze the Freudenthal marching-tetrahedra binary64-v1
 reference, complete case table, ambiguity/equality/boundary/interpolation,
 ordering, spatial winding, limits, cancellation, provenance fields and
-independent exhaustive oracle. The exact next action is a separately frozen
-public operation/publication boundary: request and host limits, output
-mesh/identity/provenance aggregate, source-read/value-transform ownership,
-payload-free error precedence and CPU implementation placement without a
-reverse package edge. Product source follows only after that boundary is exact.
+independent exhaustive oracle. Accepted `ADR-0191` now freezes the separate
+public operation/publication boundary: immutable request and host limits,
+caller-supplied publication authority, validated output
+mesh/identity/provenance aggregate, exact source-read/value-transform
+ownership, payload-free error precedence, Core-compatible operation/role/
+occurrence spellings, parameter schema and CPU placement without a reverse
+package edge. The exact next action is migration step one: add the four
+immutable Geometry values and closed error family with focused construction,
+binding, privacy and `Sendable` tests before implementing the CPU reader or
+numeric kernel.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -10497,10 +10585,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Freeze the scalar-extraction public operation/publication boundary before
-  product source: immutable request/limits/result values, source-read and
-  value-transform ownership, identity/provenance assembly, error precedence,
-  CPU placement, cancellation/no-partial-publication and package dependencies.
+- Implement only the `ADR-0191` Geometry-owned declaration/result slice:
+  request, limits, publication context, result, error family and exact result-
+  binding validation. Run focused construction, invalid-binding, parameter-
+  digest, privacy and `Sendable` tests plus strict compilation of Geometry and
+  its direct dependants. Do not add the CPU source reader or numerical kernel
+  in the same increment.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human

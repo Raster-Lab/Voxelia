@@ -234,7 +234,10 @@ Admission precedence is cancellation, limits, source/geometry, isovalue,
 source read/transform, then the first non-finite sample in axis-zero-fastest
 order. Traversal failures then follow cell order: cancellation, interpolation,
 position mapping and resource limits. A final cancellation check occurs before
-the one atomic mesh/identity/provenance publication.
+the one atomic mesh/identity/provenance publication. The source adapter
+correction frozen by `ADR-0191` polls cancellation before sample zero and every
+4,096 axis-zero-fastest samples during its finite-value validation pass;
+cancellation at a boundary precedes decoding that sample.
 
 Cell count and every output count/addition/product are checked before reserve or
 append. Host-supplied positive vertex and triangle limits have no implicit default and
@@ -302,13 +305,14 @@ resource-limit behavior.
 
 A successful operation records:
 
-- operation identifier `scalar-surface-extraction`;
+- Core operation token `org.voxelia.op.scalar-surface-extraction`;
 - algorithm identifier `freudenthal-surface-extraction/binary64-v1`;
 - the finite isovalue through the accepted metadata floating-point value;
 - inside rule `sample-greater-than-or-equal`;
 - boundary rule `interior-cells-only`;
-- one ordered input with role `sourceVolume`, occurrence zero and the exact
-  source identity reference; and
+- one ordered input with role `source-volume`, occurrence one and the exact
+  source identity reference, using the Core-compatible correction frozen by
+  `ADR-0191`; and
 - the implementation/software/execution claims required by the accepted Core
   provenance model.
 

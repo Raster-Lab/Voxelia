@@ -40,7 +40,10 @@ let package = Package(
             dependencies: ["VoxeliaImaging", "VoxeliaGeometry"]
         ),
         .target(name: "VoxeliaInteraction", dependencies: ["VoxeliaRendering"]),
-        .target(name: "VoxeliaCPU", dependencies: ["VoxeliaImaging", "VoxeliaGeometry"]),
+        .target(
+            name: "VoxeliaCPU",
+            dependencies: ["VoxeliaImaging", "VoxeliaGeometry", "VoxeliaExecution"]
+        ),
         .target(
             name: "VoxeliaMetal",
             dependencies: ["VoxeliaExecution", "VoxeliaRendering"],

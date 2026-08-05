@@ -246,8 +246,8 @@
     },
     {
       "path": "Package.swift",
-      "size": 4496,
-      "sha256": "4e55c86360b538ca81f6537c81acba96ae192f050bbf50d82ead821f945b5cf3"
+      "size": 4550,
+      "sha256": "b7f8e6c181e8bdf7c1edb9aca5f45112f3cdb3677ca987ffa912dd81418d7c34"
     },
     {
       "path": "README.md",
@@ -341,8 +341,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md",
-      "size": 434,
-      "sha256": "e928ba95470dfa3e0b3dbc5358ef59162d369143466e4b9d21311d1b7906dbad"
+      "size": 454,
+      "sha256": "0f38bd7f177a9cf4a3b3b4f71b82bff4b286089684952a0b0f7347a1fcd5f578"
     },
     {
       "path": "Sources/VoxeliaCore/ApplePlatformGate.swift",
@@ -2311,13 +2311,13 @@
     },
     {
       "path": "Tools/Scripts/check_package_graph.py",
-      "size": 2484,
-      "sha256": "eaafc1565cea13ccbc06c0a490c0b8eeedc3f63166fc1e05efacf00dd635d48e"
+      "size": 2504,
+      "sha256": "b5b1ebedec63a3ce801e5ac2db35a900f63ff85b9549f9fba0ab3b4717f02e99"
     },
     {
       "path": "Tools/Scripts/check_package_graph_static.py",
-      "size": 2775,
-      "sha256": "d87c3c8d8eca31d9f74a57da805f55ff4f91b03e190061d6e4e8731d84a8730a"
+      "size": 2795,
+      "sha256": "440f75f235437d2d8e2222298ab4f75aa7ec3447c6a98191919501402a296a52"
     },
     {
       "path": "Tools/Scripts/check_prohibited_imports.py",
@@ -2686,8 +2686,8 @@
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0028-freudenthal-surface-extraction.md",
-      "size": 13558,
-      "sha256": "74de541f9fbf8d20b0aa6e3add4e6c5b39322a802a86372fe27698b96a6a3ca2"
+      "size": 13864,
+      "sha256": "f3d9e722595c7eb5fa603452c747d8b8d02955dd2d3369973b639c8e542ac1f2"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -2823,6 +2823,11 @@
       "path": "docs/architecture/corrections/CCR-0027-adr-0187-geometry-spatial-dependency.md",
       "size": 2820,
       "sha256": "8d61936c890b7fa12febee932e82735b8e8c0a2e478c60ab22bf0bbbd30cdd03"
+    },
+    {
+      "path": "docs/architecture/corrections/CCR-0028-adr-0191-cpu-execution-dependency.md",
+      "size": 3086,
+      "sha256": "7322d5a8d233c41f04c1bbe468aaf7a834e2e153032717289974b8d5616d8c92"
     },
     {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
@@ -3671,13 +3676,18 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0190-scalar-surface-extraction-design.md",
-      "size": 13078,
-      "sha256": "9b0b196914ea61c87aafc4617325d949ba3f524bb8526406139ca7ad3fccc57b"
+      "size": 13176,
+      "sha256": "4fa39446bae68521be45c1504964a906d49e0f2f7b1de8aac8c93d4210e03b8e"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0191-scalar-surface-operation-boundary.md",
+      "size": 21039,
+      "sha256": "62b42e4de421f5613e3a1e0f21c32113e000b7524d9132ad36d91a2c9525bc61"
     },
     {
       "path": "docs/architecture/decisions/README.md",
-      "size": 28288,
-      "sha256": "1757350ef7fc0e7b8ab28352ab6b406aad3c78871f9ba095b21e220b7ad61245"
+      "size": 28487,
+      "sha256": "01e29723379b357853f456575def8d966f1c01879b036055b02f2b5894099384"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3696,8 +3706,8 @@
     },
     {
       "path": "docs/architecture/modules/VoxeliaCPU.md",
-      "size": 226,
-      "sha256": "3741963ef2d1378b68f08a52004cf9c48850047baa4b14a1980568dc2e60f463"
+      "size": 244,
+      "sha256": "71d41fb513863368a7f69de6d580792f1374f0af70b7e45fbab0cf16a5eca0b7"
     },
     {
       "path": "docs/architecture/modules/VoxeliaCore.md",
@@ -3761,8 +3771,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 715936,
-      "sha256": "bc3b47a55aed10053f48bb1a355a5d818fda0e4a069814dfb71aad23f0cc2397"
+      "size": 721129,
+      "sha256": "3d725ceab5a50712678f5b3caa7c4efdbffd7fdfd0aa236d0a108f795e48c317"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4136,8 +4146,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 44973,
-      "sha256": "bfb91a9c4f603959e348bb5af8d42b9950a73972a80bad7d5d5ff58d7e6ffe22"
+      "size": 45123,
+      "sha256": "2930da52b98715d52074cd93c2866144b61309aa247bbad9ce3bbc1ae04708f5"
     }
   ]
 }

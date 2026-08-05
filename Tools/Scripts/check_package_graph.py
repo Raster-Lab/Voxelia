@@ -17,7 +17,7 @@ EXPECTED = {
     "VoxeliaGeometry": {"VoxeliaCore", "VoxeliaSpatial"},
     "VoxeliaRendering": {"VoxeliaImaging", "VoxeliaGeometry"},
     "VoxeliaInteraction": {"VoxeliaRendering"},
-    "VoxeliaCPU": {"VoxeliaImaging", "VoxeliaGeometry"},
+    "VoxeliaCPU": {"VoxeliaImaging", "VoxeliaGeometry", "VoxeliaExecution"},
     "VoxeliaMetal": {"VoxeliaExecution", "VoxeliaRendering"},
     "VoxeliaValidation": {"VoxeliaCPU", "VoxeliaMetal"},
     "Voxelia": {

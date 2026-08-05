@@ -107,14 +107,16 @@ that authority on 2026-08-05.
    categories. The arithmetic is IEEE-754 binary64 round-to-nearest-ties-to-
    even with gradual subnormals and without fast math, reassociation, FMA
    substitution or flush-to-zero.
-9. **Successful publication binds reproducibility claims.** The operation
-   identifier is `scalar-surface-extraction`; algorithm identity is
+9. **Successful publication binds reproducibility claims.** The Core-compatible
+   operation token, corrected by `ADR-0191`, is
+   `org.voxelia.op.scalar-surface-extraction`; algorithm identity is
    `freudenthal-surface-extraction/binary64-v1`. The parameter digest binds the
    finite isovalue and fixed algorithm/rule tokens, and provenance contains one
-   ordered `sourceVolume` input plus exact implementation/software/execution
-   claims. Resource limits and cancellation cadence are execution policy and
-   cannot alter a successful mesh. Logs and errors exclude isovalues,
-   coordinates, identities and source metadata.
+   ordered `source-volume` input at Core's first valid occurrence (`1`) plus
+   exact implementation/software/execution claims. Resource limits and
+   cancellation cadence are execution policy and cannot alter a successful
+   mesh. Logs and errors exclude isovalues, coordinates, identities and source
+   metadata.
 10. **This increment is design and independent oracle only.** It adds no public
     extraction type, source reader, operation, cache integration or publisher.
     The CPU reference follows separately and must reproduce every registered
