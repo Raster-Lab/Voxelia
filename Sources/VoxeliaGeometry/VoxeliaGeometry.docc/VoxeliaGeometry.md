@@ -2,14 +2,16 @@
 
 Point, curve, mesh and geometry data models.
 
-## M0 status
+## Canonical mesh status
 
-This target is part of the repository and dependency scaffold. Its substantive
-public API is introduced only by reviewed milestone specifications.
+Accepted geometry records provide the immutable canonical triangle-mesh
+payload used by the M6 extraction arc. Extraction algorithms, provenance-
+bearing publication, stable geometry bytes and backend acceleration remain
+separate governed contracts.
 
 ## Direct dependencies
 
-`VoxeliaCore`
+`VoxeliaCore`, `VoxeliaSpatial`
 
 ## Topics
 
@@ -22,6 +24,12 @@ public API is introduced only by reviewed milestone specifications.
 - ``IndexType``
 - ``TriangleMeshTopology``
 - ``TriangleMeshTopologyError``
+- ``TriangleMeshPositionDomain``
+- ``TriangleMeshPositionDomainError``
+- ``TriangleMeshVertexAttribute``
+- ``TriangleMeshVertexAttributeError``
+- ``TriangleMesh``
+- ``TriangleMeshError``
 
 ### Project documents
 

@@ -88,7 +88,11 @@ let package = Package(
         ),
         .testTarget(
             name: "VoxeliaGeometryTests",
-            dependencies: ["VoxeliaGeometry", "VoxeliaTestSupport"]
+            dependencies: [
+                "VoxeliaGeometry",
+                "VoxeliaSpatial",
+                "VoxeliaTestSupport",
+            ]
         ),
         .testTarget(
             name: "VoxeliaRenderingTests",

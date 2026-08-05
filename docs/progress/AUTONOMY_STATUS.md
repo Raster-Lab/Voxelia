@@ -4506,6 +4506,101 @@ oracle campaigns.
   focused malformed-input/numerical/overflow/concurrency evidence and direct-
   dependant strict builds before scalar extraction is designed.
 
+- One-hundred-eighty-seventh autonomous increment (owner's explicit broad
+  approval): implemented accepted `ADR-0188` as `ADR-0189`, the immutable
+  coordinate-bearing canonical triangle-mesh payload. The new
+  `TriangleMeshPositionDomain` owns one exact Spatial descriptor and finite
+  flattened binary64 triples without normalizing signed zero.
+  `TriangleMeshVertexAttribute` owns exact descriptor-sized scalar bytes,
+  reserves the generic position semantic, rejects `storageDefined`, and checks
+  both element/component and scalar-byte products for `Int` overflow.
+  `TriangleMesh` binds the already checked independent topology and every
+  ordered non-position attribute to the authoritative position vertex count,
+  then rejects exact duplicate semantics. The nine public cases across three
+  typed error enums are payload-free. All state is immutable and compiler-
+  verified `Sendable`; no hash, wire, content, provenance or backend claim was
+  added.
+
+  The strict focused filter below passed twice: once after the initial
+  implementation and again after adding an explicit second-stage byte-product
+  overflow assertion. It executed seven tests with zero failures. The complete
+  strict Geometry target selection then executed 30 tests across the
+  `TriangleMesh`, `TriangleMeshTopology`, `GeometryAttributeDescriptor` and
+  `GeometryTaxonomy` suites with zero failures. The new evidence covers empty
+  and ordinary meshes, exact signed-zero bits, incomplete-before-finite
+  admission, NaN and both infinities, interleaved/planar/empty attribute
+  payloads, reserved position and undefined layout precedence, both overflow
+  stages, byte mismatch, all mesh-binding precedence, exact order/bytes and an
+  actual detached-task transfer.
+
+  ```bash
+  xcrun swift-format lint --strict \
+    Sources/VoxeliaGeometry/Public/TriangleMeshPositionDomain.swift \
+    Sources/VoxeliaGeometry/Public/TriangleMeshVertexAttribute.swift \
+    Sources/VoxeliaGeometry/Public/TriangleMesh.swift \
+    Tests/VoxeliaGeometryTests/TriangleMeshTests.swift Package.swift
+  swift test --filter TriangleMeshTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter 'VoxeliaGeometryTests\.' \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  ```
+
+  The owning target, direct dependants and umbrella compiled in debug and
+  release under strict memory safety and warnings-as-errors: all eight builds
+  passed.
+
+  ```bash
+  for configuration in debug release; do
+    for target in VoxeliaGeometry VoxeliaRendering VoxeliaCPU Voxelia; do
+      swift build -c "$configuration" --target "$target" \
+        -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+    done
+  done
+  ```
+
+  Both package-graph checkers and the prohibited-import checker passed with the
+  accepted `VoxeliaGeometry -> {VoxeliaCore, VoxeliaSpatial}` edge unchanged.
+  The raw Swift-safety inventory passed, and a focused source/test search found
+  no unchecked or unsafe spelling. Package-wide public symbol-graph generation
+  completed successfully. The first attempted symbol command used the
+  unsupported `swift package dump-symbol-graph --target VoxeliaGeometry`
+  option and failed before generation; the supported
+  `swift package dump-symbol-graph --minimum-access-level public` correction
+  succeeded and emitted every module, including Geometry.
+
+  ```bash
+  python3 Tools/Scripts/check_package_graph.py
+  python3 Tools/Scripts/check_package_graph_static.py
+  python3 Tools/Scripts/check_prohibited_imports.py
+  python3 Tools/Scripts/check_swift_safety.py
+  rg -n '@unchecked|unsafe|withUnsafe|Unsafe' \
+    Sources/VoxeliaGeometry Tests/VoxeliaGeometryTests
+  swift package dump-symbol-graph --minimum-access-level public
+  Tools/Scripts/validate-docs.sh
+  git diff --check
+  ```
+
+  The documentation gate passed seven front-matter documents, all 169 ADRs,
+  the two primary and one companion Draft RFC records and text checks for 275
+  Markdown files. The repository-wide semantic compilation gate, complete test
+  suite, Apple destination matrix, unavailable visionOS destinations and
+  external device/fuzz evidence were intentionally not rerun under the focused
+  module/public-API policy and are not promoted to new evidence.
+
+  The authorised independent reviewer inspected the actual implementation,
+  API, test and documentation diff and issued final approval with no blocking
+  finding. Their separate strict `swift test --filter TriangleMesh` command
+  executed 14 tests across the new mesh and existing topology suites with zero
+  failures; their dynamic/static package-graph, prohibited-import,
+  documentation, raw safety and diff checks also passed. Their compiler probe
+  proved `import VoxeliaGeometry` does not re-export the Spatial-owned
+  `CoordinateSpaceDescriptor`, while the public mesh itself remains consumable.
+  Release-integrity regeneration and read-only manifest/integrity verification
+  passed with 825 manifest paths, 824 inventory records and 825 checksums. The
+  exact next governed action is the separately frozen scalar-surface extraction
+  numerical contract; no case table or extraction source is authorised by this
+  mesh implementation.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -10306,14 +10401,17 @@ the exact Metal exception.
 Accepted `ADR-0187` and `CCR-0027` now resolve the package boundary: the live
 manifest and both fail-closed graph checkers declare
 `VoxeliaGeometry -> {VoxeliaCore, VoxeliaSpatial}` while module ownership stays
-singular and the graph remains acyclic. Accepted `ADR-0188` now freezes the
-coordinate-bearing canonical triangle-mesh payload: exact finite `Double`
-position ownership and coordinate descriptor, independent checked topology,
-exact non-position vertex-attribute bytes and layout, checked byte arithmetic,
-fixed admission precedence and deliberately absent wire/content/provenance
-claims. The exact next action is its product implementation and focused
-numerical, malformed-input, overflow, concurrency and direct-dependant evidence
-without selecting the scalar-extraction numeric model.
+singular and the graph remains acyclic. Accepted `ADR-0188` and implemented
+`ADR-0189` now supply the coordinate-bearing canonical triangle-mesh payload:
+exact finite `Double` position ownership and coordinate descriptor, independent
+checked topology, exact non-position vertex-attribute bytes and layout, checked
+byte arithmetic, fixed admission precedence and deliberately absent
+wire/content/provenance claims. The exact next action is a separately frozen
+scalar-surface extraction numerical contract: select and version the
+marching-cubes-class table, sample/equality and boundary conventions, ambiguous-
+case handling, interpolation, deterministic vertex/topology order, resource and
+cancellation bounds, independently generated fixtures and provenance inputs
+before adding extraction source.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -10327,10 +10425,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Implement accepted `ADR-0188` exactly: position domain, non-position vertex
-  attributes and mesh binding with their fixed admission precedence. Run the
-  focused Geometry tests, strict owning/direct-dependant builds, public API
-  documentation validation, safety inventory and release-integrity gates.
+- Freeze the scalar-surface extraction numerical contract before product source:
+  exact case/table authority, equality and boundary handling, ambiguity policy,
+  interpolation precision/order, deterministic topology, resource/cancellation
+  limits, provenance parameters and independent analytic/enumerated fixtures.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
