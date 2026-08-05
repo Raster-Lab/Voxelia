@@ -3506,6 +3506,24 @@ oracle campaigns.
   the typed admissions. Registry listing follows the established
   precedent; the gradient, clipping, mask and acceleration
   increments extend this surface.
+- One-hundred-fifty-second autonomous increment (owner broadened
+  standing mandate): the volume-render registry assessment, recorded
+  in the ledger rather than as a listing for its own sake — revising
+  the previous bullet's expectation after honest examination. The
+  render derivation is not an execution-module operation: it lives
+  in the metal module's CPU-path renderer, the implementation
+  registry exists so planning surfaces can prove registered
+  evidence-carrying alternatives, and the registry-consulting
+  planner selects between slice backends where two implementations
+  genuinely compete. The volume renderer has exactly one
+  implementation and no planning surface selects volume backends
+  yet; a registry row with nothing to select between would be
+  ceremony, not evidence. The listing arrives with the second
+  implementation — the device volume path the arc's acceleration
+  and device increments will eventually bring — together with the
+  planner surface that consults it. The provenance already carries
+  the full evidence trail: the operation tokens, versions, parameter
+  digest and claims travel in every rendered output's record.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
