@@ -2638,6 +2638,47 @@ oracle campaigns.
   interaction story over axis-aligned and oblique geometry is now
   closed end to end; the multiplanar oblique slab extraction remains
   the recorded design gap.
+- One-hundred-ninth autonomous increment (owner broadened standing
+  mandate): the M4 row sweep re-assessment, thirty increments after
+  the opening assessment, under the M3 precedent of assessing before
+  executing. All seventy-eight rows were re-read against the accepted
+  register. Discharged since the opening: the interaction arc in full
+  — `VOX-ARC-009`, `VOX-INT-001/002/004/009` (`ADR-0111`),
+  `VOX-INT-005` (`ADR-0119`, `ADR-0140`), `VOX-INT-006` (`ADR-0125`,
+  `ADR-0129`, `ADR-0139`), `VOX-INT-007` at the model level
+  (`ADR-0122`), `VOX-INT-010` by the vocabulary's host-mapping
+  design; the presentation rows `VOX-R2D-003/005/006/008/009`
+  (`ADR-0112`, `ADR-0113`, `ADR-0121`), `VOX-R2D-012` at the
+  resolution level (`ADR-0125`) and `VOX-R2D-013` (`ADR-0124`);
+  axis-aligned multiplanar reconstruction `VOX-MPR-001/004/005`
+  (`ADR-0117`, `ADR-0130`, `ADR-0138`, `ADR-0140`) and `VOX-MPR-014`
+  at the model level; `VOX-SPA-013` through the rescale, claim and
+  mapping authorities; `VOX-HLS-001` because every renderer output is
+  already windowless; `VOX-ERR-005` through structured provenance
+  warnings; `VOX-PER-007` and `VOX-VS1-017` by the `ADR-0118` storm
+  evidence; `VOX-VS1-020` as the standing build configuration; and
+  the capability halves of `VOX-VS1-009/011/012/013/014/015/019`,
+  whose demonstrations against an ingested CT series remain bound to
+  ingest. Honestly gated, unchanged: the DICOMKit block —
+  `VOX-SPA-006`, `VOX-META-002`, all eleven `VOX-DCM` rows,
+  `VOX-VS1-001` through `008` and the report row `VOX-VS1-021` — on
+  the owner's outstanding supply-chain decision; the interactive draw
+  loop for `VOX-INT-008`, `VOX-R2D-014`, `VOX-VS1-016` and the
+  `VOX-PER-002/003/005` targets, plus reference hardware; volume
+  workloads for `VOX-MTL-009`, `VOX-PER-008`, `VOX-VS1-018`; a real
+  memory-pressure mechanism for the remainder of `VOX-CON-009` and
+  `VOX-VAL-011`; known datasets for `VOX-VAL-012`; a study cache for
+  `VOX-PER-006`; and `VOX-DOC-011`, which binds example targets that
+  do not yet exist. Newly derived actionable queue, in order: the
+  oblique multiplanar extraction design (`VOX-MPR-003`'s remainder —
+  the one open reconstruction gap); the area and volume measurement
+  models (`VOX-SPA-014`'s remainder, two frozen numeric models with
+  oracle fixtures); and the diagnostics-and-logging design for
+  `VOX-ERR-007`, `VOX-SEC-006` and the non-adapter half of
+  `VOX-DCM-013`, whose default-exclusion rule deserves a decided
+  vocabulary rather than incidental absence. `VOX-VAL-003/004/005`
+  are the standing fixture discipline for internal evidence, with
+  their external-dataset halves following the adapter.
 
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
