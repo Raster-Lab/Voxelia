@@ -160,6 +160,7 @@ Sources/VoxeliaGeometry/Public/GeometryAttributeSemantic.swift
 Sources/VoxeliaGeometry/Public/GeometryKind.swift
 Sources/VoxeliaGeometry/Public/IndexType.swift
 Sources/VoxeliaGeometry/Public/MeshPrimitive.swift
+Sources/VoxeliaGeometry/Public/ScalarSurfaceExtraction.swift
 Sources/VoxeliaGeometry/Public/TriangleMesh.swift
 Sources/VoxeliaGeometry/Public/TriangleMeshPositionDomain.swift
 Sources/VoxeliaGeometry/Public/TriangleMeshTopology.swift
@@ -369,6 +370,7 @@ Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift
 Tests/VoxeliaExecutionTests/WindowLevelOperationTests.swift
 Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift
 Tests/VoxeliaGeometryTests/GeometryTaxonomyTests.swift
+Tests/VoxeliaGeometryTests/ScalarSurfaceExtractionTests.swift
 Tests/VoxeliaGeometryTests/TriangleMeshTests.swift
 Tests/VoxeliaGeometryTests/TriangleMeshTopologyTests.swift
 Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift

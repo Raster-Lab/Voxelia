@@ -4753,6 +4753,97 @@ oracle campaigns.
   regeneration and final manifest/integrity verification passed with 830
   manifest paths, 829 inventory records and 830 checksums.
 
+- One-hundred-ninetieth autonomous increment (scheduled goal continuation):
+  implemented `ADR-0191` migration step two in `VoxeliaGeometry` without a CPU
+  reader or numerical kernel. The additive public boundary contains the exact
+  ten-case payload-free `ScalarSurfaceExtractionError`, required `UInt64`
+  limits, an intentionally unadmitted immutable request, explicit caller
+  publication authority and an immutable result that binds `TriangleMesh`,
+  derivation-only `DataIdentity` and transformed `ProvenanceRecord`. Every
+  public stored value is immutable and `Sendable`; none gains speculative
+  `Hashable` or `Codable` conformance. The request may represent zero limits or
+  a non-finite isovalue so the later asynchronous CPU operation can preserve
+  cancellation-first admission.
+
+  The result initializer recomputes the exact four-entry technical VCMJ-1
+  parameter document and operation-parameters digest. It rejects every
+  inconsistent publication object/record/subject/instant/software claim,
+  top-level content or source identity, absent or mismatched derivation,
+  operation/version/implementation/version/digest disagreement, incorrect
+  source role/object/parent/occurrence/cardinality, warning-bearing or
+  non-transformed provenance and coordinate-space mismatch as the same
+  payload-free `publicationFailed`. Exact version comparison includes build
+  metadata. The generic Geometry result deliberately does not pin the CPU
+  implementation or execution claim; `ADR-0191` migration steps three and four
+  assign those fixed claims to CPU assembly and permit later separately
+  accepted implementations to reuse the backend-neutral result boundary.
+
+  Focused tests preserve unadmitted declaration inputs, prove strict-
+  concurrency transfer, compare the parameter schema independently, pin the
+  accepted `42.5` digest golden
+  `f100a4e6c1c7262bd19c093ce908d2ad39d697229b2b8fc1998079a22b08f33e`,
+  accept one coherent aggregate and mutate every required publication-binding
+  domain. The final focused run passed five tests and the complete Geometry
+  target passed 35 tests across five suites:
+
+  ```bash
+  swift test --filter ScalarSurfaceExtraction \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  swift test --filter VoxeliaGeometryTests \
+    -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+  ```
+
+  Development failures were retained as evidence rather than hidden. The first
+  focused compile rejected redundant `#require` wrappers around optional test
+  arguments; the corrected fixture then passed. Review-driven mutation work
+  exposed a second redundant `#require`, a malformed temporary diagnostic-only
+  digest print and an `inexactVersion` fixture error caused by incorrectly
+  coupling a mutated operation version to the fixed execution claim. Each was
+  corrected before the final runs; the temporary print was removed after its
+  value became the checked golden. No product failure was accepted or mapped
+  around.
+
+  The owning target and all direct public-API consumers compiled under strict
+  memory safety and warnings-as-errors in debug and release:
+
+  ```bash
+  for configuration in debug release; do
+    for target in VoxeliaGeometry VoxeliaRendering VoxeliaCPU Voxelia; do
+      swift build -c "$configuration" --target "$target" \
+        -Xswiftc -strict-memory-safety -Xswiftc -warnings-as-errors
+    done
+  done
+  ```
+
+  The complete fail-closed Swift safety gate built every repository package in
+  debug and release and found no compiler-classified unsafe Swift or unchecked
+  `Sendable` exception. Dynamic/static graph checks, prohibited imports, strict
+  formatting, public symbol-graph generation, documentation validation and
+  `git diff --check` passed. An initial tooling invocation used two nonexistent
+  script names, `check_static_architecture.py` and
+  `check_prohibited_dependencies.py`; the repository's actual
+  `check_package_graph_static.py` and `check_prohibited_imports.py` corrections
+  both passed. The package-wide DocC warnings-as-errors build remains blocked
+  by the pre-existing ambiguous `AxisAlignedBounds3D.intersection(with:)`
+  documentation reference in `RayAxisAlignedBoundsIntersection.swift`; the new
+  Geometry symbols compiled and emitted through the public symbol-graph gate,
+  but this increment does not claim a passing DocC archive.
+
+  The authorised independent reviewer first blocked strict formatting, an
+  overbroad statement that the request retained no storage state, incomplete
+  mutation coverage and the missing parameter golden. After correction, their
+  independent focused/full Geometry, format, documentation and diff gates
+  passed, and they issued final approval with no implementation, API,
+  concurrency, numerical, memory, security, privacy or provenance blocker.
+  The documentation now states precisely that the request retains Core's
+  erased immutable storage contract while Geometry owns no storage
+  implementation, reader or backend execution state. Release-integrity
+  regeneration and final manifest/integrity verification passed with 832
+  manifest paths, 831 inventory records and 832 checksums. The complete test
+  suite, Apple destination matrix, unavailable visionOS SDK and external
+  device/fuzz/differential evidence were not rerun or promoted under this
+  focused public-boundary increment.
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -10568,10 +10659,12 @@ caller-supplied publication authority, validated output
 mesh/identity/provenance aggregate, exact source-read/value-transform
 ownership, payload-free error precedence, Core-compatible operation/role/
 occurrence spellings, parameter schema and CPU placement without a reverse
-package edge. The exact next action is migration step one: add the four
-immutable Geometry values and closed error family with focused construction,
-binding, privacy and `Sendable` tests before implementing the CPU reader or
-numeric kernel.
+package edge. Migration step two now implements the four immutable Geometry
+values and closed error family with focused construction, complete binding,
+privacy, digest-golden and `Sendable` evidence. The exact next action is
+migration step three: add the CPU source adapter and Freudenthal reference
+kernel behind exactly one coordinated full read, without adding publication
+assembly or CPU registration from migration step four.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -10585,12 +10678,14 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Implement only the `ADR-0191` Geometry-owned declaration/result slice:
-  request, limits, publication context, result, error family and exact result-
-  binding validation. Run focused construction, invalid-binding, parameter-
-  digest, privacy and `Sendable` tests plus strict compilation of Geometry and
-  its direct dependants. Do not add the CPU source reader or numerical kernel
-  in the same increment.
+- Implement only `ADR-0191` migration step three: the CPU source adapter and
+  Freudenthal binary64-v1 reference kernel behind exactly one coordinated full
+  read. Prove admission/error precedence, every accepted and rejected scalar,
+  component interpretation and image semantic, byte order, accepted transform
+  forms and failures, token release, limits, source-validation/cell/final
+  cancellation points, empty output and exact/differential `ALG-0028` fixtures.
+  Keep identity/provenance assembly, atomic public result return and CPU
+  registration in migration step four.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
