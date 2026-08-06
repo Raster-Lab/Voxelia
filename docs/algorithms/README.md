@@ -37,3 +37,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0031](VOXELIA-ALG-0031-triangle-mesh-total-facet-area.md) | Accepted | Triangle-mesh total facet area `binary64-v1` |
 | [VOXELIA-ALG-0032](VOXELIA-ALG-0032-triangle-mesh-enclosed-volume.md) | Accepted | Triangle-mesh certified enclosed volume `binary64-v1` |
 | [VOXELIA-ALG-0033](VOXELIA-ALG-0033-surface-vertex-projection.md) | Accepted | Surface vertex orthographic projection `binary64-v1` |
+| [VOXELIA-ALG-0034](VOXELIA-ALG-0034-surface-visibility-resolution.md) | Accepted | Surface visibility resolution `binary64-v1` |

@@ -6802,6 +6802,73 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-seventeenth autonomous increment (`ADR-0197` increment (c),
+  design): accepted `ADR-0200` and `VOXELIA-ALG-0034` freeze
+  `surface-visibility-resolution/binary64-v1`. No product source changed.
+
+  **The determinism obligation `ADR-0197` flagged is discharged structurally.**
+  Two surfaces at exactly equal depth are common in extracted geometry, and a
+  renderer that resolves such ties by iteration or completion order is not
+  reproducible. The rule is one comparison operator: a candidate replaces the
+  incumbent **only when its depth is strictly less**, so an exactly equal depth
+  leaves the earlier `(layer, facet)` in place. There is no separate
+  tie-breaking branch to get wrong and no arbitrary winner. Traversal order —
+  layer order, then topology order — therefore becomes part of the contract,
+  and the oracle proves the earlier layer wins and, within one layer, the
+  earlier facet.
+
+  **The top-left fill rule is mandatory, not an optimisation.** A sample lying
+  exactly on an edge shared by two facets must be claimed by exactly one;
+  without the rule it is claimed by both — a double-composited seam — or by
+  neither — a crack. The registered `shared-edge-quad` fixture tiles a
+  four-by-four viewport with two facets sharing a diagonal and proves all
+  sixteen pixels are claimed **exactly once**.
+
+  Other decisions, each with a stated reason. Orientation is **canonicalised,
+  not culled**: a negative projected area swaps two vertices so every later
+  rule sees a positive area, because a projection may mirror a facet, but
+  **back-facing facets are explicitly not culled** — extraction publishes open
+  surfaces whose interior faces a diagnostic reader needs. A facet projecting
+  to exactly zero area covers nothing and is not an error, because `ADR-0198`
+  deliberately admits the singular placement that produces one. There is no
+  near or far plane, because `ALG-0033` admits behind-camera vertices and
+  nothing here divides by depth; a depth range belongs to the clipping
+  increment. The bounding box is **clamped, and clamping is not clipping** — no
+  geometry is cut and no vertex moved, so nothing pre-empts `VOX-SUR-006`.
+
+  Barycentric weights are published with the winner rather than recomputed
+  downstream, so shading and colour mapping cannot drift from the weights the
+  depth was interpolated with — and `ALG-0034` states explicitly that they
+  correspond to the **canonicalised** order, because a consumer ignoring the
+  swap would mis-attribute attributes.
+
+  The failure family is two cases. There is no unsupported-projection case:
+  this stage never sees a camera and `ALG-0033` already rejected one before any
+  vertex was projected, so restating it would carry an unreachable branch. The
+  remaining `coverageNotRepresentable` case **is** reachable and is proven so
+  by a fixture spanning `1e200`, since projected coordinates may be finite but
+  arbitrarily large and the edge function multiplies two differences.
+
+  Unlike the projector, this stage owns real payload — one hit record per
+  pixel, over a viewport `ViewportSize` admits up to 16,384 square — so the
+  migration will declare an explicit checked ceiling. The projector's reasoning
+  that a budget belongs to the renderer does not transfer, because this
+  allocation scales with the viewport rather than with a mesh the caller
+  already owns.
+
+  The oracle registers thirteen fixtures, twelve successful and one failure.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0200-surface-visibility-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12711,15 +12778,16 @@ internal `SurfaceVertexProjector` reproduces both registered `ALG-0033`
 digests bit-exactly and proves the poll set, the projection-check precedence
 and the frozen conventions.
 
-The exact next action is `ADR-0197` increment **(c), visibility and
-hidden-surface removal** (`VOX-SUR-002`), which consumes exactly what the
-projector produces. It is **design-first**: it must freeze the nearest-surface
-rule, the depth quantity and its precision, the **exact tie-breaking rule when
-two surfaces are equidistant at a pixel** — a determinism obligation, not a
-detail — the backface policy, and how a continuous projected coordinate maps
-to covered pixels, which `ALG-0033` deliberately left to this contract.
-Nothing exists to build on: there is no depth buffer or hidden-surface
-machinery anywhere in the project.
+Increment (c)'s design is complete: accepted `ADR-0200` and
+`VOXELIA-ALG-0034` freeze the visibility model, discharging the equal-depth
+determinism obligation structurally through a strict-less comparison and
+freezing the mandatory top-left fill rule. The exact next action is the
+`ADR-0200` migration: add the internal deterministic visibility resolver to
+`VoxeliaRendering` with an **explicit checked buffer ceiling** — this stage,
+unlike the projector, owns one hit record per pixel — reproducing all thirteen
+`ALG-0034` fixtures bit-exactly and proving the exactly-once shared-edge
+property, the strict-less tie-break by both layer and facet, the uncalled
+backface behaviour and the 64-facet cancellation cadence.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -12748,12 +12816,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0197` increment (c) next, and it is **design-first**: the
-  visibility rule is a numeric and determinism boundary, so freeze an accepted
-  record plus an algorithm specification with a python-computed independent
-  oracle before writing implementation code. Run only the oracle and the
-  ADR/document/register/index/manifest/integrity checks for that design
-  increment; product builds and tests are not evidence until source changes.
+- Perform the `ADR-0200` migration next: the internal visibility resolver in
+  `VoxeliaRendering`. Run the focused `VoxeliaRenderingTests` suite, `swift
+  format lint --strict` on every touched Swift file, and the
+  ADR/document/register/index/manifest/integrity checks. Reproduce all thirteen
+  `ALG-0034` fixtures bit-exactly and see the literal passing full unfiltered
+  test-run line before pushing.
 - State which verification method each surface increment's evidence covers.
   Byte-exact off-screen renders discharge Test, never Demonstration.
 - Do not reopen `ADR-0194`, `ADR-0195` or `ADR-0196`. All three are accepted

@@ -2751,8 +2751,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 4132,
-      "sha256": "9bc45e79dcd20ed8319d913c931d854df74d2c2c67466f1dc779f0d3e8d77832"
+      "size": 4263,
+      "sha256": "e4b23d80675e2ace97c5391cb7ce5c39ec35a48d3735b46b351a3cf07194ef5a"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2918,6 +2918,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0033-surface-vertex-projection.md",
       "size": 11817,
       "sha256": "1391074217a8af6ca072ca76445ddc0df35237d6fd923f08da8fece2702f3590"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0034-surface-visibility-resolution.md",
+      "size": 9541,
+      "sha256": "a58de51952acb6da2bf26c4debe28a8b078bedca7cc6dbe166cb8dd1f08678bd"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3955,9 +3960,14 @@
       "sha256": "a3f626dc85a196c33f73b6ca6df9b62bb4b8424d1077df4dbab5b0c37f77b1aa"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0200-surface-visibility-design.md",
+      "size": 11165,
+      "sha256": "17e1ef11b741dfd8a6331df31bb075fa7b1a599a4ca62f512bf38f4fc896fb76"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 29949,
-      "sha256": "481021e8cc94830aa815d27d545ad69e70c292b190d46c0d408eefdea594bacb"
+      "size": 30100,
+      "sha256": "736fb2189967e7dcbcec05e74e062b6bc6f781d4019d3fb63d6a76ab636e738c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4041,8 +4051,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 851537,
-      "sha256": "35f70e974d2b327eb754183c255bae08fea13b3a88bd9d0d46b162dac010a6f2"
+      "size": 855475,
+      "sha256": "b7b52d21711695194b3d21d58f4edc0bb62579171db5c5b3b2cb53212ce78384"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4133,6 +4143,11 @@
       "path": "docs/progress/evidence/ADR-0199-surface-vertex-projection-oracle.py",
       "size": 11672,
       "sha256": "d5bed5bccb90ed14f3bf9cf51305e1f334be0fcc464b88d8b673641b1a112caa"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0200-surface-visibility-oracle.py",
+      "size": 12631,
+      "sha256": "ca0df8250eff790ec67ec420618d990ef656cf2bc3a752bd14452ae3968d819f"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4441,8 +4456,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 49125,
-      "sha256": "c07c2bde82a7ee473ec589c815dcba55b813505bc53e05add77df835f81ea9b1"
+      "size": 49318,
+      "sha256": "bc6b87fede4d5c92c90a640be81fb950f5df1a1d87276948b5745a7282b7f178"
     }
   ]
 }
