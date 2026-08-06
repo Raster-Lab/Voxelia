@@ -484,6 +484,52 @@ harness: a SEPARATE scratch executable doing one import and nothing else
 run:     footprint <series-directory>
 ```
 
+## Run 11 - plan §59.3's stress volume, and a 9.2x byte-collection finding
+
+**No real series can serve the stress case.** The corpus was searched for a series
+with at least 1,024 instances. One exists — **2,580 instances** — and importing it is
+refused with `geometryRejected`: it assembles as a single series by identity, so this
+is not a grouping problem, but its geometry is irregular at `exact` tolerance. The
+largest real series Voxelia can admit remains the 899-slice one. **§59.3's stress
+case therefore cannot be sourced from real data until the geometry-tolerance owner
+gate is settled.**
+
+Run synthetically instead, and labelled as such: 1,024 frames of `512x512`
+**`int16`** at half-millimetre spacing, through the real `CTImportSession`.
+
+```text
+512x512x1024 int16 = 512 MiB      (not the ~1 GiB an earlier note stated)
+geometry verdict:    representable at exact tolerance
+peak resident:       523 MiB
+ratio to one volume: 1.02x
+```
+
+The footprint property holds at scale, and this is the first end-to-end exercise of
+**signed** samples: the owner's scanner writes `uint16`, so `int16` had only ever been
+covered by fixtures.
+
+### The finding: the caller's byte-collection type costs 9.2x
+
+The first synthetic run took `13.397` s for 512 MiB **with no file I/O**, against
+`1.841` s for 449 MiB read from disk in run 1. A synthetic run seven times slower per
+byte than one that reads files is not plausible, so it was investigated.
+
+`CTImportSession` is generic over `Bytes: Collection<UInt8>`. The DICOM path supplies
+`Data`; the synthetic run supplied `ContiguousArray`. The same import, differing only
+in that type:
+
+| Byte collection | Elapsed | Peak |
+|---|---:|---:|
+| `ContiguousArray<UInt8>` | `13.397` s | `523 MiB` |
+| `Data` | **`1.453` s** | `525 MiB` |
+
+**`9.2x`, from the conforming type alone.** With `Data` the element-wise loop moves
+512 MiB in `1.453` s — about **`352 MiB/s`**, nearly three times the `120 MiB/s`
+`ADR-0235` recorded — so a large share of what looked like an inherent element-wise
+copy cost is generic non-specialisation. `ADR-0263` records the refinement; no fix is
+applied, because the contiguous fast path yields an `UnsafeBufferPointer` the safety
+policy forbids.
+
 ## Reproduction
 
 ```text

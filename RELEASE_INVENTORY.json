@@ -4775,9 +4775,14 @@
       "sha256": "184c10825641ccb515fcb36249ae275f370bac838a6d4d1a331910290160e284"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0263-stress-volume-and-byte-collection-cost.md",
+      "size": 9778,
+      "sha256": "238f2a383dc1fd4b7863e229156807075cf0293463c1bcb7a640c117684a756d"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 37724,
-      "sha256": "3701d6f0476d43fb166be112c6560f9f7d9e076436c7dedb43c45b97e1a0c668"
+      "size": 37843,
+      "sha256": "40c45d815f2ed2eb27f3296a1edd95da2aae6da6343ffbbd9fb717ff09bf911a"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4866,8 +4871,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1111205,
-      "sha256": "8a65fc76c465943d0f7d5f7781c23a71b1a0c56f22c5c11c8bdaee6c0fb6105b"
+      "size": 1114475,
+      "sha256": "0cd74babfa7e92603afa1f9d48d2b60ddefb7bce4db8bd1d2328cf6446979234"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5061,8 +5066,8 @@
     },
     {
       "path": "docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md",
-      "size": 22786,
-      "sha256": "10d21a717bfa24e70ce0e0b1d38bf430190fbe99625c9fd36a156ded985a7ccf"
+      "size": 25013,
+      "sha256": "ed05a7879398e0715bc7d9e8195609054829f352cae2bb8988f960c0c0c19c08"
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
@@ -5376,8 +5381,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 60685,
-      "sha256": "7f402ad86ded4b594db4321de38ed7efd6fff8bb42beb90fe8bb917b6c507ea7"
+      "size": 60764,
+      "sha256": "f76bd7cb45ce698b53bda22cf143fecb4b89a27ee718b1006c0b388d9398a0eb"
     }
   ]
 }

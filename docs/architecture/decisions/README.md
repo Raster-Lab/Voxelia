@@ -449,3 +449,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0260](ADR-0260-compressed-scope-and-destination.md) | Accepted | Compressed scope and destination |
 | [ADR-0261](ADR-0261-benchmark-repetition-method.md) | Accepted | Benchmark repetition method |
 | [ADR-0262](ADR-0262-crosshair-composition-regression-guard.md) | Accepted | Crosshair composition regression guard |
+| [ADR-0263](ADR-0263-stress-volume-and-byte-collection-cost.md) | Accepted | Stress volume and byte collection cost |

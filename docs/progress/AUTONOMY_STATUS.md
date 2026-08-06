@@ -3780,12 +3780,64 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `viewportY → 3 == 2`), then restored green. A passing test proves nothing about
    whether it *can* fail.
 
-   **Next**: the remaining unblocked candidate is plan §59.3's `512x512x1024` (~1 GiB)
-   stress volume as its own benchmark scenario. After that, **everything of substance
-   waits on one of the eight owner decisions** — six from `ADR-0254` (report approval,
-   reference hardware, tolerance profile, geometry tolerance rule, two `LICENSE`
-   files, draw loop) and two from `ADR-0255` (reconcile the blocked CMP rows, direct
-   codec dependency).
+   **Increment (ii): `ADR-0263`, plan §59.3 fully assessed — plus a 9.2x performance
+   finding that refines an accepted measurement.** No source changed.
+
+   **Arithmetic correction to my own last entry**: the stress volume is **512 MiB**,
+   not the "~1 GiB" I stated. `512x512x1024` at two bytes is `536,870,912` B exactly,
+   only `1.14x` the real 449 MiB series. Wrong by a factor of two.
+
+   **§59.3's six cases assessed**: the `512x512x1024` volume run here; **two credited
+   to `ADR-0261`** (repeated dataset replacement, repeated open/close cycles — its 104
+   sequential imports with unchanged peak are what those ask about, and I had not
+   credited them); cancellation during import already covered by `ADR-0249`; two
+   owner-gated on the interactive draw loop. "Substantially" not "fully" for the two
+   credited, since both arguably want a *published* object released between cycles and
+   `ADR-0261`'s loop published nothing — recorded rather than smoothed over.
+
+   **Real data cannot supply the stress case, and that is itself a finding.** The
+   corpus has one series with ≥1024 instances — **2,580** — and it is refused with
+   `geometryRejected`. It assembles as a *single* series by identity, so not a grouping
+   problem; its geometry is irregular at `exact`. **So §59.3's stress case cannot be
+   sourced from real data until the geometry-tolerance gate is settled** — a
+   consequence nobody had attached to that gate.
+
+   Run synthetically and labelled so: `512x512x1024` **int16**, `representable`, peak
+   `523 MiB` = **`1.02x`**. Footprint property holds at scale, and it is the **first
+   end-to-end exercise of SIGNED samples** (the owner's scanner is `uint16`, so `int16`
+   had only ever seen fixtures).
+
+   **The finding: the caller's byte-collection type costs `9.2x`.** The synthetic run
+   took `13.397` s for 512 MiB **with no file I/O**, against `1.841` s for 449 MiB read
+   from disk. Seven times slower per byte than a run that reads files is not plausible,
+   so I investigated instead of reporting it. `CTImportSession` is generic over
+   `Bytes: Collection<UInt8>`; the DICOM path supplies `Data`, the synthetic run
+   supplied `ContiguousArray`. Same import, only that type differing:
+
+   | Byte collection | Elapsed |
+   |---|---:|
+   | `ContiguousArray<UInt8>` | `13.397` s |
+   | `Data` | **`1.453` s** |
+
+   **This refines `ADR-0235`.** That record measured the element-wise transfer at "about
+   120 MiB/s" and framed the options as an upstream entry point or a governed safety
+   exception — attributing the cost to element-wise writing. With `Data` the *same loop*
+   reaches **`352 MiB/s`**, nearly 3x that figure, so a large share of the cost is
+   **generic non-specialisation**, not the copy. Refined, not contradicted: `ADR-0235`
+   was correct for the path it measured.
+
+   **No fix applied, for a real reason**: the contiguous fast path yields an
+   `UnsafeBufferPointer` that `-strict-memory-safety` diagnoses and the safety policy
+   forbids. The available safe remedy — making the write `@inlinable` so the loop
+   specialises at the call site — changes a public API's inlining contract and deserves
+   its own record, not a footnote in a stress test.
+
+   **Next**: **no unblocked work of substance remains.** The queue is now entirely the
+   eight owner decisions — six from `ADR-0254` (report approval, reference hardware,
+   tolerance profile, geometry tolerance rule, two `LICENSE` files, draw loop) and two
+   from `ADR-0255` (reconcile the blocked CMP rows, direct codec dependency) — plus one
+   self-contained candidate this increment created: the `@inlinable` byte-write
+   decision with `ADR-0235`'s figure re-measured.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
