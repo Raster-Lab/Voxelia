@@ -705,6 +705,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaExecution/Internal/FusedReconstruction.swift",
+      "size": 5008,
+      "sha256": "a6adf359a76c82251c23b6d0b4a2bb4f97ebffcd69a3174998edbfcd87313040"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Internal/OverlayCompositing.swift",
       "size": 5185,
       "sha256": "5da41eb21e0c3674e11a04047520c902e59f5aef8dcaee702a25e987e81d21fc"
@@ -2013,6 +2018,11 @@
       "path": "Tests/VoxeliaExecutionTests/ContentResultCacheTests.swift",
       "size": 5153,
       "sha256": "ee946069bda89958a015335740eeaf6f26c5b2b54fff6223ce3dac21305c2f87"
+    },
+    {
+      "path": "Tests/VoxeliaExecutionTests/FusedReconstructionTests.swift",
+      "size": 7050,
+      "sha256": "9f6595ecd24fa2e1e8148c5e2f29bd0eb85469ad7835aed31ac893d04c914796"
     },
     {
       "path": "Tests/VoxeliaExecutionTests/InvertDisplayOperationTests.swift",
@@ -4225,9 +4235,14 @@
       "sha256": "2643ad81cc24e1e19a9e80a06be8eb06b6ad556bdbaae75c26df596b12e760f1"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0215-multi-volume-fusion-assessment.md",
+      "size": 9022,
+      "sha256": "ef4802f6fe1c5daafe4ecfaaf8f4ebf45fe9a23514237107c2db712e73d6200c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 32197,
-      "sha256": "a5500b4d273a1a38e56071b94541f55f4ee915d049d991afa35a1bdaaa06db31"
+      "size": 32363,
+      "sha256": "5c0e032298b345a4a8f9c85ba33a24da6143ba7215527a56f3836480ac1fa3c2"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4311,8 +4326,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 934579,
-      "sha256": "fdfac7c5d8461bbc605027b38dd32e0aab74e34330eeb56c27fc03e7bb042f71"
+      "size": 938490,
+      "sha256": "2ad83748a9ed60bee44c47c16f74ee6dbbf9b7ff6bf993567d5c8cc5455bfc72"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4771,8 +4786,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 53093,
-      "sha256": "3054ba9660d659d2fa5ec9db06064a35b14c9073dbda88103248e584cac102f9"
+      "size": 53283,
+      "sha256": "eafe1efc59f88acefe211c6f7547835386366ebabbf20b3beb0aae5e33f2de4e"
     }
   ]
 }

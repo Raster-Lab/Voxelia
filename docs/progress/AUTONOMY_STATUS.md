@@ -8134,6 +8134,66 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-forty-first autonomous increment (`VOX-MPR-011` assessment):
+  accepted `ADR-0215` assesses the requirement `ADR-0208` found unassessed, and
+  `VoxeliaExecution` now owns `FusedReconstruction`.
+
+  **The two questions are different, established rather than assumed.**
+  `ADR-0180` deferred multi-volume compositing as `VOX-DVR-010`'s open half, and
+  that half lives **inside the ray-cast traversal** — combining volumes at every
+  sample, interacting with transfer functions, gradient lighting and early
+  termination. `VOX-MPR-011` lives at the **reconstruction** stage: two volumes
+  reconstructed onto one plane and combined for display. Discharging one would
+  not discharge the other, so the DVR deferral never bound this row.
+
+  **Registration turned out to be structural already.**
+  `ObliqueSliceOperation` takes an output grid and rejects a coordinate-space
+  mismatch typed, so reconstructing the *same* grid from two volumes yields
+  co-registered images **by construction** — every output sample of both is the
+  same physical position. There was no resampling machinery to write.
+
+  **The colour and overlay arc supplied the missing blend rule without being
+  aimed at it.** `ADR-0180` deferred its half for want of a consumer-driven
+  blend rule; two increments ago `ALG-0045` froze exactly the rule fusion needs.
+  A colour-mapped functional volume over a greyscale anatomical one *is* that
+  model, so the fusion arithmetic is `ALG-0045`'s reused unchanged, and a fused
+  image cannot disagree with a composited overlay. A test asserts the agreement
+  against the accepted model directly rather than against a second arithmetic.
+
+  **What was genuinely missing is the admission nothing performed**: each
+  operation checks its own grid against its own volume, but nothing checked that
+  two *reconstructions* share a grid, a space and an extent. That check is the
+  requirement's actual core, and it is **exact value equality, never a
+  tolerance** — two grids differing by one unit in the last place are not the
+  same plane, and deciding how much difference is acceptable is a clinical
+  judgement no accepted record supplies. A test pins that with `1.0.nextUp`.
+
+  This record computes **no registration**: "spatially registered" means the
+  inputs already share a coordinate space, and reading the row as asking for
+  rigid or deformable registration would be inventing scope.
+
+  No algorithm specification and no oracle, because no numeric boundary is
+  frozen — `ALG-0045`'s registered digests already cover the arithmetic.
+
+  Verified: 790 tests in 171 suites green.
+
+  **`VOX-MPR-011`'s Test method is discharged; its Demonstration half joins the
+  owner-gated draw-loop dependency list and is not claimed.**
+  `VOX-DVR-010`'s deferred half stays deferred, for the recorded reason that it
+  is a different question.
+
+  ```bash
+  swift test --filter FusedReconstructionTests
+  swift format lint --strict \
+    Sources/VoxeliaExecution/Internal/FusedReconstruction.swift \
+    Tests/VoxeliaExecutionTests/FusedReconstructionTests.swift
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14171,17 +14231,27 @@ the release traceability index and has never been assessed anywhere, as
 `ADR-0208` recorded when opening the arc. It is deliberately not folded into any
 existing record.
 
-The exact next action is therefore the `VOX-MPR-011` assessment, in its own
-record. Read the requirement's own text and verification methods first: it
-declares **T,D**, so a demonstration half exists and must be recorded as a
-dependency rather than claimed off-screen. The assessment must also settle its
-relationship to `VOX-DVR-010`'s deliberately deferred multi-volume compositing
-half — deferred for want of a consumer-driven blend rule, which may or may not
-be the same question — and must not assume it is. Whether the finding is a
-documentation assessment, a deferral with a recorded reason, or a built path is
-that increment's finding, exactly as `ADR-0197` decision 7 required and
-`ADR-0207` then demonstrated by reaching the opposite conclusion from its
-mirror.
+`VOX-MPR-011` is now assessed by accepted `ADR-0215`: its Test method is
+discharged by `FusedReconstruction`, and its Demonstration half joins the
+owner-gated draw-loop dependency list.
+
+**M6's actionable queue is empty.** Every remaining M6 row is either discharged
+or explicitly gated: `VOX-BRK-009` progressive interactive resolution and
+`VOX-DVR-013` interactive refinement on the owner-gated draw-loop arc,
+`VOX-PER-004` on reference hardware, `VOX-ADP-003` on the Model I/O dependency
+question reserved to the owner, and the Demonstration halves of the `VOX-SUR`
+block plus `VOX-MPR-011`. `VOX-DVR-010`'s multi-volume compositing half and
+`VOX-DVR-011`'s multi-resolution half remain deliberately deferred pending a
+real consumer, not outstanding.
+
+The exact next action is therefore a **milestone-level sweep, not another
+increment**: re-read the baseline requirement table for every milestone the
+project has entered and grep this ledger for each requirement ID, exactly as the
+rule that found `VOX-MPR-011` prescribes. The purpose is to find any other row
+that a decomposition list silently skipped — that rule has now caught three, so
+a systematic pass is worth more than assuming the next arc is the right one.
+Record the sweep's findings in a new assessment record; do not fold any
+discovered row into an existing arc.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -14210,12 +14280,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `VOX-MPR-011` assessment next, in its own record. It declares
-  **T,D**; record the demonstration half as a dependency rather than claiming
-  it. Do not assume it is the same question as `VOX-DVR-010`'s deferred
-  multi-volume compositing half — establish that on evidence.
-- Do not reopen `ADR-0208` through `ADR-0214`. The colour and overlay arc is
-  closed and evidenced.
+- Perform the milestone-level requirement sweep next. For every milestone the
+  project has entered, read the baseline table's rows directly and grep this
+  ledger for each ID. A gap is either "never assessed" (needs a new record) or
+  "assessed elsewhere, correctly absent here" (needs nothing) — distinguish the
+  two rather than assuming either.
+- Do not reopen `ADR-0208` through `ADR-0215`. The colour and overlay arc is
+  closed and evidenced, and `VOX-MPR-011` is assessed.
 - Reuse the accepted round-half-away helper's exact formula wherever a table
   index is selected, including its just-below-half behaviour. A "corrected"
   variant would be a second rounding rule and would diverge from the registered
