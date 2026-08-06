@@ -4915,6 +4915,11 @@
       "sha256": "f4a89ff33b274670b7e841ca739cbbe3805232a6b09bbb528241b36c69de3191"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0280-open-the-affine-transform-arc.md",
+      "size": 10871,
+      "sha256": "7218467b0ed11a9148a979f51ecf63e8464aa802b981a55283b490aa7bb6594c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
       "size": 38641,
       "sha256": "5740e7eed3bdbdb209b903f4012253728a9bbc77a478af7a84af884470cfb757"
@@ -5011,8 +5016,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1167847,
-      "sha256": "1b7801248ea5f3bcdc934ba70b97a06ab676fd4bcf7fae5a9cbdc3cabdd24284"
+      "size": 1171778,
+      "sha256": "a4316c841dffb5b6f63d8d91b84866f143cba4d59dc48673f6fab8644e577b31"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5521,8 +5526,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 62644,
-      "sha256": "5c9a3cce140e23f87307e937673269e95fc54bddd255e2efcf83b0497a60f536"
+      "size": 62714,
+      "sha256": "0748f7c561a9b6e1285bcde6c845f99f873bcdcc075534ceb76fc6dc96ad26ca"
     }
   ]
 }

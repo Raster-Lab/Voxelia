@@ -4662,6 +4662,62 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `VOX-VAL-013`/`VOX-PER-009`/`VOX-SEC-005` (M5). Several are likely traced-but-untagged
    rather than unbuilt — each needs the same capability search before any work is assumed.
 
+   **Increment (yy): `ADR-0280` opens the affine transform arc — and finds a latent
+   composition defect.** No code; 1129 tests / 204 suites unchanged.
+
+   **Assessment of `VOX-SPA-008`** (P0, `T`, **M1**), searched by capability not
+   vocabulary: **inversion EXISTS** and is frozen (`ALG-0016`/`ADR-0136`, adjugate,
+   3×3 block); **point transformation EXISTS per consumer** (`ADR-0138`'s world-to-index,
+   own frozen accumulation order); **composition ABSENT — and deliberately**, since
+   `ALG-0016` says composition "is the consuming operation's own frozen step per the
+   specification"; **vector transformation ABSENT**; **normal transformation ABSENT**.
+   `Matrix4x4Double`'s whole public surface is `elements`, two inits and `Codable` — a
+   validated container, not an algebra. **`VOX-SPA-009` is implemented but UNTRACED** —
+   `AffineSpatialInverseError.singularMatrix` on a determinant below
+   `Double.leastNormalMagnitude`; it needs a tagged test, not code.
+
+   **THE FINDING — two accepted contracts assume different spaces and NEITHER SAYS SO.**
+   `SurfaceLayer.objectToWorld` validates **only** the affine bottom row, so any rotation,
+   scale or shear is admitted. `SurfaceVertexProjector` (`ALG-0033`) transforms vertex
+   **positions** through it into world space. `SurfaceShader` (`ALG-0036`) reads vertex
+   **normals** straight from `mesh.vertexAttributes` — **object space** — and dots them
+   against the camera's `forward`, built from `target - position` and therefore **world
+   space**. Nothing transforms the normal between. **`ADR-0202`'s only mentions of "space"
+   are colour**, so this is an *unstated assumption on which two contracts differ*, not a
+   decision made wrongly — a distinction that changes what needs correcting.
+
+   **QUANTIFIED, not described** (independent Python, explicit arithmetic):
+   | `objectToWorld` | as composed | correct | error |
+   |---|---:|---:|---:|
+   | rotation 90° about X | `1.000000` | `0.000000` | **`1.000000`** |
+   | scale `(1,1,5)`, normal `(0,0,1)` | `1.000000` | `1.000000` | `0.000000` |
+
+   The first is the **maximum possible error** for a value bounded in `[0,1]` — a facet
+   squarely facing the camera shades as fully unlit. **The second is included precisely
+   because it does NOT diverge** (an axis-aligned normal survives an axis-aligned scale,
+   renormalisation absorbing it): the defect is real but **not universal**, and reporting
+   only the first figure would overstate it. And the case proving the inverse-transpose is
+   required rather than the matrix — normal `(0,1,1)` under scale `(1,1,5)`: as a **vector**
+   `(0, 0.196116, 0.980581)`, as a **normal** `(0, 0.980581, 0.196116)`, **67.38° apart**.
+   Thin-slice CT is strongly anisotropic, so that is the shape actually met.
+
+   **LATENT, NOT SHIPPING**: `SurfaceShader` has **no production caller** — every reference
+   outside its own file is in its own tests. **No image Voxelia can produce today is
+   wrong.** Said precisely because the temptation is to call it a shipped bug; it is the
+   third of the three questions this project keeps separating — capability, wiring,
+   composition-verified.
+
+   **Arc constraint frozen**: `ALG-0016`'s per-consumer position is **respected, not
+   overturned**. A general composition must justify itself as *additional* vocabulary and
+   **must not change any existing consumer's bits** — any adoption re-runs that consumer's
+   oracle and shows digests unchanged (the swap-flag / world-position precedent).
+
+   **Next**: `VOX-SPA-009`'s tagged test over the existing typed singular error — the
+   cheapest real discharge available, and a check that this assessment is accurate before
+   larger work depends on it. Then the design increment (ADR + `VOXELIA-ALG` + independent
+   oracle) for composition, vector and normal transformation. Then the shading correction,
+   verified against that oracle.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
