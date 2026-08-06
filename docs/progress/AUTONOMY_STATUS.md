@@ -4864,6 +4864,55 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    confirming **no existing consumer's digests change** (`ADR-0280` d3). Then the
    surface-shading correction.
 
+   **Increment (ccc): `ADR-0284`, `VOX-SPA-008` DISCHARGED. BOTH M1 SPATIAL ROWS THE
+   DERIVATION SURFACED ARE NOW CLOSED.** 1145 tests / 206 suites (was 1134/205).
+
+   **ALL FIVE FIXTURES REPRODUCED EXACTLY, FIRST RUN** — no value needed adjustment between
+   the independent Python oracle and the Swift. That is what the design-first order exists
+   to produce rather than hope for, and it is worth recording because **the alternative
+   failure is silent**: implementation first, then an oracle written to agree with it, gives
+   the same green suite while proving nothing about the arithmetic. **The order is what
+   makes the agreement evidence.**
+
+   **Every assertion is exact equality** — each registered value is representable in
+   binary64, so no tolerance appears anywhere in the suite.
+
+   **Fixture 1 is tested twice and the SECOND is the real one**: the first compares the
+   composed matrix against registered elements; the second composes, applies, and compares
+   against **staged application** `outer(inner(p))`. A transcription error in the first
+   would be caught by the second, which tests the property the operation exists for.
+
+   **Coordinate spaces deliberately NOT attributed.** `Point3D`/`Vector3D` carry a
+   `CoordinateSpaceID` and a transform maps *between* spaces — so the destination space is a
+   real question, and it is the **consumer's**, exactly as `ALG-0016` left composition with
+   a world offset to its consumers. The API takes and returns plain components; accepting
+   the space-carrying types would have forced the algebra either to invent a space rule no
+   requirement asked for or to ignore a field the type guarantees.
+
+   **`ADR-0280` d3's constraint VERIFIED, not assumed**: nothing existing was modified (one
+   new file), and the suites of every operation this composes were re-run —
+   `AffineSpatialInverse`, `AffineWorldToIndexMap`, `SpatialGeometry`,
+   `SingularTransformTypedError`: **16 tests / 4 suites, unchanged**.
+
+   **Four tests beyond the fixtures**: a non-affine operand refused in **all four**
+   positions (testing one would leave three guards unexercised); a singular matrix
+   surfacing **`ALG-0016`'s own** `singularMatrix` — the only observable way a test can tell
+   composing the accepted inverse from reimplementing it; a transformed normal asserted
+   **not** normalised (else "deliberately not normalised" is a comment, not a behaviour);
+   and identity composition over a matrix of **distinct primes** so a transposition or index
+   slip cannot pass.
+
+   **Rejected**: adding a point transformation here (`ADR-0138` already froze one; a second
+   would recreate the duplicate-authority problem `ALG-0016` avoided), and normalising
+   inside `transformNormal` (one line, and it would break the correspondence between
+   transforming twice and transforming by the composition).
+
+   **Next**: the **surface-shading correction** — now unblocked. `ADR-0280` established that
+   `SurfaceVertexProjector` transforms positions to world space while `SurfaceShader` reads
+   **object-space** normals and dots them against a **world-space** forward, quantified at
+   `1.000000` vs a correct `0.000000` under pure rotation. It consumes `transformNormal` and
+   **must not edit `ADR-0202` or `ALG-0036`**.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
