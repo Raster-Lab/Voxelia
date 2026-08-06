@@ -4605,9 +4605,14 @@
       "sha256": "8d8bc8909b1b7f886987bb6484b4ed67a5e756cfaa374c605540537a6d231d37"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0247-distance-measurement-correction.md",
+      "size": 7424,
+      "sha256": "0b64644c23de8d7d2df73bb0d42549b17fc7644f679202f79ee0e76fbfb8ca33"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 36032,
-      "sha256": "780d0cd0af4a26175156b9383ed9dcda7adde664b4f792f77f1ab7db742fb877"
+      "size": 36137,
+      "sha256": "45c99fa4bd941760d72dfd2a1ab8ab69795abda37cbdd15257efc2e83929ac0b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4691,8 +4696,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1056563,
-      "sha256": "73364dee3d22b7f4a8bd8f9ad29ec169c00b7c80f5f7bd5bf071215b2e07e9d4"
+      "size": 1058904,
+      "sha256": "46c39fc5ead6e300cdaf2ee95a67c9eb532f3c4a425b5d03004d0d3934d7f5a1"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4886,8 +4891,8 @@
     },
     {
       "path": "docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md",
-      "size": 13740,
-      "sha256": "ce57b39e6ace44cca7a5ee2aca85b897557b00571d03187c2b697a6e88a5c566"
+      "size": 14920,
+      "sha256": "15799f5f42274788df84e1198db1bcd83593f519684cdd0f5745cc45a306f4c9"
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
@@ -5196,8 +5201,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 58309,
-      "sha256": "e009671e234ff95d6ba959a9945b99b5976d4990769fc2ceb72b43231f2c1aae"
+      "size": 58381,
+      "sha256": "ca3bc7548caad8c1b830bee07f3803128614c6a1b315f5b206dad66d2cdad658"
     }
   ]
 }

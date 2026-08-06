@@ -273,6 +273,35 @@ An implementation that indexed the wrong axis, dropped the rescale, or mis-signe
 the samples would produce a plausible number in none of those three places, which is
 why the positions were chosen by anatomy rather than convenience.
 
+## Seventh run: patient-space distance, VOX-VS1-015
+
+Two points 100 columns apart in the real axial plane, whose DICOM Pixel Spacing is
+`0.95313671875` mm:
+
+```text
+distance 100 columns apart: measured 95.31367187500001 mm
+                            naive prediction 95.313671875 mm   (1 ULP apart)
+distance 100x100 diagonal:  134.793887445204 mm
+```
+
+**The naive prediction was wrong, not the measurement**, and the attribution was
+computed rather than assumed:
+
+| Step | Exact? |
+|---|---|
+| `sqrt(dx * dx) == dx` | **yes, exactly** — `VOXELIA-ALG-0010` contributes zero error |
+| `dx == 100 * spacing` | **no** — one ULP |
+
+The entire difference is the **affine's origin subtraction**:
+`(origin + s·200) − (origin + s·100)` is not `100·s`, because both intermediates
+round against the origin's magnitude of about `-249.5` before being subtracted. That
+is what a real measurement does — a tool reporting `100 × spacing` would report a
+number the geometry does not produce.
+
+`VOX-VS1-015` is therefore satisfied by `MeasurementConstruction` under
+`VOXELIA-ALG-0010`, correcting `ADR-0245`'s assessment that distance measurement was
+not implemented. See `ADR-0247`.
+
 ## Reproduction
 
 ```text

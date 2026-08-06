@@ -919,6 +919,7 @@ docs/architecture/decisions/ADR-0243-bridge-arc-conclusion.md
 docs/architecture/decisions/ADR-0244-affine-axis-drop.md
 docs/architecture/decisions/ADR-0245-downstream-slice-requirement-assessment.md
 docs/architecture/decisions/ADR-0246-quantitative-sample-inspection.md
+docs/architecture/decisions/ADR-0247-distance-measurement-correction.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

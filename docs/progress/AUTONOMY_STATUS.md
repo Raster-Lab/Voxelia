@@ -2914,11 +2914,47 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    the **stored** value so a padding number equal to a *rescaled* value does not
    delete real signal.
 
-   **Next: `VOX-VS1-015`**, a patient-space distance measurement. It needs its own
-   record and an oracle — a Euclidean distance has a square root and therefore a
-   frozen expression order — and it is the requirement `ADR-0245` found missing while
-   angle, polygon area and voxel volume all exist. After that, verify `013`'s
-   crosshair path end to end, then settle `016`'s reading.
+   **`ADR-0247` found `VOX-VS1-015` was already implemented, correcting `ADR-0245`.**
+   No code was added; discovering that was the increment's whole value.
+
+   `VOXELIA-ALG-0010 - Polyline length` has been accepted since M2 and freezes
+   `s = ((dx*dx) + (dy*dy)) + (dz*dz)`, `sqrt(s)`, no FMA — and **a two-point
+   polyline is a distance measurement.** `MeasurementConstruction` implements it as
+   `derivedLength` with the coordinate-space check `VOX-INT-009` requires.
+
+   **Why the assessment missed it is the transferable part:** `ADR-0245` searched for
+   `DistanceMeasurement` and the word "distance". The implementation is
+   `MeasurementConstruction.derivedLength`. **The search was for a name rather than a
+   behaviour** — the same class of error as `ADR-0237`'s source-instead-of-register
+   search, and the register would have answered this one too. **The rule, extending
+   `ADR-0237`'s: search the register for the capability, and expect the general case
+   to be listed rather than the specialisation.** Angle, polygon area and voxel volume
+   are the specialisations; polyline length is the general case, so it was the least
+   likely to be named after the requirement.
+
+   `ADR-0245`'s inference — "the simplest measurement is the missing one", suggesting
+   the measurement work followed interesting problems over the required list — is
+   **withdrawn**. It reasoned from a false premise, and a wrong judgement about the
+   project's own history is worse than none.
+
+   **Verified on real data, with the difference attributed rather than excused.** Two
+   points 100 columns apart at `0.95313671875` mm spacing measured
+   `95.31367187500001` mm against a naive prediction of `95.313671875` — 1 ULP apart.
+   **The prediction was wrong, not the measurement:** `sqrt(dx*dx) == dx` **exactly**,
+   so `ALG-0010` contributes zero error, while `dx == 100 * spacing` is **false**
+   because the affine's origin subtraction rounds both intermediates against an origin
+   of about `-249.5`. That is what a real measurement does — a tool reporting
+   `100 × spacing` would report a number the geometry does not produce.
+
+   One composition observation, recorded as understood rather than as a gap:
+   `PickResolver` exposes an exact physical position only for a **rendered
+   presentation**, so measuring on a bare published slice needs the `ADR-0129`
+   index-to-world step the harness performed directly. In a viewer a measurement
+   always happens on a presentation, so the product path is complete.
+
+   **Next: `VOX-VS1-013`**, verifying the crosshair path end to end on the real
+   volume; then `016`'s requirement reading; then `010`, `011`, `017` and `018`, none
+   of which has been assessed yet.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in
