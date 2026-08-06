@@ -2806,8 +2806,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 4764,
-      "sha256": "bed81a88498e88710a5b02117ad92a9288d672a9e76cb9e96e83b35752c9cc7d"
+      "size": 4881,
+      "sha256": "a53decafdae2b1177d0769aa2fad410b2f91cce243ea43f98ce115d6222b00d6"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2998,6 +2998,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0038-surface-clipping.md",
       "size": 7224,
       "sha256": "7c7c164ad49f805128a19f6187f8c87242bfd09091176e1abeb58e0e8b9d4388"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0039-surface-picking.md",
+      "size": 6847,
+      "sha256": "abea6906e57623da93b84234aa842e170000f844a7c03356d9792f1b9375bad9"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4060,9 +4065,14 @@
       "sha256": "34d377c7871b79b101b7c5ff06831d6f7ad8c62c0908331ccf5c43040946425f"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0205-surface-picking-design.md",
+      "size": 9300,
+      "sha256": "13282a71eca787de9d0dc4777ea1d1de30da6edd9bd11af9447949020dfdf33b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 30692,
-      "sha256": "654dba8b8a8f86502f2ef4a998d6b78b6204ea86292175667bade3ac5d6559de"
+      "size": 30834,
+      "sha256": "71789e2d9ff1b0433d4291ad996d55f149921f37544ad0b33cde854325e41371"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4146,8 +4156,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 885246,
-      "sha256": "ebbc0319d36ca4bf3541dab5f006f75ca64177d218f526354c0294fa921aa637"
+      "size": 888610,
+      "sha256": "37712de97f277bb914c6f729973fd2022454e24187910e61e7377249252547c5"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4263,6 +4273,11 @@
       "path": "docs/progress/evidence/ADR-0204-surface-clipping-oracle.py",
       "size": 7275,
       "sha256": "cd3a38b5f3b6673e261181d88fbbffb4b887782020268912e3addcf120172df7"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0205-surface-picking-oracle.py",
+      "size": 7154,
+      "sha256": "7f286e525e5d1e7deb4b425aaf9653a9333c880897b53f95c519be943676b476"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4571,8 +4586,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 50697,
-      "sha256": "a7c7ed01ed35536457465349440bd8cc8cd1dd3f28b0cda5b0547708f792e45d"
+      "size": 50870,
+      "sha256": "2848b7aaf85a8a3bfd8f612256f9827d43211e867fbf3b30ceaa5e1136d2d95c"
     }
   ]
 }

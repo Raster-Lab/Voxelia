@@ -7355,6 +7355,65 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twenty-seventh autonomous increment (`ADR-0197` increment (h),
+  design): accepted `ADR-0205` and `VOXELIA-ALG-0039` freeze
+  `surface-picking/binary64-v1`. No product source changed.
+
+  **The design question recorded before this increment — compose the visibility
+  buffer, or cast an independent ray — is answered: compose.** There is no
+  ray-versus-mesh intersection. `ALG-0034` already decides exactly which facet
+  covers a pixel and `ALG-0033` already publishes each vertex's world position.
+  An independent ray cast would introduce a second geometric predicate that
+  could disagree with the one that drew the image, and **a pick that disagrees
+  with what the user is looking at is worse than no pick at all**. Composing
+  makes agreement structural rather than something to test for. The tie-break
+  is inherited from the same strict total order rather than restated, so a
+  second place for that decision to drift never exists.
+
+  **Designing it forced an ordering `ADR-0204` had left implicit.** That record
+  made clipping a per-fragment predicate but did not pin where in the pipeline
+  it runs. Picking makes the answer unavoidable: if the nearest fragment were
+  chosen first and then tested against the clip, a clipped-away surface would
+  swallow the pick and the caller would be told nothing was there — while the
+  renderer, which discards clipped fragments during coverage, would be drawing
+  the surface behind it. Clipping therefore precedes both the visibility
+  decision and the pick, and the `clipped-does-not-occlude` fixture pins it.
+  The clarification is recorded here rather than by editing the accepted
+  record.
+
+  **The `PickResolver` honesty rule is discharged structurally, with no
+  branch.** `SurfaceLayer` carries a full `CoordinateSpaceDescriptor`, and that
+  type admits only a `UnitDimension.length` unit, so a surface scene always has
+  a length-bearing world space. Unlike `PickResolver`'s 2D case, where an
+  uncalibrated presentation genuinely has no physical position, there is no
+  uncalibrated case here — so this record carries **no** optional-position
+  case, because it could never fire. What can genuinely be absent is a hit, and
+  both ways of having none report it by the same rule.
+
+  No durable object identifier was invented. `ADR-0198` deliberately had
+  `SurfaceLayer` hold a mesh value rather than an identifier; the returned
+  layer index, facet ordinal and original-order vertex indices locate the
+  geometry exactly within the scene the caller itself constructed. An
+  out-of-viewport pixel is rejected typed rather than reported as empty,
+  because "nothing is there" and "you asked wrongly" are different answers.
+
+  **`VOX-SUR-007` declares `T` alone — the only row in the block that does —
+  so a green migration will discharge its verification method completely, with
+  no demonstration outstanding.**
+
+  The oracle registers eleven fixtures, ten successful and one failure.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0205-surface-picking-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13310,17 +13369,17 @@ to a future record with `ALG-0032` certification as its precondition.
 The `ADR-0204` migration is complete, and with it `ADR-0197` increments (a)
 through (g).
 
-The exact next action is increment **(h), authoritative surface picking**
-(`VOX-SUR-007`) — the arc's last executable increment before its two
-assessments. It is **design-first**. Unlike every other `VOX-SUR` row it
-declares **T only, not T,D**, so its evidence obligation is fully dischargeable
-off-screen. It must state which intersection predicate it uses, how it breaks
-ties between coincident hits, and — following the `PickResolver` honesty rule
-`ADR-0197` recorded — must return no position rather than a fabricated one when
-the required claim is absent. Note the visibility resolver already answers
-"which facet is nearest at a pixel", so the design should establish whether
-picking composes that buffer or needs its own ray-versus-mesh intersection, and
-record which.
+Increment (h)'s design is complete: accepted `ADR-0205` and
+`VOXELIA-ALG-0039` freeze picking as a composition of the accepted coverage
+rules, and clarify the clip-before-nearest ordering `ADR-0204` left implicit.
+
+The exact next action is the `ADR-0205` migration: add the pick reference to
+`VoxeliaRendering`, reproducing all eleven `ALG-0039` fixtures bit-exactly and
+proving that a clipped nearer fragment does not occlude a farther one, both
+no-hit paths, the inherited tie-break at both levels, and the
+inclusive-at-zero, exclusive-at-dimension pixel bound. Because `VOX-SUR-007`
+declares `T` alone, that migration discharges its verification method
+**completely**.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13349,10 +13408,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0197` increment (h) next, and it is **design-first**: the
-  intersection predicate and its tie-breaking are numeric and determinism
-  boundaries, so freeze an accepted record plus an algorithm specification with
-  a python-computed independent oracle before writing implementation code.
+- Perform the `ADR-0205` migration next: the pick reference in
+  `VoxeliaRendering`. Run the focused `VoxeliaRenderingTests` suite, `swift
+  format lint --strict` on every touched Swift file, and the
+  ADR/document/register/index/manifest/integrity checks. Reproduce all eleven
+  `ALG-0039` fixtures bit-exactly and see the literal passing full unfiltered
+  test-run line before pushing.
 - When an increment needs rules already frozen by an accepted algorithm,
   extract them into one shared implementation rather than duplicating, and
   re-run the accepted record's own oracle test immediately to prove the
