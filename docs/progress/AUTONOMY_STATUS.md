@@ -4563,6 +4563,69 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    responsiveness under background processing, via an injected clock and deterministic
    probe.
 
+   **Increment (xx): `ADR-0279`, `VOX-INT-008`'s `T` discharged. THE DRAW-LOOP ARC'S
+   UNBLOCKED LIBRARY TIER IS COMPLETE.** 1129 tests / 204 suites (was 1125/203). The row
+   had reached **no accepted record and no test** — one of only two `VOX-INT` rows in that
+   state.
+
+   **THE READING — "responsive" must NOT be a latency figure, twice over.** It belongs to
+   `VOX-PER-005` ("within 50 ms on reference workstation hardware", owner-gated), and
+   `ADR-0275` d4 already froze that no performance threshold is claimed in this arc. **And
+   the plan says responsiveness isn't achieved by speed**: §22.4 states submitted GPU work
+   "may not be physically interrupted" and lists five mechanisms instead — preventing
+   obsolete command preparation, tagging buffers with generation, **not presenting obsolete
+   completion**, reusing resources only after completion, prioritising current work. **Not
+   one is "finish faster."** So the property is structural: *an interaction is serviced
+   without waiting for background processing.* Same move as `ADR-0251` (purity IS
+   equivalence) and `ADR-0206` (registration IS statelessness).
+
+   **WHY IT HOLDS**: `VoxeliaInteraction` has exactly **two** reference types
+   (`RenderGenerationCounter`, `FramePresenter`). `ViewportSyncGroup`, `CrosshairState`,
+   `RenderGeneration`, `StampedFrame` are all values — no identity to contend for. And
+   **neither actor method contains a suspension point**, so no caller can hold one across
+   an `await`, which is what blocking another caller would require. `ADR-0249` d6's
+   observation in a new place: a non-suspending critical section has no blocking point.
+
+   **Tests are fully deterministic — no sleeps, no timeouts, no timing assertions.** "In
+   flight" is an explicit gate the test opens, so it's a fact rather than a race won by a
+   sleep. A responsiveness test depending on machine load would be the flakiest test here
+   and would assert nothing about structure.
+
+   **Composition tested, not just halves** (`ADR-0248`'s lesson): the presenter runs
+   against a genuinely in-flight background task — interaction advances the generation
+   while the render is suspended, and the render's completion is **dropped as obsolete**
+   when it lands, exercising §22.4's third mechanism.
+
+   **Honest self-limitation recorded IN the test**: test 1's gates *enforce* the order it
+   asserts and its background task touches nothing the interaction needs, so **it cannot
+   fail through contention**. Said so in the test rather than letting a reader infer a
+   strength it lacks — and moved the contention to where a regression would actually show:
+   16 interactions concurrent with background presentation traffic touching **both**
+   actors, still minting 16 distinct contiguous generations. **Run repeatedly, not once** —
+   a concurrency test that passed one time hasn't been shown stable.
+
+   **Positive control on the value-typed claim**: four interaction types asserted NOT
+   `AnyObject`, and the two actors asserted **to be** `AnyObject`. A non-conformance
+   assertion that can never fail proves nothing; a later refactor of `ViewportSyncGroup`
+   to a class must now break this test.
+
+   **INDEPENDENT CONFIRMATION OF `ADR-0276`**: plan §22.3 states outright that a result
+   "may be presented only if its generation **equals** the current viewport generation".
+   `ADR-0276` *derived* that equality from the vocabulary (internal init ⇒ stamp ≤ current
+   ⇒ `!isStale` iff equal) **without having read §22.3**. Derivation and plan agree. §22.2
+   also lists the ten state changes that must advance a generation — all reach the same
+   counter, which is why one test standing for the set is honest rather than partial.
+
+   **`VOX-INT-008`'s `D` remains HELD**, not redefined to fit what is testable.
+
+   **ARC STATUS: no unblocked implementation work remains.** Discharged: `VOX-INT-007`,
+   `VOX-R2D-014`, `VOX-VS1-016`, `VOX-INT-008`(`T`). **Owner-gated remainder**:
+   `VOX-INT-008`(`D`) and `VOX-INT-010`(`D`) on the application decision;
+   `VOX-PER-002/003/005` on reference hardware.
+
+   **Next**: the exact-next-action must be **re-derived**, not assumed — this arc's queue
+   is exhausted.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

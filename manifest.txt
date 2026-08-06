@@ -496,6 +496,7 @@ Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift
 Tests/VoxeliaInteractionTests/CrosshairCompositionTests.swift
 Tests/VoxeliaInteractionTests/FramePresenterTests.swift
 Tests/VoxeliaInteractionTests/InteractionCommandTests.swift
+Tests/VoxeliaInteractionTests/InteractiveResponsivenessTests.swift
 Tests/VoxeliaInteractionTests/PickResolverTests.swift
 Tests/VoxeliaInteractionTests/RenderGenerationTests.swift
 Tests/VoxeliaInteractionTests/ViewportSyncGroupTests.swift
@@ -979,6 +980,7 @@ docs/architecture/decisions/ADR-0275-open-the-interactive-draw-loop-arc.md
 docs/architecture/decisions/ADR-0276-frame-presentation-and-generation-wiring.md
 docs/architecture/decisions/ADR-0277-padding-transit-design.md
 docs/architecture/decisions/ADR-0278-presentation-semantics-equality.md
+docs/architecture/decisions/ADR-0279-interactive-responsiveness.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
