@@ -2613,8 +2613,46 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    stage 2, and freezing it separately would repeat the duplicate-specification
    mistake `ADR-0237` had just corrected.
 
-   The exact next action is the descriptor increment, which may now declare
-   `validBitCount: nil` truthfully.
+   **`ADR-0240` performed the descriptor increment.** `CTVolumeDescriptorBuilder`
+   fills the slots that already existed: `spatialGeometry` takes the affine
+   `ADR-0230` builds, `valueTransform` takes the rescale as
+   `ValueTransform.linear`, and the published scalar format drops the
+   meaningful-bit narrowing — truthful only because `ADR-0239` normalises. 15
+   tests; 970 in 184 suites overall.
+
+   **Image axis 0 is the column index, and that is forced rather than chosen.**
+   `VOXELIA-ALG-0050` made the column index fastest-varying and
+   `ContiguousImageStorage` reads "contiguous axis-zero runs", so any other order
+   would make one frame's samples strided in storage — the copy the whole
+   direct-write design exists to avoid. Extents are `[columns, rows, sliceCount]`,
+   and every fixture uses three **distinct** extents so a transposition fails an
+   assertion.
+
+   **Axis sampling is `.indexOnly`, deliberately.** The affine already carries the
+   spacing; declaring a regular per-axis sampling too would state one fact twice
+   and let the two drift. That is the same mistake `ADR-0237` had to correct
+   retroactively for a numeric boundary — applied in advance this time.
+
+   **The finding: the corpus declares Hounsfield units and the adapter does not
+   read them.** Rather than assume either way, Rescale Type (0028,1054) was
+   measured: **all forty sampled files declare `HU`**. `DICOMFrameAdapter` does not
+   read that attribute, so the builder **declines to assert a unit it has not
+   seen** — declaring HU because CT usually means HU would be exactly the
+   fixtures-encode-the-convention mistake already recorded twice, for
+   signed-versus-unsigned samples and for the `-1024` intercept that turned out to
+   be `-8192`. Deriving it is a named next increment: it needs a fourth field on
+   `CTFrameDescription`, and `ADR-0234` already observed that a type which keeps
+   gaining fields signals its boundary was drawn early.
+
+   A unit slope with a zero intercept is published as `.identity` rather than
+   `.linear(1, 0)` — not a shortcut, since `VOXELIA-ALG-0003` states the two are
+   bit-identical, and the simpler declaration spares every consumer a
+   multiplication that cannot change a value. A length unit for the samples is
+   refused as a category error: it would claim the Hounsfield numbers are lengths.
+
+   The exact next action is the storage binding — `LogicalSampleBinding` plus
+   `ContiguousImageStorage`, erased to `AnyImageStorage`. It should be small:
+   `ContiguousImageStorage(binding:bytes:)` already takes `[UInt8]`.
 2. The 13 remaining traceability rows in
    `docs/progress/untraced-requirements.txt`.
 3. A `prepare-release.sh` dry run, unexercised since `ADR-0225` gated three

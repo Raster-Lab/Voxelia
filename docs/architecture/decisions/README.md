@@ -426,3 +426,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0237](ADR-0237-duplicate-rescale-freeze-correction.md) | Accepted | Duplicate rescale freeze correction |
 | [ADR-0238](ADR-0238-published-volume-bridge-arc.md) | Accepted | Published volume bridge arc |
 | [ADR-0239](ADR-0239-stored-sample-normalisation.md) | Accepted | Stored sample normalisation |
+| [ADR-0240](ADR-0240-ct-volume-descriptor.md) | Accepted | CT volume descriptor |
