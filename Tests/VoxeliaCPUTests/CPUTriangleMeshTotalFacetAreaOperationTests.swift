@@ -24,7 +24,8 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
 
         let result = try await CPUTriangleMeshTotalFacetAreaOperation.execute(
             request: request,
-            publication: publication
+            publication: publication,
+            progress: discardingProgressObserver
         )
 
         #expect(
@@ -149,7 +150,8 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
         let source = try mesh(positions: [], indices: [])
         let result = try await CPUTriangleMeshTotalFacetAreaOperation.execute(
             request: try request(mesh: source),
-            publication: publicationContext()
+            publication: publicationContext(),
+            progress: discardingProgressObserver
         )
 
         #expect(result.measurement.value.bitPattern == (0.0).bitPattern)
@@ -178,7 +180,8 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
         )
         let result = try await CPUTriangleMeshTotalFacetAreaOperation.execute(
             request: try request(mesh: source),
-            publication: publicationContext()
+            publication: publicationContext(),
+            progress: discardingProgressObserver
         )
 
         #expect(result.measurement.unit.base.namespace == "DICOM")
@@ -206,7 +209,8 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
             }
             return try await CPUTriangleMeshTotalFacetAreaOperation.execute(
                 request: request,
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         cancelledTask.cancel()
@@ -220,14 +224,16 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
             try CPUTriangleMeshTotalFacetAreaOperation.execute(
                 request: request,
                 publication: publication,
-                cancellation: { $0 == .final }
+                cancellation: { $0 == .final },
+                progress: discardingProgressObserver
             )
         }
         #expect(throws: TriangleMeshTotalFacetAreaError.cancelled) {
             try CPUTriangleMeshTotalFacetAreaOperation.execute(
                 request: request,
                 publication: publication,
-                cancellation: { $0 == .admission }
+                cancellation: { $0 == .admission },
+                progress: discardingProgressObserver
             )
         }
     }
@@ -248,7 +254,8 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
                         maximumTriangleCount: 1
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         await #expect(throws: TriangleMeshTotalFacetAreaError.invalidSource) {
@@ -261,7 +268,8 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
                         )
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         await #expect(
@@ -275,7 +283,8 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
                         maximumTriangleCount: 1
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         await #expect(
@@ -292,7 +301,8 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
                         indices: [0, 1, 2]
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
     }
@@ -311,7 +321,8 @@ struct CPUTriangleMeshTotalFacetAreaOperationTests {
                 group.addTask {
                     try await CPUTriangleMeshTotalFacetAreaOperation.execute(
                         request: request,
-                        publication: publication
+                        publication: publication,
+                        progress: discardingProgressObserver
                     ).measurement.value.bitPattern
                 }
             }

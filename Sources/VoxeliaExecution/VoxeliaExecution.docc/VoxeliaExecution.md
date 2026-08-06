@@ -29,6 +29,14 @@ public API is introduced only by reviewed milestone specifications.
 - ``ContentResultCache``
 - ``ContentResultCacheError``
 
+### Progress reporting
+
+- ``ProgressObservation``
+- ``ProgressObserver``
+- ``ProgressSequence``
+- ``ProgressReportingError``
+- ``discardingProgressObserver``
+
 ### Operations
 
 - ``RegionExtractionOperation``

@@ -4,6 +4,7 @@ import CryptoKit
 import Synchronization
 import Testing
 import VoxeliaCore
+import VoxeliaExecution
 import VoxeliaGeometry
 import VoxeliaSpatial
 
@@ -378,6 +379,7 @@ struct TriangleMeshTotalFacetAreaReferenceKernelTests {
             try TriangleMeshTotalFacetAreaReferenceKernel.measure(
                 request: try request(mesh: manyFacets),
                 cancellation: { $0 == .final },
+                progress: discardingProgressObserver,
                 checksFinalCancellation: false
             ).facetCount == 200
         )
@@ -498,6 +500,60 @@ struct TriangleMeshTotalFacetAreaReferenceKernelTests {
         ]
     }
 
+    @Test(
+        "[Unit][VOX-EXE-008][VOX-NUM-001] an observer reports ALG-0046's sequence and changes nothing"
+    )
+    func observerReportsSequenceAndChangesNothing() throws {
+        // THE claim: progress cannot change a result. The observer returns
+        // Void, so it cannot influence control flow, and the two totals must
+        // be byte-identical -- not merely close.
+        let mesh = try repeatedFacetMesh(facetCount: 200)
+        let silent = try measure(mesh: mesh)
+
+        let recorder = ObservationRecorder()
+        let observed = try measure(
+            mesh: mesh,
+            progress: { recorder.append($0) }
+        )
+        #expect(observed.total.bitPattern == silent.total.bitPattern)
+        #expect(observed.facetCount == silent.facetCount)
+
+        // The reported sequence is exactly the accepted one for 200 facets at
+        // the accepted cadence of 64: 0, 64, 128, 192, then the final 200.
+        let recorded = recorder.observations()
+        let expected = try ProgressSequence.observations(
+            total: 200,
+            cadence: ProgressSequence.facetCadence
+        )
+        #expect(recorded == expected)
+        #expect(recorded.map(\.completed) == [0, 64, 128, 192, 200])
+        #expect(recorded.last?.completed == 200)
+
+        // A zero-facet mesh still reports exactly once, so a consumer never
+        // has to special-case "nothing happened".
+        let emptyRecorder = ObservationRecorder()
+        _ = try measure(
+            mesh: try repeatedFacetMesh(facetCount: 0),
+            progress: { emptyRecorder.append($0) }
+        )
+        #expect(
+            emptyRecorder.observations()
+                == [ProgressObservation(completed: 0, total: 0)]
+        )
+    }
+
+    private final class ObservationRecorder: Sendable {
+        private let recorded = Mutex([ProgressObservation]())
+
+        func append(_ observation: ProgressObservation) {
+            recorded.withLock { $0.append(observation) }
+        }
+
+        func observations() -> [ProgressObservation] {
+            recorded.withLock { $0 }
+        }
+    }
+
     // MARK: - Helpers
 
     private func mesh(for fixture: Fixture) throws -> TriangleMesh {
@@ -556,7 +612,8 @@ struct TriangleMeshTotalFacetAreaReferenceKernelTests {
         provenance: ProvenanceRecord? = nil,
         cancellation: CPUTriangleMeshTotalFacetAreaCancellationProbe = { _ in
             false
-        }
+        },
+        progress: @escaping ProgressObserver = discardingProgressObserver
     ) throws -> (total: Double, facetCount: UInt64) {
         try TriangleMeshTotalFacetAreaReferenceKernel.measure(
             request: try request(
@@ -565,7 +622,8 @@ struct TriangleMeshTotalFacetAreaReferenceKernelTests {
                 identity: identity,
                 provenance: provenance
             ),
-            cancellation: cancellation
+            cancellation: cancellation,
+            progress: progress
         )
     }
 

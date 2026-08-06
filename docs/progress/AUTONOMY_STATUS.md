@@ -8568,6 +8568,46 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-forty-ninth autonomous increment (`ADR-0222` migration):
+  `VoxeliaExecution` now owns the progress vocabulary and sequence, and the
+  total-facet-area kernel is its first consumer. All thirteen `ALG-0046`
+  fixtures reproduce both registered SHA-256 digests bit-exactly on the first
+  run. **`VOX-EXE-008` is discharged completely** — it declares `T` alone.
+
+  **The byte-identity proof is the increment's point, and it is a real
+  assertion, not a sentence.** The same 200-facet mesh is measured twice, once
+  with no observer and once with a recording one, and the two totals are
+  compared **by bit pattern** — `observed.total.bitPattern ==
+  silent.total.bitPattern` — not by approximate equality. The recorded sequence
+  is then checked against `ProgressSequence.observations(total: 200, cadence:
+  64)` and spelled out as `[0, 64, 128, 192, 200]`, so a kernel that reported at
+  a different rhythm would fail even if its arithmetic were untouched.
+
+  A zero-facet mesh still reports exactly once, proven separately, so no
+  consumer needs a "nothing happened" special case.
+
+  **No default parameter was added anywhere.** `discardingProgressObserver` is
+  passed explicitly at every call site that wants no reporting, because a
+  default would let a caller acquire a progress claim it never considered —
+  the same house rule that made `ADR-0214` widen twenty-seven call sites rather
+  than default them.
+
+  The observer threads through the **existing** checkpoint sites: the kernel now
+  reports where it already polled for cancellation, so no second cadence was
+  introduced and the two concerns share one rhythm by construction.
+
+  Verified after a clean `.build` rebuild: **796 tests in 173 suites** green.
+
+  ```bash
+  swift test --filter 'ProgressObservationTests|TriangleMeshTotalFacetAreaReferenceKernelTests'
+  swift format lint --strict <every touched Swift file>
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14658,19 +14698,30 @@ filling the **P0** `VOX-EXE-008` gap. `VOX-DVR-014` was checked first and is
 already an affected requirement of accepted `ADR-0175`, so it was set aside
 rather than redone.
 
-The exact next action is the `ADR-0222` migration: add the progress vocabulary
-and sequence to `VoxeliaExecution`, reproducing all thirteen `ALG-0046` fixtures
-bit-exactly, then thread the observer through **one** long-running kernel as the
-first consumer. Prove the four guarantees, prove the exact-multiple case emits
-three observations rather than four, prove zero work still reports once, and
-**prove that attaching an observer leaves that kernel's output byte-identical** —
-which is the claim that progress cannot change a result. `VOX-EXE-008` declares
-**T** alone, so a green migration closes it completely.
+The `ADR-0222` migration is complete: `VoxeliaExecution` owns the progress
+vocabulary and sequence, the total-facet-area kernel is its first consumer, and
+**`VOX-EXE-008` is discharged completely**. The byte-identity proof holds: the
+same mesh measured with and without an observer produces the identical bit
+pattern.
+
+The exact next action is to extend the observer to a **second** long-running
+kernel — the enclosed-volume or surface-extraction path — so the vocabulary is
+proven to compose rather than fitting one kernel by luck. Each extension
+repeats the same two obligations: the reported sequence must match
+`ALG-0046` for that kernel's own cadence, and the output must stay
+byte-identical with an observer attached. After that, the remaining surfaced
+gaps are lazy evaluation (unbuilt, no consumer) and three that are blocked
+behind gated measurement workloads.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0222` migration next. The byte-identity proof is the point:
-  an observer that can change a result is a defect, not a feature.
+- Extend the progress observer to a second long-running kernel next. Repeat
+  both obligations each time: the sequence must match `ALG-0046` for that
+  kernel's own cadence, and the output must stay byte-identical with an
+  observer attached. An observer that can change a result is a defect.
+- Never give a progress observer a default value. Pass
+  `discardingProgressObserver` explicitly, so no call site acquires a claim it
+  never considered.
 - Pick the next item by whether it is unblocked and has a consumer, not by
   list order. Three of the five remaining surfaced gaps are blocked behind
   gated measurement workloads.

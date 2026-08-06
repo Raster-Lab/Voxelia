@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+import VoxeliaExecution
 import VoxeliaGeometry
 
 /// Internal cancellation sites frozen by `ADR-0194` and `ALG-0031`.
@@ -38,9 +39,14 @@ enum TriangleMeshTotalFacetAreaReferenceKernel {
     /// Reduces one admitted mesh to its total facet area.
     ///
     /// - Returns: The accumulated total and the exact facet count reduced.
+    /// The observer receives one observation at each accepted checkpoint and
+    /// one final observation, per `VOXELIA-ALG-0046`. It returns `Void`, so it
+    /// cannot influence this reduction: the total is bit-identical whether or
+    /// not one is attached.
     static func measure(
         request: TriangleMeshTotalFacetAreaRequest,
         cancellation: CPUTriangleMeshTotalFacetAreaCancellationProbe,
+        progress: ProgressObserver,
         checksFinalCancellation: Bool = true
     ) throws -> (total: Double, facetCount: UInt64) {
         if cancellation(.admission) {
@@ -70,10 +76,21 @@ enum TriangleMeshTotalFacetAreaReferenceKernel {
         let positions = source.positions.components
         var total = 0.0
 
-        for triangleOrdinal in 0..<source.topology.triangleCount {
+        let triangleCount = source.topology.triangleCount
+        for triangleOrdinal in 0..<triangleCount {
             let ordinal = UInt64(triangleOrdinal)
-            if ordinal.isMultiple(of: 64), cancellation(.triangle(ordinal)) {
-                throw TriangleMeshTotalFacetAreaError.cancelled
+            if ordinal.isMultiple(of: 64) {
+                if cancellation(.triangle(ordinal)) {
+                    throw TriangleMeshTotalFacetAreaError.cancelled
+                }
+                // The accepted checkpoint cadence, reused verbatim rather than
+                // given a second, progress-specific rhythm.
+                progress(
+                    ProgressObservation(
+                        completed: triangleOrdinal,
+                        total: triangleCount
+                    )
+                )
             }
 
             let indexOffset = triangleOrdinal * 3
@@ -95,6 +112,11 @@ enum TriangleMeshTotalFacetAreaReferenceKernel {
         if checksFinalCancellation, cancellation(.final) {
             throw TriangleMeshTotalFacetAreaError.cancelled
         }
+        // Emitted unconditionally, so a consumer never infers completion and a
+        // zero-facet mesh still reports exactly once.
+        progress(
+            ProgressObservation(completed: triangleCount, total: triangleCount)
+        )
         return (total: total, facetCount: counts.triangleCount)
     }
 

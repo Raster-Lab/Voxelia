@@ -155,6 +155,7 @@ Sources/VoxeliaExecution/Public/ImplementationRegistry.swift
 Sources/VoxeliaExecution/Public/InvertDisplayOperation.swift
 Sources/VoxeliaExecution/Public/MetadataIdentityCoordinator.swift
 Sources/VoxeliaExecution/Public/ObliqueSliceOperation.swift
+Sources/VoxeliaExecution/Public/ProgressObservation.swift
 Sources/VoxeliaExecution/Public/ProjectIntensityOperation.swift
 Sources/VoxeliaExecution/Public/PublicationCoordinator.swift
 Sources/VoxeliaExecution/Public/RegionExtractionOperation.swift
@@ -409,6 +410,7 @@ Tests/VoxeliaExecutionTests/MetadataIdentityCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/ObliqueSliceOperationTests.swift
 Tests/VoxeliaExecutionTests/OverlayCompositingTests.swift
 Tests/VoxeliaExecutionTests/PaletteColourTests.swift
+Tests/VoxeliaExecutionTests/ProgressObservationTests.swift
 Tests/VoxeliaExecutionTests/ProjectIntensityOperationTests.swift
 Tests/VoxeliaExecutionTests/PublicationCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/RGBSourcePresentationTests.swift

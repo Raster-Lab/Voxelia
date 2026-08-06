@@ -341,8 +341,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Internal/TriangleMeshTotalFacetAreaReferenceKernel.swift",
-      "size": 9459,
-      "sha256": "ed9ef3aa070cb9714fef0531e651434b23e09c1333ab70bf09c353344d5b407a"
+      "size": 10457,
+      "sha256": "3f34f648105f7a25c104a8e98e8497103a62e37de6c4a10163d47e22f8c0d52e"
     },
     {
       "path": "Sources/VoxeliaCPU/Internal/TriangleMeshVertexNormalReferenceKernel.swift",
@@ -381,8 +381,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUTriangleMeshTotalFacetAreaOperation.swift",
-      "size": 11209,
-      "sha256": "921473ed3d49348cc98b95d721f209b028ab369a63b5676ce9cb3216ed2b6ab9"
+      "size": 11634,
+      "sha256": "e5147254d4dc116ac543a5aa876028899b450e51806b54144b41efe0b754c816"
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUTriangleMeshVertexNormalGenerationOperation.swift",
@@ -785,6 +785,11 @@
       "sha256": "12468557bfe2a2852c6801508a6d4a089292d86adcb3144fd11865c06b44bd5d"
     },
     {
+      "path": "Sources/VoxeliaExecution/Public/ProgressObservation.swift",
+      "size": 4039,
+      "sha256": "26f2449748bcdd0e4f1cca2404a92bcff50e306981a7b3d3700eef8258743ccd"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Public/ProjectIntensityOperation.swift",
       "size": 12524,
       "sha256": "e5627e2adcc0a9f3fcdd45c8d8c4908b2663e163ba42f060ceb074446c6faf39"
@@ -846,8 +851,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/VoxeliaExecution.md",
-      "size": 1566,
-      "sha256": "1e164a1447af52c590b5e8beff60618efff56d0e7c686b20c92f84331d9e8bbc"
+      "size": 1725,
+      "sha256": "b3830b8059110f09a8360df831628cc1ed92e1662ca5e891aac7f2bafe72295b"
     },
     {
       "path": "Sources/VoxeliaGeometry/ApplePlatformGate.swift",
@@ -1686,8 +1691,8 @@
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUTriangleMeshTotalFacetAreaOperationTests.swift",
-      "size": 19819,
-      "sha256": "424f8716d6f5f6818cd861eabf70e576b7e8c8fdb7f0b4d2dedeb69b1c90a77d"
+      "size": 20409,
+      "sha256": "3f5595381d7be74c2e4d89019f5e15d1e179d896dd17eb069c7adf8fcbec566e"
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUTriangleMeshVertexNormalGenerationOperationTests.swift",
@@ -1731,8 +1736,8 @@
     },
     {
       "path": "Tests/VoxeliaCPUTests/TriangleMeshTotalFacetAreaReferenceKernelTests.swift",
-      "size": 22972,
-      "sha256": "74ecf513a5db2f75c5ec47dc02564ade38e3852fc62def201056f8bf2dd88c19"
+      "size": 25252,
+      "sha256": "87a6a9c5ea22b5d033d9a5ef6e0bb7e9a005d2e95970797abfb9a5e073e7e154"
     },
     {
       "path": "Tests/VoxeliaCPUTests/TriangleMeshVertexNormalReferenceKernelTests.swift",
@@ -2053,6 +2058,11 @@
       "path": "Tests/VoxeliaExecutionTests/PaletteColourTests.swift",
       "size": 10634,
       "sha256": "b8c81330dd68c42f3aa6c0c3823bd208075010b2b86538eb05027a51e75f230a"
+    },
+    {
+      "path": "Tests/VoxeliaExecutionTests/ProgressObservationTests.swift",
+      "size": 6526,
+      "sha256": "6091109440cdffbb8a0753ead401c58159eabfcc9ab5a9adb8b91b01fdb8a887"
     },
     {
       "path": "Tests/VoxeliaExecutionTests/ProjectIntensityOperationTests.swift",
@@ -4386,8 +4396,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 961311,
-      "sha256": "e46528f78098b9f2c4ff12a916d65bc1b470cce8974761ddbb824415faa6e654"
+      "size": 963971,
+      "sha256": "680c6fbf7addfe6f26911a23b9e2710e2c3fba4c9d5590c8ce5611ec8e091b24"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4856,8 +4866,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 54147,
-      "sha256": "1f2703ef165d3b4d417cf8187708f2ed8631099d0d22397aab4ea1775893302a"
+      "size": 54264,
+      "sha256": "8ed38a166152dfa03bc0f515e24e91a2c33ba76a8936fb33b03f258227d39c8a"
     }
   ]
 }

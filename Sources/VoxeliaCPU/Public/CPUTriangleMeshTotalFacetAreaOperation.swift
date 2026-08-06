@@ -42,25 +42,33 @@ public enum CPUTriangleMeshTotalFacetAreaOperation {
     ///   assurance.
     /// - Throws: A payload-free ``TriangleMeshTotalFacetAreaError`` using the
     ///   operation's fixed failure precedence.
+    /// - Parameter progress: Receives the `VOXELIA-ALG-0046` observation
+    ///   sequence. It is **required, never defaulted**: a default would let a
+    ///   caller acquire a progress claim it never considered. Pass
+    ///   `discardingProgressObserver` to report nothing.
     public static func execute(
         request: TriangleMeshTotalFacetAreaRequest,
-        publication: TriangleMeshTotalFacetAreaPublicationContext
+        publication: TriangleMeshTotalFacetAreaPublicationContext,
+        progress: @escaping ProgressObserver
     ) async throws -> TriangleMeshTotalFacetAreaResult {
         try execute(
             request: request,
             publication: publication,
-            cancellation: { _ in Task.isCancelled }
+            cancellation: { _ in Task.isCancelled },
+            progress: progress
         )
     }
 
     static func execute(
         request: TriangleMeshTotalFacetAreaRequest,
         publication: TriangleMeshTotalFacetAreaPublicationContext,
-        cancellation: CPUTriangleMeshTotalFacetAreaCancellationProbe
+        cancellation: CPUTriangleMeshTotalFacetAreaCancellationProbe,
+        progress: ProgressObserver
     ) throws -> TriangleMeshTotalFacetAreaResult {
         let measured = try TriangleMeshTotalFacetAreaReferenceKernel.measure(
             request: request,
             cancellation: cancellation,
+            progress: progress,
             checksFinalCancellation: false
         )
         if cancellation(.final) {
