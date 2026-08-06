@@ -455,3 +455,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0266](ADR-0266-draw-loop-and-codec-authorisation.md) | Accepted | Draw loop and codec authorisation |
 | [ADR-0267](ADR-0267-direct-codec-declaration.md) | Accepted | Direct codec declaration |
 | [ADR-0268](ADR-0268-j2k-volume-adapter.md) | Accepted | J2K volume adapter |
+| [ADR-0269](ADR-0269-jp3d-and-htj2k-evaluation.md) | Accepted | JP3D and HTJ2K evaluation |

@@ -530,6 +530,40 @@ copy cost is generic non-specialisation. `ADR-0263` records the refinement; no f
 applied, because the contiguous fast path yields an `UnsafeBufferPointer` the safety
 policy forbids.
 
+## Run 12 - JP3D and HTJ2K on the real volume (`VOX-CMP-004`, `VOX-CMP-005`)
+
+The 449 MiB volume encoded from its own samples through `JP3DEncoder`, decoded back,
+and compared byte for byte.
+
+| Mode | Encoded | Ratio | Encode | Decode | Byte-exact |
+|---|---:|---:|---:|---:|:---:|
+| JP3D lossless | 195 MiB | `2.30:1` | `15.47` s | `9.93` s | **yes** |
+| HTJ2K lossless | 203 MiB | `2.21:1` | `3.45` s | `6.23` s | **yes** |
+
+`isLossless` was **verified by comparison, not trusted as a flag**. `ADR-0268`'s
+adapter admitted both decodes — its first run against real codec output.
+
+**The cache question, answered by comparison with the path it would replace:**
+
+```text
+re-import from original DICOM (warm p50):  0.216 s
+decode from an HTJ2K cache:                6.233 s   29x slower
+decode from a JP3D cache:                  9.934 s   46x slower
+```
+
+A cache 29 to 46 times slower than re-reading the source is not a cache, so
+`VOX-CMP-004` returns **no**. HTJ2K nonetheless beats JP3D at the same job by `4.5x`
+encode and `1.6x` decode for 4 per cent ratio, so `VOX-CMP-005` returns **yes** on its
+own terms.
+
+**The evaluation checked it was not under-selling JP3D.** `levelsZ` defaults to `1`,
+which would disable the inter-slice decorrelation a 3D codec exists for. Re-running at
+`levelsZ: 3` gave **byte-identical encoded sizes**, so the parameter is not changing
+the encode — referred to `VOX-CMP-006` rather than guessed at.
+
+Timings are **single measurements** with up to ~2x run-to-run variance observed; the
+ratios are exact byte counts, and the 29–46x cache gap is far beyond the noise.
+
 ## Reproduction
 
 ```text

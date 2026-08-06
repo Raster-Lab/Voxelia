@@ -4000,9 +4000,58 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    a pattern: when a dependency's result type cannot be constructed by a consumer, the
    consumer's logic should not take it directly.
 
-   **Next: `VOX-CMP-004`/`005`** — JP3D and HTJ2K evaluated with **real codestreams**,
-   which needs test data the project does not yet have. That may be the next thing to
-   ask the owner for. Then `006`, `012`, `014`, and `011`'s adversarial work last.
+   **Increment (nn): `ADR-0269`, `VOX-CMP-004` and `005` evaluated on the real
+   volume.** **I was wrong last increment** to say this needed test data from the
+   owner — `J2KSwift` ships `JP3DEncoder`, so the right input was Voxelia's own 449 MiB
+   CT volume, which is what the rows actually ask about.
+
+   | Mode | Encoded | Ratio | Encode | Decode | Byte-exact |
+   |---|---:|---:|---:|---:|:---:|
+   | JP3D lossless | 195 MiB | `2.30:1` | `15.47` s | `9.93` s | **yes** |
+   | HTJ2K lossless | 203 MiB | `2.21:1` | `3.45` s | `6.23` s | **yes** |
+
+   `isLossless` **verified by byte comparison, not trusted as a flag**. `ADR-0268`'s
+   adapter admitted both — its first exposure to real codec output.
+
+   **`VOX-CMP-004` returns NO, on the comparison that matters:**
+
+   ```
+   re-import from original DICOM (warm p50):  0.216 s
+   decode from HTJ2K cache:                   6.233 s   29x slower
+   decode from JP3D cache:                    9.934 s   46x slower
+   ```
+
+   **A cache 29–46x slower than re-reading the source is not a cache.** It buys 55–57%
+   disk for an order of magnitude and a half of read latency. Evaluated permits a
+   negative answer, and reporting the flattering half (2.3:1 is a fine ratio!) would
+   have meant ignoring the comparison the row is about. **Conditions that would flip
+   it are recorded** — compressed sources, slow/remote storage, volumes that do not fit
+   in memory (where `decode(_:region:)` is a different proposition).
+
+   **`VOX-CMP-005` returns YES** independently: HTJ2K beats JP3D by **`4.5x` encode**
+   and `1.6x` decode for 4% ratio. Where a compressed lossless representation is wanted
+   at all, HTJ2K is the mode.
+
+   **Checked that the evaluation was not under-selling JP3D.** `levelsZ` defaults to
+   `1`, which would disable the inter-slice decorrelation a 3D codec exists for.
+   Re-running at `levelsZ: 3` gave **byte-identical encoded sizes** — so the parameter
+   is not changing the encode. Unimplemented, overridden by `zDeltaMode: .auto`, or
+   genuinely useless here **cannot be distinguished from outside**, so it is referred to
+   `VOX-CMP-006` rather than guessed.
+
+   **Timings stated as single measurements** with ~2x observed run-to-run variance
+   (`ADR-0261`'s lesson applied to my own numbers): ratios are exact byte counts, the
+   `4.5x` encode gap survives the noise, the `1.6x` decode gap is directional, and the
+   29–46x cache gap is far beyond it. The 100-repetition method is recorded as
+   available rather than performed — half an hour of encoding for a conclusion the
+   spread already supports.
+
+   **Compression arc: `002`, `003`, `004`, `005`, `007`, `009`, `010`, `013` and `008`
+   (`T`) discharged.** Remaining: `006`, `011`, `012`, `014`, `008`'s `A`.
+
+   **Next: `VOX-CMP-012`** (original preservation) and **`014`** (benchmarks), neither
+   needing new codec capability; then `006` (which should answer the `levelsZ`
+   question); then `011`'s adversarial work last.
 
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
