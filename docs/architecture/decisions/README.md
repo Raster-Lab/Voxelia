@@ -177,8 +177,8 @@ triangle-mesh total facet area design. `ADR-0195` is allocated to the
 triangle-mesh certified enclosed volume design. `ADR-0196` is allocated to the
 geometry acceleration architecture assessment. `ADR-0197` is allocated to the
 surface rendering arc. `ADR-0198` is allocated to the surface scene
-vocabulary.
-The next unallocated numeric identifier is `ADR-0199`.
+vocabulary. `ADR-0199` is allocated to the surface vertex projection design.
+The next unallocated numeric identifier is `ADR-0200`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -360,3 +360,4 @@ The next unallocated numeric identifier is `ADR-0199`.
 | [ADR-0196](ADR-0196-geometry-acceleration-architecture-assessment.md) | Accepted | Geometry acceleration architecture assessment |
 | [ADR-0197](ADR-0197-surface-rendering-arc.md) | Accepted | Surface rendering arc |
 | [ADR-0198](ADR-0198-surface-scene-vocabulary.md) | Accepted | Surface scene vocabulary |
+| [ADR-0199](ADR-0199-surface-vertex-projection-design.md) | Accepted | Surface vertex projection design |

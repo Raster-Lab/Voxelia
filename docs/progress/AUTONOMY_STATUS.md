@@ -6680,6 +6680,75 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifteenth autonomous increment (`ADR-0197` increment (b),
+  design): accepted `ADR-0199` and `VOXELIA-ALG-0033` freeze
+  `surface-vertex-orthographic-projection/binary64-v1`. No product source
+  changed.
+
+  **The perspective deferral is settled.** `ADR-0197` decision 4(b) required
+  this increment to close what `ADR-0173` left open, and it does so by the
+  second sanctioned route: version one is orthographic only, and a perspective
+  camera is rejected with a named `unsupportedProjection` error and a
+  registered fixture. `CameraProjection.perspective` is no longer merely
+  unhonoured — an accepted record now states what happens to it. The deferral
+  is also **bounded**: `ADR-0199` decision 2 records exactly what a perspective
+  version must additionally settle — eye-plane straddling, near-plane clipping
+  and its topology effects, the homogeneous divide as `w` approaches zero, and
+  behind-camera semantics under division — none of which any accepted record
+  supplies, and all of which overlap the later clipping increment.
+
+  The model composes accepted admissions instead of restating them:
+  `Matrix4x4Double` finiteness, `SurfaceLayer`'s affine bottom row (so `w` is
+  exactly one and no homogeneous divide occurs anywhere), `RenderCamera`'s
+  non-degenerate basis and positive `planeHeight`, `ViewportSize`'s bounds and
+  `SurfaceRenderRequest`'s space agreement. Its only failure classes are
+  therefore the projection rejection and arithmetic representability, plus
+  cancellation — three cases, no resource ceiling.
+
+  Conventions frozen, each with a stated reason rather than a default:
+  **depth along `forward`**, increasing away from the camera, not a negated Z
+  and not clip-normalised, so "greater depth is farther" needs no sign rule;
+  **behind-camera vertices admitted** with negative depth, because an
+  orthographic projection has no eye point and rejecting them would import a
+  perspective-only hazard; **square pixels by construction**, the scale derived
+  from plane height and pixel height alone so the aspect ratio is not a second
+  knob that could contradict the first; and **continuous top-left viewport
+  coordinates** with no rounding or clamping, because mapping a coordinate to a
+  covered pixel belongs to the visibility contract.
+
+  Two things are explicitly forbidden. **Matrix pre-multiplication** — folding
+  object-to-world and world-to-view into one matrix — is the conventional
+  optimisation and changes the published bits, so `ALG-0033` names it so a
+  future implementer cannot introduce it as a performance improvement without
+  registering a new algorithm version. And `trueUp` is **normalised** despite
+  being unit in exact arithmetic, replacing an unstated "close enough"
+  assumption with a stated rule.
+
+  The basis reuses `ALG-0030`'s ordered cross product and
+  maximum-component-scaled normalisation verbatim rather than inventing new
+  expressions, keeping the surface arc bit-consistent with geometry about the
+  same primitives.
+
+  The independent oracle registers twelve fixtures — ten successful, two
+  failures — proving the exact viewport centre `(2.0, 1.5)` at depth `10.0`, a
+  translated depth of exactly `7.0`, height-derived square pixels on an
+  eight-by-two viewport, a behind-camera vertex at exactly `-10.0`, a collapsed
+  placement, an oblique basis, a grouping-sensitive object-to-world row whose
+  frozen order yields one where the regrouped order yields zero, a
+  contraction-sensitive up vector, the empty mesh, an overflow and the
+  perspective rejection.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0199-surface-vertex-projection-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12581,15 +12650,13 @@ the closed four-case `SurfaceSceneError`. The render result is deliberately
 still undefined, because its pixel and depth contract belongs to increments
 (b) and (c).
 
-The exact next action is **increment (b), coordinate-space transform and
-projection** (`VOX-SUR-001`): the explicit validated chain from mesh space
-through world and camera to viewport. It **must settle `ADR-0173`'s deferred
-perspective case** — either freeze a perspective model or record explicitly
-that surface rendering stays orthographic in version one — and may not leave
-`CameraProjection.perspective` declared but unhonoured by any accepted
-renderer across two arcs. It is design-first: the transform arithmetic is a
-numeric boundary and needs an accepted record plus a python-computed
-independent oracle before implementation.
+Increment (b)'s design is complete: accepted `ADR-0199` and
+`VOXELIA-ALG-0033` freeze the orthographic projection model and **settle the
+perspective deferral** by explicit typed rejection, with a bounded record of
+what a perspective version must additionally settle. The exact next action is
+`ADR-0199` migration: add the internal deterministic projector to
+`VoxeliaRendering`, reproducing all twelve `ALG-0033` fixtures bit-exactly and
+proving the cancellation cadence and the projection-check precedence.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -12618,13 +12685,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0197` increment (b) next, and it is **design-first**: the
-  coordinate-space transform and projection model is a numeric boundary, so
-  freeze an accepted record plus an algorithm specification with a
-  python-computed independent oracle before writing implementation code. Run
-  only the oracle and the ADR/document/register/index/manifest/integrity checks
-  for that design increment; product builds and tests are not evidence until
-  source changes.
+- Perform the `ADR-0199` migration next: the internal projector in
+  `VoxeliaRendering`. Run the focused `VoxeliaRenderingTests` suite, `swift
+  format lint --strict` on every touched Swift file, and the
+  ADR/document/register/index/manifest/integrity checks. Reproduce all twelve
+  `ALG-0033` fixtures bit-exactly and see the literal passing full unfiltered
+  test-run line before pushing.
 - State which verification method each surface increment's evidence covers.
   Byte-exact off-screen renders discharge Test, never Demonstration.
 - Do not reopen `ADR-0194`, `ADR-0195` or `ADR-0196`. All three are accepted
