@@ -4665,9 +4665,14 @@
       "sha256": "82d863887b504af388479f3a84ff045e1b6bf096c82e146213a7e7bcb23b5019"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0254-first-slice-validation-and-benchmark-reports.md",
+      "size": 8856,
+      "sha256": "1781ca0413b5c5c6cee52c0f902d6eb5eef2ba871c04c3f1f2f8e7feb5389b30"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 36769,
-      "sha256": "b5263898193b36094fd3456943aeb2423f73f2f026cede2fff9f9ffcb3103d95"
+      "size": 36900,
+      "sha256": "e7bf38c29aa69d11dc7dfaa004863422559e6e2a08a37960af40ae55ee401dd5"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4745,14 +4750,19 @@
       "sha256": "9620b93e73ad460fdf117646761a596591a586a8527925b34d88754f7c63714a"
     },
     {
+      "path": "docs/benchmarks/VOXELIA-BEN-0001-first-vertical-slice-baseline.md",
+      "size": 9445,
+      "sha256": "796aeb59c5bbd44979b70784a6d9e0a7bc4b186af0b6b3c3bdb3afc0e72f2b87"
+    },
+    {
       "path": "docs/index.md",
       "size": 794,
       "sha256": "e82ed8799284471194ba078966b301b63d3b5fd4a0a2c51b9b74316c2d41975d"
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1085268,
-      "sha256": "50ef29aa09536d398d6132464e075a502beea9bcf26dfd10a96ea2ad1b804f1a"
+      "size": 1089784,
+      "sha256": "465e9b39dd93fa60467da6f9aacd5fa8ebc86529d52f7c02dd0951f1ddd86cfd"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5255,9 +5265,14 @@
       "sha256": "38faf46f5653f782d9c0f15a4b7b82bc3b0d5be066b946a7176ead7015c59cab"
     },
     {
+      "path": "docs/validation/VOXELIA-VAL-0001-first-vertical-slice-validation.md",
+      "size": 11145,
+      "sha256": "5beea88c32eebe80c0f2c856bc153544623f56c785590eec3ca0c693e4af7a74"
+    },
+    {
       "path": "manifest.txt",
-      "size": 59096,
-      "sha256": "0623710681e4b97173db540a6b04da27368a9afd4ef942069a6ae1b8eefe5740"
+      "size": 59315,
+      "sha256": "1929e6f34d604ea7f829d1ed3bb7bcf663cd310d9f2a49831d3f1e32e1dfbd0d"
     }
   ]
 }

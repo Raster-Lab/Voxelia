@@ -3363,9 +3363,83 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    provisional `voxelia.m4.ct.diagnostic` tolerance profile belong — and that profile
    is an **owner approval**, not something to adopt as if approved.
 
-   **Next: `VOX-VS1-021` assessment** in its own record — read its declared
-   verification methods first, since `ADR-0196` showed an `I,R` row can license a
-   documentation-only discharge while `ADR-0207` showed `I,T` cannot.
+   **Increment (z): `ADR-0254` — the M4 validation and benchmark reports.**
+   `VOX-VS1-021`'s `I` and `T` halves discharged; **`R` deliberately left unsigned.**
+
+   **The row cannot be fully discharged by this project, and the traceability entry
+   says why**: "**Approved** M4 validation and benchmark reports". `T` is
+   dischargeable (1024 tests, ten real-data runs) and `I` is (the reports exist and
+   can be inspected against §19.6/§61/§63/§64.4's content lists), but **`R` is a
+   review method — a report this project also reviewed would be self-approval**, which
+   is exactly what a review method exists to prevent. The review record carries
+   `pending owner` rows so the gap is visible in the artefact, not just here.
+
+   **Two gates sit INSIDE the row**: §61 requires an approved `A-WORKSTATION` for
+   formal performance acceptance (none exists → **no acceptance claimable at all**),
+   and §54's `voxelia.m4.ct.diagnostic 1.0.0` profile is explicitly provisional.
+   **But §63 supplies what IS achievable**: "M4 shall establish a reproducible
+   baseline even where no absolute first-image threshold has yet been approved."
+
+   **Templates and directories already existed** — `docs/templates/{Validation,Benchmark}-Report-Template.md`,
+   `docs/validation/`, `docs/benchmarks/`. Checking first avoided inventing a
+   structure the project had already decided. Produced `VOXELIA-VAL-0001` and
+   `VOXELIA-BEN-0001`.
+
+   **The baseline** (release, fresh process, 899 frames, 449 MiB):
+
+   | Stage | Release |
+   |---|---:|
+   | Metadata-ready | `0.291` s |
+   | Geometry accepted / first decoded frame | `0.314` s |
+   | Complete volume | `1.841` s |
+   | First axial image | `1.942` s |
+   | First three-view / steady state | `2.350` s |
+
+   ≈ 3,090 frames/s scan, ≈ 589 frames/s decode (≈ 294 MiB/s), ≈ 244 MiB/s import.
+   Peak `471 MiB` = **`1.05x`** of one volume. Metal full-volume resource **0 B**.
+   **Debug published alongside release** (`4.283` s vs `1.841` s, `2.33x`): debug alone
+   would understate by >2x, release alone would hide that the default `swift build` is
+   much slower.
+
+   **The benchmark report states its own principal weakness prominently**: a single
+   cold run per configuration, no warm-up, no repetitions, **no distribution** — which
+   is what §53's method actually asks for. Presenting one run as a median would
+   manufacture a statistic; that option is named and rejected in the record.
+
+   **Two design properties, not hardware ones:** the **first axial image arrives
+   AFTER the complete volume** (reconstruction reads a published volume), so §63's
+   clause is met — there is no optional preprocessing to beat — but **progressive
+   display during loading is unsupported**, recorded as a limitation rather than
+   hidden behind a satisfied clause. And the sagittal plane is consistently slowest,
+   fixing the fastest-varying index.
+
+   **Absences recorded as absences**: power state, thermal state, retained
+   compressed-source footprint — all listed by §61/§19.6, none instrumented, none
+   guessed. **The three outstanding failures are in the report's own Deviations
+   section** per §2761: `validate-scaffold.sh` red on the Swift 6.3.3
+   `swift-frontend` signal 11, DocC without global `--warnings-as-errors` because of
+   dependency diagnostics, and two absent dependency `LICENSE` files.
+
+   One self-inflicted bug worth noting: I used `String(format: "%-42s", swiftString)`
+   for the stage table and got mojibake — **the exact `%s`-needs-a-C-string trap my
+   own memory note warns about.** I had applied `padding(toLength:)` to the argument
+   and still passed it through `%s`. Half-applying a rule is not applying it.
+
+   # FIRST VERTICAL SLICE COMPLETE — SIX OWNER DECISIONS OUTSTANDING
+
+   1. Review/approval of `VOXELIA-VAL-0001` and `VOXELIA-BEN-0001` (`VOX-VS1-021` `R`).
+   2. Reference-hardware approval (§61) before any performance acceptance.
+   3. The `voxelia.m4.ct.diagnostic 1.0.0` tolerance profile.
+   4. The geometry tolerance rule, and whether reformats must be supported.
+   5. `LICENSE` files in `Raster-Lab/JLSwift` and `Raster-Lab/CompressionFamily`.
+   6. Whether the interactive draw loop proceeds — four Demonstration halves wait on
+      it (`VOX-VS1-010`, `012`, `013`, plus the `VOX-SUR` and `VOX-MPR-011` halves).
+
+   **Next**: with the slice's claimable work done, the next increment should pick up
+   the highest-value unblocked work rather than the slice — the strongest candidates
+   are a repetition/warm-up method so §53's distribution comparison becomes possible,
+   and the 13 traceability rows in `docs/progress/untraced-requirements.txt`, some of
+   which records written since may now cover.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in
