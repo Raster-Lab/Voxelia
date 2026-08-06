@@ -8358,6 +8358,63 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-forty-fifth autonomous increment (`ADR-0219`, governance and
+  licence traceability): the third paydown. **Twenty-four rows traced, debt
+  53 → 29**, and the most consequential enforcement gap yet closed. No product
+  source changed.
+
+  **Four accepted requirements were satisfied for exactly one reason, and
+  nothing was checking it.** `VOX-LIC-007`, `VOX-LIC-008`, `VOX-LIC-009` and
+  `VOX-REP-009` — no strong-copyleft dependencies, restrictive ones isolated,
+  dependency licences checked, dependencies attached only where needed — all
+  hold today because `Package.swift` declares **`dependencies: []`**. One added
+  line would have invalidated all four at once, silently, with every check in
+  the repository still green. This is the project's entire supply-chain posture
+  resting on an unguarded fact, and third-party dependencies are reserved to the
+  owner. `VOX-LIC-003` was the same story smaller: all 395 Swift sources carry
+  the SPDX identifier and nothing verified it.
+
+  `Tools/Scripts/check_licence_policy.py` now enforces both, wired into
+  `validate-docs.sh`. **Clean gates, not ratchets** — both properties hold
+  completely, so there is no debt to freeze, unlike the traceability check.
+  **Both gates were verified by breaking them**: adding a package dependency
+  fails the first, removing one SPDX header fails the second. A gate never seen
+  to fail is not known to work. The dependency gate names the four requirements
+  it protects in its own failure message, so whoever trips it learns why the
+  line matters rather than deleting the check.
+
+  Rows traced with measured rather than asserted evidence: `VOX-PLT-012` —
+  **185 test files import `Testing`, none imports `XCTest`**; `VOX-LIC-006` —
+  `DCO.txt` plus the fact that **every commit carries a `Signed-off-by`
+  trailer**, the practice and not only the policy; `VOX-SEC-004`,
+  `VOX-HLS-011` and `VOX-DST-010` — **no source imports `Network`, `NIO`,
+  `Vapor`, `FoundationNetworking` or uses `URLSession`**, and no dependency
+  could supply one.
+
+  `VOX-PLT-010` declares `I,D` and only **Inspection** is claimed: building
+  through SwiftPM is not distributing through it.
+
+  The remaining 29 rows include the eighteen owner-gated `VOX-CMP` and
+  `VOX-DCM` entries.
+
+  **The check caught the ledger doing the thing it forbids.** Writing the next
+  action originally enumerated the eleven remaining tractable rows, which marked
+  all eleven traced — a to-do list clearing the debt is exactly the "listing,
+  not tracing" failure `ADR-0216` exists to prevent. The queue now points at
+  `docs/progress/untraced-requirements.txt` instead of naming them. A row is
+  traced when a record says what satisfies it or why it is blocked, never when a
+  plan says it will be looked at.
+
+  ```bash
+  python3 Tools/Scripts/check_licence_policy.py
+  python3 Tools/Scripts/check_requirement_traceability.py --write
+  Tools/Scripts/validate-docs.sh
+  swift test
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14423,17 +14480,20 @@ visibility, because invisibility is what hid `VOX-MPR-011`.
 
 There are two reasonable next actions, and the queue takes them in this order.
 
-**First, continue the paydown** with the next tractable block. Accepted
-`ADR-0218` did the execution, concurrency, cache and CPU rows: nine traced, four
-recorded unbuilt or unsatisfiable, debt **66 → 53**, and an Accelerate
-enforcement gap closed on the way. The remaining 53 rows include eighteen
-owner-gated entries (the whole `VOX-CMP` block and the `VOX-DCM` rows) that
-**must not be traced by fabricating an assessment of work that cannot start**.
-The next tractable candidates are the `VOX-GOV`, `VOX-LIC` and `VOX-REP`
-governance and repository rows — most are satisfied by artefacts that already
-exist and are already enforced by `check_required_files.py`, so the work is
-citing the enforcing check per row rather than inspecting code. Expect a few to
-be genuinely absent.
+**First, finish the paydown.** Three increments have taken the debt from 83 to
+**29**: `ADR-0217` (vertical slice), `ADR-0218` (execution and CPU, plus the
+Accelerate enforcement gap) and `ADR-0219` (governance and licence, plus the
+dependency and SPDX gates). Eighteen of the remaining 29 are the owner-gated
+`VOX-CMP` and `VOX-DCM` rows that **must not be traced by fabricating an
+assessment of work that cannot start**, which leaves **eleven** tractable ones.
+They are listed in `docs/progress/untraced-requirements.txt` and are
+deliberately **not enumerated here**: naming a row in a forward-looking queue
+would mark it traced by the check's own corpus rule, which is precisely the
+"listing, not tracing" failure `ADR-0216` set out to prevent. A row is traced
+when a record says what satisfies it or why it is blocked, never when a plan
+says it will be looked at. Several of the eleven are performance and validation
+rows whose verification methods include Analysis or Demonstration, so expect
+partial claims and gated halves rather than clean discharges.
 
 **Second, `VOX-VS1-010`'s Metal plane path**, which `ADR-0217` surfaced as a
 real capability gap. It needs its own design record: which plane vocabulary the
@@ -14469,11 +14529,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Continue the traceability paydown with the `VOX-GOV`, `VOX-LIC` and
-  `VOX-REP` rows. Every removal from
-  `docs/progress/untraced-requirements.txt` needs a real inspection recorded in
-  a record, not a mention added to make a count fall — and expect some rows to
-  come back unbuilt, as four did in `ADR-0218`.
+- Finish the traceability paydown with the eleven tractable rows left.
+  Every removal from `docs/progress/untraced-requirements.txt` needs a real
+  inspection recorded in a record, not a mention added to make a count fall —
+  and expect some to come back unbuilt, as four did in `ADR-0218`.
+- Verify a new gate by breaking it. `ADR-0219`'s dependency and SPDX gates were
+  each confirmed to fail when violated; a gate never seen to fail is not known
+  to work.
 - When a row permits something conditionally, check whether tooling enforces
   the condition. `VOX-CPU-004` permitted Accelerate behind validated semantics
   and nothing stopped it appearing anywhere; that is the third time this class

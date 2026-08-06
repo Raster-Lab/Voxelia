@@ -3,7 +3,6 @@
 # Tools/Scripts/check_requirement_traceability.py fails when a row
 # outside this list becomes untraced, so the debt can shrink but
 # never grow. Remove a line when its row is genuinely traced.
-VOX-ADP-005
 VOX-ARC-006
 VOX-CMP-002
 VOX-CMP-003
@@ -24,35 +23,12 @@ VOX-DCM-002
 VOX-DCM-004
 VOX-DCM-007
 VOX-DCM-009
-VOX-DOC-001
-VOX-DST-010
-VOX-GOV-001
-VOX-GOV-002
-VOX-GOV-004
-VOX-GOV-007
-VOX-GOV-008
-VOX-HLS-011
 VOX-IMG-006
-VOX-LIC-001
-VOX-LIC-003
-VOX-LIC-004
-VOX-LIC-006
-VOX-LIC-007
-VOX-LIC-008
-VOX-LIC-009
 VOX-MTL-010
 VOX-MTL-012
 VOX-PER-001
 VOX-PER-003
 VOX-PER-005
-VOX-PLT-010
-VOX-PLT-012
-VOX-REL-001
-VOX-REL-002
-VOX-REP-005
-VOX-REP-009
 VOX-RGN-005
-VOX-SEC-004
-VOX-SEC-007
 VOX-VAL-004
 VOX-VAL-005
