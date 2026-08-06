@@ -710,6 +710,11 @@
       "sha256": "eec4bacc217d8b9301c88cb52eddbf3d979065878b0d3d50deee9e68f955cd1d"
     },
     {
+      "path": "Sources/VoxeliaExecution/Internal/VOILookup.swift",
+      "size": 4588,
+      "sha256": "c859b801d5498326bc2a876ad850ebff40af3e980f83fa5eff6ef371d044133f"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Module.swift",
       "size": 300,
       "sha256": "c0c459dde6b7d3dca81c1c81bb0dc82a507abba237495a5b27f826114db5cc02"
@@ -2053,6 +2058,11 @@
       "path": "Tests/VoxeliaExecutionTests/TransposeAxesOperationTests.swift",
       "size": 9119,
       "sha256": "48470620b4e6672b997380223eb32627cec4c3b65beef5b4cfcbff7bc729db65"
+    },
+    {
+      "path": "Tests/VoxeliaExecutionTests/VOILookupTests.swift",
+      "size": 7587,
+      "sha256": "e20ae3aab009751f89f1d9d24fbe1eb1024f0cdcd8ad032edf0958f8ca5e6f5d"
     },
     {
       "path": "Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift",
@@ -4236,8 +4246,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 919067,
-      "sha256": "b4af13f416c5f8a6b9ac1bd38ddcb3fb07f04be0bd0aab22e993aa36e753ebef"
+      "size": 921365,
+      "sha256": "37e8495d7f0cc55557a2c8c252c3f2bc6035ce98f25cd5517e7eca3b61418d9f"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4681,8 +4691,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 52043,
-      "sha256": "0afe7fe8c876c5d5dc14aa9f586a3986fd432bdae5a1db3ad3a8e5c83daa9625"
+      "size": 52142,
+      "sha256": "0ee1537570b4cfbe4f6b5906b7a154c2b57192fca171a602c65be11a92dd8f5c"
     }
   ]
 }

@@ -7875,6 +7875,52 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-thirty-sixth autonomous increment (`ADR-0210` migration):
+  `VoxeliaExecution` now owns `VOILookup`. All twenty-three
+  `VOXELIA-ALG-0042` fixtures reproduce both registered SHA-256 digests
+  bit-exactly on the first run.
+
+  **The inherited rounding quirk is reproduced, not silently differed from.** A
+  test asserts that the double immediately below one half selects the *second*
+  entry, which is what the accepted `ALG-0026` formula yields. Had the
+  implementation "fixed" it, the fixture digest would have diverged — which is
+  exactly the point of registering the quirk rather than correcting it.
+
+  Both accepted rounding rules appear in one file and the source says why: the
+  index stage reuses `ALG-0026`'s round-half-away helper verbatim, and the
+  output stage uses `ALG-0002`'s round-ties-to-even. A test pins a value where
+  the two disagree, so a later "simplification" to a single rule fails rather
+  than silently changing the image.
+
+  **One unreachable branch was discharged rather than carried.**
+  `LookupTableDescriptor` already validates every entry finite, so the reference
+  carries no non-finite output branch and the source records that the
+  descriptor's own admission discharges it. The registered oracle keeps its
+  standalone defensive check, which no fixture reaches; the accepted algorithm's
+  frozen rule has never contained one.
+
+  The index selection reuses `ALG-0004`'s overflow reasoning unchanged — the
+  same shape `WindowLevelOperation.tableOutput` already uses — so both
+  signed-integer origin extremes resolve without a second rule to get wrong.
+  Infinity clamps at both ends and only NaN is rejected.
+
+  Verified: 775 tests in 167 suites green.
+
+  **`VOX-R2D-007` is discharged completely**, verification method included,
+  because it declares Test alone.
+
+  ```bash
+  swift test --filter VOILookupTests
+  swift format lint --strict \
+    Sources/VoxeliaExecution/Internal/VOILookup.swift \
+    Tests/VoxeliaExecutionTests/VOILookupTests.swift
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13882,15 +13928,18 @@ freeze the VOI lookup as the tabular sibling of the linear window, after testing
 and rejecting the earlier assessment that the accepted modality-table
 composition already covered it.
 
-The exact next action is the `ADR-0210` migration: add the VOI lookup reference
-to `VoxeliaExecution`, beside the window operation whose pipeline position it
-shares, reproducing all twenty-three `ALG-0042` fixtures bit-exactly. Prove the
-index rule where it disagrees with ties-to-even, prove the inherited
-just-below-half behaviour rather than silently differing from it, prove both
-clamp ends and both signed-integer origin extremes, prove that infinity clamps
-while NaN is rejected, and prove the output quantisation at `0.5`, `1.5` and
-`2.5`. Because `VOX-R2D-007` declares `T` alone, that migration discharges it
-**completely**.
+The `ADR-0210` migration is complete: `VoxeliaExecution` owns `VOILookup`, both
+`ALG-0042` digests reproduce bit-exactly, and **`VOX-R2D-007` is discharged
+completely** — verification method included, because it declares `T` alone.
+
+The exact next action is `ADR-0208` increment (c): palette-colour presentation,
+the first half of `VOX-R2D-010` (declares `T`). Design-first. The numeric
+boundaries to settle include how a stored value indexes a palette, whether that
+index rule is the same one `ALG-0042` just froze for the VOI table, the palette
+entry's channel representation — compose `ALG-0023`'s accepted four-channel
+straight-alpha form rather than inventing one — and what a palette does with a
+value outside its range. `ADR-0208` decision 7 binds it: a palette path must
+never relabel a monochrome source.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13919,14 +13968,14 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0210` migration next: the VOI lookup reference in
-  `VoxeliaExecution`. Run the focused suite, `swift format lint --strict` on
-  every touched Swift file, and the ADR/document/register/index/manifest/
-  integrity checks. Reproduce all twenty-three `ALG-0042` fixtures bit-exactly
-  and see the literal passing full unfiltered test-run line before pushing.
-- Reuse the accepted round-half-away helper's exact formula, including its
-  just-below-half behaviour. A "corrected" variant would be a second rounding
-  rule and would diverge from the registered digests.
+- Perform `ADR-0208` increment (c) next: palette-colour presentation. Freeze
+  every numeric boundary in an accepted record with an independent Python
+  oracle before writing Swift.
+- Reuse the accepted round-half-away helper's exact formula wherever a table
+  index is selected, including its just-below-half behaviour. A "corrected"
+  variant would be a second rounding rule and would diverge from the registered
+  digests.
+- Do not reopen `ADR-0209` or `ADR-0210`. Both are accepted and evidenced.
 - Increment (f) must close the request-side gap `ADR-0209` recorded:
   `RenderRequest` carries no colour claim at all today.
 - `VOX-MPR-011` (multi-volume fusion, P1, `T,D`, M6) is unassessed and needs its

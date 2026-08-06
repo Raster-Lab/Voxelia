@@ -140,6 +140,7 @@ Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md
 Sources/VoxeliaExecution/ApplePlatformGate.swift
 Sources/VoxeliaExecution/Internal/.gitkeep
 Sources/VoxeliaExecution/Internal/ResampleRescale.swift
+Sources/VoxeliaExecution/Internal/VOILookup.swift
 Sources/VoxeliaExecution/Module.swift
 Sources/VoxeliaExecution/Public/.gitkeep
 Sources/VoxeliaExecution/Public/BrickRequestBroker.swift
@@ -409,6 +410,7 @@ Tests/VoxeliaExecutionTests/ResampleNearestOperationTests.swift
 Tests/VoxeliaExecutionTests/SqueezeAxesOperationTests.swift
 Tests/VoxeliaExecutionTests/StorageReadCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/TransposeAxesOperationTests.swift
+Tests/VoxeliaExecutionTests/VOILookupTests.swift
 Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift
 Tests/VoxeliaExecutionTests/WindowLevelOperationTests.swift
 Tests/VoxeliaGeometryTests/GeometryAttributeDescriptorTests.swift
