@@ -244,6 +244,7 @@ Sources/VoxeliaMetal/VoxeliaMetal.docc/Requirements.md
 Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md
 Sources/VoxeliaRendering/ApplePlatformGate.swift
 Sources/VoxeliaRendering/Internal/.gitkeep
+Sources/VoxeliaRendering/Internal/SurfaceColourMapper.swift
 Sources/VoxeliaRendering/Internal/SurfaceCompositor.swift
 Sources/VoxeliaRendering/Internal/SurfaceCoverage.swift
 Sources/VoxeliaRendering/Internal/SurfaceShader.swift
@@ -446,6 +447,7 @@ Tests/VoxeliaRenderingTests/OrthographicRayGeneratorTests.swift
 Tests/VoxeliaRenderingTests/RenderCameraTests.swift
 Tests/VoxeliaRenderingTests/RenderRequestTests.swift
 Tests/VoxeliaRenderingTests/SceneSnapshotTests.swift
+Tests/VoxeliaRenderingTests/SurfaceColourMapperTests.swift
 Tests/VoxeliaRenderingTests/SurfaceCompositorTests.swift
 Tests/VoxeliaRenderingTests/SurfaceSceneTests.swift
 Tests/VoxeliaRenderingTests/SurfaceShaderTests.swift

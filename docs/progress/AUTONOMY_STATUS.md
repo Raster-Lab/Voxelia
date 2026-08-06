@@ -7212,6 +7212,54 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twenty-fourth autonomous increment (`ADR-0203` migration):
+  `VoxeliaRendering` now owns `SurfaceColourMapper`. All sixteen
+  `VOXELIA-ALG-0037` fixtures reproduce both registered SHA-256 digests
+  bit-exactly on the first run.
+
+  **Implementation found two more composition opportunities in the accepted
+  vocabulary.** `TransferFunction1D` admits **exactly 256 entries** and already
+  implements the clamp rule `clamp(index, 0, 255)` in its own `entry(at:)`.
+  So the mapper is written as an entry-count-parameterised reference — which is
+  what the oracle exercises at one and four entries — with a
+  `TransferFunction1D` overload layered on top. Through that overload the
+  `invalidTable` case **cannot arise**, because the type's own admission
+  discharges it, and a test asserts that the table's clamp and this model's
+  agree at both ends. The parameterised reference keeps the case reachable and
+  tested, so nothing untestable was carried.
+
+  The rounding helper needed one guard the specification did not name: a scalar
+  far outside the domain scales beyond the host integer range, so
+  `roundHalfAway` saturates at `Int.min`/`Int.max` rather than trapping the
+  conversion before the clamp can act. The suite exercises it with `±1e300`
+  scalars at both four and 256 entries. This is an implementation obligation
+  the frozen model implies rather than a divergence from it — the published
+  index is the clamped one either way.
+
+  Evidence beyond the digests: out-of-domain scalars clamp at both ends; zero
+  intensity darkens colour to zero while leaving opacity exactly
+  `128/255`, proving shading is a lighting effect and not a transparency one;
+  layer and entry opacity multiply to exactly `0.5 * (128/255)`; the swap flag
+  maps weights back to original vertex order exactly as it does for shading;
+  and admission precedence is proven by supplying a NaN scalar alongside a bad
+  domain and a bad table and getting the per-request failure both times.
+
+  Verified after a clean `.build` rebuild: 753 tests in 161 suites green.
+  `ADR-0197` increments (a) through (f) are complete, discharging the **Test**
+  half of `VOX-SUR-001` through `VOX-SUR-005`.
+
+  ```bash
+  swift test --filter SurfaceColourMapperTests
+  swift format lint --strict \
+    Sources/VoxeliaRendering/Internal/SurfaceColourMapper.swift \
+    Tests/VoxeliaRenderingTests/SurfaceColourMapperTests.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13156,11 +13204,17 @@ Increment (f)'s design is complete: accepted `ADR-0203` and
 deferrals `ADR-0201` and `ADR-0202` recorded, by composing the already-accepted
 representation rather than inventing one.
 
-The exact next action is the `ADR-0203` migration: add the colour-map
-reference to `VoxeliaRendering`, reproducing all sixteen `ALG-0037` fixtures
-bit-exactly and proving the clamp at both ends, that zero intensity leaves
-opacity intact, the layer-times-entry opacity product, and the admission
-precedence.
+The `ADR-0203` migration is complete, and with it `ADR-0197` increments (a)
+through (f).
+
+The exact next action is increment **(g), clipping and section views**
+(`VOX-SUR-006`). It is **design-first**. It composes the accepted
+`VolumeClipBounds` world-space slab rule, but its real decision is the one
+`ADR-0197` decision 4(g) already named: whether a clipped solid shows an
+**open boundary or a capped cross-section**. Capping is a constructive-geometry
+obligation — it means synthesising surface where the clip plane cuts the mesh,
+which needs its own topology and orientation rules — so it must be settled
+explicitly rather than assumed either way.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13189,12 +13243,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0203` migration next: the colour-map reference in
-  `VoxeliaRendering`. Run the focused `VoxeliaRenderingTests` suite, `swift
-  format lint --strict` on every touched Swift file, and the
-  ADR/document/register/index/manifest/integrity checks. Reproduce all sixteen
-  `ALG-0037` fixtures bit-exactly and see the literal passing full unfiltered
-  test-run line before pushing.
+- Perform `ADR-0197` increment (g) next, and it is **design-first**: clipping
+  geometry and any capping rule are numeric and topological boundaries, so
+  freeze an accepted record plus an algorithm specification with a
+  python-computed independent oracle before writing implementation code.
 - When an increment needs rules already frozen by an accepted algorithm,
   extract them into one shared implementation rather than duplicating, and
   re-run the accepted record's own oracle test immediately to prove the
