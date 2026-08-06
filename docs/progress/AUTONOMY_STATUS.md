@@ -4130,6 +4130,84 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    third-party `ct512_*.j2k` fixtures become the right input. Then **`011`'s adversarial
    work last**.
 
+   **Increment (qq): `ADR-0272`, `VOX-CMP-006`'s `I` and `T` discharged.** 1101 tests /
+   201 suites. `R` left to the owner. This is the increment where the compression arc's
+   headline result stopped being about speed.
+
+   **What the output actually is.** Both modes emit a **RAW codestream** (no JP2 boxes)
+   with a standards-shaped main header — `SOC → SIZ → COD → QCD → SOT` for JP3D, plus
+   **`CAP` + `CPF`** for HTJ2K, so HTJ2K *does* signal itself correctly. But every tile
+   payload opens with `4A 33 44 53` = **`J3DS`**, a proprietary slice-stack container
+   holding **2D** per-slice codestreams. The library says so itself: the envelope
+   "remains a standards-shaped JP3D wrapper". **It is a toolkit-native format wearing
+   JPEG 2000 marker clothing.**
+
+   **Interoperability is path-dependent, and the split matters.** Against the two
+   third-party codestreams J2KSwift ships (`blackbuck-5.j2k`, `ct512_L4.j2k`):
+   `JP3DDecoder` **refused both** ("missing 'J3DS' magic" — it also disowns its own
+   older output), while the 2D `J2KDecoder` **decoded both**. A blanket "J2KSwift is not
+   interoperable" would be false.
+
+   **THE FINDING — outbound failure is silent, not loud.** Feeding Voxelia-encoded JP3D
+   and HTJ2K output to the standards-shaped 2D `J2KDecoder`: it **succeeds**. No error.
+   Reports `512x512`, one component — **one plane for a sixteen-slice volume**, because a
+   2D `SIZ` cannot carry depth. Every sample is the constant `0x0080`; the returned plane
+   holds two distinct byte values, the source holds many. `SIZ` is **self-consistent**,
+   which is exactly why nothing errors. Reproduced at `64x64x4`. **Two independent silent
+   failures in one artefact: depth dropped, pixels unrelated to the source.** Honest
+   qualification recorded: *this* corruption is a uniform frame a human would likely
+   notice — a property of this pair, not a guarantee, and not to be generalised.
+
+   **`levelsZ` answered, and my own claim corrected.** Exactly **one byte of 3,248,558**
+   differs between `levelsZ` 1 and 3 — offset 64, the `COD` Z-decomposition field,
+   holding literally `1` or `3`. Coded data untouched. The library explains it: the 3D
+   DWT "and JP3DRateController are skipped" and the recorded levels are "**advisory
+   only**"; Z correlation comes only from opportunistic per-slice residuals under
+   `zDeltaMode`. **So a codestream declares a decomposition its payload lacks** — a
+   second, independent way this output misleads a reader.
+
+   **The correction:** `VOXELIA-BEN-0002` v0.1 said the two settings produced
+   "byte-identical **output**". The harness printed `count / 1_048_576` — **integer
+   mebibytes** — so it established equal *rounded sizes*. Fixed in v0.2. `ADR-0269`, the
+   `VOX-VS1-001` evidence doc and this ledger all say "byte-identical encoded **sizes**",
+   which the exact figures confirm; they stand unedited. **Lesson: a print format is part
+   of a measurement's evidence.**
+
+   **What got built, because documenting a hazard is the weaker half.** `ADR-0257` made
+   `VOX-CMP-013` structural for the *name*; the gap was the *bytes*. A caller could label
+   a `J3DS` codestream `1.2.840.10008.1.2.4.90` — a **genuine, well-formed** JPEG 2000
+   Lossless UID — and nothing refused it. `ToolkitNativeCodestream.inspect` +
+   `CodestreamLabellingRule` now refuse that pairing; a test builds exactly that
+   representation, shows the name rule admitting it, and shows only the new rule
+   refusing it.
+
+   **Parsed, never scanned — on evidence.** In one 988-byte codestream `FF 93` appeared
+   at **five** offsets and only one was a marker; `J3DS` appeared once, two bytes after
+   the real `SOD`. The test plants decoy magic *and* a decoy `SOD` inside a `COM` body,
+   then **asserts both naive implementations would get it wrong** — a discriminator, not
+   a restatement. (Verified out-of-band first: both naive forms do return the wrong
+   verdict on those exact bytes.)
+
+   **One refusal only, and the near-miss is worth remembering.** My first instinct was
+   "unparseable ⟹ refuse", which is wrong: JPEG-LS, RLE and uncompressed syntaxes are
+   standard and are **not** JPEG 2000, so that rule would reject legitimate objects. The
+   refusal is narrowed to the measured hazard. Caught by thinking it through before
+   writing, not after.
+
+   **Two observations for the owner (who owns J2KSwift), neither fixable from here**:
+   the `COD` marker declares Z levels the payload lacks; and the volumetric output is
+   accepted by conformant 2D decoders which then return wrong pixels — emitting something
+   they *reject* would turn a silent misread into a clean refusal.
+
+   **Compression discharged**: `002`, `003`, `004`, `005`, `006`(`I,T`), `007`, `009`,
+   `010`, `012`(`T`), `013`, `014`, `008`(`T`). **Remaining: `011` only**, plus
+   `008`(`A`) and `006`/`012`(`R`).
+
+   **Next: `VOX-CMP-011`** — bounded failure on malformed/adversarial codestreams, owner
+   -authorised, deliberately last so the adapter is settled before it is attacked. Its
+   first target is now this increment's own marker walk. Defects found must be **fixed**,
+   not merely reported.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

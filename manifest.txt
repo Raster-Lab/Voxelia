@@ -88,6 +88,7 @@ Sources/VoxeliaCompression/Public/CompressedRepresentation.swift
 Sources/VoxeliaCompression/Public/CompressedScope.swift
 Sources/VoxeliaCompression/Public/DecodeDestination.swift
 Sources/VoxeliaCompression/Public/J2KVolumeAdapter.swift
+Sources/VoxeliaCompression/Public/ToolkitNativeCodestream.swift
 Sources/VoxeliaCore/ApplePlatformGate.swift
 Sources/VoxeliaCore/Internal/.gitkeep
 Sources/VoxeliaCore/Module.swift
@@ -381,6 +382,7 @@ Tests/VoxeliaCompressionTests/CompressedRepresentationTests.swift
 Tests/VoxeliaCompressionTests/CompressedScopeTests.swift
 Tests/VoxeliaCompressionTests/DecodeDestinationTests.swift
 Tests/VoxeliaCompressionTests/J2KVolumeAdapterTests.swift
+Tests/VoxeliaCompressionTests/ToolkitNativeCodestreamTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationIngressTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationJSONTests.swift
 Tests/VoxeliaCoreTests/CanonicalFuzzEvidenceTests.swift
@@ -966,6 +968,7 @@ docs/architecture/decisions/ADR-0268-j2k-volume-adapter.md
 docs/architecture/decisions/ADR-0269-jp3d-and-htj2k-evaluation.md
 docs/architecture/decisions/ADR-0270-cache-preservation-rule.md
 docs/architecture/decisions/ADR-0271-compression-benchmark-and-random-access.md
+docs/architecture/decisions/ADR-0272-codec-output-and-interoperability-status.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

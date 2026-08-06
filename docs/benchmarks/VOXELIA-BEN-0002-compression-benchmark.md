@@ -1,7 +1,7 @@
 ---
 document_id: "VOXELIA-BEN-0002"
 title: "Compression benchmark"
-version: "0.1"
+version: "0.2"
 status: "Draft"
 document_type: "Benchmark Report"
 project: "Voxelia"
@@ -144,10 +144,25 @@ No prior compression baseline exists; this is the reference point.
 2. **Not approved reference hardware**, so no performance acceptance.
 3. **One series, one scanner, one machine.**
 4. **Self-consistent codec.** Encoding and decoding use the same library, so these
-   figures say nothing about interoperability with other implementations. That is
-   `VOX-CMP-006`'s subject.
-5. **`levelsZ` had no measurable effect** — `1` and `3` produced byte-identical
-   output. Referred to `VOX-CMP-006`.
+   figures say nothing about interoperability with other implementations. That question
+   is now answered in `ADR-0272`, and the answer bears on how these figures should be
+   read: the volumetric output is **toolkit-native**, carrying a proprietary `J3DS`
+   slice-stack container inside a standards-shaped main header. A conformant 2D decoder
+   accepts it, raises no error, and returns one plane of constant samples instead of the
+   volume. Every ratio and timing above is therefore a measurement of a **private
+   format**, not of an interoperable one.
+5. **`levelsZ` changes one byte of the codestream and nothing else.** At `levelsZ` `1`
+   and `3` the encoded sizes are identical to the byte — `3,248,558` for JP3D,
+   `3,409,952` for HTJ2K — and **exactly one byte differs**, at offset 64, which is the
+   `COD` marker's Z-decomposition field and holds literally `1` or `3`. The coded data is
+   untouched, so the header declares a decomposition the payload does not have.
+   `ADR-0272` records the measurement and the library's explanation.
+
+   **Correction to v0.1**, which said the two settings "produced byte-identical output".
+   This report's harness printed `count / 1_048_576`, so it compared integer mebibytes
+   and established equal *rounded sizes*, not equal bytes. `ADR-0269` and
+   `VOX-VS1-001`'s evidence document say "byte-identical encoded **sizes**", which the
+   exact figures above confirm; only this report overstated it.
 6. **Lossy modes not measured.** Both `lossy(psnr:)` and `targetBitrate(_:)` exist and
    were not exercised: no requirement asks for lossy diagnostic data, and measuring it
    here would invite treating it as endorsed.
@@ -169,3 +184,9 @@ same artefact, and only measuring the second reveals it.
 
 `ADR-0269` named this possibility as a condition that would change its conclusion.
 The condition holds.
+
+**One thing these numbers cannot buy is interoperability.** `ADR-0272` establishes that
+the volumetric output is a toolkit-native format in standards-shaped clothing, and that
+a conformant decoder reads it without error and gets the wrong pixels. A good
+random-access store it may be; a portable one it is not, and it must never be labelled
+as a standard transfer syntax.
