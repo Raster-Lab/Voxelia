@@ -2846,8 +2846,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 5144,
-      "sha256": "b8791f9bd165c77f1c669ff94a1b7e6865a573e49b76463ff4242541318f751d"
+      "size": 5261,
+      "sha256": "ace77c34dbfb5b6d1daa6ce35e8a84d3204a70864b22d5f5db8b4d2bdf83baf8"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3053,6 +3053,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0041-gpu-geometry-representation.md",
       "size": 6614,
       "sha256": "531c532dd3d4bc8056ed7548334220afa83b303a6d6266fbbb655264c4d76045"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0042-voi-lookup-mapping.md",
+      "size": 7181,
+      "sha256": "76560054a322989ec62b1baf830edeff33fd18bd375bf90f0da82d861b9e2167"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4140,9 +4145,14 @@
       "sha256": "5c985c8bb106a282e8bc999bd53f5300eb7998b628815e20b4a4a197229efbb7"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0210-voi-lookup-design.md",
+      "size": 9319,
+      "sha256": "bcc65f67aa6f33836503c1cae12dc16849936b23174544920cf51d480507e9fd"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 31505,
-      "sha256": "1bde916683cd5493a9a4f233a6c9ed60ce37e14e923a9e34f5a3c16745e2eb94"
+      "size": 31632,
+      "sha256": "165d9af0b32cf6c2b0092dd0af9a9e67596a06708d2de144f48a2e2b23deb9c7"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4226,8 +4236,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 914821,
-      "sha256": "8be3c974aa22c386f69fb684989011d9b398aa91b737cf887ca013028a1f108d"
+      "size": 919067,
+      "sha256": "b4af13f416c5f8a6b9ac1bd38ddcb3fb07f04be0bd0aab22e993aa36e753ebef"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4358,6 +4368,11 @@
       "path": "docs/progress/evidence/ADR-0207-gpu-geometry-representation-oracle.py",
       "size": 9627,
       "sha256": "30daee453da05ef810dbb571dcd6e6a143fc597b9d056a8979265d13eb5da34e"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0210-voi-lookup-oracle.py",
+      "size": 9048,
+      "sha256": "e03283ee8bbf92acf7d6ae7d27137f47dc57bcd68aaba163b2732332e3701b01"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4666,8 +4681,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 51877,
-      "sha256": "11cea7885df33fd13b15386742f710cc95ce78940ff86ab72261cd30ba48e480"
+      "size": 52043,
+      "sha256": "0afe7fe8c876c5d5dc14aa9f586a3986fd432bdae5a1db3ad3a8e5c83daa9625"
     }
   ]
 }

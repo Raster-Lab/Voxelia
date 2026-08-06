@@ -7814,6 +7814,67 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-thirty-fifth autonomous increment (`ADR-0208` increment (b),
+  design): accepted `ADR-0210` and `VOXELIA-ALG-0042` freeze
+  `voi-lookup-mapping/binary64-v1`. No product source changed.
+
+  **An earlier ledger assessment was tested and did not hold.** The M6 opening
+  assessment recorded `VOX-R2D-007` as partially discharged because "the
+  accepted lookup-table composition largely covers" it. `ADR-0208` decision 1
+  required that judgement to be tested rather than inherited, and it fails on
+  three counts. `ALG-0004` calls itself "the DICOM-derived table form of the
+  **modality** mapping": it sits one stage *earlier* and feeds the window rather
+  than replacing it; it produces real values carrying an optional measurement
+  unit rather than unitless display values; and it indexes on a stored
+  **integer**, where a VOI lookup indexes on the modality stage's binary64
+  output and therefore needs an index-derivation rule that does not exist
+  anywhere. The earlier reading was reasonable on the surface and wrong
+  underneath. The correction is recorded here rather than by editing that entry.
+
+  **Two jobs use two different accepted rounding rules, and that is the
+  record's most deliberate decision.** Index selection rounds **half away from
+  zero** — the rule `ALG-0026` froze and `ALG-0037` already reused for choosing
+  a colour-table entry. Output quantisation rounds **ties to even** — the rule
+  `ALG-0002` froze for the very stage this replaces. Picking one rule for both
+  would have meant overruling an accepted rule in the other job, so each stage
+  uses the rule the project accepted *for what it is doing*. A registered
+  fixture pins a case where they disagree: `12.5` against an origin of `10`
+  selects entry three, where ties-to-even would select entry two.
+
+  **An inherited quirk is registered rather than corrected.** The accepted
+  round-half-away rule is `floor(x + 0.5)`, and for the double immediately below
+  one half the sum is exactly representable as `1.0`, so the rule yields one
+  rather than zero. Correcting it here would create a second, divergent rounding
+  rule in the project — worse than a known quirk that is written down and
+  fixtured. It is observable only near zero; at magnitude ten the neighbouring
+  doubles cannot express the difference at all.
+
+  **Infinity clamps and is not a failure**, because it compares beyond an end of
+  the table and pins there — total, with no branch of its own. That distinction
+  matters because a non-finite input is genuinely reachable: a linear modality
+  transform with a finite scale and a finite stored value can overflow to
+  infinity. Only NaN is rejected, because it compares false against everything
+  and no clamp can decide it. The failure family is exactly two cases.
+
+  Table outputs are display values, clamped and never normalised — normalising
+  would rescale a table the source author already calibrated. Out-of-range
+  clamps at both ends inherit `ALG-0004`'s overflow reasoning unchanged, and
+  both signed-integer origin extremes are fixtured.
+
+  The oracle registers twenty-three fixtures, twenty-one mapped and two
+  rejected.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0210-voi-lookup-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13816,14 +13877,20 @@ vocabulary and `VoxeliaRendering` owns `DisplayColourSpace`,
 frozen, so no algorithm specification or oracle was registered — the `ADR-0198`
 precedent.
 
-The exact next action is `ADR-0208` increment (b): VOI LUT application
-(`VOX-R2D-007`, declares `T`). Determine first whether the accepted
-`LookupTableDescriptor` composition already supplies application semantics or
-whether a new model is needed — that record says of itself that it "does not
-define lookup, clamping, extrapolation, or display-window behavior", so a
-numeric boundary almost certainly needs freezing, and if so it needs an
-algorithm specification and an independent Python oracle before any Swift.
-Do not pre-judge the finding.
+Increment (b)'s design is complete: accepted `ADR-0210` and `VOXELIA-ALG-0042`
+freeze the VOI lookup as the tabular sibling of the linear window, after testing
+and rejecting the earlier assessment that the accepted modality-table
+composition already covered it.
+
+The exact next action is the `ADR-0210` migration: add the VOI lookup reference
+to `VoxeliaExecution`, beside the window operation whose pipeline position it
+shares, reproducing all twenty-three `ALG-0042` fixtures bit-exactly. Prove the
+index rule where it disagrees with ties-to-even, prove the inherited
+just-below-half behaviour rather than silently differing from it, prove both
+clamp ends and both signed-integer origin extremes, prove that infinity clamps
+while NaN is rejected, and prove the output quantisation at `0.5`, `1.5` and
+`2.5`. Because `VOX-R2D-007` declares `T` alone, that migration discharges it
+**completely**.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13852,10 +13919,14 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0208` increment (b) next: VOI LUT application. Freeze every
-  numeric boundary — index derivation, clamping, out-of-domain behaviour and the
-  empty-table case — in an accepted record with an independent Python oracle
-  before writing Swift.
+- Perform the `ADR-0210` migration next: the VOI lookup reference in
+  `VoxeliaExecution`. Run the focused suite, `swift format lint --strict` on
+  every touched Swift file, and the ADR/document/register/index/manifest/
+  integrity checks. Reproduce all twenty-three `ALG-0042` fixtures bit-exactly
+  and see the literal passing full unfiltered test-run line before pushing.
+- Reuse the accepted round-half-away helper's exact formula, including its
+  just-below-half behaviour. A "corrected" variant would be a second rounding
+  rule and would diverge from the registered digests.
 - Increment (f) must close the request-side gap `ADR-0209` recorded:
   `RenderRequest` carries no colour claim at all today.
 - `VOX-MPR-011` (multi-volume fusion, P1, `T,D`, M6) is unassessed and needs its
