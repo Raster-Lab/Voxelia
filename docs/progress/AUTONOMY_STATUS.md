@@ -8029,6 +8029,58 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-thirty-ninth autonomous increment (`ADR-0208` increment (e),
+  design and migration — **`VOX-R2D-011`, the arc's only P0 row**): accepted
+  `ADR-0213` and `VOXELIA-ALG-0045` freeze
+  `overlay-alpha-compositing/binary64-v1`, and `VoxeliaExecution` now owns
+  `OverlayCompositing`. All eighteen fixtures reproduce both registered SHA-256
+  digests bit-exactly on the first run.
+
+  **The open question `ADR-0208` left is answered on evidence: a separate
+  model, sharing the operator.** `ALG-0009` differs in three ways — alpha is
+  per *layer* not per pixel, the background is black not the base image, and it
+  is greyscale not coloured. Any one would be enough. But the per-channel
+  arithmetic is `ALG-0009`'s frozen sequence **inherited verbatim**, so the two
+  records cannot disagree about what `over` means. Widening the accepted record
+  instead would not have been a widening: it would be a different model wearing
+  the old record's name.
+
+  **Three named overlays reduce to two resolvers and one rule.** Segmentation,
+  mask and image overlays differ only in how they *produce* a colour and an
+  alpha. **A mask is a segmentation with two labels** — carrying a separate mask
+  model would be two places for one rule — and a "background" label is simply an
+  entry whose alpha is zero, so no background convention is invented and label
+  zero is not hard-coded, since that is a DICOM habit rather than a guarantee.
+
+  **The accumulator is rounded exactly once, and a fixture exists specifically
+  to catch the shortcut.** Quantising each overlay before the next composites is
+  the obvious implementation and it visibly changes the result: two overlays at
+  opacity `0.3` over a base of `10` give `58` rounded once and `59` rounded in
+  between. An implementation that takes the shortcut now fails rather than
+  looking plausible.
+
+  **An unmapped label is rejected, not clamped — deliberately the opposite of
+  `ADR-0211`'s palette rule**, and the two records disagree on purpose because
+  their inputs mean different things. An out-of-range palette value is a
+  display artefact; an unassigned segmentation label painted with the last
+  colour in the table is a silently wrong overlay on diagnostic imagery.
+
+  Verified: 786 tests in 170 suites green. **`VOX-R2D-011` is discharged**,
+  verification method included, because it declares Test alone.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0213-overlay-compositing-oracle.py
+  swift test --filter OverlayCompositingTests
+  swift format lint --strict \
+    Sources/VoxeliaExecution/Internal/OverlayCompositing.swift \
+    Tests/VoxeliaExecutionTests/OverlayCompositingTests.swift
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14050,16 +14102,23 @@ Increment (d) is complete in both halves: accepted `ADR-0212` and
 arithmetic at all, and `VoxeliaExecution` owns `RGBSourcePresentation`.
 **`VOX-R2D-010` is discharged in both halves.**
 
-The exact next action is `ADR-0208` increment (e): overlay alpha compositing
-(`VOX-R2D-011`, **P0**, declares `T`) — "segmentation, mask and image overlays
-with defined alpha-compositing semantics". Design-first, and `ADR-0208` leaves
-one question deliberately open that this increment must answer on evidence:
-whether overlays extend the accepted `CompositeLayersOperation` — which today
-blends only single-component `uint8` **scalar** layers over black under
-`ALG-0009` — or need their own model. Do not pre-judge it. The boundaries to
-settle include what a segmentation overlay's colour comes from, whether mask
-and image overlays share one rule, the compositing order, and whether the
-accepted straight-alpha `over` operator suffices.
+Increment (e) is complete in both halves: accepted `ADR-0213` and
+`VOXELIA-ALG-0045` answer `ADR-0208`'s open question — a separate model sharing
+`ALG-0009`'s operator verbatim — and `VoxeliaExecution` owns
+`OverlayCompositing`. **`VOX-R2D-011`, the arc's only P0 row, is discharged.**
+
+The exact next action is `ADR-0208` increment (f), the arc's last: complete the
+request and provenance and close `VOX-R2D-015`. This is where the gap `ADR-0209`
+recorded gets fixed — `RenderRequest` carries **no colour claim of any kind**
+today, and `ColourOutputConfiguration` lives only on `PresentationProvenance`
+with both renderers hard-coding it. Widen `DisplayColourTransform` additively
+with the palette and RGB cases the last three increments built, carry the
+declared output colour space and the transform in both the request and the
+provenance, and remember that `PresentationProvenance` records **what the
+pipeline actually did, never what was requested** (`ADR-0100`). There are seven
+`PresentationProvenance` construction sites; grep the whole repository before
+declaring the sweep done. `VOX-R2D-015` declares **I,T**, so it carries both an
+inspection and a test obligation.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -14088,11 +14147,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0208` increment (e) next: overlay alpha compositing, the arc's
-  only P0 row. Freeze every numeric boundary in an accepted record with an
-  independent Python oracle before writing Swift, and decide on evidence
-  whether the accepted `CompositeLayersOperation` extends or a new model is
-  needed — `ADR-0208` deliberately left that open.
+- Perform `ADR-0208` increment (f) next: request and provenance completion,
+  closing `VOX-R2D-015` and the arc. It widens accepted public types, so grep
+  the whole repository for every construction site before declaring the sweep
+  done, and clean-rebuild before final verification because the change is a
+  cross-module layout change.
+- `VOX-R2D-015` declares **I,T**. State which half each piece of evidence
+  discharges rather than letting a green test stand in for the inspection.
 - Reuse the accepted round-half-away helper's exact formula wherever a table
   index is selected, including its just-below-half behaviour. A "corrected"
   variant would be a second rounding rule and would diverge from the registered

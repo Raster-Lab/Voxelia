@@ -189,7 +189,8 @@ the colour and overlay arc. `ADR-0209` is allocated to the display colour
 vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0211` is allocated to the palette-colour design.
 `ADR-0212` is allocated to the RGB source design.
-The next unallocated numeric identifier is `ADR-0213`.
+`ADR-0213` is allocated to the overlay compositing design.
+The next unallocated numeric identifier is `ADR-0214`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -385,3 +386,4 @@ The next unallocated numeric identifier is `ADR-0213`.
 | [ADR-0210](ADR-0210-voi-lookup-design.md) | Accepted | VOI lookup design |
 | [ADR-0211](ADR-0211-palette-colour-design.md) | Accepted | Palette-colour design |
 | [ADR-0212](ADR-0212-rgb-source-design.md) | Accepted | RGB source design |
+| [ADR-0213](ADR-0213-overlay-compositing-design.md) | Accepted | Overlay compositing design |

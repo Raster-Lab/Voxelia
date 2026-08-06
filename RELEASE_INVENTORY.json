@@ -705,6 +705,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaExecution/Internal/OverlayCompositing.swift",
+      "size": 5185,
+      "sha256": "5da41eb21e0c3674e11a04047520c902e59f5aef8dcaee702a25e987e81d21fc"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Internal/PaletteColour.swift",
       "size": 4532,
       "sha256": "197cf8b20aebc32947f723a315fa53caebd01bcb003334d59dcac4c8ae482989"
@@ -2025,6 +2030,11 @@
       "sha256": "6470d5a70d35ada2ef281d8324f3553347505c347cd7d8ca7f8c5de9aa7db754"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/OverlayCompositingTests.swift",
+      "size": 11323,
+      "sha256": "da9bf1ec89383314a6dc697792fdfe10b88b0fb02a5a12436810d99e24c731be"
+    },
+    {
       "path": "Tests/VoxeliaExecutionTests/PaletteColourTests.swift",
       "size": 10634,
       "sha256": "b8c81330dd68c42f3aa6c0c3823bd208075010b2b86538eb05027a51e75f230a"
@@ -2876,8 +2886,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 5487,
-      "sha256": "0575e08e11a0a19698610d6c2bfc7115d386d8e8b002fae47a4d46c61c9af2a8"
+      "size": 5610,
+      "sha256": "269663aea4ec22c8b36ce0e5f32e0b4fd6779c27ba9ec109aa4fd7b2dde94376"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3098,6 +3108,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0044-rgb-source-presentation.md",
       "size": 5162,
       "sha256": "d067806c15a4b93a8b0bd9cf51caad66c7d761274dad35cdae1a5e35fed682f0"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0045-overlay-alpha-compositing.md",
+      "size": 6674,
+      "sha256": "2d2bb51308c26c0270a5c0555e465fb9eb36704d2b48e65af3575dceb072a6f4"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4200,9 +4215,14 @@
       "sha256": "5eb6c04447b37ed647287d9ecc76680b8fa6ba37426c967e10997921f4a97af0"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0213-overlay-compositing-design.md",
+      "size": 8659,
+      "sha256": "07383db514b4f1ccb3da7db5f463a8a26257b71ce80568bcdf9306b5fadef424"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 31898,
-      "sha256": "b6705c051d863e77e4431cb751dc8b0f1060bae411cd2d7ba5370dbd00ec5681"
+      "size": 32052,
+      "sha256": "95e3c7b092649cea31c0cb9d5ad313b23ea4dce9ad3e752fe070c5283da1f916"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4286,8 +4306,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 928014,
-      "sha256": "b64a047f741e7bbe421e5d70f0038daf700dc43273e2060fce7fdd99ca06221c"
+      "size": 931436,
+      "sha256": "8a8337ed20d733122dc8adbb369a4c44aecba7a2fb92968a344e0faa9f5d1bce"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4433,6 +4453,11 @@
       "path": "docs/progress/evidence/ADR-0212-rgb-source-oracle.py",
       "size": 5978,
       "sha256": "27bcb7578e7c8009b118c8c2337f39ae541b0d7ee5e5b0edc51539f0ec783bc9"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0213-overlay-compositing-oracle.py",
+      "size": 9040,
+      "sha256": "000b9d71a4116e7c8093d4860e61a4cd6bf8fdc1628127450885c044193d30f8"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4741,8 +4766,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 52721,
-      "sha256": "73d77b7fff5cbd28e4f8a1644f1b2079c8bb6ac9d18f05ef31edaa0dc3835f79"
+      "size": 53029,
+      "sha256": "40447fba2da9500c633a40dcf8fb8378f1075352bf6181f07a7e483edcb14a96"
     }
   ]
 }
