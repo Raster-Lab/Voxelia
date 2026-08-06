@@ -159,12 +159,38 @@ public enum AffineTransformAlgebra {
         guard isAffine(matrix) else {
             throw AffineTransformError.nonAffineOperand
         }
-        let inverse = try AffineSpatialInverse(spatialPartOf: matrix).elements
+        return transformNormal(
+            usingInverseOf: try AffineSpatialInverse(spatialPartOf: matrix),
+            x: x,
+            y: y,
+            z: z
+        )
+    }
+
+    /// Transforms a normal using an inverse computed once, for callers applying the same
+    /// transform to many directions.
+    ///
+    /// A renderer shading a mesh transforms three normals per facet under one
+    /// `objectToWorld`, so recomputing `VOXELIA-ALG-0016`'s inverse per direction would
+    /// repeat identical work thousands of times per frame. This is the same traversal as
+    /// the matrix-taking overload above — which delegates here — so the two cannot drift.
+    ///
+    /// The caller is responsible for having admitted the matrix as affine; the inverse
+    /// carries no such claim on its own.
+    ///
+    /// - Returns: the three transformed components, in order, unnormalised.
+    public static func transformNormal(
+        usingInverseOf inverse: AffineSpatialInverse,
+        x: Double,
+        y: Double,
+        z: Double
+    ) -> ContiguousArray<Double> {
+        let elements = inverse.elements
         var result = ContiguousArray<Double>(repeating: 0, count: 3)
         for row in 0..<3 {
             result[row] =
-                ((inverse[0 * 3 + row] * x + inverse[1 * 3 + row] * y)
-                    + inverse[2 * 3 + row] * z)
+                ((elements[0 * 3 + row] * x + elements[1 * 3 + row] * y)
+                    + elements[2 * 3 + row] * z)
         }
         return result
     }

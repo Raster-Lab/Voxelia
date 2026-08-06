@@ -284,6 +284,7 @@ Sources/VoxeliaRendering/Internal/SurfaceClipper.swift
 Sources/VoxeliaRendering/Internal/SurfaceColourMapper.swift
 Sources/VoxeliaRendering/Internal/SurfaceCompositor.swift
 Sources/VoxeliaRendering/Internal/SurfaceCoverage.swift
+Sources/VoxeliaRendering/Internal/SurfaceNormalTransform.swift
 Sources/VoxeliaRendering/Internal/SurfacePicker.swift
 Sources/VoxeliaRendering/Internal/SurfaceShader.swift
 Sources/VoxeliaRendering/Internal/SurfaceVertexProjector.swift
@@ -532,6 +533,7 @@ Tests/VoxeliaRenderingTests/SurfaceAnnotationRegistrarTests.swift
 Tests/VoxeliaRenderingTests/SurfaceClipperTests.swift
 Tests/VoxeliaRenderingTests/SurfaceColourMapperTests.swift
 Tests/VoxeliaRenderingTests/SurfaceCompositorTests.swift
+Tests/VoxeliaRenderingTests/SurfaceNormalTransformTests.swift
 Tests/VoxeliaRenderingTests/SurfacePickerTests.swift
 Tests/VoxeliaRenderingTests/SurfaceSceneTests.swift
 Tests/VoxeliaRenderingTests/SurfaceShaderTests.swift
@@ -991,6 +993,7 @@ docs/architecture/decisions/ADR-0282-decision-register-enforcement.md
 docs/architecture/decisions/ADR-0283-affine-composition-and-direction-design.md
 docs/architecture/decisions/ADR-0284-affine-algebra-implementation.md
 docs/architecture/decisions/ADR-0285-shading-normal-space-design.md
+docs/architecture/decisions/ADR-0286-shading-normal-space-correction.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

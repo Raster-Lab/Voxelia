@@ -4966,6 +4966,50 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    bit-identical, which is what makes "nothing existing changes" checkable rather than
    claimed.
 
+   **Increment (eee): `ADR-0286` — THE SHADING CORRECTION IS IMPLEMENTED.** 1152 tests /
+   207 suites (was 1145/206). `ADR-0202` and `ALG-0036` **unedited**; `SurfaceNormalTransform`
+   is a new file and nothing existing changed behaviour.
+
+   **All four required demonstrations delivered**: `ADR-0280`'s measurement is now a test
+   (uncorrected `1.0`, corrected `0.0`, difference exactly `1.0`); the normalisation-order
+   divergence asserted above `0.29` of the full range; **`ALG-0036`'s own suites passing
+   unchanged** (17 tests / 5 surface suites); and the **identity** transform leaving world
+   normals **exactly equal** to the object ones — which is what makes "nothing existing
+   changes" checkable rather than claimed.
+
+   **Hoisting done properly**: `AffineTransformAlgebra.transformNormal` gained an overload
+   taking a **precomputed** `AffineSpatialInverse`, and the matrix-taking overload now
+   **delegates to it** — one implementation of the column traversal, two entry points, so
+   they cannot drift. `ADR-0284`'s 11 tests passed **unchanged** after the refactor, which is
+   what makes it a refactor rather than a rewrite. **Rejected**: reimplementing the traversal
+   in the renderer to hoist — the obvious shortcut, and exactly what `ADR-0283` d5/d6 warned
+   about, since the transpose is expressed *by* the traversal order and a duplicate is one
+   edit from silently becoming `Inv × n`.
+
+   **Unit-length asserted EXACTLY, not with a tolerance**: an axis-aligned normal under a
+   diagonal transform scales to `(0,0,0.2)` whose normalisation is exactly `(0,0,1)`. The
+   test asserts that **and** that the raw value is `(0,0,0.2)` — distinguishing "normalised"
+   from "returned unchanged", which a unit-length tolerance would not. `ALG-0030` explicitly
+   states no unit-length tolerance correction is applied, so a tolerance would assert
+   something the spec deliberately does not promise.
+
+   **TWO THINGS FOUND WHILE IMPLEMENTING, both recorded for their own increments:**
+   1. **`SurfaceShader.normals(of:facetOrdinal:)` had NO caller and NO test.** Every
+      reference outside its own file was to `intensity`, which the suite exercises directly
+      with hand-built directions. The reader — including its `normalsMissing` rejection —
+      was **unexercised until this increment called it**. Third appearance of the
+      existence/wiring/verification split (`ADR-0248`, `ADR-0282`).
+   2. **A pointer API reached a test and the gate did not object.** The fixture first used
+      `withUnsafeBytes`; `check_swift_safety.py` **passed, because it does not scan
+      `Tests/`**. The policy forbids it regardless, so it was replaced with explicit shifts —
+      but this is a **third instance of the `ADR-0196` pattern**: an enforced-looking rule
+      nothing enforces in that location. Widening the scan is a tooling change with its own
+      blast radius, so it gets its own increment rather than being smuggled into a rendering
+      correction.
+
+   **The affine arc's named work is COMPLETE.** Next: the two tooling gaps, then a
+   re-derived queue.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
