@@ -2542,7 +2542,7 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    some existing operations. The real corpus does not hit it (Bits Stored equals
    the container width) but a twelve-bit CT would.
 
-   **Next: the bridge**, and the requirement list makes the case. The first
+   **`ADR-0238` opens the bridge arc.** The requirement list makes the case. The first
    vertical slice has **twenty** requirements; `VOX-VS1-001` to `008` are now
    covered, and `009` to `019` — axial/coronal/sagittal reconstruction, Metal
    rendering, interpolation, window-level interaction, linked crosshairs, pixel
@@ -2557,10 +2557,37 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `valueTransform: ValueTransform?` — exactly `ValueTransform.linear(scale:offset:)`,
    the rescale. The pieces were designed to fit; they have never been joined.
 
-   The bridge must decide: the narrowed-bit-count question above; a `DataIdentity`
-   for an ingested volume; and `VOX-VS1-019`'s provenance obligation, which
-   requires a `ProvenanceRecord` naming the source frames — the largest part, and
-   the reason this is an arc rather than one increment.
+   `ADR-0238` decomposes it into six increments — (a) descriptor, (b) storage
+   binding, (c) the narrowed-bit-count decision, (d) provenance, (e) identity and
+   publication, (f) end-to-end slice extraction on the real series — and records
+   three constraints verified by reading the accepted types rather than assumed.
+
+   **(c) is the arc's hardest question and a genuine correctness trap.** When Bits
+   Stored is narrower than Bits Allocated, declaring `validBitCount: 12` is
+   accurate and is **refused** by accepted operations, while declaring `nil` is
+   accepted and is **wrong for signed data** — a raw `0x0FFF` reads as `4095` where
+   the sample means `-1`. Both available declarations are unusable or incorrect, so
+   the answer is probably a third thing: normalising samples during transfer.
+   **The owner's corpus does not expose this** — its Bits Stored equals the
+   container width — so the trap is dormant and would pass every test available
+   today. `ADR-0238` decision 5 requires (c) settled before (e), so a wrong
+   descriptor never enters a pipeline that trusts it.
+
+   Two more verified constraints. **There is no clock**: `CanonicalInstant` offers
+   only `init(utcString:)`, so the ingest instant must be a caller parameter — which
+   is better anyway, since a self-stamping ingest would make every volume's identity
+   depend on the wall clock. And **byte order works by platform coincidence**:
+   `ContiguousImageStorage` admits with `byteOrder: .native`, DICOM is little-endian,
+   and Voxelia is Apple-Silicon-only. Recorded so a future big-endian target finds a
+   stated assumption instead of silent corruption.
+
+   The encouraging half: `ImageDescriptor` already carries `spatialGeometry`
+   (`.affine(AffineGridGeometry)`, what `ADR-0230` builds) and `valueTransform`
+   (`.linear(scale:offset:)`, the rescale), and `ContiguousImageStorage(binding:bytes:)`
+   already takes `[UInt8]`. **The slots were designed for this and have never been
+   filled** — the bridge is mostly assembly, not invention.
+
+   The exact next action is increment (a), the volume descriptor.
 2. The 13 remaining traceability rows in
    `docs/progress/untraced-requirements.txt`.
 3. A `prepare-release.sh` dry run, unexercised since `ADR-0225` gated three
