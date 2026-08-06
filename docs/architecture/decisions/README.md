@@ -418,3 +418,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0229](ADR-0229-ct-series-geometry-validation.md) | Accepted | CT series geometry validation |
 | [ADR-0230](ADR-0230-ct-affine-volume-construction.md) | Accepted | CT affine volume construction |
 | [ADR-0231](ADR-0231-dicomkit-supply-chain-assessment.md) | Accepted | DICOMKit supply-chain assessment |
+| [ADR-0232](ADR-0232-ct-volume-sample-layout.md) | Accepted | CT volume sample layout |

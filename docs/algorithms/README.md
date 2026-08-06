@@ -53,3 +53,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0047](VOXELIA-ALG-0047-series-grouping-and-ordering.md) | Accepted | CT series grouping and slice ordering `binary64-v1` |
 | [VOXELIA-ALG-0048](VOXELIA-ALG-0048-series-geometry-validation.md) | Accepted | CT series geometry validation `binary64-v1` |
 | [VOXELIA-ALG-0049](VOXELIA-ALG-0049-affine-volume-construction.md) | Accepted | CT affine volume construction `binary64-v1` |
+| [VOXELIA-ALG-0050](VOXELIA-ALG-0050-volume-sample-layout.md) | Accepted | CT volume sample layout `v1` |

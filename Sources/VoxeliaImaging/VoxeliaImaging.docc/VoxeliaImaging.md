@@ -34,6 +34,10 @@ public API is introduced only by reviewed milestone specifications.
 - ``CTAffineVolumeBuilder``
 - ``CTVolumeConstruction``
 - ``CTVolumeConstructionError``
+- ``CTVolumeLayout``
+- ``CTVolumeLayoutError``
+- ``CTFramePlacement``
+- ``CTFramePlacementError``
 
 ### Multiplanar reconstruction
 

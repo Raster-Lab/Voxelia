@@ -9426,6 +9426,67 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-sixty-fourth autonomous increment (`ADR-0232` +
+  `VOXELIA-ALG-0050` + oracle + implementation, increment (e1)):
+  `CTVolumeLayout` and `CTFramePlacement` land in `VoxeliaImaging`. All eight
+  frozen fixtures reproduce; 17 tests passing first run; 896 in 178 suites after
+  a clean rebuild; DocC 12 archives. **`Package.swift` untouched, licence gate
+  unmodified and still passing truthfully.**
+
+  **The finding: direct-write removed the plan's `CTFrameRecord` rather than
+  deferring it again.** A record holding `decodedSamples` presupposes an
+  intermediate owned buffer — which is exactly one of §16.1's *other* two
+  candidates, and exactly the copy per frame `ADR-0230` decision 10 chose
+  direct-write to avoid. If each frame decodes straight into its slice offset
+  there is no owned buffer for a record to hold. So the type is
+  `CTFramePlacement`, named for what it is, and the departure from the plan's
+  sketch is recorded rather than left for a reader to notice.
+
+  **The specification declines to claim a frozen floating-point expression order,
+  because this is integer arithmetic and there is no ordering hazard.** For
+  strictly positive factors any association of a product overflows exactly when
+  the product overflows, since every intermediate is bounded by the total.
+  Restating the house "frozen order, no FMA" rule would have guarded an imaginary
+  risk — and a specification that does that teaches readers to skim the real
+  ones. What *is* frozen is the index order, the offset formula and the overflow
+  boundaries.
+
+  **The sharpest fixture pair is L4 and L6: identical extents, differing only in
+  the scalar format's width.** At two bytes per sample the byte count overflows
+  and the layout is refused; at one byte it is exactly `Int.max` and admitted. An
+  implementation that checked only the sample count admits both — which is an
+  allocation-size overflow waiting for a wide format. A dedicated test asserts
+  the pair *together* so the rule cannot be half-satisfied.
+
+  **L7 is the transposition catcher**, and it exists because `row * columns` and
+  `row * rows` agree for every square frame. For a 3-row, 5-column frame the
+  offset is 5, not 3 — so every square fixture would have passed a wrong
+  implementation.
+
+  Offset overflow after admission is **discharged rather than assumed**: the
+  largest offset equals `sampleCount - 1`, which admission already established is
+  representable. Every admitted fixture asserts that identity, so a layout
+  leaving gaps or overlapping slices fails.
+
+  **No destination buffer type was defined**, deliberately. The layout says
+  *where* to write; the buffer belongs to (e2) where the producer lives, and a
+  speculative protocol with no producer would be tested only against a stub
+  written to fit it.
+
+  ```text
+  python3 docs/progress/evidence/ADR-0232-volume-layout-oracle.py
+  rm -rf .build && swift build
+  swift test                                # 896 tests in 178 suites
+  swift test --filter CTVolumeLayout        # 17 tests
+  swift format lint --strict <two touched Swift files>
+  python3 Tools/Scripts/check_swift_safety.py
+  python3 Tools/Scripts/check_licence_policy.py   # unmodified, still passes
+  Tools/Scripts/build-docc.sh                # 12 archives, exit 0
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -15590,14 +15651,37 @@ blocked on two owner decisions** and must not proceed: the four Raster-Lab codec
 libraries arriving transitively through DICOMKit (`VOX-CMP-001`), and
 `Raster-Lab/JLSwift` having no licence file at all.
 
-The exact next action is **(e1), the Voxelia-owned direct-write addressing
-contract** — unblocked, and the mechanism the plan's §16.1 requires for transfer
-"without unnecessary intermediate copies". Design-first, because it has genuine
-numeric boundaries: `CTFrameRecord` (a description plus its slice index in the
-volume) and the linear sample layout, whose admission must include **overflow**
-of `rows * columns * sliceCount` and of the byte count, in a frozen expression
-order with `multipliedReportingOverflow` rather than a trusted product. It names
-no DICOMKit type and needs no dependency.
+Increment (e1) is complete: accepted `ADR-0232` and `VOXELIA-ALG-0050`, with
+`CTVolumeLayout` and `CTFramePlacement` implemented against all eight frozen
+fixtures. The plan's `CTFrameRecord` will not appear — direct-write removed the
+need for it, and `ADR-0232` records why.
+
+**The DICOM arc is now blocked in full.** Every part of it that can be built
+without the dependency has been built: the neutral frame description, series
+grouping and ordering, geometry validation, affine volume construction, and the
+direct-write addressing contract — five accepted records, four algorithm
+specifications and four oracles, all verified. What remains is (e2), and (e2)
+cannot start until the two `ADR-0231` owner decisions land.
+
+So the next action is **not** more DICOM work. Pick up the highest-value
+unblocked work elsewhere, and prefer something that leaves the arc ready rather
+than starting a new arc that would need abandoning when the owner answers.
+Candidates, in the order they are worth assessing:
+
+1. **Re-test the release strict build.** `ADR-0224` left `validate-scaffold.sh`
+   red on an Apple Swift 6.3.3 `swift-frontend` crash, with an exact recorded
+   reproduction. Cheap to re-run, and it is the project's only outstanding
+   red gate.
+2. **The traceability debt at 13 rows.** `ADR-0216`'s ratchet holds; the
+   remaining rows are enumerated in `docs/progress/untraced-requirements.txt`
+   and some may now be traceable by records written since.
+3. **A `prepare-release.sh` dry run.** It has not been exercised since
+   `ADR-0225` gated three pipelines into it, and the SBOM will need regeneration
+   for (e2) anyway — finding out now whether the release path is green costs one
+   command.
+
+Do not touch `Package.swift`, `check_licence_policy.py` or
+`THIRD_PARTY_NOTICES.md`. The dependency gate passes today because it is true.
 
 **Do not** touch `Package.swift`, `check_licence_policy.py` or
 `THIRD_PARTY_NOTICES.md` until both owner decisions land. The dependency gate

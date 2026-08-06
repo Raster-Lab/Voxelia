@@ -1010,6 +1010,11 @@
       "sha256": "0f0b61c0fcaccd74619516b8fa69e13e197b980c2c340f92ee14c92ebef9032b"
     },
     {
+      "path": "Sources/VoxeliaImaging/Public/CTVolumeLayout.swift",
+      "size": 8478,
+      "sha256": "e490084267db2cd1c8dcecf0ad510bd14566c22e98d719aaa824cc5145403dee"
+    },
+    {
       "path": "Sources/VoxeliaImaging/Public/MPRSliceCoordinator.swift",
       "size": 8103,
       "sha256": "5976055ae9666c23c94c55cc21f41622fdff26c27a7ef1e416262e6c5a66544f"
@@ -1026,8 +1031,8 @@
     },
     {
       "path": "Sources/VoxeliaImaging/VoxeliaImaging.docc/VoxeliaImaging.md",
-      "size": 979,
-      "sha256": "d589cee9891570f7c606ef41eba8431fdcd1c0dfc2260fa84806c7a13f7c7d99"
+      "size": 1077,
+      "sha256": "8af1860a9c228f8705e677b0d37f05c3418a187f11cee8677b3ba3f2a75dfd67"
     },
     {
       "path": "Sources/VoxeliaInteraction/ApplePlatformGate.swift",
@@ -2225,6 +2230,11 @@
       "sha256": "f1d153e3ebe629d5f4858fd31a7322a45744c6f6edb457c39cd4a15c6034fc6c"
     },
     {
+      "path": "Tests/VoxeliaImagingTests/CTVolumeLayoutTests.swift",
+      "size": 11336,
+      "sha256": "b7f8cc5deed33be3af7ee73e8d437a45174416f8496d7b76d9b3d04d78e4a877"
+    },
+    {
       "path": "Tests/VoxeliaImagingTests/MPRSliceCoordinatorTests.swift",
       "size": 15978,
       "sha256": "482d0ebfc65cab296ff0909c9035f97b5d50766ba909af9ccb2922117faa1c51"
@@ -2966,8 +2976,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 6117,
-      "sha256": "3aa3906599aa4508c8a64fe9993577447e837f14cb784deda51738d80230d8bd"
+      "size": 6224,
+      "sha256": "aef30f94a7463b445748ee6e6012a0f367f861fe1d1c6d2fa044a861d2bc41d5"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3213,6 +3223,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0049-affine-volume-construction.md",
       "size": 7431,
       "sha256": "0f660ddd08e6384a3cb3aa150348faa287ca50aafbbb77f5b3759efa79c08cfc"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0050-volume-sample-layout.md",
+      "size": 5309,
+      "sha256": "23377ad6d1d96f91fb864695bbc3d07fd0dae24956d7bb496d7135520e24a419"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4410,9 +4425,14 @@
       "sha256": "8997c04d03e0f9b7943c5b48581973b7747da1ab5f7111ed9680d89ab68661df"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0232-ct-volume-sample-layout.md",
+      "size": 8752,
+      "sha256": "0bc9b407601f331b8f9174dd270a153bb9b8553a50fbeacdc6205fa9d6651e3c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 34565,
-      "sha256": "6b3d6c390e4add4ab37d4dcf143a0aa14a80329283363a96c6e5469f1db73a88"
+      "size": 34654,
+      "sha256": "d874dbfac6db975df17ee9db435377f5be717df7dd07351ff547dd9583dbc8f6"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4496,8 +4516,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1016829,
-      "sha256": "55a91ad5f70a2a9b4f0e577a240495a6973ff5e0692e72cc6b0f8d8b1f75de86"
+      "size": 1021484,
+      "sha256": "0362602064b2bef60e0ad7c6f4cdf56198e72ef24864657ac7198c0803e7a872"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4668,6 +4688,11 @@
       "path": "docs/progress/evidence/ADR-0230-affine-volume-oracle.py",
       "size": 7432,
       "sha256": "ddb6646b78d98bce66912a53bb67fd60aa5a8671207a6d5cbd97de39c07df213"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0232-volume-layout-oracle.py",
+      "size": 5727,
+      "sha256": "83474307cdaf7cff82e870e9e3c268e6de9a8d0af0ba8ef0b08fe34ecf9b8a72"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4981,8 +5006,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 55679,
-      "sha256": "5755079a0a9679b05bfbbfc148f88b5906c75fcdc7d21c32cbedcc42a56a7caf"
+      "size": 55959,
+      "sha256": "69fd202bca9f85c18dc0d9aada61c8dd3ee96a65546c840cd50b5f227f1335f7"
     }
   ]
 }
