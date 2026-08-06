@@ -84,6 +84,8 @@ Sources/VoxeliaCompression/Public/CompressedDecodeSession.swift
 Sources/VoxeliaCompression/Public/CompressedDecodeValidator.swift
 Sources/VoxeliaCompression/Public/CompressedPayload.swift
 Sources/VoxeliaCompression/Public/CompressedRepresentation.swift
+Sources/VoxeliaCompression/Public/CompressedScope.swift
+Sources/VoxeliaCompression/Public/DecodeDestination.swift
 Sources/VoxeliaCore/ApplePlatformGate.swift
 Sources/VoxeliaCore/Internal/.gitkeep
 Sources/VoxeliaCore/Module.swift
@@ -373,6 +375,8 @@ Tests/VoxeliaCompressionTests/CompressedDecodeSessionTests.swift
 Tests/VoxeliaCompressionTests/CompressedDecodeValidatorTests.swift
 Tests/VoxeliaCompressionTests/CompressedPayloadTests.swift
 Tests/VoxeliaCompressionTests/CompressedRepresentationTests.swift
+Tests/VoxeliaCompressionTests/CompressedScopeTests.swift
+Tests/VoxeliaCompressionTests/DecodeDestinationTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationIngressTests.swift
 Tests/VoxeliaCoreTests/CanonicalDerivationJSONTests.swift
 Tests/VoxeliaCoreTests/CanonicalFuzzEvidenceTests.swift
@@ -945,6 +949,7 @@ docs/architecture/decisions/ADR-0256-compression-module-boundary.md
 docs/architecture/decisions/ADR-0257-toolkit-native-representation-labelling.md
 docs/architecture/decisions/ADR-0258-compressed-decode-admission.md
 docs/architecture/decisions/ADR-0259-cancellable-decode-session.md
+docs/architecture/decisions/ADR-0260-compressed-scope-and-destination.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

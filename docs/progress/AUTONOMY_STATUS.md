@@ -3649,10 +3649,55 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Compression arc: 5 of 7 buildable rows done** (`002`, `007`, `009`, `010`,
    `013`).
 
-   **Next: increment (e)** — `VOX-CMP-003` + `VOX-CMP-008`: the source, slice, slab
-   and brick shapes and caller-provided destination storage, where a
-   `CompressedRepresentation` finally attaches to a payload. That closes the buildable
-   half of the arc.
+   **Increment (ff): `ADR-0260`, compression increment (e). THE ARC'S BUILDABLE HALF
+   IS COMPLETE.** `VOX-CMP-003` discharged, `VOX-CMP-008` discharged in `T` only.
+   **1064 tests / 197 suites.**
+
+   **`VOX-CMP-003`: the four shapes are one region plus a frozen classification.**
+   Original source / slice / slab / brick are not four unrelated things — each is a
+   region of a parent volume, so `CompressedScope` stores an `ImageRegion` (composed
+   from Core, not reinvented) and **derives** the kind. Frozen order: covers-everything
+   → `originalSource`; one axis of extent 1, rest full → `slice`; one partial axis,
+   rest full → `slab`; else `brick`.
+
+   **The clause order resolves a real ambiguity.** A volume whose slice axis has
+   extent 1 is *simultaneously* the whole volume and a single plane — both true.
+   Covering everything is the stronger statement so it wins, and tests pin both the
+   flat-volume case and plane-of-a-taller-volume so it is precedence rather than a
+   special case for extent 1.
+
+   **Classification enumerated, not sampled**: all 8 regions of a `2x2x2` volume.
+   It reaches `originalSource`/`slice`/`brick` but **NOT `slab`** — a partial axis of
+   a two-deep volume always has extent 1 — and that is asserted rather than left as a
+   silent gap, with a taller volume covering the fourth kind.
+
+   **`VOX-CMP-008`: built the reuse, and recorded what cannot be verified.**
+   `DecodeDestination` is caller-allocated, admitted before any fill, reusable across
+   differently sized decodes with contents replaced not appended; partial fills,
+   over-long fills and fill-before-prepare all refuse, and no refusal leaves partial
+   contents. `prepare` clears, so a decode failing after preparation cannot expose the
+   previous decode's samples.
+
+   **But the row says "where the codec API permits it", and that qualifier is
+   load-bearing.** No codec is linked, so whether one accepts a caller-provided
+   destination is unanswerable — **and there is a precedent for the answer being no**:
+   `ADR-0235` found DICOMKit returns an owned `Data` with no destination entry point,
+   which made `ADR-0230` d10's direct-write model unimplementable. So **`008`'s `A`
+   half is recorded as outstanding, not claimed** — the honest reading of a row whose
+   own wording is conditional on a fact I cannot establish.
+
+   # COMPRESSION ARC: BUILDABLE HALF COMPLETE — EVERYTHING LEFT IS OWNER-BLOCKED
+
+   Discharged: `002`, `003`, `007`, `009`, `010`, `013`, and `008` (`T`).
+   Blocked: `004`, `005`, `006`, `011`, `012`, `014`, `008` (`A`), plus the
+   direct-dependency question. **The arc cannot advance without the owner
+   reconciliation `ADR-0255` referred.**
+
+   **Next**: with both the first vertical slice and the compression arc's buildable
+   half done, the highest-value unblocked work is the **repetition/warm-up method** so
+   plan §53's distribution comparison becomes possible — `VOXELIA-BEN-0001` is
+   currently a single cold run per configuration, which the report itself names as its
+   principal limitation.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
