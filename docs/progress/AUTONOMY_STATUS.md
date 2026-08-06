@@ -3749,12 +3749,43 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    uninstrumented — deferred to approved hardware rather than added as uncalibrated
    noise.
 
-   **Next**: with the slice, the compression arc's buildable half, and the benchmark
-   method all done, the remaining unblocked candidates are thin. Best options: the
-   §59.3 stress volume (`512x512x1024`, ~1 GiB) as its own benchmark scenario, or a
-   synthetic-affine three-plane crosshair composition test in
-   `VoxeliaInteractionTests` so CI guards what `ADR-0248` demonstrated on real data.
-   Everything else of substance now waits on one of the owner decisions.
+   **Increment (hh): `ADR-0262`, the crosshair composition regression guard.**
+   `ADR-0248`'s open migration step closed. **1067 tests / 198 suites.** No source
+   changed.
+
+   **The gap this fills is specific: `ADR-0248`'s real-data run is evidence the
+   composition worked ONCE, and it cannot run in CI** because no repository test may
+   read patient data. And the two halves' own unit tests pass **independently of
+   whether the halves still meet** — so an axis-renumbering change that broke only the
+   composition would have left both green. That is exactly the gap `ADR-0248` found by
+   composing them for the first time.
+
+   The fixture removes each way the test could pass while the code was wrong:
+   **anisotropic `4x3x5`** (a cube cannot detect a transposed plane), **three distinct
+   affine spacings** `world = (10+2i, 20+3j, 30+5k)` (equal spacings would hide a
+   swapped axis), and a **non-zero origin** (would hide a dropped origin term). The
+   three expected pixels are all distinct — axial `(2,1)`, coronal `(2,3)`, sagittal
+   `(1,3)` in viewports `4x3`/`4x5`/`3x5` — which exercises `ADR-0244`'s axis
+   renumbering.
+
+   **`ADR-0248`'s composition contract is guarded, not restated.** A second test puts
+   the crosshair outside the volume on the column axis and asserts the asymmetric
+   outcome: axial and coronal report `outsideViewport` (both present the column) while
+   the **sagittal view still reports a pixel** (it presents row and slice, so an
+   out-of-range column cannot move its in-plane projection) — and the slice-index call
+   refuses. A regression in either half now breaks a test.
+
+   **Negative-tested rather than assumed.** The coronal expectation was deliberately
+   transposed and the suite failed on both axes (`viewportX → 2 == 3`,
+   `viewportY → 3 == 2`), then restored green. A passing test proves nothing about
+   whether it *can* fail.
+
+   **Next**: the remaining unblocked candidate is plan §59.3's `512x512x1024` (~1 GiB)
+   stress volume as its own benchmark scenario. After that, **everything of substance
+   waits on one of the eight owner decisions** — six from `ADR-0254` (report approval,
+   reference hardware, tolerance profile, geometry tolerance rule, two `LICENSE`
+   files, draw loop) and two from `ADR-0255` (reconcile the blocked CMP rows, direct
+   codec dependency).
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.

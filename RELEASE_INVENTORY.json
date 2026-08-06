@@ -2430,6 +2430,11 @@
       "sha256": "97ca5d75a795771101f8638bb2483eb0fafa562d1cc4bfdf624e20e4e581eed0"
     },
     {
+      "path": "Tests/VoxeliaInteractionTests/CrosshairCompositionTests.swift",
+      "size": 16823,
+      "sha256": "e8102fa12fecbac6dab14523471ffbb02f03f603ce6576498fd5855fb210cd6c"
+    },
+    {
       "path": "Tests/VoxeliaInteractionTests/InteractionCommandTests.swift",
       "size": 12748,
       "sha256": "53a3fe38b9f9f667fb0389db53f70f34b70b9ded2d0d15a394bcb75fe2b88f0f"
@@ -4765,9 +4770,14 @@
       "sha256": "12b43fa6566178afc05457de248e71be2ef7544c1d2903cf0298e2dabeec2aa3"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0262-crosshair-composition-regression-guard.md",
+      "size": 6137,
+      "sha256": "184c10825641ccb515fcb36249ae275f370bac838a6d4d1a331910290160e284"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 37605,
-      "sha256": "4a958c08e569aa1dfb8579e098245913fa53e0d121123595193e14718958acea"
+      "size": 37724,
+      "sha256": "3701d6f0476d43fb166be112c6560f9f7d9e076436c7dedb43c45b97e1a0c668"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4856,8 +4866,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1109321,
-      "sha256": "4ebcf5d66632932ee5a4ac7536f352a6aa686b2f294f782fbdc9e02fc196588a"
+      "size": 1111205,
+      "sha256": "8a65fc76c465943d0f7d5f7781c23a71b1a0c56f22c5c11c8bdaee6c0fb6105b"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5366,8 +5376,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 60544,
-      "sha256": "da3d0e59310d8bffaeac519cdffff7e01cfad8fc3f915223ce2af04511cb10ec"
+      "size": 60685,
+      "sha256": "7f402ad86ded4b594db4321de38ed7efd6fff8bb42beb90fe8bb917b6c507ea7"
     }
   ]
 }
