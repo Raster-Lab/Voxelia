@@ -367,6 +367,80 @@ with `degenerateViewDirection`. The camera plays no part in `ADR-0140`'s mapping
 which reads only geometry and viewport — but it must still be a valid camera, and
 the admission said so.
 
+## Run 9 - `ADR-0249` cancellable import on real data
+
+`CTImportSession` driven over the same 899 files, with `DICOMFrameSource`
+supplying descriptions and bytes. Cancellation is injected at each stage
+boundary and **deep inside** each per-item stage, because cancelling at item zero
+proves only an early exit.
+
+| Cancelled at | Refused after |
+|---|---|
+| `metadataRead(0)` | `0.00 s` |
+| `metadataRead(450)` | `0.09 s` |
+| `grouping` | `0.18 s` |
+| `frameValidation` | `0.19 s` |
+| `decode(0)` | `0.56 s` |
+| `decode(450)` | `2.45 s` |
+| `assembly` | `4.34 s` |
+| `identity` | `4.30 s` |
+| `final` | `4.24 s` |
+
+```text
+every cancellation published nothing:        PASS
+uncancelled control published:               PASS
+matches the hand-written harness loop:       PASS
+frame of reference carried:                  true
+uncancelled import: 512x512x899, representable, 4.23 s
+```
+
+Every case refuses with `cancelled` and leaves the coordinator with no published
+image, checked against the same `PublicationCoordinator` the uncancelled control
+publishes into — so "nothing was published" is verified rather than assumed. The
+control is what makes the nine refusals evidence of cancellation rather than of a
+broken pipeline.
+
+## Run 9a - a rationale refuted by its own measurement
+
+The frame source re-reads each file when its bytes are wanted, rather than
+retaining the parsed data set from the description pass. The stated reason was
+that retention would cost memory to buy time. **A retaining mode was built to
+offer that trade, and measuring it refuted the reason for its existence:**
+
+| Mode | Elapsed | Peak resident |
+|---|---|---|
+| Re-read | `23.70 s` | `1789 MiB` |
+| Retain | `23.47 s` | `2265 MiB` (`+476 MiB`) |
+
+`1.01x` faster for `+476 MiB` — no speedup at all, because `DICOMFile.read` does
+not eagerly copy a file's bytes. Re-reading is therefore strictly better, and the
+option was **removed rather than shipped** as a plausible-sounding choice with no
+measured benefit.
+
+## Run 9b - what the time was actually going on
+
+The same measurement carried a second, larger finding: if retention changes
+nothing, then the ~23 s was **not** re-parsing. It was a copy introduced by the
+new byte-reading entry point, which returned `[UInt8]` and so converted
+DICOMKit's `Data` once per frame.
+
+`CTImportSession` was made generic over the byte collection and
+`DICOMFrameTransfer.frameBytes` now returns `Data`:
+
+| | Elapsed |
+|---|---|
+| Returning `[UInt8]` | `22.85 s` |
+| Returning `Data` | `4.23 s` |
+
+**`5.4x`**, and the result now sits alongside the `3.77 s` the hand-written
+transfer loop took in run 1 — the remaining difference being the description pass
+the session also performs. About 20 ms per frame, roughly five times the transfer
+itself, was being spent copying bytes that never needed copying.
+
+The sequence is worth recording as method rather than as a number: a hedge added
+against a guessed trade was measured, the guess was wrong, and the measurement
+that removed the hedge is what exposed the real cost.
+
 ## Reproduction
 
 ```text

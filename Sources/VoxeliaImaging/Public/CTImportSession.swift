@@ -117,7 +117,9 @@ public enum CTImportSession {
     ///   - describe: yields one source's frame description, or `nil` when the
     ///     source is not an admissible CT frame.
     ///   - readFrameBytes: yields one frame's samples, or `nil` when they are
-    ///     unavailable.
+    ///     unavailable. Generic over the collection so a source need not copy
+    ///     its bytes into an `Array` to satisfy this signature — measurement
+    ///     showed that copy dominated a real 899-frame import.
     ///   - tolerance: the geometry tolerance to assess against.
     ///   - coordinateSpaceID: the patient space's identifier.
     ///   - convention: the space's axis convention.
@@ -132,10 +134,10 @@ public enum CTImportSession {
     ///   - cancellation: the probe consulted at every checkpoint.
     /// - Throws: ``CTImportSessionError``, or the audited typed errors of the
     ///   assembly, validation, layout, transfer and publication contracts.
-    public static func importVolume<Source: Sendable>(
+    public static func importVolume<Source: Sendable, Bytes: Collection<UInt8>>(
         sources: [Source],
         describe: @Sendable (Source) throws -> CTFrameDescription?,
-        readFrameBytes: @Sendable (CTFrameDescription) throws -> [UInt8]?,
+        readFrameBytes: @Sendable (CTFrameDescription) throws -> Bytes?,
         tolerance: CTGeometryTolerance,
         coordinateSpaceID: CoordinateSpaceID,
         convention: CoordinateConvention,

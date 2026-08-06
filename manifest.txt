@@ -139,6 +139,7 @@ Sources/VoxeliaCore/VoxeliaCore.docc/Architecture.md
 Sources/VoxeliaCore/VoxeliaCore.docc/Requirements.md
 Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md
 Sources/VoxeliaDICOMKit/Public/DICOMFrameAdapter.swift
+Sources/VoxeliaDICOMKit/Public/DICOMFrameSource.swift
 Sources/VoxeliaDICOMKit/Public/DICOMFrameTransfer.swift
 Sources/VoxeliaExecution/ApplePlatformGate.swift
 Sources/VoxeliaExecution/Internal/.gitkeep

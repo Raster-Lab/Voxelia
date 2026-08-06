@@ -705,9 +705,14 @@
       "sha256": "d0782e764c4c916ff0c201fc96ae5a80b7c69a9804c01c6ee844dfd2afd1a0fd"
     },
     {
+      "path": "Sources/VoxeliaDICOMKit/Public/DICOMFrameSource.swift",
+      "size": 4242,
+      "sha256": "6173e62d35631f5dc44f803ad7525159badf6134939ca43d6bba8fe156d2a764"
+    },
+    {
       "path": "Sources/VoxeliaDICOMKit/Public/DICOMFrameTransfer.swift",
-      "size": 2722,
-      "sha256": "57d2a467b76d506e0d26f49ca9b5bb9ab818fd1f85a72e3342f1f1dd11ba032f"
+      "size": 3851,
+      "sha256": "611dea4af19c15a17ce672270c3b6b532c605cfd9a4c65bbe1f71d4dee61132e"
     },
     {
       "path": "Sources/VoxeliaExecution/ApplePlatformGate.swift",
@@ -1021,8 +1026,8 @@
     },
     {
       "path": "Sources/VoxeliaImaging/Public/CTImportSession.swift",
-      "size": 11909,
-      "sha256": "8a78194405128394323f4fe252e026c9fb8c40bd439d17a59514f7cfab8baa40"
+      "size": 12131,
+      "sha256": "e2e50d559060d8d8e00756bc24a8422843cebc1f1fdbeabe976e098d4f4f5cee"
     },
     {
       "path": "Sources/VoxeliaImaging/Public/CTSampleInspector.swift",
@@ -2291,8 +2296,8 @@
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTImportSessionTests.swift",
-      "size": 13248,
-      "sha256": "3e7c11b58bf397b399d6710cf660a9804fc5e8125a6343e2306f254d9fededf5"
+      "size": 13391,
+      "sha256": "a74ff326028e35d003b6db8c727ec1487dd34ec83c4fba3ba887403466a46749"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTSampleInspectorTests.swift",
@@ -4716,8 +4721,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1068400,
-      "sha256": "c8533e9354bcc7a29a1f31fda0cf2bcd69dbbdf1259236be3bdc80485bfc583a"
+      "size": 1070890,
+      "sha256": "97f319988f380d315bd7608644364b4c660eda397e3ddf48bd89906a8f6befc7"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4911,8 +4916,8 @@
     },
     {
       "path": "docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md",
-      "size": 17979,
-      "sha256": "0d63038e6b957cd1f6cdbb147368935e8fa359a8e27a9aad75edc0779c17ee2d"
+      "size": 21017,
+      "sha256": "a7e8309e992c13d3c9eb0ccec7024377976bc01998d31e568f035e829f4ee75b"
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
@@ -5221,8 +5226,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 58626,
-      "sha256": "00e1683d4b9684b0105e4a76d4f356cd0e55b11fafb1eeec6f2e81ffbb304ca1"
+      "size": 58680,
+      "sha256": "c91aa90f546e789f2915b501a3311e2bde09aa11a11b2b01c42200057b12efba"
     }
   ]
 }

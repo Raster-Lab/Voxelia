@@ -3094,11 +3094,52 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    question well beyond this row. Named so a later increment cannot assume it was
    settled.
 
-   **Next: `ADR-0249` stage two** — the DICOM-backed frame source in
-   `VoxeliaDICOMKit` and a real-data run confirming a cancelled import of the
-   899-frame series publishes nothing; then stage three, the publication-atomicity
-   test of decision 6. Then `011`'s confirmation, `010`'s differential run, `018`'s
-   steady-state measurement, `016`'s requirement reading.
+   **Increment (t): `ADR-0249` stage two — the DICOM frame source, verified on real
+   data, and two of my own claims refuted by measurement.** 1012 tests / 189 suites.
+
+   Built `DICOMFrameSource` in `VoxeliaDICOMKit` plus an additive
+   `DICOMFrameTransfer.frameBytes` read-only entry point. Cancellation injected at
+   each stage boundary **and deep inside** each per-item stage — cancelling at item
+   zero proves only an early exit:
+
+   | Cancelled at | Refused after |
+   |---|---|
+   | `metadataRead(0)` / `(450)` | `0.00 s` / `0.09 s` |
+   | `grouping` / `frameValidation` | `0.18 s` / `0.19 s` |
+   | `decode(0)` / `(450)` | `0.56 s` / `2.45 s` |
+   | `assembly` / `identity` / `final` | `4.34 s` / `4.30 s` / `4.24 s` |
+
+   Every case refused with `cancelled` and left the coordinator with **no published
+   image**, checked against the same `PublicationCoordinator` the uncancelled control
+   publishes into. The control is what makes the nine refusals evidence of
+   cancellation rather than of a broken pipeline. The session's volume matches the
+   hand-written harness loop's, and the frame of reference is carried.
+
+   **My documented rationale was wrong, and the measurement I ran to support it is
+   what showed that.** The source re-reads each file rather than retaining the parsed
+   data set, and I justified it as spending time to save memory. So I built the
+   retaining mode to offer the trade and measured it: **`1.01x` faster for
+   `+476 MiB`** — no speedup at all, because `DICOMFile.read` does not eagerly copy a
+   file's bytes. Re-reading is strictly better, so **the option was removed rather
+   than shipped** as a plausible-sounding choice with no measured benefit.
+
+   **That refutation carried the larger finding.** If retention changes nothing, the
+   ~23 s was never re-parsing — it was a copy *I had introduced*, because the new
+   byte entry point returned `[UInt8]` and so converted DICOMKit's `Data` once per
+   frame. Making `CTImportSession` generic over the byte collection and returning
+   `Data`: **`22.85 s` → `4.23 s`, `5.4x`**, now alongside the `3.77 s` the
+   hand-written transfer took in run 1. About 20 ms per frame — five times the
+   transfer itself — was spent copying bytes that never needed copying.
+
+   Worth keeping as method, not as a number: **a hedge added against a guessed trade,
+   then measured, is how the guess got caught — and removing the hedge is what
+   exposed the real cost.** Had I simply asserted the memory/time trade and moved on,
+   the import would still be five times slower and the record would have said so
+   confidently.
+
+   **Next: `ADR-0249` stage three**, the publication-atomicity test of decision 6.
+   Then `011`'s confirmation against `ALG-0008`/`ALG-0015`, `010`'s differential run,
+   `018`'s steady-state measurement, and `016`'s requirement reading.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in

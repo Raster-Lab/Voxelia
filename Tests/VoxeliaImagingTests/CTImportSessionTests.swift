@@ -322,7 +322,9 @@ struct CTImportSessionTests {
             try CTImportSession.importVolume(
                 sources: try sources(),
                 describe: { $0 },
-                readFrameBytes: { _ in nil },
+                // The type is stated because `nil` alone cannot infer the
+                // session's byte-collection parameter.
+                readFrameBytes: { _ -> [UInt8]? in nil },
                 tolerance: .exact,
                 coordinateSpaceID: try space(),
                 convention: .dicomPatientLPS,

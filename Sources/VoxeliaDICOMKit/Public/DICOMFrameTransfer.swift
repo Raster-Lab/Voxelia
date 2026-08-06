@@ -64,4 +64,30 @@ public enum DICOMFrameTransfer {
             throw DICOMFrameTransferError.rejectedByVolumeAdmission
         }
     }
+
+    /// Returns one frame's sample bytes without a destination.
+    ///
+    /// Added for `ADR-0249`'s import session, whose frame source yields bytes
+    /// rather than writing them: the session owns the buffer, so the write is
+    /// its job and this is only the read. The two entry points share the same
+    /// two admissions and neither interprets a sample.
+    ///
+    /// Returns DICOMKit's own `Data` rather than an `Array`. Converting cost
+    /// about 20 ms per frame -- roughly 18 s across a real 899-frame series, five
+    /// times the transfer itself -- and the session is generic over the byte
+    /// collection precisely so no source has to pay it.
+    ///
+    /// - Throws: ``DICOMFrameTransferError``.
+    public static func frameBytes(
+        from dataSet: DataSet,
+        frameIndex: Int = 0
+    ) throws -> Data {
+        guard let pixelData = dataSet.pixelData() else {
+            throw DICOMFrameTransferError.missingPixelData
+        }
+        guard let frame = pixelData.frameData(at: frameIndex) else {
+            throw DICOMFrameTransferError.missingFrame
+        }
+        return frame
+    }
 }
