@@ -246,6 +246,7 @@ Sources/VoxeliaRendering/ApplePlatformGate.swift
 Sources/VoxeliaRendering/Internal/.gitkeep
 Sources/VoxeliaRendering/Internal/SurfaceCompositor.swift
 Sources/VoxeliaRendering/Internal/SurfaceCoverage.swift
+Sources/VoxeliaRendering/Internal/SurfaceShader.swift
 Sources/VoxeliaRendering/Internal/SurfaceVertexProjector.swift
 Sources/VoxeliaRendering/Internal/SurfaceVisibilityResolver.swift
 Sources/VoxeliaRendering/Module.swift
@@ -447,6 +448,7 @@ Tests/VoxeliaRenderingTests/RenderRequestTests.swift
 Tests/VoxeliaRenderingTests/SceneSnapshotTests.swift
 Tests/VoxeliaRenderingTests/SurfaceCompositorTests.swift
 Tests/VoxeliaRenderingTests/SurfaceSceneTests.swift
+Tests/VoxeliaRenderingTests/SurfaceShaderTests.swift
 Tests/VoxeliaRenderingTests/SurfaceVertexProjectorTests.swift
 Tests/VoxeliaRenderingTests/SurfaceVisibilityResolverTests.swift
 Tests/VoxeliaRenderingTests/TransferFunction1DTests.swift

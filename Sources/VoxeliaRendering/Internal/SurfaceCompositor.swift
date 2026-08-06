@@ -13,6 +13,10 @@ struct SurfaceFragment: Sendable, Equatable {
     let layerIndex: Int
     let facetOrdinal: Int
     let opacity: Double
+
+    /// Whether the coverage rule exchanged the facet's second and third
+    /// vertices, so a consumer can map each weight to its original vertex.
+    let swapped: Bool
 }
 
 /// One fragment's front-to-back contribution weight.
@@ -165,7 +169,8 @@ enum SurfaceFragmentCollector {
                                 weightC: sample.weightC,
                                 layerIndex: layerIndex,
                                 facetOrdinal: facetOrdinal,
-                                opacity: opacity
+                                opacity: opacity,
+                                swapped: sample.swapped
                             )
                         )
                 }

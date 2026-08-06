@@ -1231,13 +1231,18 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Internal/SurfaceCompositor.swift",
-      "size": 7605,
-      "sha256": "7fc61891274ded7d0f24a3eda4c9180df753f7ac4414cc2f1f6d6861f496b6aa"
+      "size": 7834,
+      "sha256": "6c93100a04d5f99cc3a0de27803d27a461fbc2f9799fc28282d5bb4611a75148"
     },
     {
       "path": "Sources/VoxeliaRendering/Internal/SurfaceCoverage.swift",
-      "size": 8852,
-      "sha256": "7a7ca3a2331e07f0f41654a053dd5f00fa740657790afbcac49f9b7adadb5402"
+      "size": 9470,
+      "sha256": "da638cb6283ff84bd46a07c0ba70f430b19e3808ba960250472394810f11cc16"
+    },
+    {
+      "path": "Sources/VoxeliaRendering/Internal/SurfaceShader.swift",
+      "size": 6206,
+      "sha256": "c2522a83542f3f4f399b29fccd379d25e16d8390b3776f69b98eb08ced4964c4"
     },
     {
       "path": "Sources/VoxeliaRendering/Internal/SurfaceVertexProjector.swift",
@@ -1246,8 +1251,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Internal/SurfaceVisibilityResolver.swift",
-      "size": 8026,
-      "sha256": "a729ec16e4c59cd48e05c29b4cbda431649a0b6ff0b30332de0c66752d960b1e"
+      "size": 8239,
+      "sha256": "1260337b07e13384b1567e9be1c817cd23b34b8528149e38b2a9657ddeeda745"
     },
     {
       "path": "Sources/VoxeliaRendering/Module.swift",
@@ -2236,13 +2241,18 @@
     },
     {
       "path": "Tests/VoxeliaRenderingTests/SurfaceCompositorTests.swift",
-      "size": 13610,
-      "sha256": "73ba9d3ac25d54000e5fb7738bde04ab2154e3d864a33d5388f06e088da3cc8d"
+      "size": 13638,
+      "sha256": "d9ee2c9fedaca448a759db45e7658c07fa24772637f31f7d4292799108609cdf"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/SurfaceSceneTests.swift",
       "size": 10146,
       "sha256": "43adcdba4bfdb79bc04ddab6c6ae5bb7927501600d046409eb449ba14e406c36"
+    },
+    {
+      "path": "Tests/VoxeliaRenderingTests/SurfaceShaderTests.swift",
+      "size": 11665,
+      "sha256": "328901e9e25f2aa0875fe2fb192e4f62e33fe86abb6fb1dd11cdca6b0a24d676"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/SurfaceVertexProjectorTests.swift",
@@ -4096,8 +4106,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 870663,
-      "sha256": "1a5fad6c13777dd2b8df3ce7df019fd2589896caa62070e09ca0576873132d2f"
+      "size": 873168,
+      "sha256": "549b34600d149556309e592e7cf24e91e18d90257467200abc5cfa2101246d89"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4511,8 +4521,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 49997,
-      "sha256": "69b015c22fa32d2a255e114ef0dc2370d83ed15e692a8683d6404bf90d3d380f"
+      "size": 50104,
+      "sha256": "b127527e62b8988d82497af7c2c2654962724ff6b7f04218cf0b1eeebe33079d"
     }
   ]
 }

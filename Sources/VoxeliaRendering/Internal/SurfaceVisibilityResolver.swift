@@ -82,6 +82,10 @@ struct SurfaceHit: Sendable, Equatable {
     let weightC: Double
     let layerIndex: Int
     let facetOrdinal: Int
+
+    /// Whether the coverage rule exchanged the facet's second and third
+    /// vertices, so a consumer can map each weight to its original vertex.
+    let swapped: Bool
 }
 
 /// One resolved visibility buffer in row-major order.
@@ -217,7 +221,8 @@ enum SurfaceVisibilityResolver {
                 weightB: sample.weightB,
                 weightC: sample.weightC,
                 layerIndex: layerIndex,
-                facetOrdinal: facetOrdinal
+                facetOrdinal: facetOrdinal,
+                swapped: sample.swapped
             )
         }
     }

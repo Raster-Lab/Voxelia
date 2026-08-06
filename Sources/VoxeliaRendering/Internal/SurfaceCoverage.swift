@@ -9,6 +9,15 @@ struct CoveredSample: Sendable, Equatable {
     let weightA: Double
     let weightB: Double
     let weightC: Double
+
+    /// Whether the coverage rule exchanged the facet's second and third
+    /// vertices to canonicalise a mirrored projection.
+    ///
+    /// `ADR-0200` documented that the weights follow the canonicalised order
+    /// but published nothing a consumer could test, so a consumer could not
+    /// map a weight back to the vertex it belongs to. `ADR-0202` closes that
+    /// additively with this flag, which changes no registered digest.
+    let swapped: Bool
 }
 
 /// The shared coverage rules frozen by `VOXELIA-ALG-0034`.
@@ -32,6 +41,7 @@ enum SurfaceCoverage {
         guard let oriented = try canonicalise(facet) else {
             return
         }
+        let swapped = oriented.swapped
         let first = oriented.facet.first
         let second = oriented.facet.second
         let third = oriented.facet.third
@@ -102,7 +112,8 @@ enum SurfaceCoverage {
                         depth: depth,
                         weightA: weightA,
                         weightB: weightB,
-                        weightC: weightC
+                        weightC: weightC,
+                        swapped: swapped
                     )
                 )
             }
@@ -112,6 +123,7 @@ enum SurfaceCoverage {
     private struct OrientedFacet: Sendable {
         let facet: ProjectedFacet
         let area: Double
+        let swapped: Bool
     }
 
     /// Canonicalises to a positive projected area.
@@ -130,10 +142,11 @@ enum SurfaceCoverage {
             let swapped = ProjectedFacet(facet.first, facet.third, facet.second)
             return OrientedFacet(
                 facet: swapped,
-                area: try doubledArea(swapped)
+                area: try doubledArea(swapped),
+                swapped: true
             )
         }
-        return OrientedFacet(facet: facet, area: area)
+        return OrientedFacet(facet: facet, area: area, swapped: false)
     }
 
     private static func doubledArea(

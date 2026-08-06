@@ -271,7 +271,8 @@ struct SurfaceCompositorTests {
             weightC: 0,
             layerIndex: layer,
             facetOrdinal: facet,
-            opacity: opacity
+            opacity: opacity,
+            swapped: false
         )
     }
 

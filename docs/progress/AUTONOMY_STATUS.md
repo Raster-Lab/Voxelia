@@ -7113,6 +7113,44 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twenty-second autonomous increment (`ADR-0202` migration):
+  `VoxeliaRendering` now owns `SurfaceShader`, and `SurfaceHit`,
+  `SurfaceFragment` and `CoveredSample` carry the swap flag. All fourteen
+  `VOXELIA-ALG-0036` fixtures reproduce both registered SHA-256 digests
+  bit-exactly on the first run.
+
+  **The additive correction was verified before anything else was built.** The
+  swap flag was added to the three values and the `ALG-0034` and `ALG-0035`
+  oracle tests were re-run immediately: both pairs of digests still match, so
+  the claim that the correction changes no registered digest is proven rather
+  than argued. Only then was the shading reference written.
+
+  `SurfaceShader.intensity` is **non-throwing**, matching `ADR-0202` decision
+  10's proof that no representability failure is reachable. The swap flag does
+  real work: a dedicated test shows that setting it changes the intensity, and
+  that setting it is exactly equivalent to exchanging the second and third
+  weights by hand — so a consumer that ignored it would silently mis-shade
+  every mirrored facet, and now fails a test instead.
+
+  The registered numeric findings all reproduce in Swift: the clamp fires on a
+  unit normal's self-projection; a least-subnormal normal underflows at one
+  third weight but survives at full weight; facing and facing-away are lit
+  identically, confirming the two-sided rule.
+
+  Verified after a clean `.build` rebuild: 750 tests in 160 suites green.
+  `ADR-0197` increments (a) through (e) are complete, discharging the **Test**
+  half of `VOX-SUR-001` through `VOX-SUR-004`.
+
+  ```bash
+  swift test --filter 'SurfaceShaderTests|SurfaceVisibilityResolverTests|SurfaceCompositorTests'
+  swift format lint --strict Sources/VoxeliaRendering/Internal/SurfaceShader.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13048,11 +13086,19 @@ Test half of `VOX-SUR-001`, `VOX-SUR-002` and `VOX-SUR-003`. Increment (e)'s des
 complete: accepted `ADR-0202` and `VOXELIA-ALG-0036` freeze the two-sided
 Lambert headlight model and close the unpublished-swap defect additively.
 
-The exact next action is the `ADR-0202` migration: add the swap flag to
-`SurfaceHit` and `SurfaceFragment` — **re-running the `ALG-0034` and
-`ALG-0035` oracle tests immediately to prove both digests are unchanged** —
-then add the shading reference reproducing all fourteen `ALG-0036` fixtures
-bit-exactly.
+The `ADR-0202` migration is complete: the swap flag is published on all three
+values with both prior digest pairs proven unchanged, and `SurfaceShader`
+reproduces both `ALG-0036` digests bit-exactly.
+
+The exact next action is `ADR-0197` increment **(f), scalar colour maps**
+(`VOX-SUR-005`). It is **design-first**, and it carries an obligation two
+earlier increments deferred to it: it **must settle the colour
+representation** — channel count, colour space and whether colour is
+premultiplied — because `ADR-0201` and `ADR-0202` both deliberately produced
+scalars rather than colours so that this increment could make those decisions
+once. It composes the accepted `TransferFunction1D` authority over a mesh
+scalar attribute, and must freeze the attribute selection rule, the domain
+mapping and the out-of-domain policy.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13081,12 +13127,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0202` migration next. It changes accepted value shapes
-  additively, so re-run the `ALG-0034` and `ALG-0035` oracle tests immediately
-  after adding the swap flag and confirm both digests still match before going
-  further. Then run the focused `VoxeliaRenderingTests` suite, `swift format
-  lint --strict` on every touched Swift file, and the
-  ADR/document/register/index/manifest/integrity checks.
+- Perform `ADR-0197` increment (f) next, and it is **design-first**: the
+  colour representation and domain mapping are numeric and semantic
+  boundaries, so freeze an accepted record plus an algorithm specification with
+  a python-computed independent oracle before writing implementation code. Run
+  only the oracle and the ADR/document/register/index/manifest/integrity checks
+  for that design increment.
 - When an increment needs rules already frozen by an accepted algorithm,
   extract them into one shared implementation rather than duplicating, and
   re-run the accepted record's own oracle test immediately to prove the
