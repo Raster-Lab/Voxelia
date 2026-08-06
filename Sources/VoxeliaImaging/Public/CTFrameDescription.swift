@@ -94,6 +94,15 @@ public enum CTFrameDescriptionError: Error, Sendable, Equatable {
 public struct CTFrameDescription: Sendable, Hashable {
     /// Where the frame came from in the source system.
     public let sourceIdentity: SourceIdentity
+    /// Which series the source says the frame belongs to.
+    ///
+    /// Added by `ADR-0228` after increment (b) found that increment (a) could
+    /// not express it: ``sourceIdentity`` is per-frame by construction, and a
+    /// frame of reference is shared across every series in a study acquired
+    /// without moving the patient, so neither separates two co-located
+    /// acquisitions — and no geometric rule ever can, because occupying the
+    /// same space is precisely what they do.
+    public let seriesIdentity: SourceIdentity
     /// The number of rows in the sampling grid, at least one.
     public let rows: Int
     /// The number of columns in the sampling grid, at least one.
@@ -158,6 +167,7 @@ public struct CTFrameDescription: Sendable, Hashable {
     ///   padding value does not fit the declared scalar format.
     public init(
         sourceIdentity: SourceIdentity,
+        seriesIdentity: SourceIdentity,
         rows: Int,
         columns: Int,
         scalarFormat: ScalarFormat,
@@ -223,6 +233,7 @@ public struct CTFrameDescription: Sendable, Hashable {
         }
 
         self.sourceIdentity = sourceIdentity
+        self.seriesIdentity = seriesIdentity
         self.rows = rows
         self.columns = columns
         self.scalarFormat = scalarFormat

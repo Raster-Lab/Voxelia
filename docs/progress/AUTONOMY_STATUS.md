@@ -9016,6 +9016,63 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifty-eighth autonomous increment (`ADR-0228` implementation):
+  `CTSeriesAssembler` lands in `VoxeliaImaging` with `CTSeries`, `CTSeriesKey`,
+  `CTSeriesMember`, `CTSeriesObservation` and `CTReferenceNormal`, and
+  `CTFrameDescription` gains the required `seriesIdentity`. **All fifteen frozen
+  fixtures reproduce bit-for-bit**, asserted with hexadecimal float literals so
+  a decimal round-trip cannot soften a mismatch. 50 tests in the two suites;
+  848 in 175 suites overall after a clean rebuild.
+
+  **Two findings the implementation produced that the design had not.**
+
+  First, **the reference normal cannot be a `Vector3D`.** The accepted spatial
+  primitive rejects non-finite components, and an overflowing cross product is
+  exactly the evidence `VOXELIA-ALG-0047` requires to be *reported* rather than
+  discarded — fixture F7's normal is `(0, 0, inf)`. So `CTReferenceNormal` is
+  its own diagnostic value type carrying no coordinate space and applying no
+  validation. Storing the evidence in a type that refuses to hold it would have
+  meant silently dropping the fixture the specification wrote to catch this.
+
+  Second, **`CoordinateSpaceID` cannot be compared through its synthesised
+  conformance.** It wraps a `String`, so the derived `==` inherits Swift's
+  canonical-equivalence semantics, while the specification requires exact UTF-8
+  bytes. `CTSeriesKey` therefore implements `==` and `hash(into:)` by hand over
+  the raw bytes, following the precedent `ExternalFrameReference` and
+  `SourceIdentity` already set for exactly this reason. Left to the compiler,
+  two canonically equivalent space spellings would have grouped as one.
+
+  **One rule was refined beyond the frozen specification, and it is recorded
+  rather than absorbed.** `VOXELIA-ALG-0047` breaks projection ties by exact
+  identity byte order, which leaves the order of two frames sharing *both* an
+  identity and a projection unspecified — and Swift's `sort` is not stable, so
+  unspecified would have meant nondeterministic. The implementation adds arrival
+  order as a final tie-break, making the ordering total for every input. This
+  narrows an unspecified case rather than contradicting a specified one, so the
+  accepted ALG is **not edited**; a test names the case explicitly. Set-purity
+  still holds wherever identities are distinct, which is the precise claim.
+
+  `CTSeriesAssembler` declares **no failure family**, and that is the honest
+  consequence of `ADR-0228`: grouping rejects nothing, so there is nothing to
+  throw. Every condition that might warrant rejection is a
+  `CTSeriesObservation` for increment (c) to judge.
+
+  The `VoxeliaImaging` DocC catalogue gains a DICOM ingest topic group covering
+  all ten new public symbols, and the documentation build was run rather than
+  assumed: 12 archives, exit 0.
+
+  ```text
+  rm -rf .build && swift build
+  swift test                                      # 848 tests in 175 suites
+  swift test --filter "CTSeriesAssembler|CTFrameDescription"   # 50 tests
+  swift format lint --strict <four touched Swift files>
+  python3 Tools/Scripts/check_swift_safety.py
+  Tools/Scripts/build-docc.sh                     # 12 archives, exit 0
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -15152,11 +15209,24 @@ and the ledger's own guess that grouping would use "exact direction equality"
 was **wrong**, for the reason `ADR-0228` decision 3 records: exact direction
 equality silently splits a series that increment (c) should reject.
 
-The exact next action is the implementation of increment (b): add the required
-`seriesIdentity` to `CTFrameDescription`, then the series-assembly type,
-verified against every frozen fixture. `CTFrameDescription` gains a stored
-member, so the standing cross-module rule applies — `rm -rf .build` and a clean
-rebuild **before** final verification, not only if something looks broken.
+Increment (b) is complete: `CTSeriesAssembler` reproduces all fifteen frozen
+fixtures bit-for-bit, and the clean rebuild the stored-member change required
+was performed before verification rather than after a failure.
+
+The exact next action is `ADR-0226` increment (c): **irregular-geometry
+rejection** (`VOX-VS1-003`, `VOX-DCM-009`) — the arc's hardest numeric boundary,
+and the increment every prior one has been deferring judgements to. It must
+decide, with an oracle and design-first: which of position, orientation and
+spacing admits a tolerance; where that tolerance comes from; and which
+irregularities are representable-with-a-warning under `ADR-0052`'s schema versus
+rejected outright, per `ADR-0226` decision 7. `ADR-0215` established exact
+equality for registration, but scanner geometry does not arrive exact, so the
+answer cannot simply be inherited from it.
+
+Three concrete inputs now exist that (c) must consume rather than rediscover:
+the three `CTSeriesObservation` facts, the deliberate non-judgements
+`ADR-0227` decision 3 admits (non-orthogonal and non-unit directions), and the
+mixed grid extents `ADR-0228` decision 4 lets into a single group.
 
 Increment (c) is the arc's hardest question and must not be pre-judged there
 either:

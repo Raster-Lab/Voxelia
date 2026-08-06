@@ -197,6 +197,7 @@ Sources/VoxeliaImaging/Internal/.gitkeep
 Sources/VoxeliaImaging/Module.swift
 Sources/VoxeliaImaging/Public/.gitkeep
 Sources/VoxeliaImaging/Public/CTFrameDescription.swift
+Sources/VoxeliaImaging/Public/CTSeriesAssembly.swift
 Sources/VoxeliaImaging/Public/MPRSliceCoordinator.swift
 Sources/VoxeliaImaging/VoxeliaImaging.docc/Architecture.md
 Sources/VoxeliaImaging/VoxeliaImaging.docc/Requirements.md
@@ -437,6 +438,7 @@ Tests/VoxeliaGeometryTests/TriangleMeshTotalFacetAreaTests.swift
 Tests/VoxeliaGeometryTests/TriangleMeshVertexNormalGenerationTests.swift
 Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
 Tests/VoxeliaImagingTests/CTFrameDescriptionTests.swift
+Tests/VoxeliaImagingTests/CTSeriesAssemblerTests.swift
 Tests/VoxeliaImagingTests/MPRSliceCoordinatorTests.swift
 Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift
 Tests/VoxeliaInteractionTests/InteractionCommandTests.swift

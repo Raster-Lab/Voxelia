@@ -24,6 +24,15 @@ struct CTFrameDescriptionTests {
         )
     }
 
+    private func series() throws -> SourceIdentity {
+        try SourceIdentity(
+            namespace: "dicom",
+            identifier: "1.2.840.113619.2.55.3.1.series",
+            version: nil,
+            contentID: nil
+        )
+    }
+
     private func format(_ type: ScalarType) throws -> ScalarFormat {
         try ScalarFormat(type: type, validBitCount: nil, byteOrder: .littleEndian)
     }
@@ -64,6 +73,7 @@ struct CTFrameDescriptionTests {
     ) throws -> CTFrameDescription {
         try CTFrameDescription(
             sourceIdentity: try identity(),
+            seriesIdentity: try series(),
             rows: rows,
             columns: columns,
             scalarFormat: try format(scalarType),
@@ -101,6 +111,8 @@ struct CTFrameDescriptionTests {
             pixelPadding: PixelPaddingDescriptor(value: -2000)
         )
 
+        #expect(description.sourceIdentity == (try identity()))
+        #expect(description.seriesIdentity == (try series()))
         #expect(description.rows == 512)
         #expect(description.columns == 384)
         #expect(description.photometricInterpretation == .monochrome1)

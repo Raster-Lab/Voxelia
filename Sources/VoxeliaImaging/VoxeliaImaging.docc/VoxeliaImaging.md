@@ -13,6 +13,19 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Topics
 
+### DICOM ingest
+
+- ``CTFrameDescription``
+- ``CTFrameDescriptionError``
+- ``MonochromeInterpretation``
+- ``PixelPaddingDescriptor``
+- ``CTSeriesAssembler``
+- ``CTSeries``
+- ``CTSeriesKey``
+- ``CTSeriesMember``
+- ``CTSeriesObservation``
+- ``CTReferenceNormal``
+
 ### Multiplanar reconstruction
 
 - ``MPRSliceCoordinator``
