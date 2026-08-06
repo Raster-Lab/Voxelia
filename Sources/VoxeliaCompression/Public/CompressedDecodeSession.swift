@@ -66,9 +66,18 @@ public struct DecodedSamples: Sendable, Hashable {
 /// A cancellable, validating decode session per `ADR-0259` (`VOX-CMP-009`).
 ///
 /// It is **source-agnostic**: the decode itself is a caller-supplied closure, so
-/// the session is testable with no codec linked — the shape `ADR-0249` used for the
-/// import session and `ADR-0258` used for the validator, and the reason this
-/// increment proceeds while the arc's supply-chain questions are open.
+/// the session is testable with and without a real codec — the shape `ADR-0249`
+/// used for the import session and `ADR-0258` used for the validator.
+///
+/// **The closure is `async`, and that was a correction rather than foresight.**
+/// `ADR-0259` first declared it synchronous, because the tests that shaped it
+/// supplied bytes synchronously. Reading `J2KSwift`'s API before declaring the
+/// dependency showed `JP3DDecoder.decode(_:)` is `async throws`, so a synchronous
+/// closure could not host a real codec at all. `ADR-0267` records the correction.
+/// A synchronous closure still satisfies an `async` parameter, so no caller had to
+/// change its closure — but every call site now awaits, which the existing tests
+/// did have to adopt. Stated precisely because the first version of this note
+/// claimed nothing changed, and that was wrong.
 ///
 /// Cancellation is honoured at every ``CompressedDecodeCheckpoint`` and always by
 /// the same rule: throw ``CompressedDecodeSessionError/cancelled`` and return
@@ -88,9 +97,9 @@ public enum CompressedDecodeSession {
     public static func decode(
         payload: CompressedPayload,
         maximumDecodedByteCount: Int,
-        decode: (CompressedPayload) throws -> DecodedSamples,
+        decode: (CompressedPayload) async throws -> DecodedSamples,
         cancellation: CompressedDecodeCancellationProbe
-    ) throws -> DecodedSamples {
+    ) async throws -> DecodedSamples {
         // Stage: the destination ceiling, before any allocation.
         if cancellation(.destination) {
             throw CompressedDecodeSessionError.cancelled
@@ -106,7 +115,7 @@ public enum CompressedDecodeSession {
         if cancellation(.decode) {
             throw CompressedDecodeSessionError.cancelled
         }
-        let produced = try decode(payload)
+        let produced = try await decode(payload)
 
         // Stage: validation. The decode's report is checked against itself first,
         // then against the payload's declarations.

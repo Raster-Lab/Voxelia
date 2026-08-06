@@ -90,6 +90,11 @@ PROHIBITED = {
     "VoxeliaCompression": {
         "Metal",
         "MetalKit",
+        # The codec package ships a `J2KMetal` product. `VOX-CMP-007` forbids
+        # compressed data being treated as sampleable texture data, so the Metal
+        # product is barred here as firmly as Metal itself -- found by reading
+        # J2KSwift's product list before declaring the dependency (`ADR-0267`).
+        "J2KMetal",
         "RealityKit",
         "ModelIO",
         "CoreImage",

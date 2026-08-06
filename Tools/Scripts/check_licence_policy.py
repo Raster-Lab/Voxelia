@@ -52,6 +52,11 @@ RESOLVED = ROOT / "Package.resolved"
 # version the owner approved. Adding to this needs an accepted record.
 APPROVED_DECLARED = {
     "https://github.com/Raster-Lab/DICOMKit.git": "2.2.11",
+    # Declared directly under the owner authorisation `ADR-0266` records. It was
+    # already in the approved closure below as a transitive DICOMKit dependency
+    # with its licence file read, so this widens the LINKAGE claim rather than the
+    # trust decision -- but it is still a change only the owner may make.
+    "https://github.com/Raster-Lab/J2KSwift.git": "11.0.2",
 }
 
 # The complete resolved closure, with the licence recorded for each package and
@@ -72,7 +77,15 @@ APPROVED_CLOSURE = {
 RESTRICTIVE_LICENCES = {"GPL-2.0", "GPL-3.0", "AGPL-3.0", "LGPL-2.1", "LGPL-3.0"}
 
 # The only targets permitted to link an external product (VOX-REP-009).
-TARGETS_PERMITTED_EXTERNAL_PRODUCTS = {"VoxeliaDICOMKit", "VoxeliaDICOMKitTests"}
+# `VoxeliaCompression` links J2KCodec and J2K3D, and deliberately NOT J2KMetal:
+# `VOX-CMP-007` forbids compressed data reaching a sampleable texture, and
+# `check_prohibited_imports.py` blocks the import as well as the linkage.
+TARGETS_PERMITTED_EXTERNAL_PRODUCTS = {
+    "VoxeliaDICOMKit",
+    "VoxeliaDICOMKitTests",
+    "VoxeliaCompression",
+    "VoxeliaCompressionTests",
+}
 
 DECLARED_PACKAGE = re.compile(r'\.package\(\s*url:\s*"([^"]+)"\s*,\s*exact:\s*"([^"]+)"')
 PRODUCT_USE = re.compile(r'\.product\(\s*name:\s*"[^"]+"\s*,\s*package:\s*"[^"]+"\s*\)')

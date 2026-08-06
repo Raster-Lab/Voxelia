@@ -251,8 +251,8 @@
     },
     {
       "path": "Package.swift",
-      "size": 5479,
-      "sha256": "b631de836d1ee6db7103c913fdc0b092ffbe71187c10e4f5670604979abb39ab"
+      "size": 5791,
+      "sha256": "9bda2caeafb8ba0a7759e9fa4407b7ef3f723498a98225d1df32341c09b52c95"
     },
     {
       "path": "README.md",
@@ -411,8 +411,8 @@
     },
     {
       "path": "Sources/VoxeliaCompression/Public/CompressedDecodeSession.swift",
-      "size": 5674,
-      "sha256": "ff54fa04ebad789515a360e9a00843c83b968987b43f46bbc8b659de37f74bcb"
+      "size": 6315,
+      "sha256": "1eb07cecabd07665673d1e6f48a5b5946cc3e5e73174c8fd8fd8bce4e443ec24"
     },
     {
       "path": "Sources/VoxeliaCompression/Public/CompressedDecodeValidator.swift",
@@ -1866,8 +1866,8 @@
     },
     {
       "path": "Tests/VoxeliaCompressionTests/CompressedDecodeSessionTests.swift",
-      "size": 9249,
-      "sha256": "9db621cac1e7df8ad2f4e0134fcf14cac4c74175b88c345eb0116d798c8e0a10"
+      "size": 9429,
+      "sha256": "a846022ca3d833888564dad374fcfcb8e5aaca861e04adc4dfc7b1244266a834"
     },
     {
       "path": "Tests/VoxeliaCompressionTests/CompressedDecodeValidatorTests.swift",
@@ -2916,8 +2916,8 @@
     },
     {
       "path": "Tools/Scripts/check_licence_policy.py",
-      "size": 9244,
-      "sha256": "b64c2e934e133e6833f5fda7660c0de10d46a4a67259c7c0de9c47ab953ca287"
+      "size": 9919,
+      "sha256": "120ce1c42b608470918a9990d3f8a230bd3fcd7819981062d3ab2c78dd9b02ca"
     },
     {
       "path": "Tools/Scripts/check_manifest_paths.py",
@@ -2936,8 +2936,8 @@
     },
     {
       "path": "Tools/Scripts/check_prohibited_imports.py",
-      "size": 3122,
-      "sha256": "94b765759b883a9f996dc2ffb47297039b0d093c885c82ff93d0ab247c7cac63"
+      "size": 3460,
+      "sha256": "a47837a70f4c7249c6fee426da3dfbe6b5c17af0dd12bf075f891bd811309db1"
     },
     {
       "path": "Tools/Scripts/check_release_integrity.py",
@@ -4790,9 +4790,19 @@
       "sha256": "8879fe5e30567b1301e3d3906cb158dcae78742321176ab2589f3a6a3adc746b"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0266-draw-loop-and-codec-authorisation.md",
+      "size": 11349,
+      "sha256": "f7b931c53251d66a086dc9218acf924b01e834ccba867e35539abc4b50632529"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0267-direct-codec-declaration.md",
+      "size": 7824,
+      "sha256": "f581e51155072ac916e028b065cf656fe825c8d6a83d19a801ed001f638fd703"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 38059,
-      "sha256": "17d24ffe5dc47ae07a41357548285c568197c0e42b21dceb7b7ea5de54facdbf"
+      "size": 38259,
+      "sha256": "9e17e7951f78dfd200b32a8e754aeda3ee3e12db0a7359850779f86a0a131492"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4881,8 +4891,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1120018,
-      "sha256": "b66bb94890cd6bacf3c1f46e1b22f4f57a9ce73e4ceb67e24de6147982f93277"
+      "size": 1122242,
+      "sha256": "fe91137dc3e111eec7835f5289fcd7621521a971a290c8c8ff31dab3a67694d9"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5391,8 +5401,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 60911,
-      "sha256": "2c18fdbea574b8a519ae5a03e771ba95391d82f338cd55bf6829ba63fe0bbd8e"
+      "size": 61050,
+      "sha256": "38b5f2d1f9a91cfd5daf1eb0a816eae54395d3a5b534093b98dd16c7de685c3a"
     }
   ]
 }

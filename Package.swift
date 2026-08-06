@@ -30,6 +30,10 @@ let package = Package(
         .package(
             url: "https://github.com/Raster-Lab/DICOMKit.git",
             exact: "2.2.11"
+        ),
+        .package(
+            url: "https://github.com/Raster-Lab/J2KSwift.git",
+            exact: "11.0.2"
         )
     ],
     targets: [
@@ -38,7 +42,14 @@ let package = Package(
         .target(name: "VoxeliaStorage", dependencies: ["VoxeliaCore"]),
         .target(name: "VoxeliaExecution", dependencies: ["VoxeliaStorage"]),
         .target(name: "VoxeliaImaging", dependencies: ["VoxeliaExecution"]),
-        .target(name: "VoxeliaCompression", dependencies: ["VoxeliaCore"]),
+        .target(
+            name: "VoxeliaCompression",
+            dependencies: [
+                "VoxeliaCore",
+                .product(name: "J2KCodec", package: "J2KSwift"),
+                .product(name: "J2K3D", package: "J2KSwift"),
+            ]
+        ),
         .target(
             name: "VoxeliaGeometry",
             dependencies: ["VoxeliaCore", "VoxeliaSpatial"]

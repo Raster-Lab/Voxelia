@@ -74,8 +74,8 @@ struct CompressedDecodeSessionTests {
         maximumDecodedByteCount: Int = 1_000,
         produce: @escaping (CompressedPayload) throws -> DecodedSamples,
         cancellation: CompressedDecodeCancellationProbe
-    ) throws -> DecodedSamples {
-        try CompressedDecodeSession.decode(
+    ) async throws -> DecodedSamples {
+        try await CompressedDecodeSession.decode(
             payload: try payload(),
             maximumDecodedByteCount: maximumDecodedByteCount,
             decode: produce,
@@ -86,8 +86,8 @@ struct CompressedDecodeSessionTests {
     // MARK: - Baseline
 
     @Test("[Unit][VOX-CMP-009] an uncancelled decode returns validated samples")
-    func uncancelledDecodeReturnsValidatedSamples() throws {
-        let result = try run(
+    func uncancelledDecodeReturnsValidatedSamples() async throws {
+        let result = try await run(
             produce: { _ in try self.samples() },
             cancellation: { _ in false }
         )
@@ -97,12 +97,12 @@ struct CompressedDecodeSessionTests {
     }
 
     @Test("[Unit][VOX-CMP-009] the probe is consulted at every named checkpoint in order")
-    func everyCheckpointIsReachedInOrder() throws {
+    func everyCheckpointIsReachedInOrder() async throws {
         // A documented-but-unreached checkpoint would be a false claim about where
         // cancellation is honoured, so the visited sites must be exactly the sites
         // the record names.
         let recorder = CheckpointRecorder()
-        _ = try run(
+        _ = try await run(
             produce: { _ in try self.samples() },
             cancellation: { checkpoint in
                 recorder.record(checkpoint)
@@ -115,10 +115,10 @@ struct CompressedDecodeSessionTests {
     // MARK: - Cancellation
 
     @Test("[Unit][VOX-CMP-009][VOX-ERR-001] cancellation at any checkpoint refuses typed")
-    func cancellationAtEveryCheckpointRefuses() throws {
+    func cancellationAtEveryCheckpointRefuses() async throws {
         for checkpoint in everyCheckpoint {
-            #expect(throws: CompressedDecodeSessionError.cancelled) {
-                try run(
+            await #expect(throws: CompressedDecodeSessionError.cancelled) {
+                try await run(
                     produce: { _ in try self.samples() },
                     cancellation: { $0 == checkpoint }
                 )
@@ -127,14 +127,14 @@ struct CompressedDecodeSessionTests {
     }
 
     @Test("[Unit][VOX-CMP-009] cancelling before the decode does not run the decode")
-    func cancellingBeforeDecodeDoesNotRunIt() throws {
+    func cancellingBeforeDecodeDoesNotRunIt() async throws {
         // The `.decode` checkpoint sits immediately before the call, so cancelling
         // there must cost nothing. If it were checked after the call, the work
         // would already be spent -- which is the difference between a cancellation
         // point and a discard.
         let counter = DecodeCounter()
-        #expect(throws: CompressedDecodeSessionError.cancelled) {
-            try run(
+        await #expect(throws: CompressedDecodeSessionError.cancelled) {
+            try await run(
                 produce: { _ in
                     counter.increment()
                     return try self.samples()
@@ -146,7 +146,7 @@ struct CompressedDecodeSessionTests {
 
         // The control: without cancellation the same closure does run, so the zero
         // above is cancellation rather than a closure that never fires.
-        _ = try run(
+        _ = try await run(
             produce: { _ in
                 counter.increment()
                 return try self.samples()
@@ -157,14 +157,14 @@ struct CompressedDecodeSessionTests {
     }
 
     @Test("[Unit][VOX-CMP-009] cancellation at the final checkpoint yields nothing usable")
-    func finalCheckpointCancellationYieldsNothing() throws {
+    func finalCheckpointCancellationYieldsNothing() async throws {
         // The sharpest case, and the half of VOX-CMP-009 about partial data: the
         // decode completed and every check passed, yet the caller receives
         // nothing. There is no partial aggregate for a caller to publish by
         // mistake, because the throw replaces the return.
         var received: DecodedSamples?
         do {
-            received = try run(
+            received = try await run(
                 produce: { _ in try self.samples() },
                 cancellation: { $0 == .final }
             )
@@ -177,24 +177,24 @@ struct CompressedDecodeSessionTests {
     // MARK: - The report must agree with itself
 
     @Test("[Unit][VOX-CMP-009][VOX-SEC-001] a report disagreeing with its own bytes refuses")
-    func reportDisagreeingWithItsOwnBytesRefuses() throws {
+    func reportDisagreeingWithItsOwnBytesRefuses() async throws {
         // A decode claiming forty-eight bytes while returning forty. The claim
         // matches the payload's declarations exactly, so ADR-0258's validator
         // admits it -- this refusal is the session's own, and it is why the check
         // exists here.
-        #expect(
+        await #expect(
             throws: CompressedDecodeSessionError.reportedByteCountDisagreesWithBytes
         ) {
-            try run(
+            try await run(
                 produce: { _ in try self.samples(byteCount: 48, actualBytes: 40) },
                 cancellation: { _ in false }
             )
         }
         // The over-long direction too: forty-eight claimed, sixty returned.
-        #expect(
+        await #expect(
             throws: CompressedDecodeSessionError.reportedByteCountDisagreesWithBytes
         ) {
-            try run(
+            try await run(
                 produce: { _ in try self.samples(byteCount: 48, actualBytes: 60) },
                 cancellation: { _ in false }
             )
@@ -202,25 +202,25 @@ struct CompressedDecodeSessionTests {
     }
 
     @Test("[Unit][VOX-CMP-009] the validator's refusals still apply through the session")
-    func validatorRefusalsApplyThroughTheSession() throws {
+    func validatorRefusalsApplyThroughTheSession() async throws {
         // ADR-0258's checks are composed, not restated: a self-consistent report
         // that disagrees with the payload's declarations is refused with the
         // validator's own case rather than the session's.
-        #expect(throws: CompressedDecodeError.decodedExtentsMismatch) {
-            try run(
+        await #expect(throws: CompressedDecodeError.decodedExtentsMismatch) {
+            try await run(
                 produce: { _ in try self.samples(byteCount: 72, extents: [4, 3, 3]) },
                 cancellation: { _ in false }
             )
         }
-        #expect(throws: CompressedDecodeError.decodedComponentCountMismatch) {
-            try run(
+        await #expect(throws: CompressedDecodeError.decodedComponentCountMismatch) {
+            try await run(
                 produce: { _ in try self.samples(byteCount: 144, components: 3) },
                 cancellation: { _ in false }
             )
         }
         // And the ceiling, which the session admits before decoding at all.
-        #expect(throws: CompressedDecodeError.declaredByteCountExceedsCeiling) {
-            try run(
+        await #expect(throws: CompressedDecodeError.declaredByteCountExceedsCeiling) {
+            try await run(
                 maximumDecodedByteCount: 47,
                 produce: { _ in try self.samples() },
                 cancellation: { _ in false }
@@ -229,12 +229,12 @@ struct CompressedDecodeSessionTests {
     }
 
     @Test("[Unit][VOX-CMP-009] a refused ceiling does not run the decode")
-    func refusedCeilingDoesNotRunTheDecode() throws {
+    func refusedCeilingDoesNotRunTheDecode() async throws {
         // The ceiling's whole purpose is to refuse before work happens, so the
         // decode closure must not have run.
         let counter = DecodeCounter()
-        #expect(throws: CompressedDecodeError.declaredByteCountExceedsCeiling) {
-            try run(
+        await #expect(throws: CompressedDecodeError.declaredByteCountExceedsCeiling) {
+            try await run(
                 maximumDecodedByteCount: 47,
                 produce: { _ in
                     counter.increment()

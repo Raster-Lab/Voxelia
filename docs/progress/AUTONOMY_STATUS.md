@@ -3926,11 +3926,47 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    run had been executing *after* the cold import (so its stages were warm), and the
    footprint mode was holding two volumes at once (`923 MiB`, which is not a leak).
 
-   **Next: the queue is now entirely the eight owner decisions** — six from `ADR-0254`
-   (report approval, reference hardware, tolerance profile, geometry tolerance rule, two
-   `LICENSE` files, draw loop) and two from `ADR-0255` (reconcile the blocked CMP rows,
-   direct codec dependency). Outstanding non-blocking item: a genuine cold-cache
-   measurement needing a privileged cache drop.
+   **Increment (ll): OWNER RELEASED THREE GATES — `ADR-0266` + `ADR-0267`.**
+
+   Owner replied to the eight enumerated questions: *"yes proceed with 1, 2 amd 3"* —
+   the **interactive draw loop proceeds**, the **six blocked compression rows are
+   authorised** (including `VOX-CMP-011`'s adversarial codec testing, which reverses
+   the earlier no-dependency-testing instruction), and a **codec may be declared
+   directly**. `ADR-0266` records the authorisation verbatim and states the reading of
+   #2 explicitly, since it reverses a standing instruction.
+
+   **`ADR-0267` executes the supply-chain step**: `J2KSwift` pinned exact at `11.0.2`
+   (already resolved, so no new code enters the build), linked into
+   `VoxeliaCompression` as `J2KCodec` + `J2K3D`. **`J2KMetal` REFUSED and barred by
+   name** — the codec ships a Metal product, and linking it would put a Metal surface
+   inside the module `VOX-CMP-007` exists to keep away from textures. Found by reading
+   the product list before declaring.
+
+   **Gate widened explicitly, then negative-tested** — a gate just relaxed is exactly
+   the one to re-check. All three failure modes still fire: a third unapproved package,
+   version drift on the new pin, and a core target linking the codec.
+
+   **The finding: `ADR-0259`'s decode session could NOT have hosted a real codec.**
+   `JP3DDecoder.decode(_:)` is `async throws`; my session took a **synchronous**
+   closure. The shape was settled by tests that supplied bytes synchronously because no
+   codec existed. **This is the same failure `ADR-0235` recorded against `ADR-0230`
+   d10 — a contract chosen before reading the dependency's API — and the project has
+   now made it twice.** Corrected: closure and method are `async`.
+
+   A smaller self-correction inside that: my first source note claimed "no existing
+   caller changed". Wrong — the test call sites all needed `await`. Fixed, because a
+   comment overstating compatibility is exactly what a later reader trusts.
+
+   1067 tests / 198 suites; licence policy now reports 2 declared dependencies.
+
+   **Next: the real J2KSwift adapter** behind `CompressedDecodeSession`, mapping
+   `J2KImage`'s width/height/components onto `DecodedSampleClaim`. Then `004`, `005`,
+   `006`, `012`, `014`, with `011`'s adversarial work **last** so the adapter is settled
+   before it is attacked. The draw-loop arc gets its own architectural record after
+   that (order reversible on request).
+
+   **Five owner decisions still open**: report approval, reference hardware, tolerance
+   profile, geometry tolerance rule, and the two `LICENSE` files.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.

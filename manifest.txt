@@ -956,6 +956,8 @@ docs/architecture/decisions/ADR-0262-crosshair-composition-regression-guard.md
 docs/architecture/decisions/ADR-0263-stress-volume-and-byte-collection-cost.md
 docs/architecture/decisions/ADR-0264-range-replacement-frame-transfer.md
 docs/architecture/decisions/ADR-0265-cold-cache-measurement-correction.md
+docs/architecture/decisions/ADR-0266-draw-loop-and-codec-authorisation.md
+docs/architecture/decisions/ADR-0267-direct-codec-declaration.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
