@@ -231,6 +231,7 @@ Sources/VoxeliaInteraction/ApplePlatformGate.swift
 Sources/VoxeliaInteraction/Internal/.gitkeep
 Sources/VoxeliaInteraction/Module.swift
 Sources/VoxeliaInteraction/Public/.gitkeep
+Sources/VoxeliaInteraction/Public/FramePresenter.swift
 Sources/VoxeliaInteraction/Public/InteractionCommand.swift
 Sources/VoxeliaInteraction/Public/PickResolver.swift
 Sources/VoxeliaInteraction/Public/RenderGeneration.swift
@@ -493,6 +494,7 @@ Tests/VoxeliaImagingTests/CTVolumeStorageBuilderTests.swift
 Tests/VoxeliaImagingTests/MPRSliceCoordinatorTests.swift
 Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift
 Tests/VoxeliaInteractionTests/CrosshairCompositionTests.swift
+Tests/VoxeliaInteractionTests/FramePresenterTests.swift
 Tests/VoxeliaInteractionTests/InteractionCommandTests.swift
 Tests/VoxeliaInteractionTests/PickResolverTests.swift
 Tests/VoxeliaInteractionTests/RenderGenerationTests.swift
@@ -974,6 +976,7 @@ docs/architecture/decisions/ADR-0272-codec-output-and-interoperability-status.md
 docs/architecture/decisions/ADR-0273-bounded-failure-on-adversarial-codestreams.md
 docs/architecture/decisions/ADR-0274-codec-destination-api-analysis.md
 docs/architecture/decisions/ADR-0275-open-the-interactive-draw-loop-arc.md
+docs/architecture/decisions/ADR-0276-frame-presentation-and-generation-wiring.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

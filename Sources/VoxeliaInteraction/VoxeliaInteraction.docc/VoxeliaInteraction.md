@@ -34,6 +34,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``CrosshairSyncResolution``
 - ``RenderGeneration``
 - ``RenderGenerationCounter``
+- ``StampedFrame``
+- ``PresentationOutcome``
+- ``FramePresenter``
 - ``PickResolver``
 - ``PickResolution``
 

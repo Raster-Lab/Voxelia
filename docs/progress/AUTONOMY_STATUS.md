@@ -4392,6 +4392,56 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    reference hardware, the tolerance profile, the geometry tolerance rule, and the two
    `LICENSE` files — alongside `VOX-CMP-006`/`012` Reviews and five `J2KSwift` items.
 
+   **Increment (uu): `ADR-0276`, `VOX-INT-007`'s `T` discharged. `ADR-0122` d3's DEFERRAL
+   IS ENDED** — `RenderGeneration` has a product caller for the first time. 1124 tests /
+   203 suites (was 1116/202).
+
+   **THE FINDING: the rule is stronger than the requirement's wording.**
+   `RenderGeneration`'s init is **internal**, so the only source of a stamp is
+   `advance()` — therefore `stamp <= current` always, and with `ADR-0122`'s strict
+   comparison **`!isStale` holds exactly when `stamp == current`**. The presenter admits
+   only frames rendered for the *newest* scene. That falls out of the accepted vocabulary
+   rather than being chosen here.
+
+   **And it forces a decision the requirement doesn't make**: if generations are minted
+   faster than frames complete, **nothing is ever presented**. A host minting one
+   generation per input event during a drag would render continuously and display nothing.
+
+   **The frozen boundary: generations are minted per COMMITTED SCENE CHANGE, never per
+   input event.** Hosts coalesce gesture streams into scene commits; the counter orders
+   scene *versions*, which is what `ADR-0122` said it was for when it rejected reusing the
+   frame-scheduler index. **A test demonstrates the starvation directly** — 16 generations
+   minted before any frame completes, 15 dropped, only the newest survives — so a host
+   author meets the constraint in the suite rather than against a frozen viewport.
+
+   **Structural, not remembered**: content is carried *inside* `.presented(Content)`, so a
+   host cannot draw what it never receives (`ADR-0259`'s shape). And the presenter **holds
+   the counter** rather than taking `current` per call, so the live comparison is the only
+   available one — same reasoning as putting the codestream budget *inside*
+   `admitDestination` in `ADR-0273`.
+
+   **Generation zero is presentable** — the counter starts at 0 and `advance()` returns 1,
+   so a first paint must not be dropped. Tested, because an off-by-one here would blank the
+   viewport until the user touched something.
+
+   **Rejected and worth recording**: making `RenderGeneration.init` public "for
+   convenience" — it is precisely what makes `stamp <= current` true and therefore what
+   makes the rule collapse to equality; a public init would let a host mint ahead of the
+   counter. Also rejected: a staleness *tolerance* (a frame within a window is still
+   stale, and a window of 2 lets gen 5 present after gen 6), and rate-limiting `advance()`
+   (puts timing policy inside a value-ordering primitive).
+
+   Monotonicity is asserted as a **consequence**, not enforced as a second rule;
+   `lastPresentedGeneration` exists only because §34 displays "current generation".
+
+   Generic over content, so `VoxeliaInteraction` still names no host type and imports no
+   host framework — `VOX-INT-001` intact, with a test standing the presenter up over an
+   unrelated content type.
+
+   **Next: `VOX-R2D-014` + `VOX-VS1-016`** — one presentation path serving off-screen and
+   interactive output, equality **tested** rather than asserted in prose. Then
+   `VOX-INT-008`'s `T` via an injected clock and deterministic probe.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
