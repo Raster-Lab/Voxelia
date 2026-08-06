@@ -3609,9 +3609,50 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Compression arc: 4 of 7 buildable rows done** (`002`, `007`, `010`, `013`).
 
-   **Next: increment (d)** — `VOX-CMP-009`, adapter cancellation, composing
-   `ADR-0249`'s checkpoint-and-probe shape rather than inventing a second model. Then
-   (e) `003`+`008`, where a `CompressedRepresentation` attaches to a payload.
+   **Increment (ee): `ADR-0259`, compression increment (d).** `VOX-CMP-009`
+   discharged. **1053 tests / 195 suites.**
+
+   `ADR-0249`'s shape **reused, not reinvented** (as `ADR-0255` d4 required): four
+   checkpoints — `.destination`, `.decode`, `.validation`, `.final` — an injected
+   probe, same rule everywhere. `.decode` is checked **immediately before** the call,
+   the last site where cancellation costs nothing; a test asserts the closure did NOT
+   run when cancelled there, **paired with a control proving it does run otherwise**,
+   so the zero is cancellation rather than a closure that never fires. `.final`
+   is what makes "no partial data published as complete" structural.
+
+   `ADR-0258`'s checks **composed, not restated** — a report disagreeing with the
+   declarations refuses with the *validator's* case, and a refused ceiling leaves the
+   decode unrun (tested).
+
+   **The finding: a decode's report can lie about its own bytes, and `ADR-0258`'s
+   validator could not catch it.** The validator compares a *report* against
+   declarations; **the bytes were never part of that comparison**. So a decode
+   returning 40 bytes while reporting 48 passes it completely — the report matches the
+   declarations exactly and the disagreement is with *itself*. Admitting it would
+   publish stale destination bytes as samples, which is exactly the partial-data
+   output `VOX-CMP-009` forbids. The session now checks
+   `claim.byteCount == bytes.count` before invoking the validator, with **its own
+   error case** so a caller can tell a lying codec from a mismatched one.
+
+   `ADR-0258` is not wrong — a validator over a report can only check the report —
+   but its guarantee was **narrower than it reads**, and that only became visible when
+   bytes appeared alongside the claim. **Generalisation now in memory: when a later
+   stage introduces a value an earlier admission never saw, ask what that admission
+   was silently assuming about it.**
+
+   Deferred honestly: an in-decode progress checkpoint would make cancellation
+   genuinely responsive during a long decode, but it needs a codec API that reports
+   progress. Recorded rather than faked — and the record states plainly that
+   cancellation cannot interrupt a synchronous codec call, so `.decode` is the last
+   free site.
+
+   **Compression arc: 5 of 7 buildable rows done** (`002`, `007`, `009`, `010`,
+   `013`).
+
+   **Next: increment (e)** — `VOX-CMP-003` + `VOX-CMP-008`: the source, slice, slab
+   and brick shapes and caller-provided destination storage, where a
+   `CompressedRepresentation` finally attaches to a payload. That closes the buildable
+   half of the arc.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.

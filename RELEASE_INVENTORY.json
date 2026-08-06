@@ -410,6 +410,11 @@
       "sha256": "aaf680f92fbbe47ac3393a9e42bd8628bf3e4f5f6cb437c7b7469394174b1a9f"
     },
     {
+      "path": "Sources/VoxeliaCompression/Public/CompressedDecodeSession.swift",
+      "size": 5674,
+      "sha256": "ff54fa04ebad789515a360e9a00843c83b968987b43f46bbc8b659de37f74bcb"
+    },
+    {
       "path": "Sources/VoxeliaCompression/Public/CompressedDecodeValidator.swift",
       "size": 5901,
       "sha256": "f53f97c65c6ee6e3fc52d62ed56a4d38057e2097acb8b641801371a3622c39f6"
@@ -1848,6 +1853,11 @@
       "path": "Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift",
       "size": 296,
       "sha256": "7ce7d44865a5e7f678614586cdcc16bc832f65011a7aa649b25e59af15e99377"
+    },
+    {
+      "path": "Tests/VoxeliaCompressionTests/CompressedDecodeSessionTests.swift",
+      "size": 9249,
+      "sha256": "9db621cac1e7df8ad2f4e0134fcf14cac4c74175b88c345eb0116d798c8e0a10"
     },
     {
       "path": "Tests/VoxeliaCompressionTests/CompressedDecodeValidatorTests.swift",
@@ -4720,9 +4730,14 @@
       "sha256": "23efe51c7378d29aecf4d86b998fc187aa8ae763aceb059eda5fa6950fb85291"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0259-cancellable-decode-session.md",
+      "size": 7640,
+      "sha256": "849c0f4124ea11aa251a00cb8f383766fa1b28b6f37e00eeec5cbbd9ee086b71"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 37306,
-      "sha256": "05ad3982fc7f262a0e992dc7398663abbd8820c226b6a3af7b33d4bf4e76ee56"
+      "size": 37401,
+      "sha256": "85838f2d1402dedc1b32855b88c333de5e295a8b6aab40918cded0aa7985342b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4811,8 +4826,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1100581,
-      "sha256": "0ecd7436eceadf89d34f0b980775d96a259e6fa849fea467ecfef36463e01957"
+      "size": 1103012,
+      "sha256": "4b80867a1692091b09d98ae4b6d0504f4f4659783415668e84844563617d4b4b"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5321,8 +5336,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 59977,
-      "sha256": "5b61ea57109bb5f513db604fda4159e0dc513d1dc1aa30239a0a6d3e65fe09d8"
+      "size": 60173,
+      "sha256": "9aba604b15ec6ab4e161d602ed6aab1055fdf14b1f3b410b186ce2ce0240b728"
     }
   ]
 }

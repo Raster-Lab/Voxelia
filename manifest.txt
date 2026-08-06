@@ -80,6 +80,7 @@ Sources/VoxeliaCPU/Public/CPUTriangleMeshVertexNormalGenerationOperation.swift
 Sources/VoxeliaCPU/VoxeliaCPU.docc/Architecture.md
 Sources/VoxeliaCPU/VoxeliaCPU.docc/Requirements.md
 Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md
+Sources/VoxeliaCompression/Public/CompressedDecodeSession.swift
 Sources/VoxeliaCompression/Public/CompressedDecodeValidator.swift
 Sources/VoxeliaCompression/Public/CompressedPayload.swift
 Sources/VoxeliaCompression/Public/CompressedRepresentation.swift
@@ -368,6 +369,7 @@ Tests/VoxeliaCPUTests/TriangleMeshEnclosedVolumeReferenceKernelTests.swift
 Tests/VoxeliaCPUTests/TriangleMeshTotalFacetAreaReferenceKernelTests.swift
 Tests/VoxeliaCPUTests/TriangleMeshVertexNormalReferenceKernelTests.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
+Tests/VoxeliaCompressionTests/CompressedDecodeSessionTests.swift
 Tests/VoxeliaCompressionTests/CompressedDecodeValidatorTests.swift
 Tests/VoxeliaCompressionTests/CompressedPayloadTests.swift
 Tests/VoxeliaCompressionTests/CompressedRepresentationTests.swift
@@ -942,6 +944,7 @@ docs/architecture/decisions/ADR-0255-open-the-compression-arc.md
 docs/architecture/decisions/ADR-0256-compression-module-boundary.md
 docs/architecture/decisions/ADR-0257-toolkit-native-representation-labelling.md
 docs/architecture/decisions/ADR-0258-compressed-decode-admission.md
+docs/architecture/decisions/ADR-0259-cancellable-decode-session.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

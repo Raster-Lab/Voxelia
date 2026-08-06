@@ -445,3 +445,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0256](ADR-0256-compression-module-boundary.md) | Accepted | Compression module boundary |
 | [ADR-0257](ADR-0257-toolkit-native-representation-labelling.md) | Accepted | Toolkit native representation labelling |
 | [ADR-0258](ADR-0258-compressed-decode-admission.md) | Accepted | Compressed decode admission |
+| [ADR-0259](ADR-0259-cancellable-decode-session.md) | Accepted | Cancellable decode session |
