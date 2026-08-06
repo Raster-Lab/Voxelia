@@ -836,8 +836,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/Public/SqueezeAxesOperation.swift",
-      "size": 8788,
-      "sha256": "fae7f0ee35683c75261c31b3112113a8d24d5541f4ff95074a30b845f091f455"
+      "size": 11524,
+      "sha256": "87ca385adc1d9b5d9c11a32dc8675d1d36470225746d3f29c36cb2288b747ba0"
     },
     {
       "path": "Sources/VoxeliaExecution/Public/StorageReadCoordinator.swift",
@@ -2296,8 +2296,8 @@
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTVolumeBridgeCompositionTests.swift",
-      "size": 15499,
-      "sha256": "5b7d5a01250a7689de7ab38ce98c5838032fb49f04fc68191a8ef26c3c83d073"
+      "size": 18130,
+      "sha256": "24fb5a390ff95b4c5d518d0131afcc1a2f6c67a7de4a0861135cf06dc3ae3c3a"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTVolumeByteBufferTests.swift",
@@ -4580,9 +4580,14 @@
       "sha256": "b95b8b4095c845458a0a7968867ccc0dff7fa77e370da03453d7be57654e5b50"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0244-affine-axis-drop.md",
+      "size": 7509,
+      "sha256": "d4903c1346fa321a4edc3dd52a8d80b3202f8ad9b2cc2c94c9fb0393a5183fe3"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 35733,
-      "sha256": "7a84efe923aa91463aa54143d20ebc66c479fec1d0a0ed39aa5cf38fcebfc864"
+      "size": 35808,
+      "sha256": "1f2031596d624caaeedbedb6e9037dc9cc733edc2627050feccb5fb5bddb4d06"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4666,8 +4671,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1047678,
-      "sha256": "2640c49d75c418dfc40ad38cb5f7fc732cdbb57f459907006f83178448500af1"
+      "size": 1050074,
+      "sha256": "a1365dd9491c7bcae51722248aa36ecbaa9f31421c37cee263594db97ad2905c"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4952,7 +4957,7 @@
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.generated.json",
       "size": 17779,
-      "sha256": "fead55654bad065fd25bb72fa2dc24902bb6d79036920f03e9d7450d522278ab"
+      "sha256": "9d95a365303177889d9048e9e93d0510df2dcf46e1e21e72da209abce6899c00"
     },
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.json",
@@ -5171,8 +5176,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 57992,
-      "sha256": "fc540aed86ce333cfbcd88b0a8afad23a07a7206ae2b829d22e1371209f70c17"
+      "size": 58049,
+      "sha256": "05f51086bba8002ef0af254e99b20950a0d365c8e94b7a8a8d0ee578755cc674"
     }
   ]
 }

@@ -430,3 +430,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0241](ADR-0241-ct-volume-storage-binding.md) | Accepted | CT volume storage binding |
 | [ADR-0242](ADR-0242-ct-volume-identity-and-provenance.md) | Accepted | CT volume identity and provenance |
 | [ADR-0243](ADR-0243-bridge-arc-conclusion.md) | Accepted | Bridge arc conclusion |
+| [ADR-0244](ADR-0244-affine-axis-drop.md) | Accepted | Affine axis drop |

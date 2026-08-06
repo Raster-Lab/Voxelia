@@ -57,9 +57,6 @@ public enum SqueezeAxesOperation {
         else {
             throw SqueezeError.invalidAxisSelection
         }
-        guard input.descriptor.spatialGeometry == nil else {
-            throw SqueezeError.unsupportedGeometry
-        }
 
         // One budgeted coordinated full read; the payload is
         // byte-identical per the registered model.
@@ -94,7 +91,11 @@ public enum SqueezeAxesOperation {
             components: input.descriptor.components,
             semantic: input.descriptor.semantic,
             axes: outputAxes,
-            spatialGeometry: nil,
+            spatialGeometry: try droppedAxisGeometry(
+                input.descriptor.spatialGeometry,
+                dropping: dropped,
+                rank: rank
+            ),
             valueTransform: input.descriptor.valueTransform,
             units: input.descriptor.units
         )
@@ -223,4 +224,63 @@ public enum SqueezeAxesOperation {
             kernel: nil
         )
     }
+
+    /// The surviving geometry after dropping singleton axes, per `ADR-0244`.
+    ///
+    /// **No arithmetic is performed.** A dropped axis has extent one, so its index
+    /// is always zero and its contribution to a position is `column * 0` — there is
+    /// nothing to fold into the origin. The rule is therefore a column permutation
+    /// and an axis renumbering: the dropped columns move to the trailing slots, the
+    /// survivors keep their relative order, and `imageAxes` is renumbered to the
+    /// post-squeeze axis numbers.
+    ///
+    /// The dropped column is **preserved rather than zeroed**. Zeroing it makes the
+    /// upper-left three-by-three determinant exactly zero, which the accepted
+    /// `ADR-0043` admission refuses as singular — so a two-dimensional geometry
+    /// cannot be expressed by emptying a column. Keeping the out-of-plane step is
+    /// also truthful: a slice extracted from a volume does have one.
+    ///
+    /// A permutation changes a determinant's sign and not its magnitude, so the
+    /// admission survives by construction.
+    static func droppedAxisGeometry(
+        _ geometry: SpatialGeometry?,
+        dropping dropped: Set<Int>,
+        rank: Int
+    ) throws -> SpatialGeometry? {
+        // A volume that never carried a geometry does not acquire one.
+        guard case .affine(let affine) = geometry else { return nil }
+
+        let imageAxes = Array(affine.spatialAxes.imageAxes)
+        let survivingSlots = imageAxes.indices.filter { !dropped.contains(imageAxes[$0]) }
+        let droppedSlots = imageAxes.indices.filter { dropped.contains(imageAxes[$0]) }
+        guard !survivingSlots.isEmpty else { return nil }
+
+        let source = Array(affine.indexToWorld.elements)
+        var elements = [Double](repeating: 0, count: 16)
+        for (newSlot, oldSlot) in (survivingSlots + droppedSlots).enumerated() {
+            for row in 0..<3 {
+                elements[4 * row + newSlot] = source[4 * row + oldSlot]
+            }
+        }
+        for row in 0..<3 {
+            elements[4 * row + 3] = source[4 * row + 3]
+        }
+        elements[15] = 1
+
+        // Renumber: an axis above a dropped one shifts down by however many
+        // dropped axes precede it.
+        let renumbered = survivingSlots.map { slot -> Int in
+            let axis = imageAxes[slot]
+            return axis - dropped.count(where: { $0 < axis })
+        }
+
+        return .affine(
+            try AffineGridGeometry(
+                spatialAxes: try SpatialAxisMapping(imageAxes: renumbered),
+                indexToWorld: try Matrix4x4Double(elements: elements),
+                coordinateSpace: affine.coordinateSpace
+            )
+        )
+    }
+
 }

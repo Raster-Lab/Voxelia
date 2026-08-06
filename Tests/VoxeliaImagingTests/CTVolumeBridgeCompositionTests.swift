@@ -285,20 +285,13 @@ struct CTVolumeBridgeCompositionTests {
         #expect(elements[10] == 2.5)
     }
 
-    // MARK: - The blocker, pinned
+    // MARK: - ADR-0244: the blocker is resolved
 
-    @Test("Squeeze refuses a geometry-bearing volume, which blocks MPR on real CT")
-    func squeezeRefusesSpatialGeometry() async throws {
-        // ADR-0243 records this. SqueezeAxesOperation guards
-        // `spatialGeometry == nil`, and MPRSliceCoordinator uses squeeze as its
-        // second stage, so no volume carrying patient-space geometry can be
-        // reconstructed. VOX-VS1-004 requires that geometry and VOX-VS1-009
-        // requires the reconstruction, so the two are in tension until the
-        // axis-drop rule for an affine is decided.
-        //
-        // This test pins the current refusal on purpose: when the rule is decided
-        // and implemented, this test fails and the lifting is a noticed act rather
-        // than a silent behaviour change.
+    @Test("Squeeze now drops a singleton axis and keeps the geometry")
+    func squeezeKeepsGeometry() async throws {
+        // This test previously pinned the refusal ADR-0243 recorded. ADR-0244
+        // decided the axis-drop rule, so it now asserts the new behaviour rather
+        // than being deleted -- the coverage it was written to hold is kept.
         let coordinator = try publisher()
         let volume = try ingestedVolume(objectName: "ct.volume.squeeze")
         _ = try await coordinator.publish(volume, mode: .complete)
@@ -306,8 +299,8 @@ struct CTVolumeBridgeCompositionTests {
         let slab = try await RegionExtractionOperation.execute(
             input: volume,
             region: try ImageRegion(
-                lowerBounds: ContiguousArray([0, 0, 0]),
-                upperBounds: ContiguousArray([2, 3, 1])
+                lowerBounds: ContiguousArray([0, 0, 1]),
+                upperBounds: ContiguousArray([2, 3, 2])
             ),
             outputObjectID: try #require(DataObjectID(rawValue: "slab.2")),
             outputProvenanceID: try #require(ProvenanceID(rawValue: "slab.2.prov")),
@@ -315,29 +308,108 @@ struct CTVolumeBridgeCompositionTests {
             software: try software(),
             coordinator: StorageReadCoordinator(maximumRetainedResultByteCount: 4_096)
         )
-        // The slab is a valid one-thick volume that still carries its geometry.
         #expect(slab.descriptor.spatialGeometry != nil)
 
-        await #expect(throws: SqueezeError.unsupportedGeometry) {
-            _ = try await SqueezeAxesOperation.execute(
-                input: slab,
-                axes: [2],
-                outputObjectID: try #require(DataObjectID(rawValue: "slice.2")),
-                outputProvenanceID: try #require(ProvenanceID(rawValue: "slice.2.prov")),
-                createdAt: try CanonicalInstant(utcString: "2026-08-06T12:00:00Z"),
-                software: try software(),
-                coordinator: StorageReadCoordinator(
-                    maximumRetainedResultByteCount: 4_096
-                )
-            )
+        let slice = try await SqueezeAxesOperation.execute(
+            input: slab,
+            axes: [2],
+            outputObjectID: try #require(DataObjectID(rawValue: "slice.2")),
+            outputProvenanceID: try #require(ProvenanceID(rawValue: "slice.2.prov")),
+            createdAt: try CanonicalInstant(utcString: "2026-08-06T12:00:00Z"),
+            software: try software(),
+            coordinator: StorageReadCoordinator(maximumRetainedResultByteCount: 4_096)
+        )
+
+        #expect(slice.descriptor.shape.extents == [2, 3])
+        guard case .affine(let affine) = try #require(slice.descriptor.spatialGeometry)
+        else {
+            Issue.record("expected the slice to keep an affine geometry")
+            return
+        }
+        // Two surviving image axes, renumbered.
+        #expect(affine.spatialAxes.imageAxes == [0, 1])
+        let elements = Array(affine.indexToWorld.elements)
+        // Columns 0 and 1 are the in-plane steps, unchanged.
+        #expect(elements[0] == 0.8)
+        #expect(elements[5] == 0.7)
+        // The out-of-plane step is preserved rather than zeroed, which is what
+        // keeps the matrix non-singular.
+        #expect(elements[10] == 2.5)
+        // The origin still names the slab's world position.
+        #expect(elements[11] == 2.5)
+    }
+
+    @Test("All three planes reconstruct from a geometry-bearing ingested volume")
+    func allThreePlanesReconstruct() async throws {
+        // VOX-VS1-009 on a volume that carries patient-space geometry, which is
+        // what ADR-0243 could not do and ADR-0244 unblocked.
+        let coordinator = try publisher()
+        let volumeID = try #require(DataObjectID(rawValue: "ct.volume.3"))
+        _ = try await coordinator.publish(
+            try ingestedVolume(objectName: "ct.volume.3"),
+            mode: .complete
+        )
+
+        let axial = try await extract(
+            .axial,
+            sliceIndex: 0,
+            volumeID: volumeID,
+            publisher: coordinator
+        )
+        let coronal = try await extract(
+            .coronal,
+            sliceIndex: 0,
+            volumeID: volumeID,
+            publisher: coordinator
+        )
+        let sagittal = try await extract(
+            .sagittal,
+            sliceIndex: 0,
+            volumeID: volumeID,
+            publisher: coordinator
+        )
+
+        // The volume is 2 columns x 3 rows x 2 slices, so each plane drops its own
+        // fixed axis.
+        #expect(axial.descriptor.shape.extents == [2, 3])
+        #expect(coronal.descriptor.shape.extents == [2, 2])
+        #expect(sagittal.descriptor.shape.extents == [3, 2])
+
+        // Every plane keeps a geometry, including the two whose dropped slot is
+        // not last and therefore needed a column permutation.
+        for slice in [axial, coronal, sagittal] {
+            #expect(slice.descriptor.spatialGeometry != nil)
+            #expect(slice.descriptor.valueTransform != nil)
         }
     }
 
-    @Test("A geometry-free volume does reconstruct, isolating the cause")
+    @Test("An extracted slice carries operation provenance over the volume")
+    func extractedSliceHasOperationProvenance() async throws {
+        let coordinator = try publisher()
+        let volumeID = try #require(DataObjectID(rawValue: "ct.volume.4"))
+        _ = try await coordinator.publish(
+            try ingestedVolume(objectName: "ct.volume.4"),
+            mode: .complete
+        )
+        let axial = try await extract(
+            .axial,
+            sliceIndex: 1,
+            volumeID: volumeID,
+            publisher: coordinator
+        )
+
+        // The ingest was an origin; a slice is an operation with the volume as its
+        // input, which is the derivation chain VOX-VS1-019 asks provenance to show.
+        guard case .operation = axial.provenance.activity else {
+            Issue.record("expected an operation activity")
+            return
+        }
+        #expect(axial.provenance.kind != .source)
+        #expect(!axial.provenance.inputs.isEmpty)
+    }
+
+    @Test("A geometry-free volume still reconstructs and acquires no geometry")
     func geometryFreeVolumeReconstructs() async throws {
-        // The same pipeline with `spatialGeometry: nil` completes all three
-        // planes, which establishes that the blocker is the geometry and not the
-        // ingested volume's shape, storage, identity or provenance.
         let coordinator = try publisher()
         let volumeID = try #require(DataObjectID(rawValue: "ct.volume.flat"))
         let geometryBearing = try ingestedVolume(objectName: "ct.volume.flat")
@@ -368,8 +440,9 @@ struct CTVolumeBridgeCompositionTests {
                 publisher: coordinator
             )
             #expect(slice.descriptor.shape.rank == 2)
-            // The rescale survives the reconstruction; only the geometry is absent.
-            #expect(slice.descriptor.valueTransform != nil)
+            // ADR-0244 decision 6: nothing is invented for a volume that never
+            // had a geometry.
+            #expect(slice.descriptor.spatialGeometry == nil)
         }
     }
 }

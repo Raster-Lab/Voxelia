@@ -2762,12 +2762,51 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    test proves the geometry branch is correct. Comment corrected; a comment that
    tells a reader the opposite of the truth is worse than none.
 
-   **The exact next action, and it blocks eleven requirements: the axis-drop rule
-   for an affine geometry.** It needs a record, an algorithm specification with a
-   frozen expression order, an oracle, and a change to `SqueezeAxesOperation`. Once
-   decided, `VOX-VS1-009` and everything downstream of a 2D slice — window-level
-   interaction, crosshairs, pixel inspection, distance measurement, off-screen
-   output — becomes reachable through code that already exists.
+   **`ADR-0244` resolved the blocker, and corrected `ADR-0243` while doing it.**
+   994 tests in 187 suites. **All three planes now reconstruct from a
+   geometry-bearing volume**, so `VOX-VS1-009` is reachable.
+
+   `ADR-0243` said the rule needed "real arithmetic" — folding the dropped axis's
+   contribution into the origin — plus an algorithm specification with a frozen
+   expression order and an oracle. **Two of those three were wrong.** Squeeze drops
+   only axes of extent **one**, so the dropped index is always `0` and its
+   contribution is `column × 0`: **the fold is identically zero.** No numeric
+   boundary exists, so no specification and no oracle were issued. Only the
+   renumbering half of the description was right.
+
+   **Three candidate rules were probed against the accepted admissions rather than
+   reasoned about**, and the obvious one is wrong:
+
+   | Candidate | Result |
+   |---|---|
+   | Keep the 4×4 verbatim, renumber `imageAxes` | **admitted**, and a rank-2 descriptor accepts it |
+   | Zero the dropped column, as a "2D" matrix would | **refused**: `singularTransform` |
+   | Permute columns when the dropped slot is not last | **admitted** for slots 0 and 1 |
+
+   The middle row is the finding: `AffineGridGeometry` requires a non-singular
+   upper-left 3×3, so **a 2D geometry cannot be expressed by emptying a column**.
+   Probing cost one test where designing around it would have cost an increment. The
+   third row is the real case — matrix column `slot` maps to `imageAxes[slot]`, and
+   coronal drops slot 1 while sagittal drops slot 0.
+
+   So the rule is: **move the dropped column to the trailing slot, keep the
+   survivors' order, renumber `imageAxes`.** The out-of-plane step is **preserved
+   rather than zeroed** — truthful, since a slice from a volume does have one, and
+   it is what keeps the matrix non-singular. A permutation changes a determinant's
+   sign, not its magnitude, so the `ADR-0043` admission survives by construction.
+   Replacing the column with the unit normal was rejected: it needs a square root
+   and a zero-magnitude threshold to produce what the preserved column already
+   gives, and `VOXELIA-ALG-0047` declined a square root for the same reason.
+
+   `ADR-0243`'s pinned blocker test was **updated, not deleted** — it now asserts
+   the new rule, keeping the coverage it was written to hold. A geometry-free volume
+   still acquires no geometry, and a test asserts that too.
+
+   **The exact next action: verify `VOX-VS1-009` on the real 899-slice series** —
+   all three planes from actual patient data rather than a synthetic 2×3×2. After
+   that the requirements downstream of a 2D slice are reachable through code that
+   already exists: window-level interaction, linked crosshairs, quantitative pixel
+   inspection, patient-space distance measurement and off-screen output.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in
