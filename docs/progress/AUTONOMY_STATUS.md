@@ -3214,9 +3214,58 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    made the assertion stronger than intended — it now pins interpolation and output
    rounding together, so a change to either fails here.
 
-   **Next: `VOX-VS1-016`** — the requirement reading (no `offScreen` symbol exists
-   anywhere), which is the cheapest of the three remaining; then `010`'s CPU-Metal
-   differential run and `018`'s steady-state measurement. **Sixteen of twenty.**
+   **Increment (w): `ADR-0251`, `VOX-VS1-016` discharged — the reading three records
+   deferred.** 1022 tests / 191 suites. No source changed. **Seventeen of twenty.**
+
+   **The problem: §35.3 requires off-screen and interactive render targets to be
+   byte-identical, and one half of that comparison does not exist.** Voxelia has no
+   interactive viewport — the draw loop is the standing owner gate. Both naive
+   readings fail: "satisfied because everything is off-screen" is true and vacuous,
+   while "blocked on the draw loop" is wrong for a row declaring `T` whose
+   deliverable already exists.
+
+   **The reading: equivalence reduces to PURITY of the render path.** `SliceRenderer`'s
+   entire contract is `render(request)`. If output is a pure function of the request,
+   any future interactive caller issuing that request **necessarily** gets the same
+   bytes — equivalence needs the render path to have no other input, not the viewport
+   to exist. Same move `ADR-0206` made for annotation registration, where
+   statelessness IS the requirement.
+
+   **Finding: eight of §35.1's nine semantics travel in the request; the ninth does
+   not.** **Padding policy is not expressible in a `RenderRequest`** — it arrives via
+   the renderer's injected `windowStage`, and `ExactSliceRenderer`'s convenience init
+   hard-codes `paddingValue: nil`. So output is a pure function of *(request,
+   injected stages)*, not the request alone, and the equivalence is stated
+   **conditionally** on identical construction. The unconditional version would have
+   been shorter and wrong. It matters clinically: a windowed render of padded CT maps
+   padding as tissue. Deferred to its own record — §28.4 offers two candidate rules
+   and says the choice is separately approved.
+
+   **Second finding, from a test failure: identifiers MUST differ, so equivalence
+   cannot include them.** Rendering the same request twice through one renderer failed
+   with `duplicateObjectIdentifier` — the naming contract working correctly, since
+   identifiers are the host's to mint and my closure was a pure function of the stage.
+   A real viewport must mint fresh identifiers per frame. So equivalence is defined
+   over published bytes and `PresentationProvenance` and **explicitly not over
+   `outputObjectID`**; a record claiming "byte-identical results" without that
+   distinction would describe something unachievable. Fixed with a generation-counting
+   naming closure that models a viewport.
+
+   Three tests, each proving what the others cannot: one request twice is
+   byte-identical; an intervening *different* render does not change a repeat of the
+   first (which makes the claim about the renderer **instance**, not one call); and two
+   independently constructed renderers agree exactly (the case that actually models an
+   export path and a viewport each building their own). **Non-vacuity asserted** — each
+   pins the byte count at 12, because two empty arrays also compare equal, carrying
+   forward `ADR-0249` stage three's lesson.
+
+   No `offScreen` symbol was introduced: a flag with one reachable value would claim a
+   distinction the code does not make.
+
+   **Next: `VOX-VS1-010`** (Metal three-view differential) and **`018`**
+   (steady-state GPU memory). Two rows left of twenty. `018` is `A,T` and its `A` half
+   is already argued — unified memory selects `.shared`, so there is no copy to
+   duplicate.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in

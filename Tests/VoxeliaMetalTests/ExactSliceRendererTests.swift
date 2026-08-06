@@ -916,5 +916,199 @@ struct ExactSliceRendererTests {
         #expect(await publisher.publishedImage(for: cancelledObjectID) == nil)
     }
 
+    // MARK: - VOX-VS1-016, off-screen and interactive equivalence (ADR-0251)
+
+    /// A renderer whose naming mints **fresh identifiers on every render**, as a
+    /// real viewport must.
+    ///
+    /// The plain `makeRenderer` naming is a pure function of the stage, so a
+    /// second render of the same request re-mints the same object identifiers and
+    /// `PublicationCoordinator` refuses them with `duplicateObjectIdentifier`.
+    /// That is the naming contract working correctly -- identifiers are the host's
+    /// to mint and a host drawing repeatedly must vary them -- and it is why
+    /// equivalence in ADR-0251 is defined over bytes and presentation claims
+    /// rather than over identity.
+    private func makeCountingRenderer(
+        publisher: PublicationCoordinator,
+        prefix: String
+    ) throws -> ExactSliceRenderer {
+        let counter = Mutex<Int>(0)
+        let stagesSeen = Mutex<Set<String>>([])
+        return ExactSliceRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 96
+            ),
+            software: try software(),
+            naming: { stage in
+                let suffix: String
+                switch stage {
+                case .cropped(let layerIndex): suffix = "cr\(layerIndex)"
+                case .inverted(let layerIndex): suffix = "iv\(layerIndex)"
+                case .windowLevelled(let layerIndex): suffix = "wl\(layerIndex)"
+                case .composited: suffix = "cp"
+                case .resampled: suffix = "rs"
+                }
+                // A render is finished when a stage repeats, so the generation
+                // advances then -- enough to keep identifiers distinct without
+                // the renderer having to report frame boundaries.
+                let generation = stagesSeen.withLock { seen -> Int in
+                    if seen.contains(suffix) {
+                        seen = [suffix]
+                        return counter.withLock { value -> Int in
+                            value += 1
+                            return value
+                        }
+                    }
+                    seen.insert(suffix)
+                    return counter.withLock { $0 }
+                }
+                return (
+                    outputObjectID: DataObjectID(
+                        rawValue: "\(prefix)-g\(generation)-\(suffix)"
+                    )!,
+                    provenanceID: ProvenanceID(
+                        rawValue: "record-\(prefix)-g\(generation)-\(suffix)"
+                    )!,
+                    createdAt: try CanonicalInstant(
+                        utcString: "2026-08-05T04:05:00Z"
+                    )
+                )
+            }
+        )
+    }
+
+    /// Reads one published render's bytes.
+    private func renderedBytes(
+        _ result: RenderResult,
+        from publisher: PublicationCoordinator
+    ) async throws -> [UInt8] {
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let extents = published.descriptor.shape.extents
+        return try published.storage.read(
+            region: try ImageRegion(
+                lowerBounds: [Int](repeating: 0, count: extents.count),
+                upperBounds: extents
+            )
+        ).bytes
+    }
+
+    /// One request exercising every §35.1 semantic the request can carry.
+    private func equivalenceRequest() throws -> RenderRequest {
+        try RenderRequest(
+            scene: try scene([try layer("series-7")]),
+            viewport: try ViewportSize(width: 4, height: 3),
+            crop: nil,
+            interpolation: .nearestNeighbour,
+            quality: .full,
+            colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil
+        )
+    }
+
+    @Test("[Unit][VOX-VS1-016] one request renders byte-identically every time")
+    func oneRequestRendersByteIdenticallyEveryTime() async throws {
+        // VOX-VS1-016 requires off-screen output to use the same presentation
+        // semantics as the interactive viewport. There is no interactive viewport
+        // to compare against and the draw loop is owner-gated, so the property is
+        // established the only way that does not require one: the render is a
+        // pure function of its request, so any caller issuing the same request --
+        // interactive or not -- necessarily receives the same bytes.
+        //
+        // This is the same reasoning ADR-0206 used for annotation registration:
+        // statelessness IS the equivalence. Anything that made a second identical
+        // render differ -- a clock, a counter, cached state leaking into output --
+        // would break equivalence with a future interactive caller, and would
+        // break this test first.
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeCountingRenderer(publisher: publisher, prefix: "equiv-1")
+
+        let first = try await renderer.render(try equivalenceRequest())
+        let firstBytes = try await renderedBytes(first, from: publisher)
+        let second = try await renderer.render(try equivalenceRequest())
+        let secondBytes = try await renderedBytes(second, from: publisher)
+
+        // Non-vacuity first: two empty arrays would also compare equal. The
+        // request is 4x3 greyscale8, so twelve bytes are expected.
+        #expect(firstBytes.count == 12)
+        #expect(firstBytes == secondBytes)
+        // The presentation claims must match too: equivalence of pixels with
+        // divergent claims would still be a divergence.
+        #expect(first.presentation == second.presentation)
+    }
+
+    @Test("[Unit][VOX-VS1-016] an intervening different render does not change the result")
+    func anInterveningRenderDoesNotChangeTheResult() async throws {
+        // The sharper form: render A, then a materially different B, then A
+        // again. If any state survived between renders and reached the output --
+        // a reused buffer, a stale pipeline binding, an accumulated value -- A's
+        // two results would differ. This is what makes the purity claim about the
+        // renderer instance and not just about a single call.
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeCountingRenderer(publisher: publisher, prefix: "equiv-2")
+
+        let firstA = try await renderer.render(try equivalenceRequest())
+        let firstABytes = try await renderedBytes(firstA, from: publisher)
+
+        _ = try await renderer.render(
+            RenderRequest(
+                scene: try scene([try layer("series-7")]),
+                viewport: try ViewportSize(width: 8, height: 6),
+                crop: nil,
+                interpolation: .linear,
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
+            )
+        )
+
+        let secondA = try await renderer.render(try equivalenceRequest())
+        let secondABytes = try await renderedBytes(secondA, from: publisher)
+
+        #expect(firstABytes.count == 12)
+        #expect(firstABytes == secondABytes)
+        #expect(firstA.presentation == secondA.presentation)
+    }
+
+    @Test("[Unit][VOX-VS1-016] two separately constructed renderers agree exactly")
+    func twoSeparatelyConstructedRenderersAgreeExactly() async throws {
+        // The case that actually models off-screen versus interactive: two
+        // independently constructed renderers, as an export path and a viewport
+        // would each build their own. Both use the convenience initialiser -- the
+        // one an interactive caller would reach for -- and must agree byte for
+        // byte.
+        //
+        // This is also where the honest limit of the purity claim sits. Output is
+        // a pure function of the request AND the renderer's injected stages: the
+        // designated initialiser takes `windowStage`, whose convenience default
+        // passes `paddingValue: nil`. Two callers injecting different stages
+        // could therefore diverge, which is why ADR-0251 states the equivalence
+        // as conditional on identical construction rather than unconditional.
+        let publisherA = try publisher()
+        _ = try await publisherA.publish(try originImage(), mode: .complete)
+        let rendererA = try makeRenderer(publisher: publisherA, prefix: "equiv-3a")
+
+        let publisherB = try publisher()
+        _ = try await publisherB.publish(try originImage(), mode: .complete)
+        let rendererB = try makeRenderer(publisher: publisherB, prefix: "equiv-3b")
+
+        let resultA = try await rendererA.render(try equivalenceRequest())
+        let resultB = try await rendererB.render(try equivalenceRequest())
+
+        let bytesA = try await renderedBytes(resultA, from: publisherA)
+        let bytesB = try await renderedBytes(resultB, from: publisherB)
+        #expect(bytesA.count == 12)
+        #expect(bytesA == bytesB)
+        // Presentation claims are compared field by field except the object
+        // identifiers, which are caller-minted by design and differ on purpose.
+        #expect(resultA.presentation == resultB.presentation)
+    }
+
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}
 }
