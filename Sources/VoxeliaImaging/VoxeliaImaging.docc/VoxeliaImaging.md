@@ -51,6 +51,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``CTVolumeStorageError``
 - ``CTVolumePublicationBuilder``
 - ``CTVolumePublicationError``
+- ``CTSampleInspector``
+- ``CTSampleInspection``
+- ``CTSampleInspectionError``
 
 ### Multiplanar reconstruction
 

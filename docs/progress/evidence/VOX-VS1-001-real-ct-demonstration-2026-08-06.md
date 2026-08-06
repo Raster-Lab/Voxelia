@@ -254,6 +254,25 @@ in patient space.
 This is display output from real CT rather than a synthetic exercise: a lung window
 and a soft-tissue window are the two settings a thorax study is actually read with.
 
+## Sixth run: quantitative sample inspection, VOX-VS1-014
+
+Three positions of the real axial slice, chosen for what they should contain:
+
+```text
+inspect centre   (256,256): stored 8232 -> 40.0 HU
+inspect mid-left (128,256): stored 7237 -> -955.0 HU
+inspect corner   (2,2):     stored 0    -> -8192.0 HU
+```
+
+**These are the right values, not merely well-formed ones.** 40 HU at the centre of
+a thorax slice is mediastinum — soft tissue. -955 HU at mid-left is air-filled lung
+parenchyma. The corner sits at the `-8192` floor, exactly what the histogram in the
+third run predicted for the region outside the circular reconstruction field.
+
+An implementation that indexed the wrong axis, dropped the rescale, or mis-signed
+the samples would produce a plausible number in none of those three places, which is
+why the positions were chosen by anatomy rather than convenience.
+
 ## Reproduction
 
 ```text

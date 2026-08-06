@@ -202,6 +202,7 @@ Sources/VoxeliaImaging/Public/.gitkeep
 Sources/VoxeliaImaging/Public/CTAffineVolumeBuilder.swift
 Sources/VoxeliaImaging/Public/CTFrameDescription.swift
 Sources/VoxeliaImaging/Public/CTGeometryValidation.swift
+Sources/VoxeliaImaging/Public/CTSampleInspector.swift
 Sources/VoxeliaImaging/Public/CTSampleNormalisation.swift
 Sources/VoxeliaImaging/Public/CTSeriesAssembly.swift
 Sources/VoxeliaImaging/Public/CTValueInterpreter.swift
@@ -454,6 +455,7 @@ Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
 Tests/VoxeliaImagingTests/CTAffineVolumeBuilderTests.swift
 Tests/VoxeliaImagingTests/CTFrameDescriptionTests.swift
 Tests/VoxeliaImagingTests/CTGeometryValidatorTests.swift
+Tests/VoxeliaImagingTests/CTSampleInspectorTests.swift
 Tests/VoxeliaImagingTests/CTSampleNormalisationTests.swift
 Tests/VoxeliaImagingTests/CTSeriesAssemblerTests.swift
 Tests/VoxeliaImagingTests/CTValueInterpreterTests.swift
@@ -916,6 +918,7 @@ docs/architecture/decisions/ADR-0242-ct-volume-identity-and-provenance.md
 docs/architecture/decisions/ADR-0243-bridge-arc-conclusion.md
 docs/architecture/decisions/ADR-0244-affine-axis-drop.md
 docs/architecture/decisions/ADR-0245-downstream-slice-requirement-assessment.md
+docs/architecture/decisions/ADR-0246-quantitative-sample-inspection.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

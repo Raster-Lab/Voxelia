@@ -432,3 +432,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0243](ADR-0243-bridge-arc-conclusion.md) | Accepted | Bridge arc conclusion |
 | [ADR-0244](ADR-0244-affine-axis-drop.md) | Accepted | Affine axis drop |
 | [ADR-0245](ADR-0245-downstream-slice-requirement-assessment.md) | Accepted | Downstream slice requirement assessment |
+| [ADR-0246](ADR-0246-quantitative-sample-inspection.md) | Accepted | Quantitative sample inspection |

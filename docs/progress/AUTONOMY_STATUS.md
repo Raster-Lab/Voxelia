@@ -2878,11 +2878,47 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    intensity projection is genuinely different, because collapsing a non-singleton
    axis really does change the geometry.
 
-   **Next, ordered by the assessment rather than by requirement number:**
-   `VOX-VS1-014` first, since it is composition of three existing pieces; then
-   `VOX-VS1-015`, which needs a record and an oracle because a Euclidean distance
-   has a square root and a frozen expression order; then verifying `013` end to end;
-   then settling `016`'s reading.
+   **`ADR-0246` closed the `VOX-VS1-014` gap.** `CTSampleInspector` joins the three
+   existing pieces. 1,004 tests in 188 suites.
+
+   **The decision that shaped the type: it computes no world position.** The obvious
+   design returns position *and* value, and that would **re-freeze a boundary that
+   already has an owner** — `PickResolver` resolves a pick to an exact physical
+   position under the rule `ADR-0129` governs. The register was searched for the
+   boundary before any code was written, exactly as `ADR-0237`'s lesson requires, and
+   it was found. So `PickResolver` says **where** and `CTSampleInspector` says
+   **what**.
+
+   It takes indices rather than a `PickResolution`, and **the module order made that
+   decision**: `PickResolver` sits above `VoxeliaRendering`, so an inspection
+   consuming its result could not live beside the interpreter it needs.
+
+   **Verified on real data at positions chosen by anatomy, not convenience:**
+
+   | Position | Stored | Interpreted | Expected |
+   |---|---|---|---|
+   | centre (256,256) | 8232 | **40.0 HU** | mediastinum |
+   | mid-left (128,256) | 7237 | **−955.0 HU** | lung parenchyma |
+   | corner (2,2) | 0 | **−8192.0 HU** | outside the reconstruction field |
+
+   **These are the right values, not merely well-formed ones**, and an
+   implementation that indexed the wrong axis, dropped the rescale or mis-signed the
+   samples would be plausible in none of the three places.
+
+   Two refusals kept it honest. **Lookup-table and composed transforms are refused**
+   rather than half-evaluated, because a general evaluator would duplicate the model
+   `VOXELIA-ALG-0005` governs and `WindowLevelOperation` already implements
+   privately — sharing it is named as separate work. And **the padding value is a
+   caller parameter**, following `WindowLevelOperation`'s accepted pattern rather
+   than inventing a descriptor field, with a test asserting padding is compared on
+   the **stored** value so a padding number equal to a *rescaled* value does not
+   delete real signal.
+
+   **Next: `VOX-VS1-015`**, a patient-space distance measurement. It needs its own
+   record and an oracle — a Euclidean distance has a square root and therefore a
+   frozen expression order — and it is the requirement `ADR-0245` found missing while
+   angle, polygon area and voxel volume all exist. After that, verify `013`'s
+   crosshair path end to end, then settle `016`'s reading.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in
