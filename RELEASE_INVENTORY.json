@@ -4405,9 +4405,14 @@
       "sha256": "ba6e060f47c522db0dd45b2cdc6984ece1acfa4211a4bd0cf8845706986f8f3a"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0231-dicomkit-supply-chain-assessment.md",
+      "size": 11133,
+      "sha256": "8997c04d03e0f9b7943c5b48581973b7747da1ab5f7111ed9680d89ab68661df"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 34458,
-      "sha256": "1261b72c413027ec125daff4347e4dc1015f80d67972172fd6b8d9a3873ca6aa"
+      "size": 34565,
+      "sha256": "6b3d6c390e4add4ab37d4dcf143a0aa14a80329283363a96c6e5469f1db73a88"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4491,8 +4496,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1010452,
-      "sha256": "33cd90c5326e7fd997208e17be3cd95bc78327f6b61b108221efb1ac28b7b8c3"
+      "size": 1016829,
+      "sha256": "55a91ad5f70a2a9b4f0e577a240495a6973ff5e0692e72cc6b0f8d8b1f75de86"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4976,8 +4981,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 55606,
-      "sha256": "c707696e9e8a442421bd62b872e46cedea1ba682f3a00a37af9e4d3ba8bf6bb0"
+      "size": 55679,
+      "sha256": "5755079a0a9679b05bfbbfc148f88b5906c75fcdc7d21c32cbedcc42a56a7caf"
     }
   ]
 }

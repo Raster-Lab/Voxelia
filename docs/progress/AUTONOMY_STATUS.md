@@ -2431,6 +2431,45 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   window — and the owner-facing summary of the gates awaiting their
   decisions.
 
+=== OWNER DECISIONS WAITING (2026-08-06, DICOM arc) ===
+
+Two decisions block the last increment of the DICOM ingest arc. Both were found
+by reading DICOMKit's own manifest before changing ours; neither is a judgement
+this project may make for you.
+
+1. **The Raster-Lab codec libraries arrive transitively through DICOMKit.**
+   DICOMKit `v2.2.11` declares five external packages, and SwiftPM resolves a
+   dependency's whole graph, so approving DICOMKit acquires all of them:
+
+   | Package | Version | Licence |
+   |---|---|---|
+   | `apple/swift-argument-parser` | from `1.8.2` | Apache-2.0 |
+   | `Raster-Lab/J2KSwift` | from `11.0.2` | MIT |
+   | `Raster-Lab/JLSwift` | from `0.9.0` | **none found** |
+   | `Raster-Lab/JLISwift` | from `0.5.0` | Apache-2.0 |
+   | `Raster-Lab/JXLSwift` | from `1.4.0` | MIT |
+
+   Four of those are the codec libraries tracked as `VOX-CMP-001` — the second
+   of the two supply-chain questions, distinct from the DICOMKit one you already
+   answered. **Do the codecs enter the build as part of the DICOMKit approval,
+   or is that still a separate decision?**
+
+2. **`Raster-Lab/JLSwift` has no licence.** No `LICENSE`, `LICENSE.txt`,
+   `COPYING` or `NOTICE`, and no statement in its README. `VOX-LIC-007`,
+   `VOX-LIC-009` and `VOX-LIC-004` cannot be discharged against an undetermined
+   licence, and an unlicensed redistributed package is all-rights-reserved by
+   default. **This is a one-file fix in a repository you control.**
+
+Nothing was relaxed while waiting. `Package.swift` is untouched, the licence gate
+is unmodified and still passes truthfully, and no notices entry was invented. The
+arc's other four increments are complete; the Voxelia-owned half of the fifth
+proceeds without any dependency.
+
+The third gate is unchanged and unrelated: an evidence-based geometry tolerance
+(`ADR-0229`), which needs phantom studies or a characterised scanner corpus.
+Until then the first vertical slice rejects any series whose spacing or
+orientation varies at all, which is deliberate.
+
 === OWNER SUMMARY (2026-08-05 morning, autonomous session window) ===
 
 While you were away the loop delivered forty-three pushed increments,
@@ -9314,6 +9353,79 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-sixty-third autonomous increment (`ADR-0231`, increment (e)
+  assessment): **design-first stopped this increment at a gate, which is what it
+  is for.** Reading the dependency's manifest before changing ours found that
+  `ADR-0226`'s premise was incomplete.
+
+  **DICOMKit is not a leaf dependency.** Its manifest at `v2.2.11` declares five
+  external packages of its own, and SwiftPM resolves a dependency's whole graph,
+  so this was never "add one MIT package" — it is "add six packages, of which
+  four are codec libraries".
+
+  | Transitive package | Licence | Established by |
+  |---|---|---|
+  | `apple/swift-argument-parser` `1.8.2` | Apache-2.0 | `LICENSE.txt` read |
+  | `Raster-Lab/J2KSwift` `11.0.2` | MIT | `LICENSE` read |
+  | `Raster-Lab/JLSwift` `0.9.0` | **none found** | no licence file, no README statement |
+  | `Raster-Lab/JLISwift` `0.5.0` | Apache-2.0 | `LICENSE` read |
+  | `Raster-Lab/JXLSwift` `1.4.0` | MIT | `LICENSE` read |
+
+  **GitHub's detected-licence field reported "none" for all five and was wrong
+  for four of them.** The licences above were read from each repository's own
+  licence file. Had the detector been trusted, this increment would have reported
+  five unlicensed dependencies — a false alarm as damaging as a missed one.
+
+  **Blocker one: this crosses the standing codec gate.** `J2KSwift`, `JLSwift`,
+  `JLISwift` and `JXLSwift` are the Raster-Lab codec libraries — `VOX-CMP-001`,
+  tracked as a *separate* supply-chain question since before this session and
+  named alongside DICOMKit as the second of two. The owner released one of the
+  two. Adding the codecs as a side effect would answer the second question by
+  implication, using authority granted for the first. Their being the owner's own
+  repositories does not change it: `ADR-0226` verified an owner-owned
+  dependency's facts rather than assuming them, and the same discipline applies
+  to which packages enter the build.
+
+  **Blocker two: `JLSwift` has no licence at all.** No `LICENSE`, `LICENSE.txt`,
+  `COPYING` or `NOTICE`, and no statement in its README. `VOX-LIC-007`,
+  `VOX-LIC-009` and `VOX-LIC-004` cannot be discharged against an undetermined
+  licence, and an unlicensed redistributed package is all-rights-reserved by
+  default. It is also the cheapest problem here to fix — a licence file in a
+  repository the owner controls.
+
+  **Nothing was relaxed to make progress.** `Package.swift` is untouched,
+  `check_licence_policy.py` is unmodified and **still passes truthfully** because
+  this repository still declares no external dependency, and
+  `THIRD_PARTY_NOTICES.md` gains no entry. Editing the check in the very
+  increment that could not discharge the four requirements it protects is the
+  failure `ADR-0226` decision 8 forbids by name.
+
+  Increment (e) is therefore **split**: (e1) the Voxelia-owned direct-write
+  addressing contract, unblocked; (e2) the manifest, shim, gate update and
+  notices, blocked on two owner decisions. Idling the unblocked half behind the
+  blocked half is the error `ADR-0226` already declined to make for the whole arc.
+
+  Two smaller findings recorded for (e2): **Apache-2.0 is a new obligation
+  shape** — permissive, so `VOX-LIC-007` and `VOX-LIC-009` are satisfied, but it
+  requires reproducing NOTICE content, so those entries must be more than a
+  licence name. And **`swift-argument-parser` is a CLI library** pulled in for
+  DICOMKit's executables that a library consumer has no use for; not a blocker,
+  but exactly what `VOX-REP-009` exists to keep out of distribution targets, so
+  (e2) must confirm no Voxelia distribution target links it.
+
+  **`VOX-CMP-001` is no longer abstract.** It was a general question about codec
+  libraries; it is now four named packages at four versions with three verified
+  licences and one unknown.
+
+  ```text
+  gh api repos/Raster-Lab/DICOMKit/contents/Package.swift?ref=v2.2.11
+  gh api repos/<each of five>/contents/<licence file>
+  python3 Tools/Scripts/check_licence_policy.py   # passes, unmodified
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -15473,25 +15585,30 @@ fixtures bit-for-bit, and the D3 finding is demonstrated end to end — the
 validator approves the series with an empty finding set and the builder rejects
 it as singular.
 
-The exact next action is `ADR-0226` increment (e), which **closes the arc** and is
-the first time this repository carries a third-party dependency. Design-first,
-and treat the supply-chain boundary as the increment's substance rather than its
-paperwork:
+Increment (e) is split by accepted `ADR-0231`. Its supply-chain half **(e2) is
+blocked on two owner decisions** and must not proceed: the four Raster-Lab codec
+libraries arriving transitively through DICOMKit (`VOX-CMP-001`), and
+`Raster-Lab/JLSwift` having no licence file at all.
 
-1. **The manifest dependency** on `https://github.com/Raster-Lab/DICOMKit` at
-   `v2.2.11`, attached **only** to the new optional `VoxeliaDICOMKit` target, per
-   `VOX-REP-009`. No existing module gains a dependency on it.
-2. **`check_licence_policy.py` must be updated in the same increment**, admitting
-   exactly one declared dependency instead of none, and its failure message must
-   keep naming `VOX-LIC-007`, `VOX-LIC-008`, `VOX-LIC-009` and `VOX-REP-009`.
-   Never relax the check to pass — `ADR-0226` decision 8.
-3. **`THIRD_PARTY_NOTICES.md`** gains the MIT entry `VOX-LIC-004` obliges.
-4. **`CTFrameRecord`** with the **direct-write** ownership model `ADR-0230`
-   decision 10 fixed: the volume allocates once and each frame decodes straight
-   into its slice offset.
-5. **Regenerate the SBOM.** `ADR-0225` found the committed bill of materials had
-   under-reported module dependencies once already, and this increment adds the
-   first external one — the exact case that artefact exists to record.
+The exact next action is **(e1), the Voxelia-owned direct-write addressing
+contract** — unblocked, and the mechanism the plan's §16.1 requires for transfer
+"without unnecessary intermediate copies". Design-first, because it has genuine
+numeric boundaries: `CTFrameRecord` (a description plus its slice index in the
+volume) and the linear sample layout, whose admission must include **overflow**
+of `rows * columns * sliceCount` and of the byte count, in a frozen expression
+order with `multipliedReportingOverflow` rather than a trusted product. It names
+no DICOMKit type and needs no dependency.
+
+**Do not** touch `Package.swift`, `check_licence_policy.py` or
+`THIRD_PARTY_NOTICES.md` until both owner decisions land. The dependency gate
+passes today because it is true.
+
+When (e2) is unblocked it needs: the dependency attached only to an optional
+`VoxeliaDICOMKit` target (`VOX-REP-009`); the licence gate admitting exactly the
+resolved graph while still naming the four requirements it protects; notices
+entries carrying **Apache-2.0 NOTICE content**, not just licence names; a
+confirmation that no distribution target links `swift-argument-parser`; and an
+SBOM regeneration.
 
 After that, increment (e) closes the arc: the DICOMKit shim, `CTFrameRecord` with
 the direct-write ownership model `ADR-0230` decision 10 fixes, the manifest
