@@ -44,6 +44,7 @@ public API is introduced only by reviewed milestone specifications.
 - ``CTValueInterpretationError``
 - ``CTValueInterpretationFinding``
 - ``CTInterpretedValue``
+- ``CTSampleNormalisation``
 
 ### Multiplanar reconstruction
 

@@ -2587,7 +2587,34 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    already takes `[UInt8]`. **The slots were designed for this and have never been
    filled** — the bridge is mostly assembly, not invention.
 
-   The exact next action is increment (a), the volume descriptor.
+   **`ADR-0239` settled (c), the trap — and corrected `ADR-0238`'s own increment
+   order.** That record listed the descriptor as (a) and the bit-count decision as
+   (c), but the descriptor *declares* the scalar format, so the dependency runs the
+   other way. The correction is recorded rather than silently rearranged.
+
+   The answer is `ADR-0238`'s third option: **normalise samples before transfer**,
+   re-encoding each stored value as a full-width container so `validBitCount: nil`
+   becomes a *truthful* declaration. It is a re-encoding, not an interpretation — no
+   rescale, no padding, no real value — so `ADR-0235` decision 2 holds and neither
+   `CTVolumeByteBuffer` nor `DICOMFrameTransfer` changed.
+
+   **The property is proved exhaustively, not sampled.** Reading a normalised
+   container at full width yields the same stored value as reading the original at
+   its narrower width — checked over every 8-bit and 16-bit container value, every
+   stored-bit width, both signedness choices: **2,101,248 cases, zero failures**, in
+   Python as recorded evidence and again in Swift as a test that runs in 2.9s. A
+   fixture table would have been strictly weaker, and **where a space is small
+   enough to enumerate, this project should enumerate it.**
+
+   Normalisation is the **identity at full width**, verified for every value, so the
+   owner's entire measured corpus pays nothing — the implementation detects the
+   identity case and skips the pass. No new algorithm specification was issued:
+   normalisation is defined by its round-trip relationship to `VOXELIA-ALG-0051`
+   stage 2, and freezing it separately would repeat the duplicate-specification
+   mistake `ADR-0237` had just corrected.
+
+   The exact next action is the descriptor increment, which may now declare
+   `validBitCount: nil` truthfully.
 2. The 13 remaining traceability rows in
    `docs/progress/untraced-requirements.txt`.
 3. A `prepare-release.sh` dry run, unexercised since `ADR-0225` gated three
