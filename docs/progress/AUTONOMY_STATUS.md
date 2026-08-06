@@ -3167,10 +3167,56 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    suspension were introduced into phase two, which is precisely the regression
    decision 6 exists to prevent. A test that cannot fail usefully is not evidence.
 
-   **Next: `VOX-VS1-011`** — confirm nearest and linear against the frozen
-   `ALG-0008`/`ALG-0015` rather than rebuilding; then `010`'s differential run,
-   `018`'s steady-state measurement, and `016`'s requirement reading. Four rows left
-   of twenty, and `ADR-0248`'s sizing says none of them needs new capability.
+   **Increment (v): `ADR-0250`, `VOX-VS1-011` confirmed — and `ADR-0217` had already
+   discharged it.** 1019 tests / 191 suites. No source changed.
+
+   **The row was claimed years-of-increments ago and I nearly re-claimed it.**
+   `ADR-0217` discharged `VOX-VS1-011` citing `ResampleNearestOperation`,
+   `ResampleLinearOperation`, `ALG-0008`/`ALG-0015` and `ADR-0124`'s
+   `InterpolationPolicy`. This record **confirms rather than re-discharges** — a row
+   claimed twice is a traceability defect even when both claims are true.
+
+   **Finding: the discharge is right and its citation is incomplete.** Plan §28.2
+   says "linear interpolation shall operate in **three-dimensional** continuous index
+   space". `ResampleLinearOperation` is *bilinear* — rank two. The 3D clause is met
+   by `ObliqueSliceOperation`'s trilinear reduction under `ALG-0017`, which
+   `ADR-0217` never names. **Dimensionality was the discriminator, and only §28.2
+   supplies it** — searching the requirement's own phrase finds the rank-two
+   operations first, which is exactly the trap the capability-first method was
+   adopted to avoid, in a new disguise.
+
+   **Second finding, named not filled: there is no nearest mode for volume
+   sampling.** `ObliqueSliceOperation` is trilinear only; the only nearest sampler is
+   rank-two. Not a `VOX-VS1-011` gap, for a specific reason: every first-slice
+   reconstruction path is **axis-aligned**, so each output sample *is* a stored
+   voxel, and where every sample lands on a sample point nearest and linear agree
+   exactly. Interpolation mode cannot change an axis-aligned result. It IS a real gap
+   for oblique and DVR work — `InterpolationPolicy` already names
+   `.nearestNeighbour` with no volume-sampling implementation behind it — so it is
+   recorded for whichever row needs it.
+
+   **Added the analytical property the plan asks for (§1957, "analytical" equality)
+   and that no accepted suite states**: that a linear interpolator reproduces a
+   linear function **everywhere**, not only at the samples. Three tests — linear
+   precision over twelve interior positions, exactness at all 27 samples,
+   monotonicity in quarter steps per axis. **No epsilon**, despite the plan's word
+   "bounded": the ramp coefficients are small integers and every position is a half-
+   or quarter-integer, so the arithmetic is exact. Choosing provably exact cases is
+   this project's standing alternative to inventing a threshold, and it leaves the
+   geometry tolerance gate untouched.
+
+   **The test's first version was wrong and that is the useful part.** It asserted
+   the unquantised ramp value and failed on exactly two of twelve cases —
+   `(0.25,0,0)` and `(0.75,0,0)`, whose exact values are `0.5` and `1.5` because the
+   first ramp coefficient is `2`. The observed bytes were `0` and `2`: `ALG-0002`
+   ties-to-even, behaving exactly as accepted. **The interpolator was right and my
+   expectation was wrong.** Composing the accepted quantisation rule fixed it and
+   made the assertion stronger than intended — it now pins interpolation and output
+   rounding together, so a change to either fails here.
+
+   **Next: `VOX-VS1-016`** — the requirement reading (no `offScreen` symbol exists
+   anywhere), which is the cheapest of the three remaining; then `010`'s CPU-Metal
+   differential run and `018`'s steady-state measurement. **Sixteen of twenty.**
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in
