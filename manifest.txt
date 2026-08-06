@@ -73,6 +73,7 @@ Sources/VoxeliaCPU/Public/.gitkeep
 Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift
 Sources/VoxeliaCPU/Public/CPULabelledSurfaceExtractionOperation.swift
 Sources/VoxeliaCPU/Public/CPUScalarSurfaceExtractionOperation.swift
+Sources/VoxeliaCPU/Public/CPUTriangleMeshEnclosedVolumeOperation.swift
 Sources/VoxeliaCPU/Public/CPUTriangleMeshTotalFacetAreaOperation.swift
 Sources/VoxeliaCPU/Public/CPUTriangleMeshVertexNormalGenerationOperation.swift
 Sources/VoxeliaCPU/VoxeliaCPU.docc/Architecture.md
@@ -315,6 +316,7 @@ Tests/Support/TestSupport.swift
 Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift
 Tests/VoxeliaCPUTests/CPULabelledSurfaceExtractionOperationTests.swift
 Tests/VoxeliaCPUTests/CPUScalarSurfaceExtractionOperationTests.swift
+Tests/VoxeliaCPUTests/CPUTriangleMeshEnclosedVolumeOperationTests.swift
 Tests/VoxeliaCPUTests/CPUTriangleMeshTotalFacetAreaOperationTests.swift
 Tests/VoxeliaCPUTests/CPUTriangleMeshVertexNormalGenerationOperationTests.swift
 Tests/VoxeliaCPUTests/LabelledSurfaceExtractionTestSupport.swift

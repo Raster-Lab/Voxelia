@@ -6417,6 +6417,60 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-eleventh autonomous increment (`ADR-0195` migration step three):
+  the public `CPUTriangleMeshEnclosedVolumeOperation` completes the certified
+  enclosed-volume boundary. It runs the kernel with the kernel's own final
+  check suppressed, takes its own final cancellation check after the volume
+  exists and before any claim is constructed, derives the published
+  `PoweredLengthUnit` from the source coordinate space's exact unit at
+  exponent three, and returns the atomic
+  measurement/identity/provenance aggregate. The parameter digest is
+  reconstructed independently inside the operation and a third time in the
+  suite, so all three agree.
+
+  The public surface states the certification contract in its own words, and
+  `VoxeliaCPU`'s `Requirements.md` repeats it: the operation certifies closure,
+  edge-manifoldness and orientation consistency and publishes nothing
+  otherwise, while vertex manifoldness and non-self-intersection are
+  deliberately uncertified and travel as parameter-document entries inside
+  every result's digest.
+
+  Six operation cases cover the complete fixed claim set over a closed unit
+  cube enclosing exactly one across twelve facets, the vacuously closed empty
+  mesh at positive zero, unit derivation from a conversion-bearing DICOM
+  centimetre space proving the metadata is carried but never cubed and the
+  volume unchanged because the arithmetic never reads a unit, task and injected
+  admission/final cancellation publishing nothing, every failure class
+  surfacing unchanged — `invalidLimits`, `invalidSource`,
+  `resourceLimitExceeded`, `openSurface`, `nonManifoldOrientation`,
+  `degenerateFacet`, `invertedOrientation` and `volumeNotRepresentable` — and
+  eight concurrent executions producing one identical bit pattern.
+
+  The CPU registry is now sixteen entries and the combined CPU-plus-Metal
+  registry nineteen. All three count assertions were updated together, and
+  `CPUBackendRegistrations.standard()`'s doc comment — which still said
+  "fourteen" after the fifteenth entry landed — is now count-free so it cannot
+  go stale again.
+
+  **All three `ADR-0195` product migration stages are complete, and
+  `VOX-GEO-010` is now discharged in both halves.** Verified after a clean
+  `.build` rebuild: 732 tests in 155 suites green.
+
+  ```bash
+  swift test --filter 'CPUTriangleMeshEnclosedVolumeOperationTests|CPUBackendRegistrations|CombinedRegistry'
+  swift format lint --strict \
+    Sources/VoxeliaCPU/Public/CPUTriangleMeshEnclosedVolumeOperation.swift \
+    Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift \
+    Tests/VoxeliaCPUTests/CPUTriangleMeshEnclosedVolumeOperationTests.swift \
+    Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift \
+    Tests/VoxeliaValidationTests/CombinedRegistryTests.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12295,15 +12349,26 @@ Accepted `ADR-0195` and `VOXELIA-ALG-0032` now freeze certified enclosed
 volume, settling every obligation the 2026-08-06 audit enumerated. Migration step one is
 complete: the four declaration/publication values, the measurement value and
 the closed ten-case error family now live in `VoxeliaGeometry`, with both
-non-certifications carried inside the parameter digest. Migration step two is complete:
-the internal CPU certification predicate and serial volume reference reproduce
-both registered `VOXELIA-ALG-0032` digests bit-exactly and prove the exact
-poll set, admission precedence and certification-before-arithmetic ordering.
-The exact next action is `ADR-0195` migration step three: the public
-`CPUTriangleMeshEnclosedVolumeOperation` with its own final cancellation
-boundary, exact identity/provenance/execution claim assembly, independently
-reproduced parameter digest and the sixteenth CPU registry entry (the combined
-CPU-plus-Metal registry becomes nineteen). After that,
+non-certifications carried inside the parameter digest. All three `ADR-0195` product migration stages
+are complete — the Geometry declaration boundary, the internal CPU
+certification predicate and serial volume reference reproducing both registered
+`VOXELIA-ALG-0032` digests bit-exactly, and the public operation with the
+sixteenth CPU registry entry. **`VOX-GEO-010` is therefore discharged in both
+halves**: total facet area and certified enclosed volume are each accepted,
+implemented, registered and evidenced, and the Validation and Benchmark
+Strategy's section 31.2 comparison of surface area against enclosed volume is
+now expressible.
+
+The exact next action is the **surface-rendering assessment** over a
+publishable canonical mesh — `ADR-0183`'s penultimate stage. Assess before
+designing: read `VOX-GEO-011` and the rendering requirements' exact baseline
+text, then establish what, if anything, needs building, mirroring the
+`ADR-0181` bricked/multi-resolution assessment shape. A documentation-only
+assessment record is the correct outcome when nothing needs building
+(`ADR-0037`/`0114`/`0121`/`0145` precedent); do not invent a renderer to have
+something to build. Backend-specific derived acceleration is the final
+`ADR-0183` stage after it. The colour/overlay arc (`VOX-R2D-010/011/015` plus
+VOI verification) remains the other M6 queue. After that,
 the remaining `ADR-0183` stages are the surface-rendering assessment over a
 publishable canonical mesh and backend-specific derived acceleration; the
 colour/overlay arc and VOI verification remain the other M6 queue. Certified enclosed volume remains a distinct governed record and must
@@ -12321,15 +12386,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0195` migration step three next: the public CPU operation and
-  the sixteenth registry entry. Run the focused `VoxeliaCPUTests` operation and
-  registration suites plus `CombinedRegistryTests`, `swift format lint
-  --strict` on every touched Swift file, and the
-  ADR/document/register/index/manifest/integrity checks. Adding a CPU registry
-  entry means updating three assertions: the `CPUBackendRegistrationsTests`
-  count, its operation-identifier list, and the `CombinedRegistryTests` count
-  in `Tests/VoxeliaValidationTests`. Add the entry only after the
-  operation-level evidence is green.
+- The next increment is the surface-rendering assessment and is expected to be
+  documentation-only. Run the oracle-free
+  ADR/document/register/index/manifest/integrity checks; product builds and
+  tests are not evidence until source changes. Verify that "no product source
+  changed" claim against `git diff --cached --name-only` before committing.
+- Do not reopen `ADR-0194` or `ADR-0195`. Both are accepted, implemented,
+  registered and evidenced.
 - Before every commit, check the staged diff for stray `" 2"` duplicate files
   and, for any increment claiming no product source changed, confirm that
   claim against `git diff --cached --name-only` rather than trusting intent.

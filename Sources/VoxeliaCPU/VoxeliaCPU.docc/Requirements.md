@@ -49,3 +49,14 @@ quantity counts facet area with multiplicity and asserts nothing about the
 source mesh's topology, orientation, watertightness or self-intersection: it
 is neither a certified surface area nor an enclosed volume, both of which
 `ADR-0194` leaves to separate governed records.
+
+The public ``CPUTriangleMeshEnclosedVolumeOperation`` completes `VOX-GEO-010`
+by delivering the enclosed-volume half accepted `ADR-0195` governs. It first
+certifies that the source mesh is a closed, edge-manifold, consistently
+oriented surface and publishes nothing otherwise; no arithmetic runs for an
+uncertified surface. Two properties are deliberately not certified: vertex
+manifoldness, which the divergence identity does not require, and
+non-self-intersection, which needs exact geometric predicates no accepted
+record supplies. Both limitations are entries in the operation's parameter
+document, so they travel inside every published result's digest rather than
+living only in documentation.

@@ -39,6 +39,7 @@ label attribute.
 ### Geometry measurement
 
 - ``CPUTriangleMeshTotalFacetAreaOperation``
+- ``CPUTriangleMeshEnclosedVolumeOperation``
 
 ### Project documents
 

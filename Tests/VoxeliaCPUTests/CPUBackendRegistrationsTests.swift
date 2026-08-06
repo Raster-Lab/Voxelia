@@ -16,7 +16,7 @@ struct CPUBackendRegistrationsTests {
         // pinned current contract versions, and the CPU backend
         // claim.
         let registry = try CPUBackendRegistrations.standard()
-        #expect(registry.implementations.count == 15)
+        #expect(registry.implementations.count == 16)
         #expect(
             registry.implementations.allSatisfy {
                 $0.backend.rawValue == "org.voxelia.backend.cpu"
@@ -58,6 +58,7 @@ struct CPUBackendRegistrationsTests {
                 LabelledSurfaceExtractionRequest.operationIdentifier,
                 TriangleMeshVertexNormalGenerationRequest.operationIdentifier,
                 TriangleMeshTotalFacetAreaRequest.operationIdentifier,
+                TriangleMeshEnclosedVolumeRequest.operationIdentifier,
             ]
         )
         let surfaceEntries = registry.implementations(
@@ -199,6 +200,40 @@ struct CPUBackendRegistrationsTests {
         #expect(
             areaEntry.evidence.rawValue
                 == "adr-0194-triangle-mesh-total-facet-area"
+        )
+
+        let volumeEntries = registry.implementations(
+            for: try DerivationOperationToken(
+                rawValue: TriangleMeshEnclosedVolumeRequest
+                    .operationIdentifier
+            )
+        )
+        #expect(volumeEntries.count == 1)
+        let volumeEntry = volumeEntries[0]
+        #expect(
+            volumeEntry.implementation.identifier.rawValue
+                == CPUTriangleMeshEnclosedVolumeOperation
+                .implementationIdentifier
+        )
+        let expectedVolumeVersion = try SemanticVersion(
+            major: 1,
+            minor: 0,
+            patch: 0
+        )
+        #expect(volumeEntry.operationVersion == expectedVolumeVersion)
+        #expect(volumeEntry.operationVersion.prerelease == nil)
+        #expect(volumeEntry.operationVersion.buildMetadata == nil)
+        #expect(volumeEntry.implementation.version == expectedVolumeVersion)
+        #expect(volumeEntry.implementation.version.prerelease == nil)
+        #expect(volumeEntry.implementation.version.buildMetadata == nil)
+        #expect(
+            volumeEntry.precisionPolicy.rawValue
+                == "org.voxelia.precision.binary64-strict"
+        )
+        #expect(volumeEntry.approximationStatus == .exact)
+        #expect(
+            volumeEntry.evidence.rawValue
+                == "adr-0195-triangle-mesh-enclosed-volume"
         )
 
         // Duplicate registration rejects typed.
