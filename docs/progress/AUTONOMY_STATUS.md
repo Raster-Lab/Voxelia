@@ -2512,9 +2512,55 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    of the data, not worked around; excluding it would need a value threshold, and
    so an owner decision of the same shape as the geometry tolerance.
 
-   **Next**: a whole-volume transform, which must decide an output representation
-   and confront the 120 MiB/s figure `ADR-0235` measured. `ADR-0236` deliberately
-   interprets one sample at a time so that choice is made with evidence.
+   **`ADR-0237` then corrected a governance error in `ADR-0236`.** The rescale
+   boundary **was already frozen**: `VOXELIA-ALG-0003`, accepted since M1, states
+   its purpose includes "rescale", freezes `r = (x * scale) + offset`, and carries
+   a fixture described as "the CT rescale". `VOXELIA-ALG-0051` restated the same
+   computation with the operands swapped, so the register briefly held two
+   specifications of one boundary.
+
+   **No wrong result was ever produced**, and that was verified rather than
+   asserted: IEEE-754 multiplication is commutative, and all thirteen fixture
+   triples plus **two million random cases** — subnormals, signed zeros, `1e±300`,
+   zero and negative scale — gave **zero bit-pattern differences**. The
+   implementation now reads in `VOXELIA-ALG-0003`'s order and all 20 tests pass
+   unchanged.
+
+   **Why it was missed is the transferable part:** the search was for an existing
+   *evaluator* in the source, not for the *boundary* in the algorithm register.
+   **Rule: before freezing a numeric boundary, search the algorithm register for
+   that boundary, not the source for its callers.** A boundary can be frozen with
+   no evaluator yet, and an evaluator can cite a specification by number that a
+   code search never surfaces.
+
+   A second finding came out of the same trace: **nothing in the project masks by
+   `ScalarFormat.validBitCount`** — `LabelledSurfaceSourceAdapter` and
+   `TriangleMeshVertexNormalGeneration` *refuse* a narrowed count and every other
+   operation builds formats with `nil`. So `VOXELIA-ALG-0051`'s masking and
+   sign-extension stages are the only handling of a narrowed CT format anywhere,
+   and a published volume declaring `validBitCount = 12` would be **refused** by
+   some existing operations. The real corpus does not hit it (Bits Stored equals
+   the container width) but a twelve-bit CT would.
+
+   **Next: the bridge**, and the requirement list makes the case. The first
+   vertical slice has **twenty** requirements; `VOX-VS1-001` to `008` are now
+   covered, and `009` to `019` — axial/coronal/sagittal reconstruction, Metal
+   rendering, interpolation, window-level interaction, linked crosshairs, pixel
+   inspection, distance measurement, off-screen output, cancellation, provenance —
+   are capabilities **Voxelia already has** from earlier milestones. They operate
+   on a **published `ImageData`** reached through `PublicationCoordinator`.
+
+   The ingested CT is a `CTVolumeByteBuffer` plus an `AffineGridGeometry`, and
+   nothing connects the two. That bridge is the whole remaining distance, and it
+   is more tractable than it looks: `ImageDescriptor` already carries
+   `spatialGeometry: SpatialGeometry?` — exactly what `ADR-0230` builds — and
+   `valueTransform: ValueTransform?` — exactly `ValueTransform.linear(scale:offset:)`,
+   the rescale. The pieces were designed to fit; they have never been joined.
+
+   The bridge must decide: the narrowed-bit-count question above; a `DataIdentity`
+   for an ingested volume; and `VOX-VS1-019`'s provenance obligation, which
+   requires a `ProvenanceRecord` naming the source frames — the largest part, and
+   the reason this is an arc rather than one increment.
 2. The 13 remaining traceability rows in
    `docs/progress/untraced-requirements.txt`.
 3. A `prepare-release.sh` dry run, unexercised since `ADR-0225` gated three

@@ -423,3 +423,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0234](ADR-0234-geometry-tolerance-source-assessment.md) | Accepted | Geometry tolerance source assessment |
 | [ADR-0235](ADR-0235-frame-sample-transfer.md) | Accepted | Frame sample transfer |
 | [ADR-0236](ADR-0236-stored-value-interpretation.md) | Accepted | Stored value interpretation |
+| [ADR-0237](ADR-0237-duplicate-rescale-freeze-correction.md) | Accepted | Duplicate rescale freeze correction |

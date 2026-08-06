@@ -263,7 +263,7 @@
     "release": "Repository and Package Scaffold",
     "releaseDate": "2026-08-02",
     "sourceRevision": {
-      "commit": "da2e097783c53c261fce18da69697a5decb3c007",
+      "commit": "525d3dfbb85cd7401e65d5ef5e5a80a8e2223e38",
       "scope": "Checked-out source revision observed before writing the generated SBOM artifact.",
       "workingTreeDirty": true
     },

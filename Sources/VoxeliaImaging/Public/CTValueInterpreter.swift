@@ -53,8 +53,11 @@ public enum CTInterpretedValue: Sendable, Hashable {
 /// volume-wide representation here would decide that by accident.
 ///
 /// Decoding is exact integer work — byte assembly, masking, sign extension — and
-/// only the rescale is binary64, in the frozen order
-/// `(slope * value) + intercept` with no fused multiply-add.
+/// only the rescale is binary64. **The rescale is governed by
+/// `VOXELIA-ALG-0003`**, in its frozen order `(x * scale) + offset` with no fused
+/// multiply-add; `ADR-0237` records that `VOXELIA-ALG-0051` duplicated that
+/// boundary and narrowed its authority to the decoding stages, which nothing else
+/// in the project covers.
 public struct CTValueInterpreter: Sendable, Hashable {
     /// Bytes per stored sample.
     public let byteCount: Int
@@ -160,7 +163,12 @@ public struct CTValueInterpreter: Sendable, Hashable {
         if let paddingValue, value == paddingValue {
             return .padding
         }
-        return .measured((slope * Double(value)) + intercept)
+        // Written in VOXELIA-ALG-0003's order -- (x * scale) + offset -- because
+        // that accepted specification governs the rescale. ADR-0237 records that
+        // VOXELIA-ALG-0051 restated the same boundary with the operands swapped,
+        // and that the two agree bit-for-bit because IEEE-754 multiplication is
+        // commutative, verified over every fixture and two million random cases.
+        return .measured((Double(value) * slope) + intercept)
     }
 
     /// Interprets one sample from its bytes.

@@ -1026,8 +1026,8 @@
     },
     {
       "path": "Sources/VoxeliaImaging/Public/CTValueInterpreter.swift",
-      "size": 7201,
-      "sha256": "ac78e0a38130aa164433363beca17175e8a78b148d309802847345684f59d6e8"
+      "size": 7827,
+      "sha256": "aeb20460084a28fa68fe2ab5bb88c07b91c79103e39cc2e080b242e67b4a684b"
     },
     {
       "path": "Sources/VoxeliaImaging/Public/CTVolumeByteBuffer.swift",
@@ -3021,8 +3021,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 6354,
-      "sha256": "6eff3c4588d9e7083ff765afa33dcbbb2f8d8751ce409b136d6b7d3647b0245c"
+      "size": 6427,
+      "sha256": "90aefd5aa47acbb61222114ff3f9d3d32dbb8aea6cd068ebbee03c119945cd3c"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -4500,9 +4500,14 @@
       "sha256": "fc93934a165c00cdb4a2218f47c9d542ede2e1b3ab9a60cb032db935543b8d65"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0237-duplicate-rescale-freeze-correction.md",
+      "size": 7683,
+      "sha256": "73de5c0f7cc1c127aafb456a7cefca36edb4e1499d3747e7f5721930dcbd6a32"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 35056,
-      "sha256": "c22ae4462bd3295f6962226bd00226c9d43c2350cb7e3a50e92c000c586d7614"
+      "size": 35169,
+      "sha256": "bcd42e833ee020240cac397fcd509365301d1050c552f953cf27e5a106f9f842"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4586,8 +4591,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1031018,
-      "sha256": "244a5fb1c0779293fdaa22cf675b8cc7ffacf17beaee10787b02c6029527cbeb"
+      "size": 1034008,
+      "sha256": "14e6e1b4b678c3efbdd35ef03ac7285062a7d0a0fd242b54a2e208f264a96c6d"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4867,7 +4872,7 @@
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.generated.json",
       "size": 17779,
-      "sha256": "d4eb367f40286d963ae1aa6bf5a787dbe1279e5168043c8726ffec4fe4913a71"
+      "sha256": "7d5a4c3e8194c476b39e03ddd33109feca67c317c846cd18bf6afb8658fe23b4"
     },
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.json",
@@ -5086,8 +5091,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 56899,
-      "sha256": "e86d53ed8776eaf77a415c467cf98af094cbdc1ab3ae4bc61f1f43d4ca65e361"
+      "size": 56975,
+      "sha256": "0ef72b8ed6a3a3d9be5d1c4e6e9e87099739248e7b3d6c2b0e5ef53210083670"
     }
   ]
 }
