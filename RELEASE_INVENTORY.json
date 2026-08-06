@@ -4811,8 +4811,8 @@
     },
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.generated.json",
-      "size": 17779,
-      "sha256": "458b5dcc9245f0b2d263f990be8add84601225bf819e6680c51be12970100944"
+      "size": 17780,
+      "sha256": "b8efebbe7347b6e3b914febabc895ef38e79f37a96bfd51ee8a2e8ba451cb052"
     },
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.json",
