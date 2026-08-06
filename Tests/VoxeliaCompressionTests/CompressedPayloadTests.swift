@@ -19,12 +19,14 @@ struct CompressedPayloadTests {
     private func payload(
         codestream: [UInt8] = [1, 2, 3, 4],
         extents: [Int] = [4, 3, 2],
-        type: ScalarType = .uint16
+        type: ScalarType = .uint16,
+        components: Int = 1
     ) throws -> CompressedPayload {
         try CompressedPayload(
             codestream: ContiguousArray(codestream),
             declaredExtents: ContiguousArray(extents),
-            declaredScalarFormat: try format(type)
+            declaredScalarFormat: try format(type),
+            declaredComponentCount: components
         )
     }
 
@@ -111,6 +113,19 @@ struct CompressedPayloadTests {
         #expect(throws: CompressedPayloadError.invalidDeclaredExtent) {
             try payload(extents: [4, -1, 2])
         }
+        #expect(throws: CompressedPayloadError.invalidDeclaredComponentCount) {
+            try payload(components: 0)
+        }
+        #expect(throws: CompressedPayloadError.invalidDeclaredComponentCount) {
+            try payload(components: -3)
+        }
+    }
+
+    @Test("[Unit][VOX-CMP-010] the component count multiplies the declared byte count")
+    func componentCountMultipliesDeclaredByteCount() throws {
+        // 24 samples of uint16: one component is 48 bytes, three are 144.
+        #expect(try payload(components: 1).declaredDecodedByteCount == 48)
+        #expect(try payload(components: 3).declaredDecodedByteCount == 144)
     }
 
     @Test(

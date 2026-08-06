@@ -16,6 +16,8 @@ public enum CompressedPayloadError: Error, Sendable, Equatable {
     case missingDeclaredExtents
     /// The declared decoded byte count is not representable on this host.
     case declaredByteCountNotRepresentable
+    /// The declared component count is not positive.
+    case invalidDeclaredComponentCount
 }
 
 /// One compressed codestream and the decoded shape it *claims* to produce, per
@@ -67,6 +69,14 @@ public struct CompressedPayload: Sendable, Hashable {
     /// The scalar format the source claims the decoded samples carry.
     public let declaredScalarFormat: ScalarFormat
 
+    /// The number of components per sample the source claims.
+    ///
+    /// Carried because `VOX-CMP-010` validates "component formats" and not only
+    /// dimensions: a codec returning three components where one was declared is a
+    /// disagreement the byte count alone can miss when extents differ to
+    /// compensate.
+    public let declaredComponentCount: Int
+
     /// The decoded byte count implied by the declarations.
     ///
     /// Computed at admission rather than stored as a separate claim, so it cannot
@@ -85,7 +95,8 @@ public struct CompressedPayload: Sendable, Hashable {
     public init(
         codestream: ContiguousArray<UInt8>,
         declaredExtents: ContiguousArray<Int>,
-        declaredScalarFormat: ScalarFormat
+        declaredScalarFormat: ScalarFormat,
+        declaredComponentCount: Int
     ) throws {
         guard !codestream.isEmpty else {
             throw CompressedPayloadError.emptyCodestream
@@ -95,6 +106,9 @@ public struct CompressedPayload: Sendable, Hashable {
         }
         guard declaredExtents.allSatisfy({ $0 >= 1 }) else {
             throw CompressedPayloadError.invalidDeclaredExtent
+        }
+        guard declaredComponentCount >= 1 else {
+            throw CompressedPayloadError.invalidDeclaredComponentCount
         }
 
         // Checked throughout: a hostile or corrupt source can declare extents
@@ -111,7 +125,12 @@ public struct CompressedPayload: Sendable, Hashable {
             }
             sampleCount = product
         }
-        let (byteCount, byteOverflow) = sampleCount.multipliedReportingOverflow(
+        let (componentCount, componentOverflow) =
+            sampleCount.multipliedReportingOverflow(by: declaredComponentCount)
+        guard !componentOverflow else {
+            throw CompressedPayloadError.declaredByteCountNotRepresentable
+        }
+        let (byteCount, byteOverflow) = componentCount.multipliedReportingOverflow(
             by: declaredScalarFormat.type.byteCount
         )
         guard !byteOverflow else {
@@ -121,6 +140,7 @@ public struct CompressedPayload: Sendable, Hashable {
         self.codestream = codestream
         self.declaredExtents = declaredExtents
         self.declaredScalarFormat = declaredScalarFormat
+        self.declaredComponentCount = declaredComponentCount
         self.declaredDecodedByteCount = byteCount
     }
 

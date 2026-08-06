@@ -3572,9 +3572,46 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    For a value type that means asking whether every construction path runs the
    admission, and public enum cases never do.
 
-   **Next: increment (c)** — `VOX-CMP-010`, adapter admission of dimensions, component
-   formats and decoded byte counts, plus the destination ceiling that narrows
-   `VOX-CMP-011`'s residual exposure. Still no codec needed.
+   **Increment (dd): `ADR-0258`, compression increment (c).** `VOX-CMP-010`
+   discharged. **1045 tests / 194 suites** after a clean rebuild (a public stored
+   member changed).
+
+   **Two checks at two different times, and the order is the substance.**
+   `admitDestination` runs **before** a decode; `admit(_:against:)` after it. A caller
+   running only the second would already have allocated. The ceiling is
+   **caller-stated, never defaulted** — no figure this module could pick would be
+   anything but a guess about a caller's memory budget (the real CT volume is
+   449 MiB).
+
+   `CompressedPayload` gains a **declared component count** (the byte count now
+   multiplies by it, and the overflow check gained a third multiplication):
+   `VOX-CMP-010` names "component formats", and three components where one was
+   declared is a disagreement the byte count alone can miss when extents compensate.
+
+   **Exact equality throughout — this row raises no tolerance question at all.** A
+   decoded byte count is a count, extents are counts, formats and component counts
+   are discrete; a near-miss is a disagreement about what the data *is*, not rounding.
+   Checks run dimensions → components → format → byte count so the **most specific**
+   disagreement is reported, with two tests pinning the order.
+
+   **`VOX-CMP-011` narrowed, precisely, and NOT claimed.** The ceiling bounds
+   **Voxelia's** allocation against a caller-stated figure. **It does not bound the
+   codec** — if a codec allocates from the codestream's own headers or faults on
+   malformed input, nothing here prevents it. That residual exposure stays open and
+   stays part of the owner reconciliation; both the record and the source say so,
+   because it is not narrowed by going unmentioned.
+
+   Both byte-count directions tested for distinct reasons: a **short** decode is what
+   a truncated codestream produces and admitting it would publish stale destination
+   bytes as samples; an **over-long** decode would overrun a destination sized from
+   the declarations. Also pinned: permuted extents (`2x3x4` vs `4x3x2`) are a
+   refusal, since equal byte counts do not imply equal extents.
+
+   **Compression arc: 4 of 7 buildable rows done** (`002`, `007`, `010`, `013`).
+
+   **Next: increment (d)** — `VOX-CMP-009`, adapter cancellation, composing
+   `ADR-0249`'s checkpoint-and-probe shape rather than inventing a second model. Then
+   (e) `003`+`008`, where a `CompressedRepresentation` attaches to a payload.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
