@@ -40,3 +40,12 @@ accepted `ADR-0193` reference boundary for `VOX-GEO-009`, `VOX-CPU-001`,
 only after exact serial normal generation and final cancellation, binds the
 fixed CPU binary64-strict/full/exact execution claim, and registers no
 diagnostic-validation or canonical mesh-content assurance.
+
+The public ``CPUTriangleMeshTotalFacetAreaOperation`` completes the accepted
+`ADR-0194` measurement boundary for `VOX-GEO-010` under the same discipline.
+It publishes one unsigned binary64 total, the exact facet count reduced and
+the source coordinate space's length unit raised to the power two. The
+quantity counts facet area with multiplicity and asserts nothing about the
+source mesh's topology, orientation, watertightness or self-intersection: it
+is neither a certified surface area nor an enclosed volume, both of which
+`ADR-0194` leaves to separate governed records.

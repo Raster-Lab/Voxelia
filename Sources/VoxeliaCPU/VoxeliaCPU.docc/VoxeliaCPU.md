@@ -36,6 +36,10 @@ label attribute.
 
 - ``CPUTriangleMeshVertexNormalGenerationOperation``
 
+### Geometry measurement
+
+- ``CPUTriangleMeshTotalFacetAreaOperation``
+
 ### Project documents
 
 - <doc:Architecture>

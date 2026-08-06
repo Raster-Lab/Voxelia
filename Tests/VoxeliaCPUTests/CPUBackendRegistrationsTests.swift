@@ -16,7 +16,7 @@ struct CPUBackendRegistrationsTests {
         // pinned current contract versions, and the CPU backend
         // claim.
         let registry = try CPUBackendRegistrations.standard()
-        #expect(registry.implementations.count == 14)
+        #expect(registry.implementations.count == 15)
         #expect(
             registry.implementations.allSatisfy {
                 $0.backend.rawValue == "org.voxelia.backend.cpu"
@@ -57,6 +57,7 @@ struct CPUBackendRegistrationsTests {
                 ScalarSurfaceExtractionRequest.operationIdentifier,
                 LabelledSurfaceExtractionRequest.operationIdentifier,
                 TriangleMeshVertexNormalGenerationRequest.operationIdentifier,
+                TriangleMeshTotalFacetAreaRequest.operationIdentifier,
             ]
         )
         let surfaceEntries = registry.implementations(
@@ -164,6 +165,40 @@ struct CPUBackendRegistrationsTests {
         #expect(
             normalEntry.evidence.rawValue
                 == "adr-0193-triangle-mesh-vertex-normals"
+        )
+
+        let areaEntries = registry.implementations(
+            for: try DerivationOperationToken(
+                rawValue: TriangleMeshTotalFacetAreaRequest
+                    .operationIdentifier
+            )
+        )
+        #expect(areaEntries.count == 1)
+        let areaEntry = areaEntries[0]
+        #expect(
+            areaEntry.implementation.identifier.rawValue
+                == CPUTriangleMeshTotalFacetAreaOperation
+                .implementationIdentifier
+        )
+        let expectedAreaVersion = try SemanticVersion(
+            major: 1,
+            minor: 0,
+            patch: 0
+        )
+        #expect(areaEntry.operationVersion == expectedAreaVersion)
+        #expect(areaEntry.operationVersion.prerelease == nil)
+        #expect(areaEntry.operationVersion.buildMetadata == nil)
+        #expect(areaEntry.implementation.version == expectedAreaVersion)
+        #expect(areaEntry.implementation.version.prerelease == nil)
+        #expect(areaEntry.implementation.version.buildMetadata == nil)
+        #expect(
+            areaEntry.precisionPolicy.rawValue
+                == "org.voxelia.precision.binary64-strict"
+        )
+        #expect(areaEntry.approximationStatus == .exact)
+        #expect(
+            areaEntry.evidence.rawValue
+                == "adr-0194-triangle-mesh-total-facet-area"
         )
 
         // Duplicate registration rejects typed.

@@ -6142,6 +6142,60 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-sixth autonomous increment (`ADR-0194` migration step three):
+  the public `CPUTriangleMeshTotalFacetAreaOperation` now completes the
+  measurement boundary. It runs the kernel with the kernel's own final check
+  suppressed, takes its own final cancellation check after the total exists
+  and before any claim is constructed, derives the published
+  `PoweredLengthUnit` from the source coordinate space's exact unit at
+  exponent two, and returns the atomic measurement/identity/provenance
+  aggregate. Successful claims are the fixed default profile, CPU backend,
+  binary64-strict precision, full quality, exact approximation, nil capability
+  and kernel, no warning and `.unknown` validation. The parameter digest is
+  reconstructed independently of Geometry's own copy inside the operation, and
+  the suite reconstructs it a third time so all three agree.
+
+  `ADR-0194` decisions 2 and 5 are honoured in the public surface's own words:
+  the operation's documentation states that the quantity counts facet area
+  with multiplicity and asserts nothing about topology, orientation,
+  watertightness or self-intersection, and that it is neither a certified
+  surface area nor an enclosed volume. The `VoxeliaCPU` `Requirements.md`
+  repeats the same disclaimer so a reader arriving through DocC cannot mistake
+  the quantity for a certified one.
+
+  Six operation cases cover the complete fixed claim set, an empty mesh
+  publishing a coherent positive-zero measurement over zero facets, unit
+  derivation from a conversion-bearing DICOM centimetre space proving the
+  conversion metadata is carried but never squared and that the total is
+  unchanged because the arithmetic never reads a unit, task and injected
+  admission/final cancellation publishing nothing, every kernel failure class
+  surfacing unchanged, and eight concurrent executions producing one identical
+  bit pattern.
+
+  The CPU registry is now fifteen entries and the combined CPU-plus-Metal
+  registry eighteen; `CPUBackendRegistrationsTests` and `CombinedRegistryTests`
+  were updated to the new counts and the new entry's exact operation token,
+  implementation token, versions, precision policy, approximation status and
+  `adr-0194-triangle-mesh-total-facet-area` evidence.
+
+  Verified after a clean `.build` rebuild: 715 tests in 152 suites green.
+  **All three `ADR-0194` product migration stages are complete.**
+
+  ```bash
+  swift test --filter 'CPUTriangleMeshTotalFacetAreaOperationTests|CPUBackendRegistrations'
+  swift format lint --strict \
+    Sources/VoxeliaCPU/Public/CPUTriangleMeshTotalFacetAreaOperation.swift \
+    Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift \
+    Tests/VoxeliaCPUTests/CPUTriangleMeshTotalFacetAreaOperationTests.swift \
+    Tests/VoxeliaCPUTests/CPUBackendRegistrationsTests.swift \
+    Tests/VoxeliaValidationTests/CombinedRegistryTests.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12010,13 +12064,26 @@ measurement value and the closed six-case error family now live in
 `VoxeliaGeometry` with exact parameter, result-binding, unit-admission,
 privacy and `Sendable` evidence, and the exponent obligation is discharged at
 the measurement's own admission rather than restated unreachably in the
-result. Migration step two is complete: the internal CPU serial reference
-kernel reproduces both registered `VOXELIA-ALG-0031` digests bit-exactly and
-proves the exact poll set and admission precedence. The exact next action is
-`ADR-0194` migration step three: the public
-`CPUTriangleMeshTotalFacetAreaOperation` with its own final cancellation
-boundary, exact identity/provenance/execution claim assembly, independently
-reproduced parameter digest and the fifteenth CPU registry entry. Certified enclosed volume remains a distinct governed record and must
+result. All three `ADR-0194` product migration stages are complete: the
+Geometry declaration boundary, the internal CPU serial reference kernel
+reproducing both registered `VOXELIA-ALG-0031` digests bit-exactly, and the
+public operation with the fifteenth CPU registry entry. Total facet area is
+therefore the accepted, implemented and registered half of `VOX-GEO-010`.
+
+The exact next action is the **certified enclosed volume** record, the second
+half of the mesh-measurement stage that `ADR-0194` deliberately deferred. It
+is design-first and it must settle, before any code, every obligation the
+2026-08-06 audit enumerated: watertightness and edge/vertex manifoldness
+predicates, orientation consistency, disconnected and nested shell meaning,
+cavity semantics, degeneracy/duplicate/self-intersection policy,
+signed-versus-magnitude semantics, a reference origin, a reduction order and
+predicate resource limits. `PoweredLengthUnit` already supports exponent three,
+so the unit question is settled; nothing else is. Do not publish an
+unverified algebraic tetrahedral sum under the enclosed-volume name — both
+`ADR-0183` and `ADR-0194` reject that explicitly. After enclosed volume, the
+remaining `ADR-0183` stages are the surface-rendering assessment over a
+publishable canonical mesh and backend-specific derived acceleration; the
+colour/overlay arc and VOI verification remain the other M6 queue. Certified enclosed volume remains a distinct governed record and must
 not be started inside the area stage.
 
 After the mesh boundary, proceed through the separately frozen scalar
@@ -12031,12 +12098,14 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0194` migration step three next: the public CPU operation and
-  the fifteenth registry entry. Run the focused `VoxeliaCPUTests` operation and
-  registration suites, `swift format lint --strict` on every touched Swift
-  file, and the ADR/document/register/index/manifest/integrity checks. Add the
-  registry entry only after the operation-level evidence is green, and see the
-  literal passing full unfiltered test-run line before pushing.
+- The next increment is design-only: the certified enclosed-volume record and
+  its algorithm, with a python-computed independent oracle. Run only the
+  oracle and the relevant ADR/document/register/index/manifest/integrity
+  checks; product builds and tests are not evidence until source changes.
+- Do not reopen `ADR-0194`. Total facet area is accepted, implemented,
+  registered and evidenced; a different quantity, magnitude formulation,
+  reduction, degeneracy rule or unit representation needs a new operation or
+  algorithm version, not an edit.
 - Do not extend `ADR-0194` to enclosed volume, union area, watertightness
   predicates or manifold classification. Those need their own accepted record
   and must not be smuggled into the area stage's migration.

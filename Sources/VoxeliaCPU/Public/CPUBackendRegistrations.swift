@@ -176,6 +176,17 @@ public enum CPUBackendRegistrations {
                 precision: binary64,
                 evidence: "adr-0193-triangle-mesh-vertex-normals"
             ),
+            try entry(
+                operation:
+                    TriangleMeshTotalFacetAreaRequest.operationIdentifier,
+                implementation:
+                    CPUTriangleMeshTotalFacetAreaOperation
+                    .implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0194-triangle-mesh-total-facet-area"
+            ),
         ])
     }
 }
