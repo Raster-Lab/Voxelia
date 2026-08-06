@@ -197,7 +197,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0218` is allocated to the execution and CPU traceability.
 `ADR-0219` is allocated to the governance and licence traceability.
 `ADR-0220` is allocated to the remaining traceability paydown.
-The next unallocated numeric identifier is `ADR-0221`.
+`ADR-0221` is allocated to the multiplanar render path.
+The next unallocated numeric identifier is `ADR-0222`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -401,3 +402,4 @@ The next unallocated numeric identifier is `ADR-0221`.
 | [ADR-0218](ADR-0218-execution-and-cpu-traceability.md) | Accepted | Execution and CPU traceability |
 | [ADR-0219](ADR-0219-governance-and-licence-traceability.md) | Accepted | Governance and licence traceability |
 | [ADR-0220](ADR-0220-remaining-traceability-paydown.md) | Accepted | Remaining traceability paydown |
+| [ADR-0221](ADR-0221-multiplanar-render-path.md) | Accepted | Multiplanar render path |

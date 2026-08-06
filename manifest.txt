@@ -263,6 +263,7 @@ Sources/VoxeliaRendering/Module.swift
 Sources/VoxeliaRendering/Public/.gitkeep
 Sources/VoxeliaRendering/Public/CameraRelativeFloatTransform.swift
 Sources/VoxeliaRendering/Public/DisplayColour.swift
+Sources/VoxeliaRendering/Public/MultiplanarRenderCoordinator.swift
 Sources/VoxeliaRendering/Public/OrthographicRayGenerator.swift
 Sources/VoxeliaRendering/Public/RenderCamera.swift
 Sources/VoxeliaRendering/Public/RenderRequest.swift
@@ -455,6 +456,7 @@ Tests/VoxeliaMetalTests/MetalSliceRendererTests.swift
 Tests/VoxeliaMetalTests/MetalTelemetryTests.swift
 Tests/VoxeliaMetalTests/MetalThroughputEvidenceTests.swift
 Tests/VoxeliaMetalTests/MetalWindowLevelKernelTests.swift
+Tests/VoxeliaMetalTests/MultiplanarRenderCoordinatorTests.swift
 Tests/VoxeliaMetalTests/PipelineArchivalTests.swift
 Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift
 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
@@ -853,6 +855,7 @@ docs/architecture/decisions/ADR-0217-vertical-slice-traceability.md
 docs/architecture/decisions/ADR-0218-execution-and-cpu-traceability.md
 docs/architecture/decisions/ADR-0219-governance-and-licence-traceability.md
 docs/architecture/decisions/ADR-0220-remaining-traceability-paydown.md
+docs/architecture/decisions/ADR-0221-multiplanar-render-path.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

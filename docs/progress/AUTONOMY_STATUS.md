@@ -8462,6 +8462,58 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-forty-seventh autonomous increment (`ADR-0221`, multiplanar
+  render path): the gap `ADR-0217` found is closed. `VoxeliaRendering` now owns
+  `MultiplanarRenderCoordinator`, and **`VOX-VS1-009` plus the Test half of
+  `VOX-VS1-010` are discharged**. 792 tests in 172 suites green.
+
+  **The two halves that existed separately now compose, and the composition
+  adds no numeric rule.** `MPRSliceCoordinator` already extracted axial, coronal
+  and sagittal planes under `ADR-0117`; the renderers already rendered published
+  scene layers. The coordinator joins them, and every numeric rule in the path
+  — the region origin shift, the squeeze, the window, the presentation — was
+  already accepted, so **no algorithm specification and no oracle** were
+  registered.
+
+  **A GPU sampler for plane reconstruction was rejected, on the reason this
+  project keeps reaching.** It would be a second sampling predicate that could
+  disagree with the accepted one — the refusal `ADR-0205` made for a second
+  intersection and `ADR-0212` for a second colour transform. An axis-aligned
+  plane of a rank-three volume is an exact byte selection, so a second path
+  could only match or differ; matching adds nothing and differing is a defect.
+
+  **`VOX-ARC-006` holds by construction, not by care.** The coordinator takes
+  the backend-neutral `SliceRenderer`, so the Metal command lifecycle stays
+  inside whatever conforms to it. It lives in `VoxeliaRendering` because
+  `VoxeliaRendering → VoxeliaImaging` already exists and the reverse would be a
+  cycle: **no dependency edge changed and no new Metal import exists**.
+
+  **The test could not have passed on a cube.** A symmetric phantom would let a
+  transposed or duplicated plane through, so the suite uses an **anisotropic**
+  2×3×4 volume whose three planes have different extents *and* different
+  contents — 6, 8 and 12 bytes, pairwise unequal. Both tests run against the
+  **real `MetalSliceRenderer`**, not a stub, because asserting that Metal works
+  from protocol conformance alone would be the same false composition
+  `ADR-0217` rejected.
+
+  The plane is deliberately **not** restated in presentation provenance: the
+  rendered layer's own published ancestry records the region and the squeeze, so
+  copying it into the presentation claim would create a second place for one
+  fact to drift.
+
+  ```bash
+  swift test --filter MultiplanarRenderCoordinatorTests
+  swift format lint --strict \
+    Sources/VoxeliaRendering/Public/MultiplanarRenderCoordinator.swift \
+    Tests/VoxeliaMetalTests/MultiplanarRenderCoordinatorTests.swift
+  python3 Tools/Scripts/check_prohibited_imports.py
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14542,45 +14594,29 @@ written down anywhere: lazy evaluation, progress reporting, benchmark
 classification, reusable staging buffers, golden-result metadata, and the
 `VOX-VS1-010` Metal plane path. None is urgent; all are now findable.
 
-The exact next action is **`VOX-VS1-010`'s Metal plane path**, which `ADR-0217`
-surfaced as a real capability gap: `MPRPlane` defines axial, coronal and
-sagittal, `MetalSliceRenderer` renders on the GPU, and **nothing connects
-them**. It needs its own design record — which plane vocabulary the Metal path
-consumes, whether it reconstructs on the GPU or presents a CPU reconstruction,
-and its numeric boundary against the accepted `ALG-0017` oblique sampling. It is
-the only one of the six newly-surfaced gaps that is both unblocked and has a
-clear consumer, since the vertical slice names it directly. Do not fold it into
-a traceability increment — that would hide a design decision inside bookkeeping.
+`VOX-VS1-010`'s Metal plane path is built: accepted `ADR-0221` composes
+`ADR-0117`'s extraction with `ADR-0085`'s render contract through the
+backend-neutral protocol, discharging `VOX-VS1-009` and `VOX-VS1-010`'s Test
+half without adding a numeric rule, a dependency edge or a Metal import.
 
-Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
-each design-first at its numeric boundaries: coordinate-space transform and
-projection (which must settle `ADR-0173`'s deferred perspective case one way
-or the other), visibility and hidden-surface removal, per-object opacity and
-compositing order, vertex normals and diagnostic materials, scalar colour
-maps, clipping and section views, and authoritative surface picking.
-`VOX-SUR-008`'s correctness half and `VOX-SUR-009` are assessed on their own
-terms under `ADR-0197` decisions 6 and 7. The colour/overlay arc
-(`VOX-R2D-010/011/015` plus VOI verification) remains the other M6 queue
-item. After that,
-the remaining `ADR-0183` stages are the surface-rendering assessment over a
-publishable canonical mesh and backend-specific derived acceleration; the
-colour/overlay arc and VOI verification remain the other M6 queue. Certified enclosed volume remains a distinct governed record and must
-not be started inside the area stage.
-
-After the mesh boundary, proceed through the separately frozen scalar
-extraction model and CPU reference, labelled extraction, deterministic normals,
-authoritative mesh measurement and backend-specific derived acceleration. The
-surface-rendering assessment follows a publishable canonical mesh; the
-colour/overlay arc and VOI verification remain the other M6 queue. Multi-volume
-compositing, multi-resolution containers, interactive draw-loop refinement,
-reference-hardware performance, unavailable visionOS destinations and external
-device/fuzz/differential evidence remain explicitly gated or deferred; do not
-fabricate their evidence.
+The exact next action is the **`VOX-DVR-014` deterministic off-screen render
+check**, or — if that proves already discharged — the next unclaimed item from
+the standing queue. Before starting either, re-read this ledger's gated list:
+the remaining surfaced gaps (lazy evaluation, progress reporting, benchmark
+classification, staging-buffer reuse, golden-result metadata) are all recorded
+and unclaimed, and three of the five are blocked behind gated measurement
+workloads rather than being free to build. Pick one that is genuinely
+unblocked and has a consumer, exactly as `ADR-0220` picked this one, rather
+than the first on the list.
 
 ## Test policy for the next action
 
-- Design `VOX-VS1-010`'s Metal plane path next, in its own record. It is a
-  capability gap, not a traceability one.
+- Pick the next item by whether it is unblocked and has a consumer, not by
+  list order. Three of the five remaining surfaced gaps are blocked behind
+  gated measurement workloads.
+- When a composition claims a backend, test it against that backend. Asserting
+  Metal works from protocol conformance alone is the false composition
+  `ADR-0217` rejected.
 - The traceability debt is down to the eighteen owner-gated rows. Never trace
   them; they wait on the codec and DICOMKit decisions.
 - Verify a new gate by breaking it. `ADR-0219`'s dependency and SPDX gates were

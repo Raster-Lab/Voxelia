@@ -49,6 +49,7 @@ public API is introduced only by reviewed milestone specifications.
 - ``AccumulationState``
 - ``DenoisingState``
 - ``SliceRenderer``
+- ``MultiplanarRenderCoordinator``
 - ``CameraRelativeFloatTransform``
 - ``RenderModelError``
 
