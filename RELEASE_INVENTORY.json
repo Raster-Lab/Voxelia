@@ -4960,9 +4960,14 @@
       "sha256": "dd70fab66960e730255bca314a46624fa43de07d02c5312f277fbb76e9da54bf"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0285-shading-normal-space-design.md",
+      "size": 9769,
+      "sha256": "4cb52c145646b4d71ee32542198feebc25f639b910dfdc4cdab374e0964437a3"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 40044,
-      "sha256": "c57c4603fdcd43269612ac4730b8c25a32e92a195674cca9d8c2cdcc4c28e354"
+      "size": 40141,
+      "sha256": "7c95c131293a3420dc51612931d3da1d076db145ac768d55a3d3044d1498dee0"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5056,8 +5061,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1184803,
-      "sha256": "7367c95321a9eaf2aa62f35338db7dc786f54dffa76021d8cf49f851bc96e0aa"
+      "size": 1188500,
+      "sha256": "05ca7b9e230457e6f8d7fedd7565f91854d09966a4dfeca6f2ab51a5375606cc"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5566,8 +5571,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 63260,
-      "sha256": "df874de02e28fe686df40b9b07c6b34ff2fe455e728ab27f275f922369a46cf6"
+      "size": 63328,
+      "sha256": "44d1959294c501dc537012fa8bc92f4a6ca7dc5c76239d012636573ddeea1767"
     }
   ]
 }

@@ -4913,6 +4913,59 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `1.000000` vs a correct `0.000000` under pure rotation. It consumes `transformNormal` and
    **must not edit `ADR-0202` or `ALG-0036`**.
 
+   **Increment (ddd): `ADR-0285`, the shading-correction design — and it UNCOVERED A SECOND
+   NUMERIC BOUNDARY.** No code; 1145 tests / 206 suites unchanged.
+
+   **First, what is NOT wrong**: `ALG-0036`'s arithmetic is correct. Its input domain names
+   "three unit vertex normals" and "the camera's forward unit axis" and **gives neither a
+   space**. The model is right for same-space inputs; the *composition* supplied inputs from
+   two spaces. **The defect is in what reaches the shader, not what it does with them** — so
+   `ADR-0202`/`ALG-0036` stay untouched and the normals are transformed before arrival.
+
+   **THE BOUNDARY THIS UNCOVERED**: a transformed normal is **no longer unit**, and
+   `ALG-0036` states unit inputs "by construction" and does **not re-admit** them. So
+   something must restore that — and **where the normalisation happens changes the answer
+   materially.** Measured under `diag(1,1,5)` (a thin-slice CT shape), three distinct unit
+   normals, weights `(0.25, 0.35, 0.40)`:
+   - interpolate raw then renormalise → `(0.71539960678951550, 0.51099971913536820, 0.47653193979940256)`
+   - **normalise each then interpolate** → `(0.51398322650298800, 0.36713087607356293, 0.77526522088059410)`
+   - **22.37° apart**, intensities differing by **`0.29873328108119157`** — nearly **30% of
+     the full `[0,1]` range**.
+
+   **No accepted spec covered this.** `ALG-0052` d7 deliberately does not normalise (leaves
+   it to the consumer); `ALG-0036` renormalises the *interpolated* direction and assumes
+   unit inputs. **The gap sits exactly between them.**
+
+   **Frozen: normalise EACH transformed normal BEFORE interpolation**, using `ALG-0030`'s
+   accepted scaled-normalisation rule composed rather than restated. That is what keeps
+   `ALG-0036` inside its own stated domain — feeding it non-unit vectors would leave the
+   arithmetic working while **violating a stated precondition**, which this project treats
+   as a defect even when the numbers survive.
+
+   **Zero-scale transformed normal → passed through as the zero direction, NOT failed**:
+   `ALG-0030` fails an undefined *published* normal, but `ADR-0202` chose the opposite for
+   presentation ("shading is presentation, not measurement"). This is presentation, so it
+   composes `ADR-0202`'s position. **No new failure case** — the family is `normalsMissing`
+   and `singularMatrix`, both already existing and already tested.
+
+   **Rejected — and the cheapest option was the tempting one**: interpolating raw and letting
+   `ALG-0036` clean up (violates its domain, shifts shading by up to `0.299`); normalising
+   inside `transformNormal` (`ADR-0283` d7 settled it — would break transform-twice ≡
+   transform-by-composition); and **transforming the camera forward into object space
+   instead** (cheaper still — one direction per facet, not three — but each layer has its own
+   `objectToWorld`, so the forward becomes per-layer and any later cross-layer comparison is
+   mixing spaces again: **it moves the defect rather than removing it**).
+
+   **No new ALG** — every step is an accepted rule (`ALG-0052` transform, `ALG-0030`
+   normalise, `ALG-0036` shade); this record freezes only the **ORDER**, which is the whole
+   content of the decision, which is why the measurement is registered with it.
+
+   **Next**: implement in `VoxeliaRendering`, showing four things — the 22.37° divergence
+   reproduced; `ADR-0280`'s `1.000000` vs `0.000000` as a test; `ALG-0036`'s own fixtures
+   still passing **unchanged**; and the **identity** `objectToWorld` leaving shading
+   bit-identical, which is what makes "nothing existing changes" checkable rather than
+   claimed.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
