@@ -4335,8 +4335,62 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    before any code — target shape (the package is library-only; `VoxeliaInteraction`
    prohibits SwiftUI/AppKit/UIKit/MetalKit), platform surface, `RenderGeneration` wiring
    (ending `ADR-0122` d3's deferral), and what evidence discharges a Demonstration half.
-   Plan §65 names 17 features for a macOS reference application that is explicitly "a
-   reference integration, not the future DICOM Workstation user interface".
+   Plan **§34 "Interactive output"** names **16** features for the M4 macOS reference
+   application, which is explicitly "a reference integration, not the future DICOM
+   Workstation user interface". (Corrected: a note carried through several increments
+   cited "§65, 17 features". §65 is "Benchmark scenarios"; the count is 16. Checked
+   against the plan rather than repeated.)
+
+   **Increment (tt): `ADR-0275` opens the interactive draw-loop arc.** No code; 1116 tests
+   / 202 suites unchanged. This supplies the architecture `ADR-0122` d3 explicitly waited
+   on — its deferral is visible in the source, since `RenderGeneration` has **no product
+   callers**, only its own file, a DocC line and its own tests.
+
+   **THE FINDING: the arc is not one blocked thing.** It has been carried as a single item
+   gated on an application that does not exist. Reading each row against *what actually
+   gates it* splits it three ways:
+   - **Unblocked, no application, no owner** — `VOX-INT-007` (`T`), `VOX-R2D-014` (`T`),
+     `VOX-VS1-016` (`T`), and `VOX-INT-008`'s `T`. **Three P0 rows, free.**
+     `R2D-014`/`VS1-016` say off-screen and interactive output share *the same presentation
+     semantics* — a statement about one path serving two callers, established by having one
+     path and testing it, **not by drawing anything**.
+   - **Needs a host** — only `VOX-INT-008`'s `D` and `VOX-INT-010`'s `D`.
+   - **Owner-gated regardless** — `VOX-PER-002/003/005` each name "reference workstation
+     hardware". **No amount of work here moves them**, and saying so prevents the arc
+     being reported as more complete than it is.
+
+   **A sixth owner decision raised, not pre-empted**: where a reference application lives.
+   The package is **library-only** (no executable target) and `VoxeliaInteraction` is
+   forbidden `SwiftUI`/`AppKit`/`UIKit`/`RealityKit`/`MetalKit` — that prohibition *is*
+   `VOX-INT-001`, a P0 row. So: a new executable target (changes the package shape and a P0
+   gate), a separate repository (creates one to own), or no application (narrows what
+   Demonstration means for two rows). **All three are the owner's call**; I proceed with
+   everything that does not depend on the answer.
+
+   **Deliberately NOT taken**: discharging both `D` halves by declaring a headless
+   demonstration sufficient. It is a defensible reading — instrumented latency under
+   background load beats watching a window — but narrowing two P0/P1 rows to avoid an owner
+   question is exactly the quiet scope reduction this project refuses. Offered to the owner
+   as an option instead.
+
+   **Also frozen**: no performance threshold will be claimed anywhere in this arc. Frame
+   telemetry may be *produced* (§34 lists it), but a produced number is not an acceptance,
+   and there is no approved hardware to accept against — same discipline as BEN-0001/0002.
+   And `VoxeliaInteraction`'s import prohibitions are **not** relaxed by this record
+   whatever the owner decides; if an executable target arrives, the permission belongs to
+   *that target*.
+
+   Two of §34's sixteen features are already-built vocabulary awaiting a caller — **current
+   generation** (`ADR-0122`) and **linked crosshair** (`ViewportSyncGroup`) — more evidence
+   the library tier is the right start.
+
+   **Next: `VOX-INT-007`'s presentation wiring**, with its own record and its own frozen
+   staleness rule, ending `ADR-0122` d3's deferral and giving `RenderGeneration` its first
+   product caller. Then the shared presentation path, then `008`'s `T`.
+
+   **Owner decisions now SIX**: the new application-location question plus report approval,
+   reference hardware, the tolerance profile, the geometry tolerance rule, and the two
+   `LICENSE` files — alongside `VOX-CMP-006`/`012` Reviews and five `J2KSwift` items.
 
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.

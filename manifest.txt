@@ -973,6 +973,7 @@ docs/architecture/decisions/ADR-0271-compression-benchmark-and-random-access.md
 docs/architecture/decisions/ADR-0272-codec-output-and-interoperability-status.md
 docs/architecture/decisions/ADR-0273-bounded-failure-on-adversarial-codestreams.md
 docs/architecture/decisions/ADR-0274-codec-destination-api-analysis.md
+docs/architecture/decisions/ADR-0275-open-the-interactive-draw-loop-arc.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

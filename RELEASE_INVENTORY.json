@@ -4875,6 +4875,11 @@
       "sha256": "f84688605dd9baa4ef330ac6f1e7b4d751fac48d4150cfe03c0e6eea3ee9be10"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0275-open-the-interactive-draw-loop-arc.md",
+      "size": 12401,
+      "sha256": "fde519c75224be1e9c6a481b372210bbf197f29561e153a4dc16f7194684f2f9"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
       "size": 38641,
       "sha256": "5740e7eed3bdbdb209b903f4012253728a9bbc77a478af7a84af884470cfb757"
@@ -4971,8 +4976,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1145963,
-      "sha256": "63f3dbf238db15cd7c0d053284534d24105412a839e737d4bb259222e726a3ab"
+      "size": 1149633,
+      "sha256": "373dbe8e74bd93ed9d975388cfb867af5653e4cf3e1904b03196661e5db4278e"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5481,8 +5486,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 62108,
-      "sha256": "9a23ccbff04b41b9d73aafdf692fd0e86599ac315b6b260958a9b8d35c5bc1f4"
+      "size": 62183,
+      "sha256": "8ca83cd61bcf8dda6bb4e58de4bb5462916342c5ce86307a29bf8bb2a2901d0e"
     }
   ]
 }
