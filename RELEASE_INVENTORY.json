@@ -865,6 +865,11 @@
       "sha256": "c4e2048272678a6f815e9d6fa8a88faa60ac206141e8f0c05c0bcc4084278598"
     },
     {
+      "path": "Sources/VoxeliaGeometry/Public/PoweredLengthUnit 2.swift",
+      "size": 2464,
+      "sha256": "bb46accef0d28395d71995cc3137353739565fdbb8335b63b2b1573f9a723ba2"
+    },
+    {
       "path": "Sources/VoxeliaGeometry/Public/PoweredLengthUnit.swift",
       "size": 2464,
       "sha256": "bb46accef0d28395d71995cc3137353739565fdbb8335b63b2b1573f9a723ba2"
@@ -890,6 +895,11 @@
       "sha256": "b942b2c9a61b3cec7fd6e44da4a6d9a9429c0c5290d6bf61de94137b16f0108f"
     },
     {
+      "path": "Sources/VoxeliaGeometry/Public/TriangleMeshTotalFacetArea 2.swift",
+      "size": 19731,
+      "sha256": "82faaec6301c7e70af1c2d6e80d126f4bd97f854ab426ea30048f7bfca0c47c0"
+    },
+    {
       "path": "Sources/VoxeliaGeometry/Public/TriangleMeshTotalFacetArea.swift",
       "size": 19731,
       "sha256": "82faaec6301c7e70af1c2d6e80d126f4bd97f854ab426ea30048f7bfca0c47c0"
@@ -913,6 +923,11 @@
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/Requirements.md",
       "size": 812,
       "sha256": "bf342f97cf051036aeb7f0eb61f95a2ba61bb8cfd9cf069981937407290c72f0"
+    },
+    {
+      "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/VoxeliaGeometry 2.md",
+      "size": 2121,
+      "sha256": "6f97d755ac94d51493fab1424fd195a2f129d4f0341090259941a315f4a80de2"
     },
     {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/VoxeliaGeometry.md",
@@ -2010,6 +2025,11 @@
       "sha256": "af406de692796f51468420453032c6c21f8b3a71bd0fcd49cc7ce3384661af0a"
     },
     {
+      "path": "Tests/VoxeliaGeometryTests/TriangleMeshTotalFacetAreaTests 2.swift",
+      "size": 36612,
+      "sha256": "e6bbe799eb5af17cf6248a75be018a4388be7553c2bd5d169f8b795e2e98f345"
+    },
+    {
       "path": "Tests/VoxeliaGeometryTests/TriangleMeshTotalFacetAreaTests.swift",
       "size": 36612,
       "sha256": "e6bbe799eb5af17cf6248a75be018a4388be7553c2bd5d169f8b795e2e98f345"
@@ -2701,8 +2721,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 3855,
-      "sha256": "1dd0731cb448e82ff1719eef39b0f3352dc0b48822550de20e27e4860197566d"
+      "size": 3996,
+      "sha256": "d910046a29a76b07cde01d67e6f6458cfdabaefcff514944890867977a64b4ad"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2858,6 +2878,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0031-triangle-mesh-total-facet-area.md",
       "size": 14873,
       "sha256": "0c17a8fcd717b184c6ddaa7c03ea0922df75951ba08ab6a349ed36bc96c326d6"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0032-triangle-mesh-enclosed-volume.md",
+      "size": 18480,
+      "sha256": "6b0ff71b7e423cda77347b8d4e8f1a23a185491273b63ee66c52535d2f7b7744"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3870,9 +3895,14 @@
       "sha256": "e131cdf6dab5add5b5e3e979d663f00551864fbe27cbcd39231336680f5c39b5"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0195-triangle-mesh-enclosed-volume-design.md",
+      "size": 24257,
+      "sha256": "a83e09d748d97c50041e50eeba487d9f8847f8fb6a39d8d183effe9ebfc1aebc"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 29075,
-      "sha256": "78f9096fa445503f21838ce7dcb00554ff0286472e9e9d6c975c283ba9413b8b"
+      "size": 29279,
+      "sha256": "4510205f1dae5e62e34e71b828ad81074a952a9c61b22895e76c56b77fcfbe42"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3956,8 +3986,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 813281,
-      "sha256": "2269087739b8f17f4dcf6b6f4528485275e071e66736db7354611dc8e5eb0ac3"
+      "size": 817635,
+      "sha256": "1c48da94ce81a8164058129c2c83834f4cc93b74f267418cad34de79de1c7bb2"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4038,6 +4068,11 @@
       "path": "docs/progress/evidence/ADR-0194-total-facet-area-oracle.py",
       "size": 11513,
       "sha256": "a4b6ad6f561e84ca209dda8bf2f70bc830cffe7d09f298f369420386b3de21e2"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0195-enclosed-volume-oracle.py",
+      "size": 16240,
+      "sha256": "219941d4c82124b59dd879301d576ec74e894415f4f9b0b3bae9e142ed791f6d"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4346,8 +4381,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 47857,
-      "sha256": "ae2504693c74e20ef901b4780b3bb688ee23ca2fc4ae0b1d20d113b8fcd9925c"
+      "size": 48314,
+      "sha256": "4129af6fe2dec2248d48bff0987fc0e9dd6193f4cd9af7170e81a7f98c165217"
     }
   ]
 }

@@ -6196,6 +6196,82 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-seventh autonomous increment (`ADR-0195` design): accepted
+  `ADR-0195` and `VOXELIA-ALG-0032` freeze
+  `triangle-mesh-enclosed-volume/binary64-v1`, the enclosed-volume half of
+  `VOX-GEO-010` that `ADR-0194` deliberately deferred. Every obligation the
+  2026-08-06 audit enumerated is now settled in an accepted record.
+
+  Certification is a hard admission gate, not a caveat: no arithmetic runs at
+  all unless the mesh proves closed, edge-manifold and consistently oriented
+  with no index-degenerate facet. Two properties are explicitly NOT certified,
+  each with a recorded reason. Vertex manifoldness is not required because the
+  divergence identity does not need a single-cycle link — a registered
+  pinch-point fixture certifies and returns the exact sum of its two shells,
+  so requiring it would reject meshes whose published volume is exactly
+  correct. Non-self-intersection is not certified because robust
+  triangle-triangle intersection over arbitrary binary64 positions needs an
+  exact/adaptive predicate subsystem no accepted record supplies; rather than
+  bury that in prose, `self-intersection-rule = not-certified` is an entry in
+  the operation's parameter document, so the limitation sits inside the
+  cryptographic digest identifying every published result and cannot be lost
+  by a consumer comparing digests.
+
+  The numeric identity: origin-anchored scalar triple product
+  `p0 . (p1 x p2)` in exact expression order, serial topology-order
+  accumulation of the six-fold total, one single final division by six, and
+  the source coordinate space's own origin as the anchor with no recentring.
+  The origin choice is part of the identity and the oracle proves it — a unit
+  cube at the origin encloses exactly `1.0`, the same cube translated by
+  `(0.1, 0.2, 0.3)` encloses `1.0000000000000004`. Both are correct outputs of
+  the frozen model; a caller needing better conditioning recentres its own
+  mesh as a distinct derived object.
+
+  `ALG-0032` states explicitly that this facet term must NOT be confused with
+  the edge-vector cross product `ALG-0030` froze and `ALG-0031` reuses: that
+  one is an origin-independent doubled area, this one an origin-dependent
+  signed determinant over positions. The superficial similarity is a trap and
+  both documents name it so a future implementer cannot "unify" them.
+
+  Cavities are defined by orientation, never by geometry: an inward shell
+  nested in an outward one subtracts, and the registered fixture is a
+  side-four outward cube containing a side-two inward cube enclosing exactly
+  `56.0`. No containment test is performed. Disconnection is admitted and each
+  shell contributes its own volume. A strictly negative total fails
+  `invertedOrientation` rather than publishing its magnitude, because both
+  accepted extraction operations emit outward winding so a negative total is
+  diagnostic. Certification and volume run as two complete non-interleaved
+  passes, so `volumeNotRepresentable` can never mask an `openSurface`.
+
+  The ten-case error family carries no duplicate-facet case: a repeated facet
+  is already a repeated directed edge, and the fixture proves the discharge
+  (`ADR-0071`/`ADR-0173` precedent). Unlike `ADR-0194`, this operation DOES
+  declare an additional-logical-byte ceiling, because certification owns real
+  payload — one directed-edge record per facet corner at
+  `triangleCount * 3 * 16` bytes, one-past boundary `384307168202282325`.
+  `PoweredLengthUnit` is reused unchanged at exponent three, so no new unit
+  vocabulary was needed.
+
+  The independent oracle reproduces sixteen fixtures — ten successful, six
+  failures — covering the unit tetrahedron and cube, exact scaling, origin
+  dependence, the vacuously closed empty mesh, disjoint shells, cavity
+  subtraction, the pinch point, a double-sided facet enclosing positive zero,
+  reduction-order sensitivity, and all six failure classes. Its two SHA-256
+  fixtures are frozen in `ALG-0032`.
+
+  No product source, test, registry entry or public API changed, so product
+  builds and tests are intentionally absent and are not evidence here.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0195-enclosed-volume-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12070,18 +12146,15 @@ reproducing both registered `VOXELIA-ALG-0031` digests bit-exactly, and the
 public operation with the fifteenth CPU registry entry. Total facet area is
 therefore the accepted, implemented and registered half of `VOX-GEO-010`.
 
-The exact next action is the **certified enclosed volume** record, the second
-half of the mesh-measurement stage that `ADR-0194` deliberately deferred. It
-is design-first and it must settle, before any code, every obligation the
-2026-08-06 audit enumerated: watertightness and edge/vertex manifoldness
-predicates, orientation consistency, disconnected and nested shell meaning,
-cavity semantics, degeneracy/duplicate/self-intersection policy,
-signed-versus-magnitude semantics, a reference origin, a reduction order and
-predicate resource limits. `PoweredLengthUnit` already supports exponent three,
-so the unit question is settled; nothing else is. Do not publish an
-unverified algebraic tetrahedral sum under the enclosed-volume name — both
-`ADR-0183` and `ADR-0194` reject that explicitly. After enclosed volume, the
-remaining `ADR-0183` stages are the surface-rendering assessment over a
+Accepted `ADR-0195` and `VOXELIA-ALG-0032` now freeze certified enclosed
+volume, settling every obligation the 2026-08-06 audit enumerated. The exact
+next action is `ADR-0195` migration step one: add the four
+declaration/publication values, the measurement value and the closed ten-case
+error family to `VoxeliaGeometry`, reusing `PoweredLengthUnit` at exponent
+three. Steps two and three follow: the internal CPU certification predicate
+and serial volume reference, then the public operation, the independently
+reproduced parameter digest and the sixteenth CPU registry entry. After that,
+the remaining `ADR-0183` stages are the surface-rendering assessment over a
 publishable canonical mesh and backend-specific derived acceleration; the
 colour/overlay arc and VOI verification remain the other M6 queue. Certified enclosed volume remains a distinct governed record and must
 not be started inside the area stage.
@@ -12098,13 +12171,15 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- The next increment is design-only: the certified enclosed-volume record and
-  its algorithm, with a python-computed independent oracle. Run only the
-  oracle and the relevant ADR/document/register/index/manifest/integrity
-  checks; product builds and tests are not evidence until source changes.
-- Do not reopen `ADR-0194`. Total facet area is accepted, implemented,
-  registered and evidenced; a different quantity, magnitude formulation,
-  reduction, degeneracy rule or unit representation needs a new operation or
+- Perform `ADR-0195` migration step one next. It changes product source, so
+  run the focused `VoxeliaGeometryTests` suite for the new declaration,
+  measurement and result-binding values, `swift format lint --strict` on every
+  touched Swift file, and the ADR/document/register/index/manifest/integrity
+  checks. See the literal passing full unfiltered test-run line before
+  pushing.
+- Do not reopen `ADR-0194` or `ADR-0195`. Both are accepted and evidenced; a
+  different quantity, certification set, facet term, reference origin,
+  reduction, orientation rule or unit representation needs a new operation or
   algorithm version, not an edit.
 - Do not extend `ADR-0194` to enclosed volume, union area, watertightness
   predicates or manifold classification. Those need their own accepted record

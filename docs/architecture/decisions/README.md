@@ -173,8 +173,9 @@ the scalar surface extraction design. `ADR-0191` is allocated to its public
 operation and publication boundary. `ADR-0192` is allocated to the labelled
 surface extraction design. `ADR-0193` is allocated to the deterministic
 triangle-mesh vertex normals design. `ADR-0194` is allocated to the
-triangle-mesh total facet area design.
-The next unallocated numeric identifier is `ADR-0195`.
+triangle-mesh total facet area design. `ADR-0195` is allocated to the
+triangle-mesh certified enclosed volume design.
+The next unallocated numeric identifier is `ADR-0196`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -352,3 +353,4 @@ The next unallocated numeric identifier is `ADR-0195`.
 | [ADR-0192](ADR-0192-labelled-surface-extraction-design.md) | Accepted | Labelled surface extraction design |
 | [ADR-0193](ADR-0193-deterministic-triangle-mesh-vertex-normals-design.md) | Accepted | Deterministic triangle-mesh vertex normals design |
 | [ADR-0194](ADR-0194-triangle-mesh-total-facet-area-design.md) | Accepted | Triangle-mesh total facet area design |
+| [ADR-0195](ADR-0195-triangle-mesh-enclosed-volume-design.md) | Accepted | Triangle-mesh certified enclosed volume design |
