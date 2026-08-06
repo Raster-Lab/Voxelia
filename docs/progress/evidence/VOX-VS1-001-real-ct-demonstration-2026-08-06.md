@@ -89,6 +89,53 @@ refusals are the adapter declining to treat non-monochrome captures as CT frames
 - **Not discharged**: the geometry-tolerance decision, which remains an owner
   gate — now with measurements attached.
 
+## Second run: the pixel-data path, added by ADR-0235
+
+The geometry-only run above left the pixel path untested. With `ADR-0235`'s
+`CTVolumeByteBuffer` and `DICOMFrameTransfer`, the same 899-slice series was run
+through the **complete** first vertical slice:
+
+```text
+frames: 899   series members: 899   verdict: representable
+layout: 512x512x899 uint16
+  samples: 235667456   bytes: 471334912 (449 MiB)
+transferred: 899/899   complete: true
+  elapsed: 3.77s
+byte-exact slices: 899/899   mismatches: 0
+```
+
+The verification is independent of the transfer: for each slice, the buffer's
+`sliceBytes(index)` was compared against DICOMKit's own
+`pixelData()?.frameData(at: 0)` for the frame that slice came from. **All 899
+matched byte for byte.**
+
+### The samples are unsigned, and the fixtures assumed signed
+
+This series carries Pixel Representation `0`, so the adapter selected **`uint16`**.
+CT is conventionally described as signed, and every hand-built fixture in the
+repository defaults to `int16`. The adapter reads Pixel Representation rather
+than assuming, so it was right — but the assumption embedded in the fixtures was
+**not representative of this real data**, and a design that had hard-coded signed
+sixteen-bit would have mis-typed every volume from this scanner.
+
+This is also why `ADR-0235` decision 2 keeps signedness out of the transfer: the
+bytes are moved without interpretation, so being unsigned costs nothing at this
+stage and is decided once, later, where the evidence for it lives.
+
+### The cost of the safe copy, measured
+
+449 MiB transferred element-wise in **3.77 s**, about **120 MiB/s**. A bulk memory
+copy would run one to two orders of magnitude faster. That gap is the measured
+price of `ADR-0235` decision 3 — no pointer or unsafe API, because the Swift
+safety policy reserves the bare `unsafe` marker and `-strict-memory-safety`
+diagnoses pointer APIs.
+
+**Recorded as a real cost, not dismissed.** For a 449 MiB study it is a few
+seconds; for an interactive workflow loading several studies it would be
+noticeable. The options, none taken here, are an upstream DICOMKit
+decode-into-destination entry point, or a governed exception to the safety policy
+with an owner decision behind it.
+
 ## Reproduction
 
 ```text

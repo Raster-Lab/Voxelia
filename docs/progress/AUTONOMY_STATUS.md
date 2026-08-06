@@ -2468,12 +2468,46 @@ The scaffold gate remains the one red pipeline: re-tested this session on a
 byte-identical toolchain, still signal 11 at the release strict-memory-safety
 stage.
 
-**Next unblocked work, in order of value:** the pixel-data path is the only part
-of the first vertical slice never exercised — `CTVolumeLayout` and the
-direct-write model have no producer yet, and building one would need a decode
-target and a destination buffer type, which `ADR-0232` decision 8 deliberately
-left to a record with a real producer. After that, the 13 remaining traceability
-rows, and a `prepare-release.sh` dry run.
+**The first vertical slice now runs end to end on real data.** `ADR-0235` added
+`CTVolumeByteBuffer` and `DICOMFrameTransfer`, and a 899-slice thorax series
+assembled into a **512x512x899 uint16 volume, 449 MiB, with 899 of 899 slices
+byte-exact** against DICOMKit's own frame bytes — verified independently of the
+transfer.
+
+`ADR-0235` corrects `ADR-0230` decision 10: it chose direct-write into a
+caller-provided destination, and **DICOMKit cannot serve that model** — its pixel
+surface returns an owned `Data`. The achievable model is one copy per frame, which
+is the volume's materialisation rather than an avoidable intermediate. That
+decision was made in increment (d), before increment (e) read DICOMKit's API: the
+same unstated-assumption failure this project keeps catching, and this time it was
+ours.
+
+Two measurements worth keeping. The real samples are **unsigned** (`uint16`, Pixel
+Representation 0) while every hand-built fixture defaults to `int16` — the adapter
+reads the attribute so it was right, but the fixtures' assumption was not
+representative. And the safe element-wise copy runs at **~120 MiB/s**, one to two
+orders of magnitude slower than a bulk copy; that is the measured price of
+avoiding pointer APIs, recorded rather than dismissed.
+
+**Scope note from the owner, 2026-08-06:** the dependency libraries are already
+used and tested. Do **not** divert into testing or bug-hunting them; the target is
+completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` and
+`DICOMKit`) stay recorded as owner options and are not to be pursued.
+
+**Next unblocked work, in order of value:**
+
+1. **Value interpretation under `VOX-DCM-006`** — endianness, signedness, rescale
+   slope and intercept, and pixel padding. **Four accepted records have now
+   deferred to this stage** (`ADR-0227` decision 5, `ADR-0229` decision 10,
+   `ADR-0232`, `ADR-0235` decision 2), and it is the only substantive gap between
+   the byte buffer and a usable CT volume. It carries real numeric boundaries —
+   the rescale transform is `slope * stored + intercept` in binary64 with a frozen
+   order — so it needs an ADR, an algorithm specification and an oracle. This is
+   the next arc, not a footnote.
+2. The 13 remaining traceability rows in
+   `docs/progress/untraced-requirements.txt`.
+3. A `prepare-release.sh` dry run, unexercised since `ADR-0225` gated three
+   pipelines into it and never run with a dependency present.
 
 === OWNER DECISIONS WAITING (2026-08-06, DICOM arc) ===
 

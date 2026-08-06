@@ -38,6 +38,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``CTVolumeLayoutError``
 - ``CTFramePlacement``
 - ``CTFramePlacementError``
+- ``CTVolumeByteBuffer``
+- ``CTVolumeByteBufferError``
 
 ### Multiplanar reconstruction
 
