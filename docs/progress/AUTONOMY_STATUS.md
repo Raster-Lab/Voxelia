@@ -6312,6 +6312,59 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-ninth autonomous increment (`ADR-0195` migration step one):
+  `VoxeliaGeometry` now owns the certified enclosed-volume declaration and
+  publication boundary. `TriangleMeshEnclosedVolumeLimits` declares maximum
+  vertex count, maximum triangle count **and** a maximum additional logical
+  byte count — the third exists here and did not exist for total facet area
+  because certification owns real payload, one directed-edge record per facet
+  corner. `TriangleMeshEnclosedVolumeRequest` is the nonthrowing unadmitted
+  source-claim declaration with the frozen operation, algorithm and
+  volume-exponent constants and the internal ten-entry VCMJ-1 parameter
+  document. `TriangleMeshEnclosedVolumeMeasurement` admits the finite
+  non-negative volume with its exponent-three powered unit and exact certified
+  facet count. `TriangleMeshEnclosedVolumeResult` binds measurement, identity
+  and provenance atomically. `TriangleMeshEnclosedVolumeError` has exactly the
+  ten frozen cases and no duplicate-facet case.
+
+  The parameter document is the increment's most load-bearing detail: at 1,903
+  bytes it carries `vertex-manifold-rule = not-required` and
+  `self-intersection-rule = not-certified` alongside the eight positive rules,
+  so both non-certifications sit inside the digest that identifies every
+  published result. The suite reconstructs the document independently and
+  asserts the digest matches, which means a future edit that quietly dropped
+  either limitation would fail a test rather than silently widen the claim.
+  The measurement and result doc comments state the self-intersection caveat
+  in the public surface's own words.
+
+  `PoweredLengthUnit` is reused unchanged at exponent three; no new unit
+  vocabulary was needed and its own admission evidence stays in the
+  total-facet-area suite rather than being duplicated here. Six focused cases
+  cover the unadmitted declaration and detached `Sendable` transfer, the
+  ten-case error family's names and payload-freedom, independent parameter
+  reconstruction with the source unit and every identifier absent from the
+  bytes, measurement rejection of every non-volume value including negative
+  zero and both the exponent-two and exponent-one units, twenty-six incoherent
+  publications, and facet-count and base-unit drift including a base differing
+  only in `displayName`.
+
+  Verified after a clean `.build` rebuild: 721 tests in 153 suites green. The
+  staged diff was checked for stray `" 2"` duplicates before committing, per
+  the rule the preceding increment recorded.
+
+  ```bash
+  swift test --filter TriangleMeshEnclosedVolumeTests
+  swift format lint --strict \
+    Sources/VoxeliaGeometry/Public/TriangleMeshEnclosedVolume.swift \
+    Tests/VoxeliaGeometryTests/TriangleMeshEnclosedVolumeTests.swift
+  git ls-files --others --exclude-standard | grep ' 2\.'
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12187,13 +12240,15 @@ public operation with the fifteenth CPU registry entry. Total facet area is
 therefore the accepted, implemented and registered half of `VOX-GEO-010`.
 
 Accepted `ADR-0195` and `VOXELIA-ALG-0032` now freeze certified enclosed
-volume, settling every obligation the 2026-08-06 audit enumerated. The exact
-next action is `ADR-0195` migration step one: add the four
-declaration/publication values, the measurement value and the closed ten-case
-error family to `VoxeliaGeometry`, reusing `PoweredLengthUnit` at exponent
-three. Steps two and three follow: the internal CPU certification predicate
-and serial volume reference, then the public operation, the independently
-reproduced parameter digest and the sixteenth CPU registry entry. After that,
+volume, settling every obligation the 2026-08-06 audit enumerated. Migration step one is
+complete: the four declaration/publication values, the measurement value and
+the closed ten-case error family now live in `VoxeliaGeometry`, with both
+non-certifications carried inside the parameter digest. The exact next action
+is `ADR-0195` migration step two: the internal CPU certification predicate and
+serial volume reference, with every topological, arithmetic, resource, failure
+and cancellation fixture from `VOXELIA-ALG-0032`. Step three follows: the
+public operation, the independently reproduced parameter digest and the
+sixteenth CPU registry entry. After that,
 the remaining `ADR-0183` stages are the surface-rendering assessment over a
 publishable canonical mesh and backend-specific derived acceleration; the
 colour/overlay arc and VOI verification remain the other M6 queue. Certified enclosed volume remains a distinct governed record and must
@@ -12211,12 +12266,15 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0195` migration step one next. It changes product source, so
-  run the focused `VoxeliaGeometryTests` suite for the new declaration,
-  measurement and result-binding values, `swift format lint --strict` on every
-  touched Swift file, and the ADR/document/register/index/manifest/integrity
-  checks. See the literal passing full unfiltered test-run line before
-  pushing.
+- Perform `ADR-0195` migration step two next: the internal CPU certification
+  predicate and serial volume reference. Run the focused `VoxeliaCPUTests`
+  kernel suite, `swift format lint --strict` on every touched Swift file, and
+  the ADR/document/register/index/manifest/integrity checks. Reproduce the
+  `ALG-0032` oracle's sixteen fixtures bit-exactly and see the literal passing
+  full unfiltered test-run line before pushing.
+- Before every commit, check the staged diff for stray `" 2"` duplicate files
+  and, for any increment claiming no product source changed, confirm that
+  claim against `git diff --cached --name-only` rather than trusting intent.
 - Do not reopen `ADR-0194` or `ADR-0195`. Both are accepted and evidenced; a
   different quantity, certification set, facet term, reference origin,
   reduction, orientation rule or unit representation needs a new operation or

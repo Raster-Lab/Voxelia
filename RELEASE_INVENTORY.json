@@ -880,6 +880,11 @@
       "sha256": "f65234f05dba437773b60ade11db788c3b228788e5b32a185a178ab3a9a710e4"
     },
     {
+      "path": "Sources/VoxeliaGeometry/Public/TriangleMeshEnclosedVolume.swift",
+      "size": 20838,
+      "sha256": "43189d1391e1a28ab556e4a9175ff467d783d9405f62e82b1752812963e71b72"
+    },
+    {
       "path": "Sources/VoxeliaGeometry/Public/TriangleMeshPositionDomain.swift",
       "size": 2726,
       "sha256": "7e0a759671826f4b04e83b55651d3d3cd430bfe965b98f585864f6ccd8c53196"
@@ -916,8 +921,8 @@
     },
     {
       "path": "Sources/VoxeliaGeometry/VoxeliaGeometry.docc/VoxeliaGeometry.md",
-      "size": 2121,
-      "sha256": "6f97d755ac94d51493fab1424fd195a2f129d4f0341090259941a315f4a80de2"
+      "size": 2416,
+      "sha256": "042ecc23d3b6cd3569fd3be71ca05a61159c17d86e925fb3b5ca57ced5df4816"
     },
     {
       "path": "Sources/VoxeliaImaging/ApplePlatformGate.swift",
@@ -1998,6 +2003,11 @@
       "path": "Tests/VoxeliaGeometryTests/ScalarSurfaceExtractionTests.swift",
       "size": 34127,
       "sha256": "76b7eb87dd68b4739b6946ec6867071bee802362e93ac7c08915d70bb5d6e5a9"
+    },
+    {
+      "path": "Tests/VoxeliaGeometryTests/TriangleMeshEnclosedVolumeTests.swift",
+      "size": 34828,
+      "sha256": "b948876e4af233e19e36e1f4d1a38ca899487e6848ae9452ab5bdb8910d552d8"
     },
     {
       "path": "Tests/VoxeliaGeometryTests/TriangleMeshTests.swift",
@@ -3966,8 +3976,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 819737,
-      "sha256": "ad55d94cf9bc73a6dcb9fdca14db5fa621883bd255ef3040ebea03a1ba7b3455"
+      "size": 823214,
+      "sha256": "dcf78ac29a21516f6773451c432e76458aeaf800934caf38ef3287ee81f58253"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4361,8 +4371,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 48058,
-      "sha256": "2290b96bd98bbbebecd54c602bb3f0c342b67449f6ad2c39c930ef0eb0ac4d34"
+      "size": 48187,
+      "sha256": "621e13c030426cadb1157dc2ecc038fa55fd3775c6e509814d32d7f240d7b840"
     }
   ]
 }

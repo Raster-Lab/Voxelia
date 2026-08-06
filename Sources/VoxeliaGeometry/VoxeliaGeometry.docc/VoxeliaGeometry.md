@@ -69,6 +69,15 @@ separate contracts.
 - ``TriangleMeshTotalFacetAreaResult``
 - ``TriangleMeshTotalFacetAreaError``
 
+### Certified enclosed-volume measurement
+
+- ``TriangleMeshEnclosedVolumeLimits``
+- ``TriangleMeshEnclosedVolumeRequest``
+- ``TriangleMeshEnclosedVolumePublicationContext``
+- ``TriangleMeshEnclosedVolumeMeasurement``
+- ``TriangleMeshEnclosedVolumeResult``
+- ``TriangleMeshEnclosedVolumeError``
+
 ### Project documents
 
 - <doc:Architecture>
