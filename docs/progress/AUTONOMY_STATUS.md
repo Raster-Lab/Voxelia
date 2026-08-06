@@ -8866,6 +8866,82 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifty-sixth autonomous increment (`ADR-0227`, increment (a) of
+  the `ADR-0226` arc): the **neutral CT frame description** is implemented in
+  `VoxeliaImaging`, with `MonochromeInterpretation`, `PixelPaddingDescriptor`
+  and an eleven-case payload-free failure family. 31 tests, no dependency, no
+  pixel data.
+
+  **The finding that decides the presentation field is architectural, not
+  stylistic.** The obvious move was to reuse `PresentationPolarity` from
+  `ADR-0112` instead of adding a near-duplicate two-case enum. That is
+  impossible: `PresentationPolarity` lives in `VoxeliaRendering`, and
+  `Package.swift` declares `VoxeliaRendering` as depending on `VoxeliaImaging`,
+  so no arrangement of this increment can reuse it. The constraint forces the
+  right answer anyway — "the source stated MONOCHROME1" is a fact about the
+  file, "display inverted" is a decision — and `ADR-0112` already owns the
+  mapping, so this record adds a source-side vocabulary and **no second
+  mapping**.
+
+  **The central decision is what the description refuses to do.** It is a
+  faithful transcription, not a judgement: it admits exactly what makes the
+  value representable and arithmetically safe, and refuses every rule that
+  would need a tolerance. A frame whose direction cosines are thirty degrees
+  from orthogonal is a **valid description and a rejected series** — it must be
+  constructible, or the validator in increment (c) cannot name the frame it
+  rejected. Tests assert the admissions *and* the deliberate non-judgements.
+
+  **One rule is not local, and it is included on purpose:** `rows * columns`
+  must be computable without overflow. Every later increment multiplies them,
+  and admitting a pair that cannot be multiplied would lay a trap in a value
+  type whose whole purpose is to be trusted downstream.
+
+  **A zero rescale slope is admitted, and the judgement is left explicitly
+  unhomed rather than quietly absorbed.** `0 * x + b` is well defined, so
+  rejecting it would be a judgement about usefulness, not representability —
+  the transcription principle applied honestly to a case where it is
+  inconvenient. The record assigns that judgement to the value-transformation
+  stage `VOX-DCM-006` requires, and says so, so the silence is a decision
+  rather than an omission.
+
+  **The axis convention is fixed by index, because reading it backwards
+  transposes a volume silently.** `rowDirection` is the direction of increasing
+  *column* index; `rowSpacingMillimetres` is the step along `columnDirection`.
+  A reconstruction built on the wrong reading is not obviously wrong — it is a
+  plausible image of the wrong geometry — so the convention is stated as a
+  table in both the record and the source, and increment (e)'s shim is made
+  responsible for satisfying it.
+
+  **No algorithm specification and no oracle, stated as a decision.** Every
+  admission is an exact predicate over values whose finiteness the accepted
+  spatial types already enforce: comparisons against zero and one, an
+  overflow-reporting multiplication, and an exact identifier equality. No
+  rounding, no tolerance, no expression ordering, no accumulation — an oracle
+  would restate `>` and `≠` in Python.
+
+  Two scoping decisions rest on evidence rather than preference. Decoded
+  samples are **not** carried: increments (b) and (c) read only the
+  description, so requiring a pixel buffer would put data in every fixture that
+  no test reads, and the plan's own §16.1 shows sample ownership is a real
+  three-way question the adapter answers. `PixelPaddingDescriptor` carries a
+  single value and **documents the omission of DICOM's range form in the
+  source**, because the accepted consumer of that information —
+  `WindowLevelOperation` — takes a single `Int64?`.
+
+  Traceability debt is unchanged at 13: `VOX-DCM-003`, `006` and `008` were
+  already traced, so this increment adds discharge rather than coverage.
+
+  ```text
+  swift build && swift test                       # 829 tests pass
+  swift test --filter CTFrameDescription          # 31 tests pass
+  python3 Tools/Scripts/check_swift_safety.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/check_requirement_traceability.py
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14990,13 +15066,23 @@ DICOMKit gate**. Accepted `ADR-0226` opens the DICOM ingest arc with its
 dependency facts verified from the repository: MIT, `v2.2.11`,
 `https://github.com/Raster-Lab/DICOMKit`.
 
-The exact next action is `ADR-0226` increment (a): the **neutral frame-record
-vocabulary**, Voxelia-owned and naming no DICOMKit type. Design-first. Use
-`Point3D` and `Vector3D` rather than the plan's sketched `SIMD3<Double>`,
-because the accepted spatial types carry a `CoordinateSpaceID` and increment
-(c)'s whole job is deciding whether frames share a frame of reference.
+Increment (a) is done: accepted `ADR-0227` implements `CTFrameDescription` in
+`VoxeliaImaging`, on `Point3D` and `Vector3D` as the arc bound it, with the
+axis convention fixed by index and every tolerance question deliberately
+withheld.
 
-Increment (c) is the arc's hardest question and must not be pre-judged here:
+The exact next action is `ADR-0226` increment (b): **series grouping**
+(`VOX-VS1-002`, `VOX-DCM-004`), assembling frames by spatial position and
+orientation rather than filename or instance number. Design-first, and note the
+boundary it shares with (c): grouping decides *which frames belong together*,
+while (c) decides *whether a group is a representable volume*. Grouping should
+therefore use only rules that need no tolerance — exact frame-of-reference and
+coordinate-space agreement, and exact direction equality — and hand every
+approximate judgement to (c). If that split turns out not to hold, the finding
+belongs in the record rather than in a silently widened grouping rule.
+
+Increment (c) is the arc's hardest question and must not be pre-judged there
+either:
 `ADR-0215` established exact equality for registration, but real scanner
 geometry does not arrive exact, so **which** of position, orientation and
 spacing admits a tolerance — and where that tolerance comes from — is settled

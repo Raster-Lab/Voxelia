@@ -413,3 +413,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0224](ADR-0224-scaffold-gate-findings.md) | Accepted | Scaffold gate findings |
 | [ADR-0225](ADR-0225-unrun-pipeline-sweep-conclusion.md) | Accepted | Unrun pipeline sweep conclusion |
 | [ADR-0226](ADR-0226-dicom-ingest-arc.md) | Accepted | DICOM ingest arc |
+| [ADR-0227](ADR-0227-neutral-ct-frame-description.md) | Accepted | Neutral CT frame description |

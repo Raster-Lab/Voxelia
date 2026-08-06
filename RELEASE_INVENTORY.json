@@ -990,6 +990,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaImaging/Public/CTFrameDescription.swift",
+      "size": 12417,
+      "sha256": "e599f7b22454b72631ea029a192c10cf9c2c9bd6e0a20972e651ca1eb75a1c65"
+    },
+    {
       "path": "Sources/VoxeliaImaging/Public/MPRSliceCoordinator.swift",
       "size": 8103,
       "sha256": "5976055ae9666c23c94c55cc21f41622fdff26c27a7ef1e416262e6c5a66544f"
@@ -2183,6 +2188,11 @@
       "path": "Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift",
       "size": 316,
       "sha256": "8bbed7a1f08bebbba84cf598e1de890e28d0b848ec53a9f2348e4f8331031e86"
+    },
+    {
+      "path": "Tests/VoxeliaImagingTests/CTFrameDescriptionTests.swift",
+      "size": 14472,
+      "sha256": "9d53ea0c09a9aaac9b9953d54c2137b2b1f4420544c5f43153e37688f6c965a5"
     },
     {
       "path": "Tests/VoxeliaImagingTests/MPRSliceCoordinatorTests.swift",
@@ -4330,9 +4340,14 @@
       "sha256": "2f305e472e450df5885cd372ddbc7e4c2a9ca0f8fe38baa45364a15709754837"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0227-neutral-ct-frame-description.md",
+      "size": 12441,
+      "sha256": "5d0285a501bfede6454ff92ebe0597281f001c9ac0f4c10218dd099179cfeb0b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 34078,
-      "sha256": "cb35e08f53389aff43a2915fa32ee423a6202d986d2f23813132182e2b376617"
+      "size": 34177,
+      "sha256": "66b02ba5cc65a35f9f2f04decf5f7649b9af1c8a54b15726e2609316d7d69b64"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4416,8 +4431,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 980608,
-      "sha256": "979f935c1b16cb42d7122381990bbd452e4dc3088bea672aedaae99e48b9794f"
+      "size": 985531,
+      "sha256": "fe3f0e8a87d1d0142056871501549a96d2708539769c0a5182718cbdaf5be6a0"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4886,8 +4901,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 54521,
-      "sha256": "64858a14a311b0a2f24ce2289cccb168f1b7924708bd3be687bdace6fb5a79b0"
+      "size": 54701,
+      "sha256": "85e1e9bf06e0e2fe8bb3f4df0defd2000b3fbf0558fbb56df1e5d53b867bdae6"
     }
   ]
 }
