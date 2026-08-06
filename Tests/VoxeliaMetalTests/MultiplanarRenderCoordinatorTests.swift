@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-import Foundation
+import Synchronization
 import Testing
 import VoxeliaCore
 import VoxeliaExecution
@@ -247,15 +247,14 @@ struct MultiplanarRenderCoordinatorTests {
         )
     }
 
-    private final class NamingCounter: @unchecked Sendable {
-        private let lock = NSLock()
-        private var value = 0
+    private final class NamingCounter: Sendable {
+        private let value = Mutex(0)
 
         func next() -> Int {
-            lock.lock()
-            defer { lock.unlock() }
-            value += 1
-            return value
+            value.withLock { current in
+                current += 1
+                return current
+            }
         }
     }
 

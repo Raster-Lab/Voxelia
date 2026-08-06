@@ -14,10 +14,10 @@ struct TriangleMeshEnclosedVolumeTests {
     func declarationsPreserveInputsAndTransferSafely() async throws {
         let source = try sourceMesh()
         let sourceIdentity = try sourceIdentity()
+        // The helper accepts an optional identifier, so `#require` here would
+        // be redundant and the strict build rejects it.
         let mismatchedProvenance = try sourceProvenance(
-            subjectObjectID: try #require(
-                DataObjectID(rawValue: "unmatched-source")
-            )
+            subjectObjectID: DataObjectID(rawValue: "unmatched-source")
         )
         let limits = TriangleMeshEnclosedVolumeLimits(
             maximumVertexCount: 0,

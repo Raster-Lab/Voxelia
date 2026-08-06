@@ -278,8 +278,6 @@ struct SurfaceColourMapperTests {
     }
 
     private func analyticalFixtures() -> [Fixture] {
-        let thirds = (1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0)
-        let unit = (minimum: 0.0, maximum: 1.0)
         let ramp = greyRamp
         let single: ContiguousArray<TransferFunctionEntry> = [
             TransferFunctionEntry(red: 10, green: 20, blue: 30, opacity: 40)

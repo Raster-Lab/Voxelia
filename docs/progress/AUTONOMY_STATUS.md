@@ -8728,6 +8728,54 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifty-third autonomous increment (`ADR-0224`): the sweep
+  continued into `validate-scaffold.sh` and `test-repository-scripts.sh`.
+  **Both failed.** Four diagnostics repaired, and **one gate remains red for a
+  reason this project cannot fix**.
+
+  **One violation was mine, and it reached `main` two increments ago.**
+  `MultiplanarRenderCoordinatorTests` declared a counter `@unchecked Sendable`
+  over an `NSLock`; the Swift safety policy permits no ungoverned escape
+  hatches. `ADR-0221` ran `swift test` and `swift format`, neither of which
+  applies that policy, and `validate-docs.sh` does not invoke the safety gate.
+  The irony is instructive: two increments later I replaced the same `NSLock`
+  pattern with `Mutex` in the CPU tests **for idiom consistency**, and that
+  stylistic choice silently avoided the identical violation the gate would have
+  caught at once.
+
+  Three further diagnostics were **pre-existing**: a redundant `#require` in two
+  geometry suites — the receiving helper takes an optional identifier, so the
+  unwrap was never needed — and two unused locals in `SurfaceColourMapperTests`.
+
+  **The release strict build crashes the compiler, and attribution was
+  established rather than assumed.** With all four fixed, the debug strict build
+  passes and the release one fails with **signal 11** in `swift-frontend`
+  compiling `VoxeliaCPUTests` under `-O -strict-memory-safety
+  -enable-default-cmo`. A worktree at `ba2da18` — before this session's progress
+  work — patched with **only** the three pre-existing fixes crashes identically,
+  so the defect predates the progress increments and is a toolchain bug on Apple
+  Swift 6.3.3.
+
+  **`validate-scaffold.sh` is therefore RED, and this ledger says so.** No
+  workaround was applied: disabling `-strict-memory-safety`, dropping
+  `-warnings-as-errors` or excluding the largest CPU suite would each convert a
+  visible toolchain bug into an invisible policy hole. The exact reproduction and
+  toolchain version are recorded so a future toolchain can be re-tested in one
+  step.
+
+  `test-repository-scripts.sh` now passes, all 150 tests, having failed only
+  through the same `@unchecked Sendable`.
+
+  ```bash
+  python3 Tools/Scripts/check_swift_safety.py
+  python3 Tools/Scripts/check_swift_safety.py --compile   # release: signal 11
+  Tools/Scripts/test-repository-scripts.sh
+  Tools/Scripts/validate-scaffold.sh                      # FAILS: see above
+  swift test
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14840,19 +14888,31 @@ accepted `ADR-0223` repaired a documentation build that had been failing since
 at least 2026-08-04 and gated it in `prepare-release.sh`, because **nothing in
 the repository invoked `build-docc.sh`**.
 
-The exact next action is to **finish what that reassessment started**: run the
-remaining pipelines nobody has exercised — `Tools/Scripts/validate-scaffold.sh`,
-`Tools/Scripts/test-repository-scripts.sh`, `Tools/Scripts/generate-sbom.sh`
-with its validator, and `python3 Tools/Scripts/check_swift_safety.py --compile`
-— and repair whatever they surface. The DocC finding is evidence that a green
-routine check says nothing about the pipelines the routine does not run. If they
-all pass, record that plainly and return to the gated queue.
+Two of the four unrun pipelines have now been run, and both failed:
+`ADR-0224` repaired four diagnostics — one of them introduced by `ADR-0221` —
+and established by worktree comparison that the remaining **release
+strict-memory-safety compiler crash predates this session** and is an Apple
+Swift 6.3.3 toolchain defect. **`validate-scaffold.sh` is currently red**, and
+no flag was relaxed to hide it.
+
+The exact next action is the last two unrun pipelines:
+`Tools/Scripts/generate-sbom.sh` and its `generate_sbom.py --validate` companion.
+Repair what they surface. When they are done, the sweep that began with the
+DocC finding is complete, and the honest summary is that four heavyweight
+pipelines existed which nothing routinely ran, three of which were broken.
 
 ## Test policy for the next action
 
 - Run the pipelines nobody runs, and repair what they surface. A green
   routine check says nothing about a pipeline the routine never invokes; that
   is how a broken documentation build survived four sessions.
+- **`validate-scaffold.sh` is currently RED** on a Swift 6.3.3 compiler crash
+  in the release strict-memory-safety build, established as pre-existing. Do
+  not relax a flag or exclude a target to make it green; re-test when the
+  toolchain changes.
+- Attribute a failure before repairing it. A worktree at an earlier commit
+  answers "did I cause this?" in one build, and the answer changes what the
+  record may claim.
 - A script that exists but is invoked by no pipeline is the same defect as an
   unenforced claim. When adding one, wire it in — and place it where it will
   actually run rather than where it is most thorough.

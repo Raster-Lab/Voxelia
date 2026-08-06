@@ -200,7 +200,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0221` is allocated to the multiplanar render path.
 `ADR-0222` is allocated to the progress reporting design.
 `ADR-0223` is allocated to the documentation build gate.
-The next unallocated numeric identifier is `ADR-0224`.
+`ADR-0224` is allocated to the scaffold gate findings.
+The next unallocated numeric identifier is `ADR-0225`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -407,3 +408,4 @@ The next unallocated numeric identifier is `ADR-0224`.
 | [ADR-0221](ADR-0221-multiplanar-render-path.md) | Accepted | Multiplanar render path |
 | [ADR-0222](ADR-0222-progress-reporting-design.md) | Accepted | Progress reporting design |
 | [ADR-0223](ADR-0223-documentation-build-gate.md) | Accepted | Documentation build gate |
+| [ADR-0224](ADR-0224-scaffold-gate-findings.md) | Accepted | Scaffold gate findings |

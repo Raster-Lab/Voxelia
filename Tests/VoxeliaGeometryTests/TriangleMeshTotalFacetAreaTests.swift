@@ -88,9 +88,9 @@ struct TriangleMeshTotalFacetAreaTests {
         let source = try sourceMesh()
         let sourceIdentity = try sourceIdentity()
         let mismatchedProvenance = try sourceProvenance(
-            subjectObjectID: try #require(
-                DataObjectID(rawValue: "unmatched-source")
-            )
+            // The helper accepts an optional identifier, so `#require` would
+            // be redundant and the strict build rejects it.
+            subjectObjectID: DataObjectID(rawValue: "unmatched-source")
         )
         let limits = TriangleMeshTotalFacetAreaLimits(
             maximumVertexCount: 0,
