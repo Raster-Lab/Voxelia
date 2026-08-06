@@ -4270,9 +4270,14 @@
       "sha256": "e0660f24438168cb5ce68436f85378cde6adf555b867c72971c9ec2990e0c314"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0220-remaining-traceability-paydown.md",
+      "size": 9875,
+      "sha256": "527f285d6a5388441ca83f44e42a218431747001191fd2c31953b4f99b25facf"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 33033,
-      "sha256": "ab6ad19722ca0a4380f3b3931be2f0871482ea5846534d48fa022f6809ffff5d"
+      "size": 33199,
+      "sha256": "78b37dfa8e01382ea2693708bd71cb94effda0d75da17afa660012b953884f32"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4356,8 +4361,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 953577,
-      "sha256": "dac2ab4504b0d65eccfe8ffc737da009e31c1973ad39ec611db07ed1074d2ed7"
+      "size": 956342,
+      "sha256": "a1e4bac61af3f3175aa5f8d3ef405cda75adac5bf9611b508ab7f4aeb2065e36"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4516,8 +4521,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 669,
-      "sha256": "9bed4167073816ade005329a8fb2b8f6b2483122d7e5201353f156efefdeb669"
+      "size": 537,
+      "sha256": "773f145203dde70681b30fc991086d110f49c6b230758f9559dd08c9a3d80edf"
     },
     {
       "path": "docs/project/README.md",
@@ -4821,8 +4826,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 53695,
-      "sha256": "e7ee07107e430d6a95040718c90f92b1731c4eea7ef310f472a9a260013816de"
+      "size": 53766,
+      "sha256": "e50358e52f03908192f81e82f2d0863a81147232155ba9efab0f43ed138a6f75"
     }
   ]
 }

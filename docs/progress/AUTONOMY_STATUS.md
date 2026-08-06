@@ -8415,6 +8415,53 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-forty-sixth autonomous increment (`ADR-0220`): the paydown is
+  **finished**. The eleven remaining tractable rows inspected; debt **29 → 18**,
+  and the eighteen are exactly the owner-gated `VOX-CMP` and `VOX-DCM` set. No
+  product source changed.
+
+  **This was the least comfortable of the four increments: six of the eleven
+  came back not satisfied**, and recording that plainly was the work.
+  `VOX-MTL-010` (reusable staging buffers) is **unbuilt**. `VOX-VAL-004` is
+  **not satisfied because there are no golden results** — the scaffolding
+  exists, and the sole manifest says of itself that it "validates structure
+  only; it contains no sample data" with an empty `files` list; **a schema for
+  metadata is not the metadata**. `VOX-PER-001` governs a performance
+  evaluation that has never been produced, because the measurement workloads are
+  gated. `VOX-PER-003` and `VOX-PER-005` name **reference workstation hardware**
+  and interaction, so they are gated exactly as `VOX-PER-004` is — estimating
+  them from off-screen timings on this machine was rejected outright as the
+  clearest possible instance of fabricated evidence.
+
+  **`VOX-VAL-005` is the interesting one**: its substance is the project's
+  deepest habit — every quantitative operation is evidenced by an independent
+  oracle reproducing frozen digests, never by a golden image — but its **sole**
+  verification method is Review, an owner act. The conformance is recorded and
+  **no discharge is claimed**.
+
+  Five rows are discharged: `VOX-ARC-006` (Inspection half — `VoxeliaImaging`
+  imports no Metal and the prohibited-import set enforces it), `VOX-DAT-007`,
+  `VOX-IMG-006` (all three interpolation models state their boundary rule in
+  their own text), `VOX-MTL-012` and `VOX-RGN-005`.
+
+  **`VOX-MTL-012` is traced with the narrower, less flattering reading.** The
+  `supportsSparseTextures` flag exists and **nothing consumes it, because no
+  sparse resource is used anywhere** — so the bricked path is not a fallback but
+  the only implementation. Claiming "capability-gated with a bricked fallback"
+  without that sentence would imply a gate that has been exercised. It has not.
+
+  **The traceability debt in entered milestones is paid off apart from the
+  owner's two dependency questions.** Every requirement in M0 through M6 is now
+  either discharged or visible with a recorded reason.
+
+  ```bash
+  python3 Tools/Scripts/check_requirement_traceability.py --write
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14480,27 +14527,30 @@ visibility, because invisibility is what hid `VOX-MPR-011`.
 
 There are two reasonable next actions, and the queue takes them in this order.
 
-**First, finish the paydown.** Three increments have taken the debt from 83 to
-**29**: `ADR-0217` (vertical slice), `ADR-0218` (execution and CPU, plus the
-Accelerate enforcement gap) and `ADR-0219` (governance and licence, plus the
-dependency and SPDX gates). Eighteen of the remaining 29 are the owner-gated
-`VOX-CMP` and `VOX-DCM` rows that **must not be traced by fabricating an
-assessment of work that cannot start**, which leaves **eleven** tractable ones.
-They are listed in `docs/progress/untraced-requirements.txt` and are
-deliberately **not enumerated here**: naming a row in a forward-looking queue
-would mark it traced by the check's own corpus rule, which is precisely the
-"listing, not tracing" failure `ADR-0216` set out to prevent. A row is traced
-when a record says what satisfies it or why it is blocked, never when a plan
-says it will be looked at. Several of the eleven are performance and validation
-rows whose verification methods include Analysis or Demonstration, so expect
-partial claims and gated halves rather than clean discharges.
+**The traceability paydown is finished.** Four increments took the debt from 83
+to **18**: `ADR-0217` (vertical slice), `ADR-0218` (execution and CPU, plus the
+Accelerate enforcement gap), `ADR-0219` (governance and licence, plus the
+dependency and SPDX gates) and `ADR-0220` (the remaining eleven). The eighteen
+that remain are **exactly** the owner-gated `VOX-CMP` codec and `VOX-DCM`
+DICOMKit rows, which stay until the owner answers those two dependency
+questions and **must not be traced by fabricating an assessment of work that
+cannot start**. Every other requirement in M0 through M6 is discharged or
+visible with a recorded reason.
 
-**Second, `VOX-VS1-010`'s Metal plane path**, which `ADR-0217` surfaced as a
-real capability gap. It needs its own design record: which plane vocabulary the
-Metal path consumes, whether it reconstructs on the GPU or presents a CPU
-reconstruction, and its numeric boundary against the accepted `ALG-0017`
-oblique sampling. Do not fold it into a traceability increment — that would hide
-a design decision inside bookkeeping.
+The paydown also surfaced six capability and evidence gaps that had never been
+written down anywhere: lazy evaluation, progress reporting, benchmark
+classification, reusable staging buffers, golden-result metadata, and the
+`VOX-VS1-010` Metal plane path. None is urgent; all are now findable.
+
+The exact next action is **`VOX-VS1-010`'s Metal plane path**, which `ADR-0217`
+surfaced as a real capability gap: `MPRPlane` defines axial, coronal and
+sagittal, `MetalSliceRenderer` renders on the GPU, and **nothing connects
+them**. It needs its own design record — which plane vocabulary the Metal path
+consumes, whether it reconstructs on the GPU or presents a CPU reconstruction,
+and its numeric boundary against the accepted `ALG-0017` oblique sampling. It is
+the only one of the six newly-surfaced gaps that is both unblocked and has a
+clear consumer, since the vertical slice names it directly. Do not fold it into
+a traceability increment — that would hide a design decision inside bookkeeping.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -14529,10 +14579,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Finish the traceability paydown with the eleven tractable rows left.
-  Every removal from `docs/progress/untraced-requirements.txt` needs a real
-  inspection recorded in a record, not a mention added to make a count fall —
-  and expect some to come back unbuilt, as four did in `ADR-0218`.
+- Design `VOX-VS1-010`'s Metal plane path next, in its own record. It is a
+  capability gap, not a traceability one.
+- The traceability debt is down to the eighteen owner-gated rows. Never trace
+  them; they wait on the codec and DICOMKit decisions.
 - Verify a new gate by breaking it. `ADR-0219`'s dependency and SPDX gates were
   each confirmed to fail when violated; a gate never seen to fail is not known
   to work.
