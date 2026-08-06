@@ -58,6 +58,17 @@ separate contracts.
 - ``TriangleMeshVertexNormalGenerationResult``
 - ``TriangleMeshVertexNormalGenerationError``
 
+### Total-facet-area measurement
+
+- ``PoweredLengthUnit``
+- ``PoweredLengthUnitError``
+- ``TriangleMeshTotalFacetAreaLimits``
+- ``TriangleMeshTotalFacetAreaRequest``
+- ``TriangleMeshTotalFacetAreaPublicationContext``
+- ``TriangleMeshTotalFacetAreaMeasurement``
+- ``TriangleMeshTotalFacetAreaResult``
+- ``TriangleMeshTotalFacetAreaError``
+
 ### Project documents
 
 - <doc:Architecture>

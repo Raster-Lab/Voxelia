@@ -6040,6 +6040,63 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fourth autonomous increment (`ADR-0194` migration step one):
+  `VoxeliaGeometry` now owns the total-facet-area declaration and publication
+  boundary. `PoweredLengthUnit` admits only a `UnitDimension.length` base with
+  a non-zero exponent, retains the base's conversion metadata exactly, and
+  explicitly raises, combines and reinterprets nothing — `PoweredLengthUnitError`
+  is payload-free with `nonLengthBase` and `nonPositiveExponent`.
+  `TriangleMeshTotalFacetAreaLimits` declares only maximum vertex and triangle
+  counts, `TriangleMeshTotalFacetAreaRequest` is the nonthrowing unadmitted
+  source-claim declaration with the frozen operation, algorithm and
+  area-exponent constants and the internal eight-entry VCMJ-1 parameter
+  document, `TriangleMeshTotalFacetAreaPublicationContext` carries the four
+  caller authority leaves, `TriangleMeshTotalFacetAreaMeasurement` admits the
+  finite non-negative total with its powered unit and exact facet count, and
+  `TriangleMeshTotalFacetAreaResult` binds measurement, identity and provenance
+  atomically. `TriangleMeshTotalFacetAreaError` has exactly the six frozen
+  cases.
+
+  One recorded departure from the accepted record. `ADR-0194` decision 13 lists
+  "that the exponent is two" among the result-binding checks. Enforcing it in
+  `TriangleMeshTotalFacetAreaMeasurement`'s own admission is strictly stronger,
+  and restating it in the result would then be a provably unreachable branch —
+  an untestable guard in a project that requires evidence for every claim. The
+  implementation therefore discharges the exponent obligation at the
+  measurement's own admission under the `ADR-0071`/`ADR-0173` precedent already
+  cited by `ADR-0194` decision 6, and the result binds the base-unit derivation
+  and facet count. The accepted record was left unedited; this bullet and the
+  commit message are the correction of record.
+
+  Result binding compares the published base unit field-by-field rather than
+  through `MeasurementUnit`'s own equality, which deliberately ignores
+  presentation text — a base differing only in `displayName` is rejected, and
+  the suite proves it. Seven `VoxeliaGeometryTests` cases cover powered-unit
+  admission across five non-length dimensions and an undeclared dimension, the
+  unadmitted declaration and detached `Sendable` transfer, independent
+  reconstruction of the 1,527-byte parameter document and its digest with the
+  source unit and every identifier absent from the bytes, measurement rejection
+  of NaN, signalling NaN, both infinities, negatives, the least negative
+  magnitude and negative zero, and twenty-six incoherent publications plus
+  facet-count and base-unit drift.
+
+  A clean `.build` rebuild and the full unfiltered suite were run: 704 tests in
+  150 suites green.
+
+  ```bash
+  swift test --filter TriangleMeshTotalFacetArea
+  swift format lint --strict \
+    Sources/VoxeliaGeometry/Public/PoweredLengthUnit.swift \
+    Sources/VoxeliaGeometry/Public/TriangleMeshTotalFacetArea.swift \
+    Tests/VoxeliaGeometryTests/TriangleMeshTotalFacetAreaTests.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11902,14 +11959,17 @@ governance change on 2026-08-06 and Option A was selected. Accepted
 serial topology-order sum of unsigned per-facet areas sharing `ALG-0030`'s
 ordered cross product, an explicit `PoweredLengthUnit`, a six-case
 payload-free error family, vertex and triangle count ceilings with no
-allocation payload, and thirteen independent analytical fixtures. The exact
-next action is `ADR-0194` migration step one: add `PoweredLengthUnit`, the
-four declaration/publication values, the measurement value and the closed
-error family to `VoxeliaGeometry` with exact parameter, result-binding,
-unit-admission, privacy and `Sendable` evidence. Steps two and three follow:
-the internal CPU serial reference kernel, then the public operation, the
-independently reproduced parameter digest and the fifteenth CPU registry
-entry. Certified enclosed volume remains a distinct governed record and must
+allocation payload, and thirteen independent analytical fixtures. Migration step one is
+complete: `PoweredLengthUnit`, the four declaration/publication values, the
+measurement value and the closed six-case error family now live in
+`VoxeliaGeometry` with exact parameter, result-binding, unit-admission,
+privacy and `Sendable` evidence, and the exponent obligation is discharged at
+the measurement's own admission rather than restated unreachably in the
+result. The exact next action is `ADR-0194` migration step two: the internal
+CPU serial reference kernel with every arithmetic, resource, failure and
+cancellation fixture from `VOXELIA-ALG-0031`. Step three follows: the public
+operation, the independently reproduced parameter digest and the fifteenth CPU
+registry entry. Certified enclosed volume remains a distinct governed record and must
 not be started inside the area stage.
 
 After the mesh boundary, proceed through the separately frozen scalar
@@ -11924,14 +11984,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0194` migration step one next. It changes product source, so
-  run the focused `VoxeliaGeometryTests` suites for the new declaration,
-  measurement, powered-unit and result-binding values, `swift format lint
-  --strict` on every touched Swift file, and the
-  ADR/document/register/index/manifest/integrity checks. `PoweredLengthUnit`
-  and the new measurement aggregate introduce cross-module layout, so a clean
-  `.build` rebuild and a full unfiltered `swift test` are required before the
-  step-one push, with the literal passing test-run line visible in output.
+- Perform `ADR-0194` migration step two next: the internal CPU serial
+  reference kernel. Run the focused `VoxeliaCPUTests` kernel suite, `swift
+  format lint --strict` on every touched Swift file, and the
+  ADR/document/register/index/manifest/integrity checks. The kernel adds no
+  cross-module layout, but reproduce the `ALG-0031` oracle's thirteen fixtures
+  bit-exactly and see the literal passing full unfiltered test-run line before
+  pushing.
 - Do not extend `ADR-0194` to enclosed volume, union area, watertightness
   predicates or manifold classification. Those need their own accepted record
   and must not be smuggled into the area stage's migration.

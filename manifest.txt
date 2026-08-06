@@ -169,10 +169,12 @@ Sources/VoxeliaGeometry/Public/GeometryKind.swift
 Sources/VoxeliaGeometry/Public/IndexType.swift
 Sources/VoxeliaGeometry/Public/LabelledSurfaceExtraction.swift
 Sources/VoxeliaGeometry/Public/MeshPrimitive.swift
+Sources/VoxeliaGeometry/Public/PoweredLengthUnit.swift
 Sources/VoxeliaGeometry/Public/ScalarSurfaceExtraction.swift
 Sources/VoxeliaGeometry/Public/TriangleMesh.swift
 Sources/VoxeliaGeometry/Public/TriangleMeshPositionDomain.swift
 Sources/VoxeliaGeometry/Public/TriangleMeshTopology.swift
+Sources/VoxeliaGeometry/Public/TriangleMeshTotalFacetArea.swift
 Sources/VoxeliaGeometry/Public/TriangleMeshVertexAttribute.swift
 Sources/VoxeliaGeometry/Public/TriangleMeshVertexNormalGeneration.swift
 Sources/VoxeliaGeometry/VoxeliaGeometry.docc/Architecture.md
@@ -394,6 +396,7 @@ Tests/VoxeliaGeometryTests/LabelledSurfaceExtractionTests.swift
 Tests/VoxeliaGeometryTests/ScalarSurfaceExtractionTests.swift
 Tests/VoxeliaGeometryTests/TriangleMeshTests.swift
 Tests/VoxeliaGeometryTests/TriangleMeshTopologyTests.swift
+Tests/VoxeliaGeometryTests/TriangleMeshTotalFacetAreaTests.swift
 Tests/VoxeliaGeometryTests/TriangleMeshVertexNormalGenerationTests.swift
 Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
 Tests/VoxeliaImagingTests/MPRSliceCoordinatorTests.swift
