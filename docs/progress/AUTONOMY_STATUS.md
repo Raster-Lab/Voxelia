@@ -9487,6 +9487,71 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-sixty-fifth autonomous increment (scaffold re-test + owner
+  decisions received + dependency-graph verification). **No source changed and
+  `Package.swift` is still untouched**; this increment gathered facts.
+
+  **1. The scaffold gate was re-tested and is still red, on a byte-identical
+  toolchain.** `swift --version` is `swiftlang-6.3.3.1.3 clang-2100.1.1.101`,
+  exactly what `ADR-0224` recorded, and
+  `check_swift_safety.py --compile` still fails with **signal 11** at the release
+  strict-memory-safety stage; the debug stage passes. The re-test was worth
+  running because roughly 1,500 lines of new source landed since, and the failure
+  is unchanged in kind. **One honest correction to how this is described:** the
+  crashing translation unit is *not* identified by this log, because the build is
+  parallel and the last-started units before the crash were
+  `VoxeliaMetalTests`, `VoxeliaSpatialTests` and `VoxeliaGeometryTests`.
+  `ADR-0224` attributed it to `VoxeliaCPUTests` by worktree comparison; that
+  attribution stands, but this run does not re-confirm the specific target and
+  the ledger should not imply it did.
+
+  **2. The owner answered both `ADR-0231` decisions.** "Yes proceed with codec
+  libraries also", "JLSwift licence i will add MIT", "It also owned by us". The
+  `VOX-CMP-001` codec gate is **released** for the transitive graph.
+
+  **3. Resolving the real graph found a package that reading one manifest did
+  not.** `ADR-0231` listed five transitive dependencies, read from DICOMKit's
+  manifest. `swift package resolve` on a scratch probe produced **six**:
+  `Raster-Lab/CompressionFamily` at `1.0.0` arrives one level further down,
+  through the codec packages. **Manifest reading gives one level; only
+  resolution gives the closure** — and `ADR-0231`'s table must be corrected by the
+  (e2) record rather than quietly extended.
+
+  The verified position across all seven packages:
+
+  | Package | Version | Licence | Basis |
+  |---|---|---|---|
+  | `Raster-Lab/DICOMKit` | `2.2.11` | MIT | file read |
+  | `apple/swift-argument-parser` | `1.8.2` | Apache-2.0 | file read |
+  | `Raster-Lab/J2KSwift` | `11.0.2` | MIT | file read |
+  | `Raster-Lab/JLISwift` | `0.5.0` | Apache-2.0 | file read |
+  | `Raster-Lab/JXLSwift` | `1.4.0` | MIT | file read |
+  | `Raster-Lab/JLSwift` | `0.9.0` | MIT | **owner decision 2026-08-06; file not yet present** |
+  | `Raster-Lab/CompressionFamily` | `1.0.0` | **undetermined** | no licence file; **newly found, owner not yet asked** |
+
+  For an owner-owned package the owner's declaration **is** the licence grant, so
+  JLSwift's MIT is a decision rather than a guess; the file is how third parties
+  verify it, and it remains a release prerequisite. `CompressionFamily` is a
+  second one-file fix that nobody has been asked for yet, because nobody knew it
+  was in the graph.
+
+  **4. The graph resolves and DICOMKit compiles here** — 622 units in 32 seconds
+  on a scratch probe. So (e2) is technically feasible rather than assumed to be.
+
+  **5. A platform alarm was checked and dismissed rather than reported.** The
+  first probe failed with "requires macos 15.0"; the cause was the scratch
+  package declaring no `platforms:`, not a conflict. Voxelia already declares
+  `.macOS(.v15)`, exactly DICOMKit's floor, so **no platform floor moves**.
+
+  ```text
+  swift --version                                   # unchanged toolchain
+  python3 Tools/Scripts/check_swift_safety.py --compile   # debug passes, release signal 11
+  swift package resolve                             # scratch probe, 7 pins
+  swift build                                       # scratch probe, DICOMKit builds
+  gh api repos/Raster-Lab/CompressionFamily/contents # no licence file
+  python3 Tools/Scripts/check_licence_policy.py      # unmodified, still passes
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -15656,32 +15721,39 @@ Increment (e1) is complete: accepted `ADR-0232` and `VOXELIA-ALG-0050`, with
 fixtures. The plan's `CTFrameRecord` will not appear — direct-write removed the
 need for it, and `ADR-0232` records why.
 
-**The DICOM arc is now blocked in full.** Every part of it that can be built
-without the dependency has been built: the neutral frame description, series
-grouping and ordering, geometry validation, affine volume construction, and the
-direct-write addressing contract — five accepted records, four algorithm
-specifications and four oracles, all verified. What remains is (e2), and (e2)
-cannot start until the two `ADR-0231` owner decisions land.
+**The DICOM arc's codec gate is released.** The owner answered both `ADR-0231`
+decisions on 2026-08-06: proceed with the codec libraries, and JLSwift will carry
+MIT.
 
-So the next action is **not** more DICOM work. Pick up the highest-value
-unblocked work elsewhere, and prefer something that leaves the arc ready rather
-than starting a new arc that would need abandoning when the owner answers.
-Candidates, in the order they are worth assessing:
+The exact next action is **(e2), which closes the arc**, as its own increment
+rather than rushed onto the end of another. It is the first third-party dependency
+this repository has ever declared, so it gets a design record first. Everything it
+needs was verified in increment 265 and must not be re-derived:
 
-1. **Re-test the release strict build.** `ADR-0224` left `validate-scaffold.sh`
-   red on an Apple Swift 6.3.3 `swift-frontend` crash, with an exact recorded
-   reproduction. Cheap to re-run, and it is the project's only outstanding
-   red gate.
-2. **The traceability debt at 13 rows.** `ADR-0216`'s ratchet holds; the
-   remaining rows are enumerated in `docs/progress/untraced-requirements.txt`
-   and some may now be traceable by records written since.
-3. **A `prepare-release.sh` dry run.** It has not been exercised since
-   `ADR-0225` gated three pipelines into it, and the SBOM will need regeneration
-   for (e2) anyway — finding out now whether the release path is green costs one
-   command.
+- The closure is **seven** packages, not six. `ADR-0231`'s table listed five
+  transitives from manifest reading; resolution found `CompressionFamily 1.0.0`
+  as a sixth. The (e2) record **corrects that table explicitly** rather than
+  silently extending it.
+- Five licences are file-verified, JLSwift is MIT by owner decision with the file
+  pending, and **`CompressionFamily` is undetermined and nobody has been asked**.
+  `VOX-LIC-004`, `VOX-LIC-007` and `VOX-LIC-009` cannot be fully discharged until
+  it carries a licence — record that plainly instead of counting the arc closed.
+- The graph resolves and DICOMKit builds here (622 units, 32s). No platform floor
+  moves: Voxelia already requires macOS 15, exactly DICOMKit's minimum.
 
-Do not touch `Package.swift`, `check_licence_policy.py` or
-`THIRD_PARTY_NOTICES.md`. The dependency gate passes today because it is true.
+(e2)'s work: the dependency attached **only** to a new optional `VoxeliaDICOMKit`
+target (`VOX-REP-009`); the shim writing through `CTVolumeLayout`;
+`check_licence_policy.py` admitting exactly the resolved closure while still
+naming the four requirements it protects — **never relaxed to pass**;
+`THIRD_PARTY_NOTICES.md` entries carrying **Apache-2.0 NOTICE content** for
+`swift-argument-parser` and `JLISwift`, not just licence names; a confirmation
+that no distribution target links `swift-argument-parser`; and an SBOM
+regeneration, which `ADR-0225` showed had under-reported dependencies once
+already.
+
+The scaffold gate remains the project's one red pipeline, re-tested and unchanged
+on an identical toolchain. The geometry-tolerance gate (`ADR-0229`) is unchanged
+and still needs evidence.
 
 **Do not** touch `Package.swift`, `check_licence_policy.py` or
 `THIRD_PARTY_NOTICES.md` until both owner decisions land. The dependency gate
