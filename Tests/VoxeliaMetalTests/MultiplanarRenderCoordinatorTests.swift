@@ -207,6 +207,151 @@ struct MultiplanarRenderCoordinatorTests {
         )
     }
 
+    // MARK: - CPU/Metal three-view differential (ADR-0252)
+
+    /// The CPU reference renderer, for differential comparison.
+    ///
+    /// `ExactSliceRenderer` composes the accepted CPU operations and references no
+    /// Metal type; `MetalSliceRenderer` runs the GPU kernels. Both conform to
+    /// `SliceRenderer`, which is what makes the comparison well posed.
+    private func makeCPURenderer(
+        publisher: PublicationCoordinator,
+        prefix: String
+    ) throws -> ExactSliceRenderer {
+        ExactSliceRenderer(
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 256
+            ),
+            software: try software(),
+            naming: { stage in
+                let suffix: String
+                switch stage {
+                case .cropped(let layerIndex): suffix = "cr\(layerIndex)"
+                case .inverted(let layerIndex): suffix = "iv\(layerIndex)"
+                case .windowLevelled(let layerIndex): suffix = "wl\(layerIndex)"
+                case .composited: suffix = "cp"
+                case .resampled: suffix = "rs"
+                }
+                return (
+                    outputObjectID: DataObjectID(rawValue: "\(prefix)-\(suffix)")!,
+                    provenanceID: ProvenanceID(
+                        rawValue: "record-\(prefix)-\(suffix)"
+                    )!,
+                    createdAt: try CanonicalInstant(
+                        utcString: "2026-08-06T09:00:00Z"
+                    )
+                )
+            }
+        )
+    }
+
+    /// Renders one plane through `renderer` and returns the published bytes.
+    private func planeBytes(
+        plane: MPRPlane,
+        volumeName: String,
+        prefix: String,
+        publisher: PublicationCoordinator,
+        renderer: any SliceRenderer
+    ) async throws -> [UInt8] {
+        let result = try await MultiplanarRenderCoordinator.renderPlane(
+            volumeID: try #require(DataObjectID(rawValue: volumeName)),
+            plane: plane,
+            sliceIndex: 0,
+            transferFunction: .greyscaleWindow(
+                try GreyscaleWindowFunction(
+                    center: 12,
+                    width: 24,
+                    polarity: .standard
+                )
+            ),
+            viewport: try viewport(for: plane),
+            camera: try camera(),
+            interpolation: .nearestNeighbour,
+            quality: .full,
+            colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil,
+            naming: naming(prefix: prefix),
+            publisher: publisher,
+            readCoordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 256
+            ),
+            software: try software(),
+            renderer: renderer
+        )
+        let published = try #require(
+            await publisher.publishedImage(for: result.outputObjectID)
+        )
+        let extents = published.descriptor.shape.extents
+        return try published.storage.read(
+            region: try ImageRegion(
+                lowerBounds: [0, 0],
+                upperBounds: ContiguousArray(extents)
+            )
+        ).bytes
+    }
+
+    @Test(
+        "[Unit][VOX-VS1-010] CPU and Metal agree exactly on all three planes"
+    )
+    func cpuAndMetalAgreeExactlyOnAllThreePlanes() async throws {
+        // The differential the plan's §53 table requires and that no suite
+        // performed: the same plane, the same request, both backends, compared
+        // byte for byte.
+        //
+        // This adds evidence to a row ADR-0221 already discharged; it does not
+        // re-discharge it. The plan permits "≤ 1 code value if the rounding path
+        // is approved" for 8-bit output, but §54 is explicitly provisional and
+        // awaits owner approval as voxelia.m4.ct.diagnostic 1.0.0 -- so this test
+        // asserts EXACT equality, which is the plan's stated preference and needs
+        // no tolerance. If the backends ever diverge by even one code value, this
+        // fails and the tolerance becomes an owner question rather than something
+        // a test quietly absorbed.
+        //
+        // Anisotropic extents on purpose, per the sibling test: a cube would let a
+        // transposed plane pass.
+        let cpuPublisher = try publisher()
+        _ = try await cpuPublisher.publish(
+            try volume(extents: [2, 3, 4], name: "diff-volume"),
+            mode: .complete
+        )
+        let metalPublisher = try publisher()
+        _ = try await metalPublisher.publish(
+            try volume(extents: [2, 3, 4], name: "diff-volume"),
+            mode: .complete
+        )
+        let metalRenderer = try makeRenderer(publisher: metalPublisher)
+
+        let planes: [MPRPlane] = [.axial, .coronal, .sagittal]
+        let expectedCounts = [6, 8, 12]
+
+        for (index, plane) in planes.enumerated() {
+            let cpuBytes = try await planeBytes(
+                plane: plane,
+                volumeName: "diff-volume",
+                prefix: "cpu-\(index)",
+                publisher: cpuPublisher,
+                renderer: try makeCPURenderer(
+                    publisher: cpuPublisher,
+                    prefix: "cpu-r\(index)"
+                )
+            )
+            let metalBytes = try await planeBytes(
+                plane: plane,
+                volumeName: "diff-volume",
+                prefix: "gpu-\(index)",
+                publisher: metalPublisher,
+                renderer: metalRenderer
+            )
+
+            // Non-vacuity: each plane's own extent, so an empty read cannot pass.
+            #expect(cpuBytes.count == expectedCounts[index])
+            #expect(metalBytes.count == expectedCounts[index])
+            #expect(cpuBytes == metalBytes)
+        }
+    }
+
     private func makeRenderer(
         publisher: PublicationCoordinator
     ) throws -> MetalSliceRenderer {

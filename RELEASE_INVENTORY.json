@@ -2476,8 +2476,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/MultiplanarRenderCoordinatorTests.swift",
-      "size": 12753,
-      "sha256": "6e33197bc5d5f0682e0c59489691a5a108ce2394c5039f8f73852553730bfe70"
+      "size": 18606,
+      "sha256": "df3f02483ad8b0ca5a785c7d73d39d8a4b8a2c4da8c42b0bf64d2e919e6ccdc3"
     },
     {
       "path": "Tests/VoxeliaMetalTests/PipelineArchivalTests.swift",
@@ -4655,9 +4655,14 @@
       "sha256": "74940757d37fb7e25518a1c32678be18aa69562675df5c55f644c221351ffd9b"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0252-cpu-metal-three-view-differential.md",
+      "size": 8089,
+      "sha256": "8ec7ba4703c4120d89b8766186d7772a67a47c0ad141be6022a9405b33d9ef6b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 36559,
-      "sha256": "740bc269ba6bc65d172570534be39c30b221d8fcc604785ec30b26e9a726d183"
+      "size": 36668,
+      "sha256": "b45c49d36ab83a7661f7e94e7ddf936b718ea2086f189f683cc4125e3a0e18a8"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4741,8 +4746,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1079144,
-      "sha256": "7655b86bbcf62d1ef5b17ff24bebb6ef86e91cd0fb1b68ba5e20d124978167e0"
+      "size": 1082331,
+      "sha256": "a9cba409cbf5a4b209f9142dc8745a53634dd6bdd4f186c4f1f09fe0ca82bf00"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5246,8 +5251,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 58952,
-      "sha256": "9eaf7df8c5ef5b8c7de173a4823ea8ebeaf12c66fcef5c9007dabfb9e3510e77"
+      "size": 59026,
+      "sha256": "c0f180ec4faf6c4e668701b7bfe1a5495cd13130df934b9b7bf8d6a7e196e714"
     }
   ]
 }

@@ -438,3 +438,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0249](ADR-0249-cancellable-ct-import-session.md) | Accepted | Cancellable CT import session |
 | [ADR-0250](ADR-0250-interpolation-analytical-confirmation.md) | Accepted | Interpolation analytical confirmation |
 | [ADR-0251](ADR-0251-off-screen-equivalence-reading.md) | Accepted | Off-screen equivalence reading |
+| [ADR-0252](ADR-0252-cpu-metal-three-view-differential.md) | Accepted | CPU Metal three-view differential |

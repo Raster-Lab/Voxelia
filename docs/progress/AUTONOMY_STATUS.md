@@ -3262,10 +3262,58 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    No `offScreen` symbol was introduced: a flag with one reachable value would claim a
    distinction the code does not make.
 
-   **Next: `VOX-VS1-010`** (Metal three-view differential) and **`018`**
-   (steady-state GPU memory). Two rows left of twenty. `018` is `A,T` and its `A` half
-   is already argued — unified memory selects `.shared`, so there is no copy to
-   duplicate.
+   **Increment (x): `ADR-0252`, the CPU-Metal three-view differential — and a
+   correction to my own sizing.** 1023 tests / 191 suites. No source changed.
+
+   **`ADR-0248` said `010` "needs a differential run". Half right.** `ADR-0221` had
+   **already discharged the row's Test half** through `MultiplanarRenderCoordinator`
+   and correctly left the Demonstration half on the owner-gated draw loop, so
+   **nothing claimable remained**. This record adds evidence to a discharged row
+   rather than re-discharging it. That is the third sizing correction in this arc, all
+   from reading records before designing.
+
+   **What the two renderers are, which matters more than the result.**
+   `MetalSliceRenderer` **is** `ExactSliceRenderer` with different stages injected:
+   window, invert and composite run on the device with `binary32-device`
+   `approximate` claims, while **the resample stage remains the accepted exact CPU
+   operation** because whole-sample selection has no device approximation to claim.
+
+   Two consequences:
+   - **The differential compares the window stage, not interpolation.** The plan's
+     table has a "Metal linear interpolation — CPU differential" row that **cannot be
+     exercised**: there is no GPU resample, so a resample differential would compare
+     CPU against CPU and pass vacuously. Recorded rather than worked around; building
+     a device resample to satisfy a validation row would add the second sampling path
+     `ADR-0221` refuses.
+   - **It independently confirms `ADR-0251`'s conditional framing.** That record
+     stated purity as conditional on identical renderer construction because padding
+     travels through the injected `windowStage`. Backend selection turns out to be
+     *implemented* as stage injection — so that channel is not hypothetical, it is the
+     mechanism. The conditional wording was load-bearing, not pedantic.
+
+   **Result: exact agreement on all three planes** (axial 6 bytes, coronal 8,
+   sagittal 12; anisotropic `2x3x4` so a transposed plane cannot pass). The GPU
+   genuinely ran — `MetalWindowLevelKernel` encodes and dispatches a compute pass, and
+   the renderer documents no silent fallback.
+
+   **The honest limit, stated rather than banked.** Exact here does NOT establish
+   exact in general. The fixture is `uint8` with centre 12 and width 24 — small
+   integers where binary32 is exact, so the paths have nothing to disagree about. The
+   kernels agree **where the arithmetic is unambiguous**. The `approximate` claim
+   stays correct and the plan's "≤ 1 code value if the rounding path is approved"
+   remains right for inexact inputs.
+
+   **No tolerance introduced**: §54's profile is explicitly provisional pending owner
+   approval as `voxelia.m4.ct.diagnostic 1.0.0`, so the test asserts the plan's stated
+   preference — exact — which needs no threshold. Any future divergence fails visibly
+   instead of being pre-absorbed. Deliberately did NOT extend to the real CT volume:
+   the interesting inputs are the inexact ones, and there the comparison needs the
+   tolerance profile that is still an owner gate — measuring it would produce a number
+   nobody is yet authorised to accept.
+
+   **Next: `VOX-VS1-018`**, the last first-slice row with claimable work.
+   `A,T`, and the `A` half is already argued (unified memory selects `.shared`, so
+   there is no copy to duplicate); the `T` half is a steady-state measurement.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in
