@@ -278,9 +278,18 @@ struct SurfaceCompositorTests {
 
     private func fullCover(depth: Double) -> ProjectedFacet {
         ProjectedFacet(
-            ProjectedVertex(column: -4, row: -4, depth: depth),
-            ProjectedVertex(column: 12, row: -4, depth: depth),
-            ProjectedVertex(column: -4, row: 12, depth: depth)
+            ProjectedVertex(
+                column: -4, row: -4, depth: depth,
+                worldX: 0, worldY: 0, worldZ: 0
+            ),
+            ProjectedVertex(
+                column: 12, row: -4, depth: depth,
+                worldX: 0, worldY: 0, worldZ: 0
+            ),
+            ProjectedVertex(
+                column: -4, row: 12, depth: depth,
+                worldX: 0, worldY: 0, worldZ: 0
+            )
         )
     }
 

@@ -353,7 +353,14 @@ struct SurfaceVisibilityResolverTests {
         _ row: Double,
         _ depth: Double
     ) -> ProjectedVertex {
-        ProjectedVertex(column: column, row: row, depth: depth)
+        ProjectedVertex(
+            column: column,
+            row: row,
+            depth: depth,
+            worldX: 0,
+            worldY: 0,
+            worldZ: 0
+        )
     }
 
     private func fullCover(depth: Double) -> ProjectedFacet {

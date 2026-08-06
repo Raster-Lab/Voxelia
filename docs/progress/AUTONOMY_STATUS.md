@@ -7316,6 +7316,45 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twenty-sixth autonomous increment (`ADR-0204` migration):
+  `ProjectedVertex` now publishes the world position and `VoxeliaRendering`
+  owns `SurfaceClipper`. All nineteen `VOXELIA-ALG-0038` fixtures reproduce
+  both registered SHA-256 digests bit-exactly on the first run.
+
+  **The additive change was verified against three accepted digest pairs
+  before the predicate was written.** Publishing the world position touches
+  `ProjectedVertex`, which `ALG-0033`, `ALG-0034` and `ALG-0035` all depend on,
+  so all three suites were re-run immediately after the field was added: every
+  digest still matches. That is the same discipline the `ADR-0202` swap flag
+  used, applied to a value shape with a wider blast radius.
+
+  Clipping is a pure predicate over an interpolated world position — no
+  geometry cut, no vertex created, no topology changed. The suite proves the
+  inclusive boundary on all six faces and both extreme corners, and proves one
+  step outside on any axis is discarded; proves a straddling facet keeps only
+  its interior fragments, which is what makes an uncapped cut legible; proves
+  the swap flag changes which fragments are clipped; proves the absent-clip
+  path retains even a `±1e300` position; and proves the world-space admission
+  accepts a matching space, rejects a mismatched one, and imposes nothing when
+  either the clip or the scene is absent.
+
+  Verified after a clean `.build` rebuild: 756 tests in 162 suites green.
+  `ADR-0197` increments (a) through (g) are complete, discharging the **Test**
+  half of `VOX-SUR-001` through `VOX-SUR-006`.
+
+  ```bash
+  swift test --filter 'SurfaceClipperTests|SurfaceVertexProjectorTests|SurfaceVisibilityResolverTests|SurfaceCompositorTests'
+  swift format lint --strict \
+    Sources/VoxeliaRendering/Internal/SurfaceClipper.swift \
+    Sources/VoxeliaRendering/Internal/SurfaceVertexProjector.swift \
+    Tests/VoxeliaRenderingTests/SurfaceClipperTests.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13268,11 +13307,20 @@ Increment (g)'s design is complete: accepted `ADR-0204` and
 inclusive boundary and an uncapped section view, and bound the capped variant
 to a future record with `ALG-0032` certification as its precondition.
 
-The exact next action is the `ADR-0204` migration. It has two steps and the
-first is a correction-style change: **publish the world position on
-`ProjectedVertex` and immediately re-run the `ALG-0033` oracle test to prove
-its digests are unchanged**, exactly as the swap flag was handled. Then add the
-clip predicate reproducing all nineteen `ALG-0038` fixtures bit-exactly.
+The `ADR-0204` migration is complete, and with it `ADR-0197` increments (a)
+through (g).
+
+The exact next action is increment **(h), authoritative surface picking**
+(`VOX-SUR-007`) — the arc's last executable increment before its two
+assessments. It is **design-first**. Unlike every other `VOX-SUR` row it
+declares **T only, not T,D**, so its evidence obligation is fully dischargeable
+off-screen. It must state which intersection predicate it uses, how it breaks
+ties between coincident hits, and — following the `PickResolver` honesty rule
+`ADR-0197` recorded — must return no position rather than a fabricated one when
+the required claim is absent. Note the visibility resolver already answers
+"which facet is nearest at a pixel", so the design should establish whether
+picking composes that buffer or needs its own ray-versus-mesh intersection, and
+record which.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13301,12 +13349,10 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0204` migration next. Publishing the world position on
-  `ProjectedVertex` changes an accepted value shape additively, so re-run the
-  `ALG-0033` oracle test immediately after and confirm its digests still match
-  before going further. Then run the focused `VoxeliaRenderingTests` suite,
-  `swift format lint --strict` on every touched Swift file, and the
-  ADR/document/register/index/manifest/integrity checks.
+- Perform `ADR-0197` increment (h) next, and it is **design-first**: the
+  intersection predicate and its tie-breaking are numeric and determinism
+  boundaries, so freeze an accepted record plus an algorithm specification with
+  a python-computed independent oracle before writing implementation code.
 - When an increment needs rules already frozen by an accepted algorithm,
   extract them into one shared implementation rather than duplicating, and
   re-run the accepted record's own oracle test immediately to prove the

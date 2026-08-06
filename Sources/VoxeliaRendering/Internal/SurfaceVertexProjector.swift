@@ -48,6 +48,18 @@ struct ProjectedVertex: Sendable, Equatable {
     /// camera. A vertex behind the camera has a negative depth and is
     /// admitted: an orthographic projection has no eye point.
     let depth: Double
+
+    /// The vertex's world position, published so clipping can interpolate it
+    /// rather than invert the projection.
+    ///
+    /// `ADR-0204` adds these additively: the registered `ALG-0033` fixture
+    /// entries and byte payload cover only column, row and depth, so
+    /// publishing the world position changes no digest. Reconstructing it by
+    /// inverting the projection would introduce a second rounding path for a
+    /// value this stage already computed.
+    let worldX: Double
+    let worldY: Double
+    let worldZ: Double
 }
 
 /// The exact `surface-vertex-orthographic-projection/binary64-v1` reference.
@@ -141,7 +153,10 @@ enum SurfaceVertexProjector {
                         halfHeight,
                         try checkedDivide(viewY, worldPerPixel)
                     ),
-                    depth: depth
+                    depth: depth,
+                    worldX: world.x,
+                    worldY: world.y,
+                    worldZ: world.z
                 )
             )
         }
