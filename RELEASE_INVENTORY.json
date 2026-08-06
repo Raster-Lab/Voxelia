@@ -2786,8 +2786,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 4526,
-      "sha256": "9b3dafe68edc80ae9437d551db78b72e599f8f8ea4b12675f94016e6c8834c07"
+      "size": 4649,
+      "sha256": "ee412fa67e96c95eb0f3c47b8db52f420f6ffc37b57df5d9503732cd652430c4"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2968,6 +2968,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0036-surface-diagnostic-shading.md",
       "size": 8845,
       "sha256": "6c889c317da543683d03de3a54c06042de0ee241fa8a07671e76137eda07fa15"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0037-surface-scalar-colour-map.md",
+      "size": 8102,
+      "sha256": "8c464b2e12b3cd19a9fe651a57ba41a0bed6168cd07b100a8d8177fcb5da4977"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4020,9 +4025,14 @@
       "sha256": "8a4a73797155ec19d27b640d56754cdbc729399d4b193c5bfa0a394ec52a0132"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0203-surface-colour-map-design.md",
+      "size": 9761,
+      "sha256": "2b2773cfef0e0e1ba31575abdb2a1b59857a868b1957085062c56244bcb285ba"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 30396,
-      "sha256": "d93e538585689693910c266b76441f893d72f65e2dab214811a97a51b2856453"
+      "size": 30547,
+      "sha256": "5d614e0a16ad5b5ffeb5b12ae24651392e1980305dbc861208c19785437c0d8b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4106,8 +4116,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 873168,
-      "sha256": "549b34600d149556309e592e7cf24e91e18d90257467200abc5cfa2101246d89"
+      "size": 876492,
+      "sha256": "1234df97bf50452eb523ee2626b7f173cc3f65afad6545133ab8250ceb759dad"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4213,6 +4223,11 @@
       "path": "docs/progress/evidence/ADR-0202-surface-shading-oracle.py",
       "size": 8734,
       "sha256": "84376e750b9489cefcad9edabc1dfae1ee1bf205116669032513d06096d44e43"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0203-surface-colour-map-oracle.py",
+      "size": 9561,
+      "sha256": "cd03136c80fdd6df369c1d1b5204eb1147e97617da94434a10bd680208d9865c"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4521,8 +4536,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 50104,
-      "sha256": "b127527e62b8988d82497af7c2c2654962724ff6b7f04218cf0b1eeebe33079d"
+      "size": 50293,
+      "sha256": "804a8b2cdbf8361d9c04aa05caf6acb57e6cf49f25778914f91f6acca361ecf2"
     }
   ]
 }
