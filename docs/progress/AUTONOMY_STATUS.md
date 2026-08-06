@@ -2496,14 +2496,25 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
 **Next unblocked work, in order of value:**
 
-1. **Value interpretation under `VOX-DCM-006`** — endianness, signedness, rescale
-   slope and intercept, and pixel padding. **Four accepted records have now
-   deferred to this stage** (`ADR-0227` decision 5, `ADR-0229` decision 10,
-   `ADR-0232`, `ADR-0235` decision 2), and it is the only substantive gap between
-   the byte buffer and a usable CT volume. It carries real numeric boundaries —
-   the rescale transform is `slope * stored + intercept` in binary64 with a frozen
-   order — so it needs an ADR, an algorithm specification and an oracle. This is
-   the next arc, not a footnote.
+1. ~~Value interpretation under `VOX-DCM-006`~~ — **DONE** by accepted `ADR-0236`
+   and `VOXELIA-ALG-0051`, discharging all four deferrals (`ADR-0227` decision 5,
+   `ADR-0229` decision 10, `ADR-0232`, `ADR-0235` decision 2). Fourteen oracle
+   fixtures, 20 tests. **The real slice reads as clinically plausible Hounsfield
+   units**: 45.3% air, 16.3% lung and fat, 15.1% soft tissue, 1.5% bone.
+
+   Two findings from that run. The intercept is **`-8192`**, not the textbook
+   `-1024` every fixture uses — the second time real data has contradicted a
+   fixture assumption, after the unsigned-samples finding. **Fixtures written from
+   domain convention encode the convention, not the data.** And 18.4% of the slice
+   sits at the `-8192` floor: the corners outside the circular reconstruction
+   field, which the scanner declares **no** Pixel Padding Value for, so
+   `VOX-DCM-008`'s exclusion mechanism has nothing to act on. Recorded as a limit
+   of the data, not worked around; excluding it would need a value threshold, and
+   so an owner decision of the same shape as the geometry tolerance.
+
+   **Next**: a whole-volume transform, which must decide an output representation
+   and confront the 120 MiB/s figure `ADR-0235` measured. `ADR-0236` deliberately
+   interprets one sample at a time so that choice is made with evidence.
 2. The 13 remaining traceability rows in
    `docs/progress/untraced-requirements.txt`.
 3. A `prepare-release.sh` dry run, unexercised since `ADR-0225` gated three

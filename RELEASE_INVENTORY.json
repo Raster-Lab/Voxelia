@@ -1025,6 +1025,11 @@
       "sha256": "0f0b61c0fcaccd74619516b8fa69e13e197b980c2c340f92ee14c92ebef9032b"
     },
     {
+      "path": "Sources/VoxeliaImaging/Public/CTValueInterpreter.swift",
+      "size": 7201,
+      "sha256": "ac78e0a38130aa164433363beca17175e8a78b148d309802847345684f59d6e8"
+    },
+    {
       "path": "Sources/VoxeliaImaging/Public/CTVolumeByteBuffer.swift",
       "size": 4979,
       "sha256": "8c62ea033e5d55252a0b3f690a6492356cd2460d20ed65e4f8690808f0477ee8"
@@ -1051,8 +1056,8 @@
     },
     {
       "path": "Sources/VoxeliaImaging/VoxeliaImaging.docc/VoxeliaImaging.md",
-      "size": 1132,
-      "sha256": "d82ae085a19b3701dddbb4a74d163f709e5cd065c22d1622677ddf2e78672aa7"
+      "size": 1250,
+      "sha256": "632d73768553c71ef10f5118bf274ffcfe98261da33ef7b62a113e661b4567a0"
     },
     {
       "path": "Sources/VoxeliaInteraction/ApplePlatformGate.swift",
@@ -2260,6 +2265,11 @@
       "sha256": "f1d153e3ebe629d5f4858fd31a7322a45744c6f6edb457c39cd4a15c6034fc6c"
     },
     {
+      "path": "Tests/VoxeliaImagingTests/CTValueInterpreterTests.swift",
+      "size": 9401,
+      "sha256": "6aa7802c62ca0f0ac8525aff2933ea51096d0323c116bda8e5404cca0a2e73a8"
+    },
+    {
       "path": "Tests/VoxeliaImagingTests/CTVolumeByteBufferTests.swift",
       "size": 7659,
       "sha256": "91c2d0a5442743a26c6fcadb36087c444e89185eab5c4fba6564ab48da81c1f2"
@@ -3011,8 +3021,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 6224,
-      "sha256": "aef30f94a7463b445748ee6e6012a0f367f861fe1d1c6d2fa044a861d2bc41d5"
+      "size": 6354,
+      "sha256": "6eff3c4588d9e7083ff765afa33dcbbb2f8d8751ce409b136d6b7d3647b0245c"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3263,6 +3273,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0050-volume-sample-layout.md",
       "size": 5309,
       "sha256": "23377ad6d1d96f91fb864695bbc3d07fd0dae24956d7bb496d7135520e24a419"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0051-stored-value-interpretation.md",
+      "size": 6022,
+      "sha256": "8ecbe0b109f4115d1e6b723c949f35716f44a342a204f97ce6661f65aed1b2e0"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4480,9 +4495,14 @@
       "sha256": "fd9c000fcab95ab99c8b48e4fb6d84869e6c2601357cd99310d782ea8598d060"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0236-stored-value-interpretation.md",
+      "size": 8566,
+      "sha256": "fc93934a165c00cdb4a2218f47c9d542ede2e1b3ab9a60cb032db935543b8d65"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 34959,
-      "sha256": "6d6e65bc56e27890babb3f8e0aa343a478b09fdafc55cd104482774d8f0f5329"
+      "size": 35056,
+      "sha256": "c22ae4462bd3295f6962226bd00226c9d43c2350cb7e3a50e92c000c586d7614"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4566,8 +4586,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1030273,
-      "sha256": "ca912aca02dd0543382cb08381e4f6010ec93b6faa15e36ab0cce5f1f69a50cc"
+      "size": 1031018,
+      "sha256": "244a5fb1c0779293fdaa22cf675b8cc7ffacf17beaee10787b02c6029527cbeb"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4745,14 +4765,19 @@
       "sha256": "83474307cdaf7cff82e870e9e3c268e6de9a8d0af0ba8ef0b08fe34ecf9b8a72"
     },
     {
+      "path": "docs/progress/evidence/ADR-0236-value-interpretation-oracle.py",
+      "size": 5754,
+      "sha256": "3bb200ed48fcf10132eec5fdf5421d0e079be761008968226c93a697a5f925a5"
+    },
+    {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
       "size": 6675,
       "sha256": "9d877102af34ae69ca3861dd75b1f2f55f5544453d3ea63d172469ad70a1c47c"
     },
     {
       "path": "docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md",
-      "size": 7042,
-      "sha256": "419cc27059ad8280637f87d95c21e2b5b7247731963d89d1d2d4d912fe0d7b8e"
+      "size": 9661,
+      "sha256": "4676e58972d741d2303ca4e9f049f6700bbfbd57f35787b4bbb6819d771d627b"
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
@@ -4842,7 +4867,7 @@
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.generated.json",
       "size": 17779,
-      "sha256": "da48737c4f0ce12e1bb54abe437ad67740e3f403836b797e0936e66091058c07"
+      "sha256": "d4eb367f40286d963ae1aa6bf5a787dbe1279e5168043c8726ffec4fe4913a71"
     },
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.json",
@@ -5061,8 +5086,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 56593,
-      "sha256": "fc8ac115b3325239693bd04cdc113ae1395603f26fb65ad82f8c6f5099f8089b"
+      "size": 56899,
+      "sha256": "e86d53ed8776eaf77a415c467cf98af094cbdc1ab3ae4bc61f1f43d4ca65e361"
     }
   ]
 }

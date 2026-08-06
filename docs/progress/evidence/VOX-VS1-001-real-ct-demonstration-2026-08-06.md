@@ -136,6 +136,58 @@ noticeable. The options, none taken here, are an upstream DICOMKit
 decode-into-destination entry point, or a governed exception to the safety policy
 with an owner decision behind it.
 
+## Third run: interpreted values, added by ADR-0236
+
+With `CTValueInterpreter`, the middle slice of the same 899-slice series was read
+through the complete path — bytes to Hounsfield units:
+
+```text
+volume: 512x512x899 uint16   complete: true
+rescale: slope 1.0   intercept -8192.0   storedBits: container   padding: none
+interpreter findings: []
+middle slice 449: HU range -8192.0 .. 2637.0   padding samples: 0
+  air (-1500..-900)         118757   45.3%
+  below CT range             48253   18.4%
+  lung/fat (-900..-100)      42851   16.3%
+  soft tissue (-100..100)    39581   15.1%
+  dense soft (100..300)       8728    3.3%
+  bone (>= 300)               3974    1.5%
+```
+
+**The distribution is clinically plausible for a thorax slice**: air dominates,
+lung and fat next, then soft tissue, with a small dense-soft and bone fraction
+consistent with ribs and spine. The values are not merely well-formed; they are
+the right values.
+
+### The intercept is -8192, not -1024
+
+Every hand-built fixture in the repository uses `-1024`, the textbook CT
+intercept. **This scanner uses `-8192`.** The adapter reads Rescale Intercept
+rather than assuming, so the interpretation is correct — but this is the second
+time real data has contradicted an assumption baked into the fixtures, after the
+signed-versus-unsigned finding above. The pattern is worth naming: **fixtures
+written from domain convention encode the convention, not the data.**
+
+### The out-of-field region is not declared as padding, and that is a real limit
+
+18.4% of the slice sits below -1500 HU, at or near the `-8192` floor. That is the
+region **outside the circular reconstruction field of view** — a circle inscribed
+in a square array leaves about `1 - pi/4`, roughly 21.5%, in the corners, and 18.4%
+is consistent with a circle extending slightly past the array edges.
+
+**The scanner declares no Pixel Padding Value.** `padding: none`, and `padding
+samples: 0`. So `VOX-DCM-008`'s padding-exclusion mechanism — which `ADR-0236`
+implements correctly and which fixtures V9 and V10 verify — **cannot exclude this
+region on this data**, because there is no attribute to exclude by. The
+out-of-field samples are indistinguishable from measurements by attribute alone;
+only their value marks them.
+
+This is a limitation of the data, not of the implementation, and it is recorded
+rather than worked around. Excluding an out-of-field region without a declared
+padding value would require inferring it from the values themselves — a
+segmentation decision, with a threshold, and therefore an owner decision of the
+same shape as the geometry tolerance.
+
 ## Reproduction
 
 ```text
