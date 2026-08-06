@@ -3959,11 +3959,50 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    1067 tests / 198 suites; licence policy now reports 2 declared dependencies.
 
-   **Next: the real J2KSwift adapter** behind `CompressedDecodeSession`, mapping
-   `J2KImage`'s width/height/components onto `DecodedSampleClaim`. Then `004`, `005`,
-   `006`, `012`, `014`, with `011`'s adversarial work **last** so the adapter is settled
-   before it is attacked. The draw-loop arc gets its own architectural record after
-   that (order reversible on request).
+   **Increment (mm): `ADR-0268`, the J2KSwift adapter.** 1079 tests / 199 suites after
+   a clean rebuild. **Applied the rule from last increment — read the codec's API
+   BEFORE designing — and four of five decisions came straight from what it found**,
+   none obvious from the requirement text.
+
+   **The codec offers geometry.** `J2KVolume` carries `spacingX/Y/Z` and
+   `originX/Y/Z`; `J2KVolumeMetadata` carries `patientID`, `modality`, `windowCenter`,
+   `sliceThickness`. **The adapter reads NONE of it.** Voxelia's patient-space mapping
+   comes from DICOM through `CTAffineVolumeBuilder` with an oracle; taking spacing from
+   a codestream would create a second source of truth for the most safety-critical
+   mapping in the system. `ADR-0255` already had the rule — finding the codec *offers*
+   the thing is what makes it load-bearing rather than theoretical. **The convenience
+   is the hazard.**
+
+   Tested by supplying **deliberately non-zero** spacing/origin in the fixture: zeros
+   could not distinguish "ignored them" from "read zeros".
+
+   **`tolerateErrors` defaults to `true`.** The decoder's out-of-the-box behaviour
+   produces output from a codestream it could not fully parse — wrong for a diagnostic
+   viewer. Set to `false` explicitly, other values restated rather than defaulted, and
+   a test asserts BOTH that the codec's default is `true` and the adapter's is `false`,
+   so silent adoption fails.
+
+   **`JP3DDecoderResult.isPartial` is a signal the arc's other checks CANNOT see** —
+   `ADR-0258`'s validator compares byte counts and shape, and a partial decode can be
+   exactly the right length with wrong data. Third gap of this kind in the arc
+   (`ADR-0259` found the second). Refused, along with tile shortfall and any warnings.
+
+   Also refused: **subsampled components** (their data does not correspond to the
+   volume's extents), **bit depths >16** (J2K admits 1–38; a 24-bit sample narrowed to
+   16 is a quantitative error, not a formatting detail), signedness disagreements, and
+   self-inconsistent byte counts. The **layout is checked, not assumed** — expected
+   length derived from the component's own dimensions and bit depth.
+
+   **A testability constraint shaped the design**: `JP3DDecoderResult` has no public
+   initialiser, so an adapter accepting only it would be **untestable without real
+   codestreams**. Split into a thin unwrapping entry point and an internal core taking
+   plain values — 12 tests, every refusal exercised, no codestream needed. Recorded as
+   a pattern: when a dependency's result type cannot be constructed by a consumer, the
+   consumer's logic should not take it directly.
+
+   **Next: `VOX-CMP-004`/`005`** — JP3D and HTJ2K evaluated with **real codestreams**,
+   which needs test data the project does not yet have. That may be the next thing to
+   ask the owner for. Then `006`, `012`, `014`, and `011`'s adversarial work last.
 
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.

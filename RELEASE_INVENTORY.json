@@ -440,6 +440,11 @@
       "sha256": "9893b8efd4080518d07b9947f790b668c9764ed0258ae54f133d003b73b1a5b0"
     },
     {
+      "path": "Sources/VoxeliaCompression/Public/J2KVolumeAdapter.swift",
+      "size": 8797,
+      "sha256": "5cc7efb1f56089642fa8eb47eef0a3070dec4037c6737523f53823e205ea9d45"
+    },
+    {
       "path": "Sources/VoxeliaCore/ApplePlatformGate.swift",
       "size": 226,
       "sha256": "e7cbd237bbbe4c6b4f599952905129441c54039b1ed6ba2454a79bcb76c5bc0e"
@@ -1893,6 +1898,11 @@
       "path": "Tests/VoxeliaCompressionTests/DecodeDestinationTests.swift",
       "size": 5500,
       "sha256": "d14a7e4f7b3a2bd149d9f22bb290939a5e0b18476e20e3a1dd7b48f83ad0f5fb"
+    },
+    {
+      "path": "Tests/VoxeliaCompressionTests/J2KVolumeAdapterTests.swift",
+      "size": 10884,
+      "sha256": "b7eb5edceaede938fcb550421061b41f0ebad143970190cd5dfd253b2ee09e4e"
     },
     {
       "path": "Tests/VoxeliaCoreTests/CanonicalDerivationIngressTests.swift",
@@ -4800,9 +4810,14 @@
       "sha256": "f581e51155072ac916e028b065cf656fe825c8d6a83d19a801ed001f638fd703"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0268-j2k-volume-adapter.md",
+      "size": 9195,
+      "sha256": "a6381c483b14b6b79a62531af02516054b095eb9a555bf506b20384f19c16c25"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 38259,
-      "sha256": "9e17e7951f78dfd200b32a8e754aeda3ee3e12db0a7359850779f86a0a131492"
+      "size": 38338,
+      "sha256": "b89494c22d8a28e3cb307cdd2b4cc940a6c82174766a9e43a72aaacff6fb9dde"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4891,8 +4906,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1122242,
-      "sha256": "fe91137dc3e111eec7835f5289fcd7621521a971a290c8c8ff31dab3a67694d9"
+      "size": 1124795,
+      "sha256": "64424676a0f69dfe78e78e84f6658136c0cbc88cccf9c1a1c45369482b0c4ca9"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5401,8 +5416,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 61050,
-      "sha256": "38b5f2d1f9a91cfd5daf1eb0a816eae54395d3a5b534093b98dd16c7de685c3a"
+      "size": 61224,
+      "sha256": "f8ef2589d6fa950cd8c842eac5a6e92b91a10057f0672923902c39ccc224a624"
     }
   ]
 }
