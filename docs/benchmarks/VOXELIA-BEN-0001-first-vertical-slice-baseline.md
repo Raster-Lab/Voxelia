@@ -1,7 +1,7 @@
 ---
 document_id: "VOXELIA-BEN-0001"
 title: "First vertical slice benchmark baseline"
-version: "0.2"
+version: "0.3"
 status: "Draft"
 document_type: "Benchmark Report"
 project: "Voxelia"
@@ -13,13 +13,14 @@ owner: "Voxelia Validation"
 
 # First vertical slice benchmark baseline
 
-> **The latency figures in this report predate `ADR-0264` and are superseded.**
-> That change replaced the frame transfer's element-wise byte loop with a
-> standard-library range replacement, making the transfer stage `30x` faster and the
-> complete import `7.1x` faster: the total import's warm median went from `1.515` s to
-> `0.214` s. **This report must be re-measured before it is reviewed.** Memory figures
-> and every non-latency finding are unaffected. The report is left in place rather than
-> silently edited so the improvement is auditable against what preceded it.
+> **Version 0.3 re-measures every latency figure after `ADR-0264`**, which replaced
+> the frame transfer's element-wise byte loop with a standard-library range
+> replacement. The complete import's warm median fell from `1.515` s to `0.216` s.
+>
+> **It also corrects a methodological error in versions 0.1 and 0.2**: those reported
+> a "cold import, page cache empty" figure, and the harness never ensured an empty
+> cache. See "Warm-up and repetitions". The cold-versus-warm claims built on it are
+> withdrawn.
 
 ## Objectives and correctness gate
 
@@ -105,10 +106,32 @@ One hundred repetitions is chosen so the required percentiles are **distinct**. 
 at `n = 9` all three would equal the maximum, and the report would show three
 identical numbers as though they were three statistics.
 
-**Cold and warm are different quantities and are reported separately.** The first
-iteration of a fresh process is the only one whose reads are not served from the
-page cache. It is reported as its own measurement; the distribution covers
-warm-cache repetitions.
+### Correction: this harness cannot produce a cold page cache
+
+Versions 0.1 and 0.2 reported a figure labelled "cold import, page cache empty".
+**The harness never ensured an empty cache, and a fresh process does not give one** —
+the operating system's page cache persists across process launches, so every run after
+the first inherits whatever the previous runs left warm.
+
+Measured directly: five consecutive fresh processes reported `0.284`, `0.253`, `0.255`,
+`0.255` and `0.255` s for the same first import. A single earlier reading of `0.437` s
+was recorded when the cache had been evicted by other work, and it is **not
+reproducible on demand** — dropping the cache requires elevated privileges this
+measurement does not have.
+
+**Consequences, stated rather than quietly dropped:**
+
+- The "cold" figures in versions 0.1 and 0.2 were first-import-of-a-fresh-process
+  figures under an unknown cache state, not cold-cache figures.
+- The cold-to-warm ratios derived from them — `1.21x` in version 0.2, and the `1.95x`
+  quoted in `ADR-0264` — are **withdrawn**. Both measured cache state as much as they
+  measured Voxelia.
+- The **warm distribution is unaffected** and remains the reliable measurement: 100
+  repetitions with a `0.025` s spread.
+- A genuine cold-cache figure needs a privileged cache drop between runs, and is
+  recorded as outstanding rather than approximated.
+
+The first-import figures are still reported, labelled as what they are.
 
 ## Latency and throughput
 
@@ -119,65 +142,61 @@ checkpoint, also serves as the progress reporter plan §22.1 asked for.
 
 | Stage (§63) | Release | Debug |
 |---|---:|---:|
-| Metadata scan started | `0.026` | `0.028` |
-| **Metadata-ready** (899 frames described) | `0.291` | `0.228` |
-| Candidate grouping complete | `0.292` | `0.238` |
-| **Geometry accepted** | `0.314` | `0.608` |
-| **First decoded frame** | `0.314` | `0.608` |
-| **Complete volume** | `1.841` | `4.283` |
-| Descriptor and storage built | `1.842` | `4.283` |
-| Identity and provenance minted | `1.842` | `4.287` |
-| Volume published | `1.842` | `4.287` |
-| **First axial image** | `1.942` | `4.425` |
-| **First three-view image** | `2.350` | `5.352` |
-| **Steady state** | `2.350` | `5.352` |
+| **Complete volume** | `0.248` | `0.802` |
+| Volume published | `0.248` | `0.802` |
+| **First axial image** | `0.342` | `0.932` |
+| **First three-view image / steady state** | `0.736` | `1.843` |
 
-Derived throughput, release:
+Measured on the first import of a fresh process, which is **not** a cold page cache —
+see below. Earlier stages (metadata-ready, geometry accepted, first decoded frame) are
+reported in the distribution table instead, where they have dispersion rather than a
+single reading.
+
+Derived throughput, release, from the warm median:
 
 | Quantity | Value |
 |---|---|
-| Metadata scan | 899 frames in `0.291` s ≈ **3,090 frames/s** |
-| Frame decode and transfer | 899 frames in `1.527` s ≈ **589 frames/s**, ≈ **294 MiB/s** |
-| Complete import | 449 MiB in `1.841` s ≈ **244 MiB/s** |
-| Axial plane extraction | `0.100` s |
-| Coronal and sagittal extraction | `0.408` s combined |
+| Metadata scan | 899 frames in `0.087` s ≈ **10,300 frames/s** |
+| Frame decode and transfer | 899 frames in `0.124` s ≈ **7,250 frames/s**, ≈ **3,620 MiB/s** |
+| Complete import | 449 MiB in `0.216` s ≈ **2,080 MiB/s** |
+| Axial plane extraction | `0.094` s |
+| Coronal and sagittal extraction | `0.394` s combined |
 
 **Both configurations are reported because the difference is large and a debug
-figure alone would mislead.** Release completes the import in `1.841` s against
-`4.283` s debug — a `2.3x` difference. Any future comparison must state its build
+figure alone would mislead.** Release completes the import in `0.248` s against
+`0.802` s debug — a `3.2x` difference. Any future comparison must state its build
 configuration.
 
 ### Latency distribution (release, 100 measured repetitions)
 
-Warm-cache, after 3 discarded warm-ups. Seconds.
+After 3 discarded warm-ups. Seconds. Nearest-rank percentiles per `ADR-0261`.
 
 | Quantity | min | p50 | p90 | p95 | p99 | max |
 |---|---:|---:|---:|---:|---:|---:|
-| **Total import** | `1.492` | `1.515` | `1.610` | `1.646` | `1.678` | `1.688` |
-| Metadata scan | `0.089` | `0.091` | `0.097` | `0.098` | `0.104` | `0.133` |
-| Decode and transfer | `1.397` | `1.417` | `1.508` | `1.547` | `1.575` | `1.580` |
+| **Total import** | `0.213` | `0.216` | `0.223` | `0.226` | `0.236` | `0.238` |
+| Metadata scan | `0.086` | `0.087` | `0.089` | `0.091` | `0.102` | `0.107` |
+| Decode and transfer | `0.122` | `0.124` | `0.128` | `0.130` | `0.135` | `0.147` |
 
-**Cold import, page cache empty: `1.829` s.** Spread of the warm total:
-`0.196` s.
+Spread of the total: **`0.025` s** over 100 repetitions — about 12 per cent of the
+median, and tighter in absolute terms than version 0.2's `0.196` s.
 
-### What the distribution shows that the single run could not
+### What the distribution shows
 
-**The import is compute-bound, not I/O-bound.** Cold is only `1.21x` the warm
-median. If reading 899 files dominated, a fully cached run would be far faster than
-that. Decode and transfer is `1.417` s of the `1.515` s median — **94 per cent** —
-so effort spent on faster file access would buy almost nothing.
+**The import is now roughly balanced between metadata reading and byte transfer.**
+Metadata scan is `0.087` s of the `0.216` s median (40 per cent) and decode plus
+transfer is `0.124` s (57 per cent). Before `ADR-0264` the transfer alone was 94 per
+cent, so the profile has changed shape, not merely scale: optimising the transfer
+further would now buy much less than the first `11.5x` did.
 
-**The metadata scan is the strongly cache-sensitive stage, and it is small.**
-`0.291` s cold against a `0.091` s warm median is a `3.2x` difference, far larger
-than the whole import's `1.21x`. The caching effect is real but concentrated in the
-stage contributing six per cent of the total.
+**Version 0.2's compute-bound conclusion is withdrawn**, not because it was wrong
+about the code it measured but because the evidence for it — a cold-to-warm ratio —
+rests on a cold figure this harness cannot produce reliably. See below.
 
 **No retention leak across 104 sequential imports.** Each iteration allocates a
-449 MiB volume and peak resident stayed at `467 MiB` — `1.04x` of one volume — from
-the first import to the last. A retained volume would have driven peak up in
-multiples. This is materially stronger evidence for plan §59.4's leak criterion
-than `ADR-0253`'s single-import measurement, which could only show that one import
-did not duplicate.
+449 MiB volume and peak resident stays at `464`–`466 MiB`, `1.03x` of one volume, from
+the first import to the last. This finding is **cache-independent** and survives the
+correction above; it is materially stronger evidence for plan §59.4's leak criterion
+than a single-import measurement.
 
 Two observations that are properties of the design rather than of the hardware:
 

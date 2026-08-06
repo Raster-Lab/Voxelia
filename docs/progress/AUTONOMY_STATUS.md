@@ -3879,9 +3879,58 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    and must be re-measured before review — left in place rather than silently edited so
    the improvement stays auditable.
 
-   **Next**: re-measure `VOXELIA-BEN-0001` under `ADR-0261`'s method so the report the
-   owner reviews is current. After that **the queue is entirely the eight owner
-   decisions** — six from `ADR-0254`, two from `ADR-0255`.
+   **Increment (kk): `ADR-0265` — re-measured the benchmark, and found a
+   methodological error in THREE of my own records.** `VOXELIA-BEN-0001` at **v0.3**.
+
+   **"Cold page cache" was an assumption I never measured.** `ADR-0261` reported "cold
+   import, page cache empty: 1.829 s" and built a finding on the cold/warm ratio;
+   `ADR-0263` and `ADR-0264` reasoned from the same kind of figure. **The harness ran
+   the import first in a fresh process and called that cold — but the OS page cache
+   persists across process launches.** The label described an intent, not a state.
+
+   Caught by an inconsistency, not review: two nominally identical "cold" readings came
+   out `0.437` s and `0.248` s. Five consecutive fresh processes settled it —
+   `0.284/0.253/0.255/0.255/0.255` s, stable because the files stayed warm throughout.
+   The `0.437` s reading came from a moment when other work had evicted them and is
+   **not reproducible on demand** (dropping the cache needs elevated privileges I will
+   not use on the owner's machine for a benchmark).
+
+   **Withdrawn**: `ADR-0261`'s `1.21x` and `ADR-0264`'s `1.95x` cold/warm ratios, and
+   `ADR-0261`'s "the import is compute-bound, not I/O-bound" **as stated** — its
+   evidence was the ratio. A ratio with an unknown denominator is not a weaker finding,
+   it is not a finding, so I withdrew rather than caveated. And I did **not** retro-fit
+   the separate cache-independent argument that would have supported the conclusion:
+   citing an argument I did not make would be worse than withdrawing.
+
+   **Survives, explicitly**: the no-leak result over 104 imports (a memory observation,
+   cache-independent), the `30x` transfer improvement (warm-to-warm), and the footprint
+   ratio.
+
+   **Re-measured baseline** (release, 100 reps, nearest-rank):
+
+   | | min | p50 | p99 | max |
+   |---|---:|---:|---:|---:|
+   | Total import | `0.213` | **`0.216`** | `0.236` | `0.238` |
+   | Metadata scan | `0.086` | `0.087` | `0.102` | `0.107` |
+   | Decode + transfer | `0.122` | `0.124` | `0.135` | `0.147` |
+
+   §63 stages (first import, fresh process): complete volume `0.248` s release /
+   `0.802` debug; first axial `0.342`; three-view steady state `0.736`. Footprint
+   `464 MiB` = `1.03x`. Throughput ≈ `2,080 MiB/s` import, ≈ `3,620 MiB/s` transfer.
+
+   **The profile changed shape, not just scale**: metadata scan is now **40%** of the
+   median (was 6%) and transfer **57%** (was 94%). Further transfer work would buy much
+   less than the first `11.5x` did. Spread tightened `0.196 s → 0.025 s`.
+
+   Also fixed two harness artefacts rather than reporting them: the staged stage-timing
+   run had been executing *after* the cold import (so its stages were warm), and the
+   footprint mode was holding two volumes at once (`923 MiB`, which is not a leak).
+
+   **Next: the queue is now entirely the eight owner decisions** — six from `ADR-0254`
+   (report approval, reference hardware, tolerance profile, geometry tolerance rule, two
+   `LICENSE` files, draw loop) and two from `ADR-0255` (reconcile the blocked CMP rows,
+   direct codec dependency). Outstanding non-blocking item: a genuine cold-cache
+   measurement needing a privileged cache drop.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.

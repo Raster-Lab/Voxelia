@@ -451,3 +451,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0262](ADR-0262-crosshair-composition-regression-guard.md) | Accepted | Crosshair composition regression guard |
 | [ADR-0263](ADR-0263-stress-volume-and-byte-collection-cost.md) | Accepted | Stress volume and byte collection cost |
 | [ADR-0264](ADR-0264-range-replacement-frame-transfer.md) | Accepted | Range replacement frame transfer |
+| [ADR-0265](ADR-0265-cold-cache-measurement-correction.md) | Accepted | Cold cache measurement correction |
