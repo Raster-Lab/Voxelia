@@ -2666,8 +2666,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 3722,
-      "sha256": "fb975f4f86dc24699fa1142df15c1086b46c726d45985a6cffe113fc30dbdb09"
+      "size": 3855,
+      "sha256": "1dd0731cb448e82ff1719eef39b0f3352dc0b48822550de20e27e4860197566d"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2818,6 +2818,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0030-triangle-area-weighted-vertex-normals.md",
       "size": 15359,
       "sha256": "960b85e05a4afbaadc65c0d31ff9581a1c5919848ad144f3337e8093d33d6937"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0031-triangle-mesh-total-facet-area.md",
+      "size": 14873,
+      "sha256": "0c17a8fcd717b184c6ddaa7c03ea0922df75951ba08ab6a349ed36bc96c326d6"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -3825,9 +3830,14 @@
       "sha256": "36aaa583e610e95c027928302325baaad237965c8772bd429860cdb0225552f4"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0194-triangle-mesh-total-facet-area-design.md",
+      "size": 23185,
+      "sha256": "e131cdf6dab5add5b5e3e979d663f00551864fbe27cbcd39231336680f5c39b5"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 28806,
-      "sha256": "4b14dba596a9ccf1ab264bb79b5f01efdc0a55612ec178ff7d381f6a8533eeaf"
+      "size": 29075,
+      "sha256": "78f9096fa445503f21838ce7dcb00554ff0286472e9e9d6c975c283ba9413b8b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3911,8 +3921,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 795688,
-      "sha256": "1393e5aa93cf3620fb33254bc3a344777ce8a373169a0b446e16e682ca1e2eca"
+      "size": 801001,
+      "sha256": "ad93b1fef2b35338a2dde0ab9b747aabfe308ee7bdc85162d75cc0cb630d4275"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -3988,6 +3998,11 @@
       "path": "docs/progress/evidence/ADR-0193-deterministic-vertex-normal-oracle.py",
       "size": 11994,
       "sha256": "808fcc18442cb620f4ce79da1b903e8ebcc57c658ef9c116a3696abff80cd385"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0194-total-facet-area-oracle.py",
+      "size": 11513,
+      "sha256": "a4b6ad6f561e84ca209dda8bf2f70bc830cffe7d09f298f369420386b3de21e2"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4296,8 +4311,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 47175,
-      "sha256": "2ae67136aa504566b3e6c8d99c2e5159e8ac3faa588175cf2da777543b111ed5"
+      "size": 47379,
+      "sha256": "b6fc51482ef8a39c2ebb627fdf972f932e9f7eddbde6a51ba8321c8d7ed10c97"
     }
   ]
 }

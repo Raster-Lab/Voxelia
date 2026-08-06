@@ -5927,6 +5927,84 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-second autonomous increment (owner-authorized decision and
+  design): the project owner answered the recorded mesh-measurement decision
+  gate on 2026-08-06 with an explicit instruction to continue autonomously and
+  take the project's own decisions. **Option A is selected.** Accepted
+  `ADR-0194` and `VOXELIA-ALG-0031` now freeze a separately governed
+  total-facet-area stage only, leaving certified enclosed volume as a distinct
+  later record that inherits the full watertightness, manifoldness,
+  orientation, shell, cavity, degeneracy, self-intersection, signed-semantics,
+  reference-origin, reduction-order and predicate-limit obligation list
+  recorded by the preceding audit.
+
+  The frozen quantity is the serial sum, in exact topology order, of every
+  admitted facet's own unsigned area: the ordered edge subtraction and cross
+  product shared bit-for-bit with `VOXELIA-ALG-0030`, maximum-component-scaled
+  Euclidean magnitude, an explicit halving, exact-zero degeneracy contributing
+  positive zero, retained duplicate multiplicity and no union, deduplication,
+  coplanar merge, overlap subtraction, topology repair, manifold classification
+  or orientation claim of any kind. The record states in its own decision text
+  that total facet area is a property of the supplied facet list, not of any
+  surface that facet list may or may not bound.
+
+  Three deliberate departures from `ADR-0193`'s shape are recorded rather than
+  copied by reflex. First, the failure family has six cases, not eight: there
+  is no `undefinedArea` because zero is a legitimate total and every undefined
+  magnitude is already a representability failure, and no attribute-related
+  case because attributes are never read (`ADR-0071`/`ADR-0173` discharge
+  precedent). Second, limits declare only maximum vertex and triangle counts —
+  no additional-logical-byte ceiling and no existing-attribute ceiling —
+  because the reference allocates no per-vertex or per-facet buffer and never
+  scans attributes; the oracle registers `additionalLogicalByteCount=0` and the
+  `3074457345618258602` host triangle boundary instead of a checked product
+  that can never fail. Third, an exactly zero facet area is a defined value and
+  succeeds, where `ADR-0193` rejects a zero vertex normal because a direction
+  genuinely does not exist there; the divergence is recorded in both the
+  algorithm and the ADR so it does not read as an inconsistency.
+
+  Units are closed by a new `PoweredLengthUnit` value owned by
+  `VoxeliaGeometry`: the source coordinate space's exact `MeasurementUnit` base
+  plus a positive exponent, published as two separate immutable fields. The
+  base's `scaleToCanonical` and `offsetToCanonical` are explicitly not raised
+  or combined, and the value grants no conversion authority. This answers the
+  audit's finding that `MeasurementUnit` classifies a length without defining
+  any squared or cubed algebra, without inventing a speculative general unit
+  calculus, and without repeating the older Interaction measurements' bare-
+  `Double` silence about their source units. Placing it in Geometry rather than
+  Spatial is recorded as a deliberate refusal to expand an accepted lower-module
+  contract for a single consumer.
+
+  The independent standard-library oracle reproduces thirteen fixtures — ten
+  successful, three failures — and proves winding independence, multiplicity,
+  degenerate contribution, empty and all-degenerate positive-zero totals, the
+  scaled magnitude, reduction-order sensitivity against the reversed sum,
+  contraction sensitivity against a fused multiply-subtract, a subnormal
+  doubled area halving to positive zero, and edge, scaled-magnitude and serial
+  accumulation overflow. Its two SHA-256 fixtures are frozen in `ALG-0031`.
+
+  No product source, test, registry entry or public API changed in this
+  increment, so product builds and tests are intentionally absent and are not
+  evidence here. Oracle reproduction, documentation validation, the ADR
+  register, the requirement index, manifest-path and release-integrity
+  regeneration and read-only checks and `git diff --check` cover it. The ADR
+  register's allocation paragraph also gained the missing `ADR-0193` sentence,
+  which the preceding increment had skipped while still advancing the
+  next-unallocated line. The broader suite, DocC archive, Apple destination
+  matrix, unavailable visionOS SDK and external device, fuzz and differential
+  campaigns were not run and are not evidence here.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0194-total-facet-area-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  python3 Tools/Scripts/check_manifest_paths.py
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11783,15 +11861,21 @@ claim assembly, independent parameter-digest reproduction and the evidence-
 backed fourteenth CPU registry entry. All three `ADR-0193` product migration
 stages are complete and independently approved. The authoritative triangle-
 mesh measurement audit required by `ADR-0183` and `VOX-GEO-010` is now
-complete. It proves that no accepted record selects mesh-wide area or enclosed-
-volume semantics, powered units, topology/orientation admission, binary64
-order, error/cancellation/resource boundaries, identity/provenance claims or
-an oracle. Product work is blocked on one fresh owner decision: approve
-Option A (recommended), a separately governed total-facet-area stage followed
-later by certified enclosed volume, or Option B, one larger record governing
-both total facet area and certified enclosed volume. Do not create or accept
-the new record, algorithm, mesh-measurement API, registry entry, rendering or
-acceleration until that explicit choice authorizes the governance change.
+complete, and its decision gate is closed. The project owner authorized the
+governance change on 2026-08-06 and Option A was selected. Accepted
+`ADR-0194` and `VOXELIA-ALG-0031` now freeze total facet area only: the
+serial topology-order sum of unsigned per-facet areas sharing `ALG-0030`'s
+ordered cross product, an explicit `PoweredLengthUnit`, a six-case
+payload-free error family, vertex and triangle count ceilings with no
+allocation payload, and thirteen independent analytical fixtures. The exact
+next action is `ADR-0194` migration step one: add `PoweredLengthUnit`, the
+four declaration/publication values, the measurement value and the closed
+error family to `VoxeliaGeometry` with exact parameter, result-binding,
+unit-admission, privacy and `Sendable` evidence. Steps two and three follow:
+the internal CPU serial reference kernel, then the public operation, the
+independently reproduced parameter digest and the fifteenth CPU registry
+entry. Certified enclosed volume remains a distinct governed record and must
+not be started inside the area stage.
 
 After the mesh boundary, proceed through the separately frozen scalar
 extraction model and CPU reference, labelled extraction, deterministic normals,
@@ -11805,16 +11889,17 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Await explicit owner approval of mesh-measurement Option A or Option B. Do
-  not modify accepted governance or product source while the decision is open.
-  If Option A is approved, the next increment is design-only: freeze total
-  facet area, an explicit powered-length-unit representation, scaled binary64
-  arithmetic and reduction, exact failure/limits/cancellation/publication
-  semantics and independent fixtures in a new accepted record and algorithm.
-  Run only the oracle and relevant ADR/document/register/index/integrity checks
-  for that design increment; product builds/tests are not evidence until source
-  changes. If Option B is selected, first expand that record to settle the full
-  certified-enclosed-volume topology and predicate contract recorded above.
+- Perform `ADR-0194` migration step one next. It changes product source, so
+  run the focused `VoxeliaGeometryTests` suites for the new declaration,
+  measurement, powered-unit and result-binding values, `swift format lint
+  --strict` on every touched Swift file, and the
+  ADR/document/register/index/manifest/integrity checks. `PoweredLengthUnit`
+  and the new measurement aggregate introduce cross-module layout, so a clean
+  `.build` rebuild and a full unfiltered `swift test` are required before the
+  step-one push, with the literal passing test-run line visible in output.
+- Do not extend `ADR-0194` to enclosed volume, union area, watertightness
+  predicates or manifold classification. Those need their own accepted record
+  and must not be smuggled into the area stage's migration.
 - Do not rerun the complete scaffold suite unless a later cross-cutting change
   affects its gate or a release candidate is being accepted.
 - Keep unavailable SDKs, signing contexts, repository settings and human
