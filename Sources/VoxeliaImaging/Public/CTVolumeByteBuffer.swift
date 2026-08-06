@@ -29,8 +29,19 @@ public enum CTVolumeByteBufferError: Error, Sendable, Equatable {
 /// No pointer API is used: `-strict-memory-safety` diagnoses them, and the Swift
 /// safety policy reserves the corresponding marker keyword outright — including
 /// in comments, which is why this note describes the rule without spelling it.
-/// The copy is therefore an element-wise write. A reference path here is
-/// deterministic and memory-safe before it is fast.
+///
+/// The copy is a single `replaceSubrange` against the destination range, **not** a
+/// hand-written element-wise loop. `ADR-0264` measured the difference: the loop ran
+/// at about `120 MiB/s` and cost `9.2x` more when a caller supplied
+/// `ContiguousArray` rather than `Data`, because neither generic context
+/// specialised; `replaceSubrange` reaches about `3,650 MiB/s` on the same data
+/// because the standard library's own implementation is already specialised. That
+/// is a `30x` improvement with no pointer API, no `@inlinable` and no change to
+/// this type's encapsulation — so `ADR-0235`'s framing, that the only options were
+/// an upstream decode entry point or a governed safety exception, was mistaken.
+///
+/// Verified byte-for-byte: all 899 slices of the real series match DICOMKit's own
+/// frame bytes exactly.
 public struct CTVolumeByteBuffer: Sendable, Hashable {
     /// The layout describing the buffer's extents and scalar format.
     public let layout: CTVolumeLayout
@@ -94,11 +105,11 @@ public struct CTVolumeByteBuffer: Sendable, Hashable {
             throw CTVolumeByteBufferError.destinationOutOfRange
         }
 
-        var destination = start
-        for byte in frameBytes {
-            bytes[destination] = byte
-            destination += 1
-        }
+        // One standard-library range replacement rather than a byte loop. Both
+        // are memory-safe; this one is about thirty times faster because the
+        // stdlib's implementation is specialised where a generic loop in this
+        // module is not. `ADR-0264` records the measurement and the verification.
+        bytes.replaceSubrange(start..<end, with: frameBytes)
         writtenSlices.insert(placement.sliceIndex)
     }
 

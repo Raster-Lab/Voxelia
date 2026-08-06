@@ -3832,12 +3832,56 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    specialises at the call site — changes a public API's inlining contract and deserves
    its own record, not a footnote in a stress test.
 
-   **Next**: **no unblocked work of substance remains.** The queue is now entirely the
-   eight owner decisions — six from `ADR-0254` (report approval, reference hardware,
-   tolerance profile, geometry tolerance rule, two `LICENSE` files, draw loop) and two
-   from `ADR-0255` (reconcile the blocked CMP rows, direct codec dependency) — plus one
-   self-contained candidate this increment created: the `@inlinable` byte-write
-   decision with `ADR-0235`'s figure re-measured.
+   **Increment (jj): `ADR-0264` — a `30x` transfer speedup from one line, and TWO of my
+   own records corrected.** 1067 tests / 198 suites.
+
+   **`ADR-0263`'s proposed remedy was not just inferior, it was UNAVAILABLE.**
+   `@inlinable` bodies may only touch public or `@usableFromInline` members, and
+   `write` mutates `bytes` and `writtenSlices` — both privately set. It would have
+   forced this type to expose the state its invariants rest on.
+
+   **The actual fix is one line**: `bytes.replaceSubrange(start..<end, with: frameBytes)`
+   instead of the hand-written byte loop. No pointer API, no `@inlinable`, no
+   encapsulation change, no ABI commitment — entirely within the safety policy.
+
+   | Stage (real 899-frame series, p50) | Before | After | Gain |
+   |---|---:|---:|---:|
+   | Total import | `1.515` s | **`0.214` s** | **`7.1x`** |
+   | Decode + transfer | `1.417` s | **`0.123` s** | **`11.5x`** |
+
+   Transfer throughput **`3,650 MiB/s`** vs the `120 MiB/s` `ADR-0235` recorded —
+   **`30.4x`**. On the synthetic stress volume: `ContiguousArray` `13.397 s → 0.069 s`
+   (**194x**), `Data` `1.453 s → 0.017 s` (**85x**). **The `9.2x` type-dependence is
+   gone** — specialisation now happens inside the stdlib instead of failing to happen
+   here.
+
+   **Correctness verified BEFORE the improvement was claimed**, because a result this
+   large is a reason for suspicion: 25 targeted tests, then 1067 full-suite, then the
+   definitive check re-run on real data — **899 of 899 slices byte-exact against
+   DICOMKit's own frame bytes, 0 mismatched**. The `VOX-VS1-014` inspections reproduce
+   exactly (centre `8232`→`40.0` HU, corner `0`→`-8192.0` HU, mid-left
+   `7237`→`-955.0` HU).
+
+   **`ADR-0235` corrected.** It stated the options for the `120 MiB/s` copy were "an
+   upstream DICOMKit decode-into-destination entry point or a governed exception to the
+   safety policy". **Both were unnecessary.** It reasoned carefully about the two
+   options it had in view and never asked whether the standard library already solved
+   it. **`ADR-0261` narrowed**: its compute-bound conclusion was true of the code it
+   measured, and that code was compute-bound for an avoidable reason — the cold/warm
+   ratio is now `1.95x`, not `1.21x`.
+
+   **The generalisable lesson**: before accepting a performance cost as inherent to a
+   safety constraint, check whether the stdlib has a specialised operation for the same
+   work. A hand-written loop in a generic context is slow *because* it cannot
+   specialise; the stdlib's equivalent already has.
+
+   `VOXELIA-BEN-0001` now carries a prominent superseded notice on its latency figures
+   and must be re-measured before review — left in place rather than silently edited so
+   the improvement stays auditable.
+
+   **Next**: re-measure `VOXELIA-BEN-0001` under `ADR-0261`'s method so the report the
+   owner reviews is current. After that **the queue is entirely the eight owner
+   decisions** — six from `ADR-0254`, two from `ADR-0255`.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.

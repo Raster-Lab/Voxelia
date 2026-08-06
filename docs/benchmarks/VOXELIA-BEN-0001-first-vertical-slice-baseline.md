@@ -13,6 +13,14 @@ owner: "Voxelia Validation"
 
 # First vertical slice benchmark baseline
 
+> **The latency figures in this report predate `ADR-0264` and are superseded.**
+> That change replaced the frame transfer's element-wise byte loop with a
+> standard-library range replacement, making the transfer stage `30x` faster and the
+> complete import `7.1x` faster: the total import's warm median went from `1.515` s to
+> `0.214` s. **This report must be re-measured before it is reviewed.** Memory figures
+> and every non-latency finding are unaffected. The report is left in place rather than
+> silently edited so the improvement is auditable against what preceded it.
+
 ## Objectives and correctness gate
 
 This is the benchmark half of `VOX-VS1-021`'s deliverable. Its objective is the one
