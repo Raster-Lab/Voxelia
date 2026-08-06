@@ -99,6 +99,16 @@ public enum DisplayColourTransform: Sendable, Hashable {
     /// colour, which is what the volume compositor does under
     /// `VOXELIA-ALG-0023`.
     case transferFunction
+
+    /// Stored values indexed a palette under `VOXELIA-ALG-0043`.
+    ///
+    /// Added additively by `ADR-0214` once `ADR-0211` built the model.
+    case palette
+
+    /// An RGB or RGBA source was presented under `VOXELIA-ALG-0044`.
+    ///
+    /// Added additively by `ADR-0214` once `ADR-0212` built the model.
+    case rgb
 }
 
 /// Reports whether an identity field holds nothing but Unicode whitespace.

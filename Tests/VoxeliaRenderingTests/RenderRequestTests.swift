@@ -42,7 +42,10 @@ struct RenderRequestTests {
             viewport: try ViewportSize(width: 512, height: 512),
             crop: nil,
             interpolation: .nearestNeighbour,
-            quality: .interactive
+            quality: .interactive,
+            colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil
         )
         #expect(request.scene == scene)
         #expect(request.quality == .interactive)
@@ -58,6 +61,8 @@ struct RenderRequestTests {
             scaling: .identity,
             renderMode: .slice,
             colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil,
             accumulation: .none,
             denoising: .none
         )
@@ -81,6 +86,8 @@ struct RenderRequestTests {
             scaling: .identity,
             renderMode: .slice,
             colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil,
             accumulation: .none,
             denoising: .none
         )
@@ -97,6 +104,8 @@ struct RenderRequestTests {
             scaling: .nearestNeighbour(sourceWidth: 256, sourceHeight: 256),
             renderMode: .slice,
             colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil,
             accumulation: .none,
             denoising: .none
         )
@@ -130,6 +139,96 @@ struct RenderRequestTests {
         requireSendable(ColourOutputConfiguration.self)
         requireSendable(AccumulationState.self)
         requireSendable(DenoisingState.self)
+    }
+
+    @Test(
+        "[Unit][VOX-R2D-015][VOX-API-003] the colour claim is explicit in the request and the provenance"
+    )
+    func colourClaimIsExplicitInRequestAndProvenance() throws {
+        let space = try DisplayColourSpace(
+            namespace: "IEC",
+            code: "sRGB",
+            displayName: nil
+        )
+        let layer = try RenderLayer(
+            imageObjectID: try #require(DataObjectID(rawValue: "series-9")),
+            transferFunction: .greyscaleWindow(
+                try GreyscaleWindowFunction(
+                    center: 40,
+                    width: 400,
+                    polarity: .standard
+                )
+            ),
+            opacity: 1
+        )
+        let request = RenderRequest(
+            scene: try SceneSnapshot(layers: [layer], camera: try camera()),
+            viewport: try ViewportSize(width: 4, height: 4),
+            crop: nil,
+            interpolation: .nearestNeighbour,
+            quality: .full,
+            colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: space
+        )
+        // The request now states what it wants; before `ADR-0214` it carried
+        // no colour claim of any kind.
+        #expect(request.colourOutput == .greyscale8)
+        #expect(request.colourTransform == .none)
+        #expect(request.outputColourSpace == space)
+
+        // An absent declaration stays absent: no default is substituted,
+        // because inferring one would attach an unverified claim.
+        let undeclared = RenderRequest(
+            scene: request.scene,
+            viewport: request.viewport,
+            crop: nil,
+            interpolation: .nearestNeighbour,
+            quality: .full,
+            colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil
+        )
+        #expect(undeclared.outputColourSpace == nil)
+        #expect(undeclared != request)
+
+        // The provenance carries its own claim, and the colour claim
+        // participates in presentation identity exactly as the scaling claim
+        // does.
+        func provenance(
+            transform: DisplayColourTransform,
+            colourSpace: DisplayColourSpace?
+        ) throws -> PresentationProvenance {
+            PresentationProvenance(
+                camera: try camera(),
+                viewport: try ViewportSize(width: 4, height: 4),
+                layers: [layer],
+                crop: nil,
+                geometry: nil,
+                scaling: .identity,
+                renderMode: .slice,
+                colourOutput: .greyscale8,
+                colourTransform: transform,
+                outputColourSpace: colourSpace,
+                accumulation: .none,
+                denoising: .none
+            )
+        }
+        let plain = try provenance(transform: .none, colourSpace: nil)
+        #expect(try plain != provenance(transform: .palette, colourSpace: nil))
+        #expect(try plain != provenance(transform: .none, colourSpace: space))
+
+        // The transform set holds exactly the four cases this arc built, in
+        // the order they were added.
+        let transforms: [DisplayColourTransform] = [
+            .none, .transferFunction, .palette, .rgb,
+        ]
+        #expect(
+            transforms.map { String(describing: $0) } == [
+                "none", "transferFunction", "palette", "rgb",
+            ]
+        )
+        #expect(Set(transforms).count == 4)
     }
 
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}

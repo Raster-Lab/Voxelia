@@ -429,7 +429,14 @@ public final class ExactVolumeRenderer: Sendable {
             geometry: .affine(geometry),
             scaling: .identity,
             renderMode: .volumeDirect,
+            // What this renderer DID: it composites through an accepted
+            // one-dimensional transfer function, so claiming `none` here would
+            // misreport work that demonstrably happens. `VolumeRenderRequest`
+            // carries no colour space to attest, so none is declared rather
+            // than one being invented.
             colourOutput: .rgba8,
+            colourTransform: .transferFunction,
+            outputColourSpace: nil,
             accumulation: .none,
             denoising: .none
         )

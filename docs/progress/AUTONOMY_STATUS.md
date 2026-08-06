@@ -8081,6 +8081,59 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fortieth autonomous increment (`ADR-0208` increment (f) — **the
+  colour and overlay arc closes**): accepted `ADR-0214` completes the colour
+  claim. `RenderRequest` now carries the intended colour output, transform and
+  declared colour space; `PresentationProvenance` carries the transform that ran
+  and the space attested; `DisplayColourTransform` is widened additively with
+  the `palette` and `rgb` cases increments (c) and (d) built.
+
+  **The rejection is what makes the claim mean anything.** A renderer that
+  cannot produce the requested colour now throws
+  `RenderModelError.unsupportedColourOutput`. Without it the slice renderer
+  would have ignored the request's claim and still reported a provenance that
+  looked correct — a declaration nobody enforces is decoration. A test drives
+  all four unsupported combinations.
+
+  **Provenance reports what the renderer did, never what was asked** — the
+  accepted `ADR-0100` rule applied to colour. The two agree on the success path
+  **by construction, not by copying**, so a future renderer that gains a second
+  output mode inherits the right behaviour instead of echoing a request it did
+  not honour.
+
+  No defaults were added to the new request fields, so every construction site
+  had to state its colour claim: a call site that cannot say what colour it
+  wants has not thought about it, and the compiler now asks. Twenty-seven sites
+  across five test targets were updated after grepping the whole repository
+  rather than the obvious ones.
+
+  An absent colour space stays absent end to end — no renderer substitutes a
+  default, because `ADR-0208` decision 5 forbids inferring one — and a test
+  proves it survives a real render.
+
+  Verified after a clean `.build` rebuild: 788 tests in 170 suites green.
+
+  **`VOX-R2D-015` is discharged in both methods, stated separately rather than
+  letting one stand for the other**: **Inspection** by `ADR-0209` and
+  `ADR-0214` — the vocabulary exists, is carried in both the request and the
+  provenance, grants no conversion authority, and never assumes an implicit
+  space; **Test** by this migration's suite.
+
+  **The `ADR-0208` colour and overlay arc is CLOSED**: `VOX-R2D-007`,
+  `VOX-R2D-010`, `VOX-R2D-011` and `VOX-R2D-015` are all discharged completely,
+  every one of them verification-method included, because no row in the arc
+  declared Demonstration.
+
+  ```bash
+  swift test --filter 'ExactSliceRendererTests|RenderRequestTests'
+  swift format lint --strict <every touched Swift file>
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14107,18 +14160,28 @@ Increment (e) is complete in both halves: accepted `ADR-0213` and
 `ALG-0009`'s operator verbatim — and `VoxeliaExecution` owns
 `OverlayCompositing`. **`VOX-R2D-011`, the arc's only P0 row, is discharged.**
 
-The exact next action is `ADR-0208` increment (f), the arc's last: complete the
-request and provenance and close `VOX-R2D-015`. This is where the gap `ADR-0209`
-recorded gets fixed — `RenderRequest` carries **no colour claim of any kind**
-today, and `ColourOutputConfiguration` lives only on `PresentationProvenance`
-with both renderers hard-coding it. Widen `DisplayColourTransform` additively
-with the palette and RGB cases the last three increments built, carry the
-declared output colour space and the transform in both the request and the
-provenance, and remember that `PresentationProvenance` records **what the
-pipeline actually did, never what was requested** (`ADR-0100`). There are seven
-`PresentationProvenance` construction sites; grep the whole repository before
-declaring the sweep done. `VOX-R2D-015` declares **I,T**, so it carries both an
-inspection and a test obligation.
+**The `ADR-0208` colour and overlay arc is CLOSED.** All six increments (a)
+through (f) are complete, and `VOX-R2D-007`, `VOX-R2D-010`, `VOX-R2D-011` and
+`VOX-R2D-015` are discharged **completely** — verification method included for
+every one, because no row in the arc declared Demonstration.
+
+**M6 does not close with it.** `VOX-MPR-011` — "multi-volume fusion for
+spatially registered inputs", P1, `T,D` — is in the requirements baseline and
+the release traceability index and has never been assessed anywhere, as
+`ADR-0208` recorded when opening the arc. It is deliberately not folded into any
+existing record.
+
+The exact next action is therefore the `VOX-MPR-011` assessment, in its own
+record. Read the requirement's own text and verification methods first: it
+declares **T,D**, so a demonstration half exists and must be recorded as a
+dependency rather than claimed off-screen. The assessment must also settle its
+relationship to `VOX-DVR-010`'s deliberately deferred multi-volume compositing
+half — deferred for want of a consumer-driven blend rule, which may or may not
+be the same question — and must not assume it is. Whether the finding is a
+documentation assessment, a deferral with a recorded reason, or a built path is
+that increment's finding, exactly as `ADR-0197` decision 7 required and
+`ADR-0207` then demonstrated by reaching the opposite conclusion from its
+mirror.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -14147,13 +14210,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0208` increment (f) next: request and provenance completion,
-  closing `VOX-R2D-015` and the arc. It widens accepted public types, so grep
-  the whole repository for every construction site before declaring the sweep
-  done, and clean-rebuild before final verification because the change is a
-  cross-module layout change.
-- `VOX-R2D-015` declares **I,T**. State which half each piece of evidence
-  discharges rather than letting a green test stand in for the inspection.
+- Perform the `VOX-MPR-011` assessment next, in its own record. It declares
+  **T,D**; record the demonstration half as a dependency rather than claiming
+  it. Do not assume it is the same question as `VOX-DVR-010`'s deferred
+  multi-volume compositing half — establish that on evidence.
+- Do not reopen `ADR-0208` through `ADR-0214`. The colour and overlay arc is
+  closed and evidenced.
 - Reuse the accepted round-half-away helper's exact formula wherever a table
   index is selected, including its just-below-half behaviour. A "corrected"
   variant would be a second rounding rule and would diverge from the registered

@@ -252,6 +252,70 @@ struct ExactSliceRendererTests {
         )
     }
 
+    @Test(
+        "[Unit][VOX-R2D-015][VOX-ERR-001] a colour output this renderer cannot produce is rejected"
+    )
+    func colourOutputThisRendererCannotProduceIsRejected() async throws {
+        let publisher = try publisher()
+        _ = try await publisher.publish(try originImage(), mode: .complete)
+        let renderer = try makeRenderer(publisher: publisher, prefix: "render-c")
+
+        func request(
+            _ output: ColourOutputConfiguration,
+            _ transform: DisplayColourTransform,
+            _ colourSpace: DisplayColourSpace? = nil
+        ) throws -> RenderRequest {
+            RenderRequest(
+                scene: try scene([try layer("series-7")]),
+                viewport: try ViewportSize(width: 4, height: 3),
+                crop: nil,
+                interpolation: .nearestNeighbour,
+                quality: .full,
+                colourOutput: output,
+                colourTransform: transform,
+                outputColourSpace: colourSpace
+            )
+        }
+
+        // Without this rejection the request's colour claim would be
+        // decorative: the renderer would ignore it and still report a
+        // provenance that looked correct.
+        for unsupported in [
+            try request(.rgba8, .none),
+            try request(.greyscale8, .transferFunction),
+            try request(.greyscale8, .palette),
+            try request(.greyscale8, .rgb),
+        ] {
+            await #expect(throws: RenderModelError.unsupportedColourOutput) {
+                _ = try await renderer.render(unsupported)
+            }
+        }
+
+        // The provenance reports what the renderer DID, and it agrees with the
+        // request by construction rather than by copying. The declared colour
+        // space is carried through, never converted.
+        let space = try DisplayColourSpace(
+            namespace: "IEC",
+            code: "sRGB",
+            displayName: nil
+        )
+        let declared = try await renderer.render(
+            try request(.greyscale8, .none, space)
+        )
+        #expect(declared.presentation.colourOutput == .greyscale8)
+        #expect(declared.presentation.colourTransform == .none)
+        #expect(declared.presentation.outputColourSpace == space)
+
+        // An absent declaration stays absent: no default is substituted. A
+        // second renderer mints its own output identity.
+        let undeclared = try await makeRenderer(
+            publisher: publisher,
+            prefix: "render-d"
+        )
+        .render(try request(.greyscale8, .none))
+        #expect(undeclared.presentation.outputColourSpace == nil)
+    }
+
     @Test("[Unit][VOX-VS1-017][VOX-VS1-019] the first vertical slice renders end to end")
     func firstVerticalSliceRendersEndToEnd() async throws {
         let publisher = try publisher()
@@ -268,7 +332,10 @@ struct ExactSliceRendererTests {
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "render-1-wl0")
@@ -293,7 +360,10 @@ struct ExactSliceRendererTests {
                     viewport: try ViewportSize(width: 4, height: 3),
                     crop: nil,
                     interpolation: .nearestNeighbour,
-                    quality: .full
+                    quality: .full,
+                    colourOutput: .greyscale8,
+                    colourTransform: .none,
+                    outputColourSpace: nil
                 )
             )
             #expect(Bool(false), "Expected an unpublished image to be rejected.")
@@ -309,7 +379,10 @@ struct ExactSliceRendererTests {
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(faded.outputObjectID.rawValue == "render-1f-cp")
@@ -344,7 +417,10 @@ struct ExactSliceRendererTests {
                 viewport: try ViewportSize(width: 2, height: 2),
                 crop: crop,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "render-5-wl0")
@@ -398,7 +474,10 @@ struct ExactSliceRendererTests {
                 viewport: try ViewportSize(width: 4, height: 4),
                 crop: crop,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "render-6-rs")
@@ -451,7 +530,10 @@ struct ExactSliceRendererTests {
                 viewport: try ViewportSize(width: 8, height: 6),
                 crop: nil,
                 interpolation: .linear,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "render-9-rs")
@@ -514,7 +596,10 @@ struct ExactSliceRendererTests {
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "render-8-iv0")
@@ -556,7 +641,10 @@ struct ExactSliceRendererTests {
                     viewport: try ViewportSize(width: 4, height: 3),
                     crop: nil,
                     interpolation: .nearestNeighbour,
-                    quality: quality
+                    quality: quality,
+                    colourOutput: .greyscale8,
+                    colourTransform: .none,
+                    outputColourSpace: nil
                 )
             )
             let published = try #require(
@@ -595,7 +683,10 @@ struct ExactSliceRendererTests {
                 viewport: try ViewportSize(width: 8, height: 6),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "render-2-rs")
@@ -650,7 +741,10 @@ struct ExactSliceRendererTests {
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "render-3-cp")
@@ -716,7 +810,10 @@ struct ExactSliceRendererTests {
             viewport: try ViewportSize(width: 4, height: 3),
             crop: nil,
             interpolation: .nearestNeighbour,
-            quality: .full
+            quality: .full,
+            colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil
         )
 
         var outputIDs = Set<String>()
@@ -798,7 +895,10 @@ struct ExactSliceRendererTests {
             viewport: try ViewportSize(width: 4, height: 3),
             crop: nil,
             interpolation: .nearestNeighbour,
-            quality: .full
+            quality: .full,
+            colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil
         )
 
         let task = Task {

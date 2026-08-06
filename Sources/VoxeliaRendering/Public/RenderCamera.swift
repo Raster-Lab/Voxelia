@@ -19,6 +19,13 @@ public enum RenderModelError: Error, Sendable, Equatable {
     case invalidCropBounds
     case invalidClipBounds
     case emptyVisibleLabelSet
+
+    /// The renderer cannot produce the requested colour output or transform.
+    ///
+    /// Added by `ADR-0214`: without a rejection a renderer could silently
+    /// ignore the request's colour claim and still report a provenance that
+    /// looked correct, which would make the claim decorative.
+    case unsupportedColourOutput
 }
 
 /// One validated positive pixel viewport size per `ADR-0082`.

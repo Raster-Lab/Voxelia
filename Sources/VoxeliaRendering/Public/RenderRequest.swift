@@ -89,18 +89,39 @@ public struct RenderRequest: Sendable, Hashable {
     public let interpolation: InterpolationPolicy
     public let quality: RenderQuality
 
+    /// The intended colour output, explicit per `ADR-0214` (`VOX-R2D-015`).
+    ///
+    /// A renderer that cannot produce it rejects the request rather than
+    /// silently substituting its own.
+    public let colourOutput: ColourOutputConfiguration
+
+    /// The intended display colour transform.
+    public let colourTransform: DisplayColourTransform
+
+    /// The intended output colour space, or `nil` for **undeclared**.
+    ///
+    /// Absent means no claim has been made — never sRGB, and never a default a
+    /// renderer supplies on the caller's behalf.
+    public let outputColourSpace: DisplayColourSpace?
+
     public init(
         scene: SceneSnapshot,
         viewport: ViewportSize,
         crop: RenderCrop?,
         interpolation: InterpolationPolicy,
-        quality: RenderQuality
+        quality: RenderQuality,
+        colourOutput: ColourOutputConfiguration,
+        colourTransform: DisplayColourTransform,
+        outputColourSpace: DisplayColourSpace?
     ) {
         self.scene = scene
         self.viewport = viewport
         self.crop = crop
         self.interpolation = interpolation
         self.quality = quality
+        self.colourOutput = colourOutput
+        self.colourTransform = colourTransform
+        self.outputColourSpace = outputColourSpace
     }
 }
 
@@ -122,6 +143,20 @@ public struct PresentationProvenance: Sendable, Hashable {
     public let scaling: PresentationScaling
     public let renderMode: RenderMode
     public let colourOutput: ColourOutputConfiguration
+
+    /// The display colour transform that actually ran, per `ADR-0214`.
+    ///
+    /// Like ``scaling``, this records what the pipeline **did** — never what
+    /// was requested. Each renderer constructs it from its own knowledge.
+    public let colourTransform: DisplayColourTransform
+
+    /// The output colour space actually attested, or `nil` when the producer
+    /// has no basis to attest one.
+    ///
+    /// A request that declared none produces a provenance that declares none:
+    /// no renderer substitutes a default.
+    public let outputColourSpace: DisplayColourSpace?
+
     public let accumulation: AccumulationState
     public let denoising: DenoisingState
 
@@ -134,6 +169,8 @@ public struct PresentationProvenance: Sendable, Hashable {
         scaling: PresentationScaling,
         renderMode: RenderMode,
         colourOutput: ColourOutputConfiguration,
+        colourTransform: DisplayColourTransform,
+        outputColourSpace: DisplayColourSpace?,
         accumulation: AccumulationState,
         denoising: DenoisingState
     ) {
@@ -145,6 +182,8 @@ public struct PresentationProvenance: Sendable, Hashable {
         self.scaling = scaling
         self.renderMode = renderMode
         self.colourOutput = colourOutput
+        self.colourTransform = colourTransform
+        self.outputColourSpace = outputColourSpace
         self.accumulation = accumulation
         self.denoising = denoising
     }

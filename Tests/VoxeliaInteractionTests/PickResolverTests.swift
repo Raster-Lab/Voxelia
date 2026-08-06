@@ -43,6 +43,8 @@ struct PickResolverTests {
             scaling: scaling,
             renderMode: .slice,
             colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil,
             accumulation: .none,
             denoising: .none
         )

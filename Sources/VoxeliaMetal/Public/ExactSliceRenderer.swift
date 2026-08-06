@@ -170,6 +170,18 @@ public final class ExactSliceRenderer: SliceRenderer {
     public func render(_ request: RenderRequest) async throws -> RenderResult {
         try Task.checkCancellation()
 
+        // This renderer emits eight-bit greyscale and applies no colour
+        // transform. Rejecting anything else is what makes the request's
+        // colour claim mean something: without it the renderer could silently
+        // ignore the claim and still report a provenance that looked correct.
+        // The declared output colour space is carried, never converted.
+        guard
+            request.colourOutput == .greyscale8,
+            request.colourTransform == .none
+        else {
+            throw RenderModelError.unsupportedColourOutput
+        }
+
         // Window-level every published greyscale layer in scene order
         // — the value model consumes the stored domain — publishing
         // each stage, so the ancestry closure stays complete in the
@@ -311,7 +323,12 @@ public final class ExactSliceRenderer: SliceRenderer {
                 geometry: output.descriptor.spatialGeometry,
                 scaling: scaling,
                 renderMode: .slice,
+                // What this renderer DID, not what was asked: it emits
+                // eight-bit greyscale and applies no colour transform. The
+                // admission above is what makes the two agree.
                 colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: request.outputColourSpace,
                 accumulation: .none,
                 denoising: .none
             )

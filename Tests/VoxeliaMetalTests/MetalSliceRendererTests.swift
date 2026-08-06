@@ -191,7 +191,10 @@ struct MetalSliceRendererTests {
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         let published = try #require(
@@ -299,7 +302,10 @@ struct MetalSliceRendererTests {
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "grender-3-cp")
@@ -472,7 +478,10 @@ struct MetalSliceRendererTests {
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "grender-4-wl0")
@@ -575,7 +584,10 @@ struct MetalSliceRendererTests {
                 viewport: try ViewportSize(width: 4, height: 3),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "grender-5-iv0")
@@ -627,7 +639,10 @@ struct MetalSliceRendererTests {
                     viewport: try ViewportSize(width: 4, height: 3),
                     crop: nil,
                     interpolation: .nearestNeighbour,
-                    quality: .full
+                    quality: .full,
+                    colourOutput: .greyscale8,
+                    colourTransform: .none,
+                    outputColourSpace: nil
                 )
             )
             #expect(Bool(false), "Expected a value transform to be rejected.")

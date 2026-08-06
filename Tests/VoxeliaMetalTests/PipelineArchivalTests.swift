@@ -194,7 +194,10 @@ struct PipelineArchivalTests {
                 viewport: try ViewportSize(width: 8, height: 6),
                 crop: nil,
                 interpolation: .nearestNeighbour,
-                quality: .full
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil
             )
         )
         #expect(result.outputObjectID.rawValue == "stage-rs")

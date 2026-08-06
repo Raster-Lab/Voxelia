@@ -157,6 +157,8 @@ struct ViewportSyncGroupTests {
             scaling: .identity,
             renderMode: .slice,
             colourOutput: .greyscale8,
+            colourTransform: .none,
+            outputColourSpace: nil,
             accumulation: .none,
             denoising: .none
         )
