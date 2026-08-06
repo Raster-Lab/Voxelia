@@ -185,8 +185,9 @@ design. `ADR-0204` is allocated to the surface clipping design.
 `ADR-0205` is allocated to the surface picking design. `ADR-0206` is allocated
 to the annotation registration design. `ADR-0207` is allocated to the
 GPU-produced geometry representability assessment. `ADR-0208` is allocated to
-the colour and overlay arc.
-The next unallocated numeric identifier is `ADR-0209`.
+the colour and overlay arc. `ADR-0209` is allocated to the display colour
+vocabulary.
+The next unallocated numeric identifier is `ADR-0210`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -378,3 +379,4 @@ The next unallocated numeric identifier is `ADR-0209`.
 | [ADR-0206](ADR-0206-annotation-registration-design.md) | Accepted | Annotation registration design |
 | [ADR-0207](ADR-0207-gpu-geometry-representation-assessment.md) | Accepted | GPU-produced geometry representability assessment |
 | [ADR-0208](ADR-0208-colour-and-overlay-arc.md) | Accepted | Colour and overlay arc |
+| [ADR-0209](ADR-0209-display-colour-vocabulary.md) | Accepted | Display colour vocabulary |

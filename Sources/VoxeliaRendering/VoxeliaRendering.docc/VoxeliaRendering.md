@@ -43,6 +43,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``RenderResult``
 - ``RenderMode``
 - ``ColourOutputConfiguration``
+- ``DisplayColourSpace``
+- ``DisplayColourTransform``
+- ``DisplayColourSpaceError``
 - ``AccumulationState``
 - ``DenoisingState``
 - ``SliceRenderer``

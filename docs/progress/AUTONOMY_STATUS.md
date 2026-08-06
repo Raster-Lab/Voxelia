@@ -7757,6 +7757,63 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-thirty-fourth autonomous increment (`ADR-0208` increment (a)):
+  accepted `ADR-0209` defines the display colour vocabulary, and
+  `VoxeliaRendering` now owns `DisplayColourSpace`, `DisplayColourTransform` and
+  `DisplayColourSpaceError`.
+
+  **This record deliberately carries no algorithm specification and no oracle**,
+  because a vocabulary of declarations involves no arithmetic — the `ADR-0198`
+  precedent, and what `ADR-0208` decision 1 requires only where a numeric
+  boundary is fixed. The evidence is the migration's own suite. Design-first
+  still held: the record was accepted before the Swift was written.
+
+  **A finding recorded for increment (f):** `RenderRequest` today carries
+  `scene`, `viewport`, `crop`, `interpolation` and `quality` and **no colour
+  claim of any kind**. `ColourOutputConfiguration` lives only on
+  `PresentationProvenance`, and both renderers hard-code it — `greyscale8` in
+  the slice path, `rgba8` in the volume path. So `VOX-R2D-015`'s "explicit in
+  render requests" half is not merely undeclared, it is absent. Written down now
+  so the scope is not rediscovered later.
+
+  `DisplayColourSpace` follows `MeasurementUnit`: a namespace paired with a
+  code, so naming defers to whoever owns the namespace instead of freezing into
+  an enumeration this project cannot maintain. It grants **no conversion
+  authority** and carries no gamma, primaries, white point or transfer
+  characteristic — those are the inputs to a conversion, and carrying them would
+  invite one to be written without a record. A test asserts the stored fields
+  are exactly `namespace`, `code` and `displayName`, so that restraint is
+  enforced rather than described.
+
+  **Comparison is byte-for-byte, with no case folding and no Unicode
+  normalisation**, because a code is an identifier from an external namespace
+  and folding case would silently merge two distinct registry entries. The
+  display name is excluded from equality and from hashing. There is **no
+  invalid-code case**: the project holds no registry of colour-space codes, and
+  pretending to validate against one would be a claim with no basis — so an
+  unrecognised code is admitted, and a test pins that.
+
+  `DisplayColourTransform` ships with **two** cases, `none` and
+  `transferFunction`, each naming work the pipeline does today. A single-case
+  set would have forced the volume renderer to declare that no colour transform
+  ran while it demonstrably applies one, putting a false claim into provenance.
+  Later increments widen the set additively, as `ADR-0174` widened the render
+  mode rather than replacing it.
+
+  Verified: 771 tests in 166 suites green.
+
+  ```bash
+  swift test --filter DisplayColourTests
+  swift format lint --strict \
+    Sources/VoxeliaRendering/Public/DisplayColour.swift \
+    Tests/VoxeliaRenderingTests/DisplayColourTests.swift
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13753,13 +13810,20 @@ The M6 colour and overlay arc is open: accepted `ADR-0208` decomposes
 Reading the baseline table to open it found `VOX-MPR-011` unassessed anywhere;
 it is recorded as outstanding and deliberately not folded in.
 
-The exact next action is `ADR-0208` increment (a): the colour vocabulary and the
-declared output colour space, the first half of `VOX-R2D-015`. Design-first —
-the declaration grants **no** conversion authority (the `PoweredLengthUnit`
-precedent), no implicit colour space may be assumed, and display calibration
-(GSDF, ICC, measured characterisation) is out of scope by `ADR-0208` decision 9.
-Compose `ALG-0023`'s accepted four-channel straight-alpha representation rather
-than inventing one.
+Increment (a) is complete in both halves: accepted `ADR-0209` defines the
+vocabulary and `VoxeliaRendering` owns `DisplayColourSpace`,
+`DisplayColourTransform` and `DisplayColourSpaceError`. No numeric boundary was
+frozen, so no algorithm specification or oracle was registered — the `ADR-0198`
+precedent.
+
+The exact next action is `ADR-0208` increment (b): VOI LUT application
+(`VOX-R2D-007`, declares `T`). Determine first whether the accepted
+`LookupTableDescriptor` composition already supplies application semantics or
+whether a new model is needed — that record says of itself that it "does not
+define lookup, clamping, extrapolation, or display-window behavior", so a
+numeric boundary almost certainly needs freezing, and if so it needs an
+algorithm specification and an independent Python oracle before any Swift.
+Do not pre-judge the finding.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13788,10 +13852,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0208` increment (a) next: the colour vocabulary and declared
-  output colour space. Freeze every numeric boundary in an accepted record with
-  an independent Python oracle before writing Swift, as every increment in the
-  last two arcs has been.
+- Perform `ADR-0208` increment (b) next: VOI LUT application. Freeze every
+  numeric boundary — index derivation, clamping, out-of-domain behaviour and the
+  empty-table case — in an accepted record with an independent Python oracle
+  before writing Swift.
+- Increment (f) must close the request-side gap `ADR-0209` recorded:
+  `RenderRequest` carries no colour claim at all today.
 - `VOX-MPR-011` (multi-volume fusion, P1, `T,D`, M6) is unassessed and needs its
   own record. Do not fold it into the colour arc, and do not treat M6 as closed
   when that arc finishes.
