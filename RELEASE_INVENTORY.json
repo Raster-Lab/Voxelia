@@ -2506,8 +2506,8 @@
     },
     {
       "path": "Tools/Scripts/check_prohibited_imports.py",
-      "size": 1680,
-      "sha256": "5d2184cdbbd155c549dafaaa385ef7060b6c22f63c61713cbe62dca1511a28ba"
+      "size": 1746,
+      "sha256": "521ce3d3eab67e0fa151842828ddaed870b5cf6080ef75ec8701c6df17cf37af"
     },
     {
       "path": "Tools/Scripts/check_release_integrity.py",
@@ -3910,9 +3910,14 @@
       "sha256": "a83e09d748d97c50041e50eeba487d9f8847f8fb6a39d8d183effe9ebfc1aebc"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0196-geometry-acceleration-architecture-assessment.md",
+      "size": 13331,
+      "sha256": "17774b6d33b07d8ff59d18ee68188674be7e649bc16ea3469e282f3734e1d092"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 29279,
-      "sha256": "4510205f1dae5e62e34e71b828ad81074a952a9c61b22895e76c56b77fcfbe42"
+      "size": 29490,
+      "sha256": "4786a0f5d3e025444c3467f5b741ab72cd308a81828c0beecbfe76e96a9f4be2"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -3996,8 +4001,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 830178,
-      "sha256": "7a3dae1ffc73747901a208dcdf6a9446b0b19bed1adad99c2cc613fd47ec382d"
+      "size": 835084,
+      "sha256": "c6dd60dfd8fc58a24624492bb6028cca0f07f8a1adf4f67a4a0dde168e5eba40"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4391,8 +4396,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 48481,
-      "sha256": "9a6b3722cac957513cb543a56dde75f3a2681f05d43504cd26fc6593ac3af558"
+      "size": 48567,
+      "sha256": "fcb46e48a72978b98481f257e6caf24628ad6fa32ab5a81d5dd2222429bc5138"
     }
   ]
 }

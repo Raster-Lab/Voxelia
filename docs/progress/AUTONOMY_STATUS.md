@@ -6471,6 +6471,78 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twelfth autonomous increment (`ADR-0196`, arc-closing
+  assessment): accepted `ADR-0196` discharges `VOX-GEO-011` by inspection and
+  **closes the `ADR-0183` geometry extraction arc**. No product source, public
+  API, registry entry or accepted algorithm changed; the one repository change
+  is a single entry added to a policy script.
+
+  A correction is recorded first. The next-action line written during the
+  `ADR-0195` increment named a "surface-rendering assessment" as this arc's
+  penultimate stage. That was wrong, and it was my own error, not an
+  inherited one. `ADR-0183` decision 6 says the opposite in its own words:
+  `VOX-SUR-*` work "is not folded into this arc". The arc's final stage is
+  backend-specific acceleration adapters, governed by `VOX-GEO-011`. This is
+  the standing process lesson recurring — an arc's opening ADR is the
+  authority on its decomposition, never a later summary of it — and it is
+  worth noting the summary that drifted was written one increment earlier, not
+  months before.
+
+  `VOX-GEO-011` had never been assessed: before this record it appeared
+  exactly once in the entire ledger, in that same mis-stated next-action line.
+  It sat in several ADRs' `affected_requirements` front matter without any
+  recorded discharge — the `VOX-DVR-011` pattern again, caught this time by
+  grepping the ledger for the requirement ID before acting.
+
+  Its baseline verification methods are **I,R — Inspection and Review**, not
+  Test and not Demonstration, so a documentation-only assessment is the
+  verification the baseline actually asks for. Six structural findings support
+  the discharge: `VoxeliaGeometry`'s declared dependencies are exactly Core and
+  Spatial; its complete import set across every source file is those same two
+  modules; `TriangleMesh` carries no residency handle, buffer, device
+  reference or acceleration field and has no `Hashable`/`Codable` identity to
+  fold one into; `VoxeliaMetal` contains no mesh or acceleration type at all,
+  and the only occurrence of `ModelIO` or `RealityKit` anywhere in `Sources`
+  is the sentence in `TriangleMesh`'s own documentation asserting independence
+  from them; `ADR-0186`'s Metal transfer boundary is one-way and byte-level;
+  and every published geometry operation returns a pure value selected through
+  `ImplementationRegistry` rather than a backend type.
+
+  **The inspection found one real gap and closed it.**
+  `check_prohibited_imports.py` forbade `ModelIO` in Core, Spatial, Storage,
+  Execution, Imaging and Rendering — but not in Geometry, which is precisely
+  the module most exposed to it, since Model I/O is Apple's mesh interchange
+  framework. `ADR-0183` decision 1 and `TriangleMesh`'s doc comment both claim
+  independence from Model I/O, so the claim was asserted in two accepted
+  places and enforced in none. `ModelIO` is now in Geometry's prohibited set
+  and the check passes unchanged, confirming a latent gap rather than a live
+  defect.
+
+  No acceleration adapter was built, and the record states why on three
+  independent grounds: there is no consumer, a single adapter written without
+  one would become canonical by default — the exact harm the requirement
+  forbids — and the requirement asks for inspection, not demonstration.
+
+  The arc's requirement set is now discharged: `VOX-GEO-004` by the attribute
+  vocabulary plus a deterministic normal producer (stated precisely — only
+  normals have an accepted producer, which the requirement's own "where
+  applicable" wording permits), `VOX-GEO-006` by the coordinate-space and
+  provenance rules, `VOX-GEO-007`/`008` by Freudenthal scalar and labelled
+  extraction, `VOX-GEO-009` by deterministic vertex normals, `VOX-GEO-010` by
+  total facet area and certified enclosed volume, and `VOX-GEO-011` here.
+
+  ```bash
+  python3 Tools/Scripts/check_prohibited_imports.py
+  Tools/Scripts/validate-scaffold.sh
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12359,16 +12431,26 @@ implemented, registered and evidenced, and the Validation and Benchmark
 Strategy's section 31.2 comparison of surface area against enclosed volume is
 now expressible.
 
-The exact next action is the **surface-rendering assessment** over a
-publishable canonical mesh — `ADR-0183`'s penultimate stage. Assess before
-designing: read `VOX-GEO-011` and the rendering requirements' exact baseline
-text, then establish what, if anything, needs building, mirroring the
-`ADR-0181` bricked/multi-resolution assessment shape. A documentation-only
-assessment record is the correct outcome when nothing needs building
-(`ADR-0037`/`0114`/`0121`/`0145` precedent); do not invent a renderer to have
-something to build. Backend-specific derived acceleration is the final
-`ADR-0183` stage after it. The colour/overlay arc (`VOX-R2D-010/011/015` plus
-VOI verification) remains the other M6 queue. After that,
+**The `ADR-0183` geometry extraction arc is CLOSED.** Accepted `ADR-0196`
+discharged its final requirement `VOX-GEO-011` by inspection and corrected the
+mis-stated claim that surface rendering was one of its stages — `ADR-0183`
+decision 6 excludes `VOX-SUR-*` from the arc explicitly.
+
+The exact next action is the **surface-rendering arc-opening record**:
+`VOX-SUR-001` through `VOX-SUR-009`, now assessable because a valid canonical
+mesh can be published. Author an arc-opening ADR mirroring `ADR-0165`'s and
+`ADR-0183`'s shape — decomposition and binding rules only, no case tables, no
+numeric models, no public API — and, per the standing lesson that cost this
+project twice, check the opening record's requirement list against the actual
+baseline table for the whole `VOX-SUR` numeric range rather than trusting any
+summary. Nine rows span explicit coordinate-space transforms, depth testing
+and hidden-surface removal, per-object opacity, vertex normals and materials,
+scalar colour maps, clipping and section views, authoritative picking,
+depth-aware annotation registration, and Metal-generated geometry that must
+not make GPU buffers canonical. Several will be hardware- or
+consumer-gated; say so honestly rather than promising them. The colour/overlay
+arc (`VOX-R2D-010/011/015` plus VOI verification) remains the other M6 queue
+item. After that,
 the remaining `ADR-0183` stages are the surface-rendering assessment over a
 publishable canonical mesh and backend-specific derived acceleration; the
 colour/overlay arc and VOI verification remain the other M6 queue. Certified enclosed volume remains a distinct governed record and must
@@ -12386,13 +12468,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- The next increment is the surface-rendering assessment and is expected to be
-  documentation-only. Run the oracle-free
-  ADR/document/register/index/manifest/integrity checks; product builds and
-  tests are not evidence until source changes. Verify that "no product source
-  changed" claim against `git diff --cached --name-only` before committing.
-- Do not reopen `ADR-0194` or `ADR-0195`. Both are accepted, implemented,
-  registered and evidenced.
+- The next increment is the surface-rendering arc-opening record and is
+  documentation-only. Run the ADR/document/register/index/manifest/integrity
+  checks; product builds and tests are not evidence until source changes.
+  Verify the "no product source changed" claim against
+  `git diff --cached --name-only` before committing.
+- Do not reopen `ADR-0194`, `ADR-0195` or `ADR-0196`. All three are accepted
+  and evidenced, and the geometry arc is closed.
 - Before every commit, check the staged diff for stray `" 2"` duplicate files
   and, for any increment claiming no product source changed, confirm that
   claim against `git diff --cached --name-only` rather than trusting intent.
