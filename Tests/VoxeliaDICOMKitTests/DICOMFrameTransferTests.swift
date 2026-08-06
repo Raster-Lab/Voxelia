@@ -22,9 +22,12 @@ struct DICOMFrameTransferTests {
         return DataElement(tag: tag, vr: vr, length: UInt32(data.count), valueData: data)
     }
 
+    /// Two explicit little-endian bytes; see `ADR-0287`.
     private func unsigned16(_ tag: DICOMCore.Tag, _ value: UInt16) -> DataElement {
-        var little = value.littleEndian
-        let data = withUnsafeBytes(of: &little) { Data($0) }
+        let data = Data([
+            UInt8(truncatingIfNeeded: value),
+            UInt8(truncatingIfNeeded: value >> 8),
+        ])
         return DataElement(tag: tag, vr: .US, length: 2, valueData: data)
     }
 

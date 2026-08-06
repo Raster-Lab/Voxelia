@@ -34,16 +34,30 @@ struct DICOMFrameAdapterTests {
         )
     }
 
+    /// Two explicit little-endian bytes.
+    ///
+    /// Written as shifts rather than a pointer view of the value's storage: the encoding
+    /// is then stated here instead of delegated to memory layout, and the package stays
+    /// clean under `-strict-memory-safety`, which `ADR-0287` measured.
+    private static func littleEndianPair(_ value: UInt16) -> Data {
+        Data([
+            UInt8(truncatingIfNeeded: value),
+            UInt8(truncatingIfNeeded: value >> 8),
+        ])
+    }
+
     private func unsigned16(_ tag: DICOMCore.Tag, _ value: UInt16) -> DataElement {
-        var little = value.littleEndian
-        let data = withUnsafeBytes(of: &little) { Data($0) }
-        return DataElement(tag: tag, vr: .US, length: 2, valueData: data)
+        DataElement(
+            tag: tag, vr: .US, length: 2, valueData: Self.littleEndianPair(value))
     }
 
     private func signed16(_ tag: DICOMCore.Tag, _ value: Int16) -> DataElement {
-        var little = value.littleEndian
-        let data = withUnsafeBytes(of: &little) { Data($0) }
-        return DataElement(tag: tag, vr: .SS, length: 2, valueData: data)
+        DataElement(
+            tag: tag,
+            vr: .SS,
+            length: 2,
+            valueData: Self.littleEndianPair(UInt16(bitPattern: value))
+        )
     }
 
     /// A complete, admissible CT frame data set.

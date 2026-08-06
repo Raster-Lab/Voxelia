@@ -5010,6 +5010,52 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **The affine arc's named work is COMPLETE.** Next: the two tooling gaps, then a
    re-derived queue.
 
+   **Increment (fff): `ADR-0287` — I INVESTIGATED MY OWN `ADR-0286` CLAIM AND IT WAS WRONG
+   TWICE.** 1152 tests / 207 suites unchanged; no product source changed.
+
+   **Withdrawn claim 1**: "`check_swift_safety.py` does not scan `Tests/`". **It does** —
+   `Tests` is the second scan root, beside `Sources`, `Benchmarks`, `Tools`, `Validation`.
+   **Withdrawn claim 2**: "the policy forbids the API regardless". **Over-strict** — the
+   policy states outright that "an identifier containing `unsafe` is **not reserved**". So
+   `withUnsafeBytes` passing is **the policy working as written**, not a hole. Reserved
+   spellings are `@unchecked`, `@preconcurrency`, `StrictMemorySafety` and the **bare word**
+   `unsafe`. `ADR-0286` NOT edited; only those two claims withdrawn.
+
+   **THE REAL GAP, and it is sharper.** The policy's first sentence permits "only one
+   explicitly approved **compiler-classified** memory boundary" — but **`StrictMemorySafety`
+   appears NOWHERE in `Package.swift`** (zero occurrences). **No compiler was doing the
+   classifying.** The `unsafe` markers in `MetalBufferTransfer` are voluntary, and the
+   word-based scan detects **a convention the codebase follows, not a property the compiler
+   enforces**. Evidence: `ADR-0286`'s test compiled `withUnsafeBytes` with no marker at all.
+
+   **POSITIVE CONTROL FIRST, and it mattered.** My first package measurement counted
+   **errors** → 0 → **which proved nothing, because strict memory safety emits WARNINGS**.
+   The number was meaningless until a three-line probe established the flag fires at all:
+   clean without it, `warning: expression uses unsafe constructs but is not marked with
+   'unsafe' [#StrictMemorySafety]` with it.
+
+   **Then measured on genuinely fresh scratch builds**: product source **895 units → 0
+   diagnostics**; source+tests **1150 units → 14**, all from **three** `withUnsafeBytes`
+   calls in two DICOMKit test files; after rewriting them to explicit shifts, **1150 units →
+   0**. **The whole package is now strict-memory-safety clean.**
+
+   **NOT enabled in this increment, and not from reluctance**: the manifest is lexed against
+   a **30-identifier declarative subset** permitting **none** of `swiftSettings`,
+   `SwiftSetting`, `enableExperimentalFeature`, `strictMemorySafety`. Enabling requires
+   **widening a safety control** — a governed change deserving its own increment with its own
+   negative tests, same reasoning `ADR-0286` used declining to widen the scan inside a
+   rendering fix.
+
+   **Also NOT done: extending the scan to camelCase identifiers** — which was the plan when
+   this increment began. The policy explicitly excludes them, so adding them would make the
+   tool enforce a rule **the policy does not state** — the **inverse** of `ADR-0196`'s
+   finding, and just as wrong. **The right instrument is the compiler, not a wider regex.**
+
+   **Next**: the enabling increment — manifest allowlist widening (with a negative test that
+   it still refuses everything it refused before, per `ADR-0233`'s discipline), package-wide
+   vs per-target, and whether `MetalBufferTransfer`'s governed `expected_findings` needs
+   revisiting once the compiler rather than convention requires its markers.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

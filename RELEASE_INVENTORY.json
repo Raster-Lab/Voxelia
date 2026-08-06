@@ -2201,13 +2201,13 @@
     },
     {
       "path": "Tests/VoxeliaDICOMKitTests/DICOMFrameAdapterTests.swift",
-      "size": 14003,
-      "sha256": "c0c74b3d99ffc92fa8a42646768322392f766daaa8ee6395878362049f513726"
+      "size": 14425,
+      "sha256": "6faf517eb3b99044c37e4441ff7298dcdb21fdc0453e5aad2693de841eb65449"
     },
     {
       "path": "Tests/VoxeliaDICOMKitTests/DICOMFrameTransferTests.swift",
-      "size": 7931,
-      "sha256": "7c23332f51fd38a96402986c867182a2c022e50c632f4bc9c63f2f4cbb136cb1"
+      "size": 8022,
+      "sha256": "c75ff1d075510afe86a3f427677ecebb1f148bda72c80378a54af4ae49f12ec6"
     },
     {
       "path": "Tests/VoxeliaExecutionTests/BrickRequestBrokerTests.swift",
@@ -4980,9 +4980,14 @@
       "sha256": "b666554abab9306bdcc2187b50176e3d8803d4ec7e790ca2d2f355f755f06cb5"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0287-strict-memory-safety-readiness.md",
+      "size": 8773,
+      "sha256": "aef79d76c79e0e162f1c9f447d2751678cfbeab3a409d6ddfe10bbca0e5d9966"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 40246,
-      "sha256": "a8d3effbd7bd16ef16824f7db70c25591ec08eee1666b0e8f2556967e082017e"
+      "size": 40349,
+      "sha256": "ef98749433e2391dacfc777b463cf10b033b8f8991e517e9bad1a766dbbc1e64"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5076,8 +5081,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1191611,
-      "sha256": "a8127e50820a5e0e9c720ebd584f861e1a153df237d32e1cac6e10219113d44b"
+      "size": 1194869,
+      "sha256": "7f213b23d159da7f3a4661ba4469a3d6f2d50723f24f9a017945bf1741313ba0"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5586,8 +5591,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 63525,
-      "sha256": "8d2691844873f673903bcdb76e15386234af9f95f2e2f1baf545bc869b323b80"
+      "size": 63596,
+      "sha256": "c98d0de10597ea596ae6a995ac864bc8d3db1dd0d4650610ab003b2a1f93389f"
     }
   ]
 }
