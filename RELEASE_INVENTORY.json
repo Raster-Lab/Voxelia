@@ -2306,8 +2306,8 @@
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTImportSessionTests.swift",
-      "size": 13391,
-      "sha256": "a74ff326028e35d003b6db8c727ec1487dd34ec83c4fba3ba887403466a46749"
+      "size": 15554,
+      "sha256": "1cdf3db3a70f4f2ea882c35e387002973bd2b3653fb5af6f84936ede77f15fa2"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTSampleInspectorTests.swift",
@@ -4660,9 +4660,14 @@
       "sha256": "8ec7ba4703c4120d89b8766186d7772a67a47c0ad141be6022a9405b33d9ef6b"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0253-steady-state-volume-footprint.md",
+      "size": 8195,
+      "sha256": "82d863887b504af388479f3a84ff045e1b6bf096c82e146213a7e7bcb23b5019"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 36668,
-      "sha256": "b45c49d36ab83a7661f7e94e7ddf936b718ea2086f189f683cc4125e3a0e18a8"
+      "size": 36769,
+      "sha256": "b5263898193b36094fd3456943aeb2423f73f2f026cede2fff9f9ffcb3103d95"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4746,8 +4751,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1082331,
-      "sha256": "a9cba409cbf5a4b209f9142dc8745a53634dd6bdd4f186c4f1f09fe0ca82bf00"
+      "size": 1085268,
+      "sha256": "50ef29aa09536d398d6132464e075a502beea9bcf26dfd10a96ea2ad1b804f1a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4941,8 +4946,8 @@
     },
     {
       "path": "docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md",
-      "size": 21017,
-      "sha256": "a7e8309e992c13d3c9eb0ccec7024377976bc01998d31e568f035e829f4ee75b"
+      "size": 22786,
+      "sha256": "10d21a717bfa24e70ce0e0b1d38bf430190fbe99625c9fd36a156ded985a7ccf"
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
@@ -5251,8 +5256,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 59026,
-      "sha256": "c0f180ec4faf6c4e668701b7bfe1a5495cd13130df934b9b7bf8d6a7e196e714"
+      "size": 59096,
+      "sha256": "0623710681e4b97173db540a6b04da27368a9afd4ef942069a6ae1b8eefe5740"
     }
   ]
 }

@@ -303,6 +303,51 @@ struct CTImportSessionTests {
         #expect(volume.series.key.frameOfReference == reference)
     }
 
+    // MARK: - VOX-VS1-018, steady-state footprint (ADR-0253)
+
+    @Test("[Unit][VOX-VS1-018] an imported volume retains exactly one full allocation")
+    func importedVolumeRetainsExactlyOneAllocation() async throws {
+        // Plan §59.2: at steady state the retained complete decoded sample
+        // footprint shall be ONE full logical volume allocation, and any
+        // additional complete representation shall be identified.
+        //
+        // Stated as an equality rather than a bound: the storage's logical byte
+        // count must equal the layout's byte count exactly, and reading the whole
+        // volume must charge exactly that and release to zero. A future change
+        // that padded, aligned or duplicated the buffer would break the first
+        // expectation; one that retained a second copy would break the last.
+        //
+        // The existing retention tests use 24-byte fixtures; this one is
+        // volume-shaped, which is the case the requirement is about.
+        let volume = try runImport(
+            frames: try sources(),
+            objectName: "vol.footprint",
+            cancellation: { _ in false }
+        )
+        let expectedBytes = volume.layout.byteCount
+        #expect(expectedBytes == 3 * 3 * 2 * 2)  // slices x rows x columns x uint16
+
+        let coordinator = StorageReadCoordinator(
+            maximumRetainedResultByteCount: UInt64(expectedBytes) * 2
+        )
+        #expect(await coordinator.currentChargedByteCount == 0)
+
+        let read = try await coordinator.read(
+            from: volume.image.storage,
+            region: try ImageRegion(
+                lowerBounds: [0, 0, 0],
+                upperBounds: volume.image.descriptor.shape.extents
+            )
+        )
+        // Exactly one volume's worth -- not more, which is what "no additional
+        // complete representation" means at this boundary.
+        #expect(read.result.bytes.count == expectedBytes)
+        #expect(await coordinator.currentChargedByteCount == UInt64(expectedBytes))
+
+        try await coordinator.release(read.retention)
+        #expect(await coordinator.currentChargedByteCount == 0)
+    }
+
     // MARK: - Refusals that are not cancellation
 
     @Test("[Unit][VOX-VS1-017][VOX-ERR-001] an empty source list refuses typed")

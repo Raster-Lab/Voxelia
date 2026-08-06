@@ -439,3 +439,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0250](ADR-0250-interpolation-analytical-confirmation.md) | Accepted | Interpolation analytical confirmation |
 | [ADR-0251](ADR-0251-off-screen-equivalence-reading.md) | Accepted | Off-screen equivalence reading |
 | [ADR-0252](ADR-0252-cpu-metal-three-view-differential.md) | Accepted | CPU Metal three-view differential |
+| [ADR-0253](ADR-0253-steady-state-volume-footprint.md) | Accepted | Steady state volume footprint |

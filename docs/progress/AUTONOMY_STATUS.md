@@ -3311,9 +3311,61 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    tolerance profile that is still an owner gate — measuring it would produce a number
    nobody is yet authorised to accept.
 
-   **Next: `VOX-VS1-018`**, the last first-slice row with claimable work.
-   `A,T`, and the `A` half is already argued (unified memory selects `.shared`, so
-   there is no copy to duplicate); the `T` half is a steady-state measurement.
+   **Increment (y): `ADR-0253`, `VOX-VS1-018` discharged in both methods. EVERY
+   FIRST-SLICE ROW WITH CLAIMABLE WORK IS NOW DONE.** 1024 tests / 191 suites.
+
+   **Analysis half — the row asks about a CPU-to-GPU duplicate, and the first slice
+   performs no full-volume upload at all.** `MultiplanarRenderCoordinator` extracts
+   the plane on the CPU and hands the renderer a **two-dimensional** layer; neither it
+   nor `MetalSliceRenderer` touches `ExactVolumeRenderer`. So the second complete copy
+   the row is about cannot exist, because the transfer that would create it never
+   happens. `ADR-0081`'s residency model covers the DVR case when it arrives —
+   recorded, not claimed.
+
+   **Test half — measured in a FRESH process**, and that detail is the increment's
+   methodological point:
+
+   | Quantity | Value |
+   |---|---|
+   | One full logical volume | `449 MiB` |
+   | Peak resident after import | `466 MiB` |
+   | **Ratio** | **`1.04x`** |
+
+   Measuring inside the long-running harness first reported a **`0 MiB` delta** —
+   because `ru_maxrss` is a high-water mark, so a later import that stays under an
+   earlier peak shows nothing. That number was real and the conclusion it invited was
+   false. A separate single-import binary was written to get an attributable figure.
+
+   Storage-boundary accounting confirms §59.4 directly: a full-volume read charges
+   exactly `449 MiB` and releases to exactly `0`.
+
+   **A suspected transient duplicate turned out not to exist.**
+   `CTVolumeStorageBuilder` does `ContiguousImageStorage(bytes: Array(buffer.bytes))`,
+   which reads like a 449 MiB copy and would show as ~`2.0x`. It measures `1.04x`:
+   the buffer is uniquely referenced and unused afterwards, so the bytes move. The
+   "obvious optimisation" — changing `CTVolumeByteBuffer.bytes` to `[UInt8]` — would
+   have been a public-API change to a frozen type **buying nothing**.
+
+   **Contrast increment (t)**, where a suspected copy WAS real and cost `5.4x`.
+   Identical reasoning both times, opposite answers; only measurement distinguished
+   them. That is now a standing rule rather than an anecdote.
+
+   §59.3's stress cases (`512x512x1024`, dataset replacement, open/close cycles,
+   export during interactive rendering) are **not claimed** — the last needs the gated
+   interactive path and the rest are benchmark work belonging to `VOX-VS1-021`.
+
+   # FIRST VERTICAL SLICE: ALL CLAIMABLE ROWS DISCHARGED
+
+   `001`-`009`, `011`-`020` complete. **Two things remain, neither of them ordinary
+   work:** `VOX-VS1-010`'s **Demonstration** half, owner-gated on the interactive draw
+   loop alongside the `VOX-SUR` demonstration halves; and **`VOX-VS1-021`**, the
+   validation and benchmark reports, which is where §59.3's stress volume and the
+   provisional `voxelia.m4.ct.diagnostic` tolerance profile belong — and that profile
+   is an **owner approval**, not something to adopt as if approved.
+
+   **Next: `VOX-VS1-021` assessment** in its own record — read its declared
+   verification methods first, since `ADR-0196` showed an `I,R` row can license a
+   documentation-only discharge while `ADR-0207` showed `I,T` cannot.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in

@@ -441,6 +441,49 @@ The sequence is worth recording as method rather than as a number: a hedge added
 against a guessed trade was measured, the guess was wrong, and the measurement
 that removed the hedge is what exposed the real cost.
 
+## Run 10 - `VOX-VS1-018` steady-state footprint
+
+Measured in a **fresh process** performing exactly one import, because `ru_maxrss`
+is a high-water mark: the same measurement inside this long-running harness
+reported a `0 MiB` delta, which says only "this import stayed below an earlier
+peak" and would have been a false conclusion.
+
+```text
+baseline peak before any import:  8 MiB
+one full logical volume:          449 MiB
+peak resident after import:       466 MiB
+ratio to one volume:              1.04x
+```
+
+One volume plus four percent for the process, the frame source's URL map and one
+frame's bytes at a time. **No second complete representation exists at any point.**
+
+Storage-boundary accounting, which is §59.4's leak criterion measured directly
+rather than inferred from process memory:
+
+```text
+read coordinator charged at rest:                    0 bytes
+charged while one full-volume read is retained:      449 MiB
+charged after release:                               0 bytes
+```
+
+**A suspected transient duplicate does not exist.** `CTVolumeStorageBuilder` calls
+`ContiguousImageStorage(binding:bytes: Array(buffer.bytes))`, which reads like a
+full-volume copy and would show as a peak near `2.0x`. It measures `1.04x`: the
+buffer is uniquely referenced and unused afterwards, so the bytes move rather than
+copy. The obvious "fix" — changing `CTVolumeByteBuffer.bytes` to `[UInt8]` —
+would have been a public-API change buying nothing.
+
+Contrast run 9b, where a suspected copy **was** real and cost `5.4x`. Identical
+reasoning, opposite answers; only measurement distinguished them.
+
+Reproduction of this run specifically:
+
+```text
+harness: a SEPARATE scratch executable doing one import and nothing else
+run:     footprint <series-directory>
+```
+
 ## Reproduction
 
 ```text
