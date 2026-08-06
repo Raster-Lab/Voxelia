@@ -78,6 +78,11 @@ separate contracts.
 - ``TriangleMeshEnclosedVolumeResult``
 - ``TriangleMeshEnclosedVolumeError``
 
+### Producer byte representation
+
+- ``TriangleMeshByteDecoder``
+- ``TriangleMeshByteDecodingError``
+
 ### Project documents
 
 - <doc:Architecture>

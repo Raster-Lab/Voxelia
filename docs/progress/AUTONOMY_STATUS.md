@@ -7643,6 +7643,61 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-thirty-second autonomous increment (`ADR-0207` migration —
+  **the `ADR-0197` surface-rendering arc closes**): `VoxeliaGeometry` now owns
+  `TriangleMeshByteDecoder`. All eighteen `VOXELIA-ALG-0041` fixtures reproduce
+  both registered SHA-256 digests bit-exactly on the first run.
+
+  **"The buffer is not canonical" is proven operationally, not argued.** A test
+  decodes a payload, then overwrites every byte of the source array with `0xFF`
+  and empties it, and asserts the mesh is unchanged. That is what the claim
+  actually means, and it is now a failing test if anyone ever makes the mesh
+  hold a view onto foreign bytes.
+
+  **The decoder restates no geometric rule, and the thrown error type is the
+  proof.** A non-finite position throws `TriangleMeshPositionDomainError`
+  `.nonFinitePosition` and an out-of-range index throws
+  `TriangleMeshTopologyError.indexOutOfBounds` — the canonical value's own
+  failures, surfacing through the decoder unwrapped. Its own family is exactly
+  four byte-level cases, and `incompleteVertex` / `incompleteTriangle` are
+  unreachable because an exact byte-count match is strictly stronger than a
+  multiple-of-three check.
+
+  The suite pins the byte order with a single assertion (`00 00 80 3F` is
+  exactly `1.0`; read the other way it is `4.6006e-41`), pins exact binary32
+  widening at the least subnormal, the least normal and the greatest finite
+  value, pins that negative zero survives with its sign bit intact, and pins
+  that a count too large to address its own payload is rejected before a byte is
+  read.
+
+  **No Metal dependency edge was added**, and the prohibited-import check
+  passes with `VoxeliaGeometry` still forbidding both `Metal` and `ModelIO` —
+  which is the architectural claim `ADR-0207` makes, mechanically enforced
+  rather than asserted.
+
+  Verified after a clean `.build` rebuild: 768 tests in 165 suites green.
+
+  **`VOX-SUR-009` is discharged in both methods** — Inspection by `ADR-0207`'s
+  four findings, Test by this migration. **All ten `ADR-0197` increments (a)
+  through (j) are complete and the surface-rendering arc is CLOSED.**
+  `VOX-SUR-001` through `VOX-SUR-006` and `VOX-SUR-008` have their **Test** half
+  discharged with the demonstration half recorded as an outstanding dependency
+  on the owner-gated interactive draw loop; `VOX-SUR-007` (declaring `T`) and
+  `VOX-SUR-009` (declaring `I,T`) are discharged **completely**.
+
+  ```bash
+  swift test --filter TriangleMeshByteDecoderTests
+  swift format lint --strict \
+    Sources/VoxeliaGeometry/Public/TriangleMeshByteDecoder.swift \
+    Tests/VoxeliaGeometryTests/TriangleMeshByteDecoderTests.swift
+  python3 Tools/Scripts/check_prohibited_imports.py
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13620,22 +13675,26 @@ through the real `SurfaceVertexProjector`. The **Test** half of `VOX-SUR-008` is
 discharged; its continuous-motion demonstration half stays gated to the
 owner-gated interactive draw loop, as `VOX-DVR-013` is, and is not claimed.
 
-Increment (j)'s design is complete: accepted `ADR-0207` and `VOXELIA-ALG-0041`
-assess `VOX-SUR-009` and freeze the GPU-produced geometry byte layout. The
-finding is a **built path**, not a documentation assessment, because
-`VOX-SUR-009` declares `I,T` where `VOX-GEO-011` declared `I,R`. Inspection
-found `ADR-0186`'s transport already solved and the byte layout entirely
-missing.
+Increment (j) is complete in both halves: accepted `ADR-0207` and
+`VOXELIA-ALG-0041` assess `VOX-SUR-009` and freeze the GPU-produced geometry
+byte layout — the finding was a **built path**, not a documentation assessment,
+because `VOX-SUR-009` declares `I,T` where `VOX-GEO-011` declared `I,R` — and
+`TriangleMeshByteDecoder` in `VoxeliaGeometry` reproduces all eighteen fixtures
+bit-exactly with no Metal dependency edge added.
 
-The exact next action is the `ADR-0207` migration: add the decoder to
-`VoxeliaGeometry`, reproducing all eighteen `ALG-0041` fixtures bit-exactly,
-proving the little-endian byte order, exact binary32 widening including the
-extremes and negative zero, that geometric rejections come from the canonical
-admission rather than a restated rule, and that the decoded mesh is independent
-of the source bytes — mutating or discarding the payload after decoding must not
-change the mesh, which is the operational meaning of "the buffer is not
-canonical". The prohibited-import check must still pass with `VoxeliaGeometry`
-forbidding `Metal`. That green closes the `ADR-0197` surface-rendering arc.
+**The `ADR-0197` surface-rendering arc is CLOSED.** All ten increments (a)
+through (j) are complete. `VOX-SUR-007` and `VOX-SUR-009` are discharged
+completely; `VOX-SUR-001` through `VOX-SUR-006` and `VOX-SUR-008` have their
+**Test** half discharged, with the **Demonstration** half of each recorded as an
+outstanding dependency on the owner-gated interactive draw loop — not claimed,
+and not to be claimed by any off-screen render.
+
+The exact next action is the **M6 colour/overlay arc**: `VOX-R2D-010`,
+`VOX-R2D-011`, `VOX-R2D-015` plus VOI verification. Open it with its own
+arc-opening record in the shape `ADR-0183` and `ADR-0197` used — read the
+baseline requirement table for the actual `VOX-R2D` number range first rather
+than trusting any decomposition list, because `ADR-0165`'s own decomposition
+silently skipped a requirement once already.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13664,16 +13723,18 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0207` migration next: the byte-layout decoder in
-  `VoxeliaGeometry`. Run the focused `VoxeliaGeometryTests` suite, `swift format
-  lint --strict` on every touched Swift file, the prohibited-import check, and
-  the ADR/document/register/index/manifest/integrity checks. Reproduce all
-  eighteen `ALG-0041` fixtures bit-exactly, prove the decoded mesh survives its
-  source bytes being mutated or discarded, and see the literal passing full
-  unfiltered test-run line before pushing.
-- Do not add a `Metal` dependency edge to `VoxeliaGeometry` for the decoder.
-  The decode names no GPU type, and the placement is the architectural claim
-  `ADR-0207` makes; the prohibited-import check is what enforces it.
+- Open the M6 colour/overlay arc next with its own arc-opening record. Read the
+  baseline requirement table for the whole `VOX-R2D` number range before
+  decomposing, and grep the ledger for each requirement ID before concluding it
+  was missed — a gap may be "never assessed" or "assessed elsewhere, correctly
+  absent here".
+- Do not reopen `ADR-0197` or any of `ADR-0198` through `ADR-0207`. The
+  surface-rendering arc is closed and evidenced; a different rule needs a new
+  record or algorithm version, not an edit.
+- The demonstration half of `VOX-SUR-001` through `VOX-SUR-006` and
+  `VOX-SUR-008` remains outstanding and owner-gated behind the interactive draw
+  loop. Do not close those rows, and do not let a future off-screen render be
+  mistaken for their demonstration evidence.
 - `VOX-SUR-008` declares `T,D` and its motion half needs the owner-gated
   interactive draw loop. Claim the correctness half only, and record the motion
   half as an outstanding demonstration dependency rather than silently closing
