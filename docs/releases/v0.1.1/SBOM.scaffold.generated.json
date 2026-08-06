@@ -4,7 +4,7 @@
     {
       "checksum": {
         "algorithm": "SHA-256",
-        "value": "dd46040cfe542f97e248793e40a420e395fe71e278b9c662be4a1866548a41aa"
+        "value": "66bab1bc5bfb4f4528c0a0e2e6a0b2335f9323df4fd4798c3769ae556b774c65"
       },
       "owningTarget": "VoxeliaMetal",
       "path": "Sources/VoxeliaMetal/Resources/ShaderManifest.yaml",
@@ -111,7 +111,7 @@
     {
       "algorithm": "SHA-256",
       "path": "Package.swift",
-      "value": "70d256e6750fb7c1f9d3485adebbd7b9dd7b9ee4ad698e84e3c996c7e09ce9da"
+      "value": "b7f8e6c181e8bdf7c1edb9aca5f45112f3cdb3677ca987ffa912dd81418d7c34"
     },
     {
       "algorithm": "SHA-256",
@@ -173,9 +173,9 @@
     "release": "Repository and Package Scaffold",
     "releaseDate": "2026-08-02",
     "sourceRevision": {
-      "commit": "d088b0bae3c90c9cf0879b46bb6dbbdecdacf95f",
+      "commit": "5a89d63c13ae62160b9cc5f267962e6771ba149f",
       "scope": "Checked-out source revision observed before writing the generated SBOM artifact.",
-      "workingTreeDirty": true
+      "workingTreeDirty": false
     },
     "version": "0.1.1"
   },
@@ -321,6 +321,7 @@
     },
     {
       "dependencies": [
+        "VoxeliaExecution",
         "VoxeliaGeometry",
         "VoxeliaImaging"
       ],
@@ -349,7 +350,8 @@
     },
     {
       "dependencies": [
-        "VoxeliaCore"
+        "VoxeliaCore",
+        "VoxeliaSpatial"
       ],
       "name": "VoxeliaGeometry",
       "path": "Sources/VoxeliaGeometry",
@@ -466,6 +468,7 @@
     {
       "dependencies": [
         "VoxeliaGeometry",
+        "VoxeliaSpatial",
         "VoxeliaTestSupport"
       ],
       "name": "VoxeliaGeometryTests",

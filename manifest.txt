@@ -862,6 +862,7 @@ docs/architecture/decisions/ADR-0221-multiplanar-render-path.md
 docs/architecture/decisions/ADR-0222-progress-reporting-design.md
 docs/architecture/decisions/ADR-0223-documentation-build-gate.md
 docs/architecture/decisions/ADR-0224-scaffold-gate-findings.md
+docs/architecture/decisions/ADR-0225-unrun-pipeline-sweep-conclusion.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

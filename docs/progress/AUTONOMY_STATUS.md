@@ -8776,6 +8776,49 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifty-fourth autonomous increment (`ADR-0225`): the sweep is
+  **closed**. The last two pipelines — `generate-sbom.sh` and its validator —
+  both **pass**, but regenerating showed the committed bill of materials had
+  drifted.
+
+  Three drifts, and the third is the one that matters. Two target dependency
+  lists were stale against `Package.swift` (`VoxeliaCPU` gained
+  `VoxeliaExecution` in `670611e`, `VoxeliaGeometry` gained `VoxeliaSpatial` in
+  `ddf6e8c`) — **a bill of materials that under-reports a module's dependencies
+  is the one error it exists to prevent**. Two checksums named content that no
+  longer exists. And the artefact recorded **`"workingTreeDirty": true`** at
+  commit `d088b0b`: the committed SBOM described a state that was never a
+  commit.
+
+  **This pipeline was gated, unlike the others.** `prepare-release.sh` does
+  invoke it, so this is a stale artefact rather than a missing gate — a milder
+  finding than the documentation build, and reported as such rather than
+  flattened into the same category. The SBOM is deliberately **not** added to
+  any per-increment check: it would diff on every increment and train everyone
+  to ignore it.
+
+  **The sweep's honest summary: four heavyweight pipelines existed that nothing
+  routinely ran, and three were broken.** `build-docc.sh` failed outright and
+  was invoked by no pipeline at all; `validate-scaffold.sh` carried four
+  diagnostics, one of them mine from two increments earlier, and **still fails**
+  on an attributed pre-existing compiler crash; `test-repository-scripts.sh`
+  failed through that same violation and now passes; the SBOM had drifted.
+
+  Every increment in this session before the sweep ran `swift test`,
+  `swift format`, `validate-docs.sh` and the integrity ledger — all green —
+  while the documentation build had been broken for days. **A green routine
+  check says nothing about a pipeline the routine does not invoke.**
+
+  ```bash
+  Tools/Scripts/generate-sbom.sh
+  python3 Tools/Scripts/generate_sbom.py --validate \
+    docs/releases/v0.1.1/SBOM.scaffold.generated.json
+  Tools/Scripts/validate-docs.sh
+  swift test
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14895,11 +14938,23 @@ strict-memory-safety compiler crash predates this session** and is an Apple
 Swift 6.3.3 toolchain defect. **`validate-scaffold.sh` is currently red**, and
 no flag was relaxed to hide it.
 
-The exact next action is the last two unrun pipelines:
-`Tools/Scripts/generate-sbom.sh` and its `generate_sbom.py --validate` companion.
-Repair what they surface. When they are done, the sweep that began with the
-DocC finding is complete, and the honest summary is that four heavyweight
-pipelines existed which nothing routinely ran, three of which were broken.
+The sweep is closed by accepted `ADR-0225`. All four pipelines have been run;
+three are green and `validate-scaffold.sh` fails on a recorded, attributed
+Apple Swift 6.3.3 compiler crash that no flag was relaxed to hide.
+
+**There is no unrun pipeline left and no unblocked, consumer-backed capability
+gap.** What remains is genuinely gated: the eighteen owner-gated `VOX-CMP` and
+`VOX-DCM` traceability rows, the demonstration halves behind the interactive
+draw loop, the measurement workloads behind reference hardware, lazy evaluation
+with no consumer, and the compiler crash awaiting a toolchain change.
+
+The exact next action is therefore **to say that plainly rather than
+manufacture an increment**. If the loop continues, the useful acts are narrow:
+re-test the release strict build when the toolchain changes, and re-run
+`prepare-release.sh` before any release. Otherwise the honest position is that
+the autonomous queue is drained to its gates, and the next substantive move
+needs an owner decision — on DICOMKit, on the Raster-Lab codecs, or on
+reference hardware.
 
 ## Test policy for the next action
 

@@ -201,7 +201,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0222` is allocated to the progress reporting design.
 `ADR-0223` is allocated to the documentation build gate.
 `ADR-0224` is allocated to the scaffold gate findings.
-The next unallocated numeric identifier is `ADR-0225`.
+`ADR-0225` is allocated to the unrun pipeline sweep conclusion.
+The next unallocated numeric identifier is `ADR-0226`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -409,3 +410,4 @@ The next unallocated numeric identifier is `ADR-0225`.
 | [ADR-0222](ADR-0222-progress-reporting-design.md) | Accepted | Progress reporting design |
 | [ADR-0223](ADR-0223-documentation-build-gate.md) | Accepted | Documentation build gate |
 | [ADR-0224](ADR-0224-scaffold-gate-findings.md) | Accepted | Scaffold gate findings |
+| [ADR-0225](ADR-0225-unrun-pipeline-sweep-conclusion.md) | Accepted | Unrun pipeline sweep conclusion |
