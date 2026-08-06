@@ -194,7 +194,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0215` is allocated to the multi-volume fusion assessment.
 `ADR-0216` is allocated to the requirement traceability sweep.
 `ADR-0217` is allocated to the vertical slice traceability.
-The next unallocated numeric identifier is `ADR-0218`.
+`ADR-0218` is allocated to the execution and CPU traceability.
+The next unallocated numeric identifier is `ADR-0219`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -395,3 +396,4 @@ The next unallocated numeric identifier is `ADR-0218`.
 | [ADR-0215](ADR-0215-multi-volume-fusion-assessment.md) | Accepted | Multi-volume fusion assessment |
 | [ADR-0216](ADR-0216-requirement-traceability-sweep.md) | Accepted | Requirement traceability sweep |
 | [ADR-0217](ADR-0217-vertical-slice-traceability.md) | Accepted | Vertical slice traceability |
+| [ADR-0218](ADR-0218-execution-and-cpu-traceability.md) | Accepted | Execution and CPU traceability |

@@ -8306,6 +8306,58 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-forty-fourth autonomous increment (`ADR-0218`, execution and CPU
+  traceability): the second paydown. Thirteen rows inspected, debt **66 → 53**,
+  **no product source changed** — the only change is a tooling policy set.
+
+  **Nine rows traced to real evidence**: `VOX-EXE-001` to
+  `RegisteredImplementation` plus the immutable render requests; `VOX-EXE-010`
+  to `BrickRequestBroker`'s in-flight coalescing; `VOX-CON-002` to the six
+  `public actor` coordinators; `VOX-CCH-006` to `ContentResultCache`'s two
+  ceilings and its **no implicit eviction** rule; `VOX-CPU-002` to the frozen
+  expression order plus oracle discipline every reference kernel carries;
+  `VOX-CPU-003` to `backend`, `precisionPolicy` and `approximationStatus` as
+  separate registered claims; `VOX-CPU-005` to the accepted reduction models;
+  `VOX-CPU-007` to the explicit admissions every operation performs; and
+  `VOX-CPU-009` **by actually running the build** — `swift build --target
+  VoxeliaCPU` succeeds — rather than by reading the package manifest.
+
+  **Partial verification methods are claimed as such, never rounded up.**
+  `VOX-CCH-006`'s Analysis half needs a gated measurement workload;
+  `VOX-CPU-002`'s Review half is an owner act a record cannot self-certify.
+
+  **Four rows came back not satisfied, as the previous increment predicted.**
+  `VOX-EXE-005` (lazy evaluation) and `VOX-EXE-008` (progress reporting) are
+  **unbuilt** — no deferred-evaluation mechanism and no progress API exist
+  anywhere. `VOX-CPU-008` is **not satisfiable yet** for a precise reason: no
+  SIMD or Accelerate implementation exists, so there is nothing for a benchmark
+  to distinguish. `VOX-CPU-004`'s permission is unexercised.
+
+  **`VOX-CPU-004` exposed an enforcement gap in the exact `ADR-0196` shape, and
+  it is closed now.** The requirement permits Accelerate and vImage **only**
+  behind validated operation semantics — and **no module's prohibited-import set
+  mentioned either**, so the first `import Accelerate` into `VoxeliaCore` or
+  `VoxeliaRendering` would have passed every check in the repository. Both are
+  now prohibited in the seven backend-neutral modules. **`VoxeliaCPU` is
+  deliberately excluded**: the requirement *permits* them there behind validated
+  semantics, so prohibiting it would overrule the requirement rather than
+  enforce it. The check passes unchanged, confirming no existing violation.
+
+  Four capability gaps are now written down that were previously recorded
+  nowhere: lazy evaluation, progress reporting, benchmark classification, and
+  the unexercised Accelerate permission.
+
+  ```bash
+  python3 Tools/Scripts/check_prohibited_imports.py
+  swift build --target VoxeliaCPU
+  python3 Tools/Scripts/check_requirement_traceability.py --write
+  python3 Tools/Scripts/check_requirement_traceability.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14371,13 +14423,17 @@ visibility, because invisibility is what hid `VOX-MPR-011`.
 
 There are two reasonable next actions, and the queue takes them in this order.
 
-**First, continue the paydown** with the next tractable block. The remaining 66
-rows include eighteen owner-gated entries (the whole `VOX-CMP` block and the
-`VOX-DCM` rows) that **must not be traced by fabricating an assessment of work
-that cannot start**; the tractable candidates are the `VOX-EXE`, `VOX-CPU` and
-`VOX-CCH` rows, which describe execution, reference-implementation and cache
-behaviour the project demonstrably has. Inspect each against what exists, as
-`ADR-0217` did, and expect some to come back unbuilt.
+**First, continue the paydown** with the next tractable block. Accepted
+`ADR-0218` did the execution, concurrency, cache and CPU rows: nine traced, four
+recorded unbuilt or unsatisfiable, debt **66 → 53**, and an Accelerate
+enforcement gap closed on the way. The remaining 53 rows include eighteen
+owner-gated entries (the whole `VOX-CMP` block and the `VOX-DCM` rows) that
+**must not be traced by fabricating an assessment of work that cannot start**.
+The next tractable candidates are the `VOX-GOV`, `VOX-LIC` and `VOX-REP`
+governance and repository rows — most are satisfied by artefacts that already
+exist and are already enforced by `check_required_files.py`, so the work is
+citing the enforcing check per row rather than inspecting code. Expect a few to
+be genuinely absent.
 
 **Second, `VOX-VS1-010`'s Metal plane path**, which `ADR-0217` surfaced as a
 real capability gap. It needs its own design record: which plane vocabulary the
@@ -14413,11 +14469,15 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Continue the traceability paydown with the `VOX-EXE`, `VOX-CPU` and
-  `VOX-CCH` rows. Every removal from
+- Continue the traceability paydown with the `VOX-GOV`, `VOX-LIC` and
+  `VOX-REP` rows. Every removal from
   `docs/progress/untraced-requirements.txt` needs a real inspection recorded in
-  a record or a test, not a mention added to make a count fall — and expect
-  some rows to come back unbuilt, as `VOX-VS1-010` did.
+  a record, not a mention added to make a count fall — and expect some rows to
+  come back unbuilt, as four did in `ADR-0218`.
+- When a row permits something conditionally, check whether tooling enforces
+  the condition. `VOX-CPU-004` permitted Accelerate behind validated semantics
+  and nothing stopped it appearing anywhere; that is the third time this class
+  of gap has been found.
 - Traced is not discharged. The debt list measures visibility; a row recorded
   as blocked or unbuilt leaves it while staying outstanding in the ledger.
 - Never trace an owner-gated row. The `VOX-CMP` and `VOX-DCM` entries stay on

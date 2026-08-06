@@ -2671,8 +2671,8 @@
     },
     {
       "path": "Tools/Scripts/check_prohibited_imports.py",
-      "size": 1746,
-      "sha256": "521ce3d3eab67e0fa151842828ddaed870b5cf6080ef75ec8701c6df17cf37af"
+      "size": 2356,
+      "sha256": "f16061fbe96fa4cd7f71842f890b9fbd5e2c310eac4c77dc2840d54f34cc5dc4"
     },
     {
       "path": "Tools/Scripts/check_release_integrity.py",
@@ -4255,9 +4255,14 @@
       "sha256": "9df104c0142d9300193d365210a90df01e6edeffb6097952e95110a564255bc6"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0218-execution-and-cpu-traceability.md",
+      "size": 10653,
+      "sha256": "80c288658e97d96671af781e7dc3a9f39770678bbe541e04c40125dba7a28e28"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 32686,
-      "sha256": "d0a0c5164d0a5ca112cfbe9d3943e8992e07432b6d36eef3ba1b452cb22e765a"
+      "size": 32852,
+      "sha256": "e9ed24ecfba5d229b3fd23462365bc4bf2d10e7ae7a6bde0205ff9e46d50c840"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4341,8 +4346,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 946529,
-      "sha256": "de6825449b92b8f3e0e700e2f3f48458a570d1b1d81ac32e5f56be71e2ef6563"
+      "size": 950056,
+      "sha256": "d1158bc3de6f61b539140875c8ded35e41a135b1dec7f2c40747c2d5cf01b794"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4501,8 +4506,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 1113,
-      "sha256": "d9ad110b1e22ce479658808b9e77a8045f38b250a1d043efb4c9c3cb7b9c23e3"
+      "size": 957,
+      "sha256": "277f8b695762058fbeb2bb60e2f78dda4aa29c9e8570f71e1da2643ca4bac3b1"
     },
     {
       "path": "docs/project/README.md",
@@ -4806,8 +4811,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 53510,
-      "sha256": "a97cbd1ba41b44bd6b77936ef91e26d49a619a066f65c73e3f2fd92691e058f6"
+      "size": 53581,
+      "sha256": "b80367cf72b60e95b3a79b84ab0793581a63af9ef79a2c5ebcc76e14353817db"
     }
   ]
 }
