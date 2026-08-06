@@ -4510,6 +4510,59 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    not one volume), and whether `WindowStageExecutor` gains a parameter or the closure
    captures the value.
 
+   **Increment (ww): `ADR-0278`, `VOX-R2D-014` DISCHARGED — and `ADR-0277` d6 withdrawn on
+   measurement.** 1125 tests / 203 suites (was 1124/203).
+
+   **THE MEASUREMENT `ADR-0277` PROMISED, over the owner's ENTIRE input tree** (not one
+   series): **30,347 files, 29,651 frames described, ZERO declaring `PixelPaddingValue`**,
+   all `uint16`. The adapter reads tag `(0028,0120)` correctly — there is simply nothing
+   to read. **So the padding transit gap is entirely latent**: `paddingValue: nil` gives
+   byte-identical output to a fully wired transit on every frame this project can reach.
+   Building it now would be machinery no data exercises, verifiable only synthetically.
+
+   **SECOND FINDING — the divergence `ADR-0251` guarded against is NOT PUBLICLY
+   REACHABLE.** Checked the access levels rather than the shape: `ExactSliceRenderer` is
+   public and its **convenience** init is public, but the **designated** init is
+   **internal** and `WindowStageExecutor` is **internal** — the parameter's type cannot
+   even be *named* outside the module. All 11 construction sites use the convenience init,
+   and both renderers' hard-code the same `nil`. **No external caller — export path or
+   viewport — can inject a stage at all.**
+
+   **THE READING**: the one remaining choice is *which renderer type*, and §35.1's eighth
+   shared semantic is literally "**shader or CPU implementation**". `ADR-0251`'s
+   "identical construction" condition **IS** that requirement in code, not a qualification
+   of it. Nine semantics resolve: seven in the request, one fixed by the only public
+   construction path, one the plan's own same-implementation rule.
+
+   **`ADR-0277` d6 WITHDRAWN** — it required the unconditional transit before this row
+   could discharge. Measurement + access levels say otherwise. `ADR-0277` NOT edited; its
+   enumeration, §28.4 separability finding and `ADR-0275` correction all stand.
+
+   **The positive control that makes the claim falsifiable**: the equality was otherwise
+   about a knob that might do nothing. New test builds a renderer via the internal
+   designated init with `paddingValue: 11` — a value the fixture actually contains —
+   asserting the unpadded render puts something **non-zero** there, that declaring it
+   padding makes that byte **exactly zero** (`ALG-0002` rev 1.2), and that **no other byte
+   moves**. First test anywhere to exercise that accepted rule through a renderer.
+
+   **A VERIFICATION TRAP, hit and recorded**: `swift test --filter` matches test
+   **function names**, NOT the display strings in `@Test("…")`. Filtering on a display
+   string ran **zero** tests and printed `Test run with 0 tests in 0 suites passed` — a
+   green line meaning nothing ran. Caught only by counting `@Test(` in the file against
+   the reported total. Same silent-pass failure mode as before, new hat. **A green tick on
+   zero tests is not evidence; when a filtered count surprises you, suspect the filter.**
+
+   **Rejected**: making padding an explicit *public* convenience-init parameter — it would
+   make divergence EASIER, turning a semantic no external caller can vary into a knob every
+   caller must set consistently, which is the opposite of what §35.1 asks.
+
+   Padding is now **quantified, not open**: rule accepted, reachable internally,
+   demonstrated correct, unexercised by all available data, unreachable from production.
+
+   **The draw-loop arc's unblocked library tier has ONE row left: `VOX-INT-008`'s `T`** —
+   responsiveness under background processing, via an injected clock and deterministic
+   probe.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

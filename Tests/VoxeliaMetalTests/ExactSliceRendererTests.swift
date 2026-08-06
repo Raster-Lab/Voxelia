@@ -182,29 +182,38 @@ struct ExactSliceRendererTests {
                 maximumRetainedResultByteCount: 96
             ),
             software: try software(),
-            naming: { stage in
-                let suffix: String
-                switch stage {
-                case .cropped(let layerIndex):
-                    suffix = "cr\(layerIndex)"
-                case .inverted(let layerIndex):
-                    suffix = "iv\(layerIndex)"
-                case .windowLevelled(let layerIndex):
-                    suffix = "wl\(layerIndex)"
-                case .composited:
-                    suffix = "cp"
-                case .resampled:
-                    suffix = "rs"
-                }
-                return (
-                    outputObjectID: DataObjectID(rawValue: "\(prefix)-\(suffix)")!,
-                    provenanceID: ProvenanceID(rawValue: "record-\(prefix)-\(suffix)")!,
-                    createdAt: try CanonicalInstant(
-                        utcString: "2026-08-05T04:05:00Z"
-                    )
-                )
-            }
+            naming: Self.naming(prefix: prefix)
         )
+    }
+
+    /// The stage-naming closure both renderer builders use.
+    ///
+    /// Shared rather than duplicated: two builders with independently written naming
+    /// schemes could differ in a way that shows up as a rendering difference, which
+    /// would silently weaken any test comparing their output.
+    private static func naming(prefix: String) -> RenderPublicationNaming {
+        { stage in
+            let suffix: String
+            switch stage {
+            case .cropped(let layerIndex):
+                suffix = "cr\(layerIndex)"
+            case .inverted(let layerIndex):
+                suffix = "iv\(layerIndex)"
+            case .windowLevelled(let layerIndex):
+                suffix = "wl\(layerIndex)"
+            case .composited:
+                suffix = "cp"
+            case .resampled:
+                suffix = "rs"
+            }
+            return (
+                outputObjectID: DataObjectID(rawValue: "\(prefix)-\(suffix)")!,
+                provenanceID: ProvenanceID(rawValue: "record-\(prefix)-\(suffix)")!,
+                createdAt: try CanonicalInstant(
+                    utcString: "2026-08-05T04:05:00Z"
+                )
+            )
+        }
     }
 
     private func publisher() throws -> PublicationCoordinator {
@@ -1076,7 +1085,7 @@ struct ExactSliceRendererTests {
         #expect(firstA.presentation == secondA.presentation)
     }
 
-    @Test("[Unit][VOX-VS1-016] two separately constructed renderers agree exactly")
+    @Test("[Unit][VOX-VS1-016][VOX-R2D-014] two separately constructed renderers agree exactly")
     func twoSeparatelyConstructedRenderersAgreeExactly() async throws {
         // The case that actually models off-screen versus interactive: two
         // independently constructed renderers, as an export path and a viewport
@@ -1090,6 +1099,13 @@ struct ExactSliceRendererTests {
         // passes `paddingValue: nil`. Two callers injecting different stages
         // could therefore diverge, which is why ADR-0251 states the equivalence
         // as conditional on identical construction rather than unconditional.
+        //
+        // ADR-0278 adds why that condition is not a gap for VOX-R2D-014. The
+        // designated initialiser and `WindowStageExecutor` are both internal, so
+        // no caller outside VoxeliaMetal can inject a stage at all -- and plan
+        // §35.1's eighth shared semantic is "shader or CPU implementation",
+        // which is precisely what identical construction means. The condition
+        // restates the plan's own requirement rather than qualifying it away.
         let publisherA = try publisher()
         _ = try await publisherA.publish(try originImage(), mode: .complete)
         let rendererA = try makeRenderer(publisher: publisherA, prefix: "equiv-3a")
@@ -1108,6 +1124,110 @@ struct ExactSliceRendererTests {
         // Presentation claims are compared field by field except the object
         // identifiers, which are caller-minted by design and differ on purpose.
         #expect(resultA.presentation == resultB.presentation)
+    }
+
+    // MARK: - VOX-R2D-014, the padding semantic exercised (ADR-0278)
+
+    /// A renderer whose window stage declares a padding sentinel.
+    ///
+    /// Built through the **internal** designated initialiser, which is the only way to
+    /// vary a `§35.1` semantic that the request does not carry. That it is internal is
+    /// the point: no caller outside `VoxeliaMetal` can reach it, so no external export
+    /// path and no external viewport can construct renderers that disagree here.
+    private func makePaddedRenderer(
+        publisher: PublicationCoordinator,
+        prefix: String,
+        paddingValue: Int64
+    ) throws -> ExactSliceRenderer {
+        let readCoordinator = StorageReadCoordinator(
+            maximumRetainedResultByteCount: 96
+        )
+        let software = try software()
+        return ExactSliceRenderer(
+            publisher: publisher,
+            readCoordinator: readCoordinator,
+            software: software,
+            naming: Self.naming(prefix: prefix),
+            windowStage: { input, window, names in
+                try await WindowLevelOperation.execute(
+                    input: input,
+                    center: try MetadataFloatingPoint(value: window.center),
+                    width: try MetadataFloatingPoint(value: window.width),
+                    paddingValue: paddingValue,
+                    outputObjectID: names.outputObjectID,
+                    outputProvenanceID: names.provenanceID,
+                    createdAt: names.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
+            },
+            invertStage: { input, names in
+                try await InvertDisplayOperation.execute(
+                    input: input,
+                    outputObjectID: names.outputObjectID,
+                    outputProvenanceID: names.provenanceID,
+                    createdAt: names.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
+            },
+            compositeStage: { layers, opacities, names in
+                try await CompositeLayersOperation.execute(
+                    layers: layers,
+                    opacities: opacities,
+                    outputObjectID: names.outputObjectID,
+                    outputProvenanceID: names.provenanceID,
+                    createdAt: names.createdAt,
+                    software: software,
+                    coordinator: readCoordinator
+                )
+            }
+        )
+    }
+
+    @Test("[Unit][VOX-R2D-014] the padding semantic changes output, so its equality is not vacuous")
+    func paddingSemanticChangesOutput() async throws {
+        // `ADR-0251` stated off-screen equivalence as conditional on identical renderer
+        // construction, because padding policy travels through the injected window stage
+        // rather than through the request. That condition is only meaningful if the
+        // stage can actually change what is drawn -- otherwise "both paths use the same
+        // padding" is a claim about a knob that does nothing.
+        //
+        // The fixture's samples are 0..<12 and the window is centre 6 / width 8, so the
+        // sample valued 11 lies above the window and renders bright. Declaring it as
+        // padding must, per `ALG-0002` revision 1.2, exclude it before every
+        // stored-to-real step so it displays exactly zero -- and must leave every other
+        // sample alone.
+        let plainPublisher = try publisher()
+        _ = try await plainPublisher.publish(try originImage(), mode: .complete)
+        let plain = try makeRenderer(publisher: plainPublisher, prefix: "pad-off")
+        let plainBytes = try await renderedBytes(
+            try await plain.render(try equivalenceRequest()),
+            from: plainPublisher
+        )
+
+        let paddedPublisher = try publisher()
+        _ = try await paddedPublisher.publish(try originImage(), mode: .complete)
+        let padded = try makePaddedRenderer(
+            publisher: paddedPublisher,
+            prefix: "pad-on",
+            paddingValue: 11
+        )
+        let paddedBytes = try await renderedBytes(
+            try await padded.render(try equivalenceRequest()),
+            from: paddedPublisher
+        )
+
+        #expect(plainBytes.count == 12)
+        #expect(paddedBytes.count == 12)
+        // Non-vacuity: the unpadded render must actually put something non-zero at the
+        // sample about to be declared as padding, or zeroing it would prove nothing.
+        #expect(plainBytes[11] != 0)
+        // The registered rule: an excluded sample displays exactly zero.
+        #expect(paddedBytes[11] == 0)
+        // Surgical: nothing else moved.
+        #expect(Array(plainBytes[0..<11]) == Array(paddedBytes[0..<11]))
+        #expect(plainBytes != paddedBytes)
     }
 
     private func requireSendable<Value: Sendable>(_ type: Value.Type) {}

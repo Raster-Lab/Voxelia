@@ -2511,8 +2511,8 @@
     },
     {
       "path": "Tests/VoxeliaMetalTests/ExactSliceRendererTests.swift",
-      "size": 47039,
-      "sha256": "bb9a643381da82e3c4e236587643725b6aa62bc307ee8d4e0accf30eb94e2b40"
+      "size": 52760,
+      "sha256": "fc305cf3e1ba64ac485f9d1d9e78bbdae9be95d3c996ee69c988d664e55f0fd4"
     },
     {
       "path": "Tests/VoxeliaMetalTests/ExactVolumeRendererTests.swift",
@@ -4900,6 +4900,11 @@
       "sha256": "747df87bf05a993b4ed0742d7d5c18b8010f26c7a3346bac755f724ca2aeee09"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0278-presentation-semantics-equality.md",
+      "size": 9898,
+      "sha256": "1fe8b7e4b5f973dc56bd89b8a652978996b3964591a43f652a13f27858296a07"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
       "size": 38641,
       "sha256": "5740e7eed3bdbdb209b903f4012253728a9bbc77a478af7a84af884470cfb757"
@@ -4996,8 +5001,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1157510,
-      "sha256": "2556b787ac6c56216c80fc2bb5c3407511a446d7e4ba93358e4714a5a02f330a"
+      "size": 1161119,
+      "sha256": "05af9ef356cbf22de26dd1ff1165fb6612b73cbf615a1b8c6733ea9768b5b5ad"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5506,8 +5511,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 62438,
-      "sha256": "a5d07e73b97b35532b2608828db32405e6a153f52d4773fc91b93d8ab3a03d1e"
+      "size": 62510,
+      "sha256": "e7ff030df0f788ff3461387c84aadeacfa6da359c596e232ab803dc174866c6b"
     }
   ]
 }
