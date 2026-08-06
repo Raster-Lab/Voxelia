@@ -2717,11 +2717,57 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    source claim — so a value that exists has passed all four, and one test that
    builds one is worth more than any number of field-by-field assertions.
 
-   **The exact next action is `ADR-0238` increment (f), which closes the arc**:
-   publish through `PublicationCoordinator` and extract axial, coronal and sagittal
-   slices from the real 899-slice series through `MPRSliceCoordinator`. That is what
-   makes `VOX-VS1-009` reachable, and it is the first time the ingested volume meets
-   code written in earlier milestones.
+   **`ADR-0243` closed the arc, and the closing found a blocker that is not in the
+   bridge.** 992 tests in 187 suites.
+
+   | Stage | Result |
+   |---|---|
+   | Publication of a geometry-bearing ingested volume | **works** |
+   | Slab extraction, one slice thick | **works**, and translates the affine origin |
+   | Squeeze from a one-thick slab to a 2D slice | **refused** |
+   | The same pipeline with `spatialGeometry: nil` | all three planes reconstruct |
+
+   Every row is a test, not a reading, and the last two isolate the cause.
+
+   **`SqueezeAxesOperation` guards `spatialGeometry == nil`**, and
+   `MPRSliceCoordinator` uses squeeze as its second stage — so **no volume carrying
+   a spatial geometry can be reconstructed through it**. That puts two P0
+   requirements in tension: `VOX-VS1-004` requires an affine volume *with*
+   patient-space geometry, `VOX-VS1-009` requires the reconstruction, and as
+   implemented a volume can satisfy either but not both.
+
+   **The refusal is correct conservatism, not a bug.** Dropping an axis from an
+   affine means deciding what the remaining 2D geometry *is*: the 4×4 loses a
+   column, the dropped axis's contribution must fold into the origin, and the
+   `SpatialAxisMapping` must be renumbered. Real arithmetic, and the operation
+   declined to guess. Every existing MPR test passes because its synthetic volumes
+   carry no geometry — **nothing was wrong, and nothing had ever been composed.**
+   Neither half of the project was at fault and no test could have caught it,
+   because each half was only ever exercised alone.
+
+   **`VOX-VS1-009` is not claimed.** The reconstruction works for geometry-free
+   volumes and not for the volumes this project actually ingests; reporting that as
+   satisfied would be the clearest kind of false claim. **No workaround was
+   applied** — stripping the geometry before squeeze would make MPR "work" by
+   discarding exactly what `VOX-VS1-004` and `VOX-DCM-007` exist to preserve, and
+   would produce slices that silently do not know where they are.
+
+   The blocker is **pinned by a test** that asserts the current refusal, so lifting
+   it later is a noticed act rather than a silent behaviour change; a second test
+   isolates the cause so the refusal cannot be blamed on the bridge.
+
+   Secondary finding: **`RegionExtractionOperation`'s header contradicted its own
+   code**, still describing a deferral of affine geometry and regular sampling that
+   the code had stopped observing — both are handled, at lines 106 and 134, and a
+   test proves the geometry branch is correct. Comment corrected; a comment that
+   tells a reader the opposite of the truth is worse than none.
+
+   **The exact next action, and it blocks eleven requirements: the axis-drop rule
+   for an affine geometry.** It needs a record, an algorithm specification with a
+   frozen expression order, an oracle, and a change to `SqueezeAxesOperation`. Once
+   decided, `VOX-VS1-009` and everything downstream of a 2D slice — window-level
+   interaction, crosshairs, pixel inspection, distance measurement, off-screen
+   output — becomes reachable through code that already exists.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in

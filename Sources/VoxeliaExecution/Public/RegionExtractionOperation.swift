@@ -19,10 +19,13 @@ public enum RegionExtractionError: Error, Sendable, Equatable {
 ///
 /// The semantic is a byte-exact copy of one full-rank half-open region
 /// of the input's canonical packed decoded bytes: no sample value is
-/// created, altered, rounded or interpreted. Version one admits only
-/// geometry-free descriptors with index-only axis sampling, because
-/// cropping under affine geometry or regular sampling shifts origins,
-/// which is arithmetic deferred to its own decision. The operation
+/// created, altered, rounded or interpreted. Version one deferred affine
+/// geometry and regular axis sampling, because cropping under either
+/// shifts origins; that deferral has since been taken up, and this
+/// operation now translates an affine origin by the region's lower
+/// bounds and rebases regular sampling. `ADR-0243` corrected this
+/// comment, which had continued to describe the deferral after the code
+/// stopped observing it. The operation
 /// mints no identifiers and acquires no clock: the caller supplies the
 /// output object identifier, provenance identifier, instant and
 /// software identity, and receives a fully validated `ImageData` whose

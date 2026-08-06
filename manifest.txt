@@ -457,6 +457,7 @@ Tests/VoxeliaImagingTests/CTGeometryValidatorTests.swift
 Tests/VoxeliaImagingTests/CTSampleNormalisationTests.swift
 Tests/VoxeliaImagingTests/CTSeriesAssemblerTests.swift
 Tests/VoxeliaImagingTests/CTValueInterpreterTests.swift
+Tests/VoxeliaImagingTests/CTVolumeBridgeCompositionTests.swift
 Tests/VoxeliaImagingTests/CTVolumeByteBufferTests.swift
 Tests/VoxeliaImagingTests/CTVolumeDescriptorBuilderTests.swift
 Tests/VoxeliaImagingTests/CTVolumeLayoutTests.swift
@@ -912,6 +913,7 @@ docs/architecture/decisions/ADR-0239-stored-sample-normalisation.md
 docs/architecture/decisions/ADR-0240-ct-volume-descriptor.md
 docs/architecture/decisions/ADR-0241-ct-volume-storage-binding.md
 docs/architecture/decisions/ADR-0242-ct-volume-identity-and-provenance.md
+docs/architecture/decisions/ADR-0243-bridge-arc-conclusion.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

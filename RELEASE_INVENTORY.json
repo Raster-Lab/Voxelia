@@ -816,8 +816,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/Public/RegionExtractionOperation.swift",
-      "size": 12428,
-      "sha256": "166afce1c96bdae099b55540312fb926ca71e8b4dd43ee9aad6b076afe56770e"
+      "size": 12610,
+      "sha256": "55cd2ca90a825cfc1ca3fa040df069d9d6262606c189c78aa76d7d1c1ebe7ac3"
     },
     {
       "path": "Sources/VoxeliaExecution/Public/ResampleCubicOperation.swift",
@@ -2293,6 +2293,11 @@
       "path": "Tests/VoxeliaImagingTests/CTValueInterpreterTests.swift",
       "size": 9401,
       "sha256": "6aa7802c62ca0f0ac8525aff2933ea51096d0323c116bda8e5404cca0a2e73a8"
+    },
+    {
+      "path": "Tests/VoxeliaImagingTests/CTVolumeBridgeCompositionTests.swift",
+      "size": 15499,
+      "sha256": "5b7d5a01250a7689de7ab38ce98c5838032fb49f04fc68191a8ef26c3c83d073"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTVolumeByteBufferTests.swift",
@@ -4570,9 +4575,14 @@
       "sha256": "14e156a184d194813ebb6ebbff679f878645feca5fe1745c340f8f35b5a52c49"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0243-bridge-arc-conclusion.md",
+      "size": 7860,
+      "sha256": "b95b8b4095c845458a0a7968867ccc0dff7fa77e370da03453d7be57654e5b50"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 35648,
-      "sha256": "720a36c0bd71b4b545a83e64d82797fef19bd2f343b9d5e513687c3a0283343f"
+      "size": 35733,
+      "sha256": "7a84efe923aa91463aa54143d20ebc66c479fec1d0a0ed39aa5cf38fcebfc864"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4656,8 +4666,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1044885,
-      "sha256": "fa91a9969892507269c032639b8e801b80b5fa1cb57ccff375e9d88969ef6baf"
+      "size": 1047678,
+      "sha256": "2640c49d75c418dfc40ad38cb5f7fc732cdbb57f459907006f83178448500af1"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4942,7 +4952,7 @@
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.generated.json",
       "size": 17779,
-      "sha256": "f226f8e4b313c2b74bccd750da2b325a9a7badc2c082b1222fb980652f38b951"
+      "sha256": "fead55654bad065fd25bb72fa2dc24902bb6d79036920f03e9d7450d522278ab"
     },
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.json",
@@ -5161,8 +5171,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 57867,
-      "sha256": "d53a540d2a894cd2dcb699d5a1baa29c4f8a1ab642059d68fa2f39c17c692ff3"
+      "size": 57992,
+      "sha256": "fc540aed86ce333cfbcd88b0a8afad23a07a7206ae2b829d22e1371209f70c17"
     }
   ]
 }
