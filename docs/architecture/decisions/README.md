@@ -434,3 +434,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0245](ADR-0245-downstream-slice-requirement-assessment.md) | Accepted | Downstream slice requirement assessment |
 | [ADR-0246](ADR-0246-quantitative-sample-inspection.md) | Accepted | Quantitative sample inspection |
 | [ADR-0247](ADR-0247-distance-measurement-correction.md) | Accepted | Distance measurement correction |
+| [ADR-0248](ADR-0248-linked-crosshair-verification.md) | Accepted | Linked crosshair verification |

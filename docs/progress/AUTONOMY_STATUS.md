@@ -2957,6 +2957,67 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    of which has been assessed yet.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
+
+   **Increment (r): `ADR-0248`, linked patient-space crosshairs verified.**
+   `VOX-VS1-013` is **discharged on real data**, and no source changed — the parts
+   all existed and had never been composed. One crosshair at voxel
+   `(col 300, row 200, slice 400)` of the 899-slice series, at
+   `(36.41758402499997, -211.89908785000003, -1166.683)` mm:
+
+   - **Slice-index round trip exact in all three planes** — axial `400`, coronal
+     `200`, sagittal `300`, each the plane's own component of the originating voxel.
+   - **Pixel round trip exact in all three views** — axial `(300, 200)` in `512x512`,
+     coronal `(300, 400)` and sagittal `(200, 400)` in `512x899`. No tolerance
+     applied anywhere.
+   - **`ADR-0244`'s axis renumbering has its first real-geometry confirmation.** The
+     coronal and sagittal rows are the load-bearing ones: they are what turns the
+     slice axis into a view's `y`.
+   - **Both refusal paths exercised**, not only the successes: the axis-value
+     overload refused an affine-only volume with `unsupportedAxisSampling` (which is
+     precisely why `ADR-0138` added the world-point overload), and an out-of-volume
+     point refused with `crosshairOutsideVolume` rather than clamping.
+
+   **The finding: `crosshairTargets` alone is not an in-volume test.** A crosshair 50
+   columns past the edge resolved `outsideViewport, outsideViewport, target(200,400)`
+   — the **sagittal view returned a pixel for a point outside the volume**. That is
+   correct at the unit level, because the sagittal view presents row and slice so an
+   out-of-range column cannot move the in-plane projection, and `PickResolver`
+   documents that non-presented slots do not gate admission. But a host consulting
+   only the pixel mapping would draw that crosshair. The guard is the slice-index
+   call, which refused this exact point and which every host must make anyway to know
+   what to render. Stated as a host obligation in `ADR-0248` decision 2 — a
+   composition contract that was previously written down nowhere.
+
+   **Capability-first sizing of the five remaining rows** — applying `ADR-0247`'s
+   method rather than searching for each requirement's own vocabulary. This is
+   sizing, not discharge:
+
+   | Row | Mechanism | Assessment |
+   |---|---|---|
+   | `010` | `ExactSliceRenderer`, `MultiplanarRenderCoordinator` | present; needs a differential run |
+   | `011` | `ALG-0008` nearest, `ALG-0015` bilinear, both with test files | likely already satisfied; confirm, do not build |
+   | `016` | no `offScreen` symbol exists | requirement-reading question, unchanged |
+   | `017` | `RenderGeneration.isStale` | **exists with zero production callers** |
+   | `018` | `MetalResidencyManager.selection(for:)` | unified memory selects `.shared`, so no copy to duplicate; that is the `A` half, `T` open |
+
+   **`017` is the substantive one, and it is the inverse of the error the method was
+   adopted to prevent.** Capability search found the mechanism — a name search would
+   have called the row satisfied — but a staleness predicate nothing calls prevents no
+   stale publication. `isStale` is consulted by nothing outside its own file and test.
+
+   One harness mistake, recorded rather than quietly fixed: the presentations were
+   first built with the camera at its own target, and `RenderCamera` refused with
+   `degenerateViewDirection`. The camera plays no part in `ADR-0140`'s mapping, which
+   reads only geometry and viewport — but it must still be a valid camera.
+
+   **Next: `VOX-VS1-017`**, a design record for wiring generation-based staleness into
+   the publication path, since the predicate currently governs nothing. Then `011`'s
+   confirmation, `010`'s differential run, `018`'s steady-state measurement, and
+   `016`'s requirement reading. Non-blocking: a synthetic-affine three-plane
+   composition test in `VoxeliaInteractionTests`, so CI guards what real data now
+   demonstrates.
+
+   (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in
    `docs/progress/untraced-requirements.txt`.
 3. A `prepare-release.sh` dry run, unexercised since `ADR-0225` gated three

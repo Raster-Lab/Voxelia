@@ -302,6 +302,71 @@ number the geometry does not produce.
 `VOXELIA-ALG-0010`, correcting `ADR-0245`'s assessment that distance measurement was
 not implemented. See `ADR-0247`.
 
+## Run 8 - `VOX-VS1-013` linked patient-space crosshairs
+
+The first composition of `ADR-0138`'s world-point slice mapping with `ADR-0140`'s
+crosshair broadcast, against a scanner's affine rather than a fixture. One
+crosshair at the patient-space position of voxel `(column 300, row 200,
+slice 400)`, which is `(36.41758402499997, -211.89908785000003, -1166.683)` mm.
+
+**Slice-index round trip** - each plane resolves its own component of the voxel:
+
+| Plane | Fixed axis | Resolved | Expected | |
+|---|---|---|---|---|
+| Axial | 2 (slice) | `400` | `400` | MATCH |
+| Coronal | 1 (row) | `200` | `200` | MATCH |
+| Sagittal | 0 (column) | `300` | `300` | MATCH |
+
+**Pixel round trip** - the three selected slices extracted, published, and the
+crosshair broadcast to presentations built from each slice's own claimed geometry:
+
+| Plane | View | Pixel | Expected | |
+|---|---|---|---|---|
+| Axial | `512x512` | `(300, 200)` | `(300, 200)` | MATCH |
+| Coronal | `512x899` | `(300, 400)` | `(300, 400)` | MATCH |
+| Sagittal | `512x899` | `(200, 400)` | `(200, 400)` | MATCH |
+
+Exact in every case, with no tolerance applied. The coronal and sagittal rows are
+the load-bearing ones: they exercise `ADR-0244`'s axis renumbering after the
+singleton drop, which is what turns the slice axis into a view's `y`. This is its
+first confirmation against real geometry.
+
+**Refusals, verified alongside the successes:**
+
+```text
+axis-value overload on an affine-only volume: refused with unsupportedAxisSampling
+out-of-volume sagittal slice index:           refused with crosshairOutsideVolume
+```
+
+The first is why `ADR-0138` added the world-point overload at all: the CT
+descriptor declares `.indexOnly` sampling with an affine, so the `.regular`-only
+axis-value path cannot serve it. The second never clamps to the last slice.
+
+**The finding.** A crosshair 50 columns past the volume's edge resolved as:
+
+```text
+outsideViewport, outsideViewport, target(200,400)
+```
+
+The sagittal view **returned a pixel for a point outside the volume**. That is
+correct at the unit level — the sagittal view presents row and slice, so an
+out-of-range column cannot move the in-plane projection, and `PickResolver`
+documents that non-presented slots do not gate admission. But it means
+`crosshairTargets` alone is not an in-volume test: the guard is the slice-index
+call, which refused this exact point, and which every host must make anyway to
+know what to render. Recorded as a host composition obligation in `ADR-0248`
+decision 2.
+
+**Slice extraction cost**, for the record: axial `0.14 s`, coronal `0.23 s`,
+sagittal `0.68 s`. The sagittal cost is the expected consequence of the least
+contiguous access pattern over a 449 MiB volume.
+
+**One harness mistake, caught by Voxelia.** The first attempt built the three
+presentations with the camera at its own target, and `RenderCamera` refused it
+with `degenerateViewDirection`. The camera plays no part in `ADR-0140`'s mapping,
+which reads only geometry and viewport — but it must still be a valid camera, and
+the admission said so.
+
 ## Reproduction
 
 ```text
