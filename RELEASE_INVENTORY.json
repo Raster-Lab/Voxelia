@@ -1230,6 +1230,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaRendering/Internal/SurfaceVertexProjector.swift",
+      "size": 12060,
+      "sha256": "bea3ccba892850fa41349d0590dd553106255b61a042193c1aeb879ae22a79ef"
+    },
+    {
       "path": "Sources/VoxeliaRendering/Module.swift",
       "size": 323,
       "sha256": "5aa81bedd5f7440ec274df0257f3a1818598a5e20424203427e5b0c0d7bbace3"
@@ -2218,6 +2223,11 @@
       "path": "Tests/VoxeliaRenderingTests/SurfaceSceneTests.swift",
       "size": 10146,
       "sha256": "43adcdba4bfdb79bc04ddab6c6ae5bb7927501600d046409eb449ba14e406c36"
+    },
+    {
+      "path": "Tests/VoxeliaRenderingTests/SurfaceVertexProjectorTests.swift",
+      "size": 13732,
+      "sha256": "91025bc1a54c1f39db3e2053f03a66e9c11a4248110b22f6b74546501fe8040e"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/TransferFunction1DTests.swift",
@@ -4031,8 +4041,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 847896,
-      "sha256": "2f433aee0ef1cf1bf0a462891d28297fdf1b4a10598c3a5756d641ee58390d2c"
+      "size": 851537,
+      "sha256": "35f70e974d2b327eb754183c255bae08fea13b3a88bd9d0d46b162dac010a6f2"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4431,8 +4441,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 49000,
-      "sha256": "d61c02487b7144b0659fde95e60b7de7c841358967eff55585f74efeb959d03a"
+      "size": 49125,
+      "sha256": "c07c2bde82a7ee473ec589c815dcba55b813505bc53e05add77df835f81ea9b1"
     }
   ]
 }

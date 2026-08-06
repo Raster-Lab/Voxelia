@@ -6749,6 +6749,59 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-sixteenth autonomous increment (`ADR-0199` migration):
+  `VoxeliaRendering` now owns the internal `SurfaceVertexProjector`
+  implementing `surface-vertex-orthographic-projection/binary64-v1`. All
+  twelve `VOXELIA-ALG-0033` fixtures reproduce both registered SHA-256 digests
+  bit-exactly on the first run, with no tolerance and no fixture adjusted to
+  fit the implementation.
+
+  The projector composes the accepted admissions of `Matrix4x4Double`,
+  `SurfaceLayer`, `RenderCamera`, `ViewportSize` and `TriangleMesh` rather than
+  restating them, so its whole failure surface is three cases and no resource
+  ceiling. Because `SurfaceLayer` guarantees an affine bottom row, `w` is
+  exactly one and no homogeneous divide exists anywhere in the code.
+
+  One implementation decision worth recording. `ALG-0033`'s oracle raises a
+  `degenerateCameraBasis` classification when a normalisation scale is zero,
+  but that classification is not in the accepted three-case failure family, and
+  a naive reading would add a Swift branch for it. The Swift reference
+  deliberately carries **no zero-scale branch**: a zero scale makes the scaling
+  division `0 / 0`, which the checked division already rejects as
+  `positionNotRepresentable`. That reaches a defined outcome without an
+  untestable branch. The case is also not provably unreachable — `RenderCamera`
+  bounds the view-up cross product of the *unnormalised* view direction, and
+  normalising `forward` first can in principle shrink it below the
+  representable range — so leaving the behaviour defined rather than
+  unreachable is the correct reading, and the reasoning is in the code.
+
+  Evidence beyond the digests: the origin lands at the exact viewport centre
+  `(2.0, 1.5)` at depth `10.0`; an eight-by-two viewport puts the origin at
+  `(4.0, 1.0)`, proving square pixels are height-derived and the aspect ratio
+  is not a second knob; a behind-camera vertex reads exactly `-10.0` and is
+  admitted; a singular placement collapses all three vertices to one identical
+  projected point; the empty mesh projects to nothing; perspective is rejected
+  before any arithmetic; and cancellation at admission beats even the
+  projection check. The poll set over an 8,193-vertex mesh is exactly
+  `admission`, vertex 0, 4,096 and 8,192, each of those ordinals cancels, and a
+  non-poll ordinal is never observed.
+
+  Verified after a clean `.build` rebuild: 740 tests in 157 suites green. This
+  discharges the **Test** half of `VOX-SUR-001` only; no demonstration is
+  claimed.
+
+  ```bash
+  swift test --filter SurfaceVertexProjectorTests
+  swift format lint --strict \
+    Sources/VoxeliaRendering/Internal/SurfaceVertexProjector.swift \
+    Tests/VoxeliaRenderingTests/SurfaceVertexProjectorTests.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12653,10 +12706,20 @@ still undefined, because its pixel and depth contract belongs to increments
 Increment (b)'s design is complete: accepted `ADR-0199` and
 `VOXELIA-ALG-0033` freeze the orthographic projection model and **settle the
 perspective deferral** by explicit typed rejection, with a bounded record of
-what a perspective version must additionally settle. The exact next action is
-`ADR-0199` migration: add the internal deterministic projector to
-`VoxeliaRendering`, reproducing all twelve `ALG-0033` fixtures bit-exactly and
-proving the cancellation cadence and the projection-check precedence.
+what a perspective version must additionally settle. `ADR-0199` migration is complete: the
+internal `SurfaceVertexProjector` reproduces both registered `ALG-0033`
+digests bit-exactly and proves the poll set, the projection-check precedence
+and the frozen conventions.
+
+The exact next action is `ADR-0197` increment **(c), visibility and
+hidden-surface removal** (`VOX-SUR-002`), which consumes exactly what the
+projector produces. It is **design-first**: it must freeze the nearest-surface
+rule, the depth quantity and its precision, the **exact tie-breaking rule when
+two surfaces are equidistant at a pixel** — a determinism obligation, not a
+detail — the backface policy, and how a continuous projected coordinate maps
+to covered pixels, which `ALG-0033` deliberately left to this contract.
+Nothing exists to build on: there is no depth buffer or hidden-surface
+machinery anywhere in the project.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -12685,12 +12748,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0199` migration next: the internal projector in
-  `VoxeliaRendering`. Run the focused `VoxeliaRenderingTests` suite, `swift
-  format lint --strict` on every touched Swift file, and the
-  ADR/document/register/index/manifest/integrity checks. Reproduce all twelve
-  `ALG-0033` fixtures bit-exactly and see the literal passing full unfiltered
-  test-run line before pushing.
+- Perform `ADR-0197` increment (c) next, and it is **design-first**: the
+  visibility rule is a numeric and determinism boundary, so freeze an accepted
+  record plus an algorithm specification with a python-computed independent
+  oracle before writing implementation code. Run only the oracle and the
+  ADR/document/register/index/manifest/integrity checks for that design
+  increment; product builds and tests are not evidence until source changes.
 - State which verification method each surface increment's evidence covers.
   Byte-exact off-screen renders discharge Test, never Demonstration.
 - Do not reopen `ADR-0194`, `ADR-0195` or `ADR-0196`. All three are accepted
