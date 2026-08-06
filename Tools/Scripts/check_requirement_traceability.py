@@ -12,6 +12,13 @@ are recorded in `docs/progress/untraced-requirements.txt` as an explicit debt
 baseline. The check fails when a row outside that list becomes untraced, so the
 debt can shrink but never grow. A clean gate would have been red on the day it
 landed and would have been switched off.
+
+TRACED IS NOT DISCHARGED, and this check measures the first (`ADR-0217`
+decision 6). What hid `VOX-MPR-011` was invisibility — a row nobody had written
+anything about. A row recorded as blocked, deferred or unbuilt is visible, and
+it leaves this list while remaining outstanding wherever outstanding work is
+tracked. A check that refused to let a row be described until it was also
+finished would punish the honest write-up.
 """
 
 from __future__ import annotations

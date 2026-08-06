@@ -8255,6 +8255,57 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-forty-third autonomous increment (`ADR-0217`, vertical slice
+  traceability): the first debt paydown. Nine `VOX-VS1` rows inspected against
+  what actually exists; **no product source changed**, because every trace
+  points at work that already passes its tests.
+
+  **Five rows are discharged for Test and traced to their evidence**:
+  `VOX-VS1-007` to the transfer function's polarity and `InvertDisplayOperation`
+  (`ALG-0011`); `011` to `ResampleNearestOperation` and
+  `ResampleLinearOperation` (`ALG-0008`, `ALG-0015`) plus `ADR-0124`'s explicit
+  policy; `012` to `WindowLevelOperation` (`ALG-0002`); `013` to
+  `ViewportSyncGroup` (`ADR-0119`), which makes frame-of-reference compatibility
+  a construction rule so a crosshair cannot drift into a foreign frame; and
+  `015` to `MeasurementConstruction` (`ADR-0111`, `ALG-0010`). Three of those
+  declare `T,D`, so only the **Test** half is claimed.
+
+  **`VOX-VS1-010` is genuinely unbuilt, and that is the finding worth having.**
+  Both halves exist and *do not meet*: `MPRPlane` defines axial, coronal and
+  sagittal, and `MetalSliceRenderer` renders on the GPU — but **no source file
+  outside its own definition references `MPRSliceCoordinator` or `MPRPlane`**,
+  and the Metal renderers consume two-dimensional scene layers rather than a
+  volume and a plane. Citing the two as though they composed would be the false
+  trace `ADR-0216` forbids. `VOX-VS1-002`, `003` and `004` are blocked behind
+  the owner-gated DICOMKit ingest, not oversights.
+
+  **Writing the record forced a real distinction: traced is not discharged.**
+  The record names all nine rows — including the four it leaves undischarged —
+  so the check saw all nine as traced. That is the correct reading, not an
+  accident to work around: what hid `VOX-MPR-011` was **invisibility**, and a
+  row with a recorded status is visible even when blocked. All nine leave the
+  debt list, which falls **75 → 66**; undischarged status stays tracked where it
+  always was. The check's own docstring now records the distinction, because a
+  gate that refused to let a row be described until it was finished would punish
+  exactly the honest write-up.
+
+  A new queue candidate is now explicit: `VOX-VS1-010`'s Metal plane path, which
+  needs its own design record rather than a trace — including whether it
+  reconstructs on the GPU or presents a CPU reconstruction, and its numeric
+  boundary against the accepted `ALG-0017`.
+
+  ```bash
+  python3 Tools/Scripts/check_requirement_traceability.py --write
+  python3 Tools/Scripts/check_requirement_traceability.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14312,17 +14363,28 @@ hid `VOX-MPR-011` fail `Tools/Scripts/check_requirement_traceability.py` — a
 ratchet wired into `validate-docs.sh`, now standing at **75** rows after the
 record itself traced eight with cited evidence.
 
-The exact next action is to begin **paying down that debt, per row, with real
-evidence** — never by adding an identifier to a document for the sake of the
-count, which the check's excluded-corpus rule deliberately defeats. Start with
-the **`VOX-VS1` rows** (`002`, `003`, `004`, `007`, `010`, `011`, `012`, `013`,
-`015`): they describe first-vertical-slice behaviour the project has largely
-built but never labelled, so each needs a genuine inspection of what exists
-before it can leave the list. Where a row turns out to be satisfied, cite it in
-the record or test that satisfies it; where it does not, say so and give it its
-own record. **The eighteen owner-gated rows — the whole `VOX-CMP` block and the
-`VOX-DCM` rows — stay on the list** and must not be traced by fabricating an
-assessment of work that cannot start.
+The first paydown is done: accepted `ADR-0217` inspected all nine `VOX-VS1`
+rows, discharged five for **Test**, recorded `VOX-VS1-010` as genuinely unbuilt
+and `002`/`003`/`004` as DICOMKit-blocked, and took the debt from **75 to 66**.
+It also settled that **traced is not discharged** — the list measures
+visibility, because invisibility is what hid `VOX-MPR-011`.
+
+There are two reasonable next actions, and the queue takes them in this order.
+
+**First, continue the paydown** with the next tractable block. The remaining 66
+rows include eighteen owner-gated entries (the whole `VOX-CMP` block and the
+`VOX-DCM` rows) that **must not be traced by fabricating an assessment of work
+that cannot start**; the tractable candidates are the `VOX-EXE`, `VOX-CPU` and
+`VOX-CCH` rows, which describe execution, reference-implementation and cache
+behaviour the project demonstrably has. Inspect each against what exists, as
+`ADR-0217` did, and expect some to come back unbuilt.
+
+**Second, `VOX-VS1-010`'s Metal plane path**, which `ADR-0217` surfaced as a
+real capability gap. It needs its own design record: which plane vocabulary the
+Metal path consumes, whether it reconstructs on the GPU or presents a CPU
+reconstruction, and its numeric boundary against the accepted `ALG-0017`
+oblique sampling. Do not fold it into a traceability increment — that would hide
+a design decision inside bookkeeping.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -14351,9 +14413,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Pay down the traceability debt next, starting with the `VOX-VS1` rows. Every
-  removal from `docs/progress/untraced-requirements.txt` needs a real citation
-  in a record or a test, not a mention added to make a count fall.
+- Continue the traceability paydown with the `VOX-EXE`, `VOX-CPU` and
+  `VOX-CCH` rows. Every removal from
+  `docs/progress/untraced-requirements.txt` needs a real inspection recorded in
+  a record or a test, not a mention added to make a count fall — and expect
+  some rows to come back unbuilt, as `VOX-VS1-010` did.
+- Traced is not discharged. The debt list measures visibility; a row recorded
+  as blocked or unbuilt leaves it while staying outstanding in the ledger.
 - Never trace an owner-gated row. The `VOX-CMP` and `VOX-DCM` entries stay on
   the list until the owner answers their dependency questions.
 - Raise `HIGHEST_ENTERED_MILESTONE` in the traceability check when a new
