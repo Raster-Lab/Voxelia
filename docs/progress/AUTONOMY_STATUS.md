@@ -3435,11 +3435,68 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    6. Whether the interactive draw loop proceeds — four Demonstration halves wait on
       it (`VOX-VS1-010`, `012`, `013`, plus the `VOX-SUR` and `VOX-MPR-011` halves).
 
-   **Next**: with the slice's claimable work done, the next increment should pick up
-   the highest-value unblocked work rather than the slice — the strongest candidates
-   are a repetition/warm-up method so §53's distribution comparison becomes possible,
-   and the 13 traceability rows in `docs/progress/untraced-requirements.txt`, some of
-   which records written since may now cover.
+   **Increment (aa): `ADR-0255` opens the M5 compression arc, and the traceability
+   debt baseline is now EMPTY.** No source changed.
+
+   **All thirteen untraced rows turned out to be one arc**, not scattered debt:
+   `VOX-CMP-002`..`014`. M5 is entered (`HIGHEST_ENTERED_MILESTONE = 6`), so they are
+   due. `VOX-CMP-001` was already released by the owner's codec approval, which is
+   what made opening the arc possible.
+
+   **Greenfield, unlike the last several arcs**: `VoxeliaCompression` does not exist,
+   no transfer-syntax vocabulary exists anywhere in `Sources`, and
+   `VoxeliaDICOMKit` touches no compression at all.
+
+   **The finding: reading each row for WHOSE behaviour it constrains splits the arc
+   cleanly, and one half conflicts with a standing owner instruction.**
+
+   Buildable now (Voxelia's own boundary): `002` module isolation, `003` adapter
+   shapes, `007` never-sampleable, `008` destination storage, `009` cancellation,
+   `010` adapter validation, `013` never-a-standard-transfer-syntax.
+
+   **Blocked** (needs characterising the Raster-Lab codecs): `004` JP3D evaluation,
+   `005` HTJ2K throughput, `006` "the **actual** codec output ... documented",
+   `011` **adversarial codestreams**, `012` original-preservation, `014` compression
+   benchmarks.
+
+   That second set is exactly what the owner instructed against — *"These library are
+   used and tested multiple times I dont need you to divert a new for testing the
+   applicaition"* — read together with *"If any bugs found on the library the we need
+   to address it and fix it"*: fix what surfaces, do not go looking. **`VOX-CMP-011`
+   requires going looking.** This is a genuine conflict between an accepted P0
+   baseline and a standing instruction, and **it is not mine to resolve** — proceeding
+   would disregard the owner; dropping the rows would hide unmet P0s. Stated and
+   referred.
+
+   **A distinction that shrinks the blocked set:** `010` and `011` look alike and are
+   not. `010` is adapter-side and fully buildable — validating declared dimensions,
+   formats and decoded byte counts tests **Voxelia's** admission. `011` is **not**
+   fully achievable adapter-side, because a codestream cannot be validated without
+   parsing it and parsing is the codec's job. Adapter-side bounds narrow `011`'s
+   residual exposure without closing it, and the record says so rather than claiming
+   otherwise.
+
+   **A second supply-chain question raised before it could bite:** the five codecs are
+   approved **transitively through DICOMKit**; `Package.swift` declares exactly one
+   dependency and `check_licence_policy.py` enforces it. `002`'s adapters would likely
+   need a codec **declared directly**, which is a different act from tolerating it
+   transitively. The gate would refuse it today — correctly. Owner question.
+
+   **The traceability ratchet then did its job on me.** Naming the thirteen rows
+   *traced* them by the tool's definition, so `validate-docs.sh` FAILED with "13
+   allowlisted row(s) are now traced. Remove them from the allowlist so the ratchet
+   keeps its grip." All thirteen removed; the check now reports **356 requirements in
+   entered milestones, 0 untraced**. The file carries an explicit warning that
+   **TRACED IS NOT SATISFIED** and names the six blocked rows, because an empty
+   allowlist must never be read as an arc completed.
+
+   **Next: increment (a)** — `VOX-CMP-002` + `VOX-CMP-007`: the `VoxeliaCompression`
+   target, its vocabulary, and tooling that enforces "compressed bytes are never
+   sampleable" (per `ADR-0196`'s lesson that an unenforced claim is not one). Neither
+   needs a codec dependency, so both proceed while the two owner questions are open.
+
+   **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
+   above.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in

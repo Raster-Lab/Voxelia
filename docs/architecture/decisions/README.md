@@ -441,3 +441,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0252](ADR-0252-cpu-metal-three-view-differential.md) | Accepted | CPU Metal three-view differential |
 | [ADR-0253](ADR-0253-steady-state-volume-footprint.md) | Accepted | Steady state volume footprint |
 | [ADR-0254](ADR-0254-first-slice-validation-and-benchmark-reports.md) | Accepted | First slice validation and benchmark reports |
+| [ADR-0255](ADR-0255-open-the-compression-arc.md) | Accepted | Open the compression arc |
