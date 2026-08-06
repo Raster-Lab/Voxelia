@@ -326,13 +326,13 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Internal/ScalarSurfaceReferenceKernel.swift",
-      "size": 15826,
-      "sha256": "94e4fe52ccae04e2464f3dd6890f32ad7ddf05672c567d5ff1b9d057def35f81"
+      "size": 16379,
+      "sha256": "551ffa44aa72ff6b9d836d9843cb528eba546b760b47a597ef8dba7e3099939b"
     },
     {
       "path": "Sources/VoxeliaCPU/Internal/ScalarSurfaceSourceAdapter.swift",
-      "size": 11791,
-      "sha256": "65c8c08704aab4fff3f731910569fafc51889f3f4e81f9105c2bb96466a9397f"
+      "size": 12291,
+      "sha256": "0c59d39f124b1447174853fecc7ed5797b9fa2a875d2f8b02bd3d7023c62b18d"
     },
     {
       "path": "Sources/VoxeliaCPU/Internal/TriangleMeshEnclosedVolumeReferenceKernel.swift",
@@ -371,8 +371,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUScalarSurfaceExtractionOperation.swift",
-      "size": 12417,
-      "sha256": "bf7f6db139511b08eae0bbcca6e6c7f408ccaa8be2a59d88a5876ed21ce5c418"
+      "size": 13467,
+      "sha256": "04c92fe6b70b1ebda347e88b2287171521ff9ab8c7b968db1222db3b86a71dd5"
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUTriangleMeshEnclosedVolumeOperation.swift",
@@ -1681,8 +1681,8 @@
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUScalarSurfaceExtractionOperationTests.swift",
-      "size": 12330,
-      "sha256": "26c4918f6076789164ad904aadc44765aaff5004e3acb1f537a737278ea046f4"
+      "size": 15337,
+      "sha256": "8f21eaafc8f1dfe4a4cffdd74fca66aaa053ad61b995c77f676082fc18cad934"
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUTriangleMeshEnclosedVolumeOperationTests.swift",
@@ -4396,8 +4396,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 966265,
-      "sha256": "c75c03ee7239aa52b8f91bffef3d3e349f6accb4403ef5f57201acc6b126165b"
+      "size": 968714,
+      "sha256": "683957053304b0b1643e73e6854171c74871bae4a80b578d7ec5fe09addaefa6"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",

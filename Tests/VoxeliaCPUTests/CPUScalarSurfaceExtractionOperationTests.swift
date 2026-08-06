@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+import Synchronization
 import Testing
 import VoxeliaCore
 import VoxeliaExecution
@@ -27,7 +28,8 @@ struct CPUScalarSurfaceExtractionOperationTests {
         let result = try await CPUScalarSurfaceExtractionOperation.execute(
             request: request,
             publication: publication,
-            coordinator: coordinator
+            coordinator: coordinator,
+            progress: discardingProgressObserver
         )
 
         #expect(
@@ -142,6 +144,76 @@ struct CPUScalarSurfaceExtractionOperationTests {
         #expect(transferred.2 == publication.outputProvenanceID)
     }
 
+    @Test(
+        "[Unit][VOX-EXE-008][VOX-NUM-001] two passes with different cadences compose into one sequence"
+    )
+    func twoPassesWithDifferentCadencesComposeIntoOneSequence() async throws {
+        // The sharpest shape yet: ONE operation whose two passes use DIFFERENT
+        // cadences -- sample validation at 4,096 and the cell traversal at 64.
+        // A hidden assumption that the cadence is always 64 would fail here.
+        let fixture = try ScalarSurfaceTestSupport.fixture()
+        let request = ScalarSurfaceTestSupport.request(fixture: fixture)
+
+        let silent = try await CPUScalarSurfaceExtractionOperation.execute(
+            request: request,
+            publication: try publicationContext(),
+            coordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 1_024
+            ),
+            progress: discardingProgressObserver
+        )
+
+        let recorder = ObservationRecorder()
+        let observed = try await CPUScalarSurfaceExtractionOperation.execute(
+            request: request,
+            publication: try publicationContext(),
+            coordinator: StorageReadCoordinator(
+                maximumRetainedResultByteCount: 1_024
+            ),
+            progress: { recorder.append($0) }
+        )
+
+        // Byte-identical geometry: an observer that can change a result is a
+        // defect, and a mesh is compared component by component.
+        #expect(
+            observed.mesh.positions.components.map(\.bitPattern)
+                == silent.mesh.positions.components.map(\.bitPattern)
+        )
+        #expect(observed.mesh.topology.indices == silent.mesh.topology.indices)
+
+        // The four guarantees, on a sequence built from two cadences.
+        let recorded = recorder.observations()
+        #expect(!recorded.isEmpty)
+        let total = try #require(recorded.first?.total)
+        var previous = -1
+        for observation in recorded {
+            #expect(observation.total == total)
+            #expect(observation.completed >= previous)
+            #expect(observation.completed <= observation.total)
+            previous = observation.completed
+        }
+        #expect(
+            recorded.last == ProgressObservation(completed: total, total: total)
+        )
+
+        // The total is the work performed across BOTH passes, so it exceeds
+        // either pass alone.
+        #expect(total > 0)
+        #expect(recorded.contains { $0.completed == 0 })
+    }
+
+    private final class ObservationRecorder: Sendable {
+        private let recorded = Mutex([ProgressObservation]())
+
+        func append(_ observation: ProgressObservation) {
+            recorded.withLock { $0.append(observation) }
+        }
+
+        func observations() -> [ProgressObservation] {
+            recorded.withLock { $0 }
+        }
+    }
+
     @Test("[Unit][VOX-GEO-007] empty scalar sources publish a coherent empty mesh")
     func executePublishesEmptyMesh() async throws {
         let fixture = try ScalarSurfaceTestSupport.fixture(
@@ -154,7 +226,8 @@ struct CPUScalarSurfaceExtractionOperationTests {
         let result = try await CPUScalarSurfaceExtractionOperation.execute(
             request: ScalarSurfaceTestSupport.request(fixture: fixture),
             publication: try publicationContext(),
-            coordinator: coordinator
+            coordinator: coordinator,
+            progress: discardingProgressObserver
         )
 
         #expect(result.mesh.positions.components.isEmpty)
@@ -177,7 +250,8 @@ struct CPUScalarSurfaceExtractionOperationTests {
                 request: ScalarSurfaceTestSupport.request(fixture: fixture),
                 publication: try publicationContext(),
                 coordinator: coordinator,
-                cancellation: { $0 == .final }
+                cancellation: { $0 == .final },
+                progress: discardingProgressObserver
             )
         }
         #expect(fixture.owner.readCount == 1)

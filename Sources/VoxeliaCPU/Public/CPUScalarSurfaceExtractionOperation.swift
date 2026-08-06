@@ -50,16 +50,22 @@ public enum CPUScalarSurfaceExtractionOperation {
     ///   diagnostic validation or canonical mesh-content assurance.
     /// - Throws: A payload-free ``ScalarSurfaceExtractionError`` using the
     ///   operation's fixed failure precedence.
+    /// - Parameter progress: Receives the `VOXELIA-ALG-0046` sequence over both
+    ///   passes — sample validation at the 4,096 cadence and the cell traversal
+    ///   at 64. It is **required, never defaulted** on this public entry point;
+    ///   pass `discardingProgressObserver` to report nothing.
     public static func execute(
         request: ScalarSurfaceExtractionRequest,
         publication: ScalarSurfaceExtractionPublicationContext,
-        coordinator: StorageReadCoordinator
+        coordinator: StorageReadCoordinator,
+        progress: @escaping ProgressObserver
     ) async throws -> ScalarSurfaceExtractionResult {
         try await execute(
             request: request,
             publication: publication,
             coordinator: coordinator,
-            cancellation: { _ in Task.isCancelled }
+            cancellation: { _ in Task.isCancelled },
+            progress: progress
         )
     }
 
@@ -67,12 +73,14 @@ public enum CPUScalarSurfaceExtractionOperation {
         request: ScalarSurfaceExtractionRequest,
         publication: ScalarSurfaceExtractionPublicationContext,
         coordinator: StorageReadCoordinator,
-        cancellation: @escaping CPUScalarSurfaceCancellationProbe
+        cancellation: @escaping CPUScalarSurfaceCancellationProbe,
+        progress: @escaping ProgressObserver
     ) async throws -> ScalarSurfaceExtractionResult {
         let mesh = try await extractMesh(
             request: request,
             coordinator: coordinator,
             cancellation: cancellation,
+            progress: progress,
             checksFinalCancellation: false
         )
         if cancellation(.final) {
@@ -91,6 +99,7 @@ public enum CPUScalarSurfaceExtractionOperation {
         cancellation: @escaping CPUScalarSurfaceCancellationProbe = { _ in
             Task.isCancelled
         },
+        progress: @escaping ProgressObserver = discardingProgressObserver,
         checksFinalCancellation: Bool = true
     ) async throws -> TriangleMesh {
         if cancellation(.admission) {
@@ -151,11 +160,22 @@ public enum CPUScalarSurfaceExtractionOperation {
             admission: admission,
             bytes: stagedBytes
         )
-        try source.validateFiniteSamples(cancellation: cancellation)
+        // Two passes with DIFFERENT cadences: sample validation at 4,096 and
+        // the cell traversal at 64. The total is the work performed, and each
+        // pass carries its own base so the combined sequence stays monotone.
+        let totalWork = admission.sampleCount + Int(admission.cellCount)
+        try source.validateFiniteSamples(
+            cancellation: cancellation,
+            progress: progress,
+            totalWork: totalWork
+        )
         return try ScalarSurfaceReferenceKernel.extract(
             request: request,
             source: source,
             cancellation: cancellation,
+            progress: progress,
+            progressBase: admission.sampleCount,
+            totalWork: totalWork,
             checksFinalCancellation: checksFinalCancellation
         )
     }

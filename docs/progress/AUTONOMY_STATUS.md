@@ -8644,6 +8644,45 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifty-first autonomous increment (`ADR-0222`, third consumer):
+  the observer now threads through the **scalar surface-extraction** path,
+  which is the sharpest shape of the three. 798 tests in 173 suites green.
+
+  **One operation, two passes, two different cadences.** Sample validation
+  polls every **4,096** samples; the cell traversal polls every **64** cells.
+  Any hidden assumption that the cadence is always sixty-four would have failed
+  here, and none was found: `ALG-0046` fixes a cadence **per traversal**, not
+  per operation, so each pass reports at its own rhythm with its own base offset
+  and the combined sequence stays monotone. The total is again the work
+  performed — samples plus cells.
+
+  The test checks all four guarantees on that mixed-cadence sequence and
+  compares the extracted mesh **component by component by bit pattern**, since
+  a mesh has no single scalar to compare.
+
+  **A rule I had just written was about to be broken, and the fix is recorded
+  rather than quietly applied.** My first pass gave the internal `extractMesh`
+  helper a defaulted observer, contradicting "never give a progress observer a
+  default value". The resolution is a narrowing with a reason, not an
+  exception: **the rule binds public API**, where a caller could acquire a
+  claim it never considered. The public `execute` therefore takes a **required**
+  observer, and the internal helper keeps a default consistent with the
+  `cancellation` and `checksFinalCancellation` defaults already beside it.
+
+  Three consumers now exercise three distinct shapes — single pass, three
+  passes at one cadence, and two passes at two cadences — so the vocabulary is
+  as composed as the current kernels can make it.
+
+  ```bash
+  swift test --filter 'CPUScalarSurfaceExtractionOperationTests|ProgressObservationTests'
+  swift format lint --strict <every touched Swift file>
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14746,21 +14785,27 @@ multi-pass case established the general rule: **the total is the work performed,
 not the input size**, and for that kernel it was already in hand as the checked
 directed-edge count.
 
-The exact next action is a **third consumer with a different shape**: the
-scalar surface-extraction path, whose work is counted in voxels rather than
-facets and whose accepted cadence is the four-thousand-and-ninety-six vertex
-one. That is the case that would expose any hidden assumption that the cadence
-is always sixty-four. The same two obligations apply: the sequence must match
-`ALG-0046` for that kernel's own cadence, and the output must stay
-byte-identical with an observer attached.
+Three consumers now exercise three distinct shapes: one pass at the facet
+cadence, three passes at one cadence, and two passes at **two different**
+cadences. `ALG-0046` fixes a cadence per traversal rather than per operation,
+which the third consumer confirmed rather than assumed.
+
+The exact next action is to **stop extending progress and reassess**. The
+remaining surfaced gaps are lazy evaluation — unbuilt, with no consumer, so
+building it would be speculation — and three blocked behind gated measurement
+workloads. Re-read this ledger's gated list and the eighteen owner-gated
+traceability rows before choosing: if nothing is both unblocked and
+consumer-backed, say so plainly rather than manufacturing an increment, and
+consider whether the next useful act is a consolidation pass over the accepted
+records rather than new code.
 
 ## Test policy for the next action
 
-- Extend the progress observer to the scalar surface-extraction path next: a
-  different work unit and the vertex cadence rather than the facet one. Repeat
-  both obligations: the sequence must match `ALG-0046` for that kernel's own
-  cadence, and the output must stay byte-identical. An observer that can change
-  a result is a defect.
+- Reassess before extending progress further. Three shapes are covered; a
+  fourth consumer would repeat rather than test the vocabulary.
+- The no-default rule for progress observers **binds public API**. An internal
+  helper may default it where its neighbouring parameters already are, and that
+  narrowing is recorded rather than treated as an exception.
 - For a multi-pass kernel, the total is the **work performed**, not the input
   size, and it is usually a value the kernel has already computed and admitted.
 - Never give a progress observer a default value. Pass

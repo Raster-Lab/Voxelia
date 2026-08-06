@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import VoxeliaCore
+import VoxeliaExecution
 import VoxeliaGeometry
 
 /// The closed source facts admitted before scalar-surface storage access.
@@ -161,14 +162,23 @@ struct ScalarSurfaceSourceAdapter: Sendable {
         )
     }
 
+    /// Reports at its own **4,096** cadence — this pass counts samples, while
+    /// the cell traversal counts cells at 64. The cadence belongs to the
+    /// traversal, not to the operation, and each pass carries its own base so
+    /// the combined sequence stays monotone.
     func validateFiniteSamples(
-        cancellation: CPUScalarSurfaceCancellationProbe
+        cancellation: CPUScalarSurfaceCancellationProbe,
+        progress: ProgressObserver,
+        totalWork: Int
     ) throws {
         for ordinal in 0..<admission.sampleCount {
-            if ordinal.isMultiple(of: 4_096),
-                cancellation(.sampleValidation(UInt64(ordinal)))
-            {
-                throw ScalarSurfaceExtractionError.cancelled
+            if ordinal.isMultiple(of: 4_096) {
+                if cancellation(.sampleValidation(UInt64(ordinal))) {
+                    throw ScalarSurfaceExtractionError.cancelled
+                }
+                progress(
+                    ProgressObservation(completed: ordinal, total: totalWork)
+                )
             }
             let value = try authoritativeValue(at: ordinal)
             guard value.isFinite else {

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+import VoxeliaExecution
 import VoxeliaGeometry
 
 /// The exact `freudenthal-surface-extraction/binary64-v1` CPU kernel.
@@ -94,6 +95,9 @@ enum ScalarSurfaceReferenceKernel {
         request: ScalarSurfaceExtractionRequest,
         source: ScalarSurfaceSourceAdapter,
         cancellation: CPUScalarSurfaceCancellationProbe,
+        progress: ProgressObserver,
+        progressBase: Int,
+        totalWork: Int,
         checksFinalCancellation: Bool = true
     ) throws -> TriangleMesh {
         let admission = source.admission
@@ -108,10 +112,17 @@ enum ScalarSurfaceReferenceKernel {
             for z in 0..<(extents[2] - 1) {
                 for y in 0..<(extents[1] - 1) {
                     for x in 0..<(extents[0] - 1) {
-                        if cellOrdinal.isMultiple(of: 64),
-                            cancellation(.cell(cellOrdinal))
-                        {
-                            throw ScalarSurfaceExtractionError.cancelled
+                        if cellOrdinal.isMultiple(of: 64) {
+                            if cancellation(.cell(cellOrdinal)) {
+                                throw ScalarSurfaceExtractionError.cancelled
+                            }
+                            progress(
+                                ProgressObservation(
+                                    completed: progressBase
+                                        + Int(cellOrdinal),
+                                    total: totalWork
+                                )
+                            )
                         }
                         let cell = GridPoint(x: x, y: y, z: z)
                         let corners = Self.cornerOffsets.map {
@@ -241,6 +252,9 @@ enum ScalarSurfaceReferenceKernel {
         } catch {
             throw ScalarSurfaceExtractionError.publicationFailed
         }
+        progress(
+            ProgressObservation(completed: totalWork, total: totalWork)
+        )
         if checksFinalCancellation, cancellation(.final) {
             throw ScalarSurfaceExtractionError.cancelled
         }
