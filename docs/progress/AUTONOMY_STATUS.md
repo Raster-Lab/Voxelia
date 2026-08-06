@@ -4279,6 +4279,65 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: `008`'s `A` half, then the interactive draw-loop arc, which needs its own
    architectural record before any code.
 
+   **Increment (ss): `ADR-0274`, `VOX-CMP-008`'s `A` discharged. EVERY M5 COMPRESSION ROW
+   IS NOW DISCHARGED IN BOTH HALVES.** No code changed; 1116 tests / 202 suites unchanged.
+
+   `ADR-0260` decision 9 deferred this honestly — "whether any codec accepts a
+   caller-provided destination is not verified" — because no codec was linked then.
+   `J2KSwift 11.0.2` is linked now, so it is answerable by reading the API.
+
+   **The answer is no.** **22 public decode entry points** in the reachable closure (14
+   `J2KCodec`, 8 `J2K3D`; zero in `J2KCore`/`J2KCodecNEON`/`J2KMetal`/`CompressionFamily`).
+   Every one allocates its own result. Four independent checks: no destination parameter in
+   a destination role; **no public `inout` anywhere in the package**; `JP3DDecoderResult`
+   has `let` storage and **no public init** so a caller cannot even preallocate the
+   container; and `J2KImageBuffer` — mutable, with `withUnsafeMutableBytes`, looking exactly
+   like the intended reuse type — is **referenced nowhere outside its own file**.
+
+   **Two scoping corrections to my own first pass.** `J2KFileFormat` is **not** in the
+   closure, so `decodeAnyFormat`/`decodeFile` are unavailable and an earlier count was
+   over-broad by two. And `J2KMetal` **is** in the closure, transitively via `J2KCodec`'s
+   target deps — `check_prohibited_imports.py` governs *importing* it, not linking it, and
+   those are different facts.
+
+   **A method lesson**: a name-based search for a buffer parameter matched
+   `decode(sampleBuffer:)` — an **input** buffer. Searching by parameter *name* finds
+   inputs; enumeration must go by parameter **role**. My first single-line pattern said
+   zero matches and the second said one; the discrepancy is what forced the check, and the
+   match was spurious. Right answer both times, reliably only the second time.
+
+   **THE COST OF THE GAP, MEASURED — and it inverts the natural expectation.** The
+   unavoidable `ContiguousArray(Data)` copy in `J2KVolumeAdapter` runs at **5.3–12.5
+   GiB/s**: 449 MiB in **0.035 s = 0.6% of the 6.23 s HTJ2K decode**. But peak resident
+   rises by **exactly the volume, every time** (32.1/64.0/128.0/256.0 MiB at those sizes).
+   **The missing capability costs memory, not time.** Specifically NOT the same problem
+   `ADR-0264` fixed: that 30× win came from replacing a hand-written byte loop with a
+   stdlib range replacement, whereas this copy is *already* the stdlib path at memory
+   bandwidth. **There is no time to recover here — only an allocation.**
+
+   **Both declared dependencies allocate their outputs.** `ADR-0235` found DICOMKit's
+   `pixelData()`/`frameData(at:)` return owned `Data` with no caller-destination entry
+   point. Two for two — assume a dependency allocates until its API is read.
+
+   **Option recorded, deliberately NOT taken**: making `DecodedSamples.bytes` a `Data`
+   would retain the codec's buffer under COW and recover the whole duplicate **without**
+   any codec change — but it puts Foundation in `VoxeliaCompression`'s public API
+   (`ADR-0256`'s boundary question) and changes a type accepted by `ADR-0259`. Needs its
+   own record; recorded with its measured benefit so it is available, not rediscovered.
+
+   **M5 compression: `002`, `003`, `004`, `005`, `006`(`I,T`), `007`, `008`, `009`, `010`,
+   `011`, `012`(`T`), `013`, `014` — ALL DISCHARGED, BOTH HALVES. No implementation work
+   remains on the arc.**
+
+   **Only remaining compression items: the two owner Reviews** (`006`, `012`).
+
+   **Next: the interactive draw-loop arc**, which needs its own architectural record
+   before any code — target shape (the package is library-only; `VoxeliaInteraction`
+   prohibits SwiftUI/AppKit/UIKit/MetalKit), platform surface, `RenderGeneration` wiring
+   (ending `ADR-0122` d3's deferral), and what evidence discharges a Demonstration half.
+   Plan §65 names 17 features for a macOS reference application that is explicitly "a
+   reference integration, not the future DICOM Workstation user interface".
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
