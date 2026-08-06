@@ -9073,6 +9073,77 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifty-ninth autonomous increment (`ADR-0229` +
+  `VOXELIA-ALG-0048` + oracle, increment (c) design): **the arc's hardest
+  question is decided, and the decision is that no threshold this project could
+  set today would be evidence-based.**
+
+  Four sources for a tolerance were considered. An absolute epsilon is arbitrary
+  and wrong at another scale; a relative one is scale-free and still arbitrary;
+  **a fraction of the in-plane voxel size was the most attractive** — the
+  sampling grid as the ruler, a deviation below the finest representable thing
+  being unobservable — and was still rejected, because it needs a fraction
+  chosen without evidence and its physical framing would *discourage* the
+  scrutiny an invented constant deserves. The one genuinely principled source —
+  the source's own stated decimal precision — **is not available**: increment (a)
+  deliberately kept `Double` values rather than strings, so the precision that
+  would justify a tolerance was discarded before this stage sees the data, and
+  recovering it would push string handling into increments `ADR-0226` decision 5
+  forbids.
+
+  **So the record acts on that finding rather than on a number.** Measurement is
+  separated from judgement: every quantity is an exact subtraction, product-sum
+  or comparison against zero, and **no threshold appears anywhere in the
+  arithmetic**. Thresholds enter once at the end as a supplied policy value, and
+  exactly one value is defined — `exact`, all four thresholds zero. A permissive
+  tolerance becomes the project's **third named owner gate**, alongside the
+  Raster-Lab codecs and reference hardware.
+
+  **The oracle disproved a claim this record's own draft made.** The draft said
+  exact tolerance would reject mere re-spellings of one intended value. It does
+  not: two different decimal strings that round to the same binary64 value give a
+  deviation of *exactly* zero and are admitted. Fixture G13 now proves it, and
+  the corrected claim is narrower and true — `exact` forgives re-spelling and
+  refuses only values landing on genuinely different doubles. The wrong version
+  would have overstated the cost of the conservative choice, which is exactly the
+  kind of error a design record should not carry.
+
+  **It will still reject real series, and that is stated plainly rather than
+  softened.** A spacing short by one ten-thousandth of a millimetre is physically
+  negligible and is rejected (fixture G2). Until the gate is passed, refusing to
+  build a volume whose regularity cannot be justified is the correct direction of
+  error, and callers are not blocked: every measurement is reported, so a caller
+  with its own evidence can judge for itself.
+
+  Three secondary decisions, each avoiding a numeric boundary: spacing is judged
+  by the **spread** (maximum minus minimum) rather than deviation from a nominal
+  value, which would need an arbitrary anchor, or a mean's division and summation
+  order, or a median's sort and even-count tie rule; orientation is compared
+  **componentwise**, never as a norm, which would add a square root and an
+  overflow path; and **position is not compared at all**, because its geometric
+  content is already the projection assembly computed.
+
+  Fixture G10 exists to catch a validator that recomputes rather than inherits
+  the three assembly observations: its members share a projection, so a
+  recomputing implementation reports an irregular spacing where the correct
+  result reports only the degenerate normal, with spacings absent.
+
+  **What is deliberately not claimed:** `VOX-DCM-009` asks for detection of
+  missing, duplicated, irregular and contradictory geometry. Missing and
+  irregular geometry are both detected — a missing slice shows up as a doubled
+  gap and so as a nonzero spread — but they are **not distinguished by label**,
+  because separating "a slice is absent" from "the spacings vary" needs a ratio
+  test and therefore a tolerance. The "shall not silently coerce" half is
+  discharged completely; labelling missing slices specifically is not.
+
+  ```text
+  python3 docs/progress/evidence/ADR-0229-geometry-validation-oracle.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -15213,20 +15284,27 @@ Increment (b) is complete: `CTSeriesAssembler` reproduces all fifteen frozen
 fixtures bit-for-bit, and the clean rebuild the stored-member change required
 was performed before verification rather than after a failure.
 
-The exact next action is `ADR-0226` increment (c): **irregular-geometry
-rejection** (`VOX-VS1-003`, `VOX-DCM-009`) — the arc's hardest numeric boundary,
-and the increment every prior one has been deferring judgements to. It must
-decide, with an oracle and design-first: which of position, orientation and
-spacing admits a tolerance; where that tolerance comes from; and which
-irregularities are representable-with-a-warning under `ADR-0052`'s schema versus
-rejected outright, per `ADR-0226` decision 7. `ADR-0215` established exact
-equality for registration, but scanner geometry does not arrive exact, so the
-answer cannot simply be inherited from it.
+Increment (c)'s design is done: accepted `ADR-0229` and `VOXELIA-ALG-0048` with
+a thirteen-fixture oracle, discharging `ADR-0226` decisions 6 and 7. All three
+inputs the prior increments deferred here were consumed rather than
+rediscovered.
 
-Three concrete inputs now exist that (c) must consume rather than rediscover:
-the three `CTSeriesObservation` facts, the deliberate non-judgements
-`ADR-0227` decision 3 admits (non-orthogonal and non-unit directions), and the
-mixed grid extents `ADR-0228` decision 4 lets into a single group.
+The exact next action is the implementation of increment (c): the validator, its
+measurement value, its finding set, its verdict and the `exact` tolerance,
+verified against all thirteen frozen fixtures. It adds no stored member to an
+existing type, so no clean rebuild is required — but the assembly observations
+must be **inherited** from `CTSeries`, not recomputed, and fixture G10 is the
+test that catches getting that wrong.
+
+After that, increment (d): affine volume construction, which consumes a
+`representable` verdict and **must state explicitly what it does with
+`representableWithWarnings`** rather than treating it as either a pass or a
+failure by default.
+
+There are now three named owner gates, not two: the Raster-Lab codecs
+(`VOX-CMP-001`), reference hardware, and — new — an **evidence-based geometry
+tolerance**, which needs phantom studies or a characterised scanner corpus
+before any permissive threshold can be accepted.
 
 Increment (c) is the arc's hardest question and must not be pre-judged there
 either:

@@ -2946,8 +2946,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 5861,
-      "sha256": "383d0fb51391ca70e111f44c837e5ba0de0e7a81f9c1dc997d231438db13f430"
+      "size": 5989,
+      "sha256": "b6f447967c5c8240dd1b5d0eff29d81fd9ab2aad61d2a9ba177f9e555ce322f0"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3183,6 +3183,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0047-series-grouping-and-ordering.md",
       "size": 9529,
       "sha256": "c7c4c05de19eb28f1d57c61e0c6faf3dc16ba2dc8c5968ce328180a3d009f32e"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0048-series-geometry-validation.md",
+      "size": 9149,
+      "sha256": "0b3b9ef568e08b43d83c5c50a33312098e716368bb6b41346d2edf49d9b3c447"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4365,9 +4370,14 @@
       "sha256": "d0832da4a89071c4fe1435b25552e6f41dc8b106062052bbadd5ad257fad0a0f"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0229-ct-series-geometry-validation.md",
+      "size": 11647,
+      "sha256": "aa84e6e64b9440243c8861877806e1b02fc19db0cf16fd9fc8cb31faf6b2d1f8"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 34256,
-      "sha256": "13903b5ebe74eb389148a093f9fcac9fdd467ed295bb45ea9237e14267dd250d"
+      "size": 34357,
+      "sha256": "fd16ba062e97a7515b2637ee170f20d286a1a89203be6455e831e9b6c632169b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4451,8 +4461,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 994233,
-      "sha256": "8eb1024fef04d1523a36bb6cda4c374852ead4fc544445b67e275437567395f1"
+      "size": 998822,
+      "sha256": "258eaa46cd3cb55302de14c2d945b934d799e3826f2b825c296fa1df8fbfca05"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4613,6 +4623,11 @@
       "path": "docs/progress/evidence/ADR-0228-series-grouping-oracle.py",
       "size": 12132,
       "sha256": "b9239ca67c14cc3aff8ed1809c5ff71ad6cf979e1c2e347bcaf41a78c0b8be29"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0229-geometry-validation-oracle.py",
+      "size": 12612,
+      "sha256": "295b6217d02395f9a91dc6ec46ac12aa8d90007f01c35811bb80667ac1a4a85f"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4926,8 +4941,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 54991,
-      "sha256": "929a2a1c7ce7fca68251184741e4e43a1f67553e723848cdf97d3c0653320ab0"
+      "size": 55186,
+      "sha256": "8882dd35e571889239ce2188ebef29822f48aae2654f01d0092fe2dfe3b988e8"
     }
   ]
 }

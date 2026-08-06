@@ -51,3 +51,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0045](VOXELIA-ALG-0045-overlay-alpha-compositing.md) | Accepted | Overlay alpha compositing `binary64-v1` |
 | [VOXELIA-ALG-0046](VOXELIA-ALG-0046-progress-observation.md) | Accepted | Progress observation sequence `v1` |
 | [VOXELIA-ALG-0047](VOXELIA-ALG-0047-series-grouping-and-ordering.md) | Accepted | CT series grouping and slice ordering `binary64-v1` |
+| [VOXELIA-ALG-0048](VOXELIA-ALG-0048-series-geometry-validation.md) | Accepted | CT series geometry validation `binary64-v1` |
