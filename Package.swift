@@ -22,9 +22,15 @@ let package = Package(
         .library(name: "VoxeliaCPU", targets: ["VoxeliaCPU"]),
         .library(name: "VoxeliaMetal", targets: ["VoxeliaMetal"]),
         .library(name: "VoxeliaValidation", targets: ["VoxeliaValidation"]),
+        .library(name: "VoxeliaDICOMKit", targets: ["VoxeliaDICOMKit"]),
         .library(name: "Voxelia", targets: ["Voxelia"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+            url: "https://github.com/Raster-Lab/DICOMKit.git",
+            exact: "2.2.11"
+        )
+    ],
     targets: [
         .target(name: "VoxeliaSpatial"),
         .target(name: "VoxeliaCore", dependencies: ["VoxeliaSpatial"]),
@@ -48,6 +54,13 @@ let package = Package(
             name: "VoxeliaMetal",
             dependencies: ["VoxeliaExecution", "VoxeliaRendering"],
             resources: [.process("Resources")]
+        ),
+        .target(
+            name: "VoxeliaDICOMKit",
+            dependencies: [
+                "VoxeliaImaging",
+                .product(name: "DICOMKit", package: "DICOMKit"),
+            ]
         ),
         .target(name: "VoxeliaValidation", dependencies: ["VoxeliaCPU", "VoxeliaMetal"]),
         .target(
@@ -88,6 +101,10 @@ let package = Package(
         .testTarget(
             name: "VoxeliaImagingTests",
             dependencies: ["VoxeliaImaging", "VoxeliaTestSupport"]
+        ),
+        .testTarget(
+            name: "VoxeliaDICOMKitTests",
+            dependencies: ["VoxeliaDICOMKit", "VoxeliaTestSupport"]
         ),
         .testTarget(
             name: "VoxeliaGeometryTests",

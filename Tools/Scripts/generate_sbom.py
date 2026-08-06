@@ -37,6 +37,115 @@ REQUIRED_TOP_LEVEL = {
 }
 
 
+# Reviewed metadata for every package in the resolved closure, mirroring the
+# approved closure in `Tools/Scripts/check_licence_policy.py`. `ADR-0233` holds
+# the evidence for each licence. A package resolved but absent here fails
+# generation rather than being emitted without review.
+REVIEWED_EXTERNAL_PACKAGES = {
+    "dicomkit": {
+        "licence": "MIT",
+        "usage": ["VoxeliaDICOMKit"],
+        "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+        "optional": True,
+    },
+    "swift-argument-parser": {
+        "licence": "Apache-2.0",
+        "usage": ["VoxeliaDICOMKit (transitive, via DICOMKit executables)"],
+        "distribution": "Build-only; no Voxelia distribution target links it",
+        "optional": True,
+    },
+    "j2kswift": {
+        "licence": "MIT",
+        "usage": ["VoxeliaDICOMKit (transitive, via DICOMKit)"],
+        "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+        "optional": True,
+    },
+    "jliswift": {
+        "licence": "Apache-2.0",
+        "usage": ["VoxeliaDICOMKit (transitive, via DICOMKit)"],
+        "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+        "optional": True,
+    },
+    "jxlswift": {
+        "licence": "MIT",
+        "usage": ["VoxeliaDICOMKit (transitive, via DICOMKit)"],
+        "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+        "optional": True,
+    },
+    "jlswift": {
+        "licence": "MIT (owner grant 2026-08-06; licence file pending)",
+        "usage": ["VoxeliaDICOMKit (transitive, via DICOMKit)"],
+        "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+        "optional": True,
+    },
+    "compressionfamily": {
+        "licence": "MIT (owner grant 2026-08-06; licence file pending)",
+        "usage": ["VoxeliaDICOMKit (transitive, below the codec packages)"],
+        "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+        "optional": True,
+    },
+}
+
+# Package identities carried optionally, i.e. reachable only through the optional
+# VoxeliaDICOMKit module. The validator cross-checks these against the resolved
+# external-package identities, so they are package identities and not target
+# names. Every package in this closure is optional, because the only target that
+# links any of them is optional.
+OPTIONAL_DEPENDENCY_IDENTITIES = set(REVIEWED_EXTERNAL_PACKAGES)
+
+
+def external_package_records(root: Path, package: dict[str, Any]) -> list[dict[str, Any]]:
+    """Builds reviewed external-package records from the resolved closure.
+
+    The closure, not the declared list: `ADR-0231` found a transitive package
+    that appeared in no manifest this project had read, so the bill of materials
+    is built from what actually resolves.
+    """
+    if not package.get("dependencies"):
+        return []
+
+    resolved_path = root / "Package.resolved"
+    if not resolved_path.is_file():
+        raise SBOMError(
+            "Package.swift declares dependencies but Package.resolved is "
+            "missing, so the resolved closure cannot be recorded"
+        )
+    document = json.loads(read_utf8(resolved_path))
+    pins = document.get("pins") or document.get("object", {}).get("pins", [])
+
+    records: list[dict[str, Any]] = []
+    for pin in pins:
+        identity = pin.get("identity", "")
+        state = pin.get("state", {}) or {}
+        reviewed = REVIEWED_EXTERNAL_PACKAGES.get(identity)
+        if reviewed is None:
+            raise SBOMError(
+                f"resolved package {identity!r} has no reviewed licence, usage "
+                "and optionality metadata. Every package in the closure needs a "
+                "review before it can appear in a bill of materials."
+            )
+        version = state.get("version")
+        revision = state.get("revision")
+        if not version or not revision:
+            raise SBOMError(
+                f"resolved package {identity!r} lacks a version or revision, so "
+                "its entry could not be reproduced"
+            )
+        records.append(
+            {
+                "identity": identity,
+                "location": pin.get("location", ""),
+                "resolvedVersion": version,
+                "resolvedRevision": revision,
+                "licence": reviewed["licence"],
+                "usage": list(reviewed["usage"]),
+                "distribution": reviewed["distribution"],
+                "optional": reviewed["optional"],
+            }
+        )
+    return sorted(records, key=lambda record: record["identity"])
+
+
 class SBOMError(RuntimeError):
     """Raised when source metadata cannot produce trustworthy release evidence."""
 
@@ -202,11 +311,7 @@ def build_sbom(root: Path = ROOT) -> dict[str, Any]:
             "VERSION and RELEASE.json disagree: "
             f"{version!r} != {release.get('version')!r}"
         )
-    if package.get("dependencies"):
-        raise SBOMError(
-            "external Swift packages require reviewed licence, resolution, "
-            "usage and optionality metadata before SBOM generation"
-        )
+    external_packages = external_package_records(root, package)
 
     all_targets = package["targets"]
     source_targets = [
@@ -284,7 +389,7 @@ def build_sbom(root: Path = ROOT) -> dict[str, Any]:
             key=lambda target: target["name"],
         ),
         "testTargets": sorted(test_targets, key=lambda target: target["name"]),
-        "externalPackages": [],
+        "externalPackages": external_packages,
         "licences": [
             {
                 "component": package["name"],
@@ -333,7 +438,7 @@ def build_sbom(root: Path = ROOT) -> dict[str, Any]:
             },
         ],
         "bundledResources": bundled_resources(root, all_targets),
-        "optionalDependencies": [],
+        "optionalDependencies": sorted(OPTIONAL_DEPENDENCY_IDENTITIES),
     }
 
 

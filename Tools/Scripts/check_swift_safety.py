@@ -94,10 +94,23 @@ MAX_DIAGNOSTIC_TOKEN_CHARACTERS = 240
 PACKAGE_COMMAND_TIMEOUT_SECONDS = 60
 PACKAGE_BUILD_TIMEOUT_SECONDS = 300
 MANIFEST_HEADER = "// swift-tools-version: 6.2"
+# The manifest's permitted declarative vocabulary. The policy's intent is that a
+# manifest declare and never compute, so this list admits declaration keywords
+# only: no operators, no calls beyond the PackageDescription builders, and no
+# comments (the tokeniser has no comment rule, so rationale belongs in the
+# records, not the manifest).
+#
+# `url` and `exact` were added by `ADR-0233`, the first increment to declare an
+# external dependency. They are declarative — a pinned URL is data — so this is
+# an extension of the vocabulary rather than a relaxation of the rule. A version
+# *range* keyword is deliberately still absent: `from`, `branch` and `revision`
+# would let the resolved closure drift without a manifest edit, which the licence
+# gate's closure check exists to prevent.
 MANIFEST_DECLARATIVE_IDENTIFIERS = {
     "Package",
     "PackageDescription",
     "dependencies",
+    "exact",
     "executable",
     "executableTarget",
     "iOS",
@@ -118,6 +131,7 @@ MANIFEST_DECLARATIVE_IDENTIFIERS = {
     "targets",
     "testTarget",
     "tvOS",
+    "url",
     "v15",
     "v18",
     "v2",

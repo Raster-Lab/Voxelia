@@ -110,8 +110,13 @@
     },
     {
       "algorithm": "SHA-256",
+      "path": "Package.resolved",
+      "value": "986ce5bb5bb5cb4268c7c169a1ad70794c9068faf73cd63f56222e5f0d03fc3d"
+    },
+    {
+      "algorithm": "SHA-256",
       "path": "Package.swift",
-      "value": "b7f8e6c181e8bdf7c1edb9aca5f45112f3cdb3677ca987ffa912dd81418d7c34"
+      "value": "468367cb50054ef25b9338bfc88196cfc33cd37dd04098b2232385481f4ef367"
     },
     {
       "algorithm": "SHA-256",
@@ -121,7 +126,7 @@
     {
       "algorithm": "SHA-256",
       "path": "THIRD_PARTY_NOTICES.md",
-      "value": "de7c64ffeaec8769ae219eef2256cec42d9804d916a5ee800a4a2a1530ea6bf1"
+      "value": "34ae57b7ba4dcd6fdd987947e28a5a79ad63e36972b24a0ff6d4d0b3c79bd877"
     },
     {
       "algorithm": "SHA-256",
@@ -136,7 +141,7 @@
     {
       "algorithm": "SHA-256",
       "path": "Tools/Scripts/generate_sbom.py",
-      "value": "86694eef5fa9c3bb5642a60c3a774ee534207b028ce6332cc4b2a55bd977d3c9"
+      "value": "fd62960298039309d8bf9e66ab48fd87961659f90ed06d263b335573eac408de"
     },
     {
       "algorithm": "SHA-256",
@@ -144,7 +149,92 @@
       "value": "80447316529fc62014fbaa047fb67c51ac30e32830cda370405349d8d66d196c"
     }
   ],
-  "externalPackages": [],
+  "externalPackages": [
+    {
+      "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+      "identity": "compressionfamily",
+      "licence": "MIT (owner grant 2026-08-06; licence file pending)",
+      "location": "https://github.com/Raster-Lab/CompressionFamily.git",
+      "optional": true,
+      "resolvedRevision": "30fd74b6df841cf79b1a0247534a723f5e7ab4ba",
+      "resolvedVersion": "1.0.0",
+      "usage": [
+        "VoxeliaDICOMKit (transitive, below the codec packages)"
+      ]
+    },
+    {
+      "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+      "identity": "dicomkit",
+      "licence": "MIT",
+      "location": "https://github.com/Raster-Lab/DICOMKit.git",
+      "optional": true,
+      "resolvedRevision": "93ef23e6553bfb33dcd267b8e54a6f03cc172cea",
+      "resolvedVersion": "2.2.11",
+      "usage": [
+        "VoxeliaDICOMKit"
+      ]
+    },
+    {
+      "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+      "identity": "j2kswift",
+      "licence": "MIT",
+      "location": "https://github.com/Raster-Lab/J2KSwift.git",
+      "optional": true,
+      "resolvedRevision": "b1949084eeedaafb40bff8f1745bbab19e4bc36d",
+      "resolvedVersion": "11.0.2",
+      "usage": [
+        "VoxeliaDICOMKit (transitive, via DICOMKit)"
+      ]
+    },
+    {
+      "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+      "identity": "jliswift",
+      "licence": "Apache-2.0",
+      "location": "https://github.com/Raster-Lab/JLISwift.git",
+      "optional": true,
+      "resolvedRevision": "9f1c6eb609fe6f26498db82b13df6b305630a374",
+      "resolvedVersion": "0.5.0",
+      "usage": [
+        "VoxeliaDICOMKit (transitive, via DICOMKit)"
+      ]
+    },
+    {
+      "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+      "identity": "jlswift",
+      "licence": "MIT (owner grant 2026-08-06; licence file pending)",
+      "location": "https://github.com/Raster-Lab/JLSwift.git",
+      "optional": true,
+      "resolvedRevision": "53d902fec538e5c12f4ed9864c026be5da66b5dd",
+      "resolvedVersion": "0.9.0",
+      "usage": [
+        "VoxeliaDICOMKit (transitive, via DICOMKit)"
+      ]
+    },
+    {
+      "distribution": "Optional module; linked only when VoxeliaDICOMKit is used",
+      "identity": "jxlswift",
+      "licence": "MIT",
+      "location": "https://github.com/Raster-Lab/JXLSwift.git",
+      "optional": true,
+      "resolvedRevision": "760697a54dd253da8e8466c3fd09ecf2c2d89aec",
+      "resolvedVersion": "1.4.0",
+      "usage": [
+        "VoxeliaDICOMKit (transitive, via DICOMKit)"
+      ]
+    },
+    {
+      "distribution": "Build-only; no Voxelia distribution target links it",
+      "identity": "swift-argument-parser",
+      "licence": "Apache-2.0",
+      "location": "https://github.com/apple/swift-argument-parser.git",
+      "optional": true,
+      "resolvedRevision": "6a52f3251125d74daf04fcbd5e6f08a75d074382",
+      "resolvedVersion": "1.8.2",
+      "usage": [
+        "VoxeliaDICOMKit (transitive, via DICOMKit executables)"
+      ]
+    }
+  ],
   "licences": [
     {
       "checksum": {
@@ -173,13 +263,21 @@
     "release": "Repository and Package Scaffold",
     "releaseDate": "2026-08-02",
     "sourceRevision": {
-      "commit": "5a89d63c13ae62160b9cc5f267962e6771ba149f",
+      "commit": "b9e136caebae933a38d074a4625f708c66c995f4",
       "scope": "Checked-out source revision observed before writing the generated SBOM artifact.",
-      "workingTreeDirty": false
+      "workingTreeDirty": true
     },
     "version": "0.1.1"
   },
-  "optionalDependencies": [],
+  "optionalDependencies": [
+    "compressionfamily",
+    "dicomkit",
+    "j2kswift",
+    "jliswift",
+    "jlswift",
+    "jxlswift",
+    "swift-argument-parser"
+  ],
   "products": [
     {
       "name": "Voxelia",
@@ -199,6 +297,13 @@
       "name": "VoxeliaCore",
       "targets": [
         "VoxeliaCore"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaDICOMKit",
+      "targets": [
+        "VoxeliaDICOMKit"
       ],
       "type": "library"
     },
@@ -270,7 +375,7 @@
     {
       "checksum": {
         "algorithm": "SHA-256",
-        "value": "86694eef5fa9c3bb5642a60c3a774ee534207b028ce6332cc4b2a55bd977d3c9"
+        "value": "fd62960298039309d8bf9e66ab48fd87961659f90ed06d263b335573eac408de"
       },
       "name": "Voxelia SBOM Generator",
       "path": "Tools/Scripts/generate_sbom.py",
@@ -336,6 +441,16 @@
       ],
       "name": "VoxeliaCore",
       "path": "Sources/VoxeliaCore",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "DICOMKit",
+        "VoxeliaImaging"
+      ],
+      "name": "VoxeliaDICOMKit",
+      "path": "Sources/VoxeliaDICOMKit",
       "scope": "runtime",
       "type": "regular"
     },
@@ -452,6 +567,16 @@
       ],
       "name": "VoxeliaCoreTests",
       "path": "Tests/VoxeliaCoreTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaDICOMKit",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaDICOMKitTests",
+      "path": "Tests/VoxeliaDICOMKitTests",
       "scope": "test",
       "type": "test"
     },

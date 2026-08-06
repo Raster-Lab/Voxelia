@@ -10,6 +10,7 @@ import sys
 EXPECTED_ARCHIVES = frozenset(
     {
         "Voxelia.doccarchive",
+        "VoxeliaDICOMKit.doccarchive",
         "VoxeliaCPU.doccarchive",
         "VoxeliaCore.doccarchive",
         "VoxeliaExecution.doccarchive",
@@ -39,14 +40,28 @@ def archive_errors(products_directory: Path) -> list[str]:
     actual = set(archive_names)
     errors: list[str] = []
 
+    # Since ADR-0233 the package has an external dependency, and docbuild
+    # documents the whole package graph, so archives for a dependency's targets
+    # appear here too. This gate covers VOXELIA's documentation: every expected
+    # Voxelia archive must be present, and an unexpected archive is one whose
+    # name begins with `Voxelia` -- which still catches a new Voxelia module that
+    # nobody added here. A dependency's archives are counted and ignored, never
+    # silently discarded.
     missing = sorted(EXPECTED_ARCHIVES - actual)
-    unexpected = sorted(actual - EXPECTED_ARCHIVES)
+    unexpected = sorted(
+        name
+        for name in actual - EXPECTED_ARCHIVES
+        if name.startswith("Voxelia")
+    )
     duplicates = sorted(name for name, count in counts.items() if count > 1)
 
     if missing:
         errors.append(f"missing archives: {', '.join(missing)}")
     if unexpected:
-        errors.append(f"unexpected archives: {', '.join(unexpected)}")
+        errors.append(
+            f"unexpected Voxelia archives: {', '.join(unexpected)}. Add the "
+            "module to EXPECTED_ARCHIVES with a record, or explain its absence."
+        )
     if duplicates:
         errors.append(f"duplicate archives: {', '.join(duplicates)}")
     return errors
@@ -64,9 +79,19 @@ def main(argv: list[str]) -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
+    external = sorted(
+        path.name
+        for path in Path(argv[1]).glob("*.doccarchive")
+        if path.name not in EXPECTED_ARCHIVES and not path.name.startswith("Voxelia")
+    )
     print(
         "DocC documentation validation passed: "
-        f"{len(EXPECTED_ARCHIVES)} expected archives generated."
+        f"{len(EXPECTED_ARCHIVES)} expected Voxelia archives generated"
+        + (
+            f"; {len(external)} external-dependency archives ignored."
+            if external
+            else "."
+        )
     )
     return 0
 
