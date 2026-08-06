@@ -248,6 +248,7 @@ Sources/VoxeliaRendering/Internal/SurfaceClipper.swift
 Sources/VoxeliaRendering/Internal/SurfaceColourMapper.swift
 Sources/VoxeliaRendering/Internal/SurfaceCompositor.swift
 Sources/VoxeliaRendering/Internal/SurfaceCoverage.swift
+Sources/VoxeliaRendering/Internal/SurfacePicker.swift
 Sources/VoxeliaRendering/Internal/SurfaceShader.swift
 Sources/VoxeliaRendering/Internal/SurfaceVertexProjector.swift
 Sources/VoxeliaRendering/Internal/SurfaceVisibilityResolver.swift
@@ -451,6 +452,7 @@ Tests/VoxeliaRenderingTests/SceneSnapshotTests.swift
 Tests/VoxeliaRenderingTests/SurfaceClipperTests.swift
 Tests/VoxeliaRenderingTests/SurfaceColourMapperTests.swift
 Tests/VoxeliaRenderingTests/SurfaceCompositorTests.swift
+Tests/VoxeliaRenderingTests/SurfacePickerTests.swift
 Tests/VoxeliaRenderingTests/SurfaceSceneTests.swift
 Tests/VoxeliaRenderingTests/SurfaceShaderTests.swift
 Tests/VoxeliaRenderingTests/SurfaceVertexProjectorTests.swift

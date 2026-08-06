@@ -7414,6 +7414,55 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twenty-eighth autonomous increment (`ADR-0205` migration):
+  `VoxeliaRendering` now owns `SurfacePicker`. All eleven `VOXELIA-ALG-0039`
+  fixtures reproduce both registered SHA-256 digests bit-exactly on the first
+  run.
+
+  **This increment closes a requirement outright rather than half.**
+  `VOX-SUR-007` is the only row in the `VOX-SUR` block declaring **T** alone
+  rather than `T,D`, so a byte-exact off-screen reference discharges its
+  verification method **completely** — no demonstration is outstanding for it.
+  Every other surface row still carries a gated demonstration half.
+
+  The pick composes the accepted coverage rules and re-intersects nothing: the
+  candidate carries the depth, the layer, the facet, the clip verdict, the
+  interpolated world position and the facet's original-order vertex indices,
+  all of which earlier accepted stages already computed. The reference adds no
+  geometric predicate of its own, so it cannot disagree with the image that was
+  drawn.
+
+  The suite proves the ordering obligation directly: a clipped **nearer**
+  fragment does not occlude a farther one, and the farther fragment's own
+  position is returned. It proves both no-hit paths — nothing covered, and
+  everything covering was clipped — reach the same outcome by the same rule; it
+  proves supply order is irrelevant and the inherited tie-break resolves at
+  both the layer and the facet level; it proves a negative depth is pickable;
+  and it proves the pixel bound is inclusive at zero and exclusive at the
+  dimension on **both** axes, with all four out-of-bounds directions rejected
+  typed as `pixelOutOfBounds`.
+
+  The failure family is one case, and the honesty rule needed no branch: the
+  reference carries no optional-position case because a surface scene always has
+  a length-bearing world space, so the case could never fire and could never be
+  evidenced.
+
+  Verified: 760 tests in 163 suites green. `ADR-0197` increments (a) through
+  (h) are complete, discharging the **Test** half of `VOX-SUR-001` through
+  `VOX-SUR-006` and **all** of `VOX-SUR-007`.
+
+  ```bash
+  swift test --filter SurfacePickerTests
+  swift format lint --strict \
+    Sources/VoxeliaRendering/Internal/SurfacePicker.swift \
+    Tests/VoxeliaRenderingTests/SurfacePickerTests.swift
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13373,13 +13422,18 @@ Increment (h)'s design is complete: accepted `ADR-0205` and
 `VOXELIA-ALG-0039` freeze picking as a composition of the accepted coverage
 rules, and clarify the clip-before-nearest ordering `ADR-0204` left implicit.
 
-The exact next action is the `ADR-0205` migration: add the pick reference to
-`VoxeliaRendering`, reproducing all eleven `ALG-0039` fixtures bit-exactly and
-proving that a clipped nearer fragment does not occlude a farther one, both
-no-hit paths, the inherited tie-break at both levels, and the
-inclusive-at-zero, exclusive-at-dimension pixel bound. Because `VOX-SUR-007`
-declares `T` alone, that migration discharges its verification method
-**completely**.
+The `ADR-0205` migration is complete, and with it `ADR-0197` increments (a)
+through (h). `VoxeliaRendering` owns `SurfacePicker`, both `ALG-0039` digests
+reproduce bit-exactly, and `VOX-SUR-007` is discharged **completely** —
+verification method included, because it declares `T` alone.
+
+The exact next action is `ADR-0197` increment (i): the `VOX-SUR-008`
+*correctness* half, under `ADR-0197` decision 6. An annotation anchored to a
+geometry position must project to the right pixel and be correctly occluded at
+any given camera pose, proven by rendering at two poses and asserting both.
+The *continuous-motion* half stays honestly gated to the owner-gated
+interactive draw-loop arc, exactly as `VOX-DVR-013` was, and must not be
+claimed by an off-screen render.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13408,12 +13462,22 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0205` migration next: the pick reference in
-  `VoxeliaRendering`. Run the focused `VoxeliaRenderingTests` suite, `swift
-  format lint --strict` on every touched Swift file, and the
-  ADR/document/register/index/manifest/integrity checks. Reproduce all eleven
-  `ALG-0039` fixtures bit-exactly and see the literal passing full unfiltered
-  test-run line before pushing.
+- Perform `ADR-0197` increment (i) next: design-first for the `VOX-SUR-008`
+  correctness half, then migrate it. Every numeric boundary — what "the right
+  pixel" means for an anchored annotation, and what occlusion decides at an
+  exactly equal depth — is frozen in an accepted record with an independent
+  Python oracle before any Swift is written, as every increment in this arc has
+  been.
+- `VOX-SUR-008` declares `T,D` and its motion half needs the owner-gated
+  interactive draw loop. Claim the correctness half only, and record the motion
+  half as an outstanding demonstration dependency rather than silently closing
+  the row.
+- `VOX-SUR-009` (increment (j)) declares **I,T**, not `I,R`. It carries a real
+  test obligation and must not be discharged documentation-only the way
+  `VOX-GEO-011` was.
+- Do not reopen `ADR-0205`. It is accepted and evidenced: a different
+  predicate, ordering, identity, position or failure needs a new algorithm
+  version, not an edit.
 - When an increment needs rules already frozen by an accepted algorithm,
   extract them into one shared implementation rather than duplicating, and
   re-run the accepted record's own oracle test immediately to prove the
