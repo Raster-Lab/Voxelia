@@ -8194,6 +8194,67 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-forty-second autonomous increment (`ADR-0216`, requirement
+  traceability sweep): the milestone-level sweep is done, and the class of
+  defect that hid `VOX-MPR-011` now **fails a check** instead of depending on
+  someone choosing to re-read the table.
+
+  **The measurement.** Of 486 baseline rows, 356 belong to milestones the
+  project has entered (M0–M6), and **83 were named nowhere at all** — not in the
+  ledger, not in any decision record or algorithm specification, not in any
+  source file, test, tool or benchmark. `VOX-DOC-008` requires requirements to
+  be traceable and nothing enforced it: the same shape of finding `ADR-0196`
+  recorded for Model I/O, a claim asserted in two accepted places and enforced
+  in none.
+
+  **The gap is overwhelmingly traceability, not capability**, and the record
+  says so without claiming discharges. `VOX-LIC-002`, `VOX-REP-002` and
+  `VOX-REP-003` are satisfied *and mechanically enforced* by
+  `check_required_files.py`; `VOX-DOC-002` and `VOX-DOC-003` by
+  `check_document_text.py`; `VOX-IMG-003/004/008` by accepted operations with
+  registered algorithms. Those rows were unlabelled, not unbuilt. **Eighteen are
+  owner-gated** — the whole `VOX-CMP` block and the `VOX-DCM` rows — and stay on
+  the list, because tracing them would mean fabricating an assessment of work
+  that cannot start. The `VOX-VS1` rows are genuinely unassessed and are named
+  as the most likely first candidates.
+
+  **This record discharges nothing.** Establishing that a row is *probably*
+  satisfied is not evidence that it is, and claiming 83 discharges from a
+  spot-check would be the largest unevidenced claim in the project.
+
+  **A ratchet, not a clean gate.**
+  `Tools/Scripts/check_requirement_traceability.py` freezes the known debt in
+  `docs/progress/untraced-requirements.txt` and fails when a row outside it
+  becomes untraced — or when an allowlisted row becomes traced without leaving
+  the list, so the debt can shrink but never grow and shrinking is a visible
+  diff. A zero-untraced gate would have been red the day it landed and would
+  have been switched off. It is wired into `validate-docs.sh`.
+
+  **The check caught a bug in itself on its first run**, and that is recorded
+  rather than quietly fixed: the allowlist lives under a searched directory, so
+  writing it made all 83 rows appear traced. A self-referential corpus is the
+  obvious way for this check to go vacuous later, so the exclusion now sits
+  beside the baseline's own.
+
+  **The debt fell from 83 to 75 in the same increment that measured it** — the
+  record traced eight rows by citing where each is satisfied and which check
+  enforces it, which is exactly the difference between tracing and listing.
+
+  The ratchet was verified by removing one identifier from the allowlist and
+  confirming the check fails naming exactly that row.
+
+  ```bash
+  python3 Tools/Scripts/check_requirement_traceability.py --write
+  python3 Tools/Scripts/check_requirement_traceability.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14244,14 +14305,24 @@ block plus `VOX-MPR-011`. `VOX-DVR-010`'s multi-volume compositing half and
 `VOX-DVR-011`'s multi-resolution half remain deliberately deferred pending a
 real consumer, not outstanding.
 
-The exact next action is therefore a **milestone-level sweep, not another
-increment**: re-read the baseline requirement table for every milestone the
-project has entered and grep this ledger for each requirement ID, exactly as the
-rule that found `VOX-MPR-011` prescribes. The purpose is to find any other row
-that a decomposition list silently skipped — that rule has now caught three, so
-a systematic pass is worth more than assuming the next arc is the right one.
-Record the sweep's findings in a new assessment record; do not fold any
-discovered row into an existing arc.
+The milestone-level sweep is done: accepted `ADR-0216` measured the
+traceability debt at **83 of the 356 rows in entered milestones**, recorded it
+in `docs/progress/untraced-requirements.txt`, and made the class of defect that
+hid `VOX-MPR-011` fail `Tools/Scripts/check_requirement_traceability.py` — a
+ratchet wired into `validate-docs.sh`, now standing at **75** rows after the
+record itself traced eight with cited evidence.
+
+The exact next action is to begin **paying down that debt, per row, with real
+evidence** — never by adding an identifier to a document for the sake of the
+count, which the check's excluded-corpus rule deliberately defeats. Start with
+the **`VOX-VS1` rows** (`002`, `003`, `004`, `007`, `010`, `011`, `012`, `013`,
+`015`): they describe first-vertical-slice behaviour the project has largely
+built but never labelled, so each needs a genuine inspection of what exists
+before it can leave the list. Where a row turns out to be satisfied, cite it in
+the record or test that satisfies it; where it does not, say so and give it its
+own record. **The eighteen owner-gated rows — the whole `VOX-CMP` block and the
+`VOX-DCM` rows — stay on the list** and must not be traced by fabricating an
+assessment of work that cannot start.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -14280,13 +14351,16 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the milestone-level requirement sweep next. For every milestone the
-  project has entered, read the baseline table's rows directly and grep this
-  ledger for each ID. A gap is either "never assessed" (needs a new record) or
-  "assessed elsewhere, correctly absent here" (needs nothing) — distinguish the
-  two rather than assuming either.
-- Do not reopen `ADR-0208` through `ADR-0215`. The colour and overlay arc is
-  closed and evidenced, and `VOX-MPR-011` is assessed.
+- Pay down the traceability debt next, starting with the `VOX-VS1` rows. Every
+  removal from `docs/progress/untraced-requirements.txt` needs a real citation
+  in a record or a test, not a mention added to make a count fall.
+- Never trace an owner-gated row. The `VOX-CMP` and `VOX-DCM` entries stay on
+  the list until the owner answers their dependency questions.
+- Raise `HIGHEST_ENTERED_MILESTONE` in the traceability check when a new
+  milestone opens, and re-seed the allowlist deliberately rather than letting a
+  whole milestone's rows land as unexplained debt.
+- Do not reopen `ADR-0208` through `ADR-0216`. The colour and overlay arc is
+  closed and evidenced, `VOX-MPR-011` is assessed, and the sweep is recorded.
 - Reuse the accepted round-half-away helper's exact formula wherever a table
   index is selected, including its just-below-half behaviour. A "corrected"
   variant would be a second rounding rule and would diverge from the registered

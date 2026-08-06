@@ -2685,6 +2685,11 @@
       "sha256": "79a92639724d71c119d9026dfb444861fb54dcfcca97bb96c00f76b64c025aeb"
     },
     {
+      "path": "Tools/Scripts/check_requirement_traceability.py",
+      "size": 5882,
+      "sha256": "50674ee63074837e4860da68d7d0d10ea4815d6f6d4c404079c6ebc9cd7826b2"
+    },
+    {
       "path": "Tools/Scripts/check_rfc_register.py",
       "size": 47580,
       "sha256": "204b082d871274953b8359084848714c123561e9ecabda1665da2a7f5261a333"
@@ -2731,8 +2736,8 @@
     },
     {
       "path": "Tools/Scripts/validate-docs.sh",
-      "size": 367,
-      "sha256": "338f0ba198283f337411df9ac71ec8a71b0d019da764ab592d64870c31e77176"
+      "size": 423,
+      "sha256": "fad3cc48ca95e1cd6ef2115daa874e7d1d44deab5aff5ac9a77e821642092c23"
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
@@ -4240,9 +4245,14 @@
       "sha256": "ef4802f6fe1c5daafe4ecfaaf8f4ebf45fe9a23514237107c2db712e73d6200c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0216-requirement-traceability-sweep.md",
+      "size": 7487,
+      "sha256": "3f15dee9df14c33daa5d933ede8dfa66c13549cf5b910e8a36428820d9db9714"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 32363,
-      "sha256": "5c0e032298b345a4a8f9c85ba33a24da6143ba7215527a56f3836480ac1fa3c2"
+      "size": 32529,
+      "sha256": "85d4e0f9dd3093d79ff49772b68b93ea1beb92e5e542ff5e5383b6eb5f62de0c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4326,8 +4336,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 938490,
-      "sha256": "2ad83748a9ed60bee44c47c16f74ee6dbbf9b7ff6bf993567d5c8cc5455bfc72"
+      "size": 942768,
+      "sha256": "2e2e45424acfb04b2c4c3099b521fd5e1083b8afaa870e934e92ca021e660db6"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4483,6 +4493,11 @@
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
       "size": 6675,
       "sha256": "9d877102af34ae69ca3861dd75b1f2f55f5544453d3ea63d172469ad70a1c47c"
+    },
+    {
+      "path": "docs/progress/untraced-requirements.txt",
+      "size": 1221,
+      "sha256": "96a9705f28226a50aff8b6fb0a05a5905c2e0ef9de4078918e4fd35d19646c61"
     },
     {
       "path": "docs/project/README.md",
@@ -4786,8 +4801,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 53283,
-      "sha256": "eafe1efc59f88acefe211c6f7547835386366ebabbf20b3beb0aae5e33f2de4e"
+      "size": 53442,
+      "sha256": "a6050a260b6d6c058094e62360d1d1c73240e84a5a8fafaac7cea28d2eebf06f"
     }
   ]
 }

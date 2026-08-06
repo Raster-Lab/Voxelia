@@ -192,7 +192,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0213` is allocated to the overlay compositing design.
 `ADR-0214` is allocated to the colour claim completion.
 `ADR-0215` is allocated to the multi-volume fusion assessment.
-The next unallocated numeric identifier is `ADR-0216`.
+`ADR-0216` is allocated to the requirement traceability sweep.
+The next unallocated numeric identifier is `ADR-0217`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -391,3 +392,4 @@ The next unallocated numeric identifier is `ADR-0216`.
 | [ADR-0213](ADR-0213-overlay-compositing-design.md) | Accepted | Overlay compositing design |
 | [ADR-0214](ADR-0214-colour-claim-completion.md) | Accepted | Colour claim completion |
 | [ADR-0215](ADR-0215-multi-volume-fusion-assessment.md) | Accepted | Multi-volume fusion assessment |
+| [ADR-0216](ADR-0216-requirement-traceability-sweep.md) | Accepted | Requirement traceability sweep |

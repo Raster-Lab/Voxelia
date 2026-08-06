@@ -7,5 +7,6 @@ python3 Tools/Scripts/check_front_matter.py
 python3 Tools/Scripts/check_adr_register.py
 python3 Tools/Scripts/check_rfc_register.py
 python3 Tools/Scripts/check_document_text.py
+python3 Tools/Scripts/check_requirement_traceability.py
 printf 'Documentation validation passed.
 '
