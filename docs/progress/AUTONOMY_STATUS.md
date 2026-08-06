@@ -7260,6 +7260,62 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twenty-fifth autonomous increment (`ADR-0197` increment (g),
+  design): accepted `ADR-0204` and `VOXELIA-ALG-0038` freeze
+  `surface-world-box-clipping/binary64-v1`. No product source changed.
+
+  **The capping question `ADR-0197` flagged is settled: version one is
+  uncapped, and the cut is legible by construction.** A clipped solid shows its
+  own far side through the cut, which is only acceptable because `ADR-0202`
+  already made the diagnostic material **two-sided** — a decision taken for an
+  entirely different reason, that open extracted surfaces must not render black
+  inside. That same property makes the revealed interior lit rather than a
+  void. The two decisions compose, and neither was made for the other.
+
+  What a capped variant must settle is recorded and **bounded**: the plane-mesh
+  intersection polygon, its triangulation for non-convex and multi-loop
+  cross-sections, the cap's orientation, nested-loop and cavity semantics, and
+  a policy for meshes with no interior. The accepted `VOXELIA-ALG-0032`
+  certification is named as the natural precondition, because a cap is only
+  well defined for a surface already proven closed and consistently oriented.
+  That turns an open-ended constructive-geometry obligation into a record with
+  a stated entry condition.
+
+  **Clipping is a per-fragment predicate: no geometry is cut, no vertex is
+  created, no topology changes.** Geometric clipping would have to split
+  facets, synthesise vertices, invent their attribute values and re-establish
+  winding — work the fragment stages already do exactly.
+
+  The boundary is **inclusive** on faces, edges and corners: the box is a
+  closed region, and `VolumeClipBounds` uses strict inequalities only to reject
+  a degenerate box, not to describe an open one. Four fixtures pin it.
+
+  The world position is **published rather than reconstructed**. `ALG-0033`
+  already computes it as an intermediate, so `ADR-0204` publishes it on
+  `ProjectedVertex` — additive, and changing no registered digest by the same
+  reasoning that made `ADR-0202`'s swap flag safe. Inverting the projection
+  would have added a second rounding path for a value the pipeline already had.
+
+  `VolumeClipBounds` is composed unchanged, keeping one clip meaning across the
+  volume and surface paths; only one admission is added, that the clip's space
+  is the scene's world space. An absent clip retains everything, so the
+  unclipped path is the same code with no branch to diverge. The failure family
+  is two cases, with no representability failure — the interpolated position is
+  a convex combination of finite world positions and is bounded by them.
+
+  The oracle registers nineteen fixtures, all successful.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0204-surface-clipping-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13207,14 +13263,16 @@ representation rather than inventing one.
 The `ADR-0203` migration is complete, and with it `ADR-0197` increments (a)
 through (f).
 
-The exact next action is increment **(g), clipping and section views**
-(`VOX-SUR-006`). It is **design-first**. It composes the accepted
-`VolumeClipBounds` world-space slab rule, but its real decision is the one
-`ADR-0197` decision 4(g) already named: whether a clipped solid shows an
-**open boundary or a capped cross-section**. Capping is a constructive-geometry
-obligation — it means synthesising surface where the clip plane cuts the mesh,
-which needs its own topology and orientation rules — so it must be settled
-explicitly rather than assumed either way.
+Increment (g)'s design is complete: accepted `ADR-0204` and
+`VOXELIA-ALG-0038` settle clipping as a per-fragment predicate with an
+inclusive boundary and an uncapped section view, and bound the capped variant
+to a future record with `ALG-0032` certification as its precondition.
+
+The exact next action is the `ADR-0204` migration. It has two steps and the
+first is a correction-style change: **publish the world position on
+`ProjectedVertex` and immediately re-run the `ALG-0033` oracle test to prove
+its digests are unchanged**, exactly as the swap flag was handled. Then add the
+clip predicate reproducing all nineteen `ALG-0038` fixtures bit-exactly.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13243,10 +13301,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0197` increment (g) next, and it is **design-first**: clipping
-  geometry and any capping rule are numeric and topological boundaries, so
-  freeze an accepted record plus an algorithm specification with a
-  python-computed independent oracle before writing implementation code.
+- Perform the `ADR-0204` migration next. Publishing the world position on
+  `ProjectedVertex` changes an accepted value shape additively, so re-run the
+  `ALG-0033` oracle test immediately after and confirm its digests still match
+  before going further. Then run the focused `VoxeliaRenderingTests` suite,
+  `swift format lint --strict` on every touched Swift file, and the
+  ADR/document/register/index/manifest/integrity checks.
 - When an increment needs rules already frozen by an accepted algorithm,
   extract them into one shared implementation rather than duplicating, and
   re-run the accepted record's own oracle test immediately to prove the

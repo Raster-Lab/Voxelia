@@ -2796,8 +2796,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 4649,
-      "sha256": "ee412fa67e96c95eb0f3c47b8db52f420f6ffc37b57df5d9503732cd652430c4"
+      "size": 4764,
+      "sha256": "bed81a88498e88710a5b02117ad92a9288d672a9e76cb9e96e83b35752c9cc7d"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -2983,6 +2983,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0037-surface-scalar-colour-map.md",
       "size": 8102,
       "sha256": "8c464b2e12b3cd19a9fe651a57ba41a0bed6168cd07b100a8d8177fcb5da4977"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0038-surface-clipping.md",
+      "size": 7224,
+      "sha256": "7c7c164ad49f805128a19f6187f8c87242bfd09091176e1abeb58e0e8b9d4388"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4040,9 +4045,14 @@
       "sha256": "2b2773cfef0e0e1ba31575abdb2a1b59857a868b1957085062c56244bcb285ba"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0204-surface-clipping-design.md",
+      "size": 9825,
+      "sha256": "34d377c7871b79b101b7c5ff06831d6f7ad8c62c0908331ccf5c43040946425f"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 30547,
-      "sha256": "5d614e0a16ad5b5ffeb5b12ae24651392e1980305dbc861208c19785437c0d8b"
+      "size": 30692,
+      "sha256": "654dba8b8a8f86502f2ef4a998d6b78b6204ea86292175667bade3ac5d6559de"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4126,8 +4136,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 879348,
-      "sha256": "d488e414c699af1e40936da32a80b3d14ec9bcb51f57c6e0a31200988e190a42"
+      "size": 882724,
+      "sha256": "0eccb656dd15921ba2f2b53dca1d4b8fd5053ae735a602539266eb4edcada3d5"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4238,6 +4248,11 @@
       "path": "docs/progress/evidence/ADR-0203-surface-colour-map-oracle.py",
       "size": 9561,
       "sha256": "cd03136c80fdd6df369c1d1b5204eb1147e97617da94434a10bd680208d9865c"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0204-surface-clipping-oracle.py",
+      "size": 7275,
+      "sha256": "cd3a38b5f3b6673e261181d88fbbffb4b887782020268912e3addcf120172df7"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4546,8 +4561,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 50412,
-      "sha256": "e4fb9f90961c4f5e67f9fbd8b823bf536d022b07f07f869ac48796750371ced5"
+      "size": 50588,
+      "sha256": "ac0901eb6a548cb6fbe47c3c62dc83919bedfe529b07a3e9901bbcec27613639"
     }
   ]
 }

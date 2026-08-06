@@ -41,3 +41,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0035](VOXELIA-ALG-0035-surface-opacity-compositing.md) | Accepted | Surface per-object opacity compositing `binary64-v1` |
 | [VOXELIA-ALG-0036](VOXELIA-ALG-0036-surface-diagnostic-shading.md) | Accepted | Surface diagnostic shading `binary64-v1` |
 | [VOXELIA-ALG-0037](VOXELIA-ALG-0037-surface-scalar-colour-map.md) | Accepted | Surface scalar colour map `binary64-v1` |
+| [VOXELIA-ALG-0038](VOXELIA-ALG-0038-surface-clipping.md) | Accepted | Surface world-box clipping `binary64-v1` |
