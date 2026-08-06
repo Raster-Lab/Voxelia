@@ -202,7 +202,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0223` is allocated to the documentation build gate.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
-The next unallocated numeric identifier is `ADR-0226`.
+`ADR-0226` is allocated to the DICOM ingest arc.
+The next unallocated numeric identifier is `ADR-0227`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -411,3 +412,4 @@ The next unallocated numeric identifier is `ADR-0226`.
 | [ADR-0223](ADR-0223-documentation-build-gate.md) | Accepted | Documentation build gate |
 | [ADR-0224](ADR-0224-scaffold-gate-findings.md) | Accepted | Scaffold gate findings |
 | [ADR-0225](ADR-0225-unrun-pipeline-sweep-conclusion.md) | Accepted | Unrun pipeline sweep conclusion |
+| [ADR-0226](ADR-0226-dicom-ingest-arc.md) | Accepted | DICOM ingest arc |

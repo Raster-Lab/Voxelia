@@ -8819,6 +8819,53 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifty-fifth autonomous increment (`ADR-0226`, arc opening): **the
+  owner released the DICOMKit gate** — "yes proceed with DICOMKit" — and the
+  DICOM ingest arc is open. Decomposition and binding rules only; no dependency
+  added, no manifest changed, no numeric boundary frozen.
+
+  **The finding that shapes the arc: most of this work never needed the
+  dependency.** The First Vertical Slice Plan already splits ownership —
+  DICOMKit parses, Voxelia converts to neutral frame records, groups series,
+  validates geometry and builds the volume. The plan's `CTFrameRecord` names no
+  DICOMKit type, so four of the five increments are Voxelia's own code, testable
+  against synthetic records. `VOX-VS1-002`, `003` and `004`, which `ADR-0217`
+  recorded as dependency-blocked, turn out to be blocked only in their framing.
+
+  **The three facts a dependency needs were verified, not assumed.** The owner
+  supplied the identity — "it's the same as ours" — and the rest was read from
+  the repository: `https://github.com/Raster-Lab/DICOMKit`, latest release
+  **v2.2.11**, licence **MIT**. That settles `VOX-LIC-007` and `VOX-LIC-009`
+  outright and leaves `VOX-LIC-008`'s isolation rule untriggered, though the
+  optional module happens anyway because `VOX-DCM-002` requires it. **Had the
+  licence come back copyleft the arc's shape would have changed** — which is why
+  it was checked before being relied on, rather than after.
+
+  **The arc record was revised before acceptance rather than superseded.** It
+  was written while the dependency was still gated; the owner's clarification
+  arrived mid-increment, so the record was corrected in place — an unaccepted
+  record is a draft, and accepting a knowingly stale one to preserve a narrative
+  would be the wrong instinct.
+
+  **Increment (e) stays last despite being unblocked.** `VOX-REP-009` attaches
+  dependencies only to targets that need them, and until (a) through (d) exist,
+  no target needs DICOMKit. Adding it first would put an unused third-party
+  package in the build.
+
+  The traceability debt falls **18 → 13**: the five `VOX-DCM` rows are now
+  traced by this record. They remain **undischarged** — traced measures
+  visibility, not completion.
+
+  ```bash
+  gh repo view Raster-Lab/DICOMKit --json licenseInfo,latestRelease
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/check_requirement_traceability.py --write
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14938,26 +14985,31 @@ strict-memory-safety compiler crash predates this session** and is an Apple
 Swift 6.3.3 toolchain defect. **`validate-scaffold.sh` is currently red**, and
 no flag was relaxed to hide it.
 
-The sweep is closed by accepted `ADR-0225`. All four pipelines have been run;
-three are green and `validate-scaffold.sh` fails on a recorded, attributed
-Apple Swift 6.3.3 compiler crash that no flag was relaxed to hide.
+The sweep is closed by accepted `ADR-0225`, and **the owner has released the
+DICOMKit gate**. Accepted `ADR-0226` opens the DICOM ingest arc with its
+dependency facts verified from the repository: MIT, `v2.2.11`,
+`https://github.com/Raster-Lab/DICOMKit`.
 
-**There is no unrun pipeline left and no unblocked, consumer-backed capability
-gap.** What remains is genuinely gated: the eighteen owner-gated `VOX-CMP` and
-`VOX-DCM` traceability rows, the demonstration halves behind the interactive
-draw loop, the measurement workloads behind reference hardware, lazy evaluation
-with no consumer, and the compiler crash awaiting a toolchain change.
+The exact next action is `ADR-0226` increment (a): the **neutral frame-record
+vocabulary**, Voxelia-owned and naming no DICOMKit type. Design-first. Use
+`Point3D` and `Vector3D` rather than the plan's sketched `SIMD3<Double>`,
+because the accepted spatial types carry a `CoordinateSpaceID` and increment
+(c)'s whole job is deciding whether frames share a frame of reference.
 
-The exact next action is therefore **to say that plainly rather than
-manufacture an increment**. If the loop continues, the useful acts are narrow:
-re-test the release strict build when the toolchain changes, and re-run
-`prepare-release.sh` before any release. Otherwise the honest position is that
-the autonomous queue is drained to its gates, and the next substantive move
-needs an owner decision — on DICOMKit, on the Raster-Lab codecs, or on
-reference hardware.
+Increment (c) is the arc's hardest question and must not be pre-judged here:
+`ADR-0215` established exact equality for registration, but real scanner
+geometry does not arrive exact, so **which** of position, orientation and
+spacing admits a tolerance — and where that tolerance comes from — is settled
+there, with an oracle. The two remaining owner gates are unchanged: the
+Raster-Lab codecs and reference hardware.
 
 ## Test policy for the next action
 
+- Verify a dependency's licence from its repository before relying on it, even
+  when the owner supplies the identity. Authorising a direction is not stating
+  a licence, and the answer can change an arc's shape.
+- Revise an unaccepted record when the facts change; do not accept a knowingly
+  stale one and supersede it later.
 - Run the pipelines nobody runs, and repair what they surface. A green
   routine check says nothing about a pipeline the routine never invokes; that
   is how a broken documentation build survived four sessions.
