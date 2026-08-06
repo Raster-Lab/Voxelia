@@ -3017,6 +3017,89 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    composition test in `VoxeliaInteractionTests`, so CI guards what real data now
    demonstrates.
 
+   **Increment (s): `ADR-0249`, the cancellable CT import session (stage one).**
+   `VOX-VS1-017` addressed with a built path, 1012 tests / 189 suites green.
+
+   **The previous increment's own framing was wrong, and this is the correction.**
+   `ADR-0248` reported `RenderGeneration.isStale` as having zero production callers
+   and treated that as the gap to close. The fact is right; the inference was not.
+   `ADR-0122` decision 3 states plainly that "stamping frames and dropping stale ones
+   is the interactive draw loop's behaviour", with `VOX-INT-007` "discharged at the
+   contract level" and the draw-loop integration "recorded with its gate". **The
+   uncalled predicate is a recorded deferral, not an oversight** — and it belongs to
+   `VOX-INT-007`, not to this row. Corrected in `ADR-0249` decision 1 without editing
+   `ADR-0248`.
+
+   **The plan draws the line twice, and reading it settles the row.** §22.3: a result
+   may be **presented** only if its generation matches the viewport's — that is the
+   gated draw loop. §22.1: "a **CT import session shall be cancellable**", nine
+   stages, and §58.1 requires that cancelling during metadata scan, decode, volume
+   copy, identity or publication yields no partial `ImageData` and typed
+   cancellation. `VOX-VS1-017`'s own wording is **publication**, so the row is §22.1
+   — buildable now, not gated.
+
+   **Two findings from reading the code rather than assuming:**
+   - **The import path had no cancellation at all.** `RegionExtraction`,
+     `SqueezeAxes` and `WindowLevel` — the three operations the CT path uses — carry
+     none, nor does `PublicationCoordinator`. The `VoxeliaCPU` geometry operations do,
+     so the pattern existed and imaging never adopted it.
+   - **Nothing owned the frame loop.** Every CT type was Voxelia's, but the loop over
+     a series' frames lived in caller code — the harness wrote it by hand. A
+     cancellable session had nowhere to live until something owned that loop.
+
+   **Publication-time atomicity is already structural, so no probe was added.**
+   `publish` is three-phase and phase two is a **non-suspending critical section** in
+   which identifier reuse, the ceiling, the ancestry closure, graph admission and the
+   registry mutation linearise together. A non-suspending region has no cancellation
+   point: "no partial `ImageData`" and "no corrupt cache entry" are properties of the
+   existing design, not of a check. Adding a probe there would be a branch that can
+   never fire. Recorded in `ADR-0249` decision 6, with its own test deferred to
+   stage three.
+
+   Built: `CTImportSession` in `VoxeliaImaging` — source-agnostic, generic over an
+   opaque `Source`, with two caller-supplied closures — plus `CTImportCheckpoint`,
+   `CTImportCancellationProbe`, `CTImportedVolume` and a payload-free failure family.
+   **In `VoxeliaImaging` rather than `VoxeliaDICOMKit` deliberately**: behind the
+   optional product the row's own `T` obligation would need both the dependency and
+   patient data, and no repository test may read the latter.
+
+   **A structural improvement the increment did not set out to make.** The session
+   builds the `CoordinateSpaceDescriptor` itself from the chosen series, instead of
+   accepting one. That is precisely the bug the `VOX-VS1-001` harness hit — a caller
+   assembling the descriptor by hand omitted the series' frame of reference and was
+   refused with `frameOfReferenceNotPreserved`. `VOX-DCM-007` preservation is now
+   structural rather than trusted, and a test pins it.
+
+   Eight tests, all green first run. **Every checkpoint is enumerated rather than
+   sampled** (the input space is eleven sites), and one test asserts the probe is
+   consulted at exactly the documented sites **in order** — so a checkpoint that is
+   documented but never reached would fail rather than mislead. The row's own
+   property is proved compositionally against a real `PublicationCoordinator`: for
+   every checkpoint, a cancelled import leaves no published image and no published
+   provenance. The sharpest case is `.final` — every stage complete, the volume fully
+   assembled, and the caller still receives nothing — paired with an uncancelled
+   control that *does* publish, so the test proves cancellation rather than a broken
+   pipeline.
+
+   One house-rule catch: `nonisolated(unsafe)` was reached for to capture the visited
+   checkpoints, and the safety policy reserves that bare word **even in comments**.
+   Replaced with a `Mutex`-backed recorder — the policy admits no escape hatch for a
+   test either.
+
+   **An ordering question named and deliberately left open**:
+   `MPRSliceCoordinator.extractSlice` publishes **twice** (slab, then squeezed
+   slice), so cancellation between them would leave the slab published and the slice
+   absent. That belongs to the view path, not the import path, and answering it means
+   deciding whether a multi-stage publication is a transaction — a provenance-graph
+   question well beyond this row. Named so a later increment cannot assume it was
+   settled.
+
+   **Next: `ADR-0249` stage two** — the DICOM-backed frame source in
+   `VoxeliaDICOMKit` and a real-data run confirming a cancelled import of the
+   899-frame series publishes nothing; then stage three, the publication-atomicity
+   test of decision 6. Then `011`'s confirmation, `010`'s differential run, `018`'s
+   steady-state measurement, `016`'s requirement reading.
+
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in
    `docs/progress/untraced-requirements.txt`.

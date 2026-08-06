@@ -202,6 +202,7 @@ Sources/VoxeliaImaging/Public/.gitkeep
 Sources/VoxeliaImaging/Public/CTAffineVolumeBuilder.swift
 Sources/VoxeliaImaging/Public/CTFrameDescription.swift
 Sources/VoxeliaImaging/Public/CTGeometryValidation.swift
+Sources/VoxeliaImaging/Public/CTImportSession.swift
 Sources/VoxeliaImaging/Public/CTSampleInspector.swift
 Sources/VoxeliaImaging/Public/CTSampleNormalisation.swift
 Sources/VoxeliaImaging/Public/CTSeriesAssembly.swift
@@ -455,6 +456,7 @@ Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
 Tests/VoxeliaImagingTests/CTAffineVolumeBuilderTests.swift
 Tests/VoxeliaImagingTests/CTFrameDescriptionTests.swift
 Tests/VoxeliaImagingTests/CTGeometryValidatorTests.swift
+Tests/VoxeliaImagingTests/CTImportSessionTests.swift
 Tests/VoxeliaImagingTests/CTSampleInspectorTests.swift
 Tests/VoxeliaImagingTests/CTSampleNormalisationTests.swift
 Tests/VoxeliaImagingTests/CTSeriesAssemblerTests.swift
@@ -921,6 +923,7 @@ docs/architecture/decisions/ADR-0245-downstream-slice-requirement-assessment.md
 docs/architecture/decisions/ADR-0246-quantitative-sample-inspection.md
 docs/architecture/decisions/ADR-0247-distance-measurement-correction.md
 docs/architecture/decisions/ADR-0248-linked-crosshair-verification.md
+docs/architecture/decisions/ADR-0249-cancellable-ct-import-session.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

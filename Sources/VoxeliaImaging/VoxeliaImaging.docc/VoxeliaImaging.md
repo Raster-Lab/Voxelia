@@ -54,6 +54,11 @@ public API is introduced only by reviewed milestone specifications.
 - ``CTSampleInspector``
 - ``CTSampleInspection``
 - ``CTSampleInspectionError``
+- ``CTImportSession``
+- ``CTImportedVolume``
+- ``CTImportCheckpoint``
+- ``CTImportCancellationProbe``
+- ``CTImportSessionError``
 
 ### Multiplanar reconstruction
 

@@ -435,3 +435,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0246](ADR-0246-quantitative-sample-inspection.md) | Accepted | Quantitative sample inspection |
 | [ADR-0247](ADR-0247-distance-measurement-correction.md) | Accepted | Distance measurement correction |
 | [ADR-0248](ADR-0248-linked-crosshair-verification.md) | Accepted | Linked crosshair verification |
+| [ADR-0249](ADR-0249-cancellable-ct-import-session.md) | Accepted | Cancellable CT import session |
