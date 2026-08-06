@@ -4718,6 +4718,53 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    oracle) for composition, vector and normal transformation. Then the shading correction,
    verified against that oracle.
 
+   **Increment (zz): `ADR-0281`, `VOX-SPA-009` DISCHARGED.** 1134 tests / 205 suites (was
+   1129/204). No source changed — `ADR-0280` predicted this row needed a test, not code,
+   and that held.
+
+   **What existed**: three typed errors on a determinant below
+   `Double.leastNormalMagnitude` — `AffineSpatialInverseError.singularMatrix`,
+   `SpatialGeometryError.singularTransform`, `CTVolumeConstructionError.singularTransform`
+   — all already tested, **none carrying this row's tag**. Every threshold is the same
+   value and **none is an epsilon**, matching the no-epsilon rule rather than coincidentally
+   agreeing with it.
+
+   **THE CLAIM NOBODY HAD CHECKED**: `AffineWorldToIndexMap.init` documents its own
+   `singularMatrix` throw as *"unreachable for a validated geometry whose own admission
+   computes the identical frozen determinant"* — resting on **two separately written
+   expressions agreeing bit-for-bit**. They are the same order (Swift's `a - b + c` is
+   `(a - b) + c`), but nothing verified it, and a divergence would mean a geometry admitted
+   by one layer is refused by the next, firing a branch documented as unreachable.
+
+   **Verified in the falsifiable form that needs no determinant exposed**: both admissions
+   run over 8 boundary cases and required to agree — **3 admitted, 5 refused, agreement on
+   every one**. Determinants computed independently:
+   identity `1` ✓ · at threshold `2.2250738585072014e-308` ✓ · one ulp below
+   `...09e-308` ✗ · exactly zero ✗ · subnormal factor `4.94e-324` ✗ · **underflowing
+   product `5.5626846462680035e-309` ✗** · near-cancelling `-7.105e-15` ✓ · rank
+   deficient `0` ✗.
+
+   Two cases earn their place: the **underflowing product** `diag(tiny, 0.5, 0.5)` has **no
+   factor that is zero or subnormal** yet its product falls below threshold — exactly what
+   `CTAffineVolumeBuilder`'s own comment anticipates about spacing values that "make the
+   determinant underflow"; and **near-cancelling cofactors** at `-7.1e-15` is small enough
+   that a different summation order would show while still admitting, so it catches a
+   divergence in *order* rather than in magnitude.
+
+   **Non-vacuity asserted, not assumed**: the test requires ≥1 admitted AND ≥1 refused,
+   because a set falling all one way makes "the two agree" true and empty (`ADR-0249` stage
+   three's lesson). And a **rank-deficient** case sits alongside the zeroed ones because
+   "singular" ≠ "has a zero on the diagonal" — a test using only the latter would pass
+   against an implementation that scanned for zeros instead of computing a determinant.
+
+   **Threshold asserted from BOTH sides**, and the admitted case checks
+   `determinant == tiny` exactly — the value, not just the outcome.
+
+   **Next**: the affine design increment — ADR + `VOXELIA-ALG` + independent Python oracle
+   for **composition, vector and normal transformation**, under `ADR-0280` d3's constraint
+   that **no existing consumer's bits change**. Then the surface-shading correction
+   `ADR-0280` quantified.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

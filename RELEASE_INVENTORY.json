@@ -2795,6 +2795,11 @@
       "sha256": "a10abc4d6c175324e39fc94473d1899edbd28bb6606c033b89015ed86e198ce5"
     },
     {
+      "path": "Tests/VoxeliaSpatialTests/SingularTransformTypedErrorTests.swift",
+      "size": 7466,
+      "sha256": "490de08387c9fcd127576b4a449382377a2fb44d3e9bd3ab3d811f4f008f2c54"
+    },
+    {
       "path": "Tests/VoxeliaSpatialTests/SpatialAxisMappingTests.swift",
       "size": 5131,
       "sha256": "88eeea691a8eaa15f77d5a3a1911897764116677cf04911fe1a35086e6d2bd8f"
@@ -4920,6 +4925,11 @@
       "sha256": "7218467b0ed11a9148a979f51ecf63e8464aa802b981a55283b490aa7bb6594c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0281-singular-transform-typed-errors.md",
+      "size": 8129,
+      "sha256": "27b0497a894605db3020156be19b4579703ee59103921e9a7aec7d40f7adcd7c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
       "size": 38641,
       "sha256": "5740e7eed3bdbdb209b903f4012253728a9bbc77a478af7a84af884470cfb757"
@@ -5016,8 +5026,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1171778,
-      "sha256": "a4316c841dffb5b6f63d8d91b84866f143cba4d59dc48673f6fab8644e577b31"
+      "size": 1174857,
+      "sha256": "0eb7d946dee4d878bbe985a72fda9d6075d940700721e87398142f8ce2325c2c"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5526,8 +5536,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 62714,
-      "sha256": "0748f7c561a9b6e1285bcde6c845f99f873bcdcc075534ceb76fc6dc96ad26ca"
+      "size": 62851,
+      "sha256": "9b164fd8ddda26bb5022b082dc02f3fadd817eff7fcf32d8fd183250f9be048e"
     }
   ]
 }
