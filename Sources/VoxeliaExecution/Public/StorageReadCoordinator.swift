@@ -119,7 +119,7 @@ public actor StorageReadCoordinator {
 
     /// Releases one waiter's retained share exactly once.
     ///
-    /// - Throws: ``StorageContractError/contractViolation`` for an
+    /// - Throws: `StorageContractError.contractViolation` for an
     ///   unknown or already released token.
     public func release(_ token: ReadRetentionToken) throws {
         guard

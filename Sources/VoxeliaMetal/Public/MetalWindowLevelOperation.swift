@@ -26,7 +26,7 @@ public enum MetalWindowLevelOperation {
     /// Executes one window-level mapping on the device through the
     /// budgeted coordinated read boundary.
     ///
-    /// - Throws: ``VoxeliaExecution/WindowLevelError`` for device
+    /// - Throws: `WindowLevelError` for device
     ///   admission, ``MetalKernelError``, or the audited typed errors
     ///   of the storage, identity, provenance and aggregate contracts.
     public static func execute(

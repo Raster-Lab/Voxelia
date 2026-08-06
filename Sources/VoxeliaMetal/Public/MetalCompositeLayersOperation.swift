@@ -24,7 +24,7 @@ public enum MetalCompositeLayersOperation {
     /// Executes one composite on the device through the budgeted
     /// coordinated read boundary.
     ///
-    /// - Throws: ``VoxeliaExecution/CompositeError`` for device
+    /// - Throws: `CompositeError` for device
     ///   admission, ``MetalCompositeKernelError``, or the audited
     ///   typed errors of the storage, identity, provenance and
     ///   aggregate contracts.

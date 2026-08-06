@@ -36,7 +36,7 @@ public enum CPUTriangleMeshVertexNormalGenerationOperation {
     ///   does not claim source-graph admission, execution authenticity,
     ///   diagnostic validation or canonical mesh-content assurance.
     /// - Throws: A payload-free
-    ///   ``TriangleMeshVertexNormalGenerationError`` using the operation's
+    ///   `TriangleMeshVertexNormalGenerationError` using the operation's
     ///   fixed failure precedence.
     public static func execute(
         request: TriangleMeshVertexNormalGenerationRequest,

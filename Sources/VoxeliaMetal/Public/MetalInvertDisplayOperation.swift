@@ -22,7 +22,7 @@ public enum MetalInvertDisplayOperation {
     /// Executes one inversion on the device through the budgeted
     /// coordinated read boundary.
     ///
-    /// - Throws: ``VoxeliaExecution/InvertDisplayError`` for device
+    /// - Throws: `InvertDisplayError` for device
     ///   admission, ``MetalInvertKernelError``, or the audited typed
     ///   errors of the storage, identity, provenance and aggregate
     ///   contracts.

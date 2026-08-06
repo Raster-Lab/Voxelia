@@ -26,7 +26,7 @@ public struct GeometryAttributeDescriptor: Sendable, Hashable, Codable {
     /// semantic-to-component and cross-attribute consistency rules belong to
     /// the geometry or mesh descriptor that binds the attribute.
     ///
-    /// - Throws: ``DataModelError/invalidGeometryAttribute`` when
+    /// - Throws: `DataModelError.invalidGeometryAttribute` when
     ///   `elementCount` is negative or a position attribute does not have two
     ///   or three components.
     public init(

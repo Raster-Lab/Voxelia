@@ -18,7 +18,7 @@ public enum TriangleMeshPositionDomainError: Error, Sendable, Equatable {
 /// Immutable authoritative three-dimensional triangle-mesh positions.
 ///
 /// ``components`` stores finite binary64 values in flattened `(x, y, z)`
-/// order. One exact Spatial-owned ``CoordinateSpaceDescriptor`` applies to
+/// order. One exact Spatial-owned `CoordinateSpaceDescriptor` applies to
 /// every vertex. Construction preserves every admitted bit pattern, including
 /// the sign of zero; it performs no transform, conversion, quantisation or
 /// normalization.

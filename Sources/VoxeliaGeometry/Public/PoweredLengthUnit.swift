@@ -7,7 +7,7 @@ import VoxeliaSpatial
 /// Cases deliberately carry no payload so diagnostics cannot disclose the
 /// supplied unit namespace, code, dimension or conversion metadata.
 public enum PoweredLengthUnitError: Error, Sendable, Equatable {
-    /// The supplied base unit does not carry ``UnitDimension/length``.
+    /// The supplied base unit does not carry `UnitDimension.length`.
     case nonLengthBase
 
     /// The supplied exponent is zero.
@@ -23,7 +23,7 @@ public enum PoweredLengthUnitError: Error, Sendable, Equatable {
 /// name, because a squared or cubed spelling belongs to whichever external
 /// system defines it rather than to Voxelia.
 ///
-/// The value grants **no conversion authority**. ``MeasurementUnit`` may carry
+/// The value grants **no conversion authority**. `MeasurementUnit` may carry
 /// `scaleToCanonical` and `offsetToCanonical`, and this type deliberately does
 /// not raise, combine or otherwise reinterpret them; an offset in particular
 /// has no meaning under exponentiation. A consumer that needs a canonical
@@ -39,7 +39,7 @@ public struct PoweredLengthUnit: Sendable, Equatable {
     /// Creates an admitted powered length unit.
     ///
     /// - Parameters:
-    ///   - base: A unit whose dimension is exactly ``UnitDimension/length``.
+    ///   - base: A unit whose dimension is exactly `UnitDimension.length`.
     ///   - exponent: A non-zero power; two denotes an area, three a volume.
     /// - Throws: ``PoweredLengthUnitError/nonLengthBase`` when the base is not
     ///   a length, and ``PoweredLengthUnitError/nonPositiveExponent`` when the

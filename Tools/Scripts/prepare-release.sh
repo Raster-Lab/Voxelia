@@ -10,6 +10,10 @@ python3 Tools/Scripts/check_release_integrity.py --write
 Tools/Scripts/validate-scaffold.sh
 Tools/Scripts/build.sh
 Tools/Scripts/test.sh
+# ADR-0223: the documentation build is a release gate, not a per-edit one --
+# it drives xcodebuild and takes minutes. Nothing invoked it before, which is
+# how a broken DocC build survived unnoticed.
+Tools/Scripts/build-docc.sh
 python3 Tools/Scripts/check_release_integrity.py
 printf 'Release-candidate scaffold checks completed.
 '

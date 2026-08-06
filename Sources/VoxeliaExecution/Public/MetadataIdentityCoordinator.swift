@@ -47,7 +47,7 @@ public actor MetadataIdentityCoordinator {
     ///
     /// - Throws: the typed `MetadataJSONEmissionError` or
     ///   `ContentIdentityError` cause of the shared computation, or
-    ///   ``MetadataJSONEmissionError/cancelled`` for a cancelled caller.
+    ///   `MetadataJSONEmissionError.cancelled` for a cancelled caller.
     public func identity(
         for payload: MetadataCollection,
         maximumOutputByteCount: UInt64

@@ -4,8 +4,9 @@
 /// axis-aligned bounds.
 ///
 /// This is a transient value produced only by the validated
-/// ``AxisAlignedBounds3D/intersection(with:)`` query under the versioned
-/// reference operation `ray-axis-aligned-bounds-intersection/binary64-v1`.
+/// ``AxisAlignedBounds3D/intersection(with:)->RayAxisAlignedBoundsIntersection3D?``
+/// query under the versioned reference operation
+/// `ray-axis-aligned-bounds-intersection/binary64-v1`.
 /// Parameters are coefficients of the supplied unnormalised direction in
 /// `point(t) = origin + t * direction`, not physical distances. Both
 /// parameters are finite, signed zero is canonicalised to positive zero and

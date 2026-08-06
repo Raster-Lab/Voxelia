@@ -48,7 +48,7 @@ public enum CPUScalarSurfaceExtractionOperation {
     /// - Returns: A structurally bound mesh/identity/provenance aggregate. This
     ///   does not claim source-graph admission, execution authenticity,
     ///   diagnostic validation or canonical mesh-content assurance.
-    /// - Throws: A payload-free ``ScalarSurfaceExtractionError`` using the
+    /// - Throws: A payload-free `ScalarSurfaceExtractionError` using the
     ///   operation's fixed failure precedence.
     /// - Parameter progress: Receives the `VOXELIA-ALG-0046` sequence over both
     ///   passes — sample validation at the 4,096 cadence and the cell traversal

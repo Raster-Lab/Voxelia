@@ -49,7 +49,7 @@ public enum CPULabelledSurfaceExtractionOperation {
     /// - Returns: A structurally bound mesh/identity/provenance aggregate. This
     ///   does not claim source-graph admission, execution authenticity,
     ///   diagnostic validation or canonical mesh-content assurance.
-    /// - Throws: A payload-free ``LabelledSurfaceExtractionError`` using the
+    /// - Throws: A payload-free `LabelledSurfaceExtractionError` using the
     ///   operation's fixed failure precedence.
     public static func execute(
         request: LabelledSurfaceExtractionRequest,

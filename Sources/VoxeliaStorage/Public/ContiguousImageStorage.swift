@@ -24,8 +24,10 @@ public struct ContiguousImageStorage: ImageStorageContract {
 
     /// Admits one owned contiguous backing for the binding.
     ///
-    /// - Throws: ``StorageContractError/incompatibleBinding`` when the
-    ///   byte count is not exactly the binding's packed byte count.
+    /// - Throws: `StorageContractError.incompatibleBinding` when the byte
+    ///   count is not exactly the binding's packed byte count. The type is
+    ///   `VoxeliaCore`'s, so a symbol link cannot resolve from this module's
+    ///   own documentation archive.
     public init(binding: LogicalSampleBinding, bytes: [UInt8]) throws {
         guard bytes.count == binding.logicalByteCount else {
             throw StorageContractError.incompatibleBinding

@@ -48,7 +48,7 @@ public enum CPUTriangleMeshEnclosedVolumeOperation {
     ///   non-self-intersection, vertex manifoldness, source-graph admission,
     ///   execution authenticity, diagnostic validation or canonical
     ///   mesh-content assurance.
-    /// - Throws: A payload-free ``TriangleMeshEnclosedVolumeError`` using the
+    /// - Throws: A payload-free `TriangleMeshEnclosedVolumeError` using the
     ///   operation's fixed failure precedence.
     /// - Parameter progress: Receives the `VOXELIA-ALG-0046` sequence over the
     ///   kernel's three passes. It is **required, never defaulted**; pass

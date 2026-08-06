@@ -8683,6 +8683,51 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifty-second autonomous increment (`ADR-0223`): the reassessment
+  the previous increment committed to. It was to say plainly if nothing was
+  unblocked — instead it **found the documentation build broken**, and had been
+  since at least 2026-08-04.
+
+  The reassessment began by running every repository check not exercised
+  recently. Six passed. The seventh needed an argument, which led to
+  `build-docc.sh` — and `xcodebuild docbuild` **failed outright**. No
+  documentation archive could be produced for any module, while
+  `VOX-DOC-002` names DocC a primary format and `VOX-DOC-005` requires every
+  public API to carry documentation.
+
+  **Nothing in the repository ran `build-docc.sh`.** Not `validate-docs.sh`, not
+  `test.sh`, not `prepare-release.sh`. The script existed, was correct, and was
+  invoked by no pipeline — **the fifth instance of the `ADR-0196` pattern**: a
+  capability the project depends on, asserted in accepted places and enforced
+  nowhere. Four sessions of green checks never touched it.
+
+  Eleven doc comments were repaired: ten public-surface links to symbols outside
+  their own module — DocC cannot resolve those, and **module-qualifying was
+  tried first and rejected too**, because each dependency's archive is built
+  separately — plus one genuinely **ambiguous** link between two
+  `intersection(with:)` overloads, disambiguated by return type rather than
+  downgraded, since ambiguity is a real reader problem.
+
+  `build-docc.sh` now runs in **`prepare-release.sh`, deliberately not
+  `validate-docs.sh`**: it drives `xcodebuild` and takes minutes, and a
+  per-edit gate that slow gets bypassed within a week. A release gate that
+  actually runs beats a per-increment gate that gets switched off.
+
+  **No executable code changed** — 798 tests in 173 suites still green, which is
+  itself the evidence that only comments moved. `build-docc.sh` now reports
+  twelve expected archives.
+
+  ```bash
+  Tools/Scripts/build-docc.sh
+  python3 Tools/Scripts/check_package_graph.py
+  python3 Tools/Scripts/check_apple_platform_policy.py
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14790,19 +14835,27 @@ cadence, three passes at one cadence, and two passes at **two different**
 cadences. `ALG-0046` fixes a cadence per traversal rather than per operation,
 which the third consumer confirmed rather than assumed.
 
-The exact next action is to **stop extending progress and reassess**. The
-remaining surfaced gaps are lazy evaluation — unbuilt, with no consumer, so
-building it would be speculation — and three blocked behind gated measurement
-workloads. Re-read this ledger's gated list and the eighteen owner-gated
-traceability rows before choosing: if nothing is both unblocked and
-consumer-backed, say so plainly rather than manufacturing an increment, and
-consider whether the next useful act is a consolidation pass over the accepted
-records rather than new code.
+The reassessment ran, and it found real work rather than manufacturing it:
+accepted `ADR-0223` repaired a documentation build that had been failing since
+at least 2026-08-04 and gated it in `prepare-release.sh`, because **nothing in
+the repository invoked `build-docc.sh`**.
+
+The exact next action is to **finish what that reassessment started**: run the
+remaining pipelines nobody has exercised — `Tools/Scripts/validate-scaffold.sh`,
+`Tools/Scripts/test-repository-scripts.sh`, `Tools/Scripts/generate-sbom.sh`
+with its validator, and `python3 Tools/Scripts/check_swift_safety.py --compile`
+— and repair whatever they surface. The DocC finding is evidence that a green
+routine check says nothing about the pipelines the routine does not run. If they
+all pass, record that plainly and return to the gated queue.
 
 ## Test policy for the next action
 
-- Reassess before extending progress further. Three shapes are covered; a
-  fourth consumer would repeat rather than test the vocabulary.
+- Run the pipelines nobody runs, and repair what they surface. A green
+  routine check says nothing about a pipeline the routine never invokes; that
+  is how a broken documentation build survived four sessions.
+- A script that exists but is invoked by no pipeline is the same defect as an
+  unenforced claim. When adding one, wire it in — and place it where it will
+  actually run rather than where it is most thorough.
 - The no-default rule for progress observers **binds public API**. An internal
   helper may default it where its neighbouring parameters already are, and that
   narrowing is recorded rather than treated as an exception.
