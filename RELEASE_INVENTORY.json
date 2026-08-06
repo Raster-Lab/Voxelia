@@ -2165,6 +2165,11 @@
       "sha256": "e486f6a59556f3cccef2cb5ebae9e964fc457e7216f1a8f4a6bc42ed73c770b0"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/PublicationAtomicityTests.swift",
+      "size": 12777,
+      "sha256": "90dcdf36566a86096ca524c231253ecdc90da801c4d66de3ff897d1269b1f313"
+    },
+    {
       "path": "Tests/VoxeliaExecutionTests/PublicationCoordinatorTests.swift",
       "size": 10056,
       "sha256": "95f5e1cffa96ada8bcc27c9210e0ba12be33c1ff5618e36113695cdce6c5c571"
@@ -4631,8 +4636,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0249-cancellable-ct-import-session.md",
-      "size": 12276,
-      "sha256": "ebd8bf57eade6523a3d0160de41577ea8338c78391cf2917dae9a054ea343b8a"
+      "size": 13838,
+      "sha256": "ab080bc47debf37f642518bc081b723ad299f096e405a189851b3682e19e13ad"
     },
     {
       "path": "docs/architecture/decisions/README.md",
@@ -4721,8 +4726,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1070890,
-      "sha256": "97f319988f380d315bd7608644364b4c660eda397e3ddf48bd89906a8f6befc7"
+      "size": 1072868,
+      "sha256": "d64f1bd57c9d555f84b6681be6132bf9db2803e45cb2fa0dfcff999d061af986"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5226,8 +5231,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 58680,
-      "sha256": "c91aa90f546e789f2915b501a3311e2bde09aa11a11b2b01c42200057b12efba"
+      "size": 58740,
+      "sha256": "417388ac5983048ae972a3fe44df261021dec8eb7789485992bf524bdba32ba1"
     }
   ]
 }

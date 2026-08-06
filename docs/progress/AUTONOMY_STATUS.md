@@ -3137,9 +3137,40 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    the import would still be five times slower and the record would have said so
    confidently.
 
-   **Next: `ADR-0249` stage three**, the publication-atomicity test of decision 6.
-   Then `011`'s confirmation against `ALG-0008`/`ALG-0015`, `010`'s differential run,
-   `018`'s steady-state measurement, and `016`'s requirement reading.
+   **Increment (u): `ADR-0249` stage three — decision 6 verified, and the claim came
+   out sharper than it went in.** 1016 tests / 190 suites. **`VOX-VS1-017` is now
+   discharged across all three stages**, and it declares `T` alone, so the row closes
+   completely with no demonstration half outstanding.
+
+   Decision 6 declined to add a cancellation probe to `publish` because phase two
+   does not suspend, and required that be **verified rather than asserted**. Cancelling
+   the surrounding task and inspecting the registry, 24 attempts per shape:
+
+   | Image | Cancellable window | Registry, every attempt |
+   |---|---|---|
+   | No content claim | none before phase two | **`both`**, 24 of 24 |
+   | Sample-bytes content claim | phase one's cancellation-aware read | **`neither`**, 24 of 24 |
+
+   **The split is deterministic, not racy**, and that is the finding. The invariant
+   held everywhere — an image is published iff its provenance is — and *which*
+   outcome occurs is decided entirely by the content claim: without one there is no
+   suspension before the registry mutation, so an already-cancelled task publishes
+   **completely**; with one, `StorageReadCoordinator`'s cancellation-aware read
+   refuses and **nothing** registers. Sixteen concurrent cancelled publications never
+   half-registered an object.
+
+   **I checked whether the test was passing vacuously, and that check is what
+   produced the finding.** Four green ticks would have been consistent with
+   cancellation never biting at all. Instrumenting the distribution showed the
+   perfect 24/24 split — so the assertion was **strengthened from "both or neither"
+   to the exact outcome per shape**. The weaker form would pass unchanged if a
+   suspension were introduced into phase two, which is precisely the regression
+   decision 6 exists to prevent. A test that cannot fail usefully is not evidence.
+
+   **Next: `VOX-VS1-011`** — confirm nearest and linear against the frozen
+   `ALG-0008`/`ALG-0015` rather than rebuilding; then `010`'s differential run,
+   `018`'s steady-state measurement, and `016`'s requirement reading. Four rows left
+   of twenty, and `ADR-0248`'s sizing says none of them needs new capability.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in

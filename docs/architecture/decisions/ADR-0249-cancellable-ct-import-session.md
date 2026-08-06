@@ -221,15 +221,45 @@ asserted**: a publication cancelled at the surrounding task must leave the
 registry either fully updated or untouched, with no intermediate state
 observable.
 
+## Decision 6, verified: the outcome is decided by the content claim
+
+Stage three verified decision 6 rather than restating it, and the measurement
+sharpened the claim. Cancelling the task around `publish` and then inspecting the
+registry, over 24 attempts per shape:
+
+| Image | Cancellable window | Registry, every attempt |
+|---|---|---|
+| No content claim | none before phase two | **`both`**, 24 of 24 |
+| Sample-bytes content claim | phase one's cancellation-aware read | **`neither`**, 24 of 24 |
+
+**The split is deterministic, not racy**, and that is the useful part. The
+invariant decision 6 asserted — an image is published if and only if its
+provenance is — held in every case, and *which* outcome occurs is decided
+entirely by whether the image carries a content claim:
+
+- Without a claim there is no suspension between entry and the registry
+  mutation, so an already-cancelled task still publishes **completely**. This is
+  the concrete reason a probe inside phase two would be unreachable.
+- With a claim, phase one performs a cancellation-aware read through
+  `StorageReadCoordinator`, so cancellation refuses there and **nothing** is
+  registered.
+
+The test asserts the exact outcome per shape rather than merely "both or
+neither", because the weaker assertion would pass unchanged if a suspension were
+introduced into phase two — the failure decision 6 exists to prevent. Sixteen
+concurrent cancelled publications were also checked, and no object was ever
+half-registered.
+
 ## Migration
 
 1. This record.
-2. Stage one: the checkpoint vocabulary, the failure case and the session in
-   `VoxeliaImaging`, with cancellation tests driven by a synthetic frame source
+2. Stage one **done**: the checkpoint vocabulary, the failure case and the session
+   in `VoxeliaImaging`, with cancellation tests driven by a synthetic frame source
    at every checkpoint.
-3. Stage two: the DICOM-backed frame source in `VoxeliaDICOMKit`, and a real-data
-   run confirming a cancelled import of the 899-frame series publishes nothing.
-4. Stage three: the publication-atomicity test of decision 6.
+3. Stage two **done**: the DICOM-backed frame source in `VoxeliaDICOMKit`, and a
+   real-data run confirming a cancelled import of the 899-frame series publishes
+   nothing at any of nine cancellation points.
+4. Stage three **done**: the publication-atomicity verification above.
 5. **Open, not part of this row**: cancellation for the view-path operations, and
    the multi-stage publication question named above.
 
