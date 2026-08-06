@@ -4049,9 +4049,47 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Compression arc: `002`, `003`, `004`, `005`, `007`, `009`, `010`, `013` and `008`
    (`T`) discharged.** Remaining: `006`, `011`, `012`, `014`, `008`'s `A`.
 
-   **Next: `VOX-CMP-012`** (original preservation) and **`014`** (benchmarks), neither
-   needing new codec capability; then `006` (which should answer the `levelsZ`
-   question); then `011`'s adversarial work last.
+   **Increment (oo): `ADR-0270`, `VOX-CMP-012`'s `T` discharged.** 1086 tests / 200
+   suites. `R` left to the owner, per `ADR-0254`'s handling of `VOX-VS1-021`.
+
+   The row is **conditional** ("when caches *are generated*") and Voxelia generates
+   none — `ADR-0269` just found JP3D caching slower than re-importing. "Vacuously
+   satisfied" was the tempting answer and the wrong one: **a safety constraint on a
+   capability is worth making enforceable BEFORE the capability exists.**
+
+   **The finding: the accepted identity model permits exactly what this row forbids.**
+   `DataIdentity`'s admission is an **OR** — `contentID || sourceIdentities ||
+   derivation` — so an identity with a derivation and **no source identities at all**
+   is perfectly legal. A cache published that way records which operation made it while
+   losing every trace of which patient instances it came from. A test **constructs that
+   detached identity successfully** and then shows only the new rule refusing it, so
+   the gap is demonstrated rather than asserted.
+
+   The model is not wrong — it admits many objects with no DICOM ancestry, and
+   tightening Core would refuse legitimate ones. The obligation is contextual, so the
+   check is too: enforced at the compression boundary.
+
+   `CachePreservationRule` requires a cache to carry **every** source identity the
+   original had (**superset permitted** — one cache may span several series;
+   **subset refused** — it has dropped instances), to **declare a derivation naming an
+   input**, and to **not claim the original's object identifier** (which would be
+   deletion arriving as an update). The rule inspects and never mutates — tested,
+   because preservation that altered the preserved thing would be self-defeating.
+
+   Two fixture attempts were refused by the accepted model before the tests ran, both
+   recorded: `DerivationInputRole` is a validated string struct not an enum, and
+   `parameterDigest` needs the **operation-parameters** projection (a sample-bytes
+   identity gets `unsupportedParameterProjection`). The model keeping claim kinds
+   distinct.
+
+   **Compression discharged**: `002`, `003`, `004`, `005`, `007`, `009`, `010`,
+   `012`(`T`), `013`, `008`(`T`). **Remaining**: `006`, `011`, `014`, plus `008`(`A`)
+   and `012`(`R`).
+
+   **Next: `VOX-CMP-014`** (benchmarks — ratio, encode/decode time, random-access cost,
+   memory, output equality; most of it already measured in `ADR-0269`), then `006`
+   (which should also answer the `levelsZ` question), then **`011`'s adversarial work
+   last**.
 
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
