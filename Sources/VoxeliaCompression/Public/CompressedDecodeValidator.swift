@@ -86,11 +86,20 @@ public enum CompressedDecodeValidator {
     /// Admits a payload's declared shape against a caller-stated ceiling, before
     /// any decode.
     ///
+    /// Both the caller's declarations **and** the codestream's own header are bounded
+    /// here, and the second was added by `ADR-0273` because the first is not enough.
+    /// A payload's `declaredExtents` come from whoever built it; the dimensions a
+    /// decoder actually acts on come from the bytes. An adversarial `SIZ` marker
+    /// declaring `0xFFFF` by `0xFFFF` was measured killing the process through
+    /// unbounded allocation, and `0x7FFFFFFF` by `0x7FFFFFFF` trapping on overflow —
+    /// neither of which the declared-shape check above can see.
+    ///
     /// - Parameters:
     ///   - payload: the payload about to be decoded.
     ///   - maximumDecodedByteCount: the largest destination the caller will hold.
-    /// - Throws: ``CompressedDecodeError/invalidCeiling`` or
-    ///   ``CompressedDecodeError/declaredByteCountExceedsCeiling``.
+    /// - Throws: ``CompressedDecodeError/invalidCeiling``,
+    ///   ``CompressedDecodeError/declaredByteCountExceedsCeiling``, or
+    ///   ``CodestreamBudgetError``.
     public static func admitDestination(
         for payload: CompressedPayload,
         maximumDecodedByteCount: Int
@@ -101,6 +110,11 @@ public enum CompressedDecodeValidator {
         guard payload.declaredDecodedByteCount <= maximumDecodedByteCount else {
             throw CompressedDecodeError.declaredByteCountExceedsCeiling
         }
+        // The codestream's own header, which the checks above never consulted.
+        try CodestreamHeaderBudget.admit(
+            codestream: payload.codestream,
+            maximumDecodedByteCount: maximumDecodedByteCount
+        )
     }
 
     /// Admits a decode's own report against the payload's declarations.

@@ -4208,6 +4208,77 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    first target is now this increment's own marker walk. Defects found must be **fixed**,
    not merely reported.
 
+   **Increment (rr): `ADR-0273`, `VOX-CMP-011` discharged. THE M5 COMPRESSION ARC'S
+   REQUIREMENT ROWS ARE ALL DISCHARGED.** 1116 tests / 202 suites.
+
+   **Method**: a 41-case corpus from a real 988-byte JP3D encode of a `64x64x4` volume —
+   truncations, all-zero, three `SIZ` dimension attacks, seven `J3DS` field attacks, a
+   `COD` attack, garbage payload, and a deterministic byte-inversion sweep at stride 7.
+   **Each case in its own process** with an external RSS watchdog at 2 GiB and 25 s,
+   because the honest way to measure an unbounded allocation is to let it happen
+   somewhere it cannot hurt the host. (`RLIMIT_AS` is not enforced on macOS — the harness
+   tries it and the parent does the real bounding.)
+
+   **Fair finding first: the `J3DS` slice-stack layer is well hardened.** Every attack on
+   its slice count, tile dims, component count, bit depth, per-slice lengths and magic
+   threw a clean specific error, as did every truncation and the garbage payload. 28 of
+   41 threw cleanly, 11 decoded.
+
+   **THREE DEFECTS, all in the standards-shaped `SIZ` envelope one layer out**, whose
+   dimensions are read as 32-bit values and used with no upper bound:
+   - `Xsiz`/`Ysiz` = `0xFFFF` → **process killed**, past 2,163 MiB before the watchdog;
+     `SIGKILL` unwatched. ~32 GiB implied from 988 bytes.
+   - `Xsiz`/`Ysiz` = `0x7FFFFFFF` → **`SIGTRAP`** (exit 133) immediately, zero allocation
+     — the product overflows Int64 and traps.
+   - **A SINGLE BIT FLIP** on one `Ysiz` byte → **silent success**: decoded
+     `64x65344x4`, 33,456,128 bytes, **self-consistent**. A thousandfold amplification
+     that reports success and that no internal consistency check can catch.
+
+   **The fix: `CodestreamHeaderBudget`** — a bounded `SIZ` parse computing the implied
+   decoded byte count with **checked** multiplication (`nil` on overflow, which is the
+   entire difference between finding 2's trap and a refusal), wired **inside
+   `admitDestination`** so no caller can forget it. Also bounds `Ssiz` to the standard's
+   **1...38** — the field encodes to 128, a flip declared **113**, and the budget alone
+   would only catch that under a tight ceiling; bounding the field refuses it at
+   `Int.max`.
+
+   **Verified binding, with two independent cross-checks**: the gate computes exactly
+   **32,768** for the untouched codestream (the uncompressed volume to the byte) and
+   exactly **33,456,128** for the bit-flipped one — *the same count the decoder itself
+   returned*. Two separately written parsers agreeing on what the corrupt header means.
+   Across the corpus: 7 refused, 34 admitted, and the 34 are precisely the cases the
+   decoder already handled boundedly. **The two layers complement, not duplicate.**
+
+   **A DEFECT IN MY OWN FIRST DRAFT, and the lesson.** The first parser counted `SIZ`
+   offsets from the **marker** while addressing them from the **length field** two bytes
+   earlier — it read `Ysiz` where `Xsiz` sits and **refused every valid codestream**. All
+   three attacks were still refused, for entirely the wrong reason, so a suite checking
+   only "the attacks are refused" would have passed and shipped a gate rejecting all real
+   data. **Only requiring the VALID case to be ADMITTED caught it.** I had confirmed those
+   offsets empirically an hour earlier and still transcribed them against the wrong
+   origin. **Negative tests cannot validate a gate; the positive case is load-bearing.**
+
+   **`A` half discharged as bounds, not assurances**: every path from untrusted bytes to
+   an allocation or index tabulated with its bound. Memory safety is **structural** —
+   `VoxeliaCompression` has **zero** pointer APIs and **zero** unchecked arithmetic
+   operators (`&*`, `&+`, `&-`), verified by search and held by `check_swift_safety.py`.
+   `ADR-0272`'s marker walk re-tested under the corpus: **41 of 41 returned a verdict**,
+   no trap, no hang.
+
+   **M5 compression rows: `002`, `003`, `004`, `005`, `006`(`I,T`), `007`, `008`(`T`),
+   `009`, `010`, `011`, `012`(`T`), `013`, `014` — ALL DISCHARGED.**
+
+   **Remaining on the arc**: `008`'s `A` half (codec API analysis of caller-provided
+   destinations), plus owner Reviews for `006` and `012`.
+
+   **Three dependency defects recorded for the owner** (owns J2KSwift), none fixable from
+   here, all now *contained* by Voxelia refusing them pre-decode — but live for any other
+   consumer of that library. With `ADR-0272`'s two observations that is **five** J2KSwift
+   items on the owner's desk.
+
+   **Next**: `008`'s `A` half, then the interactive draw-loop arc, which needs its own
+   architectural record before any code.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

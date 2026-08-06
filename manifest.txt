@@ -81,6 +81,7 @@ Sources/VoxeliaCPU/VoxeliaCPU.docc/Architecture.md
 Sources/VoxeliaCPU/VoxeliaCPU.docc/Requirements.md
 Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md
 Sources/VoxeliaCompression/Public/CachePreservationRule.swift
+Sources/VoxeliaCompression/Public/CodestreamHeaderBudget.swift
 Sources/VoxeliaCompression/Public/CompressedDecodeSession.swift
 Sources/VoxeliaCompression/Public/CompressedDecodeValidator.swift
 Sources/VoxeliaCompression/Public/CompressedPayload.swift
@@ -375,6 +376,7 @@ Tests/VoxeliaCPUTests/TriangleMeshTotalFacetAreaReferenceKernelTests.swift
 Tests/VoxeliaCPUTests/TriangleMeshVertexNormalReferenceKernelTests.swift
 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
 Tests/VoxeliaCompressionTests/CachePreservationRuleTests.swift
+Tests/VoxeliaCompressionTests/CodestreamHeaderBudgetTests.swift
 Tests/VoxeliaCompressionTests/CompressedDecodeSessionTests.swift
 Tests/VoxeliaCompressionTests/CompressedDecodeValidatorTests.swift
 Tests/VoxeliaCompressionTests/CompressedPayloadTests.swift
@@ -969,6 +971,7 @@ docs/architecture/decisions/ADR-0269-jp3d-and-htj2k-evaluation.md
 docs/architecture/decisions/ADR-0270-cache-preservation-rule.md
 docs/architecture/decisions/ADR-0271-compression-benchmark-and-random-access.md
 docs/architecture/decisions/ADR-0272-codec-output-and-interoperability-status.md
+docs/architecture/decisions/ADR-0273-bounded-failure-on-adversarial-codestreams.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
