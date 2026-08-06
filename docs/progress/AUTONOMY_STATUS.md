@@ -2674,13 +2674,56 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    or an `inout` handover, both changes to accepted storage API, so it belongs to a
    record that changes storage rather than to a bridge increment.
 
-   **The exact next action is `ADR-0238` increment (d): provenance for an ingested
-   volume** — the arc's largest. `ProvenanceRecord` takes ten parameters with
-   cross-field invariants, `.origin` activity requires `.source` kind, the instant
-   must be caller-supplied because there is no clock, and `VOX-VS1-019` wants the
-   source frames named. `ADR-0238` decision 6 already binds it to claim only what
-   it can show: an ingest can name frames and the transform, and cannot claim an
-   operation or backend it never ran.
+   **`ADR-0242` performed increments (d) and (e) together**, and the merge is
+   forced rather than convenient: a provenance record's subject references the
+   identity's object ID and `ImageData` validates the two against each other, so
+   neither can be built or verified alone. 10 tests; 987 in 186 suites.
+
+   **The finding: an origin's source provenance is not in its inputs.**
+   `ProvenanceRecord` **requires `inputs.isEmpty` for an `.origin` activity**, and
+   `ImageData` separately **requires an origin's identity to carry at least one
+   source identity**. Read together, the accepted model is explicit and was built
+   for this case: provenance inputs describe Voxelia-to-Voxelia derivation, while an
+   origin's sources are the source locators on its `DataIdentity` — and
+   `sourceIdentities` is a *sequence*, so all 899 frames of a real series fit. So
+   `VOX-VS1-019`'s source-frame provenance is discharged by the identity. That was a
+   reading of two accepted types, and it needed both.
+
+   **A real defect was found and fixed before it could reach publication.**
+   `ImageData` requires the storage representation's byte order to equal the
+   descriptor's. `ContiguousImageStorage` admits `.native`; `ADR-0240`'s descriptor
+   declared `.littleEndian`, because that is what DICOM guarantees. **Different enum
+   cases — `ImageData` construction would have thrown `byteOrderMismatch`.** Found by
+   reading the invariants, then **confirmed by probing the two values** rather than
+   inferred. `ADR-0238` had recorded that byte order "works by platform
+   coincidence"; this is that coincidence becoming concrete — the values agree in
+   *meaning* on Apple Silicon and disagree as *cases*. The descriptor now declares
+   `.native`, and the coincidence is **enforced**: the builder refuses unless the
+   platform is little-endian, so a big-endian port fails loudly instead of
+   publishing a volume whose declared byte order misdescribes its bytes.
+
+   Four smaller decisions, each declining to over-claim. A repeated source locator
+   is **refused, not deduplicated** — two frames claiming one SOP Instance UID is a
+   contradiction, and collapsing it would hide a duplicated frame. The identity
+   carries **no content ID**, because a content claim would assert a digest this
+   increment does not compute. The validation claim defaults to **`.unknown`**,
+   because an ingest has run no validation. And `VOX-VS1-019` is claimed only for
+   **frames and the transform** — nothing is claimed about operations,
+   implementations or backends, because the ingest ran none.
+
+   **Constructing an `ImageData` is the increment's proof.** Its admission checks the
+   descriptor against the storage snapshot, the representation's byte order against
+   the descriptor's, the provenance subject against the identity, and the origin
+   source claim — so a value that exists has passed all four, and one test that
+   builds one is worth more than any number of field-by-field assertions.
+
+   **The exact next action is `ADR-0238` increment (f), which closes the arc**:
+   publish through `PublicationCoordinator` and extract axial, coronal and sagittal
+   slices from the real 899-slice series through `MPRSliceCoordinator`. That is what
+   makes `VOX-VS1-009` reachable, and it is the first time the ingested volume meets
+   code written in earlier milestones.
+
+   (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in
    `docs/progress/untraced-requirements.txt`.
 3. A `prepare-release.sh` dry run, unexercised since `ADR-0225` gated three

@@ -18,6 +18,18 @@ public enum CTVolumeDescriptorError: Error, Sendable, Equatable {
     /// values rather than spatial coordinates, so a length unit here would be a
     /// category error: it would claim the samples are millimetres.
     case unsupportedSampleUnit
+    /// The executing platform is not little-endian.
+    ///
+    /// `ContiguousImageStorage` admits its representation as `.native`, and
+    /// `ImageData` requires the representation's byte order to equal the
+    /// descriptor's, so the descriptor must declare `.native` too. That is only
+    /// *correct* because DICOM explicit VR is little-endian and
+    /// `PLATFORM_SUPPORT.md` scopes Voxelia to little-endian hardware.
+    ///
+    /// `ADR-0238` recorded that coincidence; this case **enforces** it, so a
+    /// big-endian port fails loudly at the boundary instead of publishing a
+    /// volume whose declared byte order silently misdescribes its bytes.
+    case unsupportedPlatformByteOrder
 }
 
 /// Builds the `ImageDescriptor` for an ingested CT volume, per `ADR-0238`
@@ -63,6 +75,9 @@ public enum CTVolumeDescriptorBuilder {
         if let sampleUnits, sampleUnits.dimension == .length {
             throw CTVolumeDescriptorError.unsupportedSampleUnit
         }
+        guard isLittleEndianPlatform else {
+            throw CTVolumeDescriptorError.unsupportedPlatformByteOrder
+        }
 
         // Axis 0 is the column index, so its extent is the column count.
         let shape = try ImageShape(extents: [
@@ -93,8 +108,10 @@ public enum CTVolumeDescriptorBuilder {
             shape: shape,
             // ADR-0239: the published format drops the meaningful-bit narrowing,
             // because normalisation makes full-width containers true.
-            scalarFormat: try CTSampleNormalisation.normalisedFormat(
-                from: frame.scalarFormat
+            scalarFormat: try nativeOrderFormat(
+                from: try CTSampleNormalisation.normalisedFormat(
+                    from: frame.scalarFormat
+                )
             ),
             components: try ComponentDescriptor(
                 count: 1,
@@ -109,6 +126,32 @@ public enum CTVolumeDescriptorBuilder {
                 intercept: frame.rescaleIntercept
             ),
             units: sampleUnits
+        )
+    }
+
+    /// Whether the executing platform stores integers little-endian first.
+    ///
+    /// A pure-Swift check: on a little-endian platform a value's little-endian
+    /// representation is the value itself.
+    static var isLittleEndianPlatform: Bool {
+        UInt16(0x0102).littleEndian == UInt16(0x0102)
+    }
+
+    /// Restates a format's byte order as `.native`.
+    ///
+    /// `ContiguousImageStorage` admits its representation as `.native`, and
+    /// `ImageData` compares that against the descriptor's declaration, so the two
+    /// must agree as enum cases and not merely in meaning. `DICOMFrameAdapter`
+    /// records `.littleEndian` because that is what DICOM guarantees; this
+    /// restates it as the platform order the storage layer speaks, having first
+    /// checked that the platform really is little-endian.
+    private static func nativeOrderFormat(from format: ScalarFormat) throws
+        -> ScalarFormat
+    {
+        try ScalarFormat(
+            type: format.type,
+            validBitCount: format.validBitCount,
+            byteOrder: .native
         )
     }
 
