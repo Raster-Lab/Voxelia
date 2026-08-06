@@ -3,6 +3,41 @@
 import VoxeliaCore
 import VoxeliaSpatial
 
+/// Exact UTF-8 byte ordering for the accepted identity types.
+///
+/// Defined once and shared, so the anchor rule and the group order have a
+/// single implementation rather than one per consumer.
+enum CTIdentityOrdering {
+    /// Whether `lhs` precedes `rhs` in exact UTF-8 byte order, or `nil` when
+    /// the two byte sequences are identical.
+    static func bytesPrecede(_ lhs: String, _ rhs: String) -> Bool? {
+        if lhs.utf8.elementsEqual(rhs.utf8) { return nil }
+        return lhs.utf8.lexicographicallyPrecedes(rhs.utf8)
+    }
+
+    /// Whether `lhs` precedes `rhs` by namespace, identifier and version, with
+    /// an absent version ordered before every present one, or `nil` when all
+    /// three are identical.
+    ///
+    /// `contentID` deliberately takes no part, matching the frozen fixtures.
+    /// Two identities differing only in their content claim therefore tie here
+    /// and are separated by arrival order, which keeps the ordering total.
+    static func precedes(_ lhs: SourceIdentity, _ rhs: SourceIdentity) -> Bool? {
+        if let result = bytesPrecede(lhs.namespace, rhs.namespace) { return result }
+        if let result = bytesPrecede(lhs.identifier, rhs.identifier) { return result }
+        switch (lhs.version, rhs.version) {
+        case (nil, nil):
+            return nil
+        case (nil, _):
+            return true
+        case (_, nil):
+            return false
+        case (let lhsVersion?, let rhsVersion?):
+            return bytesPrecede(lhsVersion, rhsVersion)
+        }
+    }
+}
+
 /// The exact identity a group of CT frames shares, per `VOXELIA-ALG-0047`.
 ///
 /// The key is identity only. No scanner-supplied approximate value takes part —
@@ -136,6 +171,23 @@ public struct CTSeries: Sendable, Hashable {
     /// meaning and the members fall back to exact identity order.
     public var isOrderedByProjection: Bool { observations.isEmpty }
 
+    /// The member first in exact `SourceIdentity` byte order.
+    ///
+    /// This is the frame whose directions defined ``referenceNormal``, and it
+    /// is exposed so that later stages compare against the same anchor rather
+    /// than choosing a second one. Absent only for a series with no members,
+    /// which ``CTSeriesAssembler`` never produces.
+    public var anchor: CTFrameDescription? {
+        members.enumerated()
+            .min { lhs, rhs in
+                CTIdentityOrdering.precedes(
+                    lhs.element.frame.sourceIdentity,
+                    rhs.element.frame.sourceIdentity
+                ) ?? (lhs.offset < rhs.offset)
+            }?
+            .element.frame
+    }
+
     /// Creates a series from its assembled parts.
     public init(
         key: CTSeriesKey,
@@ -198,7 +250,7 @@ public enum CTSeriesAssembler {
         // all is a stated choice, not a claim that the group is coherent: the
         // key excludes orientation, so members may disagree on it.
         let anchor = members.min { lhs, rhs in
-            identityPrecedes(lhs.frame.sourceIdentity, rhs.frame.sourceIdentity)
+            CTIdentityOrdering.precedes(lhs.frame.sourceIdentity, rhs.frame.sourceIdentity)
                 ?? (lhs.index < rhs.index)
         }
         let normal =
@@ -224,7 +276,8 @@ public enum CTSeriesAssembler {
             if observations.isEmpty {
                 projected.sorted { lhs, rhs in
                     if lhs.t != rhs.t { return lhs.t < rhs.t }
-                    return identityPrecedes(lhs.frame.sourceIdentity, rhs.frame.sourceIdentity)
+                    return CTIdentityOrdering.precedes(
+                        lhs.frame.sourceIdentity, rhs.frame.sourceIdentity)
                         ?? (lhs.index < rhs.index)
                 }
             } else {
@@ -232,7 +285,7 @@ public enum CTSeriesAssembler {
                 // members fall back to exact identity order and the
                 // projections are retained as the evidence.
                 projected.sorted { lhs, rhs in
-                    identityPrecedes(lhs.frame.sourceIdentity, rhs.frame.sourceIdentity)
+                    CTIdentityOrdering.precedes(lhs.frame.sourceIdentity, rhs.frame.sourceIdentity)
                         ?? (lhs.index < rhs.index)
                 }
             }
@@ -273,46 +326,14 @@ public enum CTSeriesAssembler {
         return ((px * normal.x) + (py * normal.y)) + (pz * normal.z)
     }
 
-    // MARK: - Exact byte ordering
-
-    /// Whether `lhs` precedes `rhs` in exact UTF-8 byte order, or `nil` when
-    /// the two byte sequences are identical.
-    private static func bytesPrecede(_ lhs: String, _ rhs: String) -> Bool? {
-        if lhs.utf8.elementsEqual(rhs.utf8) { return nil }
-        return lhs.utf8.lexicographicallyPrecedes(rhs.utf8)
-    }
-
-    /// Whether `lhs` precedes `rhs` by namespace, identifier and version, with
-    /// an absent version ordered before every present one, or `nil` when all
-    /// three are identical.
-    ///
-    /// `contentID` deliberately takes no part, matching the frozen fixtures.
-    /// Two identities differing only in their content claim therefore tie here
-    /// and are separated by arrival order, which keeps the ordering total.
-    private static func identityPrecedes(
-        _ lhs: SourceIdentity,
-        _ rhs: SourceIdentity
-    ) -> Bool? {
-        if let result = bytesPrecede(lhs.namespace, rhs.namespace) { return result }
-        if let result = bytesPrecede(lhs.identifier, rhs.identifier) { return result }
-        switch (lhs.version, rhs.version) {
-        case (nil, nil):
-            return nil
-        case (nil, _):
-            return true
-        case (_, nil):
-            return false
-        case (let lhsVersion?, let rhsVersion?):
-            return bytesPrecede(lhsVersion, rhsVersion)
-        }
-    }
+    // MARK: - Group ordering
 
     /// Whether `lhs` precedes `rhs` in the frozen group order.
     private static func keyPrecedes(_ lhs: CTSeriesKey, _ rhs: CTSeriesKey) -> Bool {
-        if let result = identityPrecedes(lhs.seriesIdentity, rhs.seriesIdentity) {
+        if let result = CTIdentityOrdering.precedes(lhs.seriesIdentity, rhs.seriesIdentity) {
             return result
         }
-        if let result = bytesPrecede(
+        if let result = CTIdentityOrdering.bytesPrecede(
             lhs.coordinateSpace.rawValue,
             rhs.coordinateSpace.rawValue
         ) {
@@ -326,10 +347,13 @@ public enum CTSeriesAssembler {
         case (_, nil):
             return false
         case (let lhsReference?, let rhsReference?):
-            if let result = bytesPrecede(lhsReference.namespace, rhsReference.namespace) {
+            if let result = CTIdentityOrdering.bytesPrecede(
+                lhsReference.namespace, rhsReference.namespace)
+            {
                 return result
             }
-            return bytesPrecede(lhsReference.identifier, rhsReference.identifier) ?? false
+            return CTIdentityOrdering.bytesPrecede(lhsReference.identifier, rhsReference.identifier)
+                ?? false
         }
     }
 }

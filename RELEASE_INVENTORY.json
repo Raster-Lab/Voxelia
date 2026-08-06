@@ -995,9 +995,14 @@
       "sha256": "bb0de7f62f1c853406122f4b5258632d55f79aa7edc40a2b671db23716c85a6d"
     },
     {
+      "path": "Sources/VoxeliaImaging/Public/CTGeometryValidation.swift",
+      "size": 16311,
+      "sha256": "5da12e54f7e43b41a975756fa47c1b9226314288934e8bd5264d5020d5f6dc5b"
+    },
+    {
       "path": "Sources/VoxeliaImaging/Public/CTSeriesAssembly.swift",
-      "size": 13766,
-      "sha256": "6b74bc9870cb3fca2c278a8797f5da512a29965118b8069b3a18c3bfa58c3a36"
+      "size": 14824,
+      "sha256": "0f0b61c0fcaccd74619516b8fa69e13e197b980c2c340f92ee14c92ebef9032b"
     },
     {
       "path": "Sources/VoxeliaImaging/Public/MPRSliceCoordinator.swift",
@@ -1016,8 +1021,8 @@
     },
     {
       "path": "Sources/VoxeliaImaging/VoxeliaImaging.docc/VoxeliaImaging.md",
-      "size": 737,
-      "sha256": "3c5c0b190775a4145afd6d8a37249fe256b7c16c200a240c6cfda80f28f2f458"
+      "size": 892,
+      "sha256": "6e8506a527f9d91c74eb10bb4b49a03cb64989e0a92e66e82b907af6ace7c557"
     },
     {
       "path": "Sources/VoxeliaInteraction/ApplePlatformGate.swift",
@@ -2198,6 +2203,11 @@
       "path": "Tests/VoxeliaImagingTests/CTFrameDescriptionTests.swift",
       "size": 14881,
       "sha256": "55be6ad28cde006938637c84f3423c69d3e1af8a6f64b8d99d458f369d4b4ff9"
+    },
+    {
+      "path": "Tests/VoxeliaImagingTests/CTGeometryValidatorTests.swift",
+      "size": 16097,
+      "sha256": "b12dd405fa3e171fbf17f3a0ee24e948e81973a147193dbf5f50a55d83192bde"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTSeriesAssemblerTests.swift",
@@ -4461,8 +4471,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 998822,
-      "sha256": "258eaa46cd3cb55302de14c2d945b934d799e3826f2b825c296fa1df8fbfca05"
+      "size": 1002477,
+      "sha256": "3b6fc5b075952c9c6041939e01f26bc873583e06a8a7b5f02f7691d97c08042e"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4941,8 +4951,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 55186,
-      "sha256": "8882dd35e571889239ce2188ebef29822f48aae2654f01d0092fe2dfe3b988e8"
+      "size": 55300,
+      "sha256": "0f15fd1a13e7a7b70a50a4b674a36eb3f638f197556f3749fe7fbded4c23a340"
     }
   ]
 }

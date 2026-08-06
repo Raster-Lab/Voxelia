@@ -9144,6 +9144,55 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-sixtieth autonomous increment (`ADR-0229` implementation):
+  `CTGeometryValidator` lands in `VoxeliaImaging` with `CTGeometryAssessment`,
+  `CTGeometryMeasurement`, `CTGeometryFinding`, `CTGeometryVerdict` and
+  `CTGeometryTolerance`. **All thirteen frozen fixtures reproduce bit-for-bit**,
+  19 tests passing first run; 867 in 176 suites overall after a clean rebuild;
+  DocC 12 archives.
+
+  **The anchor now has one definition rather than two.** The validator needs the
+  same anchor assembly used — the member first in exact identity byte order —
+  and re-deriving it would have put a second copy of the rule in a second file,
+  free to drift. The byte-ordering helpers moved to a shared internal
+  `CTIdentityOrdering`, and `CTSeries` gained a public `anchor` property, so the
+  concept is named once and both stages read it.
+
+  **`tolerance` is a required parameter with no default**, deliberately. A
+  defaulted safety threshold would be inherited silently at every call site; an
+  explicit one makes the threshold a series was judged by visible in the code
+  that judged it. This is the same reasoning that narrowed the defaulted-observer
+  rule earlier in the session, applied where the stakes are higher.
+
+  **One case beyond the frozen fixtures needed a rule, and it is recorded rather
+  than absorbed.** `VOXELIA-ALG-0048` has no fixture for an empty series,
+  because `CTSeriesAssembler` never produces one — but `CTSeries` has a public
+  initialiser, so it is reachable, and with no finding of its own it would have
+  produced *no findings* and therefore read as **`representable`**: an empty
+  volume silently declared buildable. A rejecting `emptySeries` finding closes
+  it. That narrows an unspecified case rather than contradicting a specified one,
+  so the accepted ALG is **not edited**; a test names it.
+
+  Two tests exist to catch mistakes rather than to confirm behaviour. The G10
+  test asserts that spacings stay **absent** and no duplicate is reported for a
+  series whose members share a projection: a validator that recomputed instead of
+  inheriting the assembly observation would report both. And a permissive-
+  tolerance test supplies a threshold the project itself declines to define,
+  confirming the same measurement flips only the verdict — the separation
+  `ADR-0229` decision 1 exists to guarantee.
+
+  ```text
+  rm -rf .build && swift build
+  swift test                                  # 867 tests in 176 suites
+  swift test --filter CTGeometryValidator      # 19 tests
+  swift format lint --strict <three touched Swift files>
+  python3 Tools/Scripts/check_swift_safety.py
+  Tools/Scripts/build-docc.sh                  # 12 archives, exit 0
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -15289,12 +15338,26 @@ a thirteen-fixture oracle, discharging `ADR-0226` decisions 6 and 7. All three
 inputs the prior increments deferred here were consumed rather than
 rediscovered.
 
-The exact next action is the implementation of increment (c): the validator, its
-measurement value, its finding set, its verdict and the `exact` tolerance,
-verified against all thirteen frozen fixtures. It adds no stored member to an
-existing type, so no clean rebuild is required — but the assembly observations
-must be **inherited** from `CTSeries`, not recomputed, and fixture G10 is the
-test that catches getting that wrong.
+Increment (c) is complete: `CTGeometryValidator` reproduces all thirteen frozen
+fixtures bit-for-bit, and the assembly observations are inherited rather than
+recomputed.
+
+The exact next action is `ADR-0226` increment (d): **affine volume construction
+in patient space** (`VOX-VS1-004`, `VOX-DCM-007`). Design-first. Three questions
+it must answer rather than assume:
+
+1. **What it does with `representableWithWarnings`.** `ADR-0229` produces three
+   verdicts, and (d) must state explicitly whether it builds from a warned
+   series, refuses, or requires the caller to opt in. Treating it as either a
+   pass or a failure by default would waste the distinction (c) established.
+2. **Where the nominal slice spacing comes from.** `ADR-0229` deliberately
+   computes only the *spread*, never a nominal value, precisely because choosing
+   one needs an anchor, a mean or a median. Under `exact` tolerance every spacing
+   is identical so any choice agrees — but (d) must say which it takes and what
+   happens under a permissive tolerance, where they differ.
+3. **`CTFrameRecord` — a description paired with its samples** — which
+   `ADR-0227` decision 2 deferred to this increment, including the §16.1
+   ownership question (direct-write, owned, or borrowed).
 
 After that, increment (d): affine volume construction, which consumes a
 `representable` verdict and **must state explicitly what it does with

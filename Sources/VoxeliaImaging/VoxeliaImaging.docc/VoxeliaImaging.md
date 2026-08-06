@@ -25,6 +25,12 @@ public API is introduced only by reviewed milestone specifications.
 - ``CTSeriesMember``
 - ``CTSeriesObservation``
 - ``CTReferenceNormal``
+- ``CTGeometryValidator``
+- ``CTGeometryAssessment``
+- ``CTGeometryMeasurement``
+- ``CTGeometryFinding``
+- ``CTGeometryVerdict``
+- ``CTGeometryTolerance``
 
 ### Multiplanar reconstruction
 
