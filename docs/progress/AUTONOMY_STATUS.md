@@ -8608,6 +8608,42 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fiftieth autonomous increment (`ADR-0222`, second consumer): the
+  progress observer now threads through the **enclosed-volume** kernel too, and
+  the vocabulary is proven to **compose** rather than to have fitted one kernel
+  by luck. 797 tests in 173 suites green.
+
+  **A multi-pass kernel is where the vocabulary earns its shape.** The
+  enclosed-volume reference makes **three** traversals of the facets —
+  certification, closure and volume — so the honest total is the **work
+  performed, not the input size**: three times the triangle count. Reporting
+  per pass and restarting would have violated monotonicity; reporting only the
+  last pass would have hidden two thirds of the work.
+
+  **And that total needed no new arithmetic.** Three times the triangle count is
+  exactly the **directed-edge count the kernel had already computed and
+  admitted** under `ADR-0195`, so progress introduced no product, no ceiling and
+  no failure case of its own. The value was already in hand.
+
+  The test pins the whole sequence across pass boundaries —
+  `[0, 64, 128, 192, 256, 320, 384, 448, 512, 576]` — so a kernel that restarted
+  its count at each pass, or skipped a pass, fails. The four guarantees are
+  checked directly on that multi-pass sequence, and the volume is compared by
+  **bit pattern** with and without an observer attached.
+
+  Both accepted `ALG-0032` digests still reproduce, confirming the widening is
+  genuinely additive.
+
+  ```bash
+  swift test --filter 'TriangleMeshEnclosedVolumeReferenceKernelTests|ProgressObservationTests'
+  swift format lint --strict <every touched Swift file>
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14704,21 +14740,29 @@ vocabulary and sequence, the total-facet-area kernel is its first consumer, and
 same mesh measured with and without an observer produces the identical bit
 pattern.
 
-The exact next action is to extend the observer to a **second** long-running
-kernel — the enclosed-volume or surface-extraction path — so the vocabulary is
-proven to compose rather than fitting one kernel by luck. Each extension
-repeats the same two obligations: the reported sequence must match
+The observer now has **two** consumers — the total-facet-area kernel and the
+three-pass enclosed-volume kernel — so the vocabulary is proven to compose. The
+multi-pass case established the general rule: **the total is the work performed,
+not the input size**, and for that kernel it was already in hand as the checked
+directed-edge count.
+
+The exact next action is a **third consumer with a different shape**: the
+scalar surface-extraction path, whose work is counted in voxels rather than
+facets and whose accepted cadence is the four-thousand-and-ninety-six vertex
+one. That is the case that would expose any hidden assumption that the cadence
+is always sixty-four. The same two obligations apply: the sequence must match
 `ALG-0046` for that kernel's own cadence, and the output must stay
-byte-identical with an observer attached. After that, the remaining surfaced
-gaps are lazy evaluation (unbuilt, no consumer) and three that are blocked
-behind gated measurement workloads.
+byte-identical with an observer attached.
 
 ## Test policy for the next action
 
-- Extend the progress observer to a second long-running kernel next. Repeat
-  both obligations each time: the sequence must match `ALG-0046` for that
-  kernel's own cadence, and the output must stay byte-identical with an
-  observer attached. An observer that can change a result is a defect.
+- Extend the progress observer to the scalar surface-extraction path next: a
+  different work unit and the vertex cadence rather than the facet one. Repeat
+  both obligations: the sequence must match `ALG-0046` for that kernel's own
+  cadence, and the output must stay byte-identical. An observer that can change
+  a result is a defect.
+- For a multi-pass kernel, the total is the **work performed**, not the input
+  size, and it is usually a value the kernel has already computed and admitted.
 - Never give a progress observer a default value. Pass
   `discardingProgressObserver` explicitly, so no call site acquires a claim it
   never considered.

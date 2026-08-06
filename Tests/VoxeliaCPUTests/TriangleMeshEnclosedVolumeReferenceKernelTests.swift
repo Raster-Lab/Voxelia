@@ -4,6 +4,7 @@ import CryptoKit
 import Synchronization
 import Testing
 import VoxeliaCore
+import VoxeliaExecution
 import VoxeliaGeometry
 import VoxeliaSpatial
 
@@ -434,6 +435,7 @@ struct TriangleMeshEnclosedVolumeReferenceKernelTests {
             try TriangleMeshEnclosedVolumeReferenceKernel.measure(
                 request: try request(mesh: manyFacets),
                 cancellation: { $0 == .final },
+                progress: discardingProgressObserver,
                 checksFinalCancellation: false
             ).facetCount == 192
         )
@@ -645,6 +647,74 @@ struct TriangleMeshEnclosedVolumeReferenceKernelTests {
         Fixture(name: name, positions: shell.positions, indices: shell.indices)
     }
 
+    @Test(
+        "[Unit][VOX-EXE-008][VOX-NUM-001] progress composes across three passes and changes nothing"
+    )
+    func progressComposesAcrossThreePassesAndChangesNothing() throws {
+        // Sixteen disjoint cubes give 192 facets and three cancellable
+        // traversals, so this kernel exercises what a single-pass one cannot:
+        // the total is the WORK, not the input size.
+        let manyFacets = try mesh(
+            shells: (0..<16).map { index in
+                cube(
+                    origin: (Double(index) * 4, 0, 0),
+                    side: 1,
+                    base: UInt64(index) * 8
+                )
+            }
+        )
+        let silent = try measure(mesh: manyFacets)
+
+        let recorder = ObservationRecorder()
+        let observed = try measure(
+            mesh: manyFacets,
+            progress: { recorder.append($0) }
+        )
+        // Byte-identical, not merely close: an observer that can change a
+        // result is a defect.
+        #expect(observed.volume.bitPattern == silent.volume.bitPattern)
+        #expect(observed.facetCount == silent.facetCount)
+
+        // The total is three passes over 192 facets, which is exactly the
+        // directed-edge count the kernel already computed and admitted.
+        let recorded = recorder.observations()
+        #expect(recorded.allSatisfy { $0.total == 576 })
+
+        // Each pass polls at 0, 64 and 128 within its own base, so the
+        // sequence rises across pass boundaries rather than restarting.
+        #expect(
+            recorded.map(\.completed) == [
+                0, 64, 128,
+                192, 256, 320,
+                384, 448, 512,
+                576,
+            ]
+        )
+
+        // The four guarantees, checked directly on a multi-pass sequence.
+        var previous = -1
+        for observation in recorded {
+            #expect(observation.completed >= previous)
+            #expect(observation.completed <= observation.total)
+            previous = observation.completed
+        }
+        #expect(
+            recorded.last == ProgressObservation(completed: 576, total: 576)
+        )
+    }
+
+    private final class ObservationRecorder: Sendable {
+        private let recorded = Mutex([ProgressObservation]())
+
+        func append(_ observation: ProgressObservation) {
+            recorded.withLock { $0.append(observation) }
+        }
+
+        func observations() -> [ProgressObservation] {
+            recorded.withLock { $0 }
+        }
+    }
+
     // MARK: - Helpers
 
     private func mesh(for fixture: Fixture) throws -> TriangleMesh {
@@ -685,7 +755,8 @@ struct TriangleMeshEnclosedVolumeReferenceKernelTests {
         provenance: ProvenanceRecord? = nil,
         cancellation: CPUTriangleMeshEnclosedVolumeCancellationProbe = { _ in
             false
-        }
+        },
+        progress: @escaping ProgressObserver = discardingProgressObserver
     ) throws -> (volume: Double, facetCount: UInt64) {
         try TriangleMeshEnclosedVolumeReferenceKernel.measure(
             request: try request(
@@ -694,7 +765,8 @@ struct TriangleMeshEnclosedVolumeReferenceKernelTests {
                 identity: identity,
                 provenance: provenance
             ),
-            cancellation: cancellation
+            cancellation: cancellation,
+            progress: progress
         )
     }
 

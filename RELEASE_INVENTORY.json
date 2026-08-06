@@ -336,8 +336,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Internal/TriangleMeshEnclosedVolumeReferenceKernel.swift",
-      "size": 12330,
-      "sha256": "b6461b643d9df7f27afe8ba07e61ce9d48608f76e7f1cce05e9c4f77ba9cb64e"
+      "size": 14232,
+      "sha256": "4ea179247a6c29ed5d1da4ab0313cd8fae9d4a20a7848d8f461487f10c8dd67f"
     },
     {
       "path": "Sources/VoxeliaCPU/Internal/TriangleMeshTotalFacetAreaReferenceKernel.swift",
@@ -376,8 +376,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUTriangleMeshEnclosedVolumeOperation.swift",
-      "size": 12730,
-      "sha256": "ab1ff17a955f0a2bcd2886610eb5c69fa3b9a634472553508f45e4cf24cbd0da"
+      "size": 13089,
+      "sha256": "ddee252d2e2e6b8511cedfa5e87ee6806f85e7ef4b5641e9b4f8803618d649a3"
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUTriangleMeshTotalFacetAreaOperation.swift",
@@ -1686,8 +1686,8 @@
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUTriangleMeshEnclosedVolumeOperationTests.swift",
-      "size": 23192,
-      "sha256": "3ece7d4a048cdf802c9b6a389bda8ad6a304020fc1ea78494bddfaea73b7da74"
+      "size": 23998,
+      "sha256": "2b57109d2b3093740f09558fe190a02c0ef27bc24f0f20a88fe2e2dbb4d73966"
     },
     {
       "path": "Tests/VoxeliaCPUTests/CPUTriangleMeshTotalFacetAreaOperationTests.swift",
@@ -1731,8 +1731,8 @@
     },
     {
       "path": "Tests/VoxeliaCPUTests/TriangleMeshEnclosedVolumeReferenceKernelTests.swift",
-      "size": 28461,
-      "sha256": "42cc7b2d779f40e87681544acec021fc7269a58ce38376e5b392637e9a56608a"
+      "size": 31139,
+      "sha256": "8e8fda6912e5ba7096cc2833325c46d5dfc0414823d00169110ff016f3f99e91"
     },
     {
       "path": "Tests/VoxeliaCPUTests/TriangleMeshTotalFacetAreaReferenceKernelTests.swift",
@@ -4396,8 +4396,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 963971,
-      "sha256": "680c6fbf7addfe6f26911a23b9e2710e2c3fba4c9d5590c8ce5611ec8e091b24"
+      "size": 966265,
+      "sha256": "c75c03ee7239aa52b8f91bffef3d3e349f6accb4403ef5f57201acc6b126165b"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",

@@ -50,25 +50,32 @@ public enum CPUTriangleMeshEnclosedVolumeOperation {
     ///   mesh-content assurance.
     /// - Throws: A payload-free ``TriangleMeshEnclosedVolumeError`` using the
     ///   operation's fixed failure precedence.
+    /// - Parameter progress: Receives the `VOXELIA-ALG-0046` sequence over the
+    ///   kernel's three passes. It is **required, never defaulted**; pass
+    ///   `discardingProgressObserver` to report nothing.
     public static func execute(
         request: TriangleMeshEnclosedVolumeRequest,
-        publication: TriangleMeshEnclosedVolumePublicationContext
+        publication: TriangleMeshEnclosedVolumePublicationContext,
+        progress: @escaping ProgressObserver
     ) async throws -> TriangleMeshEnclosedVolumeResult {
         try execute(
             request: request,
             publication: publication,
-            cancellation: { _ in Task.isCancelled }
+            cancellation: { _ in Task.isCancelled },
+            progress: progress
         )
     }
 
     static func execute(
         request: TriangleMeshEnclosedVolumeRequest,
         publication: TriangleMeshEnclosedVolumePublicationContext,
-        cancellation: CPUTriangleMeshEnclosedVolumeCancellationProbe
+        cancellation: CPUTriangleMeshEnclosedVolumeCancellationProbe,
+        progress: ProgressObserver
     ) throws -> TriangleMeshEnclosedVolumeResult {
         let measured = try TriangleMeshEnclosedVolumeReferenceKernel.measure(
             request: request,
             cancellation: cancellation,
+            progress: progress,
             checksFinalCancellation: false
         )
         if cancellation(.final) {

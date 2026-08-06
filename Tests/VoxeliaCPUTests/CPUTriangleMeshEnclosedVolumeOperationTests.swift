@@ -24,7 +24,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
 
         let result = try await CPUTriangleMeshEnclosedVolumeOperation.execute(
             request: request,
-            publication: publication
+            publication: publication,
+            progress: discardingProgressObserver
         )
 
         #expect(
@@ -149,7 +150,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
         let source = try mesh(positions: [], indices: [])
         let result = try await CPUTriangleMeshEnclosedVolumeOperation.execute(
             request: try request(mesh: source),
-            publication: publicationContext()
+            publication: publicationContext(),
+            progress: discardingProgressObserver
         )
 
         #expect(result.measurement.value.bitPattern == (0.0).bitPattern)
@@ -178,7 +180,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
         )
         let result = try await CPUTriangleMeshEnclosedVolumeOperation.execute(
             request: try request(mesh: source),
-            publication: publicationContext()
+            publication: publicationContext(),
+            progress: discardingProgressObserver
         )
 
         #expect(result.measurement.unit.base.namespace == "DICOM")
@@ -206,7 +209,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
             }
             return try await CPUTriangleMeshEnclosedVolumeOperation.execute(
                 request: request,
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         cancelledTask.cancel()
@@ -220,14 +224,16 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
             try CPUTriangleMeshEnclosedVolumeOperation.execute(
                 request: request,
                 publication: publication,
-                cancellation: { $0 == .final }
+                cancellation: { $0 == .final },
+                progress: discardingProgressObserver
             )
         }
         #expect(throws: TriangleMeshEnclosedVolumeError.cancelled) {
             try CPUTriangleMeshEnclosedVolumeOperation.execute(
                 request: request,
                 publication: publication,
-                cancellation: { $0 == .admission }
+                cancellation: { $0 == .admission },
+                progress: discardingProgressObserver
             )
         }
     }
@@ -249,7 +255,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
                         maximumAdditionalLogicalByteCount: 1
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         await #expect(throws: TriangleMeshEnclosedVolumeError.invalidSource) {
@@ -262,7 +269,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
                         )
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         await #expect(
@@ -277,7 +285,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
                         maximumAdditionalLogicalByteCount: 1_000
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         // Certification failures surface as their own classes and publish
@@ -290,7 +299,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
                         indices: ContiguousArray(cubeIndices.dropFirst(3))
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         var duplicated = cubeIndices
@@ -305,7 +315,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
                         indices: duplicated
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         await #expect(throws: TriangleMeshEnclosedVolumeError.degenerateFacet) {
@@ -316,7 +327,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
                         indices: [0, 0, 1]
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         var inverted = ContiguousArray<UInt64>()
@@ -335,7 +347,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
                         indices: inverted
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
         await #expect(
@@ -353,7 +366,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
                         indices: [0, 2, 1, 0, 1, 3, 0, 3, 2, 1, 2, 3]
                     )
                 ),
-                publication: publication
+                publication: publication,
+                progress: discardingProgressObserver
             )
         }
     }
@@ -372,7 +386,8 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
                 group.addTask {
                     try await CPUTriangleMeshEnclosedVolumeOperation.execute(
                         request: request,
-                        publication: publication
+                        publication: publication,
+                        progress: discardingProgressObserver
                     ).measurement.value.bitPattern
                 }
             }

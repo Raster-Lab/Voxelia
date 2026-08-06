@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+import VoxeliaExecution
 import VoxeliaGeometry
 
 /// Internal cancellation sites frozen by `ADR-0195` and `ALG-0032`.
@@ -50,9 +51,19 @@ enum TriangleMeshEnclosedVolumeReferenceKernel {
     /// Certifies the source surface and reduces it to its enclosed volume.
     ///
     /// - Returns: The non-negative volume and the exact certified facet count.
+    /// The observer receives the `VOXELIA-ALG-0046` sequence over the work
+    /// this kernel actually performs, which is **three passes** over the
+    /// facets: certification, closure and volume. The total is therefore three
+    /// times the triangle count — and that is exactly the directed-edge count
+    /// the kernel has already computed and admitted, so progress introduces no
+    /// arithmetic and no new failure of its own.
+    ///
+    /// The observer returns `Void` and cannot influence the reduction: the
+    /// volume is bit-identical whether or not one is attached.
     static func measure(
         request: TriangleMeshEnclosedVolumeRequest,
         cancellation: CPUTriangleMeshEnclosedVolumeCancellationProbe,
+        progress: ProgressObserver,
         checksFinalCancellation: Bool = true
     ) throws -> (volume: Double, facetCount: UInt64) {
         if cancellation(.admission) {
@@ -95,19 +106,33 @@ enum TriangleMeshEnclosedVolumeReferenceKernel {
         }
 
         let indices = source.topology.indices
+        // The total work is the three passes, which is precisely the checked
+        // directed-edge count already in hand.
+        let totalWork = Int(byteCounts.directedEdgeCount)
         try certify(
             indices: indices,
             triangleCount: source.topology.triangleCount,
-            directedEdgeCount: Int(byteCounts.directedEdgeCount),
-            cancellation: cancellation
+            directedEdgeCount: totalWork,
+            cancellation: cancellation,
+            progress: progress,
+            totalWork: totalWork
         )
 
         let positions = source.positions.components
         var total = 0.0
+        let volumePassBase = source.topology.triangleCount * 2
         for triangleOrdinal in 0..<source.topology.triangleCount {
             let ordinal = UInt64(triangleOrdinal)
-            if ordinal.isMultiple(of: 64), cancellation(.volume(ordinal)) {
-                throw TriangleMeshEnclosedVolumeError.cancelled
+            if ordinal.isMultiple(of: 64) {
+                if cancellation(.volume(ordinal)) {
+                    throw TriangleMeshEnclosedVolumeError.cancelled
+                }
+                progress(
+                    ProgressObservation(
+                        completed: volumePassBase + triangleOrdinal,
+                        total: totalWork
+                    )
+                )
             }
             let offset = triangleOrdinal * 3
             guard
@@ -133,6 +158,10 @@ enum TriangleMeshEnclosedVolumeReferenceKernel {
         if checksFinalCancellation, cancellation(.final) {
             throw TriangleMeshEnclosedVolumeError.cancelled
         }
+        // Emitted unconditionally, so an empty mesh still reports once.
+        progress(
+            ProgressObservation(completed: totalWork, total: totalWork)
+        )
         return (volume: volume, facetCount: triangleCount)
     }
 
@@ -144,17 +173,25 @@ enum TriangleMeshEnclosedVolumeReferenceKernel {
         indices: ContiguousArray<UInt64>,
         triangleCount: Int,
         directedEdgeCount: Int,
-        cancellation: CPUTriangleMeshEnclosedVolumeCancellationProbe
+        cancellation: CPUTriangleMeshEnclosedVolumeCancellationProbe,
+        progress: ProgressObserver,
+        totalWork: Int
     ) throws {
         var edges = Set<DirectedEdge>()
         edges.reserveCapacity(directedEdgeCount)
 
         for triangleOrdinal in 0..<triangleCount {
             let ordinal = UInt64(triangleOrdinal)
-            if ordinal.isMultiple(of: 64),
-                cancellation(.certification(ordinal))
-            {
-                throw TriangleMeshEnclosedVolumeError.cancelled
+            if ordinal.isMultiple(of: 64) {
+                if cancellation(.certification(ordinal)) {
+                    throw TriangleMeshEnclosedVolumeError.cancelled
+                }
+                progress(
+                    ProgressObservation(
+                        completed: triangleOrdinal,
+                        total: totalWork
+                    )
+                )
             }
             let offset = triangleOrdinal * 3
             let first = indices[offset]
@@ -181,8 +218,16 @@ enum TriangleMeshEnclosedVolumeReferenceKernel {
         // `triangleCount * 3 * 16` payload.
         for triangleOrdinal in 0..<triangleCount {
             let ordinal = UInt64(triangleOrdinal)
-            if ordinal.isMultiple(of: 64), cancellation(.closure(ordinal)) {
-                throw TriangleMeshEnclosedVolumeError.cancelled
+            if ordinal.isMultiple(of: 64) {
+                if cancellation(.closure(ordinal)) {
+                    throw TriangleMeshEnclosedVolumeError.cancelled
+                }
+                progress(
+                    ProgressObservation(
+                        completed: triangleCount + triangleOrdinal,
+                        total: totalWork
+                    )
+                )
             }
             let offset = triangleOrdinal * 3
             let first = indices[offset]
