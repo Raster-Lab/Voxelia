@@ -2833,14 +2833,56 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    contiguous, sagittal 0.67 s because its slab is maximally strided — one column
    from every row of every slice.
 
-   **The exact next action: the requirements downstream of a 2D slice**, all of
-   which now have a real slice to work on and existing implementations to reach —
-   window centre and width interaction (`VOX-VS1-012`), linked patient-space
-   crosshairs (`013`), quantitative pixel inspection (`014`), patient-space distance
-   measurement (`015`) and off-screen output (`016`). Assess which are already
-   satisfied by existing code against a real volume before writing anything: the
-   pattern this session has established is that composing what exists finds more
-   than adding to it.
+   **`ADR-0245` assessed the five downstream requirements against the real volume
+   before writing anything**, which is what the previous entry instructed. Result:
+   one verified, one implemented-but-unverified, two genuine gaps, one requirement
+   question.
+
+   | Requirement | State |
+   |---|---|
+   | `012` window centre and width | **verified on real data** |
+   | `013` linked patient-space crosshairs | implemented, never verified together |
+   | `014` quantitative pixel inspection | **gap: position without value** |
+   | `015` patient-space distance measurement | **gap: not implemented** |
+   | `016` off-screen output | needs a requirement reading, not code |
+
+   **`012` is verified, not merely implemented.** `WindowLevelOperation` carries no
+   geometry guard and propagates the slice's geometry, and on the real axial slice a
+   **lung window** (c -600, w 1500) and a **soft-tissue window** (c 40, w 400) each
+   produced `uint8` 512×512 output in 0.04 s with geometry preserved. Those are the
+   settings a thorax study is actually read with, so this is display output from
+   real CT.
+
+   **`014` is exactly the composition this session's pattern predicts.**
+   `PickResolver` returns indices and a `worldPosition` that is absent rather than
+   fabricated when uncalibrated — right design — but **no sample value**. Everything
+   needed exists: the resolver gives the index, the slice gives the bytes,
+   `CTValueInterpreter` gives Hounsfield units. **Nothing joins them.**
+
+   **`015` is a gap, and a surprising one**: `AngleMeasurement`,
+   `PolygonAreaMeasurement` and `VoxelVolumeMeasurement` all exist and **distance
+   does not**. The simplest measurement is the missing one while three harder ones
+   are built — which suggests the measurement work followed the interesting problems
+   rather than the required list.
+
+   **`016` needs a reading, not code.** No `offScreen` symbol exists anywhere.
+   Either nothing implements it, or every Voxelia path is already off-screen (the
+   project has no interactive viewport) so "the same semantics" holds trivially. The
+   second is probably right, and probably-right is not a discharge.
+
+   **Beyond the five: two more latent geometry refusals**, found the same way as the
+   squeeze one — `ProjectIntensityOperation` and `TransposeAxesOperation` both
+   `guard spatialGeometry == nil`. **Neither is on a VS1 path**, checked rather than
+   assumed (`MPRSliceCoordinator` has zero transpose references). `ADR-0244` supplies
+   the answer pattern for transpose — a column permutation, no arithmetic — while
+   intensity projection is genuinely different, because collapsing a non-singleton
+   axis really does change the geometry.
+
+   **Next, ordered by the assessment rather than by requirement number:**
+   `VOX-VS1-014` first, since it is composition of three existing pieces; then
+   `VOX-VS1-015`, which needs a record and an oracle because a Euclidean distance
+   has a square root and a frozen expression order; then verifying `013` end to end;
+   then settling `016`'s reading.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in

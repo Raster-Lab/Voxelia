@@ -237,6 +237,23 @@ is slowest at 0.67 s because its slab is maximally strided — one column from e
 row of every slice. Nothing here is optimised, and the numbers are recorded as a
 baseline rather than a claim.
 
+## Fifth run: window centre and width, VOX-VS1-012
+
+The real axial slice was windowed with the two settings a radiologist actually uses:
+
+```text
+window lung        (c -600, w 1500): uint8  extents [512, 512]  geometry preserved  0.04s
+window soft tissue (c   40, w  400): uint8  extents [512, 512]  geometry preserved  0.04s
+```
+
+**`VOX-VS1-012` is verified on real data.** `WindowLevelOperation` carries no
+geometry guard — unlike the squeeze `ADR-0244` had to fix — and propagates the
+slice's `spatialGeometry` unchanged, so the display output still knows where it is
+in patient space.
+
+This is display output from real CT rather than a synthetic exercise: a lung window
+and a soft-tissue window are the two settings a thorax study is actually read with.
+
 ## Reproduction
 
 ```text

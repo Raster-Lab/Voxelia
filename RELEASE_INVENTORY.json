@@ -4585,9 +4585,14 @@
       "sha256": "d4903c1346fa321a4edc3dd52a8d80b3202f8ad9b2cc2c94c9fb0393a5183fe3"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0245-downstream-slice-requirement-assessment.md",
+      "size": 9258,
+      "sha256": "46c3224b954355de5806e8cfd04ecca0f8743c34d0768fdf42e03894ff2bad43"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 35808,
-      "sha256": "1f2031596d624caaeedbedb6e9037dc9cc733edc2627050feccb5fb5bddb4d06"
+      "size": 35929,
+      "sha256": "b651757837a0fd65d8089893b893611e5c48e05ade0453773fdc2fff92a9a25d"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4671,8 +4676,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1051995,
-      "sha256": "b0fc5c7f57d3b0eb77a86871eefbe6a33b2497c2cc136d34ccc0504a736faaf4"
+      "size": 1054475,
+      "sha256": "c5f1b2e7515c252d18298a9691d438d9e12764042a9c34d0335d9dec6332fcf8"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4866,8 +4871,8 @@
     },
     {
       "path": "docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md",
-      "size": 12101,
-      "sha256": "738c31efe7a442f5cde3e018276a93a61064fdac2f26c29d8220054d51a27172"
+      "size": 12864,
+      "sha256": "cd275fb7301c977df5038b5d6d8805596f53960b6af3026727a413833d1dbcbd"
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
@@ -5176,8 +5181,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 58049,
-      "sha256": "05f51086bba8002ef0af254e99b20950a0d365c8e94b7a8a8d0ee578755cc674"
+      "size": 58129,
+      "sha256": "5b0c12294c73f95465b89238ceaf7a240623a6397ef5cf7e87636566f8f080cd"
     }
   ]
 }
