@@ -7921,6 +7921,61 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-thirty-seventh autonomous increment (`ADR-0208` increment (c),
+  design and migration): accepted `ADR-0211` and `VOXELIA-ALG-0043` freeze
+  `palette-colour-mapping/v1`, and `VoxeliaExecution` now owns `PaletteColour`.
+  All fifteen fixtures reproduce both registered SHA-256 digests bit-exactly on
+  the first run.
+
+  **The finding is that this model needs no new rounding rule, and saying so
+  was the point.** One increment earlier, `ALG-0042` had to freeze
+  round-half-away for the VOI stage. The obvious next move was to reuse it here
+  for symmetry — and it would have been wrong: a palette indexes a **stored
+  integer**, so the index derivation is `ALG-0004`'s clamped subtraction
+  verbatim, and a rounding step would be a no-op dressed as a rule that invites
+  readers to think a fractional palette index means something. Channel
+  quantisation *does* reuse `ALG-0002`'s round-ties-to-even, because that is
+  genuinely the same job. The previous increment's split was between different
+  jobs, not a licence to pick freely.
+
+  **The three tables must share one origin and one entry count.** Three
+  differently shaped tables would mean three different index derivations for one
+  pixel, so a red channel could come from a different stored value than its own
+  green — a silently wrong colour. This record makes it a detected error, and
+  both ways of disagreeing are fixtured.
+
+  Alpha is exactly opaque, pinned by a fixture even where every colour channel
+  is zero: a palette-colour image is an image, not an overlay, and per-object
+  opacity is already its own contract. Entries are display values and saturate
+  rather than rescaling a palette the source author calibrated.
+
+  **The never-relabel-a-monochrome-source rule is honoured structurally.** A
+  scalar image is not palette-colour merely by being scalar; the palette must be
+  supplied, and supplying one *is* the explicit colour transform `VOX-R2D-010`
+  asks for. With no palette there is no palette path and no inference exists to
+  get wrong.
+
+  Sixteen-bit palette entries are excluded **with the reason recorded**:
+  reducing them to eight bits is a real choice between taking the high byte and
+  scaling, with no consumer to settle it, and this stage does not know the
+  source's bit depth.
+
+  Verified: 779 tests in 168 suites green. The first half of `VOX-R2D-010` is
+  discharged; the row closes when increment (d) adds RGB source presentation.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0211-palette-colour-oracle.py
+  swift test --filter PaletteColourTests
+  swift format lint --strict \
+    Sources/VoxeliaExecution/Internal/PaletteColour.swift \
+    Tests/VoxeliaExecutionTests/PaletteColourTests.swift
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13932,14 +13987,18 @@ The `ADR-0210` migration is complete: `VoxeliaExecution` owns `VOILookup`, both
 `ALG-0042` digests reproduce bit-exactly, and **`VOX-R2D-007` is discharged
 completely** — verification method included, because it declares `T` alone.
 
-The exact next action is `ADR-0208` increment (c): palette-colour presentation,
-the first half of `VOX-R2D-010` (declares `T`). Design-first. The numeric
-boundaries to settle include how a stored value indexes a palette, whether that
-index rule is the same one `ALG-0042` just froze for the VOI table, the palette
-entry's channel representation — compose `ALG-0023`'s accepted four-channel
-straight-alpha form rather than inventing one — and what a palette does with a
-value outside its range. `ADR-0208` decision 7 binds it: a palette path must
-never relabel a monochrome source.
+Increment (c) is complete in both halves: accepted `ADR-0211` and
+`VOXELIA-ALG-0043` freeze the palette model — which needs **no new rounding
+rule**, because a palette indexes a stored integer — and `VoxeliaExecution` owns
+`PaletteColour`.
+
+The exact next action is `ADR-0208` increment (d): RGB source presentation, the
+second half of `VOX-R2D-010` (declares `T`), which closes that row. Design-first.
+The boundaries to settle include what an RGB *source* means when the existing
+`ComponentInterpretation` already has `.rgb` and `.rgba` cases, whether an
+eight-bit RGB source passes through untouched or is transformed at all, what
+alpha an `.rgb` source is given, and whether a non-eight-bit RGB source is in
+scope or excluded with a recorded reason as sixteen-bit palette entries were.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13968,9 +14027,11 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0208` increment (c) next: palette-colour presentation. Freeze
-  every numeric boundary in an accepted record with an independent Python
-  oracle before writing Swift.
+- Perform `ADR-0208` increment (d) next: RGB source presentation, which closes
+  `VOX-R2D-010`. Freeze every numeric boundary in an accepted record with an
+  independent Python oracle before writing Swift — and if the honest finding is
+  that a pass-through needs no numeric rule at all, say so rather than
+  manufacturing one, as `ADR-0211` did for the palette index.
 - Reuse the accepted round-half-away helper's exact formula wherever a table
   index is selected, including its just-below-half behaviour. A "corrected"
   variant would be a second rounding rule and would diverge from the registered

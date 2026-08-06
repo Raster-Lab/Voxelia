@@ -46,3 +46,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0040](VOXELIA-ALG-0040-annotation-registration.md) | Accepted | Depth-aware annotation registration `binary64-v1` |
 | [VOXELIA-ALG-0041](VOXELIA-ALG-0041-gpu-geometry-representation.md) | Accepted | GPU-produced geometry byte representation `v1` |
 | [VOXELIA-ALG-0042](VOXELIA-ALG-0042-voi-lookup-mapping.md) | Accepted | VOI lookup display mapping `binary64-v1` |
+| [VOXELIA-ALG-0043](VOXELIA-ALG-0043-palette-colour-mapping.md) | Accepted | Palette-colour display mapping `v1` |
