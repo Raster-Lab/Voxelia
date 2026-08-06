@@ -335,6 +335,11 @@
       "sha256": "65c8c08704aab4fff3f731910569fafc51889f3f4e81f9105c2bb96466a9397f"
     },
     {
+      "path": "Sources/VoxeliaCPU/Internal/TriangleMeshEnclosedVolumeReferenceKernel.swift",
+      "size": 12330,
+      "sha256": "b6461b643d9df7f27afe8ba07e61ce9d48608f76e7f1cce05e9c4f77ba9cb64e"
+    },
+    {
       "path": "Sources/VoxeliaCPU/Internal/TriangleMeshTotalFacetAreaReferenceKernel.swift",
       "size": 9459,
       "sha256": "ed9ef3aa070cb9714fef0531e651434b23e09c1333ab70bf09c353344d5b407a"
@@ -1618,6 +1623,11 @@
       "path": "Tests/VoxeliaCPUTests/ScalarSurfaceSourceAdapterTests.swift",
       "size": 21615,
       "sha256": "c4c6f8bd85d9a4fad6411f8267815418425694b5dae66ad59987e1ff2b1b2f72"
+    },
+    {
+      "path": "Tests/VoxeliaCPUTests/TriangleMeshEnclosedVolumeReferenceKernelTests.swift",
+      "size": 28461,
+      "sha256": "42cc7b2d779f40e87681544acec021fc7269a58ce38376e5b392637e9a56608a"
     },
     {
       "path": "Tests/VoxeliaCPUTests/TriangleMeshTotalFacetAreaReferenceKernelTests.swift",
@@ -3976,8 +3986,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 823214,
-      "sha256": "dcf78ac29a21516f6773451c432e76458aeaf800934caf38ef3287ee81f58253"
+      "size": 826644,
+      "sha256": "c42f7f2ea02c3012a8ea042c186749470fe9322a98e281f00bbec82982a28b3f"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4371,8 +4381,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 48187,
-      "sha256": "621e13c030426cadb1157dc2ecc038fa55fd3775c6e509814d32d7f240d7b840"
+      "size": 48338,
+      "sha256": "430f3d1197fc978ad1cd89c386cc0ec36000d46674b3bbdae0da1ecb67d4d272"
     }
   ]
 }

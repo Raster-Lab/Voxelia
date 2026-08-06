@@ -6365,6 +6365,58 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-tenth autonomous increment (`ADR-0195` migration step two): the
+  internal stateless `TriangleMeshEnclosedVolumeReferenceKernel` now implements
+  `triangle-mesh-enclosed-volume/binary64-v1` in `VoxeliaCPU`. Certification
+  runs to completion before any arithmetic: edge recording rejects an
+  index-degenerate facet before touching the edge collection and a repeated
+  directed edge at the corner that repeats it, then a reverse-partner scan
+  proves closure. Only then does the volume pass evaluate the origin-anchored
+  scalar triple product, accumulate in topology order, check the orientation
+  sign and divide by six exactly once. Every binary64 primitive is out of line
+  so contraction and reassociation cannot cross the frozen boundaries.
+
+  All sixteen `VOXELIA-ALG-0032` analytical fixtures reproduce both registered
+  SHA-256 digests bit-exactly on the first run, with no tolerance and no
+  fixture adjusted to fit the implementation — including the translated cube
+  at `1.0000000000000004`, the nested cavity at exactly `56.0`, the
+  pinch-point pair at exactly two sixths and the double-sided facet at
+  positive zero.
+
+  One recorded refinement beyond the accepted record. `ADR-0195` decision 17
+  names one certification poll cadence; certification is implemented as two
+  ordered sub-traversals, and the reverse-partner scan is `O(facetCount)` work
+  that must stay cancellable, so it carries its own internal `closure`
+  checkpoint rather than reusing already-consumed recording ordinals. The
+  checkpoint enum is internal, the refinement is strictly more cancellable
+  than the accepted text, and the frozen `triangleCount * 3 * 16` payload is
+  unchanged because the scan revisits facets in topology order — which is
+  exactly the edges' ascending insertion order — instead of holding a second
+  ordered collection. The accepted record was left unedited.
+
+  The suite proves the poll set is exactly `admission`, certification 0/64/128,
+  closure 0/64/128, volume 0/64/128 and `final` for a 192-facet sixteen-cube
+  mesh; that each of those ordinals cancels and a non-poll ordinal does not;
+  that every ceiling is inclusive with the exact 576-byte requirement for
+  twelve facets and the registered `384307168202282325` one-past boundary; and
+  that an open surface built from coordinates that would overflow still
+  reports `openSurface`, proving no arithmetic runs for an uncertified mesh.
+
+  Full unfiltered suite green at 726 tests in 154 suites.
+
+  ```bash
+  swift test --filter TriangleMeshEnclosedVolumeReferenceKernelTests
+  swift format lint --strict \
+    Sources/VoxeliaCPU/Internal/TriangleMeshEnclosedVolumeReferenceKernel.swift \
+    Tests/VoxeliaCPUTests/TriangleMeshEnclosedVolumeReferenceKernelTests.swift
+  swift test
+  git ls-files --others --exclude-standard | grep ' 2\.'
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12243,12 +12295,15 @@ Accepted `ADR-0195` and `VOXELIA-ALG-0032` now freeze certified enclosed
 volume, settling every obligation the 2026-08-06 audit enumerated. Migration step one is
 complete: the four declaration/publication values, the measurement value and
 the closed ten-case error family now live in `VoxeliaGeometry`, with both
-non-certifications carried inside the parameter digest. The exact next action
-is `ADR-0195` migration step two: the internal CPU certification predicate and
-serial volume reference, with every topological, arithmetic, resource, failure
-and cancellation fixture from `VOXELIA-ALG-0032`. Step three follows: the
-public operation, the independently reproduced parameter digest and the
-sixteenth CPU registry entry. After that,
+non-certifications carried inside the parameter digest. Migration step two is complete:
+the internal CPU certification predicate and serial volume reference reproduce
+both registered `VOXELIA-ALG-0032` digests bit-exactly and prove the exact
+poll set, admission precedence and certification-before-arithmetic ordering.
+The exact next action is `ADR-0195` migration step three: the public
+`CPUTriangleMeshEnclosedVolumeOperation` with its own final cancellation
+boundary, exact identity/provenance/execution claim assembly, independently
+reproduced parameter digest and the sixteenth CPU registry entry (the combined
+CPU-plus-Metal registry becomes nineteen). After that,
 the remaining `ADR-0183` stages are the surface-rendering assessment over a
 publishable canonical mesh and backend-specific derived acceleration; the
 colour/overlay arc and VOI verification remain the other M6 queue. Certified enclosed volume remains a distinct governed record and must
@@ -12266,12 +12321,15 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0195` migration step two next: the internal CPU certification
-  predicate and serial volume reference. Run the focused `VoxeliaCPUTests`
-  kernel suite, `swift format lint --strict` on every touched Swift file, and
-  the ADR/document/register/index/manifest/integrity checks. Reproduce the
-  `ALG-0032` oracle's sixteen fixtures bit-exactly and see the literal passing
-  full unfiltered test-run line before pushing.
+- Perform `ADR-0195` migration step three next: the public CPU operation and
+  the sixteenth registry entry. Run the focused `VoxeliaCPUTests` operation and
+  registration suites plus `CombinedRegistryTests`, `swift format lint
+  --strict` on every touched Swift file, and the
+  ADR/document/register/index/manifest/integrity checks. Adding a CPU registry
+  entry means updating three assertions: the `CPUBackendRegistrationsTests`
+  count, its operation-identifier list, and the `CombinedRegistryTests` count
+  in `Tests/VoxeliaValidationTests`. Add the entry only after the
+  operation-level evidence is green.
 - Before every commit, check the staged diff for stray `" 2"` duplicate files
   and, for any increment claiming no product source changed, confirm that
   claim against `git diff --cached --name-only` rather than trusting intent.
