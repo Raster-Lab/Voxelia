@@ -990,6 +990,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaImaging/Public/CTAffineVolumeBuilder.swift",
+      "size": 8746,
+      "sha256": "0b28420c5aac77f1d6cc0e10547b476749c18a9858bef93a4a7da8c34c256eb2"
+    },
+    {
       "path": "Sources/VoxeliaImaging/Public/CTFrameDescription.swift",
       "size": 13047,
       "sha256": "bb0de7f62f1c853406122f4b5258632d55f79aa7edc40a2b671db23716c85a6d"
@@ -1021,8 +1026,8 @@
     },
     {
       "path": "Sources/VoxeliaImaging/VoxeliaImaging.docc/VoxeliaImaging.md",
-      "size": 892,
-      "sha256": "6e8506a527f9d91c74eb10bb4b49a03cb64989e0a92e66e82b907af6ace7c557"
+      "size": 979,
+      "sha256": "d589cee9891570f7c606ef41eba8431fdcd1c0dfc2260fa84806c7a13f7c7d99"
     },
     {
       "path": "Sources/VoxeliaInteraction/ApplePlatformGate.swift",
@@ -2198,6 +2203,11 @@
       "path": "Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift",
       "size": 316,
       "sha256": "8bbed7a1f08bebbba84cf598e1de890e28d0b848ec53a9f2348e4f8331031e86"
+    },
+    {
+      "path": "Tests/VoxeliaImagingTests/CTAffineVolumeBuilderTests.swift",
+      "size": 14268,
+      "sha256": "4a2a24d0a72e4aeff69c528dff612a820ef80691fc4c11226a9fb772be798044"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTFrameDescriptionTests.swift",
@@ -4481,8 +4491,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1007248,
-      "sha256": "913fc5ea01855c55e14557c93f4b40e3c0407011224d29b0221e22b3a9a34c3d"
+      "size": 1010452,
+      "sha256": "33cd90c5326e7fd997208e17be3cd95bc78327f6b61b108221efb1ac28b7b8c3"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4966,8 +4976,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 55489,
-      "sha256": "d88b2059e55e92eab40f3a29fbe89b1923e93a00d103d6bde1e0d2010b550683"
+      "size": 55606,
+      "sha256": "c707696e9e8a442421bd62b872e46cedea1ba682f3a00a37af9e4d3ba8bf6bb0"
     }
   ]
 }

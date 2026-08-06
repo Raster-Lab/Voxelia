@@ -31,6 +31,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``CTGeometryFinding``
 - ``CTGeometryVerdict``
 - ``CTGeometryTolerance``
+- ``CTAffineVolumeBuilder``
+- ``CTVolumeConstruction``
+- ``CTVolumeConstructionError``
 
 ### Multiplanar reconstruction
 

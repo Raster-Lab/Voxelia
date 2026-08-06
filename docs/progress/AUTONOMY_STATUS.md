@@ -9272,6 +9272,48 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-sixty-second autonomous increment (`ADR-0230` implementation):
+  `CTAffineVolumeBuilder` lands in `VoxeliaImaging` with `CTVolumeConstruction`
+  and a six-case payload-free failure family. **All six frozen fixtures reproduce
+  bit-for-bit**, 12 tests passing first run; 879 in 177 suites after a clean
+  rebuild; DocC 12 archives.
+
+  **The D3 finding is now demonstrated end to end in one test, not asserted in
+  two.** The test runs the real pipeline: `CTSeriesAssembler` groups, then
+  `CTGeometryValidator` returns `representable` **with an empty finding set**,
+  then the builder throws `singularTransform`. A validated series really is not a
+  constructible volume, and the proof is a single executable sequence rather than
+  a claim in a record.
+
+  **Two unreachable error paths are discharged in the source rather than mapped
+  to cases that could never fire.** `SpatialGeometryError.nonAffineBottomRow`
+  cannot occur because the bottom row is the literal `0, 0, 0, 1` the `ADR-0043`
+  admission requires, and `SpatialAxisMapping` cannot fail on the literal
+  `[0, 1, 2]`. Inventing failure cases for them would have claimed more than the
+  implementation does; a test asserts the bottom row instead.
+
+  `Matrix4x4Double`'s two-case error is narrowed the same way: only
+  `nonFiniteElement` is reachable, since the element count is a literal sixteen,
+  so the builder maps it to `nonFiniteTransform` and does not pretend a count
+  error is possible.
+
+  The axis crossing has its **own dedicated test** beyond the matrix comparison,
+  asserting `m[0] != m[5]` with the two distinct spacings. The full-matrix
+  fixtures would already catch a swap, but a test that names the hazard survives
+  a future fixture change that happens to use equal spacings.
+
+  ```text
+  rm -rf .build && swift build
+  swift test                                    # 879 tests in 177 suites
+  swift test --filter CTAffineVolumeBuilder      # 12 tests
+  swift format lint --strict <two touched Swift files>
+  python3 Tools/Scripts/check_swift_safety.py
+  Tools/Scripts/build-docc.sh                    # 12 archives, exit 0
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -15426,13 +15468,30 @@ a six-fixture oracle. All three questions `ADR-0229` left it are answered — on
 dissolved, two decided — and the ownership question `ADR-0227` deferred is
 answered too.
 
-The exact next action is the implementation of increment (d): the construction,
-its result value and its payload-free failure family, verified against all six
-frozen fixtures. Note two things the fixtures exist to catch: the in-plane steps
-**cross** (the column index advances along `rowDirection` by `columnSpacing`), so
-every fixture uses distinct spacings 0.7 and 0.8 and a swap fails a test; and
-`AffineGridGeometry`'s own `ADR-0043` determinant admission must be allowed to
-reject D3 rather than being pre-empted by a check of this increment's own.
+Increment (d) is complete: `CTAffineVolumeBuilder` reproduces all six frozen
+fixtures bit-for-bit, and the D3 finding is demonstrated end to end — the
+validator approves the series with an empty finding set and the builder rejects
+it as singular.
+
+The exact next action is `ADR-0226` increment (e), which **closes the arc** and is
+the first time this repository carries a third-party dependency. Design-first,
+and treat the supply-chain boundary as the increment's substance rather than its
+paperwork:
+
+1. **The manifest dependency** on `https://github.com/Raster-Lab/DICOMKit` at
+   `v2.2.11`, attached **only** to the new optional `VoxeliaDICOMKit` target, per
+   `VOX-REP-009`. No existing module gains a dependency on it.
+2. **`check_licence_policy.py` must be updated in the same increment**, admitting
+   exactly one declared dependency instead of none, and its failure message must
+   keep naming `VOX-LIC-007`, `VOX-LIC-008`, `VOX-LIC-009` and `VOX-REP-009`.
+   Never relax the check to pass — `ADR-0226` decision 8.
+3. **`THIRD_PARTY_NOTICES.md`** gains the MIT entry `VOX-LIC-004` obliges.
+4. **`CTFrameRecord`** with the **direct-write** ownership model `ADR-0230`
+   decision 10 fixed: the volume allocates once and each frame decodes straight
+   into its slice offset.
+5. **Regenerate the SBOM.** `ADR-0225` found the committed bill of materials had
+   under-reported module dependencies once already, and this increment adds the
+   first external one — the exact case that artefact exists to record.
 
 After that, increment (e) closes the arc: the DICOMKit shim, `CTFrameRecord` with
 the direct-write ownership model `ADR-0230` decision 10 fixes, the manifest
