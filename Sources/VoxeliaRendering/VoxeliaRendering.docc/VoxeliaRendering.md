@@ -49,6 +49,14 @@ public API is introduced only by reviewed milestone specifications.
 - ``CameraRelativeFloatTransform``
 - ``RenderModelError``
 
+### Surface scene
+
+- ``SurfaceLayer``
+- ``SurfaceMaterialSelection``
+- ``SurfaceSceneSnapshot``
+- ``SurfaceRenderRequest``
+- ``SurfaceSceneError``
+
 ### Project documents
 
 - <doc:Architecture>

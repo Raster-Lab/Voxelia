@@ -6608,6 +6608,78 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fourteenth autonomous increment (`ADR-0197` increment (a)):
+  accepted `ADR-0198` freezes the surface scene vocabulary and `VoxeliaRendering`
+  now owns it. `SurfaceLayer` carries one canonical `TriangleMesh`, an affine
+  object-to-world `Matrix4x4Double`, the `CoordinateSpaceDescriptor` that
+  transform maps *into*, an opacity and a material selection;
+  `SurfaceSceneSnapshot` holds ordered layers agreeing on one world space;
+  `SurfaceRenderRequest` binds a scene to a camera and viewport;
+  `SurfaceSceneError` is payload-free with exactly `invalidOpacity`,
+  `nonAffineObjectToWorld`, `worldSpaceMismatch` and `coordinateSpaceMismatch`.
+
+  The transform is explicit at **both** ends — source space is the mesh's own,
+  target space is the layer's declared `worldSpace` — which is what
+  `VOX-SUR-001` actually asks for and carries `ADR-0183` decision 4's
+  no-relabelling rule into rendering. Storing the world space once on the
+  scene was considered and rejected: it looks tidier but makes the transform
+  target implicit, which is precisely what the requirement forbids.
+
+  Three deliberate admissions, each recorded rather than assumed. A **singular**
+  affine transform is admitted: `ADR-0043` rejects a near-zero determinant
+  because a grid geometry must be invertible to map samples back, and a surface
+  placement has no such obligation — what a zero-area projected facet
+  contributes belongs to the visibility increment. An **empty scene** is
+  admitted, declares no world space and constrains no camera, following the
+  accepted pattern that an empty mesh is valid. **Repeated meshes and
+  placements** are admitted, because the same mesh placed twice is a legitimate
+  scene, and layer order is preserved exactly while explicitly *not* being a
+  draw order.
+
+  Two shape decisions worth recording. `SurfaceMaterialSelection` is a
+  **one-case** closed token: adding a case later is additive because nothing
+  switches over it exhaustively (`ADR-0174` precedent), whereas adding a stored
+  member to `SurfaceLayer` later would be a cross-module layout change — the
+  token is the cheaper shape even though it currently names one thing. And
+  implementation surfaced an asymmetry the design had not noticed: `Point3D`
+  carries a `CoordinateSpaceID` while a layer carries the full
+  `CoordinateSpaceDescriptor` its mesh geometry needs, so the request compares
+  by identifier and explicitly declines to oblige a camera to restate a
+  convention, handedness or unit it does not model. The ADR was amended before
+  acceptance rather than after.
+
+  **The render result is deliberately not defined**, and this deviates from
+  `ADR-0197` decision 4(a)'s "request and result" wording. A result must
+  describe pixels, and the pixel and depth contract belongs to increments (b)
+  and (c); defining one now would invent it two increments early. This follows
+  the volume arc exactly — `ADR-0174` froze the request, `ADR-0175`'s renderer
+  defined the result — and the deviation is recorded in `ADR-0198` decision 10
+  rather than taken silently.
+
+  Five focused cases cover both transform ends and detached `Sendable`
+  transfer, the closed unit interval including negative zero admitted as
+  exactly zero and `1.0000000000000002` rejected, the affine bottom row across
+  all four violating elements with a singular transform admitted, one-world-
+  space agreement with the mismatch detected wherever it sits, and the
+  request's camera binding plus the unconstrained empty scene. This increment
+  discharges the **Test** half of its requirements only; no demonstration is
+  claimed.
+
+  Verified after a clean `.build` rebuild: 737 tests in 156 suites green.
+
+  ```bash
+  swift test --filter SurfaceSceneTests
+  swift format lint --strict \
+    Sources/VoxeliaRendering/Public/SurfaceScene.swift \
+    Tests/VoxeliaRenderingTests/SurfaceSceneTests.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12502,15 +12574,24 @@ mis-stated claim that surface rendering was one of its stages — `ADR-0183`
 decision 6 excludes `VOX-SUR-*` from the arc explicitly.
 
 Accepted `ADR-0197` now opens the **surface-rendering arc** with its
-decomposition and binding rules only. The exact next action is its first
-executable increment, **(a) surface scene vocabulary**: a surface layer
-carrying one mesh reference, its object-to-world transform, opacity and
-material selection; a surface scene snapshot; and a surface render request and
-result. This is NEW vocabulary composing the shared `RenderCamera` and
-`ViewportSize` — it must not extend `RenderLayer`, which is bound to an image
-object identifier and a window-level transfer function.
+decomposition and binding rules only. Increment (a) is complete: accepted `ADR-0198`
+froze the surface scene vocabulary and `VoxeliaRendering` owns `SurfaceLayer`,
+`SurfaceMaterialSelection`, `SurfaceSceneSnapshot`, `SurfaceRenderRequest` and
+the closed four-case `SurfaceSceneError`. The render result is deliberately
+still undefined, because its pixel and depth contract belongs to increments
+(b) and (c).
 
-Increments (b) through (h) follow in `ADR-0197`'s recorded dependency order,
+The exact next action is **increment (b), coordinate-space transform and
+projection** (`VOX-SUR-001`): the explicit validated chain from mesh space
+through world and camera to viewport. It **must settle `ADR-0173`'s deferred
+perspective case** — either freeze a perspective model or record explicitly
+that surface rendering stays orthographic in version one — and may not leave
+`CameraProjection.perspective` declared but unhonoured by any accepted
+renderer across two arcs. It is design-first: the transform arithmetic is a
+numeric boundary and needs an accepted record plus a python-computed
+independent oracle before implementation.
+
+Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
 projection (which must settle `ADR-0173`'s deferred perspective case one way
 or the other), visibility and hidden-surface removal, per-object opacity and
@@ -12537,13 +12618,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0197` increment (a), the surface scene vocabulary, next. It
-  changes product source, so run the focused `VoxeliaRenderingTests` suites for
-  the new values, `swift format lint --strict` on every touched Swift file, and
-  the ADR/document/register/index/manifest/integrity checks. New public types
-  in a module the 2D path already depends on are a cross-module layout change,
-  so a clean `.build` rebuild and a full unfiltered `swift test` are required
-  before pushing, with the literal passing test-run line visible.
+- Perform `ADR-0197` increment (b) next, and it is **design-first**: the
+  coordinate-space transform and projection model is a numeric boundary, so
+  freeze an accepted record plus an algorithm specification with a
+  python-computed independent oracle before writing implementation code. Run
+  only the oracle and the ADR/document/register/index/manifest/integrity checks
+  for that design increment; product builds and tests are not evidence until
+  source changes.
 - State which verification method each surface increment's evidence covers.
   Byte-exact off-screen renders discharge Test, never Demonstration.
 - Do not reopen `ADR-0194`, `ADR-0195` or `ADR-0196`. All three are accepted
