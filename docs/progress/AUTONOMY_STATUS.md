@@ -4765,6 +4765,55 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    that **no existing consumer's bits change**. Then the surface-shading correction
    `ADR-0280` quantified.
 
+   **Increment (aaa): `ADR-0282` — I FOUND AND FIXED A PROCESS DEFECT OF MY OWN.** No Swift
+   source changed; 1134 tests / 205 suites unchanged.
+
+   Reaching for the next unallocated `ALG` identifier, I read the ADR register's equivalent
+   line: **"The next unallocated numeric identifier is `ADR-0227`."** The highest record on
+   disk was **`ADR-0281`**.
+
+   **Two-part defect.** (1) **Ten accepted records had NO register row** — `ADR-0272`
+   through `ADR-0281`, i.e. **everything this session produced**. The recipe names the
+   register update and I skipped it **ten times**. (2) The **allocation counter was 45
+   identifiers stale and that PREDATES this session**: the table was maintained through
+   `0271` while the counter said `0227`, so the register's two halves had already diverged
+   — the prose allocation convention lapsed around `ADR-0226`.
+
+   **WHY NOTHING CAUGHT IT**: `validate-docs.sh` runs `check_adr_register.py` every
+   increment and it passed throughout. **The name misleads** — it validates the record
+   *files* (front matter, sections, duplicate IDs) and **never opens `README.md`**. Its own
+   docstring says so: *"without interpreting body references."* **The register was a
+   document the project treated as authoritative and no gate had ever read.** Second
+   instance of the `ADR-0196` pattern — *when a record claims something, check whether
+   tooling actually enforces it.*
+
+   **Fixed**: rows regenerated **from each file's own front matter** (so titles/statuses
+   can't drift from the records they index), counter corrected, and
+   **`check_readme_index`** added to the gate — every `ADR-NNNN` file must have a row
+   **linking that exact filename**, and the counter must equal highest+1. A **bare mention
+   does not satisfy a row**: prose cross-references are common and would mask a gap, which
+   is exactly how ten records looked registered to a casual `grep`.
+
+   **Negative-tested both branches** (a gate I just wrote passing is not evidence):
+   removing a row → `ADR-0275 has no register row linking ADR-0275-...md`; restoring the old
+   counter → `the next unallocated identifier is ADR-0227 but the highest record on disk is
+   ADR-0281, so it should be ADR-0282`. **That second message is verbatim what this
+   repository would have emitted at any point in the last 45 records, had anything been
+   looking.** And on creating `ADR-0282` itself the new gate **immediately demanded its own
+   row** — the best possible demonstration.
+
+   **The lesson, narrower than "be more careful": A RECIPE STEP THAT NO GATE ENFORCES WILL
+   BE SKIPPED.** The fix is the gate, not the resolution. Other recipe steps sit in the same
+   position and deserve the same treatment when one is next found lapsed.
+
+   **Deliberately NOT done**: generating the table from files (the register also holds
+   allocation prose and the `ADR-0024`/`ADR-0001` reconciliation note a generator would
+   destroy), and reviving the per-identifier prose convention (a third hand-maintained copy
+   of the same facts is what drifted).
+
+   **Next**: the affine design increment this interrupted — ADR + **`VOXELIA-ALG-0052`** +
+   independent Python oracle for composition, vector and normal transformation.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

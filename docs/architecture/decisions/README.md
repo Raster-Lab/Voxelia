@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0227`.
+The next unallocated numeric identifier is `ADR-0283`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -458,3 +458,14 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0269](ADR-0269-jp3d-and-htj2k-evaluation.md) | Accepted | JP3D and HTJ2K evaluation |
 | [ADR-0270](ADR-0270-cache-preservation-rule.md) | Accepted | Cache preservation rule |
 | [ADR-0271](ADR-0271-compression-benchmark-and-random-access.md) | Accepted | Compression benchmark and random access |
+| [ADR-0272](ADR-0272-codec-output-and-interoperability-status.md) | Accepted | Codec output and interoperability status |
+| [ADR-0273](ADR-0273-bounded-failure-on-adversarial-codestreams.md) | Accepted | Bounded failure on adversarial codestreams |
+| [ADR-0274](ADR-0274-codec-destination-api-analysis.md) | Accepted | Codec destination API analysis |
+| [ADR-0275](ADR-0275-open-the-interactive-draw-loop-arc.md) | Accepted | Open the interactive draw loop arc |
+| [ADR-0276](ADR-0276-frame-presentation-and-generation-wiring.md) | Accepted | Frame presentation and generation wiring |
+| [ADR-0277](ADR-0277-padding-transit-design.md) | Accepted | Padding transit design |
+| [ADR-0278](ADR-0278-presentation-semantics-equality.md) | Accepted | Presentation semantics equality |
+| [ADR-0279](ADR-0279-interactive-responsiveness.md) | Accepted | Interactive responsiveness |
+| [ADR-0280](ADR-0280-open-the-affine-transform-arc.md) | Accepted | Open the affine transform arc |
+| [ADR-0281](ADR-0281-singular-transform-typed-errors.md) | Accepted | Singular transform typed errors |
+| [ADR-0282](ADR-0282-decision-register-enforcement.md) | Accepted | Decision register enforcement |

@@ -2951,8 +2951,8 @@
     },
     {
       "path": "Tools/Scripts/check_adr_register.py",
-      "size": 11192,
-      "sha256": "e2838b9a3bc1d6fb72990b4f0d89de379de1a8e9c9fbcff44cdb80e1f8cd0eaa"
+      "size": 13189,
+      "sha256": "8d1642b7d7d23b2de410d9f4979f9b4ae82559745acd806b88d1abdf2eb9f505"
     },
     {
       "path": "Tools/Scripts/check_apple_platform_policy.py",
@@ -4930,9 +4930,14 @@
       "sha256": "27b0497a894605db3020156be19b4579703ee59103921e9a7aec7d40f7adcd7c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0282-decision-register-enforcement.md",
+      "size": 7808,
+      "sha256": "20e8f6bddf006aebf3db1af3d99871be40e74cb5130c5a0c67bb4b70c3e67310"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 38641,
-      "sha256": "5740e7eed3bdbdb209b903f4012253728a9bbc77a478af7a84af884470cfb757"
+      "size": 39822,
+      "sha256": "b40c449593e9dd2848c4a73de52cfb2544773c0c5899a27d6d208183d15bca68"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5026,8 +5031,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1174857,
-      "sha256": "0eb7d946dee4d878bbe985a72fda9d6075d940700721e87398142f8ce2325c2c"
+      "size": 1178105,
+      "sha256": "c257cf97f1c72e0cda2b6e587e0a1695c6823e8b687e19d3298fc4962784c0bd"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5536,8 +5541,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 62851,
-      "sha256": "9b164fd8ddda26bb5022b082dc02f3fadd817eff7fcf32d8fd183250f9be048e"
+      "size": 62921,
+      "sha256": "82aba2940efb6ca133ad582f772ccf37f2776da707c8d3cb4f30cd245312235b"
     }
   ]
 }

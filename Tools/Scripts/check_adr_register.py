@@ -302,6 +302,54 @@ def check_adr_register(decisions_dir: Path) -> list[str]:
     return sorted(errors)
 
 
+def check_readme_index(decisions_dir: Path) -> list[str]:
+    """Validate the README index against the records that actually exist.
+
+    `check_adr_register` above validates the record *files* and deliberately does
+    not read the README — its docstring says so. That left the index itself
+    unenforced, and it drifted: ten accepted records reached `main` with no row,
+    while the allocation counter sat forty-five identifiers behind the highest
+    record on disk. Both passed every gate, because no gate looked.
+
+    This is the `ADR-0196` pattern. A register is only a register if something
+    checks that it lists what exists.
+    """
+    readme = decisions_dir / "README.md"
+    if not readme.is_file():
+        return [f"missing decision register: {readme}"]
+
+    text = readme.read_text(encoding="utf-8")
+    errors: list[str] = []
+    numbers: list[int] = []
+
+    for path in sorted(decisions_dir.glob("ADR-*.md")):
+        identifier = path.stem[:8]
+        if not re.fullmatch(r"ADR-\d{4}", identifier):
+            continue
+        numbers.append(int(identifier[4:]))
+        # The row links the record, so a bare mention in prose does not satisfy it.
+        if f"[{identifier}]({path.name})" not in text:
+            errors.append(
+                f"{identifier} has no register row linking {path.name}"
+            )
+
+    if numbers:
+        expected = max(numbers) + 1
+        match = re.search(
+            r"The next unallocated numeric identifier is `ADR-(\d{4})`\.", text
+        )
+        if match is None:
+            errors.append("the register states no next unallocated identifier")
+        elif int(match.group(1)) != expected:
+            errors.append(
+                "the next unallocated identifier is "
+                f"ADR-{int(match.group(1)):04d} but the highest record on disk is "
+                f"ADR-{max(numbers):04d}, so it should be ADR-{expected:04d}"
+            )
+
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -313,6 +361,7 @@ def main() -> int:
     args = parser.parse_args()
 
     errors = check_adr_register(args.decisions_dir)
+    errors.extend(check_readme_index(args.decisions_dir))
     if errors:
         print("ADR register check failed:")
         for error in errors:
