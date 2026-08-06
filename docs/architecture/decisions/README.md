@@ -175,8 +175,9 @@ surface extraction design. `ADR-0193` is allocated to the deterministic
 triangle-mesh vertex normals design. `ADR-0194` is allocated to the
 triangle-mesh total facet area design. `ADR-0195` is allocated to the
 triangle-mesh certified enclosed volume design. `ADR-0196` is allocated to the
-geometry acceleration architecture assessment.
-The next unallocated numeric identifier is `ADR-0197`.
+geometry acceleration architecture assessment. `ADR-0197` is allocated to the
+surface rendering arc.
+The next unallocated numeric identifier is `ADR-0198`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -356,3 +357,4 @@ The next unallocated numeric identifier is `ADR-0197`.
 | [ADR-0194](ADR-0194-triangle-mesh-total-facet-area-design.md) | Accepted | Triangle-mesh total facet area design |
 | [ADR-0195](ADR-0195-triangle-mesh-enclosed-volume-design.md) | Accepted | Triangle-mesh certified enclosed volume design |
 | [ADR-0196](ADR-0196-geometry-acceleration-architecture-assessment.md) | Accepted | Geometry acceleration architecture assessment |
+| [ADR-0197](ADR-0197-surface-rendering-arc.md) | Accepted | Surface rendering arc |

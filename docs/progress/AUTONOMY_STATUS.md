@@ -6543,6 +6543,71 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-thirteenth autonomous increment (`ADR-0197`, arc opening):
+  accepted `ADR-0197` opens the surface-rendering arc with its decomposition
+  and binding rules only. No product source, public API, registry entry or
+  accepted algorithm changed. It selects no projection model, rasterisation
+  strategy, depth representation, tie-breaking rule, material model,
+  colour-map application, section-cap semantics, intersection predicate or
+  public API — each needs its own frozen contract with independent fixtures.
+
+  The requirement range was checked against the baseline table directly rather
+  than any summary: `VOX-SUR` is exactly nine contiguous rows, 001 through 009,
+  no gap and nothing above 009. The ledger was then swept for each of the nine
+  identifiers individually — none has ever been assessed, and the only prior
+  occurrences are the next-action line written one increment ago. Both checks
+  are the standing lesson applied before acting rather than after.
+
+  The record carries an honest three-way inventory instead of an optimistic
+  one. **Directly composable**: `RenderCamera`/`ViewportSize`,
+  `TransferFunction1D` as the natural authority for scalar colour maps,
+  `VolumeClipBounds`/`ClipBox` for world-space clipping, and the
+  `ExactVolumeRenderer` precedent of a deterministic off-screen renderer with
+  exact byte output. **Precedent for shape only**: `PickResolver` resolves a
+  presented pixel to a source image index, which is different in kind from
+  ray-versus-mesh geometry picking, but its rule of returning no position
+  rather than fabricating one binds the new work. **Genuinely absent**: there
+  is no depth buffer or hidden-surface machinery anywhere — the only "depth"
+  occurrences in Rendering or Metal are `MTLSize` dimension arguments — no
+  mesh-bearing scene model, since `RenderLayer` is image-object-specific, and
+  no perspective ray generator, because `CameraProjection` declares
+  `.perspective` while `OrthographicRayGenerator` rejects it as
+  `unsupportedProjection`.
+
+  That last finding produced a binding obligation rather than an inherited
+  silence: increment (b) must either freeze a perspective model or record
+  explicitly that version one stays orthographic, and may not leave a public
+  enum case that no accepted renderer honours across two arcs.
+
+  Two honesty decisions are recorded up front. `VOX-SUR-008` is **split**: the
+  correctness half — an annotation projects to the right pixel and is
+  correctly occluded at a given camera pose — is deterministically testable
+  off-screen and is in scope; the continuous-motion half needs the
+  owner-gated interactive draw loop and is gated with it, exactly as
+  `VOX-DVR-013` was. And seven of the nine rows declare `T,D`: this arc can
+  discharge the **Test** half through byte-exact off-screen renders, while the
+  **Demonstration** half depends on the draw loop and destinations the project
+  does not have. Every increment must state which half its evidence covers,
+  and no increment may present a byte comparison as though it discharged a
+  demonstration obligation.
+
+  `VOX-SUR-009` is expected to be an assessment but is deliberately not
+  pre-judged: it is the GPU-*producer* mirror of the GPU-*consumer* question
+  `ADR-0196` just closed for `VOX-GEO-011`, and unlike that row it declares
+  `I,T`, so it carries a test obligation and may need a real transfer path
+  composing `ADR-0186`.
+
+  ```bash
+  grep -n 'VOX-SUR' docs/project/Voxelia_Requirements_Baseline_v0.1.1.md
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12436,20 +12501,24 @@ discharged its final requirement `VOX-GEO-011` by inspection and corrected the
 mis-stated claim that surface rendering was one of its stages — `ADR-0183`
 decision 6 excludes `VOX-SUR-*` from the arc explicitly.
 
-The exact next action is the **surface-rendering arc-opening record**:
-`VOX-SUR-001` through `VOX-SUR-009`, now assessable because a valid canonical
-mesh can be published. Author an arc-opening ADR mirroring `ADR-0165`'s and
-`ADR-0183`'s shape — decomposition and binding rules only, no case tables, no
-numeric models, no public API — and, per the standing lesson that cost this
-project twice, check the opening record's requirement list against the actual
-baseline table for the whole `VOX-SUR` numeric range rather than trusting any
-summary. Nine rows span explicit coordinate-space transforms, depth testing
-and hidden-surface removal, per-object opacity, vertex normals and materials,
-scalar colour maps, clipping and section views, authoritative picking,
-depth-aware annotation registration, and Metal-generated geometry that must
-not make GPU buffers canonical. Several will be hardware- or
-consumer-gated; say so honestly rather than promising them. The colour/overlay
-arc (`VOX-R2D-010/011/015` plus VOI verification) remains the other M6 queue
+Accepted `ADR-0197` now opens the **surface-rendering arc** with its
+decomposition and binding rules only. The exact next action is its first
+executable increment, **(a) surface scene vocabulary**: a surface layer
+carrying one mesh reference, its object-to-world transform, opacity and
+material selection; a surface scene snapshot; and a surface render request and
+result. This is NEW vocabulary composing the shared `RenderCamera` and
+`ViewportSize` — it must not extend `RenderLayer`, which is bound to an image
+object identifier and a window-level transfer function.
+
+Increments (b) through (h) follow in `ADR-0197`'s recorded dependency order,
+each design-first at its numeric boundaries: coordinate-space transform and
+projection (which must settle `ADR-0173`'s deferred perspective case one way
+or the other), visibility and hidden-surface removal, per-object opacity and
+compositing order, vertex normals and diagnostic materials, scalar colour
+maps, clipping and section views, and authoritative surface picking.
+`VOX-SUR-008`'s correctness half and `VOX-SUR-009` are assessed on their own
+terms under `ADR-0197` decisions 6 and 7. The colour/overlay arc
+(`VOX-R2D-010/011/015` plus VOI verification) remains the other M6 queue
 item. After that,
 the remaining `ADR-0183` stages are the surface-rendering assessment over a
 publishable canonical mesh and backend-specific derived acceleration; the
@@ -12468,11 +12537,15 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- The next increment is the surface-rendering arc-opening record and is
-  documentation-only. Run the ADR/document/register/index/manifest/integrity
-  checks; product builds and tests are not evidence until source changes.
-  Verify the "no product source changed" claim against
-  `git diff --cached --name-only` before committing.
+- Perform `ADR-0197` increment (a), the surface scene vocabulary, next. It
+  changes product source, so run the focused `VoxeliaRenderingTests` suites for
+  the new values, `swift format lint --strict` on every touched Swift file, and
+  the ADR/document/register/index/manifest/integrity checks. New public types
+  in a module the 2D path already depends on are a cross-module layout change,
+  so a clean `.build` rebuild and a full unfiltered `swift test` are required
+  before pushing, with the literal passing test-run line visible.
+- State which verification method each surface increment's evidence covers.
+  Byte-exact off-screen renders discharge Test, never Demonstration.
 - Do not reopen `ADR-0194`, `ADR-0195` or `ADR-0196`. All three are accepted
   and evidenced, and the geometry arc is closed.
 - Before every commit, check the staged diff for stray `" 2"` duplicate files
