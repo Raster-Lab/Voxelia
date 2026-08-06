@@ -1230,14 +1230,24 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "Sources/VoxeliaRendering/Internal/SurfaceCompositor.swift",
+      "size": 7605,
+      "sha256": "7fc61891274ded7d0f24a3eda4c9180df753f7ac4414cc2f1f6d6861f496b6aa"
+    },
+    {
+      "path": "Sources/VoxeliaRendering/Internal/SurfaceCoverage.swift",
+      "size": 8852,
+      "sha256": "7a7ca3a2331e07f0f41654a053dd5f00fa740657790afbcac49f9b7adadb5402"
+    },
+    {
       "path": "Sources/VoxeliaRendering/Internal/SurfaceVertexProjector.swift",
       "size": 12060,
       "sha256": "bea3ccba892850fa41349d0590dd553106255b61a042193c1aeb879ae22a79ef"
     },
     {
       "path": "Sources/VoxeliaRendering/Internal/SurfaceVisibilityResolver.swift",
-      "size": 15302,
-      "sha256": "4bc02f592f3cc4f872bd574d05cfc6f8dd6bd1627a553635ad7d3ddd7ae87b29"
+      "size": 8026,
+      "sha256": "a729ec16e4c59cd48e05c29b4cbda431649a0b6ff0b30332de0c66752d960b1e"
     },
     {
       "path": "Sources/VoxeliaRendering/Module.swift",
@@ -2223,6 +2233,11 @@
       "path": "Tests/VoxeliaRenderingTests/SceneSnapshotTests.swift",
       "size": 3165,
       "sha256": "2cc4bfe00ec539e89d32d35caa5f350470ded06efd2c776991455b46e4ce3952"
+    },
+    {
+      "path": "Tests/VoxeliaRenderingTests/SurfaceCompositorTests.swift",
+      "size": 13610,
+      "sha256": "73ba9d3ac25d54000e5fb7738bde04ab2154e3d864a33d5388f06e088da3cc8d"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/SurfaceSceneTests.swift",
@@ -4071,8 +4086,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 863195,
-      "sha256": "9961de85ae6b2bcd6645fd75fb7cd1725844136a054ef0d9307930a951b521cd"
+      "size": 867172,
+      "sha256": "896af9ff2b346b9dccb506feaede8023f864af39a4e97789001dd85edf6f5a82"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4481,8 +4496,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 49642,
-      "sha256": "ff5a950ed4eb40df2b02f95f37ecc339025432a475e5677ac4a4b2cc31b86e20"
+      "size": 49813,
+      "sha256": "7b09ed52cb4ce2c9e340918604f94c8c275807afc342efb160b3ff5b44edfbbe"
     }
   ]
 }

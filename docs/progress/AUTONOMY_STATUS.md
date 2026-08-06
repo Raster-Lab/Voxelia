@@ -6994,6 +6994,63 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twentieth autonomous increment (`ADR-0201` migration):
+  `VoxeliaRendering` now owns `SurfaceCompositor`, `SurfaceFragmentCollector`
+  and the shared `SurfaceCoverage` enumeration. All twelve `VOXELIA-ALG-0035`
+  fixtures reproduce both registered SHA-256 digests bit-exactly on the first
+  run.
+
+  **A refactor of already-accepted code was required and is worth recording.**
+  Fragment retention needs exactly the coverage rules `ALG-0034` froze — sample
+  rule, orientation canonicalisation, fill rule, interpolation — and
+  duplicating them into a second implementation would have created a real
+  drift risk between the two retention policies. The rules were therefore
+  extracted into one internal `SurfaceCoverage` enumeration that both
+  `SurfaceVisibilityResolver` and `SurfaceFragmentCollector` call. The
+  resolver's own oracle test was re-run immediately after the extraction and
+  both `ALG-0034` digests still match, which is what makes the refactor safe
+  rather than hopeful: the accepted behaviour is proven unchanged by the
+  evidence that already existed.
+
+  `SurfaceCompositor.composite` is deliberately **non-throwing**. `ADR-0201`
+  decision 11 proved there is no reachable representability failure — every
+  intermediate lies in `[0, 1]` — so the signature says so rather than
+  carrying an error a caller could never observe. The suite composites
+  sixty-four fragments asserting the accumulator is monotonic and never
+  exceeds one.
+
+  A cross-contract test proves the two retention policies agree: for a
+  two-layer scene the first fragment `SurfaceCompositor` orders at every pixel
+  is exactly the hit `SurfaceVisibilityResolver` selected, by both depth and
+  layer index. That is the consistency `ADR-0201` decision 5 claimed, checked
+  rather than asserted.
+
+  Other evidence: supply order is irrelevant; equal depth resolves by layer
+  then by facet ordinal; post-saturation weights are exactly zero, which is why
+  early termination is bit-identical; a zero-opacity fragment is retained at
+  exactly zero weight; an uncovered pixel composites to positive-zero alpha;
+  the retained-byte ceiling admits exactly 1,792 bytes for thirty-two
+  fifty-six-byte fragments and rejects at 1,791; and the collector's poll set
+  matches the resolver's per-layer facet cadence.
+
+  Verified after a clean `.build` rebuild: 747 tests in 159 suites green. This
+  discharges the **Test** half of `VOX-SUR-003` only; no demonstration is
+  claimed.
+
+  ```bash
+  swift test --filter 'SurfaceCompositorTests|SurfaceVisibilityResolverTests'
+  swift format lint --strict \
+    Sources/VoxeliaRendering/Internal/SurfaceCoverage.swift \
+    Sources/VoxeliaRendering/Internal/SurfaceCompositor.swift \
+    Sources/VoxeliaRendering/Internal/SurfaceVisibilityResolver.swift \
+    Tests/VoxeliaRenderingTests/SurfaceCompositorTests.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12918,12 +12975,22 @@ obligation with a strict total order and settling the retention question by
 adding full fragment retention alongside — not replacing — `ALG-0034`'s
 nearest-only buffer.
 
-The exact next action is the `ADR-0201` migration: add fragment retention and
-the compositing reference to `VoxeliaRendering` with an explicit checked
-ceiling over the retained payload, reproducing all twelve `ALG-0035` fixtures
-bit-exactly and proving the total order by depth, layer and facet, the
-retention of zero-opacity fragments, the exactly-zero post-saturation weights
-and both cancellation cadences.
+The `ADR-0201` migration is complete: `SurfaceCompositor`,
+`SurfaceFragmentCollector` and the shared `SurfaceCoverage` enumeration are in
+`VoxeliaRendering`, both `ALG-0035` digests reproduce bit-exactly, and a
+cross-contract test proves the compositor's first ordered fragment is exactly
+the resolver's nearest hit.
+
+`ADR-0197` increments (a) through (d) are therefore complete, discharging the
+Test half of `VOX-SUR-001`, `VOX-SUR-002` and `VOX-SUR-003`. The exact next
+action is increment **(e), vertex normals and diagnostic materials**
+(`VOX-SUR-004`), which supplies the colours the compositing weights multiply.
+It is **design-first**. Note `ADR-0197` decision 4(e): a validated diagnostic
+material is in scope and a physically based model is explicitly **not**
+pre-committed, because the requirement says "physically based **or** validated
+diagnostic". The shading input is the accepted deterministic vertex normals
+from `ADR-0193`, interpolated by the barycentric weights the visibility and
+compositing stages already publish in canonicalised vertex order.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -12952,12 +13019,16 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0201` migration next: fragment retention and the
-  compositing reference in `VoxeliaRendering`. Run the focused
-  `VoxeliaRenderingTests` suite, `swift format lint --strict` on every touched
-  Swift file, and the ADR/document/register/index/manifest/integrity checks.
-  Reproduce all twelve `ALG-0035` fixtures bit-exactly and see the literal
-  passing full unfiltered test-run line before pushing.
+- Perform `ADR-0197` increment (e) next, and it is **design-first**: the
+  shading model is a numeric boundary, so freeze an accepted record plus an
+  algorithm specification with a python-computed independent oracle before
+  writing implementation code. Run only the oracle and the
+  ADR/document/register/index/manifest/integrity checks for that design
+  increment; product builds and tests are not evidence until source changes.
+- When an increment needs rules already frozen by an accepted algorithm,
+  extract them into one shared implementation rather than duplicating, and
+  re-run the accepted record's own oracle test immediately to prove the
+  behaviour is unchanged.
 - State which verification method each surface increment's evidence covers.
   Byte-exact off-screen renders discharge Test, never Demonstration.
 - Do not reopen `ADR-0194`, `ADR-0195` or `ADR-0196`. All three are accepted
