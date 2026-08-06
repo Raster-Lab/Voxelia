@@ -2826,8 +2826,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 5012,
-      "sha256": "ed997edbf2eebeef52fbe8770766025235a730d55d35d284ea272271de3e85e1"
+      "size": 5144,
+      "sha256": "b8791f9bd165c77f1c669ff94a1b7e6865a573e49b76463ff4242541318f751d"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3028,6 +3028,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0040-annotation-registration.md",
       "size": 8546,
       "sha256": "bf243ab11e5a815f25e5bce0903f4d649e99c60dbe03da7eb32f4f575b3a2dbf"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0041-gpu-geometry-representation.md",
+      "size": 6614,
+      "sha256": "531c532dd3d4bc8056ed7548334220afa83b303a6d6266fbbb655264c4d76045"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4100,9 +4105,14 @@
       "sha256": "461e59f38012a7f53ab0e89ce5f175b55529e036138b524c6da5ce8044f25b52"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0207-gpu-geometry-representation-assessment.md",
+      "size": 10567,
+      "sha256": "6f7df91b721fc86cc5f34e7bda93ac6adddc597ecb9a2e185e991ceccfeea503"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 31000,
-      "sha256": "53de17708ce4bf94ec813e335db5a0abc96ef94fb0b71ddc4769a23539193250"
+      "size": 31212,
+      "sha256": "ce7fbe1d7ace81225cbf76e05575dc1e317957dd0e61eb155a7c59377f0c2bcf"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4186,8 +4196,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 899560,
-      "sha256": "2a1ca59c494421dca5d55b00082c5a86d1dd7e07abcb27c8565225ed352099ad"
+      "size": 903900,
+      "sha256": "4cd93861e5051fba770c8ac9657b7ca0dee23734a46c21ef5f27d610fad40bd0"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4313,6 +4323,11 @@
       "path": "docs/progress/evidence/ADR-0206-annotation-registration-oracle.py",
       "size": 9125,
       "sha256": "cdc80338b8a4a3279ae225656878beaf68c42b5c72608c138933c4ff96219fff"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0207-gpu-geometry-representation-oracle.py",
+      "size": 9627,
+      "sha256": "30daee453da05ef810dbb571dcd6e6a143fc597b9d056a8979265d13eb5da34e"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4621,8 +4636,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 51307,
-      "sha256": "ae54cc10473ad555d6ea3a6fb1789aa9070249adf8a90ac320bab946357fa904"
+      "size": 51520,
+      "sha256": "ca303cf362edd2e7aff17b67bd6a234fd1eaaa0a9a3e926d0474495a6a066c72"
     }
   ]
 }
