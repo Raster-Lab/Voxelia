@@ -7698,6 +7698,65 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-thirty-third autonomous increment (`ADR-0208`, arc opening): the
+  M6 colour and overlay arc is open. Decomposition and binding rules only; no
+  numeric boundary is frozen and no oracle is registered. No product source
+  changed.
+
+  **Re-reading the baseline's own table found an unassessed requirement.**
+  `VOX-MPR-011` — "multi-volume fusion for spatially registered inputs", P1,
+  `T,D`, M6 — is in the requirements baseline and in the release traceability
+  index, and appears **nowhere else**: not in any accepted record, and not once
+  in this ledger, including the M6 opening assessment that enumerated the
+  milestone's rows. It is recorded as outstanding and deliberately **not**
+  folded into this arc, because fusion is not colour or overlay work and
+  smuggling an unrelated row in to make a milestone look closed is the opposite
+  of what these records are for. Its own assessment must also settle its
+  relationship to `VOX-DVR-010`'s deferred multi-volume compositing half. This
+  is the third time the standing "re-read the actual requirement table" rule has
+  caught something a decomposition list missed.
+
+  **Every row in this arc declares `T` or `I,T`; not one declares
+  Demonstration.** Unlike the surface arc, which closes seven rows only halfway,
+  this arc can discharge each requirement **completely**. Recorded explicitly so
+  no later increment mistakes a half-discharge for the norm.
+
+  The inspection found `LookupTableDescriptor` already stores VOI table metadata
+  while stating that it defines no lookup, clamping or extrapolation;
+  `CompositeLayersOperation` blends only single-component `uint8` scalar layers;
+  `ColourOutputConfiguration` already travels in `PresentationProvenance`; and
+  `ALG-0023` plus `TransferFunction1D` already supply an accepted colour
+  representation — four `UInt8` channels, `/255.0` normalisation, **straight
+  rather than premultiplied**. No colour space is declared anywhere, which is
+  precisely why `VOX-R2D-015` is genuinely outstanding.
+
+  Binding rules worth restating: **declaring is not converting** — an explicit
+  output colour space grants no conversion authority, on the `PoweredLengthUnit`
+  precedent; **no implicit colour space is ever assumed**, because inferring sRGB
+  would attach an unverified claim to every image already published; colour is
+  display-side and may never become an input to quantitative inspection or
+  measurement; a palette or RGB path must never relabel a monochrome source; and
+  **display calibration — GSDF, ICC, measured characterisation — is explicitly
+  out of scope**, being a hardware claim rather than the request-and-provenance
+  claim `VOX-R2D-015` actually makes.
+
+  Colour is sequenced before the P0 overlay row with the reason recorded: an
+  overlay that cannot be told apart from the image it covers is not readable,
+  and `ALG-0009`'s greyscale blend remains available meanwhile. Whether overlays
+  extend that accepted operation or need their own model is left explicitly
+  undecided — pre-judging it is the mistake `ADR-0197` decision 7 warned about
+  and `ADR-0207` vindicated by reaching the opposite conclusion from its mirror.
+
+  ```bash
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13689,12 +13748,18 @@ completely; `VOX-SUR-001` through `VOX-SUR-006` and `VOX-SUR-008` have their
 outstanding dependency on the owner-gated interactive draw loop — not claimed,
 and not to be claimed by any off-screen render.
 
-The exact next action is the **M6 colour/overlay arc**: `VOX-R2D-010`,
-`VOX-R2D-011`, `VOX-R2D-015` plus VOI verification. Open it with its own
-arc-opening record in the shape `ADR-0183` and `ADR-0197` used — read the
-baseline requirement table for the actual `VOX-R2D` number range first rather
-than trusting any decomposition list, because `ADR-0165`'s own decomposition
-silently skipped a requirement once already.
+The M6 colour and overlay arc is open: accepted `ADR-0208` decomposes
+`VOX-R2D-007/010/011/015` into six increments and fixes the arc's binding rules.
+Reading the baseline table to open it found `VOX-MPR-011` unassessed anywhere;
+it is recorded as outstanding and deliberately not folded in.
+
+The exact next action is `ADR-0208` increment (a): the colour vocabulary and the
+declared output colour space, the first half of `VOX-R2D-015`. Design-first —
+the declaration grants **no** conversion authority (the `PoweredLengthUnit`
+precedent), no implicit colour space may be assumed, and display calibration
+(GSDF, ICC, measured characterisation) is out of scope by `ADR-0208` decision 9.
+Compose `ALG-0023`'s accepted four-channel straight-alpha representation rather
+than inventing one.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13723,11 +13788,15 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Open the M6 colour/overlay arc next with its own arc-opening record. Read the
-  baseline requirement table for the whole `VOX-R2D` number range before
-  decomposing, and grep the ledger for each requirement ID before concluding it
-  was missed — a gap may be "never assessed" or "assessed elsewhere, correctly
-  absent here".
+- Perform `ADR-0208` increment (a) next: the colour vocabulary and declared
+  output colour space. Freeze every numeric boundary in an accepted record with
+  an independent Python oracle before writing Swift, as every increment in the
+  last two arcs has been.
+- `VOX-MPR-011` (multi-volume fusion, P1, `T,D`, M6) is unassessed and needs its
+  own record. Do not fold it into the colour arc, and do not treat M6 as closed
+  when that arc finishes.
+- Do not declare a colour space the project has not evidenced, and do not let
+  "explicit colour transformation" grow into a GSDF or ICC conformance claim.
 - Do not reopen `ADR-0197` or any of `ADR-0198` through `ADR-0207`. The
   surface-rendering arc is closed and evidenced; a different rule needs a new
   record or algorithm version, not an edit.
