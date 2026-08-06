@@ -188,7 +188,8 @@ GPU-produced geometry representability assessment. `ADR-0208` is allocated to
 the colour and overlay arc. `ADR-0209` is allocated to the display colour
 vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0211` is allocated to the palette-colour design.
-The next unallocated numeric identifier is `ADR-0212`.
+`ADR-0212` is allocated to the RGB source design.
+The next unallocated numeric identifier is `ADR-0213`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -383,3 +384,4 @@ The next unallocated numeric identifier is `ADR-0212`.
 | [ADR-0209](ADR-0209-display-colour-vocabulary.md) | Accepted | Display colour vocabulary |
 | [ADR-0210](ADR-0210-voi-lookup-design.md) | Accepted | VOI lookup design |
 | [ADR-0211](ADR-0211-palette-colour-design.md) | Accepted | Palette-colour design |
+| [ADR-0212](ADR-0212-rgb-source-design.md) | Accepted | RGB source design |

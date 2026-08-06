@@ -7976,6 +7976,59 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-thirty-eighth autonomous increment (`ADR-0208` increment (d),
+  design and migration — **`VOX-R2D-010` closes**): accepted `ADR-0212` and
+  `VOXELIA-ALG-0044` freeze `rgb-source-presentation/v1`, and
+  `VoxeliaExecution` now owns `RGBSourcePresentation`. All twelve fixtures
+  reproduce both registered SHA-256 digests bit-exactly on the first run.
+
+  **There is no arithmetic in this model, and the record says so rather than
+  manufacturing a rule.** An eight-bit RGB source already holds display values
+  in the output representation, so presenting it is a byte pass-through. A
+  normalisation, a gamma or a rescale would invent a transform the source never
+  asked for and silently alter data its author calibrated. `ADR-0211` reached
+  the same kind of finding for the palette index one increment earlier; this is
+  the stronger version, and the ledger's own instruction — say so rather than
+  manufacturing a rule — is what it followed.
+
+  **"Explicit colour transform" therefore turns out to be a statement about
+  declaration, not about work.** The transform is the identity; what
+  `VOX-R2D-010` requires is that it be *named* in the request and the
+  provenance rather than assumed. Increment (f) carries that naming, widening
+  `ADR-0209`'s `DisplayColourTransform`.
+
+  **The one deliberate divergence from the palette rule is alpha.** A palette
+  pixel is always opaque because a palette has no alpha to carry; an RGBA source
+  *does*, so its alpha passes through unchanged — including a fully transparent
+  one, which is fixtured. Consistency with the sibling model was the weaker
+  argument; not discarding what the source supplied was the stronger one.
+
+  **The relabelling question was already discharged one level up, and this
+  record restates none of it.** `ImageDescriptor` binds `.rgb` and `.rgba` to
+  the `.colour` semantic and rejects the mismatch in **both** directions, so
+  `ADR-0208` decision 7 is enforced by an admission that predates this arc.
+  What the reference does reject is being *called* with a non-colour
+  interpretation, because that case is reachable by any caller.
+
+  Eight bits only, rejecting a wider channel rather than silently reducing it —
+  `ADR-0211` decision 7 applied consistently rather than judged again.
+
+  Verified: 782 tests in 169 suites green. **`VOX-R2D-010` is discharged in
+  both halves**, verification method included, because it declares Test alone.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0212-rgb-source-oracle.py
+  swift test --filter RGBSourcePresentationTests
+  swift format lint --strict \
+    Sources/VoxeliaExecution/Internal/RGBSourcePresentation.swift \
+    Tests/VoxeliaExecutionTests/RGBSourcePresentationTests.swift
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13992,13 +14045,21 @@ Increment (c) is complete in both halves: accepted `ADR-0211` and
 rule**, because a palette indexes a stored integer — and `VoxeliaExecution` owns
 `PaletteColour`.
 
-The exact next action is `ADR-0208` increment (d): RGB source presentation, the
-second half of `VOX-R2D-010` (declares `T`), which closes that row. Design-first.
-The boundaries to settle include what an RGB *source* means when the existing
-`ComponentInterpretation` already has `.rgb` and `.rgba` cases, whether an
-eight-bit RGB source passes through untouched or is transformed at all, what
-alpha an `.rgb` source is given, and whether a non-eight-bit RGB source is in
-scope or excluded with a recorded reason as sixteen-bit palette entries were.
+Increment (d) is complete in both halves: accepted `ADR-0212` and
+`VOXELIA-ALG-0044` freeze RGB source presentation as a byte pass-through with no
+arithmetic at all, and `VoxeliaExecution` owns `RGBSourcePresentation`.
+**`VOX-R2D-010` is discharged in both halves.**
+
+The exact next action is `ADR-0208` increment (e): overlay alpha compositing
+(`VOX-R2D-011`, **P0**, declares `T`) — "segmentation, mask and image overlays
+with defined alpha-compositing semantics". Design-first, and `ADR-0208` leaves
+one question deliberately open that this increment must answer on evidence:
+whether overlays extend the accepted `CompositeLayersOperation` — which today
+blends only single-component `uint8` **scalar** layers over black under
+`ALG-0009` — or need their own model. Do not pre-judge it. The boundaries to
+settle include what a segmentation overlay's colour comes from, whether mask
+and image overlays share one rule, the compositing order, and whether the
+accepted straight-alpha `over` operator suffices.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -14027,11 +14088,11 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0208` increment (d) next: RGB source presentation, which closes
-  `VOX-R2D-010`. Freeze every numeric boundary in an accepted record with an
-  independent Python oracle before writing Swift — and if the honest finding is
-  that a pass-through needs no numeric rule at all, say so rather than
-  manufacturing one, as `ADR-0211` did for the palette index.
+- Perform `ADR-0208` increment (e) next: overlay alpha compositing, the arc's
+  only P0 row. Freeze every numeric boundary in an accepted record with an
+  independent Python oracle before writing Swift, and decide on evidence
+  whether the accepted `CompositeLayersOperation` extends or a new model is
+  needed — `ADR-0208` deliberately left that open.
 - Reuse the accepted round-half-away helper's exact formula wherever a table
   index is selected, including its just-below-half behaviour. A "corrected"
   variant would be a second rounding rule and would diverge from the registered

@@ -710,6 +710,11 @@
       "sha256": "197cf8b20aebc32947f723a315fa53caebd01bcb003334d59dcac4c8ae482989"
     },
     {
+      "path": "Sources/VoxeliaExecution/Internal/RGBSourcePresentation.swift",
+      "size": 3128,
+      "sha256": "353953631c9cd40a11dd65dc1383b5be0187f850faaa6ddc506e955969cb7394"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Internal/ResampleRescale.swift",
       "size": 2905,
       "sha256": "eec4bacc217d8b9301c88cb52eddbf3d979065878b0d3d50deee9e68f955cd1d"
@@ -2035,6 +2040,11 @@
       "sha256": "95f5e1cffa96ada8bcc27c9210e0ba12be33c1ff5618e36113695cdce6c5c571"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/RGBSourcePresentationTests.swift",
+      "size": 6549,
+      "sha256": "f72cafb9900a720eba39eb72dcb89a03e2b2b2855ae722cda845f1d5089b21d6"
+    },
+    {
       "path": "Tests/VoxeliaExecutionTests/RegionExtractionOperationTests.swift",
       "size": 13836,
       "sha256": "062e484301035a0f79fd49b7c6f0f85679d5db4095ab6e5d71d50639782eb70e"
@@ -2866,8 +2876,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 5377,
-      "sha256": "ceaf685e8210f696f41b0db955f7360bf1558853fa02ae04a542aa882b4f4038"
+      "size": 5487,
+      "sha256": "0575e08e11a0a19698610d6c2bfc7115d386d8e8b002fae47a4d46c61c9af2a8"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3083,6 +3093,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0043-palette-colour-mapping.md",
       "size": 5816,
       "sha256": "59b0a2b47d234e51433699fb4a9d6becc122c5d4832f327f6f5e9324d0c54fdb"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0044-rgb-source-presentation.md",
+      "size": 5162,
+      "sha256": "d067806c15a4b93a8b0bd9cf51caad66c7d761274dad35cdae1a5e35fed682f0"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4180,9 +4195,14 @@
       "sha256": "e129b279ecb10109db4837ad429a00fceeceb080ffd485c90c64ab131692e06f"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0212-rgb-source-design.md",
+      "size": 7513,
+      "sha256": "5eb6c04447b37ed647287d9ecc76680b8fa6ba37426c967e10997921f4a97af0"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 31771,
-      "sha256": "80d17f75e0d8c2d552ec8f05db4228b07f2222defd0108236b2746d6bec1c06e"
+      "size": 31898,
+      "sha256": "b6705c051d863e77e4431cb751dc8b0f1060bae411cd2d7ba5370dbd00ec5681"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4266,8 +4286,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 924656,
-      "sha256": "d80f216abfad8a2a19341bc76779b590878b3b94fd9fa01ae1f887833fb2e681"
+      "size": 928014,
+      "sha256": "b64a047f741e7bbe421e5d70f0038daf700dc43273e2060fce7fdd99ca06221c"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4408,6 +4428,11 @@
       "path": "docs/progress/evidence/ADR-0211-palette-colour-oracle.py",
       "size": 7511,
       "sha256": "60c4e64086840807b7513195198e883a5347d7e0d763747721f80ba0e83a60b3"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0212-rgb-source-oracle.py",
+      "size": 5978,
+      "sha256": "27bcb7578e7c8009b118c8c2337f39ae541b0d7ee5e5b0edc51539f0ec783bc9"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4716,8 +4741,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 52427,
-      "sha256": "39308ef2785ee783aad3d11e6cdb554d33d430183d624cb6a2d44bd87173c2a8"
+      "size": 52721,
+      "sha256": "73d77b7fff5cbd28e4f8a1644f1b2079c8bb6ac9d18f05ef31edaa0dc3835f79"
     }
   ]
 }
