@@ -2956,8 +2956,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 5989,
-      "sha256": "b6f447967c5c8240dd1b5d0eff29d81fd9ab2aad61d2a9ba177f9e555ce322f0"
+      "size": 6117,
+      "sha256": "3aa3906599aa4508c8a64fe9993577447e837f14cb784deda51738d80230d8bd"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3198,6 +3198,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0048-series-geometry-validation.md",
       "size": 9149,
       "sha256": "0b3b9ef568e08b43d83c5c50a33312098e716368bb6b41346d2edf49d9b3c447"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0049-affine-volume-construction.md",
+      "size": 7431,
+      "sha256": "0f660ddd08e6384a3cb3aa150348faa287ca50aafbbb77f5b3759efa79c08cfc"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4385,9 +4390,14 @@
       "sha256": "aa84e6e64b9440243c8861877806e1b02fc19db0cf16fd9fc8cb31faf6b2d1f8"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0230-ct-affine-volume-construction.md",
+      "size": 11200,
+      "sha256": "ba6e060f47c522db0dd45b2cdc6984ece1acfa4211a4bd0cf8845706986f8f3a"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 34357,
-      "sha256": "fd16ba062e97a7515b2637ee170f20d286a1a89203be6455e831e9b6c632169b"
+      "size": 34458,
+      "sha256": "1261b72c413027ec125daff4347e4dc1015f80d67972172fd6b8d9a3873ca6aa"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4471,8 +4481,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1002477,
-      "sha256": "3b6fc5b075952c9c6041939e01f26bc873583e06a8a7b5f02f7691d97c08042e"
+      "size": 1007248,
+      "sha256": "913fc5ea01855c55e14557c93f4b40e3c0407011224d29b0221e22b3a9a34c3d"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4638,6 +4648,11 @@
       "path": "docs/progress/evidence/ADR-0229-geometry-validation-oracle.py",
       "size": 12612,
       "sha256": "295b6217d02395f9a91dc6ec46ac12aa8d90007f01c35811bb80667ac1a4a85f"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0230-affine-volume-oracle.py",
+      "size": 7432,
+      "sha256": "ddb6646b78d98bce66912a53bb67fd60aa5a8671207a6d5cbd97de39c07df213"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4951,8 +4966,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 55300,
-      "sha256": "0f15fd1a13e7a7b70a50a4b674a36eb3f638f197556f3749fe7fbded4c23a340"
+      "size": 55489,
+      "sha256": "d88b2059e55e92eab40f3a29fbe89b1923e93a00d103d6bde1e0d2010b550683"
     }
   ]
 }

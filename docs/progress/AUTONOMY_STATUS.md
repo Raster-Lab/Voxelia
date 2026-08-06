@@ -9193,6 +9193,85 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-sixty-first autonomous increment (`ADR-0230` +
+  `VOXELIA-ALG-0049` + oracle, increment (d) design): **a validated series is
+  not a constructible volume, and two fixtures prove it.**
+
+  Both findings were unanticipated when `ADR-0226` decomposed the arc.
+
+  **D3: a perfectly regular series can fail to construct.** Positive, finite,
+  exactly uniform spacings and exactly orthonormal directions, so
+  `VOXELIA-ALG-0048` reports no findings whatsoever. The in-plane spacings are
+  `1e-160`, which `ADR-0227` admits, and the affine's determinant **underflows**
+  to a subnormal below `Double.leastNormalMagnitude` —
+  `AffineGridGeometry`'s accepted `ADR-0043` admission rejects it as singular.
+  The rejection is correct and comes from the accepted spatial type, not from
+  this algorithm. Without the fixture this would have been a surprising runtime
+  throw rather than a documented boundary.
+
+  **D5: a perfectly regular series can construct and still not reproduce its own
+  positions.** Its consecutive gaps are bit-identical — spacing spread exactly
+  zero, verdict `representable` — and the uniform affine misplaces a slice by
+  `0x1.0p-49`. It was found by **searching plausible scanner geometry rather
+  than constructed by hand**, because the point is that it arises naturally: a
+  position list built by repeated addition has uniform *differences* without
+  lying on a uniform *lattice*. So the construction now reports a **fidelity
+  residual** — the largest gap between where the affine puts a slice and where
+  the source said it is — making "this volume represents that series" a
+  quantified claim rather than an asserted one.
+
+  Together: `representable` is a statement about a series, not a promise about a
+  volume.
+
+  **`ADR-0229`'s first deferred question dissolved rather than being answered.**
+  It asked where the nominal slice spacing comes from; the affine never needs
+  one. The slice step is a **vector difference of two stated positions**, which
+  needs no square root — so `ADR-0228`'s refusal to normalise holds — and no
+  division, mean or median — so `ADR-0229`'s refusal to pick a nominal spacing
+  holds. Two earlier refusals to invent a number turned out to be the right
+  shape for this increment, which is the strongest available evidence they were
+  correct.
+
+  The `(last - first) / (count - 1)` alternative was the closest call: it makes
+  the end slices land exactly and distributes error in between, where
+  first-difference accumulates it. Rejected because it adds a division, and
+  because the fidelity residual makes the accumulated error **visible** rather
+  than merely smaller — a caller who finds it unacceptable now has the evidence
+  to say so.
+
+  **The other two questions, answered rather than deferred.**
+  `representableWithWarnings` **constructs and carries the warnings forward**:
+  both warnings are non-geometric, so refusing would discard a sound affine over
+  a fact this increment has no authority over. But a **single-member series is
+  not constructible** — no second position, so no slice step — and that is not a
+  contradiction: (c) judged regularity, (d) judges constructibility, and a series
+  can pass one and fail the other. **No slice thickness is invented to rescue
+  it**; DICOM thickness is not inter-slice spacing, `ADR-0227` does not carry it,
+  and the two ways to support it are named and implemented in neither, which
+  beats defaulting to one millimetre and calling it geometry.
+
+  **The sample-ownership question `ADR-0227` deferred here is answered, not
+  deferred again: direct-write into a caller-provided destination.** §16.1
+  requires transfer without unnecessary intermediate copies, and only
+  direct-write achieves it — an owned buffer adds a copy per frame, a borrowed
+  one adds a copy plus a lifetime rule. The decision needed no adapter; only the
+  plumbing does, so `CTFrameRecord` lands in (e). A deferral of code, not of the
+  question.
+
+  Also decided: the `CoordinateSpaceDescriptor` is a **required caller input**,
+  because convention, handedness and unit are not facts a CT frame states. It is
+  admitted only when its `id` matches the series' coordinate space on exact
+  bytes and any frame-of-reference the series carries appears among its external
+  references — which is how `VOX-DCM-007`'s frame-of-reference preservation
+  reaches the volume rather than stopping at the series.
+
+  ```text
+  python3 docs/progress/evidence/ADR-0230-affine-volume-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -15342,22 +15421,25 @@ Increment (c) is complete: `CTGeometryValidator` reproduces all thirteen frozen
 fixtures bit-for-bit, and the assembly observations are inherited rather than
 recomputed.
 
-The exact next action is `ADR-0226` increment (d): **affine volume construction
-in patient space** (`VOX-VS1-004`, `VOX-DCM-007`). Design-first. Three questions
-it must answer rather than assume:
+Increment (d)'s design is done: accepted `ADR-0230` and `VOXELIA-ALG-0049` with
+a six-fixture oracle. All three questions `ADR-0229` left it are answered — one
+dissolved, two decided — and the ownership question `ADR-0227` deferred is
+answered too.
 
-1. **What it does with `representableWithWarnings`.** `ADR-0229` produces three
-   verdicts, and (d) must state explicitly whether it builds from a warned
-   series, refuses, or requires the caller to opt in. Treating it as either a
-   pass or a failure by default would waste the distinction (c) established.
-2. **Where the nominal slice spacing comes from.** `ADR-0229` deliberately
-   computes only the *spread*, never a nominal value, precisely because choosing
-   one needs an anchor, a mean or a median. Under `exact` tolerance every spacing
-   is identical so any choice agrees — but (d) must say which it takes and what
-   happens under a permissive tolerance, where they differ.
-3. **`CTFrameRecord` — a description paired with its samples** — which
-   `ADR-0227` decision 2 deferred to this increment, including the §16.1
-   ownership question (direct-write, owned, or borrowed).
+The exact next action is the implementation of increment (d): the construction,
+its result value and its payload-free failure family, verified against all six
+frozen fixtures. Note two things the fixtures exist to catch: the in-plane steps
+**cross** (the column index advances along `rowDirection` by `columnSpacing`), so
+every fixture uses distinct spacings 0.7 and 0.8 and a swap fails a test; and
+`AffineGridGeometry`'s own `ADR-0043` determinant admission must be allowed to
+reject D3 rather than being pre-empted by a check of this increment's own.
+
+After that, increment (e) closes the arc: the DICOMKit shim, `CTFrameRecord` with
+the direct-write ownership model `ADR-0230` decision 10 fixes, the manifest
+dependency on `Raster-Lab/DICOMKit` at `v2.2.11`, the `THIRD_PARTY_NOTICES.md`
+entry recording its MIT licence, and the `check_licence_policy.py` update — which
+must admit exactly one declared dependency instead of none and keep naming the
+four requirements it protects.
 
 After that, increment (d): affine volume construction, which consumes a
 `representable` verdict and **must state explicitly what it does with

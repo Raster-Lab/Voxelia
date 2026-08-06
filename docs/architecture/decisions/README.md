@@ -416,3 +416,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0227](ADR-0227-neutral-ct-frame-description.md) | Accepted | Neutral CT frame description |
 | [ADR-0228](ADR-0228-ct-series-grouping.md) | Accepted | CT series grouping |
 | [ADR-0229](ADR-0229-ct-series-geometry-validation.md) | Accepted | CT series geometry validation |
+| [ADR-0230](ADR-0230-ct-affine-volume-construction.md) | Accepted | CT affine volume construction |
