@@ -6097,6 +6097,51 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifth autonomous increment (`ADR-0194` migration step two): the
+  internal stateless `TriangleMeshTotalFacetAreaReferenceKernel` now implements
+  `triangle-mesh-total-facet-area/binary64-v1` in `VoxeliaCPU`. It reads only
+  positions and topology, allocates no per-vertex or per-facet buffer, keeps
+  every binary64 primitive out of line so contraction and reassociation cannot
+  cross the frozen operation boundaries, and returns the unsigned total with
+  the exact facet count reduced. Admission order is cancellation, two positive
+  ceilings, source-claim correspondence, then the two count ceilings; the only
+  admission arithmetic is those comparisons, because there is no payload
+  product that could overflow.
+
+  Its checkpoint enum has three cases — `admission`, `triangle`, `final` —
+  with no attribute case, because attributes are never read, and no vertex
+  case, because the reduction visits facets rather than vertices. The suite
+  proves the poll set is exactly `admission`, triangles 0, 64, 128, 192 and
+  `final` for a two-hundred-facet mesh, that a non-poll ordinal is never
+  observed, and that a poll precedes the facet at that ordinal by planting an
+  overflowing facet at ordinal 64 and showing cancellation wins over
+  `areaNotRepresentable`.
+
+  All thirteen `VOXELIA-ALG-0031` analytical fixtures reproduce both registered
+  SHA-256 digests bit-exactly — the fixture record digest
+  `38bad8cf...661d6feb` and the packed total-bytes digest `8a8af572...df668605`
+  — on the first run, with no tolerance and no fixture adjusted to fit the
+  implementation. Separate cases prove winding independence, retained
+  multiplicity, a degenerate facet contributing positive zero while staying
+  counted, positive-zero empty and all-degenerate totals, a least-subnormal
+  doubled area halving to positive zero, forward-versus-reverse reduction bits
+  differing, and edge, scaled-magnitude and serial-accumulation overflow.
+
+  Full unfiltered suite green at 709 tests in 151 suites.
+
+  ```bash
+  swift test --filter TriangleMeshTotalFacetAreaReferenceKernelTests
+  swift format lint --strict \
+    Sources/VoxeliaCPU/Internal/TriangleMeshTotalFacetAreaReferenceKernel.swift \
+    Tests/VoxeliaCPUTests/TriangleMeshTotalFacetAreaReferenceKernelTests.swift
+  swift test
+  python3 docs/progress/evidence/ADR-0194-total-facet-area-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -11965,11 +12010,13 @@ measurement value and the closed six-case error family now live in
 `VoxeliaGeometry` with exact parameter, result-binding, unit-admission,
 privacy and `Sendable` evidence, and the exponent obligation is discharged at
 the measurement's own admission rather than restated unreachably in the
-result. The exact next action is `ADR-0194` migration step two: the internal
-CPU serial reference kernel with every arithmetic, resource, failure and
-cancellation fixture from `VOXELIA-ALG-0031`. Step three follows: the public
-operation, the independently reproduced parameter digest and the fifteenth CPU
-registry entry. Certified enclosed volume remains a distinct governed record and must
+result. Migration step two is complete: the internal CPU serial reference
+kernel reproduces both registered `VOXELIA-ALG-0031` digests bit-exactly and
+proves the exact poll set and admission precedence. The exact next action is
+`ADR-0194` migration step three: the public
+`CPUTriangleMeshTotalFacetAreaOperation` with its own final cancellation
+boundary, exact identity/provenance/execution claim assembly, independently
+reproduced parameter digest and the fifteenth CPU registry entry. Certified enclosed volume remains a distinct governed record and must
 not be started inside the area stage.
 
 After the mesh boundary, proceed through the separately frozen scalar
@@ -11984,13 +12031,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0194` migration step two next: the internal CPU serial
-  reference kernel. Run the focused `VoxeliaCPUTests` kernel suite, `swift
-  format lint --strict` on every touched Swift file, and the
-  ADR/document/register/index/manifest/integrity checks. The kernel adds no
-  cross-module layout, but reproduce the `ALG-0031` oracle's thirteen fixtures
-  bit-exactly and see the literal passing full unfiltered test-run line before
-  pushing.
+- Perform `ADR-0194` migration step three next: the public CPU operation and
+  the fifteenth registry entry. Run the focused `VoxeliaCPUTests` operation and
+  registration suites, `swift format lint --strict` on every touched Swift
+  file, and the ADR/document/register/index/manifest/integrity checks. Add the
+  registry entry only after the operation-level evidence is green, and see the
+  literal passing full unfiltered test-run line before pushing.
 - Do not extend `ADR-0194` to enclosed volume, union area, watertightness
   predicates or manifold classification. Those need their own accepted record
   and must not be smuggled into the area stage's migration.
