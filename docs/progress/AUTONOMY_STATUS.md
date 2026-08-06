@@ -6926,6 +6926,74 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-nineteenth autonomous increment (`ADR-0197` increment (d),
+  design): accepted `ADR-0201` and `VOXELIA-ALG-0035` freeze
+  `surface-opacity-compositing/binary64-v1`. No product source changed.
+
+  **A structural obligation the arc opening had not anticipated was found and
+  settled.** `VOXELIA-ALG-0034` retains only the single nearest facet per
+  pixel, which is right for an opaque scene and for picking but cannot express
+  transparency at all, because a transparent surface needs what is behind it.
+  Compositing therefore cannot consume the visibility buffer. This increment
+  retains **all** covering fragments, reusing `ALG-0034`'s coverage,
+  canonicalisation and fill rules unchanged and differing only in retention.
+  `ALG-0034` is explicitly **not** superseded: its cheaper buffer stays correct
+  for opaque scenes and is the natural input for picking, and replacing it
+  everywhere would impose transparency's cost on every opaque render.
+
+  **The ordering obligation `ADR-0197` decision 4(d) named is closed with a
+  strict total order**, `(depth, layerIndex, facetOrdinal)`. It can never tie,
+  because one facet covers a pixel at most once, so `(layer, facet)` is unique
+  among a pixel's fragments. The order is deliberately consistent with
+  `ALG-0034`'s strict-less rule, so an opaque scene composited by this model
+  selects exactly the fragment the visibility resolver would have — the two
+  contracts cannot disagree.
+
+  **Colour is absent by construction, and that is the increment's key
+  separation.** A fragment's contribution weight is fixed by opacity and order
+  alone, so this model emits one weight per fragment plus the accumulated
+  alpha, and shading and colour mapping multiply colours in later without
+  changing them. That is what lets a P0 requirement (`VOX-SUR-003`) be frozen
+  and evidenced without waiting on the two P1 contracts (`VOX-SUR-004`,
+  `VOX-SUR-005`) that supply colour, and it keeps a premultiplied-versus-
+  straight decision and a colour-space decision out of a record about opacity.
+
+  Front-to-back accumulation is **stated rather than referenced**:
+  `VOXELIA-ALG-0023` orders samples along a single ray by construction and
+  never decides between distinct objects, so invoking it as though it covered
+  this case would overstate what it settles. Occlusion then falls out of the
+  accumulation rather than being a branch — a fully opaque fragment drives
+  alpha to exactly one, so every later `remaining` is exactly zero. Early
+  termination is **explicitly permitted** because it is bit-identical, which
+  stops a future implementer adding it as an unrecorded optimisation and stops
+  a reviewer reading it as a divergence.
+
+  **There is no representability failure, and it is proven rather than
+  assumed.** `SurfaceLayer` admits only a finite opacity in `[0, 1]` and the
+  accumulator starts at zero, so every intermediate lies in `[0, 1]`; infinity
+  is unreachable and NaN would need `0 * infinity` or `infinity - infinity`.
+  The `long-chain` fixture composites twenty-four fragments and asserts at
+  every step that the accumulator never exceeds one. The failure family is two
+  reachable cases.
+
+  The retained-fragment ceiling differs in kind from `ALG-0034`'s: the
+  visibility buffer is bounded by the viewport alone, while a fragment list is
+  bounded by scene depth complexity, which no viewport bound constrains.
+  Learning from the `ADR-0200` decision 10 error recorded one increment ago,
+  `ADR-0201` states plainly that the ceiling implies its rejection case, which
+  is why the family has two cases rather than one.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0201-surface-compositing-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12844,15 +12912,18 @@ digests bit-exactly, proves the exactly-once shared-edge property by counting
 per-facet claims, and carries the checked buffer ceiling (recorded correction:
 three failure cases, not the two `ADR-0200` decision 10 named).
 
-The exact next action is `ADR-0197` increment **(d), per-object opacity and
-surface compositing** (`VOX-SUR-003`), which consumes the visibility buffer. It
-is **design-first**. Its hard problem is the one `ADR-0197` decision 4(d)
-already named: `VOXELIA-ALG-0023`'s front-to-back rule is per-sample along one
-ray and does **not** settle ordering between distinct transparent objects, so
-that ordering must be frozen explicitly. Note that the current visibility
-buffer keeps only the single nearest facet per pixel, so transparency needs
-either a per-pixel ordered fragment list or an explicitly recorded restriction
-— decide and record which, rather than assuming the buffer suffices.
+Increment (d)'s design is complete: accepted `ADR-0201` and
+`VOXELIA-ALG-0035` freeze the compositing model, closing the ordering
+obligation with a strict total order and settling the retention question by
+adding full fragment retention alongside — not replacing — `ALG-0034`'s
+nearest-only buffer.
+
+The exact next action is the `ADR-0201` migration: add fragment retention and
+the compositing reference to `VoxeliaRendering` with an explicit checked
+ceiling over the retained payload, reproducing all twelve `ALG-0035` fixtures
+bit-exactly and proving the total order by depth, layer and facet, the
+retention of zero-opacity fragments, the exactly-zero post-saturation weights
+and both cancellation cadences.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -12881,12 +12952,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0197` increment (d) next, and it is **design-first**: the
-  compositing order is a determinism boundary, so freeze an accepted record
-  plus an algorithm specification with a python-computed independent oracle
-  before writing implementation code. Run only the oracle and the
-  ADR/document/register/index/manifest/integrity checks for that design
-  increment; product builds and tests are not evidence until source changes.
+- Perform the `ADR-0201` migration next: fragment retention and the
+  compositing reference in `VoxeliaRendering`. Run the focused
+  `VoxeliaRenderingTests` suite, `swift format lint --strict` on every touched
+  Swift file, and the ADR/document/register/index/manifest/integrity checks.
+  Reproduce all twelve `ALG-0035` fixtures bit-exactly and see the literal
+  passing full unfiltered test-run line before pushing.
 - State which verification method each surface increment's evidence covers.
   Byte-exact off-screen renders discharge Test, never Demonstration.
 - Do not reopen `ADR-0194`, `ADR-0195` or `ADR-0196`. All three are accepted

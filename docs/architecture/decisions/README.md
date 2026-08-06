@@ -178,8 +178,9 @@ triangle-mesh certified enclosed volume design. `ADR-0196` is allocated to the
 geometry acceleration architecture assessment. `ADR-0197` is allocated to the
 surface rendering arc. `ADR-0198` is allocated to the surface scene
 vocabulary. `ADR-0199` is allocated to the surface vertex projection design.
-`ADR-0200` is allocated to the surface visibility design.
-The next unallocated numeric identifier is `ADR-0201`.
+`ADR-0200` is allocated to the surface visibility design. `ADR-0201` is
+allocated to the surface compositing design.
+The next unallocated numeric identifier is `ADR-0202`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -363,3 +364,4 @@ The next unallocated numeric identifier is `ADR-0201`.
 | [ADR-0198](ADR-0198-surface-scene-vocabulary.md) | Accepted | Surface scene vocabulary |
 | [ADR-0199](ADR-0199-surface-vertex-projection-design.md) | Accepted | Surface vertex projection design |
 | [ADR-0200](ADR-0200-surface-visibility-design.md) | Accepted | Surface visibility design |
+| [ADR-0201](ADR-0201-surface-compositing-design.md) | Accepted | Surface compositing design |
