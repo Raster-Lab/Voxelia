@@ -676,6 +676,17 @@ struct ExactSliceRendererTests {
 
     @Test("[Concurrency][VOX-CON-003][VOX-VS1-019] one renderer executes concurrently")
     func oneRendererExecutesConcurrently() async throws {
+        // This test's subject is concurrent execution, not a retention
+        // ceiling; other suites own the ceiling's own evidence. Single-flight
+        // coalescing is an optimisation the coordinator is free not to
+        // achieve, so both coordinators must admit the worst case in which
+        // none of the eight concurrent twelve-byte source reads coalesce.
+        // Sizing either one below that made the assertion depend on machine
+        // load rather than on the renderer's contract.
+        let concurrentRenderCount = 8
+        let sourceRegionByteCount: UInt64 = 12
+        let uncoalescedRetainedByteCount =
+            UInt64(concurrentRenderCount) * sourceRegionByteCount
         let publisher = PublicationCoordinator(
             maximumPublishedObjectCount: 16,
             graphLimits: try ProvenanceGraphLimits(
@@ -686,7 +697,7 @@ struct ExactSliceRendererTests {
                 maximumExternalResolutionByteCount: 8_192
             ),
             readCoordinator: StorageReadCoordinator(
-                maximumRetainedResultByteCount: 64
+                maximumRetainedResultByteCount: uncoalescedRetainedByteCount
             ),
             resultCache: nil
         )
@@ -695,7 +706,7 @@ struct ExactSliceRendererTests {
         let renderer = ExactSliceRenderer(
             publisher: publisher,
             readCoordinator: StorageReadCoordinator(
-                maximumRetainedResultByteCount: 96
+                maximumRetainedResultByteCount: uncoalescedRetainedByteCount
             ),
             software: try software(),
             naming: { try naming.names(for: $0) }
@@ -710,7 +721,7 @@ struct ExactSliceRendererTests {
 
         var outputIDs = Set<String>()
         try await withThrowingTaskGroup(of: RenderResult.self) { group in
-            for _ in 0..<8 {
+            for _ in 0..<concurrentRenderCount {
                 group.addTask {
                     try await renderer.render(request)
                 }
@@ -736,9 +747,13 @@ struct ExactSliceRendererTests {
         }
         #expect(
             outputIDs
-                == Set((0..<8).map { "render-concurrent-\($0)-wl0" })
+                == Set(
+                    (0..<concurrentRenderCount).map {
+                        "render-concurrent-\($0)-wl0"
+                    }
+                )
         )
-        #expect(await publisher.publishedObjectCount == 9)
+        #expect(await publisher.publishedObjectCount == concurrentRenderCount + 1)
     }
 
     @Test("[Concurrency][VOX-ERR-001] cancellation blocks an uncooperative stage publication")

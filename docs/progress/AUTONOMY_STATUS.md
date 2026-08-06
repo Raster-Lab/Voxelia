@@ -6005,6 +6005,41 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-third autonomous increment (verification-gate repair): the full
+  unfiltered suite was found red on `main` before any new product source was
+  written. `ExactSliceRendererTests` "one renderer executes concurrently"
+  failed with `.resourceLimitExceeded` under whole-suite parallel load while
+  passing in isolation. The failure was confirmed pre-existing by stashing all
+  in-progress work and reproducing it on the pristine tree at `cb4e43d`, so it
+  is not attributed to the geometry arc.
+
+  Root cause: the test sized its `PublicationCoordinator` read coordinator at
+  64 retained bytes while dispatching eight concurrent renders over a
+  twelve-byte source image. `StorageReadCoordinator` single-flight coalescing
+  is an optimisation it is free not to achieve; when machine load spread the
+  eight reads far enough apart to stop coalescing, the worst case charged
+  eight uncoalesced twelve-byte groups — 96 bytes — and exceeded the 64-byte
+  ceiling. The assertion therefore depended on host load rather than on the
+  renderer's contract. The sibling renderer coordinator was already at exactly
+  96 with zero headroom for the same reason.
+
+  Fix: both coordinators in that test now derive their ceiling from the
+  worst-case uncoalesced charge, and the concurrency count and expected object
+  count are derived from the same constant instead of being repeated literals.
+  No production source, accepted record, algorithm, registry entry or public
+  API changed, and no ceiling under test elsewhere was weakened — this test's
+  subject is concurrent execution, and the retention ceiling keeps its own
+  evidence in its own suites. The full unfiltered suite was then run three
+  consecutive times, green at 697 tests in 149 suites each time.
+
+  ```bash
+  swift test
+  swift format lint --strict Tests/VoxeliaMetalTests/ExactSliceRendererTests.swift
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
