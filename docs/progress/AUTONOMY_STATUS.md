@@ -6272,6 +6272,46 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-eighth autonomous increment (build-breakage repair, self-
+  inflicted): commit `54f65d8` claimed "no product source changed" and was
+  wrong. Four macOS-style `" 2"` duplicate files — `PoweredLengthUnit 2.swift`,
+  `TriangleMeshTotalFacetArea 2.swift`,
+  `TriangleMeshTotalFacetAreaTests 2.swift` and `VoxeliaGeometry 2.md` —
+  appeared on the working tree between the step-three commit and the
+  design-only commit, and `git add -A` swept all four in. They are byte-
+  identical copies of their originals, so the package stopped compiling with
+  `invalid redeclaration` and `ambiguous for type lookup`; `origin/main` was
+  briefly unbuildable. They also entered the manifest, inventory and checksum
+  ledgers, and inflated the documentation-validation file count.
+
+  Caught only because the very next increment tried to compile. The
+  design-only increment ran documentation, register, index and integrity
+  checks — all of which passed, because none of them compiles anything — and
+  the standing test policy correctly said product builds are not evidence for
+  a documentation-only change. That policy is right in general and was wrong
+  here: the claim "no product source changed" was itself unverified.
+
+  Process rule added and recorded: for any increment claiming no product
+  source changed, verify the claim against the staged diff before committing
+  (`git diff --cached --name-only` filtered to `Sources/` and `Tests/` must be
+  empty) rather than trusting the intent. `git add -A` stages whatever is on
+  the tree, not whatever was authored.
+
+  The four files are removed, integrity ledgers are regenerated, and the full
+  unfiltered suite is green again at 715 tests in 152 suites. No accepted
+  record, algorithm, registry entry or public API was changed by either the
+  breakage or this repair.
+
+  ```bash
+  git ls-files | grep ' 2\.'
+  swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  python3 Tools/Scripts/check_manifest_paths.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
