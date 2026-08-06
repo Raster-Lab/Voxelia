@@ -4626,6 +4626,42 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: the exact-next-action must be **re-derived**, not assumed — this arc's queue
    is exhausted.
 
+   **DERIVATION (done, not deferred).** Mechanically queried all 460 baseline rows for
+   those with **no decision record, no test and no source mention**: 110 hits, but most sit
+   in unentered milestones (M7–M9). Filtering to entered milestones leaves a short list,
+   and one entry is startling:
+
+   **`VOX-SPA-008` — P0, `T`, MILESTONE M1 — is substantially UNBUILT.** "Affine transforms
+   shall support **composition**, **inversion** and **point, vector and normal**
+   transformation." Searched by capability rather than vocabulary (the `ADR-0248` lesson):
+   - **inversion — EXISTS**: `AffineSpatialInverse` with a typed `singularMatrix` error,
+     which also means **`VOX-SPA-009`** (P0, M1, "singular or non-invertible transforms
+     shall produce typed errors") is implemented but **untraced to its row**;
+   - **composition — ABSENT**: `Matrix4x4Double`'s entire public surface is `encode(to:)`;
+   - **point / vector / normal transformation — ABSENT**: `grep` finds no
+     `transformPoint`, `transformVector`, `transformNormal` or `inverseTranspose` anywhere
+     in `Sources/`.
+
+   **Why the third one matters numerically**: points take translation, vectors do not, and
+   **normals transform by the inverse-transpose** — not by the matrix. Thin-slice CT is
+   strongly anisotropic, so transforming a normal as a vector gives a *wrong direction*,
+   not a rounding difference. The geometry arc already publishes vertex normals
+   (`ALG-0030`), so the vocabulary to get this wrong exists while the vocabulary to get it
+   right does not. No active defect is claimed — nothing currently transforms normals
+   across spaces — but the capability gap is real and the row is P0 in the oldest entered
+   milestone.
+
+   **Next action: assess `VOX-SPA-008`/`009` and open that arc.** Composition and the three
+   transformation kinds are numeric boundaries, so **design-first with an ALG spec and an
+   independent Python oracle** before any implementation. `VOX-SPA-009` likely discharges
+   on inspection plus a tagged test over the existing inverse.
+
+   Also on the derived list for later, entered-milestone and untouched: `VOX-VAL-001`
+   (M0), `VOX-DOC-009` (M0), `VOX-ERR-004`/`VOX-R2D-001`/`VOX-VAL-006` (M3),
+   `VOX-VAL-003`/`VOX-VAL-012`/`VOX-MPR-014`/`VOX-R2D-003` (M4),
+   `VOX-VAL-013`/`VOX-PER-009`/`VOX-SEC-005` (M5). Several are likely traced-but-untagged
+   rather than unbuilt — each needs the same capability search before any work is assumed.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
