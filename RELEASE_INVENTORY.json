@@ -2816,8 +2816,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 4881,
-      "sha256": "a53decafdae2b1177d0769aa2fad410b2f91cce243ea43f98ce115d6222b00d6"
+      "size": 5012,
+      "sha256": "ed997edbf2eebeef52fbe8770766025235a730d55d35d284ea272271de3e85e1"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3013,6 +3013,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0039-surface-picking.md",
       "size": 6847,
       "sha256": "abea6906e57623da93b84234aa842e170000f844a7c03356d9792f1b9375bad9"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0040-annotation-registration.md",
+      "size": 8546,
+      "sha256": "bf243ab11e5a815f25e5bce0903f4d649e99c60dbe03da7eb32f4f575b3a2dbf"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4080,9 +4085,14 @@
       "sha256": "13282a71eca787de9d0dc4777ea1d1de30da6edd9bd11af9447949020dfdf33b"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0206-annotation-registration-design.md",
+      "size": 11086,
+      "sha256": "461e59f38012a7f53ab0e89ce5f175b55529e036138b524c6da5ce8044f25b52"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 30834,
-      "sha256": "71789e2d9ff1b0433d4291ad996d55f149921f37544ad0b33cde854325e41371"
+      "size": 31000,
+      "sha256": "53de17708ce4bf94ec813e335db5a0abc96ef94fb0b71ddc4769a23539193250"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4166,8 +4176,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 891995,
-      "sha256": "d4867b2021b902ef2fe46b9e7b671e45cd636be3a7a31d3afe7193b85294b621"
+      "size": 896417,
+      "sha256": "7fa20a8cfba7cc29eac7135a027f3f7fb26600e69b6a1b1bc6623c9ee5be38b1"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4288,6 +4298,11 @@
       "path": "docs/progress/evidence/ADR-0205-surface-picking-oracle.py",
       "size": 7154,
       "sha256": "7f286e525e5d1e7deb4b425aaf9653a9333c880897b53f95c519be943676b476"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0206-annotation-registration-oracle.py",
+      "size": 9125,
+      "sha256": "cdc80338b8a4a3279ae225656878beaf68c42b5c72608c138933c4ff96219fff"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4596,8 +4611,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 50977,
-      "sha256": "cae6acfe2ef8c32d6160f57ed16109115d8a2afb5e59aff9305a588f51b540f9"
+      "size": 51174,
+      "sha256": "0df3f447836006c3fbf590870bcfd26d088269a2c5f530fea0dd74c2780afa29"
     }
   ]
 }

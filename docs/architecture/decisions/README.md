@@ -182,8 +182,9 @@ vocabulary. `ADR-0199` is allocated to the surface vertex projection design.
 allocated to the surface compositing design. `ADR-0202` is allocated to the
 surface shading design. `ADR-0203` is allocated to the surface colour map
 design. `ADR-0204` is allocated to the surface clipping design.
-`ADR-0205` is allocated to the surface picking design.
-The next unallocated numeric identifier is `ADR-0206`.
+`ADR-0205` is allocated to the surface picking design. `ADR-0206` is allocated
+to the annotation registration design.
+The next unallocated numeric identifier is `ADR-0207`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -372,3 +373,4 @@ The next unallocated numeric identifier is `ADR-0206`.
 | [ADR-0203](ADR-0203-surface-colour-map-design.md) | Accepted | Surface colour map design |
 | [ADR-0204](ADR-0204-surface-clipping-design.md) | Accepted | Surface clipping design |
 | [ADR-0205](ADR-0205-surface-picking-design.md) | Accepted | Surface picking design |
+| [ADR-0206](ADR-0206-annotation-registration-design.md) | Accepted | Annotation registration design |

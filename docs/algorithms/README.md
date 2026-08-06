@@ -43,3 +43,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0037](VOXELIA-ALG-0037-surface-scalar-colour-map.md) | Accepted | Surface scalar colour map `binary64-v1` |
 | [VOXELIA-ALG-0038](VOXELIA-ALG-0038-surface-clipping.md) | Accepted | Surface world-box clipping `binary64-v1` |
 | [VOXELIA-ALG-0039](VOXELIA-ALG-0039-surface-picking.md) | Accepted | Authoritative surface picking `binary64-v1` |
+| [VOXELIA-ALG-0040](VOXELIA-ALG-0040-annotation-registration.md) | Accepted | Depth-aware annotation registration `binary64-v1` |

@@ -7463,6 +7463,72 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twenty-ninth autonomous increment (`ADR-0197` increment (i),
+  design): accepted `ADR-0206` and `VOXELIA-ALG-0040` freeze
+  `annotation-registration/binary64-v1`, governing the **correctness** half of
+  `VOX-SUR-008`. No product source changed.
+
+  **Registration is achieved by statelessness, and that is the whole claim.**
+  The outcome is a pure function of the anchor, the pose and the visibility
+  buffer, with nothing carried between poses. Smoothing, hysteresis or a cached
+  previous pixel would make the answer depend on the path the camera travelled
+  rather than on where it now is — which is precisely the drift `VOX-SUR-008`
+  forbids. The design records that inverted framing explicitly, because the
+  intuitive "stabilise the annotation" move is the one that breaks the
+  requirement.
+
+  **No annotation vocabulary existed anywhere in the product**, so this record
+  had to decide what an anchored annotation *is*. Version one is an anchor and
+  nothing else: a world position, with no text, glyph, style, size or
+  identifier. That is the same restraint `ADR-0205` applied when it declined to
+  invent a durable object identifier — a presentation vocabulary invented
+  without a consumer becomes canonical by default.
+
+  **Two orderings carry the model.** The viewport bound is tested on the
+  *continuous* coordinate **before** any integer conversion, which is what makes
+  the conversion total and leaves this stage with **no failure family at all**;
+  testing after conversion would first have to convert an arbitrary finite
+  double to an integer, the operation that traps. And the pixel containing an
+  anchor is its **floor, not its rounding**, because `ALG-0033` publishes
+  continuous top-left coordinates and `ALG-0034` samples at pixel centres, so
+  pixel `k` covers `[k, k+1)`; rounding would move every anchor past the
+  half-pixel and would put a pixel-centre anchor on the rounding boundary.
+
+  **Occlusion is strict and unbiased.** Only strictly nearer retained geometry
+  hides an anchor; an exactly equal depth leaves it visible, by the same
+  strict-less comparison `ALG-0034` uses for its own tie-break. No epsilon, no
+  polygon offset: a bias is a magic number no accepted record supplies and its
+  effect changes with the scene's scale, so the same annotation would be judged
+  differently on a millimetre mesh and a metre mesh. The residual consequence is
+  **recorded rather than papered over** — the occluder is sampled at the pixel
+  centre while the anchor sits wherever it sits, so an anchor on a steeply
+  inclined facet can be judged occluded by its own facet. Forcing it visible is
+  a presentation policy, not a geometric fact.
+
+  An off-viewport anchor is **reported, not thrown and not clamped**: ordinary
+  panning moves anchors off screen constantly, so throwing would make normal
+  camera movement an error, and clamping to the rim would draw a marker at a
+  physical place the anchor does not occupy.
+
+  **The motion half stays gated.** `VOX-SUR-008` declares `T,D`; this record and
+  its migration discharge the **Test** half only, and the demonstration half
+  remains an outstanding dependency on the owner-gated interactive draw loop,
+  exactly as `VOX-DVR-013` does. Two static poses are not continuous motion.
+
+  The oracle registers nineteen fixtures, fifteen registered and four
+  off-viewport.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0206-annotation-registration-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -13427,13 +13493,21 @@ through (h). `VoxeliaRendering` owns `SurfacePicker`, both `ALG-0039` digests
 reproduce bit-exactly, and `VOX-SUR-007` is discharged **completely** —
 verification method included, because it declares `T` alone.
 
-The exact next action is `ADR-0197` increment (i): the `VOX-SUR-008`
-*correctness* half, under `ADR-0197` decision 6. An annotation anchored to a
-geometry position must project to the right pixel and be correctly occluded at
-any given camera pose, proven by rendering at two poses and asserting both.
-The *continuous-motion* half stays honestly gated to the owner-gated
-interactive draw-loop arc, exactly as `VOX-DVR-013` was, and must not be
-claimed by an off-screen render.
+Increment (i)'s design is complete: accepted `ADR-0206` and `VOXELIA-ALG-0040`
+freeze annotation registration as a stateless pure function of anchor, pose and
+visibility buffer, with the floor pixel rule, the continuous-coordinate bound
+that makes the model total and failure-free, and a strict unbiased occlusion
+comparison.
+
+The exact next action is the `ADR-0206` migration: add the registration
+reference to `VoxeliaRendering`, reproducing all nineteen `ALG-0040` fixtures
+bit-exactly, proving the floor rule on both sides of an exact integer, all four
+viewport edges, and the exactly-equal-depth case — and proving the two-pose
+claim **against the accepted projector rather than hand-written coordinates**:
+one anchor fixed in world space, projected at two camera poses, landing in the
+pixel each pose implies. That discharges the **Test** half of `VOX-SUR-008`
+only; the continuous-motion demonstration half stays gated to the owner-gated
+interactive draw loop, as `VOX-DVR-013` is.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13462,12 +13536,13 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0197` increment (i) next: design-first for the `VOX-SUR-008`
-  correctness half, then migrate it. Every numeric boundary — what "the right
-  pixel" means for an anchored annotation, and what occlusion decides at an
-  exactly equal depth — is frozen in an accepted record with an independent
-  Python oracle before any Swift is written, as every increment in this arc has
-  been.
+- Perform the `ADR-0206` migration next: the registration reference in
+  `VoxeliaRendering`. Run the focused `VoxeliaRenderingTests` suite, `swift
+  format lint --strict` on every touched Swift file, and the
+  ADR/document/register/index/manifest/integrity checks. Reproduce all nineteen
+  `ALG-0040` fixtures bit-exactly, drive the two-pose test through the real
+  `SurfaceVertexProjector` rather than hand-written coordinates, and see the
+  literal passing full unfiltered test-run line before pushing.
 - `VOX-SUR-008` declares `T,D` and its motion half needs the owner-gated
   interactive draw loop. Claim the correctness half only, and record the motion
   half as an outstanding demonstration dependency rather than silently closing
