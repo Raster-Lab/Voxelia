@@ -6869,6 +6869,63 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-eighteenth autonomous increment (`ADR-0200` migration):
+  `VoxeliaRendering` now owns the internal `SurfaceVisibilityResolver`
+  implementing `surface-visibility-resolution/binary64-v1`. All thirteen
+  `VOXELIA-ALG-0034` fixtures reproduce both registered SHA-256 digests
+  bit-exactly on the first run.
+
+  **One recorded correction against the accepted record.** `ADR-0200`
+  decision 10 states the failure family is "exactly two cases" —
+  `coverageNotRepresentable` and `cancelled` — while decision 12 of the same
+  record requires the migration to declare "an explicit checked ceiling" over
+  the visibility buffer. Those two decisions are in tension: a ceiling with no
+  rejection path is not a ceiling. The implementation carries **three** cases,
+  adding `resourceLimitExceeded`, because decision 12's requirement is the
+  substantive one and decision 10's count was simply wrong. The accepted
+  record was left unedited; this bullet and the commit message are the
+  correction of record, following the same pattern used for `ADR-0194`
+  decision 13 and `ADR-0195` decision 17.
+
+  The ceiling is not ceremony. `ViewportSize` alone admits 16,384 by 16,384,
+  which at 48 logical bytes per hit record is 268,435,456 pixels and roughly
+  12.9 GB — the suite asserts that exact pixel count at the maximum viewport,
+  which is precisely why this stage declares a ceiling where the projector
+  correctly declined one.
+
+  Evidence beyond the digests: the shared-edge property is proven the strong
+  way, by rasterising each half of the quad **separately** and counting claims
+  per pixel, so all sixteen pixels are claimed exactly once rather than merely
+  ending up covered; nearest wins outright; equal depth keeps the earlier layer
+  and, within a layer, the earlier facet; a facet wound both ways yields
+  identical depths at every pixel, proving backfaces are not culled; a
+  zero-area projection covers nothing without erroring; negative depth wins
+  over positive; an empty scene covers nothing; an edge function spanning
+  `1e200` fails representably; and the buffer ceiling rejects at exactly one
+  byte below the requirement.
+
+  The poll set over a two-layer scene of 130 and 1 facets is exactly
+  `admission`, `(layer 0, ordinal 0/64/128)` and `(layer 1, ordinal 0)`,
+  confirming the per-layer cadence means neither many small layers nor one
+  large layer can starve cancellation. Each of those checkpoints cancels and a
+  non-poll ordinal is never observed.
+
+  Verified after a clean `.build` rebuild: 744 tests in 158 suites green. This
+  discharges the **Test** half of `VOX-SUR-002` only; no demonstration is
+  claimed.
+
+  ```bash
+  swift test --filter SurfaceVisibilityResolverTests
+  swift format lint --strict \
+    Sources/VoxeliaRendering/Internal/SurfaceVisibilityResolver.swift \
+    Tests/VoxeliaRenderingTests/SurfaceVisibilityResolverTests.swift
+  rm -rf .build && swift test
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12781,13 +12838,21 @@ and the frozen conventions.
 Increment (c)'s design is complete: accepted `ADR-0200` and
 `VOXELIA-ALG-0034` freeze the visibility model, discharging the equal-depth
 determinism obligation structurally through a strict-less comparison and
-freezing the mandatory top-left fill rule. The exact next action is the
-`ADR-0200` migration: add the internal deterministic visibility resolver to
-`VoxeliaRendering` with an **explicit checked buffer ceiling** — this stage,
-unlike the projector, owns one hit record per pixel — reproducing all thirteen
-`ALG-0034` fixtures bit-exactly and proving the exactly-once shared-edge
-property, the strict-less tie-break by both layer and facet, the uncalled
-backface behaviour and the 64-facet cancellation cadence.
+freezing the mandatory top-left fill rule. The `ADR-0200` migration is complete: the
+internal `SurfaceVisibilityResolver` reproduces both registered `ALG-0034`
+digests bit-exactly, proves the exactly-once shared-edge property by counting
+per-facet claims, and carries the checked buffer ceiling (recorded correction:
+three failure cases, not the two `ADR-0200` decision 10 named).
+
+The exact next action is `ADR-0197` increment **(d), per-object opacity and
+surface compositing** (`VOX-SUR-003`), which consumes the visibility buffer. It
+is **design-first**. Its hard problem is the one `ADR-0197` decision 4(d)
+already named: `VOXELIA-ALG-0023`'s front-to-back rule is per-sample along one
+ray and does **not** settle ordering between distinct transparent objects, so
+that ordering must be frozen explicitly. Note that the current visibility
+buffer keeps only the single nearest facet per pixel, so transparency needs
+either a per-pixel ordered fragment list or an explicitly recorded restriction
+— decide and record which, rather than assuming the buffer suffices.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -12816,12 +12881,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform the `ADR-0200` migration next: the internal visibility resolver in
-  `VoxeliaRendering`. Run the focused `VoxeliaRenderingTests` suite, `swift
-  format lint --strict` on every touched Swift file, and the
-  ADR/document/register/index/manifest/integrity checks. Reproduce all thirteen
-  `ALG-0034` fixtures bit-exactly and see the literal passing full unfiltered
-  test-run line before pushing.
+- Perform `ADR-0197` increment (d) next, and it is **design-first**: the
+  compositing order is a determinism boundary, so freeze an accepted record
+  plus an algorithm specification with a python-computed independent oracle
+  before writing implementation code. Run only the oracle and the
+  ADR/document/register/index/manifest/integrity checks for that design
+  increment; product builds and tests are not evidence until source changes.
 - State which verification method each surface increment's evidence covers.
   Byte-exact off-screen renders discharge Test, never Demonstration.
 - Do not reopen `ADR-0194`, `ADR-0195` or `ADR-0196`. All three are accepted
