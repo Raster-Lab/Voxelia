@@ -3534,9 +3534,47 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    that is gated by `check_licence_policy.py` instead, and the expectation carries a
    comment saying so rather than listing a dependency the extractor cannot see.
 
-   **Next: increment (b)** — `VOX-CMP-013`, the labelling rule that lets a format
-   identifier exist without a toolkit-native representation ever being presentable as
-   a standard DICOM transfer syntax. Still no codec needed.
+   **Increment (cc): `ADR-0257`, compression increment (b).** `VOX-CMP-013`
+   discharged. 1037 tests / 193 suites.
+
+   **The rule made a theorem, not a convention.** One predicate used in opposite
+   directions: a standard transfer syntax admits **only** UID-shaped identifiers, a
+   toolkit-native name admits **only** non-UID-shaped ones. So
+   `standard ⟹ UID-shaped` and `toolkitNative ⟹ not UID-shaped`, and no identifier
+   can be admitted as both — asserted over the same identifier set from both sides. A
+   toolkit-native value also yields **no** transfer syntax UID at all, so a caller
+   writing a DICOM header cannot obtain one by mistake.
+
+   Frozen `DICOMUIDShape.isUIDShaped`: non-empty, ≤64 chars, only ASCII digits and
+   full stops, ≥2 components, no empty component. **Leading zeros deliberately NOT
+   rejected** — the test's job is to *refuse* UID-looking toolkit names, so
+   over-inclusiveness is the safe direction; it gates shape, never meaning, and never
+   authorises the standard case. Naming a syntax is not supporting it, hence
+   `declaredTransferSyntaxUID`.
+
+   **The finding, and it is about my own work: the first version's enforcement was
+   NOT structural, and all six tests passed anyway.** I wrote it as a public enum with
+   throwing factories and documented the requirement as structurally enforced. Public
+   enum cases are directly constructible, so
+   `CompressedRepresentation.toolkitNative(name: "1.2.840.10008.1.2.4.201")` compiled
+   — a toolkit cache carrying the HTJ2K lossless UID, bypassing every admission. **The
+   tests all passed because every one of them used the factories.** A suite that only
+   exercises the intended path cannot find an unintended one.
+
+   Found by writing the bypass in a scratch package and **compiling it** — it built.
+   Fixed to a `struct` with a private nested `Kind` and private init, so the factories
+   are the only construction paths; recompiling the same bypass now fails with "type
+   'CompressedRepresentation' has no member 'toolkitNative'". Both compilations are
+   the evidence recorded in the ADR.
+
+   **Generalisation now in memory: when a record claims an invariant is STRUCTURAL,
+   the check is not whether tests pass — it is whether the violation still compiles.**
+   For a value type that means asking whether every construction path runs the
+   admission, and public enum cases never do.
+
+   **Next: increment (c)** — `VOX-CMP-010`, adapter admission of dimensions, component
+   formats and decoded byte counts, plus the destination ceiling that narrows
+   `VOX-CMP-011`'s residual exposure. Still no codec needed.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.

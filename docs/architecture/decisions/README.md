@@ -443,3 +443,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0254](ADR-0254-first-slice-validation-and-benchmark-reports.md) | Accepted | First slice validation and benchmark reports |
 | [ADR-0255](ADR-0255-open-the-compression-arc.md) | Accepted | Open the compression arc |
 | [ADR-0256](ADR-0256-compression-module-boundary.md) | Accepted | Compression module boundary |
+| [ADR-0257](ADR-0257-toolkit-native-representation-labelling.md) | Accepted | Toolkit native representation labelling |
