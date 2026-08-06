@@ -2431,6 +2431,50 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   window — and the owner-facing summary of the gates awaiting their
   decisions.
 
+=== ARC CLOSED, AND WHAT THE REAL DATA CHANGED (2026-08-06) ===
+
+The DICOM ingest arc is **closed**: `ADR-0226` through `ADR-0233`, five algorithm
+specifications, five oracles, 911 tests in 179 suites. The owner released the
+codec gate, granted MIT for `JLSwift` and `CompressionFamily`, and supplied real
+clinical CT data mid-increment.
+
+**`VOX-VS1-001`'s Demonstration half is discharged for the geometry path.** A
+899-slice thorax series: 899 of 899 files parsed and adapted, one series, verdict
+`representable`, no findings, spacing spread exactly `0x0p+0`.
+
+**Two accepted records were corrected by measurement, not by opinion.**
+`ADR-0229` claimed `exact` tolerance "will reject real series"; it accepts about
+half of the corpus outright, including every large primary axial reconstruction.
+And it claimed the source's stated decimal precision was unavailable; `ADR-0233`
+found `DICOMDecimalString.originalString` preserves it. `ADR-0234` assesses that
+source and finds it **necessary but not sufficient** — it admits the
+floating-point-noise group with no invented constant, and still rejects
+physically-regular reformats that state more precision than their geometry has.
+
+Three gates remain, all owner decisions:
+
+1. **The geometry tolerance rule**, now well characterised by `ADR-0234`: one
+   principled source, one case it fixes, one case it does not, one parser hazard
+   (E-notation defeats naive decimal counting). Also needs a decision on whether
+   reformats must be supported at all.
+2. **Two licence files** — `Raster-Lab/JLSwift` and
+   `Raster-Lab/CompressionFamily`. The grant is recorded; the files let third
+   parties verify it. Release prerequisite.
+3. **Upstream DocC errors** in `JXLSwift` and `DICOMKit`, both Raster-Lab
+   repositories. Fixing them would let `build-docc.sh` return to a global
+   `--warnings-as-errors` instead of a Voxelia-scoped filter.
+
+The scaffold gate remains the one red pipeline: re-tested this session on a
+byte-identical toolchain, still signal 11 at the release strict-memory-safety
+stage.
+
+**Next unblocked work, in order of value:** the pixel-data path is the only part
+of the first vertical slice never exercised — `CTVolumeLayout` and the
+direct-write model have no producer yet, and building one would need a decode
+target and a destination buffer type, which `ADR-0232` decision 8 deliberately
+left to a record with a real producer. After that, the 13 remaining traceability
+rows, and a `prepare-release.sh` dry run.
+
 === OWNER DECISIONS WAITING (2026-08-06, DICOM arc) ===
 
 Two decisions block the last increment of the DICOM ingest arc. Both were found
