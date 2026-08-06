@@ -4760,9 +4760,14 @@
       "sha256": "c8fff751511f30f8191a33aa6810b0175dc2d52dced2f6ca45df485b40cec6fe"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0261-benchmark-repetition-method.md",
+      "size": 8683,
+      "sha256": "12b43fa6566178afc05457de248e71be2ef7544c1d2903cf0298e2dabeec2aa3"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 37508,
-      "sha256": "1632f00f77d1fc1f4906ca31818fc6fb817c25582804fff78fb5ee9cbf34c2a4"
+      "size": 37605,
+      "sha256": "4a958c08e569aa1dfb8579e098245913fa53e0d121123595193e14718958acea"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4841,8 +4846,8 @@
     },
     {
       "path": "docs/benchmarks/VOXELIA-BEN-0001-first-vertical-slice-baseline.md",
-      "size": 9445,
-      "sha256": "796aeb59c5bbd44979b70784a6d9e0a7bc4b186af0b6b3c3bdb3afc0e72f2b87"
+      "size": 12294,
+      "sha256": "3261ec7efeec5dfb47b76b2b7b4bb67cdab99a68ccba283c97967725d72b8ea9"
     },
     {
       "path": "docs/index.md",
@@ -4851,8 +4856,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1105831,
-      "sha256": "a8f3a0809a704c2745d34764f364cce3a97eba6b8a9e00d33bf1dd2ad4fee28d"
+      "size": 1109321,
+      "sha256": "4ebcf5d66632932ee5a4ac7536f352a6aa686b2f294f782fbdc9e02fc196588a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5361,8 +5366,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 60476,
-      "sha256": "feaa96469c244fea19c6b8e06e59927f0cb272bcae1605206865ef46188778d5"
+      "size": 60544,
+      "sha256": "da3d0e59310d8bffaeac519cdffff7e01cfad8fc3f915223ce2af04511cb10ec"
     }
   ]
 }

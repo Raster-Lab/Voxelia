@@ -3693,11 +3693,68 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    direct-dependency question. **The arc cannot advance without the owner
    reconciliation `ADR-0255` referred.**
 
-   **Next**: with both the first vertical slice and the compression arc's buildable
-   half done, the highest-value unblocked work is the **repetition/warm-up method** so
-   plan §53's distribution comparison becomes possible — `VOXELIA-BEN-0001` is
-   currently a single cold run per configuration, which the report itself names as its
-   principal limitation.
+   **Increment (gg): `ADR-0261`, the benchmark repetition method.**
+   `VOXELIA-BEN-0001` revised to **version 0.2** with a real distribution, resolving
+   the principal limitation version 0.1 named about itself.
+
+   **The strategy requires percentiles (§42.1: min, median, p90, p95, p99, max), and
+   percentile conventions differ — so this was a numeric boundary needing a frozen
+   rule.** Frozen as **nearest-rank**: `rank = ceil(p x n / 100)` clamped to `[1, n]`,
+   computed in **integer** arithmetic (a floating-point `ceil` would make boundary
+   ranks depend on rounding), and the value is the `rank`-th smallest sample.
+
+   **No interpolation, and that is the point: every reported figure is a measurement
+   that actually occurred.** An interpolating convention reports a median lying
+   *between* two observations — for latency that invites a reader to treat a
+   synthesised number as observed. Also why mean/stddev were rejected: they need a
+   frozen summation order (a real ALG + oracle) for statistics worse suited to skewed
+   latency data than order statistics.
+
+   **100 repetitions chosen so the percentiles are DISTINCT.** At `n = 9`,
+   `ceil(0.90x9) = ceil(0.95x9) = ceil(0.99x9) = 9` — all three would equal the max
+   and the report would show three identical numbers as three statistics. 3 warm-ups
+   discarded.
+
+   **Cold and warm reported separately** because they measure different things: only
+   the first iteration of a fresh process reads uncached.
+
+   | Release, warm-cache, 100 reps (s) | min | p50 | p90 | p95 | p99 | max |
+   |---|---:|---:|---:|---:|---:|---:|
+   | Total import | `1.492` | `1.515` | `1.610` | `1.646` | `1.678` | `1.688` |
+   | Metadata scan | `0.089` | `0.091` | `0.097` | `0.098` | `0.104` | `0.133` |
+   | Decode + transfer | `1.397` | `1.417` | `1.508` | `1.547` | `1.575` | `1.580` |
+
+   Cold: **`1.829` s**. Warm spread: `0.196` s.
+
+   **Three findings a single run could not produce:**
+   1. **The import is COMPUTE-bound, not I/O-bound** — cold is only `1.21x` the warm
+      median, and decode+transfer is `1.417` of `1.515` s (**94%**). Effort on faster
+      file access would buy almost nothing. The earlier single-run figures gave no way
+      to know this.
+   2. **The metadata scan is the cache-sensitive stage and it is small** — `0.291` s
+      cold vs `0.091` s warm is `3.2x`, far above the whole import's `1.21x`, but it is
+      6% of the total. A whole-import figure alone hides both halves.
+   3. **No retention leak across 104 sequential imports** — each allocates 449 MiB and
+      peak stayed at `467 MiB` throughout. A retained volume would drive peak up in
+      multiples. **Materially stronger evidence for §59.4 than `ADR-0253`'s
+      single-import measurement**, which could only show one import did not duplicate.
+
+   The third was a **by-product**: repetitions were added for a latency distribution
+   and incidentally became a retention stress test.
+
+   **Explicitly NOT resolved**: reference-hardware approval (§61) is still the
+   prerequisite for formal performance acceptance, and the `voxelia.m4.ct.diagnostic`
+   profile is still provisional. **A distribution makes a comparison possible; it does
+   not make an unapproved threshold approved.** Power and thermal remain
+   uninstrumented — deferred to approved hardware rather than added as uncalibrated
+   noise.
+
+   **Next**: with the slice, the compression arc's buildable half, and the benchmark
+   method all done, the remaining unblocked candidates are thin. Best options: the
+   §59.3 stress volume (`512x512x1024`, ~1 GiB) as its own benchmark scenario, or a
+   synthetic-affine three-plane crosshair composition test in
+   `VoxeliaInteractionTests` so CI guards what `ADR-0248` demonstrated on real data.
+   Everything else of substance now waits on one of the owner decisions.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.

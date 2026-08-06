@@ -1,7 +1,7 @@
 ---
 document_id: "VOXELIA-BEN-0001"
 title: "First vertical slice benchmark baseline"
-version: "0.1"
+version: "0.2"
 status: "Draft"
 document_type: "Benchmark Report"
 project: "Voxelia"
@@ -75,15 +75,32 @@ does not have them.
 
 ## Warm-up and repetitions
 
-**Neither is present, and that is the report's principal methodological
-limitation.** The figures below are from a **single cold run per build
-configuration** with no warm-up iteration, no repetition and therefore no
-dispersion — no median, no variance, no confidence interval.
+**Version 0.1 of this report had neither, and named that as its principal
+limitation. `ADR-0261` resolved it.**
 
-Plan §53's method for performance is "distribution comparison after correctness
-gate". **A distribution is not offered here**, so this document establishes a
-reproducible *reference point*, not a distribution. Producing one is recorded as
-required future work rather than approximated.
+| Setting | Value |
+|---|---|
+| Warm-up iterations | 3, discarded |
+| Measured repetitions | 100 |
+| Percentile rule | nearest-rank, frozen by `ADR-0261` |
+
+**The percentile rule matters and is stated rather than left to a library
+default.** `rank = ceil(percentile x n / 100)`, clamped to `[1, n]`, computed in
+integer arithmetic, and the value is the `rank`-th smallest sample. **No
+interpolation, so every figure below is a measurement that actually occurred** —
+an interpolating convention would report a median lying between two observations,
+which for latency invites a reader to treat a synthesised number as an observed
+one.
+
+One hundred repetitions is chosen so the required percentiles are **distinct**. At
+`n = 100` the 90th, 95th and 99th select the 90th, 95th and 99th smallest samples;
+at `n = 9` all three would equal the maximum, and the report would show three
+identical numbers as though they were three statistics.
+
+**Cold and warm are different quantities and are reported separately.** The first
+iteration of a fresh process is the only one whose reads are not served from the
+page cache. It is reported as its own measurement; the distribution covers
+warm-cache repetitions.
 
 ## Latency and throughput
 
@@ -121,6 +138,38 @@ Derived throughput, release:
 figure alone would mislead.** Release completes the import in `1.841` s against
 `4.283` s debug — a `2.3x` difference. Any future comparison must state its build
 configuration.
+
+### Latency distribution (release, 100 measured repetitions)
+
+Warm-cache, after 3 discarded warm-ups. Seconds.
+
+| Quantity | min | p50 | p90 | p95 | p99 | max |
+|---|---:|---:|---:|---:|---:|---:|
+| **Total import** | `1.492` | `1.515` | `1.610` | `1.646` | `1.678` | `1.688` |
+| Metadata scan | `0.089` | `0.091` | `0.097` | `0.098` | `0.104` | `0.133` |
+| Decode and transfer | `1.397` | `1.417` | `1.508` | `1.547` | `1.575` | `1.580` |
+
+**Cold import, page cache empty: `1.829` s.** Spread of the warm total:
+`0.196` s.
+
+### What the distribution shows that the single run could not
+
+**The import is compute-bound, not I/O-bound.** Cold is only `1.21x` the warm
+median. If reading 899 files dominated, a fully cached run would be far faster than
+that. Decode and transfer is `1.417` s of the `1.515` s median — **94 per cent** —
+so effort spent on faster file access would buy almost nothing.
+
+**The metadata scan is the strongly cache-sensitive stage, and it is small.**
+`0.291` s cold against a `0.091` s warm median is a `3.2x` difference, far larger
+than the whole import's `1.21x`. The caching effect is real but concentrated in the
+stage contributing six per cent of the total.
+
+**No retention leak across 104 sequential imports.** Each iteration allocates a
+449 MiB volume and peak resident stayed at `467 MiB` — `1.04x` of one volume — from
+the first import to the last. A retained volume would have driven peak up in
+multiples. This is materially stronger evidence for plan §59.4's leak criterion
+than `ADR-0253`'s single-import measurement, which could only show that one import
+did not duplicate.
 
 Two observations that are properties of the design rather than of the hardware:
 
@@ -177,14 +226,19 @@ is intended as the reference point for the first comparison.
 
 For a future comparison to be valid against these figures it must state: build
 configuration (release or debug), the same series or an equivalently characterised
-one, a fresh process for memory, and warm-up and repetition counts — which this
-report does not have and a comparison should.
+one, a fresh process for memory, and its warm-up and repetition counts. It should
+use `ADR-0261`'s frozen nearest-rank percentile rule, because a comparison against
+these percentiles computed under an interpolating convention would not be
+comparing like with like.
 
 ## Regressions and limitations
 
-1. **Single cold run, no warm-up, no repetitions, no dispersion.** The principal
-   limitation; see above. Plan §53's distribution comparison is not satisfied.
-2. **Not approved reference hardware**, so no performance acceptance (§61).
+1. **Resolved in version 0.2**: the report now carries a 100-repetition
+   distribution with 3 discarded warm-ups, so plan §53's distribution comparison is
+   possible. `ADR-0261` records the method.
+2. **Not approved reference hardware**, so **still no performance acceptance**
+   (§61). A distribution makes a comparison possible; it does not make an
+   unapproved threshold approved.
 3. **Power and thermal state uncharacterised.**
 4. **One series, one scanner, one machine.** No variation established.
 5. **Plan §59.3's stress cases not run**: `512x512x1024` signed 16-bit, repeated
@@ -204,10 +258,11 @@ report does not have and a comparison should.
 The first vertical slice imports a real 899-frame, 449 MiB thoracic CT series and
 reaches three-view steady state in **2.35 s** in a release build, retaining
 **1.05x** of one volume, with no full-volume GPU upload and no second decoded
-volume at any point.
+volume at any point. Over 100 warm repetitions the import's median is **1.515 s**
+with a **0.196 s** spread, and 104 sequential imports left peak resident unchanged.
 
-**That is a reproducible baseline, not an acceptance.** No threshold has been
-approved to compare it against, the hardware is not approved reference hardware,
-and the single-run method supplies no distribution. Formal performance acceptance
-needs the owner's reference-hardware approval and a repetition method; both are
-recorded as outstanding.
+**That is a reproducible baseline with a distribution, and it is still not an
+acceptance.** No threshold has been approved to compare it against, and the
+hardware is not approved reference hardware. The repetition method that version 0.1
+recorded as outstanding is now supplied (`ADR-0261`); **reference-hardware approval
+remains the outstanding prerequisite for formal performance acceptance.**

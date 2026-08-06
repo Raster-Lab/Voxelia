@@ -447,3 +447,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0258](ADR-0258-compressed-decode-admission.md) | Accepted | Compressed decode admission |
 | [ADR-0259](ADR-0259-cancellable-decode-session.md) | Accepted | Cancellable decode session |
 | [ADR-0260](ADR-0260-compressed-scope-and-destination.md) | Accepted | Compressed scope and destination |
+| [ADR-0261](ADR-0261-benchmark-repetition-method.md) | Accepted | Benchmark repetition method |
