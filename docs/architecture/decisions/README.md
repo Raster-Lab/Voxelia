@@ -179,8 +179,9 @@ geometry acceleration architecture assessment. `ADR-0197` is allocated to the
 surface rendering arc. `ADR-0198` is allocated to the surface scene
 vocabulary. `ADR-0199` is allocated to the surface vertex projection design.
 `ADR-0200` is allocated to the surface visibility design. `ADR-0201` is
-allocated to the surface compositing design.
-The next unallocated numeric identifier is `ADR-0202`.
+allocated to the surface compositing design. `ADR-0202` is allocated to the
+surface shading design.
+The next unallocated numeric identifier is `ADR-0203`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -365,3 +366,4 @@ The next unallocated numeric identifier is `ADR-0202`.
 | [ADR-0199](ADR-0199-surface-vertex-projection-design.md) | Accepted | Surface vertex projection design |
 | [ADR-0200](ADR-0200-surface-visibility-design.md) | Accepted | Surface visibility design |
 | [ADR-0201](ADR-0201-surface-compositing-design.md) | Accepted | Surface compositing design |
+| [ADR-0202](ADR-0202-surface-shading-design.md) | Accepted | Surface shading design |

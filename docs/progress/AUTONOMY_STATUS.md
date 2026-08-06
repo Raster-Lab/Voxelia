@@ -7051,6 +7051,68 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-twenty-first autonomous increment (`ADR-0197` increment (e),
+  design): accepted `ADR-0202` and `VOXELIA-ALG-0036` freeze
+  `surface-diagnostic-shading/binary64-v1`. No product source changed.
+
+  **A defect in an accepted contract was found by its first consumer.**
+  `ALG-0034` canonicalises a facet's winding by swapping its second and third
+  vertices when the projection mirrored it, and publishes barycentric weights
+  in that canonicalised order. `ADR-0200` decision 7 documented the hazard —
+  "a consumer that ignored the swap would mis-attribute attributes" — but the
+  published fragment records **no swap flag**, so a consumer cannot tell
+  whether it happened. The hazard was named without publishing the datum
+  needed to avoid it. Shading is the first consumer of those weights, so this
+  is the first place it could surface. `ADR-0202` decision 1 closes it by
+  publishing the flag, which is **additive and changes no registered digest**:
+  `ALG-0034`'s fixture records pack layer, facet and depth, and its byte
+  payload packs depths and weights, so neither covers the flag. Republishing
+  the weights in original order was rejected precisely because it *would* have
+  changed the registered digest and so edited a frozen record.
+
+  The material is a **two-sided** Lambert headlight, and the two-sidedness is
+  required rather than convenient: extraction publishes open surfaces,
+  `ALG-0034` deliberately does not cull back faces, and a one-sided
+  `max(0, N·L)` would render the interior of every open surface black, hiding
+  geometry a diagnostic reader needs.
+
+  **Colour is deferred again**, for the same reason `ADR-0201` deferred it: a
+  colour representation forces channel-count, colour-space and premultiplication
+  decisions the scalar-colour-map increment must settle regardless, and making
+  them here would risk that increment contradicting this one. The output is a
+  scalar intensity in `[0, 1]`.
+
+  Three numeric findings are registered rather than assumed. The **clamp to one
+  is reachable**, not defensive: rounding in the renormalisation and dot product
+  carries a unit normal's self-projection to `1.0000000000000002`, and the
+  fixture uses that exact case. **Interpolation can lose a direction that
+  normalisation would have kept**: a least-subnormal normal weighted by one
+  third underflows to exactly zero, and the same normal at full weight
+  survives — registered as two separate fixtures so the behaviours are
+  distinguishable evidence. And the frozen scaled normalisation yields
+  `1 / sqrt(2)` at forty-five degrees, which differs in the last place from
+  `sqrt(0.5)`, confirming the normalisation expression is part of the algorithm
+  identity.
+
+  An undefined interpolated direction yields positive zero rather than failing
+  the render, deliberately differing from `ADR-0193`'s rejection of an
+  undefined **published** normal: that is authoritative geometry, this is
+  presentation. The contrast is recorded in both documents so it does not read
+  as an inconsistency. A mesh without normals is rejected typed rather than
+  falling back to a facet normal, because a fallback would shade two otherwise
+  identical meshes differently.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0202-surface-shading-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -12982,15 +13044,15 @@ cross-contract test proves the compositor's first ordered fragment is exactly
 the resolver's nearest hit.
 
 `ADR-0197` increments (a) through (d) are therefore complete, discharging the
-Test half of `VOX-SUR-001`, `VOX-SUR-002` and `VOX-SUR-003`. The exact next
-action is increment **(e), vertex normals and diagnostic materials**
-(`VOX-SUR-004`), which supplies the colours the compositing weights multiply.
-It is **design-first**. Note `ADR-0197` decision 4(e): a validated diagnostic
-material is in scope and a physically based model is explicitly **not**
-pre-committed, because the requirement says "physically based **or** validated
-diagnostic". The shading input is the accepted deterministic vertex normals
-from `ADR-0193`, interpolated by the barycentric weights the visibility and
-compositing stages already publish in canonicalised vertex order.
+Test half of `VOX-SUR-001`, `VOX-SUR-002` and `VOX-SUR-003`. Increment (e)'s design is
+complete: accepted `ADR-0202` and `VOXELIA-ALG-0036` freeze the two-sided
+Lambert headlight model and close the unpublished-swap defect additively.
+
+The exact next action is the `ADR-0202` migration: add the swap flag to
+`SurfaceHit` and `SurfaceFragment` — **re-running the `ALG-0034` and
+`ALG-0035` oracle tests immediately to prove both digests are unchanged** —
+then add the shading reference reproducing all fourteen `ALG-0036` fixtures
+bit-exactly.
 
 Increments (c) through (h) follow in `ADR-0197`'s recorded dependency order,
 each design-first at its numeric boundaries: coordinate-space transform and
@@ -13019,12 +13081,12 @@ fabricate their evidence.
 
 ## Test policy for the next action
 
-- Perform `ADR-0197` increment (e) next, and it is **design-first**: the
-  shading model is a numeric boundary, so freeze an accepted record plus an
-  algorithm specification with a python-computed independent oracle before
-  writing implementation code. Run only the oracle and the
-  ADR/document/register/index/manifest/integrity checks for that design
-  increment; product builds and tests are not evidence until source changes.
+- Perform the `ADR-0202` migration next. It changes accepted value shapes
+  additively, so re-run the `ALG-0034` and `ALG-0035` oracle tests immediately
+  after adding the swap flag and confirm both digests still match before going
+  further. Then run the focused `VoxeliaRenderingTests` suite, `swift format
+  lint --strict` on every touched Swift file, and the
+  ADR/document/register/index/manifest/integrity checks.
 - When an increment needs rules already frozen by an accepted algorithm,
   extract them into one shared implementation rather than duplicating, and
   re-run the accepted record's own oracle test immediately to prove the

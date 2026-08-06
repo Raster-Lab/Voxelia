@@ -39,3 +39,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0033](VOXELIA-ALG-0033-surface-vertex-projection.md) | Accepted | Surface vertex orthographic projection `binary64-v1` |
 | [VOXELIA-ALG-0034](VOXELIA-ALG-0034-surface-visibility-resolution.md) | Accepted | Surface visibility resolution `binary64-v1` |
 | [VOXELIA-ALG-0035](VOXELIA-ALG-0035-surface-opacity-compositing.md) | Accepted | Surface per-object opacity compositing `binary64-v1` |
+| [VOXELIA-ALG-0036](VOXELIA-ALG-0036-surface-diagnostic-shading.md) | Accepted | Surface diagnostic shading `binary64-v1` |
