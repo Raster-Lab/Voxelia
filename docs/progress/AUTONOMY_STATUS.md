@@ -2802,11 +2802,45 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    the new rule, keeping the coverage it was written to hold. A geometry-free volume
    still acquires no geometry, and a test asserts that too.
 
-   **The exact next action: verify `VOX-VS1-009` on the real 899-slice series** —
-   all three planes from actual patient data rather than a synthetic 2×3×2. After
-   that the requirements downstream of a 2D slice are reachable through code that
-   already exists: window-level interaction, linked crosshairs, quantitative pixel
-   inspection, patient-space distance measurement and off-screen output.
+   **`VOX-VS1-009` is now discharged on real patient data.** The 899-slice series
+   went all the way through publication and reconstructed in all three planes:
+
+   ```text
+   volume 512x512x899  complete true  449 MiB
+   ImageData built. source locators: 899
+   axial    slice 449: extents [512, 512]  geometry axes [0, 1]  0.13s
+   coronal  slice 256: extents [512, 899]  geometry axes [0, 1]  0.23s
+   sagittal slice 256: extents [512, 899]  geometry axes [0, 1]  0.67s
+   ```
+
+   Every extent matches what `VOXELIA-ALG-0050`'s layout predicts, and **all three
+   planes keep a spatial geometry** — including coronal and sagittal, whose dropped
+   slot is not last and needed `ADR-0244`'s column permutation. Before that record
+   none of the three could be produced at all. The identity carries **899 source
+   locators**, one per frame, which is how `VOX-VS1-019`'s source-frame provenance is
+   discharged for an origin.
+
+   **A second check fired on real data for the first time.** The first attempt
+   failed with `frameOfReferenceNotPreserved` — the harness's fault and the check's
+   success. The real series carries a Frame of Reference UID and the harness had
+   supplied a descriptor with no external references, which `ADR-0230` decision 8
+   refuses because that is how `VOX-DCM-007`'s preservation reaches the volume.
+   **Every synthetic test passes `frameOfReference: nil`, so none of them exercises
+   that path**; the rule was written from the requirement and had never been fired
+   until real data supplied a UID.
+
+   Cost baseline, unoptimised: axial 0.13 s because a one-thick axial slab is
+   contiguous, sagittal 0.67 s because its slab is maximally strided — one column
+   from every row of every slice.
+
+   **The exact next action: the requirements downstream of a 2D slice**, all of
+   which now have a real slice to work on and existing implementations to reach —
+   window centre and width interaction (`VOX-VS1-012`), linked patient-space
+   crosshairs (`013`), quantitative pixel inspection (`014`), patient-space distance
+   measurement (`015`) and off-screen output (`016`). Assess which are already
+   satisfied by existing code against a real volume before writing anything: the
+   pattern this session has established is that composing what exists finds more
+   than adding to it.
 
    (Superseded framing: increment (d) was described here as the arc's largest.)
 2. The 13 remaining traceability rows in

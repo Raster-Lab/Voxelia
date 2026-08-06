@@ -4671,8 +4671,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1050074,
-      "sha256": "a1365dd9491c7bcae51722248aa36ecbaa9f31421c37cee263594db97ad2905c"
+      "size": 1051995,
+      "sha256": "b0fc5c7f57d3b0eb77a86871eefbe6a33b2497c2cc136d34ccc0504a736faaf4"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4866,8 +4866,8 @@
     },
     {
       "path": "docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md",
-      "size": 9661,
-      "sha256": "4676e58972d741d2303ca4e9f049f6700bbfbd57f35787b4bbb6819d771d627b"
+      "size": 12101,
+      "sha256": "738c31efe7a442f5cde3e018276a93a61064fdac2f26c29d8220054d51a27172"
     },
     {
       "path": "docs/progress/untraced-requirements.txt",

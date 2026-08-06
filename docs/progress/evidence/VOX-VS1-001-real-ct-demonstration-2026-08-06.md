@@ -188,6 +188,55 @@ padding value would require inferring it from the values themselves — a
 segmentation decision, with a threshold, and therefore an owner decision of the
 same shape as the geometry tolerance.
 
+## Fourth run: publication and multiplanar reconstruction, VOX-VS1-009
+
+With `ADR-0238` through `ADR-0244` complete, the same 899-slice series was taken all
+the way through publication and reconstructed in all three planes:
+
+```text
+frames 899  members 899  verdict representable
+frame of reference: dicom:...4011161000000099
+volume 512x512x899  complete true  449 MiB
+ImageData built. source locators: 899
+published.
+axial    slice 449: extents [512, 512]  geometry axes [0, 1]  0.13s
+coronal  slice 256: extents [512, 899]  geometry axes [0, 1]  0.23s
+sagittal slice 256: extents [512, 899]  geometry axes [0, 1]  0.67s
+```
+
+**`VOX-VS1-009` is discharged on real patient data.** The volume is 512 columns by
+512 rows by 899 slices, so axial drops axis 2 to give `[512, 512]`, coronal drops
+axis 1 to give `[512, 899]`, and sagittal drops axis 0 to give `[512, 899]`. Every
+extent is as `VOXELIA-ALG-0050`'s layout predicts.
+
+**All three planes keep a spatial geometry**, including coronal and sagittal, whose
+dropped slot is not last and therefore needed the column permutation `ADR-0244`
+decided. Before that record none of the three could be produced at all.
+
+The identity carries **899 source locators**, one per contributing frame, which is
+how `VOX-VS1-019`'s source-frame provenance is discharged for an origin.
+
+### The frame-of-reference check fired on real data
+
+The first attempt failed with `frameOfReferenceNotPreserved`. That was the harness's
+fault and the check's success: the real series carries a Frame of Reference UID, and
+the harness had supplied a `CoordinateSpaceDescriptor` with **no** external
+references. `ADR-0230` decision 8 requires any frame-of-reference the series carries
+to appear among the descriptor's external references, because that is how
+`VOX-DCM-007`'s preservation reaches the volume rather than stopping at the series.
+
+**Every synthetic test passes `frameOfReference: nil`, so none of them exercises
+that path.** The rule was written from the requirement and had never been fired
+until real data supplied a UID. It is now demonstrated to reject a caller that
+drops the frame of reference.
+
+### Reconstruction cost
+
+Axial is cheapest at 0.13 s because a one-thick axial slab is contiguous. Sagittal
+is slowest at 0.67 s because its slab is maximally strided — one column from every
+row of every slice. Nothing here is optimised, and the numbers are recorded as a
+baseline rather than a claim.
+
 ## Reproduction
 
 ```text
