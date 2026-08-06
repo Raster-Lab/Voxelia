@@ -4814,6 +4814,56 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: the affine design increment this interrupted — ADR + **`VOXELIA-ALG-0052`** +
    independent Python oracle for composition, vector and normal transformation.
 
+   **Increment (bbb): `ADR-0283` + `VOXELIA-ALG-0052` accepted — the affine design, frozen
+   with five EXACT fixtures.** No code; 1134 tests / 205 suites unchanged.
+   `affine-composition/binary64-v1` supplies the three capabilities `ADR-0280` found
+   absent.
+
+   **Frozen boundaries**: **composition means "A after B"** (`compose(A,B) × p ==
+   A × (B × p)`) — which *follows* from the column-vector convention rather than being
+   chosen separately; the **affine structure is used, not multiplied through** (bottom row
+   set to the literal `0,0,0,1`, because multiplying admitted values by known zeros
+   contributes signed zeros to otherwise-exact sums and buys nothing); the **translation
+   term is added LAST**; **vector transformation reuses `ADR-0138`'s exact expression
+   order** so the two agree where they overlap rather than merely resembling each other;
+   **normal transformation is a COLUMN traversal** of `ALG-0016`'s inverse — the
+   specification says outright it must not be rewritten as a row traversal, which would
+   silently compute `Inv × n` and reintroduce the very error it exists to prevent.
+
+   **Deliberately NOT normalised**: the normal transform is a linear map and stops there.
+   `ALG-0030` publishes unit normals and `ALG-0036` renormalises before use; normalising
+   here would duplicate an accepted rule and break the correspondence between transforming
+   twice and transforming by the composition. A result underflowing to zero is a **value,
+   not a failure** — so no untestable branch.
+
+   **Two failure cases only** (`nonAffineOperand`; `singularMatrix` composed from
+   `ALG-0016`), and **no representability failure** — inputs are admitted finite and
+   neither accepted sibling carries one.
+
+   **FIVE EXACT FIXTURES, no tolerance anywhere.** Fixture 1 checks composition **against
+   staged application** (`C × p` vs `A × (B × p)`, both exactly `(-4, 3, 9)`) rather than
+   against a hand-typed matrix — testing the property, not a transcription. Fixture 3 is
+   `ADR-0280`'s finding made executable: under `diag(1,1,5)`, `n = (0,1,1)` gives
+   **`(0, 1, 5)` as a vector but `(0, 1, 0.2)` as a normal**. **Fixture 5 registers
+   NON-ASSOCIATIVITY** with a witness: `(X∘Y)∘Z` element 0 is `3.0` while `X∘(Y∘Z)` is
+   `3.0000000000000004` — a consumer would reasonably assume otherwise.
+
+   **A subtlety recorded so neither finding invites the wrong fix**: fixture 4 shows the
+   vector and normal rules agree **exactly** under a pure rotation (`R⁻ᵀ = R`), while
+   `ADR-0280` measured max error under rotation. Both true, different questions — *whether
+   to transform at all* (wrong for ANY non-identity transform) versus *which rule to use*
+   (only matters when not orthonormal).
+
+   **Two reference errors of mine, caught not shipped**: I cited `ADR-0033` for the
+   pre-multiplication prohibition — it is **`VOXELIA-ALG-0033`** (`ADR-0033` is ordered
+   metadata collection); and I wrote `## Decisions` where the gate requires the literal
+   `## Decision`. **The register gate added last increment caught the second immediately**
+   and demanded `ADR-0283`'s own row — working exactly as intended, one increment old.
+
+   **Next**: implement in `VoxeliaSpatial`, reproducing all five fixtures exactly and
+   confirming **no existing consumer's digests change** (`ADR-0280` d3). Then the
+   surface-shading correction.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

@@ -695,6 +695,7 @@ docs/algorithms/VOXELIA-ALG-0048-series-geometry-validation.md
 docs/algorithms/VOXELIA-ALG-0049-affine-volume-construction.md
 docs/algorithms/VOXELIA-ALG-0050-volume-sample-layout.md
 docs/algorithms/VOXELIA-ALG-0051-stored-value-interpretation.md
+docs/algorithms/VOXELIA-ALG-0052-affine-composition-and-directions.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -985,6 +986,7 @@ docs/architecture/decisions/ADR-0279-interactive-responsiveness.md
 docs/architecture/decisions/ADR-0280-open-the-affine-transform-arc.md
 docs/architecture/decisions/ADR-0281-singular-transform-typed-errors.md
 docs/architecture/decisions/ADR-0282-decision-register-enforcement.md
+docs/architecture/decisions/ADR-0283-affine-composition-and-direction-design.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

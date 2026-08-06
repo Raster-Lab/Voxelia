@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0283`.
+The next unallocated numeric identifier is `ADR-0284`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -469,3 +469,4 @@ The next unallocated numeric identifier is `ADR-0283`.
 | [ADR-0280](ADR-0280-open-the-affine-transform-arc.md) | Accepted | Open the affine transform arc |
 | [ADR-0281](ADR-0281-singular-transform-typed-errors.md) | Accepted | Singular transform typed errors |
 | [ADR-0282](ADR-0282-decision-register-enforcement.md) | Accepted | Decision register enforcement |
+| [ADR-0283](ADR-0283-affine-composition-and-direction-design.md) | Accepted | Affine composition and direction design |

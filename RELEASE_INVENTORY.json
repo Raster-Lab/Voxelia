@@ -3226,8 +3226,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 6427,
-      "sha256": "90aefd5aa47acbb61222114ff3f9d3d32dbb8aea6cd068ebbee03c119945cd3c"
+      "size": 6580,
+      "sha256": "f5d3b67aed47ea0bcacc48f4aece030d42ab0dc1bc20456991de4b74d135cb16"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3483,6 +3483,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0051-stored-value-interpretation.md",
       "size": 6022,
       "sha256": "8ecbe0b109f4115d1e6b723c949f35716f44a342a204f97ce6661f65aed1b2e0"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0052-affine-composition-and-directions.md",
+      "size": 7952,
+      "sha256": "f27b8c5de6c4ffefdefbed91226b7a1fc07e96fb2eb092ce2176060d25bbd958"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4935,9 +4940,14 @@
       "sha256": "20e8f6bddf006aebf3db1af3d99871be40e74cb5130c5a0c67bb4b70c3e67310"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0283-affine-composition-and-direction-design.md",
+      "size": 8712,
+      "sha256": "7b4eb62f01bcd520b4fe91796bb6b6743bc7f02d419f035e73f8e33152ffd601"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 39822,
-      "sha256": "b40c449593e9dd2848c4a73de52cfb2544773c0c5899a27d6d208183d15bca68"
+      "size": 39943,
+      "sha256": "8e76b04d9398ab2f853fe91ab8db4405c36fa63b7a3efc1a4030cde2c56a9660"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5031,8 +5041,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1178105,
-      "sha256": "c257cf97f1c72e0cda2b6e587e0a1695c6823e8b687e19d3298fc4962784c0bd"
+      "size": 1181515,
+      "sha256": "62446db46009427b8968adfb9f7e88ede3ac5c45b988ae1307fd9a50ca866202"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5541,8 +5551,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 62921,
-      "sha256": "82aba2940efb6ca133ad582f772ccf37f2776da707c8d3cb4f30cd245312235b"
+      "size": 63071,
+      "sha256": "14a9b9ace7381247baaff73e47d132b44ff0e13760fed609ac1ba2e630a536bf"
     }
   ]
 }
