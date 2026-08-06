@@ -208,6 +208,7 @@ Sources/VoxeliaImaging/Public/CTValueInterpreter.swift
 Sources/VoxeliaImaging/Public/CTVolumeByteBuffer.swift
 Sources/VoxeliaImaging/Public/CTVolumeDescriptorBuilder.swift
 Sources/VoxeliaImaging/Public/CTVolumeLayout.swift
+Sources/VoxeliaImaging/Public/CTVolumeStorageBuilder.swift
 Sources/VoxeliaImaging/Public/MPRSliceCoordinator.swift
 Sources/VoxeliaImaging/VoxeliaImaging.docc/Architecture.md
 Sources/VoxeliaImaging/VoxeliaImaging.docc/Requirements.md
@@ -458,6 +459,7 @@ Tests/VoxeliaImagingTests/CTValueInterpreterTests.swift
 Tests/VoxeliaImagingTests/CTVolumeByteBufferTests.swift
 Tests/VoxeliaImagingTests/CTVolumeDescriptorBuilderTests.swift
 Tests/VoxeliaImagingTests/CTVolumeLayoutTests.swift
+Tests/VoxeliaImagingTests/CTVolumeStorageBuilderTests.swift
 Tests/VoxeliaImagingTests/MPRSliceCoordinatorTests.swift
 Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift
 Tests/VoxeliaInteractionTests/InteractionCommandTests.swift
@@ -906,6 +908,7 @@ docs/architecture/decisions/ADR-0237-duplicate-rescale-freeze-correction.md
 docs/architecture/decisions/ADR-0238-published-volume-bridge-arc.md
 docs/architecture/decisions/ADR-0239-stored-sample-normalisation.md
 docs/architecture/decisions/ADR-0240-ct-volume-descriptor.md
+docs/architecture/decisions/ADR-0241-ct-volume-storage-binding.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

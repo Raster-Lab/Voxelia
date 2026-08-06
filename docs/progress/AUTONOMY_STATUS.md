@@ -2650,9 +2650,37 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    multiplication that cannot change a value. A length unit for the samples is
    refused as a category error: it would claim the Hounsfield numbers are lengths.
 
-   The exact next action is the storage binding — `LogicalSampleBinding` plus
-   `ContiguousImageStorage`, erased to `AnyImageStorage`. It should be small:
-   `ContiguousImageStorage(binding:bytes:)` already takes `[UInt8]`.
+   **`ADR-0241` bound the volume to storage** — the arc's smallest increment, as
+   `ADR-0238` predicted, because `ContiguousImageStorage(binding:bytes:)` already
+   accepts exactly what `CTVolumeByteBuffer` holds. 7 tests; 977 in 185 suites.
+
+   Its one substantive decision is what to **refuse**: an **incomplete volume**.
+   `ADR-0235` decision 7 added written-slice tracking precisely so a missing slice
+   is a fact rather than a silence — the gap would read as zeros, which are
+   plausible bytes and the wrong volume. Without this refusal that tracking would
+   have been decorative.
+
+   Two smaller calls. The descriptor and the buffer derive their byte counts
+   **independently** — the binding from the descriptor, the buffer from
+   `VOXELIA-ALG-0050` — so comparing them is a genuine check, and the **scalar
+   type** is compared too, because `uint16` and `int16` agree on bytes and disagree
+   on meaning, and they are exactly the two `VOX-DCM-005` admits. A test reads the
+   whole region back through the erased provider and compares it to the transferred
+   bytes, so the binding is verified by round trip rather than by construction.
+
+   Recorded rather than smuggled: `ContiguousImageStorage` takes an `[UInt8]`, so
+   the volume's bytes are copied once at that boundary — about 449 MiB at the ~120
+   MiB/s `ADR-0235` measured. Avoiding it needs an ownership-transferring provider
+   or an `inout` handover, both changes to accepted storage API, so it belongs to a
+   record that changes storage rather than to a bridge increment.
+
+   **The exact next action is `ADR-0238` increment (d): provenance for an ingested
+   volume** — the arc's largest. `ProvenanceRecord` takes ten parameters with
+   cross-field invariants, `.origin` activity requires `.source` kind, the instant
+   must be caller-supplied because there is no clock, and `VOX-VS1-019` wants the
+   source frames named. `ADR-0238` decision 6 already binds it to claim only what
+   it can show: an ingest can name frames and the transform, and cannot claim an
+   operation or backend it never ran.
 2. The 13 remaining traceability rows in
    `docs/progress/untraced-requirements.txt`.
 3. A `prepare-release.sh` dry run, unexercised since `ADR-0225` gated three
