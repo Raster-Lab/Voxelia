@@ -8514,6 +8514,60 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-forty-eighth autonomous increment (`ADR-0222`, design): accepted
+  `ADR-0222` and `VOXELIA-ALG-0046` freeze `progress-observation/v1`, filling
+  the **P0** `VOX-EXE-008` gap `ADR-0218` found unbuilt. No product source
+  changed.
+
+  **The item was chosen by the rule the previous increment set**: unblocked and
+  with a consumer, not by list order. Three of the five surfaced gaps are
+  blocked behind gated measurement workloads; this one needs no hardware, and
+  the structural hook already exists — **seven accepted cancellation probes
+  already fire at frozen checkpoints inside the long-running kernels**, which is
+  exactly where progress belongs. `VOX-DVR-014` was considered first and set
+  aside: it is already an affected requirement of accepted `ADR-0175`.
+
+  **An `AsyncStream` was rejected for a specific reason, not a stylistic one.**
+  It would put a buffering policy, a termination semantic and a continuation
+  lifetime inside every accepted kernel — and under any bounded buffering, a
+  dropped or coalesced element would make the observed sequence depend on
+  consumer speed. **A model whose output depends on how fast somebody reads it
+  cannot be frozen or oracle-tested.** The mechanism is instead a
+  `@Sendable (Progress) -> Void` observer: the symmetric counterpart of the
+  `@Sendable (Checkpoint) -> Bool` cancellation probe every kernel already
+  takes.
+
+  **The return type carries the guarantee.** The observer returns `Void`, so it
+  cannot influence control flow — the deliberate asymmetry with the cancellation
+  probe, which returns `Bool` precisely because it *is* allowed to stop the
+  work.
+
+  Progress is **counts, never a fraction**: a fraction forces a division and a
+  rounding decision at every checkpoint, discards what a consumer needs to show
+  "3 of 128", and leaves the zero-work case ill-defined. The cadence is the
+  **accepted checkpoint cadence reused verbatim**, so progress density never
+  becomes a second tunable.
+
+  Four guarantees are frozen and checked on every fixture: the total never
+  changes, completed never decreases, completed never exceeds the total, and the
+  final observation is always exactly `(total, total)` — including for zero
+  work, so no consumer special-cases "nothing happened". A registered fixture
+  pins `128` at cadence `64` to **three** observations, because emitting the
+  boundary and then the total is the obvious off-by-one here.
+
+  The oracle registers thirteen fixtures, ten reported and three rejected.
+
+  ```bash
+  python3 docs/progress/evidence/ADR-0222-progress-observation-oracle.py
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_adr_register.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  git diff --cached --name-only | grep -E '^(Sources|Tests)/'
+  python3 Tools/Scripts/check_release_integrity.py --write
+  python3 Tools/Scripts/check_release_integrity.py
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -14599,18 +14653,24 @@ classification, reusable staging buffers, golden-result metadata, and the
 backend-neutral protocol, discharging `VOX-VS1-009` and `VOX-VS1-010`'s Test
 half without adding a numeric rule, a dependency edge or a Metal import.
 
-The exact next action is the **`VOX-DVR-014` deterministic off-screen render
-check**, or — if that proves already discharged — the next unclaimed item from
-the standing queue. Before starting either, re-read this ledger's gated list:
-the remaining surfaced gaps (lazy evaluation, progress reporting, benchmark
-classification, staging-buffer reuse, golden-result metadata) are all recorded
-and unclaimed, and three of the five are blocked behind gated measurement
-workloads rather than being free to build. Pick one that is genuinely
-unblocked and has a consumer, exactly as `ADR-0220` picked this one, rather
-than the first on the list.
+Accepted `ADR-0222` and `VOXELIA-ALG-0046` freeze `progress-observation/v1`,
+filling the **P0** `VOX-EXE-008` gap. `VOX-DVR-014` was checked first and is
+already an affected requirement of accepted `ADR-0175`, so it was set aside
+rather than redone.
+
+The exact next action is the `ADR-0222` migration: add the progress vocabulary
+and sequence to `VoxeliaExecution`, reproducing all thirteen `ALG-0046` fixtures
+bit-exactly, then thread the observer through **one** long-running kernel as the
+first consumer. Prove the four guarantees, prove the exact-multiple case emits
+three observations rather than four, prove zero work still reports once, and
+**prove that attaching an observer leaves that kernel's output byte-identical** —
+which is the claim that progress cannot change a result. `VOX-EXE-008` declares
+**T** alone, so a green migration closes it completely.
 
 ## Test policy for the next action
 
+- Perform the `ADR-0222` migration next. The byte-identity proof is the point:
+  an observer that can change a result is a defect, not a feature.
 - Pick the next item by whether it is unblocked and has a consumer, not by
   list order. Three of the five remaining surfaced gaps are blocked behind
   gated measurement workloads.

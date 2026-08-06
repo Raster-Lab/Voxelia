@@ -49,3 +49,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0043](VOXELIA-ALG-0043-palette-colour-mapping.md) | Accepted | Palette-colour display mapping `v1` |
 | [VOXELIA-ALG-0044](VOXELIA-ALG-0044-rgb-source-presentation.md) | Accepted | RGB source presentation `v1` |
 | [VOXELIA-ALG-0045](VOXELIA-ALG-0045-overlay-alpha-compositing.md) | Accepted | Overlay alpha compositing `binary64-v1` |
+| [VOXELIA-ALG-0046](VOXELIA-ALG-0046-progress-observation.md) | Accepted | Progress observation sequence `v1` |

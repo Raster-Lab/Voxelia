@@ -2916,8 +2916,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 5610,
-      "sha256": "269663aea4ec22c8b36ce0e5f32e0b4fd6779c27ba9ec109aa4fd7b2dde94376"
+      "size": 5723,
+      "sha256": "35ddb9f18e06aff0c84bdd1318cd30f7a3a5f93d4eb86ff97e32fa643c3b88a0"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3143,6 +3143,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0045-overlay-alpha-compositing.md",
       "size": 6674,
       "sha256": "2d2bb51308c26c0270a5c0555e465fb9eb36704d2b48e65af3575dceb072a6f4"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0046-progress-observation.md",
+      "size": 5018,
+      "sha256": "796f4b51ddced59cad68f49cfa25c315c64b1bd1553502b46f5732c8a7da7e7d"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4290,9 +4295,14 @@
       "sha256": "443e1ba3cafdba065c34ff9aa3d4dc7f7ab563f3817a7511f6d038756bb36045"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0222-progress-reporting-design.md",
+      "size": 7489,
+      "sha256": "73c46d89d4087cfb97fda938fe385c5116ce0684b7ffd5fdcc40647269e482a9"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 33344,
-      "sha256": "cf7de01a26264c6c970d3f32bfee28bfa2441443a7e6e3a518a293c2064216f6"
+      "size": 33495,
+      "sha256": "21eebc2834b343669f39d7931b9b39047cd68021208e28d733641e2033f4b3b3"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4376,8 +4386,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 957999,
-      "sha256": "6f52ef10058dcb50bef72cb2b472ce1154e1cfad6136ee8b8feb02a676addb0e"
+      "size": 961311,
+      "sha256": "e46528f78098b9f2c4ff12a916d65bc1b470cce8974761ddbb824415faa6e654"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4528,6 +4538,11 @@
       "path": "docs/progress/evidence/ADR-0213-overlay-compositing-oracle.py",
       "size": 9040,
       "sha256": "000b9d71a4116e7c8093d4860e61a4cd6bf8fdc1628127450885c044193d30f8"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0222-progress-observation-oracle.py",
+      "size": 5999,
+      "sha256": "3c985ef3d06131eef468a186ac9987eb3b1b31efd8c677cab430e6f2b819c920"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4841,8 +4856,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 53961,
-      "sha256": "7ee92a46c266a7683156733a2349e4ef313cb2d139d77c7cc860695608d51ff2"
+      "size": 54147,
+      "sha256": "1f2703ef165d3b4d417cf8187708f2ed8631099d0d22397aab4ea1775893302a"
     }
   ]
 }
