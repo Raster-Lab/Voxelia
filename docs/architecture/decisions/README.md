@@ -457,3 +457,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0268](ADR-0268-j2k-volume-adapter.md) | Accepted | J2K volume adapter |
 | [ADR-0269](ADR-0269-jp3d-and-htj2k-evaluation.md) | Accepted | JP3D and HTJ2K evaluation |
 | [ADR-0270](ADR-0270-cache-preservation-rule.md) | Accepted | Cache preservation rule |
+| [ADR-0271](ADR-0271-compression-benchmark-and-random-access.md) | Accepted | Compression benchmark and random access |

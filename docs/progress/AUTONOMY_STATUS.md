@@ -4086,10 +4086,49 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `012`(`T`), `013`, `008`(`T`). **Remaining**: `006`, `011`, `014`, plus `008`(`A`)
    and `012`(`R`).
 
-   **Next: `VOX-CMP-014`** (benchmarks — ratio, encode/decode time, random-access cost,
-   memory, output equality; most of it already measured in `ADR-0269`), then `006`
-   (which should also answer the `levelsZ` question), then **`011`'s adversarial work
-   last**.
+   **Increment (pp): `ADR-0271` + `VOXELIA-BEN-0002`, `VOX-CMP-014` discharged.** All
+   six required metrics reported.
+
+   **The finding: random access qualifies `ADR-0269`'s cache verdict without
+   overturning it.** That record measured full decode at 29–46x slower than
+   re-importing, and those numbers stand. But a viewer wants **planes**, not volumes:
+
+   | Request | Time | Voxels | Speedup |
+   |---|---:|---:|---:|
+   | **One axial plane** | **`0.014` s** | 0.4% | **`115.6x`** |
+   | 128-cube brick | `0.247` s | 3.1% | `6.6x` |
+   | 64-slice slab | `0.314` s | 25.0% | `5.2x` |
+
+   **14 ms for one axial plane from a store holding 55% less data.** So the same
+   artefact is a poor whole-volume cache and a good random-access store — both true of
+   the same measurements. `ADR-0269` explicitly named this as the condition that would
+   change its conclusion, and the condition holds. **Qualified, not corrected.**
+
+   **Tile geometry — not voxel count — sets random-access cost.** A plane at 0.4% of
+   voxels costs 4 of 64 tiles; a brick at 3.1% costs 8. The naive proportional model is
+   wrong by an order of magnitude, so it is pre-emptively corrected for whichever
+   increment wires `VOX-CMP-003`'s brick scopes to region decode.
+
+   **Memory measured in a CLEAN process** — the combined run peaked at `1809 MiB`
+   holding four encodes and their decodes, real and meaningless (same discipline as
+   `ADR-0265`'s cold-cache withdrawal). Clean: encode costs ≈**4.3x the volume** in
+   working set, full decode adds ≈2.1x, **region decode adds nothing measurable**.
+
+   Lossy modes deliberately **not** benchmarked: no requirement asks for lossy
+   diagnostic data, and measuring it would invite reading the numbers as endorsement.
+
+   One harness trap worth remembering: in top-level `main.swift`, referencing a global
+   declared **later** compiles fine and yields uninitialised state — it produced a
+   `0x0x0` volume before I moved the block.
+
+   **Compression discharged**: `002`, `003`, `004`, `005`, `007`, `009`, `010`,
+   `012`(`T`), `013`, `014`, `008`(`T`). **Remaining: `006` and `011`**, plus
+   `008`(`A`) and `012`(`R`).
+
+   **Next: `VOX-CMP-006`** — actual codec output and interoperability documented, which
+   is also where `ADR-0269`'s `levelsZ` question belongs and where the shipped
+   third-party `ct512_*.j2k` fixtures become the right input. Then **`011`'s adversarial
+   work last**.
 
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
