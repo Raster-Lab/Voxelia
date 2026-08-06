@@ -4895,6 +4895,11 @@
       "sha256": "7c6794e4657029dfbc3e3b3eb773e399f417c952fb8805f0a8b7106e2f60bf78"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0277-padding-transit-design.md",
+      "size": 13282,
+      "sha256": "747df87bf05a993b4ed0742d7d5c18b8010f26c7a3346bac755f724ca2aeee09"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
       "size": 38641,
       "sha256": "5740e7eed3bdbdb209b903f4012253728a9bbc77a478af7a84af884470cfb757"
@@ -4991,8 +4996,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1152822,
-      "sha256": "298872cb463a441404e0622e476f7d8216a1873a9b5bd4943b8e221fe396064c"
+      "size": 1157510,
+      "sha256": "2556b787ac6c56216c80fc2bb5c3407511a446d7e4ba93358e4714a5a02f330a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5501,8 +5506,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 62375,
-      "sha256": "d28cb8e27eef2bebfaa7e32de78ce3b4ea1c746a4b96422fbde20401f455beba"
+      "size": 62438,
+      "sha256": "a5d07e73b97b35532b2608828db32405e6a153f52d4773fc91b93d8ab3a03d1e"
     }
   ]
 }

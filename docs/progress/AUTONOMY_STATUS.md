@@ -4442,6 +4442,74 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    interactive output, equality **tested** rather than asserted in prose. Then
    `VOX-INT-008`'s `T` via an injected clock and deterministic probe.
 
+   **Increment (vv): `ADR-0277`, padding transit design — and a CORRECTION TO MY OWN
+   `ADR-0275`.** No code; 1124 tests / 203 suites unchanged.
+
+   **`VOX-VS1-016` WAS ALREADY DISCHARGED** by `ADR-0251` on 2026-08-06 (three purity
+   tests in `ExactSliceRendererTests`). `ADR-0275` listed it as unblocked work with
+   "nothing gates it". **The mistake: I trusted a ledger line that predated `ADR-0251`
+   and never grepped `docs/architecture/decisions/` before writing the inventory.** Same
+   class of error as `ADR-0248` but in the opposite direction — that one treated a
+   recorded *deferral* as a gap, this one treated a *discharged* row as outstanding.
+   **A row's status lives in the records; the ledger summarises them and is not an
+   authority over them.** `ADR-0275` NOT edited; only that one claim withdrawn — its arc
+   decomposition, the application-location owner decision and the `VOX-PER` parking all
+   stand.
+
+   **`VOX-R2D-014` is the arc's real open presentation row** — it appears in `ADR-0251`'s
+   front matter but in none of its decisions or consequences, and **no test carries its
+   tag**.
+
+   **All nine of plan §35.1's shared semantics traced through the pipeline, not assumed**:
+   seven travel in the request (viewport, plane geometry, interpolation, value
+   transformation, windowing via `layer.transferFunction`, MONOCHROME via
+   `window.polarity`, output colour descriptor); **one is legitimately construction-time**
+   — "shader or CPU implementation" *is* which renderer you built, so `ADR-0251`'s
+   identical-construction condition is the only right shape for it; **one is a genuine
+   gap.**
+
+   **THE FINDING — padding does not travel AT ALL, while both ends are already built.**
+   Import captures it (`CTFrameDescription.pixelPadding`, read by `CTValueInterpreter`);
+   both window operations accept `paddingValue: Int64?`; **`ALG-0002` rev 1.2 registers
+   the rule** (a stored sample equal to the sentinel is excluded before every
+   stored-to-real step and **displays exactly zero**), accepted for CPU by `ADR-0113` and
+   extended to the device window by `ADR-0146`. **And nothing connects them**:
+   `CTImportSession` and the `CTVolume*` builders carry no padding, and both renderers'
+   convenience inits hard-code `paddingValue: nil`. `ADR-0146` recorded why at the time —
+   "the adapter that supplies padding values is gated" — **that gate has since opened and
+   the wiring was never revisited.** So §35.1's padding policy is shared today only
+   because it is uniformly ABSENT, and **CT pixel padding is currently windowed as if it
+   were data.**
+
+   **THE SEPARABILITY that makes the row actionable**: `ADR-0251` deferred padding partly
+   on plan §28.4 needing a "separately approved rule". But §28.4 governs excluding padding
+   from **authoritative interpolation** (the *resample* stage, changes measured values,
+   owner's to approve), while §35.1 requires the two paths to use **the same** policy —
+   an *equality* requirement needing no particular rule. **Equality does not depend on the
+   rule.** §28.4 stays untouched and owner-gated.
+
+   **Frozen design**: no new vocabulary (`ALG-0002` rev 1.2's `Int64?` sentinel and its
+   `padding` schema entry are the accepted shapes); **the padding value is data-intrinsic
+   and travels with the IMAGE, not the viewport request** — rendering the same stored
+   samples under two sentinels would make the same bytes mean different things. Four
+   transit links, **two missing**: persisted with the volume, and read by the renderer.
+
+   **Deliberately NOT taken**: picking §28.4's any-padding rule under the `ADR-0194`
+   precedent (broad mandate + the document's own stated preference). It would be
+   *authorised* — but **nothing being worked needs it chosen**, so it would be scope taken
+   for its own sake. Also rejected: a `SliceRenderRequest` padding field (puts a
+   data-interpretation fact in a viewport request), and tagging `ADR-0251`'s three
+   existing tests with this row (they establish purity *conditionally on identical
+   construction*, and padding is exactly the semantic that condition exists for — tagging
+   them would claim eight semantics as nine).
+
+   **Next**: persist the padding value with the volume, feed it to the window stage, and
+   discharge `VOX-R2D-014` with tests carrying its tag. Two boundaries for that increment
+   to settle: what a volume does when frames declare *different* padding (refusal is the
+   likely answer — a volume whose slices mean different things by the same stored value is
+   not one volume), and whether `WindowStageExecutor` gains a parameter or the closure
+   captures the value.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
