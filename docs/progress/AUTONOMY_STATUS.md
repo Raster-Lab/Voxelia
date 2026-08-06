@@ -8942,6 +8942,80 @@ oracle campaigns.
   git diff --check
   ```
 
+- Two-hundred-fifty-seventh autonomous increment (`ADR-0228` +
+  `VOXELIA-ALG-0047` + oracle, increment (b) design): **series grouping is
+  designed, and it found an omission in `ADR-0227` one increment after
+  accepting it.**
+
+  `CTFrameDescription` cannot say which series a frame belongs to.
+  `sourceIdentity` is per-frame by construction — it is what distinguishes one
+  slice from the next — and a frame of reference is shared across every series
+  in a study acquired without moving the patient. So two co-located
+  acquisitions are, to increment (a)'s vocabulary, indistinguishable from one
+  acquisition with duplicated geometry, and **no geometric rule can ever
+  separate them**, because occupying the same space is precisely what they do.
+  `CTFrameDescription` gains a required `seriesIdentity`. `ADR-0227` is **not
+  edited**; `ADR-0228` carries the correction and the implementing commit will
+  state it.
+
+  `VOX-DCM-004` reads precisely on this: assembly must use position and
+  orientation "rather than filename or instance number **alone**". A series
+  identity is neither — it is identity supplied by the source. The requirement
+  forbids leaning on ordinal accidents, not on identity.
+
+  **The central decision is what the grouping key excludes.** The key is
+  identity only: series identity, coordinate space, frame of reference. No
+  scanner-supplied approximate value takes part — not orientation, not spacing,
+  not position, not the grid extents, not the scalar format. Scanners emit
+  orientation as decimal strings, and two spellings of one intended value can
+  parse to doubles differing in the last bit; keyed on orientation, such a
+  series **splits into single-frame groups**, each internally consistent, and
+  the pipeline builds several volumes where it should have reported one
+  irregular series. Excluding it delivers the near-agreeing frames to increment
+  (c) as one group, which is the only place a tolerance may be decided. Fixture
+  F14 exists to hold that line.
+
+  The grid extents are excluded **even though a volume plainly requires a
+  uniform grid**, and that is the uncomfortable case the principle has to
+  survive: mixed extents make a group invalid, and "invalid" is (c)'s verdict to
+  return. Keying on them would convert a rejectable series into two accepted
+  volumes. The coordinate space *is* in the key, because it is a Voxelia-assigned
+  tag rather than scanner data — it cannot nearly agree, and the projection has
+  no meaning across two spaces. The distinction is the value's provenance, not
+  its subject.
+
+  `VOXELIA-ALG-0047` freezes the arithmetic: an unnormalised cross product of
+  the anchor frame's directions, then a dot product with each position, both in
+  fixed expression order with no FMA, no epsilon and no square root. The
+  **anchor is the member first in exact identity byte order**, so the whole
+  result is a pure function of the *set* of frames, not their arrival sequence.
+  Normalising was rejected — a square root would add a magnitude threshold and
+  leave the ordering unchanged, since positive scaling preserves it.
+
+  Three facts are reported and none is an error here: a degenerate normal from
+  parallel directions, a non-finite normal, and a non-finite projection. When
+  any holds, ordering by projection has no meaning and falls back to identity
+  order, with the projections still reported as the evidence. Rejecting is
+  `ADR-0226` decision 7's assignment to (c).
+
+  Fifteen oracle fixtures. Three earn their place specifically: **F4** is
+  oblique, so the correct order is *not* the order of any coordinate — `f2` at
+  `(4,5,6)` precedes `f1` at `(1,2,3)` — and any implementation that sorted by
+  z would pass F1 and fail here. **F8** has a finite normal and an overflowing
+  projection, separating two observations an implementation might conflate.
+  **F10** nearly cancels to a `-1e-16` normal, so any epsilon large enough to
+  look reasonable would merge two distinct slices. **F15** is retained as a
+  *discharged* concern, not a live fixture: `Point3D` canonicalises signed zero,
+  so its `-0.0` input cannot reach the algorithm through the accepted type.
+
+  ```text
+  python3 docs/progress/evidence/ADR-0228-series-grouping-oracle.py
+  python3 Tools/Scripts/generate_requirement_index.py --check
+  Tools/Scripts/validate-docs.sh
+  python3 Tools/Scripts/check_release_integrity.py --write
+  git diff --check
+  ```
+
 - Governance: `ADR-0028` was accepted by the project owner on 2026-08-04,
   selecting the shared Core-owned `CanonicalInstant` for the raw metadata and
   provenance strings: one bounded uppercase zero-offset RFC 3339-derived
@@ -15071,15 +15145,18 @@ Increment (a) is done: accepted `ADR-0227` implements `CTFrameDescription` in
 axis convention fixed by index and every tolerance question deliberately
 withheld.
 
-The exact next action is `ADR-0226` increment (b): **series grouping**
-(`VOX-VS1-002`, `VOX-DCM-004`), assembling frames by spatial position and
-orientation rather than filename or instance number. Design-first, and note the
-boundary it shares with (c): grouping decides *which frames belong together*,
-while (c) decides *whether a group is a representable volume*. Grouping should
-therefore use only rules that need no tolerance — exact frame-of-reference and
-coordinate-space agreement, and exact direction equality — and hand every
-approximate judgement to (c). If that split turns out not to hold, the finding
-belongs in the record rather than in a silently widened grouping rule.
+Increment (b)'s design is done: accepted `ADR-0228` and `VOXELIA-ALG-0047`, with
+a fifteen-fixture oracle. The predicted split held, but the increment found an
+`ADR-0227` omission instead — a frame description could not name its series —
+and the ledger's own guess that grouping would use "exact direction equality"
+was **wrong**, for the reason `ADR-0228` decision 3 records: exact direction
+equality silently splits a series that increment (c) should reject.
+
+The exact next action is the implementation of increment (b): add the required
+`seriesIdentity` to `CTFrameDescription`, then the series-assembly type,
+verified against every frozen fixture. `CTFrameDescription` gains a stored
+member, so the standing cross-module rule applies — `rm -rf .build` and a clean
+rebuild **before** final verification, not only if something looks broken.
 
 Increment (c) is the arc's hardest question and must not be pre-judged there
 either:

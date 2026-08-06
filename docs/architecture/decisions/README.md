@@ -414,3 +414,4 @@ The next unallocated numeric identifier is `ADR-0227`.
 | [ADR-0225](ADR-0225-unrun-pipeline-sweep-conclusion.md) | Accepted | Unrun pipeline sweep conclusion |
 | [ADR-0226](ADR-0226-dicom-ingest-arc.md) | Accepted | DICOM ingest arc |
 | [ADR-0227](ADR-0227-neutral-ct-frame-description.md) | Accepted | Neutral CT frame description |
+| [ADR-0228](ADR-0228-ct-series-grouping.md) | Accepted | CT series grouping |

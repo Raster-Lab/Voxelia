@@ -632,6 +632,7 @@ docs/algorithms/VOXELIA-ALG-0043-palette-colour-mapping.md
 docs/algorithms/VOXELIA-ALG-0044-rgb-source-presentation.md
 docs/algorithms/VOXELIA-ALG-0045-overlay-alpha-compositing.md
 docs/algorithms/VOXELIA-ALG-0046-progress-observation.md
+docs/algorithms/VOXELIA-ALG-0047-series-grouping-and-ordering.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -867,6 +868,7 @@ docs/architecture/decisions/ADR-0224-scaffold-gate-findings.md
 docs/architecture/decisions/ADR-0225-unrun-pipeline-sweep-conclusion.md
 docs/architecture/decisions/ADR-0226-dicom-ingest-arc.md
 docs/architecture/decisions/ADR-0227-neutral-ct-frame-description.md
+docs/architecture/decisions/ADR-0228-ct-series-grouping.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
@@ -916,6 +918,7 @@ docs/progress/evidence/ADR-0211-palette-colour-oracle.py
 docs/progress/evidence/ADR-0212-rgb-source-oracle.py
 docs/progress/evidence/ADR-0213-overlay-compositing-oracle.py
 docs/progress/evidence/ADR-0222-progress-observation-oracle.py
+docs/progress/evidence/ADR-0228-series-grouping-oracle.py
 docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md
 docs/progress/untraced-requirements.txt
 docs/project/README.md

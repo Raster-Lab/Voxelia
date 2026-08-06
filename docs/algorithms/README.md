@@ -50,3 +50,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0044](VOXELIA-ALG-0044-rgb-source-presentation.md) | Accepted | RGB source presentation `v1` |
 | [VOXELIA-ALG-0045](VOXELIA-ALG-0045-overlay-alpha-compositing.md) | Accepted | Overlay alpha compositing `binary64-v1` |
 | [VOXELIA-ALG-0046](VOXELIA-ALG-0046-progress-observation.md) | Accepted | Progress observation sequence `v1` |
+| [VOXELIA-ALG-0047](VOXELIA-ALG-0047-series-grouping-and-ordering.md) | Accepted | CT series grouping and slice ordering `binary64-v1` |

@@ -2936,8 +2936,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 5723,
-      "sha256": "35ddb9f18e06aff0c84bdd1318cd30f7a3a5f93d4eb86ff97e32fa643c3b88a0"
+      "size": 5861,
+      "sha256": "383d0fb51391ca70e111f44c837e5ba0de0e7a81f9c1dc997d231438db13f430"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3168,6 +3168,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0046-progress-observation.md",
       "size": 5018,
       "sha256": "796f4b51ddced59cad68f49cfa25c315c64b1bd1553502b46f5732c8a7da7e7d"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0047-series-grouping-and-ordering.md",
+      "size": 9529,
+      "sha256": "c7c4c05de19eb28f1d57c61e0c6faf3dc16ba2dc8c5968ce328180a3d009f32e"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -4345,9 +4350,14 @@
       "sha256": "5d0285a501bfede6454ff92ebe0597281f001c9ac0f4c10218dd099179cfeb0b"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0228-ct-series-grouping.md",
+      "size": 10088,
+      "sha256": "d0832da4a89071c4fe1435b25552e6f41dc8b106062052bbadd5ad257fad0a0f"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 34177,
-      "sha256": "66b02ba5cc65a35f9f2f04decf5f7649b9af1c8a54b15726e2609316d7d69b64"
+      "size": 34256,
+      "sha256": "13903b5ebe74eb389148a093f9fcac9fdd467ed295bb45ea9237e14267dd250d"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -4431,8 +4441,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 985531,
-      "sha256": "fe3f0e8a87d1d0142056871501549a96d2708539769c0a5182718cbdaf5be6a0"
+      "size": 990125,
+      "sha256": "47178aab75b0e7d906a7fce2d1e78559f0e68052d5d87521b3f1d7015ff6b934"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -4588,6 +4598,11 @@
       "path": "docs/progress/evidence/ADR-0222-progress-observation-oracle.py",
       "size": 5999,
       "sha256": "3c985ef3d06131eef468a186ac9987eb3b1b31efd8c677cab430e6f2b819c920"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0228-series-grouping-oracle.py",
+      "size": 12132,
+      "sha256": "b9239ca67c14cc3aff8ed1809c5ff71ad6cf979e1c2e347bcaf41a78c0b8be29"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -4901,8 +4916,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 54701,
-      "sha256": "85e1e9bf06e0e2fe8bb3f4df0defd2000b3fbf0558fbb56df1e5d53b867bdae6"
+      "size": 54883,
+      "sha256": "7cb2d4a0c76663ccd76058fcad6178f7b7843569d07d0f94eb906696c1d97cd4"
     }
   ]
 }
