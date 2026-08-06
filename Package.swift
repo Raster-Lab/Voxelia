@@ -21,6 +21,7 @@ let package = Package(
         .library(name: "VoxeliaInteraction", targets: ["VoxeliaInteraction"]),
         .library(name: "VoxeliaCPU", targets: ["VoxeliaCPU"]),
         .library(name: "VoxeliaMetal", targets: ["VoxeliaMetal"]),
+        .library(name: "VoxeliaCompression", targets: ["VoxeliaCompression"]),
         .library(name: "VoxeliaValidation", targets: ["VoxeliaValidation"]),
         .library(name: "VoxeliaDICOMKit", targets: ["VoxeliaDICOMKit"]),
         .library(name: "Voxelia", targets: ["Voxelia"]),
@@ -37,6 +38,7 @@ let package = Package(
         .target(name: "VoxeliaStorage", dependencies: ["VoxeliaCore"]),
         .target(name: "VoxeliaExecution", dependencies: ["VoxeliaStorage"]),
         .target(name: "VoxeliaImaging", dependencies: ["VoxeliaExecution"]),
+        .target(name: "VoxeliaCompression", dependencies: ["VoxeliaCore"]),
         .target(
             name: "VoxeliaGeometry",
             dependencies: ["VoxeliaCore", "VoxeliaSpatial"]
@@ -105,6 +107,14 @@ let package = Package(
         .testTarget(
             name: "VoxeliaDICOMKitTests",
             dependencies: ["VoxeliaDICOMKit", "VoxeliaTestSupport"]
+        ),
+        .testTarget(
+            name: "VoxeliaCompressionTests",
+            dependencies: [
+                "VoxeliaCompression",
+                "VoxeliaStorage",
+                "VoxeliaTestSupport",
+            ]
         ),
         .testTarget(
             name: "VoxeliaGeometryTests",

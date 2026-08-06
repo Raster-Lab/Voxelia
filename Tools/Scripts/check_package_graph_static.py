@@ -20,6 +20,9 @@ EXPECTED = {
     "VoxeliaInteraction": {"VoxeliaRendering"},
     "VoxeliaCPU": {"VoxeliaImaging", "VoxeliaGeometry", "VoxeliaExecution"},
     "VoxeliaMetal": {"VoxeliaExecution", "VoxeliaRendering"},
+    "VoxeliaCompression": {"VoxeliaCore"},
+    "VoxeliaTestSupport": {"VoxeliaCore", "VoxeliaValidation"},
+    "VoxeliaDICOMKit": {"VoxeliaImaging"},
     "VoxeliaValidation": {"VoxeliaCPU", "VoxeliaMetal"},
     "Voxelia": {
         "VoxeliaSpatial", "VoxeliaCore", "VoxeliaStorage", "VoxeliaExecution",
@@ -51,6 +54,22 @@ for match in re.finditer(r"\.target\s*\(", text):
 
 errors: list[str] = []
 actual: dict[str, set[str]] = {}
+
+# Every Voxelia target in the manifest must be registered above. Without this the
+# check only visits what EXPECTED already lists, so adding a module silently
+# escapes graph review -- which is how VoxeliaDICOMKit went unchecked from ADR-0233
+# until ADR-0256 added a second module and noticed.
+unregistered = sorted(
+    name
+    for name in blocks
+    if name.startswith("Voxelia") and name not in EXPECTED
+)
+if unregistered:
+    errors.append(
+        "unregistered Voxelia targets: "
+        + ", ".join(unregistered)
+        + ". Add each to EXPECTED with its declared dependencies."
+    )
 for name, expected in EXPECTED.items():
     block = blocks.get(name)
     if block is None:

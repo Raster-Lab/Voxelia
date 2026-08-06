@@ -11,6 +11,7 @@ EXPECTED_ARCHIVES = frozenset(
     {
         "Voxelia.doccarchive",
         "VoxeliaDICOMKit.doccarchive",
+        "VoxeliaCompression.doccarchive",
         "VoxeliaCPU.doccarchive",
         "VoxeliaCore.doccarchive",
         "VoxeliaExecution.doccarchive",

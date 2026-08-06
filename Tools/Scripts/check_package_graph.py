@@ -19,6 +19,12 @@ EXPECTED = {
     "VoxeliaInteraction": {"VoxeliaRendering"},
     "VoxeliaCPU": {"VoxeliaImaging", "VoxeliaGeometry", "VoxeliaExecution"},
     "VoxeliaMetal": {"VoxeliaExecution", "VoxeliaRendering"},
+    "VoxeliaCompression": {"VoxeliaCore"},
+    # Only `byName` dependencies are extracted below, so the external DICOMKit
+    # product this target also links is not visible here. That linkage is gated by
+    # check_licence_policy.py's TARGETS_PERMITTED_EXTERNAL_PRODUCTS instead.
+    "VoxeliaDICOMKit": {"VoxeliaImaging"},
+    "VoxeliaTestSupport": {"VoxeliaCore", "VoxeliaValidation"},
     "VoxeliaValidation": {"VoxeliaCPU", "VoxeliaMetal"},
     "Voxelia": {
         "VoxeliaSpatial", "VoxeliaCore", "VoxeliaStorage", "VoxeliaExecution",
@@ -46,6 +52,26 @@ for name in EXPECTED:
     actual[name] = deps
 
 errors = []
+
+# Every Voxelia library or support target the manifest declares must be registered
+# above. Without this the check only visits what EXPECTED lists, so a new module
+# escapes graph review entirely -- VoxeliaDICOMKit did so from ADR-0233 until
+# ADR-0256. Test targets are excluded: they depend on products by design and are
+# not part of the layered graph.
+unregistered = sorted(
+    name
+    for name, target in targets.items()
+    if name.startswith("Voxelia")
+    and name not in EXPECTED
+    and target.get("type") != "test"
+)
+if unregistered:
+    errors.append(
+        "unregistered Voxelia targets: "
+        + ", ".join(unregistered)
+        + ". Add each to EXPECTED with its declared dependencies."
+    )
+
 for name, expected in EXPECTED.items():
     if actual[name] != expected:
         errors.append(f"{name}: expected {sorted(expected)}, got {sorted(actual[name])}")

@@ -3490,10 +3490,53 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **TRACED IS NOT SATISFIED** and names the six blocked rows, because an empty
    allowlist must never be read as an arc completed.
 
-   **Next: increment (a)** — `VOX-CMP-002` + `VOX-CMP-007`: the `VoxeliaCompression`
-   target, its vocabulary, and tooling that enforces "compressed bytes are never
-   sampleable" (per `ADR-0196`'s lesson that an unenforced claim is not one). Neither
-   needs a codec dependency, so both proceed while the two owner questions are open.
+   **Increment (bb): `ADR-0256`, compression increment (a).** `VOX-CMP-002` and
+   `VOX-CMP-007` discharged. **1031 tests / 192 suites** after a clean rebuild (a new
+   target is a layout change).
+
+   `VoxeliaCompression` added, depending on **`VoxeliaCore` alone** — it needs
+   `ScalarFormat` and nothing more, and depending higher would put it beside the
+   reconstruction stack rather than below it.
+
+   **`VOX-CMP-007` enforced THREE ways, none of them a comment asking the reader to be
+   careful:** `CompressedPayload` does not conform to `ImageStorageContract` (asserted
+   by test, **with a real-conformer positive control** so the predicate is known to be
+   able to match); `VoxeliaCompression` may not import Metal, so it cannot build a
+   texture; and **`VoxeliaMetal` may not import `VoxeliaCompression`**, so the module
+   that *can* build textures cannot even name a compressed value. The third is the one
+   a reader would not think to add, and it is `ADR-0196`'s lesson applied before an
+   audit rather than after.
+
+   **No format identifier, deliberately** — a string field here is exactly how a
+   toolkit-native cache gets mislabelled as interoperable; labelling is `VOX-CMP-013`,
+   increment (b). **Every shape member is named `declared`**, because nothing here can
+   verify what the codestream decodes to without a codec. Byte count derived at
+   admission, never supplied. Both overflow multiplications checked, with a maximal
+   admissible shape tested from the accepted side.
+
+   **The finding: two graph checks could not see a new module.** Both
+   `check_package_graph.py` and `check_package_graph_static.py` iterate over their own
+   `EXPECTED` map, so a target absent from it was never visited — and the consequence
+   was already live: **`VoxeliaDICOMKit` had been unregistered since `ADR-0233`** and
+   its dependencies had never been graph-reviewed by either tool. `VoxeliaTestSupport`
+   never had either. Both checks now fail on any unregistered Voxelia target; all
+   three are registered; test targets are excluded because they depend on products by
+   design.
+
+   **Everything new was negative-tested rather than assumed**: unregistering
+   `VoxeliaCompression` → "unregistered Voxelia targets"; declaring a wrong dependency
+   → "expected [...], got [...]"; adding `import VoxeliaCompression` to a
+   `VoxeliaMetal` source → the expected refusal. The new rule found
+   `VoxeliaTestSupport` on its very first run.
+
+   One limitation recorded rather than hidden: the dynamic check extracts only
+   `byName` deps, so `VoxeliaDICOMKit`'s external product linkage is invisible to it —
+   that is gated by `check_licence_policy.py` instead, and the expectation carries a
+   comment saying so rather than listing a dependency the extractor cannot see.
+
+   **Next: increment (b)** — `VOX-CMP-013`, the labelling rule that lets a format
+   identifier exist without a toolkit-native representation ever being presentable as
+   a standard DICOM transfer syntax. Still no codec needed.
 
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
