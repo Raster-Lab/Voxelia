@@ -255,7 +255,9 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0387` is allocated to volumetric shadows.
 `ADR-0388` is allocated to lighting and transillumination.
 `ADR-0389` is allocated to the documented scattering approximation.
-The next unallocated numeric identifier is `ADR-0390`.
+`ADR-0390` is allocated to deterministic reference seeds.
+`ADR-0391` is allocated to progressive convergence exposure.
+The next unallocated numeric identifier is `ADR-0392`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -628,3 +630,5 @@ The next unallocated numeric identifier is `ADR-0390`.
 | [ADR-0387](ADR-0387-volumetric-shadows.md) | Accepted | Volumetric shadows |
 | [ADR-0388](ADR-0388-lighting-and-transillumination.md) | Accepted | Lighting and transillumination |
 | [ADR-0389](ADR-0389-the-documented-scattering-approximation.md) | Accepted | The documented scattering approximation |
+| [ADR-0390](ADR-0390-deterministic-reference-seeds.md) | Accepted | Deterministic reference seeds |
+| [ADR-0391](ADR-0391-progressive-convergence-exposure.md) | Accepted | Progressive convergence exposure |

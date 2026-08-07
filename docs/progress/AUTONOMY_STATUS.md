@@ -8022,3 +8022,33 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    deterministic reference-mode seeds first (a seeded deterministic
    sample-sequence vocabulary), then convergence/variance exposure,
    then safe temporal-accumulation reset.
+
+1. **2026-08-07 — ~~`VOX-PRR-010`~~ DISCHARGED: deterministic reference
+   seeds (`ADR-0390` + `VOXELIA-ALG-0079`).** SplitMix64 over exact
+   wrapping 64-bit arithmetic — no system generator, no hidden entropy,
+   no rounding anywhere; fixtures pinned WORD FOR WORD for seeds 0,
+   0xDEADBEEF and 42. The seed is caller-declared and DEFAULTLESS: a
+   default seed would make "deterministic" mean "accidentally
+   reproducible" — reference renders declare and record their seed.
+   Unit samples are the top 53 bits scaled by 2^-53, exact binary64 in
+   [0,1).
+
+1. **2026-08-07 — ~~`VOX-PRR-011`~~ + ~~`VOX-PRR-012`~~ DISCHARGED:
+   progressive convergence exposure (`ADR-0391` + `VOXELIA-ALG-0080`).
+   THE DETERMINISM ARC'S ENGINEERING IS CLOSED.** Convergence is THREE
+   NUMBERS — count, Welford mean, unbiased variance (frozen order,
+   bit-pinned) — and no invented "percent converged" score: hosts read
+   the variance and decide. Variance is ABSENT below two samples; a
+   non-finite sample refuses typed without poisoning the running
+   state. Temporal accumulation is keyed to a declared
+   `SceneStateFingerprint` — scene, camera, transfer function, source
+   data: the row's four triggers VERBATIM — and `TemporalAccumulation`
+   RESETS BEFORE accumulating on any change (witnessed per trigger,
+   each alone): stale accumulation is unrepresentable, not
+   discouraged. Reset, not reprojection, in v1 — the safe branch of
+   the row's own disjunction, recorded. Full suite: `✔ Test run with
+   1424 tests in 268 suites passed`. **Next**: M8 arc 4, presentation
+   and integrity — material-separated presentation, explicit versioned
+   denoising in provenance, the no-implicit-generative-reconstruction
+   guard, side-by-side over one authoritative scene state, and the
+   multi-dimensional transfer-function row.

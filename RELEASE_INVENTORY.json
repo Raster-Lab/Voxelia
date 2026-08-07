@@ -1580,6 +1580,11 @@
       "sha256": "f71b1b9804038dcc34c6a581e6e4bac906b72baac9eae4bb05bfb1cc03f197db"
     },
     {
+      "path": "Sources/VoxeliaPhotorealistic/Public/DeterministicSequence.swift",
+      "size": 1181,
+      "sha256": "b0bd9a16325ad63bd819f2f377892abb03a563a13ca8e564e09e644949108778"
+    },
+    {
       "path": "Sources/VoxeliaPhotorealistic/Public/LightingTransillumination.swift",
       "size": 3650,
       "sha256": "62c4d5f7ede9ca5d27d1ea93ca985759ca134698c8c56bcfc37555917d9d5926"
@@ -1588,6 +1593,11 @@
       "path": "Sources/VoxeliaPhotorealistic/Public/PhotorealisticFoundation.swift",
       "size": 1871,
       "sha256": "f60a9943d97c4e98ef62254e59bd082ab790d26142dcc7daa1df5c8e4328a11d"
+    },
+    {
+      "path": "Sources/VoxeliaPhotorealistic/Public/ProgressiveAccumulation.swift",
+      "size": 4131,
+      "sha256": "977110118d006003b1b431746f79e41a1951426ccb803baee2a258d6715014b2"
     },
     {
       "path": "Sources/VoxeliaPhotorealistic/Public/VolumetricIllumination.swift",
@@ -3040,6 +3050,11 @@
       "sha256": "e9831cd898298a89bf5628b09c15c986fa10cc0e7e327e48da9911f729286e2f"
     },
     {
+      "path": "Tests/VoxeliaPhotorealisticTests/DeterministicSequenceTests.swift",
+      "size": 1507,
+      "sha256": "7fba33b9d2d98f391609120e9711dd487d538c21af449f5cdf9929d1d51a12c4"
+    },
+    {
       "path": "Tests/VoxeliaPhotorealisticTests/LightingTransilluminationTests.swift",
       "size": 4175,
       "sha256": "463c5532df3be9e33493d50edb3acf9fd07b7aa487be9b2e8198b2416573d882"
@@ -3048,6 +3063,11 @@
       "path": "Tests/VoxeliaPhotorealisticTests/PhotorealisticFoundationTests.swift",
       "size": 1397,
       "sha256": "44c268df55d37292e28213eec0885e183d6e56bb87c9153037e65d959464ac88"
+    },
+    {
+      "path": "Tests/VoxeliaPhotorealisticTests/ProgressiveAccumulationTests.swift",
+      "size": 2969,
+      "sha256": "e2c5e7928160a8df175005cd2887391c2ef3daf4e705b50a6d4573656b9cff5c"
     },
     {
       "path": "Tests/VoxeliaPhotorealisticTests/ScatteringApproximationTests.swift",
@@ -3836,8 +3856,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 9563,
-      "sha256": "675cda1859d1d21ac13bd6b757fadd06b7b8be62c661630640622562a09fbc1e"
+      "size": 9791,
+      "sha256": "0a1e286dc8b51303c7c256c9bed81d8bb0a143702b203099ec30dc964fcf546d"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -4228,6 +4248,16 @@
       "path": "docs/algorithms/VOXELIA-ALG-0078-lighting-transillumination.md",
       "size": 2835,
       "sha256": "4082d0739f9bd6b56e3f59b641ff78577bde1a8056d32268969aecfcbee022aa"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0079-deterministic-sequence.md",
+      "size": 1927,
+      "sha256": "fdffa6b2bd6e7882046c9adfeca9b097302bc90b9a041c90d639294fc3ffec8a"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0080-progressive-variance.md",
+      "size": 1988,
+      "sha256": "c9a413134c7ad822f262499c997f178294d5cff8a880c3fc8951f6836b3edf7a"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -6215,9 +6245,19 @@
       "sha256": "a309c21aae5376316a030ff1b4bdee14598579519f2d5b60d8485454a1836a6c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0390-deterministic-reference-seeds.md",
+      "size": 2548,
+      "sha256": "6e2de178ec5f6f0c62121402cf17890076bd5be3e1c74839700e008c5855289e"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0391-progressive-convergence-exposure.md",
+      "size": 3358,
+      "sha256": "06e652c248645b6ca1ee1c9097aecff6cf4d5f82ba4f89bb0297b1368101e1d0"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 53372,
-      "sha256": "72cafc5303f46b6f393a460f50a967ea7eedafd76383fe239d87d2c5b79c112d"
+      "size": 53699,
+      "sha256": "7b940f0c5f261f641cd1a72858a798a18847b97647d3035ff1f93c9da9b6ccfa"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6326,8 +6366,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 514915,
-      "sha256": "c9e8303d911b4af0533a339b8c585acf35db5b87ddf187527f03d78f4d77ae21"
+      "size": 516762,
+      "sha256": "6c44067a62cc16da2ba0a0cdb5ecbb6e482ab7536ab8e75a29f6b0915661cc51"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6648,6 +6688,16 @@
       "path": "docs/progress/evidence/ADR-0388-lighting-transillumination-oracle.py",
       "size": 1744,
       "sha256": "cdc1521ace63e4f43e170b26455849db9d4507835444ebd973765f47ba38e56e"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0390-deterministic-sequence-oracle.py",
+      "size": 1071,
+      "sha256": "a580cc2227049b0c386c204a36b04c28492cb0c863fbc81abb3cf43bcae809bd"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0391-progressive-variance-oracle.py",
+      "size": 975,
+      "sha256": "7451ffb64b8f61d9ad94a694a64cdfffc793a9e5c8392c9342e36ef2a6006f10"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -6986,8 +7036,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 80620,
-      "sha256": "0c1c48498475a6dda10709e68f12da6d837731d864c6cfb2f25de902791f74bc"
+      "size": 81273,
+      "sha256": "016cf19c7531ad80b398ee81393636f0e3ab8703246a28f1c72b2aa8c6f5bf6a"
     }
   ]
 }
