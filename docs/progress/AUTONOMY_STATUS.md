@@ -7897,3 +7897,41 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    there); if all remaining M7 rows are owner-blocked or need the
    optimiser design, open M8 (photorealistic rendering, 17 rows) per the
    finish plan.
+
+1. **2026-08-07 — ~~`VOX-REG-005`~~ DISCHARGED, closing it: the initial
+   portfolio is complete (`ADR-0383`, completion record only). M7'S
+   ENGINEERING IS COMPLETE.** The row's text demands landmark, rigid and
+   affine registration — all three exist with bit-pinned fixtures and
+   the `ADR-0374` end-to-end witness. "Intensity-driven members" was
+   this ledger's own inflation of "initial", and the correction is
+   recorded rather than built to (`ADR-0338` d10: scope the baseline
+   did not ask for is not taken autonomously). When intensity
+   registration is wanted, metrics, pyramids, the outcome seam and the
+   result record are its prepared substrate. THE OWNER BATCH, in one
+   place: (1) VTK/ITK package scope or post-1.0 deferral; (2) the
+   segmentation reference AI adapter; (3) DICOMKit fix-what-surfaces
+   confirmation; (4) Metal-acceptance for registration
+   (`ADR-0374` R); (5) validated-distribution semantics +
+   diagnostic-policy acceptance (`ADR-0382` R); plus at M8 need: the
+   reference-hardware question IF a photorealistic row demands measured
+   targets.
+
+1. **2026-08-07 — M8 OPENED: the M8 queue is derived (`ADR-0384`,
+   planning record).** Five arcs in dependency order: (1) module
+   foundation — optional module, disable-independence, quality-mode
+   vocabulary; (2) physics core — volumetric illumination, shadows,
+   area/environment lighting, transparency/transillumination,
+   multiple-scattering-or-documented-approximation, each optical model
+   a frozen ALG with an independent oracle; (3) determinism and
+   progression — deterministic reference seeds, convergence/variance
+   exposure, safe temporal-accumulation reset; (4) presentation and
+   integrity — material separation, explicit versioned denoising in
+   provenance, NO implicit generative reconstruction, side-by-side over
+   one authoritative scene state, multi-dimensional transfer functions;
+   (5) validation — convergence/reproducibility/feature preservation +
+   thin-structure presets (both with owner `R` halves). The M9
+   partitioning row waits for its milestone. Baseline shrinks by
+   EIGHTEEN (the queue's rows are now traced; traced is not satisfied —
+   the ledger tracks discharge). **Next**: arc 1 — the optional
+   `VoxeliaPhotorealistic` module with its quality-mode vocabulary and
+   the disable-independence seam.

@@ -6120,9 +6120,19 @@
       "sha256": "d1454f7e2d024974fc8661913fec6a3ecb99312521505ce3691b998693610574"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0383-the-initial-portfolio-is-complete.md",
+      "size": 3335,
+      "sha256": "7581c54b8bb37e2f2d86fef6962c06de00189476423eb7a684146034fd14276b"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0384-the-m8-queue.md",
+      "size": 3600,
+      "sha256": "0e6508d0330aeb4b2beb9b562529b1be072caa34b5a8af679c59dc4e96fb53f4"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 52302,
-      "sha256": "36db6e74db3b33c8939fd6e0bd590fc5fc6f6cc7033e004b78aa00b34052f2e0"
+      "size": 52580,
+      "sha256": "479ecc5235708c27090598096a9780b0e1bbcfa07348d2e1edeff6ed7ccc1deb"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6226,8 +6236,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 507045,
-      "sha256": "2290cba97bd8587419295db4db19c37071270704c8830c1afa84afcffde26780"
+      "size": 509411,
+      "sha256": "f0ad378aa38d54c964124e4d4fcf13ef60958ba16e561d7808e01a49b555c2db"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6556,8 +6566,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 1477,
-      "sha256": "d5a30193998e933ef2cdab34a8bf2d595da57a364fbfae48ad715f2e4f4ff645"
+      "size": 1261,
+      "sha256": "740965b0ea98c7a98530b232704fbfc772ee78e9dcfd3840eddc26c424b395fb"
     },
     {
       "path": "docs/project/README.md",
@@ -6871,8 +6881,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 79125,
-      "sha256": "ff0b4df2073398b0906041a9c8d60b34dfee0c9955666372891ae67667f9374d"
+      "size": 79252,
+      "sha256": "fb9111d9d5f1e49984798d0fb1480a5df4d0e302fdcee4c4f0bec81b8729bf14"
     }
   ]
 }

@@ -1222,6 +1222,8 @@ docs/architecture/decisions/ADR-0379-the-source-package-extension-mechanism.md
 docs/architecture/decisions/ADR-0380-the-registration-declaration-contract.md
 docs/architecture/decisions/ADR-0381-implementation-provenance.md
 docs/architecture/decisions/ADR-0382-the-diagnostic-selection-guard.md
+docs/architecture/decisions/ADR-0383-the-initial-portfolio-is-complete.md
+docs/architecture/decisions/ADR-0384-the-m8-queue.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md
