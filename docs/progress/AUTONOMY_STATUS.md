@@ -5899,6 +5899,31 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **8 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (dddd): `ADR-0311` — MPS boundary; `VOX-ADP-006` discharged (I+T).**
+   1235/218 unchanged. **No source changed.**
+
+   **Measured: ZERO MPS usage anywhere**, and **`MetalPerformanceShaders` was not in the
+   prohibited-import gate AT ALL**. The property held because nobody had used it; any target
+   could have imported it tomorrow unopposed. **Eighth instance** of the pattern.
+
+   **A BOUNDARY, NOT A BAN — the wording was nearly misread.** The row says MPS is
+   **permitted**, *only behind validated Voxelia operations*. Forbidding it outright would be
+   simpler to enforce and would answer a **different requirement** — the same trap `ADR-0302`
+   avoided with temporary files. The boundary is **the module**: `VoxeliaMetal` may import it
+   (the one target where a validated wrapper would live); every other target refuses it, which
+   keeps MPS types out of general APIs structurally — **a type a module cannot import is a type
+   it cannot name in a signature**.
+
+   **PROVEN IN BOTH DIRECTIONS, and the second is the one that matters**: MPS in
+   `VoxeliaRendering` → failed, named by path, exit 1; MPS in `VoxeliaMetal` → **passed**,
+   exit 0. **A gate that failed on both would have enforced a prohibition the requirement does
+   not state.**
+
+   **Exemption is one MODULE, not one file** — a narrower rule would have to name the file a
+   future operation lives in, and would be wrong the moment it moves.
+
+   **7 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

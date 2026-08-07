@@ -120,6 +120,16 @@ WINDOWING = {"AppKit", "UIKit", "SwiftUI", "MetalKit"}
 for target in PROHIBITED:
     PROHIBITED[target] = PROHIBITED[target] | WINDOWING
 
+# `VOX-ADP-006` permits Metal Performance Shaders **only behind validated Voxelia
+# operations**, so this is a boundary rather than a ban, per `ADR-0311`. `VoxeliaMetal` is the
+# one target that may import it, because it is the one where a validated operation wrapping it
+# would live. Every other target refuses it, which is what keeps MPS types out of general
+# APIs: a type a module cannot import is a type it cannot name in a signature.
+ACCELERATION = {"MetalPerformanceShaders", "MetalPerformanceShadersGraph"}
+for target in PROHIBITED:
+    if target != "VoxeliaMetal":
+        PROHIBITED[target] = PROHIBITED[target] | ACCELERATION
+
 pattern = re.compile(r"^\s*import\s+([A-Za-z_][A-Za-z0-9_]*)", re.MULTILINE)
 errors = []
 for target, prohibited in PROHIBITED.items():
