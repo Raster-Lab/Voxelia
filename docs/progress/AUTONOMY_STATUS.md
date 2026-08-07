@@ -8052,3 +8052,36 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    denoising in provenance, the no-implicit-generative-reconstruction
    guard, side-by-side over one authoritative scene state, and the
    multi-dimensional transfer-function row.
+
+1. **2026-08-07 — ~~`VOX-PRR-009`~~ + ~~`VOX-PRR-013`~~ + ~~`VOX-PRR-014`~~
+   (T halves; `R` to the owner batch) + ~~`VOX-PRR-015`~~ +
+   ~~`VOX-DVR-006`~~ DISCHARGED: the presentation and integrity arc
+   (`ADR-0392..0395`, `ALG-0081/0082`, commit `fde20aa`). M8 ARC 4 IS
+   CLOSED.** (This entry landed one commit late: the anchor assert
+   caught a wrapped-tail mismatch AFTER `fde20aa` was pushed — recorded,
+   not hidden, per the standing repair rule.) Material separation
+   (`ALG-0081`): ONE shared opacity walk identical to the integrator,
+   radiance RECORDED per declared material — a bone window in front of
+   a vessel still shadows the vessel; no combined image computed
+   (summing per-material triples rounds differently than the plain
+   integration, and the model refuses to pretend bit-equality).
+   Declared post-processing (`ADR-0393`): a closed
+   denoising/generativeReconstruction vocabulary, each step carrying a
+   full `SoftwareIdentity` + method — anonymous or unversioned
+   post-processing is UNREPRESENTABLE, and "implicit generative
+   reconstruction" is a type error, not a policy violation; the module
+   contains no denoiser and no generative model (the I half), and the
+   generative-ACCEPTANCE policy `R` joins the owner batch. Side-by-side
+   (`ADR-0394`): both panes bound to ONE `SceneStateFingerprint` by
+   construction — no API accepts two. Multi-dimensional transfer
+   (`ALG-0082`, in `VoxeliaRendering` where the conventional row
+   lives): declared intensity x gradient tables with the metric bin
+   rule, verbatim entries, NO interpolation in v1, out-of-range REFUSES
+   (a clamped colour is a fabricated classification), material
+   conditioning by exact index. Full suite: `✔ Test run with 1432 tests
+   in 272 suites passed`. **Next**: M8 arc 5, validation — the
+   engineering halves of the convergence/reproducibility/
+   feature-preservation row and the thin-structure preset row (both `R`
+   halves join the owner batch), witnessed over the seeded sequence,
+   the accumulator and the single-scattering composition; then M8's
+   engineering closes and M9 opens.
