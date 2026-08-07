@@ -5245,9 +5245,14 @@
       "sha256": "b55bacd0a96fd27e115b26d2e2aa172cb7069095dc0adbf7ad1f6c743b38c832"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0319-rederive-the-unclaimed-queue.md",
+      "size": 6069,
+      "sha256": "1cd1b784410f7830d6cd1483e8ad4bc048dc4d7051f8fff3e7959c4ea216349a"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 43520,
-      "sha256": "67240852197a5d8a253e54423aa0d3110d16d4ca56eb09bad781e616cdcf5075"
+      "size": 43619,
+      "sha256": "89954d4264e79ec240f20b23d21a6f4658219511cfbb2772d1273c436b83960b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5341,8 +5346,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 395492,
-      "sha256": "b4c701816acdb33b86287b1f8e5ccefd234ad5784665c50f01344727c1bc1b12"
+      "size": 397356,
+      "sha256": "6c7a22b0022849ab78927533d9ed9a76f12172cd4fde37ebbc4b2e0b077c7c2c"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5861,8 +5866,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67001,
-      "sha256": "6e38a2ece334d4762abfd6aaf19b19d0e5bee61f5a439563c0e7399c7de17fed"
+      "size": 67070,
+      "sha256": "101f86c19d1fc5308a345ef25a20e3b4785a9e5d960afbf69f7498ce39494aa4"
     }
   ]
 }

@@ -6113,3 +6113,31 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Row NOT fully discharged** — the GPU half stays on `ADR-0315`'s owner item, exactly as
    `ADR-0317` split it. **5 rows remain.**
+
+   **Increment (llll): `ADR-0319` — the queue REDERIVED; MY OWN COUNT WAS WRONG.** 1238/219
+   unchanged; no code.
+
+   **I had been decrementing a COPIED SNAPSHOT, not measuring.** Records in this arc counted
+   20 → 18 → 17 → … → 5 off `ADR-0290`'s list. Rederiving mechanically: **356 entered-milestone
+   rows, 340 claimed in some ADR's front matter, 16 UNCLAIMED.** Sixteen, not five.
+   `ADR-0290`'s list was a correct snapshot of its moment and **became a stale copy the instant
+   it was written**; every increment that decremented it inherited that staleness. **This is
+   the same defect the arc found eight times in code — a value asserted once and never
+   recomputed — occurring in my own reporting.**
+
+   **Criterion, stated so it can be RERUN**: a row is *claimed* when some `ADR-*.md` names it
+   in `affected_requirements`. Deliberately narrower than the traceability gate, which passes
+   on a **mention** anywhere. **Claimed is still not discharged** — `VOX-PER-006` and
+   `VOX-CON-008` are both claimed and both recorded unbuilt.
+
+   **The 16**: `VOX-REP-001/002/003`, `VOX-LIC-002`, `VOX-DOC-003` (M0); `VOX-DAT-002/003`,
+   `VOX-SPA-010` (M1); `VOX-IMG-003/004/008` (M2); `VOX-CON-005` (M3); `VOX-ADP-003`,
+   `VOX-BRK-009`, `VOX-DVR-013`, `VOX-PER-004` (M6). **Most are almost certainly implemented**
+   — the repo has its directories, licence text and interpolation operations — the gap is that
+   **no record names them**, same shape as `VOX-R2D-001`/`VOX-VAL-006`/`VOX-ARC-009`.
+
+   **No gate added**: requiring front-matter claiming would be **red on 16 rows today**, and
+   `ADR-0301` established what that produces — a gate nobody can land.
+
+   **Next: the five M0 rows**, each claimed on evidence read for it. **The derivation is in the
+   record so it is RECOMPUTED, not read as another list to decrement.**
