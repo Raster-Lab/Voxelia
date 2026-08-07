@@ -43,6 +43,12 @@ struct ExtensionMechanismTests {
                     try ExecutionClaimToken(rawValue: "org.voxelia.quality.full")
                 ],
                 capabilityRequirements: []
+            ),
+            provider: try SoftwareIdentity(
+                name: "Example Imaging Ltd",
+                version: try SemanticVersion(major: 2, minor: 1, patch: 0),
+                commit: nil,
+                buildIdentifier: nil
             )
         )
     }
@@ -73,6 +79,26 @@ struct ExtensionMechanismTests {
                 )
             ).count == 1
         )
+    }
+
+    @Test("[Unit][VOX-EXT-005] a third-party entry provides inspectable provenance")
+    func aThirdPartyEntryProvidesInspectableProvenance() throws {
+        // The provider identity is registry data a host reads before
+        // any trust decision — not a comment in the extension's README.
+        let standard = try CPUBackendRegistrations.standard()
+        let extended = try ImplementationRegistry(
+            implementations: standard.implementations + [try thirdPartyEntry()]
+        )
+        let found = extended.implementations(
+            for: try DerivationOperationToken(rawValue: "com.example.op.vesselness")
+        )
+        #expect(found.count == 1)
+        #expect(found[0].provider.name == "Example Imaging Ltd")
+        #expect(found[0].provider.version.major == 2)
+        // First-party is a provider like any other, not an exemption.
+        for entry in standard.implementations {
+            #expect(entry.provider.name == "Voxelia")
+        }
     }
 
     @Test("[Unit][VOX-EXT-004] a duplicate identity pair refuses typed")

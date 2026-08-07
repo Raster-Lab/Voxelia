@@ -7852,3 +7852,24 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    provenance metadata; inspect what the evidence/identity fields
    already carry and what the row still demands), then the diagnostic
    guard row (`T,R`) to close the arc's engineering.
+
+1. **2026-08-07 — ~~`VOX-EXT-005`~~ DISCHARGED: implementation provenance
+   (`ADR-0381`).** `RegisteredImplementation` gains a required
+   `provider: SoftwareIdentity` — the ACCEPTED provenance vocabulary
+   every `ProvenanceRecord` already uses, not a new type. Defaultless:
+   an anonymous registration does not register. Built-ins carry
+   `Voxelia`/0.2.0 stated once per backend helper — first-party is a
+   provider like any other, not an exemption (witnessed across all 32
+   entries). The third-party witness declares `Example Imaging Ltd`/2.1.0
+   and the test reads it back FROM THE REGISTRY — host-inspectable data,
+   not a README comment. Trust is NOT decided here: the provider
+   identity is provenance, not approval; the diagnostic guard consumes
+   it next. Layout change → clean rebuild by standing rule, no
+   incremental gamble. Baseline shrinks by one. Full suite (clean
+   build): `✔ Test run with 1404 tests in 260 suites passed`. **Next**:
+   the arc's LAST row — the diagnostic-selection guard (`T,R`):
+   third-party implementations are not selected for diagnostic policy
+   unless explicitly approved by the host or a validated distribution.
+   Design the approval seam (an explicit host-supplied approval set the
+   selection admission checks against provider + identity), witness the
+   refusal and the approved path; the `R` half joins the owner batch.

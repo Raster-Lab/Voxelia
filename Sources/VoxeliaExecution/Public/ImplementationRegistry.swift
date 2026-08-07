@@ -119,6 +119,9 @@ public struct RegisteredImplementation: Sendable, Hashable {
     public let evidence: ValidationEvidenceID
     /// The `ADR-0380` envelope declaration; required, defaultless.
     public let declaredContract: DeclaredImplementationContract
+    /// The `ADR-0381` producer identity; required — an anonymous
+    /// registration does not register.
+    public let provider: SoftwareIdentity
 
     public init(
         operationID: DerivationOperationToken,
@@ -128,7 +131,8 @@ public struct RegisteredImplementation: Sendable, Hashable {
         precisionPolicy: ExecutionClaimToken,
         approximationStatus: ExecutionApproximationStatus,
         evidence: ValidationEvidenceID,
-        declaredContract: DeclaredImplementationContract
+        declaredContract: DeclaredImplementationContract,
+        provider: SoftwareIdentity
     ) {
         self.operationID = operationID
         self.operationVersion = operationVersion
@@ -138,6 +142,7 @@ public struct RegisteredImplementation: Sendable, Hashable {
         self.approximationStatus = approximationStatus
         self.evidence = evidence
         self.declaredContract = declaredContract
+        self.provider = provider
     }
 }
 

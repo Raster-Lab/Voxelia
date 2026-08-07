@@ -28,6 +28,12 @@ public enum MetalBackendRegistrations {
         let fullQuality = try ExecutionClaimToken(
             rawValue: "org.voxelia.quality.full"
         )
+        let provider = try SoftwareIdentity(
+            name: "Voxelia",
+            version: try SemanticVersion(major: 0, minor: 2, patch: 0),
+            commit: nil,
+            buildIdentifier: nil
+        )
         func image(
             _ ranks: DeclaredRankSupport,
             _ scalars: DeclaredScalarSupport,
@@ -73,7 +79,8 @@ public enum MetalBackendRegistrations {
                 precisionPolicy: precision,
                 approximationStatus: status,
                 evidence: evidenceID,
-                declaredContract: declared
+                declaredContract: declared,
+                provider: provider
             )
         }
         return try ImplementationRegistry(implementations: [

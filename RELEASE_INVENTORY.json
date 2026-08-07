@@ -396,8 +396,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift",
-      "size": 15735,
-      "sha256": "648cf828b43c9c6d16c9bb699f686d88958b0efde6ae2debea170504b5722b94"
+      "size": 15985,
+      "sha256": "a0cb4b3b554f369b9091fd2b2cb6e3c90a99e97dfd592c27716cacbc29b6abb3"
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPULabelledSurfaceExtractionOperation.swift",
@@ -966,8 +966,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/Public/ImplementationRegistry.swift",
-      "size": 6742,
-      "sha256": "3d3a7fbf18e354888e9d62442e4a864157097a6ae8c32bfc101463c402a61f52"
+      "size": 6961,
+      "sha256": "437653c386d2b07eba5ae6a05eb575546b53d3dc82cefc2ed104523cd79aefd1"
     },
     {
       "path": "Sources/VoxeliaExecution/Public/InvertDisplayOperation.swift",
@@ -1446,8 +1446,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalBackendRegistrations.swift",
-      "size": 4765,
-      "sha256": "85abf74de41c29ff2bb83c45d84df53a6e72733bf0f5b259f2aa433adc0387f5"
+      "size": 5015,
+      "sha256": "8c3f643f81b3a74128b8d5a820c9a5c3070aa55badc1311ccefbc1b6321b2342"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalCompositeKernel.swift",
@@ -3391,8 +3391,8 @@
     },
     {
       "path": "Tests/VoxeliaValidationTests/ExtensionMechanismTests.swift",
-      "size": 3451,
-      "sha256": "8bcfcd129f40d0d58d70e0bbc8252a834c6bd9d9df647986ecd89769801751e4"
+      "size": 4680,
+      "sha256": "7fd366bcc9876659321d98a92e34356fecd7a1a3e2c501447a0e2d5348057182"
     },
     {
       "path": "Tests/VoxeliaValidationTests/LinearRampPhantomTests.swift",
@@ -6100,9 +6100,14 @@
       "sha256": "c18686729e61ab58775d2d66dba0a8f4fe079b390164c07c495f925ed153f0e9"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0381-implementation-provenance.md",
+      "size": 3320,
+      "sha256": "5dd9e491366c29ae63bd90fc3f3c6a2755da1ea4caa19b3a551404c1b75f84e7"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 51993,
-      "sha256": "4b4af079a1e5bf803dee180da7645e5014e9736f21a5ec730da2ee77376348b4"
+      "size": 52140,
+      "sha256": "1714f7c0c1b49819ecc5887400e02a5255dc455d63a9d2114642c696c91a1234"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6206,8 +6211,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 504107,
-      "sha256": "7abf3908603408407c7cbe52f08bf3cbc80f2e4a4c08da0e983c058df68d27e6"
+      "size": 505505,
+      "sha256": "9277c12e88bbfb3914c9c0f1bef82c5a3c1df56b7cc3241f9160d85f8e56e7b3"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6536,8 +6541,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 1489,
-      "sha256": "9a22191bff4ce94d3bf777592481c13ae02d0c58556b34943a70edd22830e588"
+      "size": 1477,
+      "sha256": "d5a30193998e933ef2cdab34a8bf2d595da57a364fbfae48ad715f2e4f4ff645"
     },
     {
       "path": "docs/project/README.md",
@@ -6851,8 +6856,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 78870,
-      "sha256": "2cd2d4180a3be76441113643a34e9576e17bd1ebe2aa4ddbb6ae3080651854d1"
+      "size": 78936,
+      "sha256": "7cb46552c384a88b7944e10e471fd200d275012b052d7c665e2ecebf2ef28158"
     }
   ]
 }

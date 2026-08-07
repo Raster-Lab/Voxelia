@@ -36,6 +36,12 @@ public enum CPUBackendRegistrations {
         let fullQuality = try ExecutionClaimToken(
             rawValue: "org.voxelia.quality.full"
         )
+        let provider = try SoftwareIdentity(
+            name: "Voxelia",
+            version: try SemanticVersion(major: 0, minor: 2, patch: 0),
+            commit: nil,
+            buildIdentifier: nil
+        )
         func image(
             _ ranks: DeclaredRankSupport,
             _ scalars: DeclaredScalarSupport,
@@ -82,7 +88,8 @@ public enum CPUBackendRegistrations {
                 precisionPolicy: precision,
                 approximationStatus: .exact,
                 evidence: try Self.evidenceID(evidence),
-                declaredContract: declared
+                declaredContract: declared,
+                provider: provider
             )
         }
         return try ImplementationRegistry(implementations: [
