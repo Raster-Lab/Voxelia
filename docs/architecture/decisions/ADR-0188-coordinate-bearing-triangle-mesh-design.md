@@ -180,7 +180,7 @@ unchanged. No symbol is moved or re-exported.
 
 All derived byte products are overflow checked, structural failures occur
 before publication, and every new public error is payload-free. The values do
-not log, serialize or expose patient-identifying context.
+not log, serialise or expose patient-identifying context.
 
 ## Performance and memory impact
 

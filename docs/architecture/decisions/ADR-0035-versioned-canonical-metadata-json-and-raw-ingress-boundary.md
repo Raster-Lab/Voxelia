@@ -415,7 +415,7 @@ never be labelled `VCMJ-1`, and the canonical ingress path does not invoke the
 ordinary `MetadataValue` decoder for integer cases.
 
 All binary64 fields use the RFC 8785/ECMAScript shortest round-trip number
-serialization algorithm. This includes `MetadataFloatingPoint` and present
+serialisation algorithm. This includes `MetadataFloatingPoint` and present
 `MeasurementUnit` scale or offset values. Only finite values are valid;
 negative zero emits as `0`. Strict ingress parses with a vetted correctly
 rounded decimal-to-binary64 parser using round-to-nearest, ties-to-even. It then

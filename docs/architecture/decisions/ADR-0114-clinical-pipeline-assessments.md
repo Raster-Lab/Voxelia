@@ -35,7 +35,7 @@ autonomous delegation.
    metadata beside, not inside, the record; and the `VCPJ-1` emitter
    is fixed-schema with golden byte-equality fixtures pinning every
    byte of representative documents, so no unaccounted field can
-   serialize. The one deliberate opening is the row's own second arm:
+   serialise. The one deliberate opening is the row's own second arm:
    host-supplied identifiers and software identity are the host's
    explicit content, and hosts that embed identifying text in an
    object identifier have exercised exactly the permission the row

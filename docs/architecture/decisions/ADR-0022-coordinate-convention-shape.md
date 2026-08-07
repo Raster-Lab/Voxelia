@@ -144,7 +144,7 @@ M1 scope.
 This decision affects `VoxeliaSpatial` as owner and implementation site of
 `CoordinateConvention`. Existing downstream modules are affected only as
 consumers through current dependency edges; no dependency edge or other
-module ownership changes. This decision does not authorize the blocked
+module ownership changes. This decision does not authorise the blocked
 `CoordinateSpaceDescriptor`.
 
 ## Compatibility impact

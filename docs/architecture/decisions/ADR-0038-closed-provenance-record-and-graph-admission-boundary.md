@@ -437,7 +437,7 @@ ordered role-bearing component list. Callers must not concatenate several
 identities into one display string.
 
 An accepted provenance canonical profile must define strict tags, field order,
-null/absence behavior, exact string and integer forms, limits, unknown-field
+null/absence behaviour, exact string and integer forms, limits, unknown-field
 policy, record and graph schema versions, and a domain-separated content
 projection. Synthesised `Codable` is not that profile. Until it exists,
 external record digests, signed manifests and distributed provenance remain
@@ -467,7 +467,7 @@ Approximation status is distinct from execution quality and validation:
 - validation claims refer to evidence about an implementation/configuration.
 
 None may be inferred from another. A diagnostic profile cannot silently erase
-an approximation, a warning cannot silently downgrade diagnostic behavior and
+an approximation, a warning cannot silently downgrade diagnostic behaviour and
 a preview result cannot be relabelled diagnostic-ready because its numbers
 look plausible.
 
@@ -534,7 +534,7 @@ code before source.
 
 `unknown`, `experimental` and `preview` remain explicit claim states. A host
 must never interpret absence or decode failure as validated, and it must not
-substitute preview behavior for a diagnostic request.
+substitute preview behaviour for a diagnostic request.
 
 ### Bounded graph admission
 
@@ -740,8 +740,8 @@ claim declarations and pure bounded complete-graph validation. M2 owns actual
 derived-data operation/execution capture, provenance assembly, generation-aware
 publication and demonstrated cache/identity binding. M3 adds governed Metal
 shader/library and backend-capability claims plus the Rendering-owned typed,
-content-addressed extension contract and behavior required by `VOX-META-008`.
-M4 exercises the accepted import and render-provenance behavior in the first
+content-addressed extension contract and behaviour required by `VOX-META-008`.
+M4 exercises the accepted import and render-provenance behaviour in the first
 vertical slice. M8 adds the downstream typed
 `VoxeliaPhotorealisticRendering` provenance extension for seed, sampling,
 accumulation, convergence and denoising claims required by `VOX-META-009`;
@@ -766,7 +766,7 @@ public states or serialised ambiguity.
 
 Rejected. Canonical data handles and cross-module records need backend-neutral
 claim values, and the controlled model assigns those values to Core. Execution
-owns behavior and assembly, not every immutable claim type.
+owns behaviour and assembly, not every immutable claim type.
 
 ### Make Core depend on Execution descriptors
 
@@ -938,10 +938,10 @@ Acceptance requires focused evidence for at least:
 - ordered roles, occurrences, repeated parents and duplicate role rejection;
 - self, two-node and multi-node cycle rejection;
 - duplicate and conflicting record IDs;
-- complete versus compact unresolved-reference behavior;
+- complete versus compact unresolved-reference behaviour;
 - external record-content mismatch and parent substitution;
 - checked node, edge, depth, byte and identifier limits;
-- wide fan-out, deep chains and diamond visit-once behavior;
+- wide fan-out, deep chains and diamond visit-once behaviour;
 - cancellation and fault injection during validation/resolution;
 - decoded validation claims remaining unassured;
 - missing, mismatched, expired, revoked and cross-policy evidence denial;
@@ -957,7 +957,7 @@ Acceptance requires focused evidence for at least:
 
 The isolated probe accompanying this proposal demonstrates only the closed
 state, bounded graph algorithm, claim/evidence separation and atomic failure
-behavior. Its small limits, toy content claims and in-memory actor are not
+behaviour. Its small limits, toy content claims and in-memory actor are not
 product API, cryptography, canonical coding, a store, a resolver, a signature
 system or production device evidence.
 
@@ -973,7 +973,7 @@ through `CCR-0015`; steps 4 through 12 remain gated on their named
 prerequisite decisions:
 
 1. correct the MTA and CDMS ownership language to distinguish Core claim values
-   from Execution capture/assembly behavior;
+   from Execution capture/assembly behaviour;
 2. correct the displayed record to bind a subject and use a closed activity
    plus ordered role-bearing inputs;
 3. correct `createdAt` to the accepted `CanonicalInstant` target;

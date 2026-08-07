@@ -73,7 +73,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   only; visionOS 26.5 is still unavailable.
 - Independently unblocked later-milestone declaration: the exact six-case
   `ResidencyPolicy` vocabulary is implemented in its owning `VoxeliaMetal`
-  module without attaching allocation or capability behavior.
+  module without attaching allocation or capability behaviour.
 - Governance: `ADR-0021` was accepted by the project owner on 2026-08-04,
   resolving the axis-model ownership conflict in favour of `VoxeliaSpatial`
   ownership of `AxisID`, `AxisSemantic`, `AxisSampling` and `AxisDescriptor`
@@ -112,7 +112,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   `VoxeliaCore` (`identity`, `linear` with a validated finite descriptor,
   `lookupTable` reusing the existing validated descriptor, `composed` with a
   validated nonempty ordered composition) while deferring the undefined
-  `piecewiseLinear` case and all lookup-execution behavior. `CCR-0003`
+  `piecewiseLinear` case and all lookup-execution behaviour. `CCR-0003`
   records the controlled corrections to MTA section 9.9 and CDMS sections
   18.2/18.4, selecting the empty-composition rejection branch exactly.
   Migration steps 1-3 and 5 are complete: the three types are implemented in
@@ -143,7 +143,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   by their own contracts.
 - The existing `MeasurementUnit` leaf now has coherent semantic identity and
   type-level encoding: exact UTF-8 namespace/code spelling, display-text-
-  independent equality and hashing, signed-zero normalization, and an exact
+  independent equality and hashing, signed-zero normalisation, and an exact
   six-key explicit-null wire shape. This does not define unit conversion or
   coordinate-space unit admissibility.
 - Governance: `ADR-0031` was accepted by the project owner on 2026-08-04
@@ -842,7 +842,7 @@ Complete Voxelia through its approved milestone roadmap with Apple-only platform
   registry, production hard ceilings and any actor-isolated graph
   service stay honestly deferred with the registered
   provenance-record projection and supported-device evidence. THE
-  AUTHORIZED THREE-CLUSTER CONTINUATION IS COMPLETE: eleven accepted
+  Authorised THREE-CLUSTER CONTINUATION IS COMPLETE: eleven accepted
   decisions (`ADR-0049` through `ADR-0059`) with five controlled
   corrections (`CCR-0020` through `CCR-0024`) closed the content
   projections, the content-tier cache, the execution and warning
@@ -6539,3 +6539,34 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    files**, and splitting would produce two commits with the same one-line diff repeated.
 
    **Next**: `ADR-0321`'s 121-spelling ratchet — the last backlog this arc created.
+
+   **Increment (bbbbb): `ADR-0335` — spelling backlog 121 → 15.** 1238/219 unchanged; **no
+   source changed**.
+
+   **THE BACKLOG WAS NOT UNIFORMLY CORRECTABLE, and the flat count concealed that.**
+   **`ADR-0040`'s FILENAME contains `normalized`** — its `title:`, its `# ADR-0040 -` heading and
+   its register row all mirror it. Prose there is correctable; **identity is not**: renaming
+   would break every link in and change what the register says a record is called. The 15
+   remaining are **frozen-identifier cases, not residual debt.**
+
+   **MY PASS INTRODUCED A DEFECT AND `ADR-0309`'s GATE CAUGHT IT.** The correction **rewrote
+   LINK TARGETS as though they were prose** — three records cited
+   `ADR-0040-normalized-…md` and became `…normalised…`, pointing at a file that does not exist.
+   `check_adr_links.py`, built two increments earlier **for an unrelated reason**, reported all
+   three by file and line; restored. **Without it this ships as three dead links in accepted
+   records, found by whoever next followed one.**
+
+   **The bug is precise**: the pass protected fences, inline code and frozen headings, and **did
+   not protect markdown link targets** — a link target is **an identifier that happens not to be
+   in backticks**. `ADR-0321` learned a *quoted* misspelling needs backticks; **this is the same
+   lesson one level down, for a misspelling that is a PATH.**
+
+   **Two passes, deliberately**: case-sensitive first, then case-insensitive capitalising the
+   replacement — **so sentence-initial forms were not mangled by a blanket substitution.**
+
+   **Correcting spelling in an accepted record is not editing its decisions** (same distinction
+   `ADR-0309` drew for a broken hyperlink). **No decision, boundary, claim or numeric value
+   changed anywhere.**
+
+   **All three ratchets this arc created are now at or near zero**: test levels **0**,
+   temporary-file list **empty by achievement**, spelling **at its frozen floor**.

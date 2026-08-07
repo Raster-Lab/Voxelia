@@ -258,7 +258,7 @@ complete and in bounds, shared-face triangulation conforms, reflected winding
 reverses, and exact-isovalue key collapse omits repeated-index triangles. It
 also serializes the independently derived dyadic positions as fixed-width
 binary64 bit patterns for the complete mask corpus and the two-cell shared-seam
-fixture, so the Swift differential cannot normalize signed zero or omit either
+fixture, so the Swift differential cannot normalise signed zero or omit either
 cell unnoticed.
 
 Its registered output is:
@@ -303,7 +303,7 @@ Conformance is bit-exact for binary64 positions and exact for topology and
 failure classification; no tolerance applies. Accelerated or alternate CPU
 implementations must compare every output position bit pattern and the complete
 index sequence to the reference, plus match cancellation/no-publication and
-resource-limit behavior.
+resource-limit behaviour.
 
 ## Provenance fields
 

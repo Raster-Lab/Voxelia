@@ -38,7 +38,7 @@ later increment mistakes a half-discharge for the norm.
 
 - `LookupTableDescriptor` (Core) stores an ordered table and says of itself that
   it "does not define lookup, clamping, extrapolation, or display-window
-  behavior". The metadata exists; the application model does not.
+  behaviour". The metadata exists; the application model does not.
 - `CompositeLayersOperation` blends layers under `VOXELIA-ALG-0009`
   `layered-linear-blend/binary64-v1` — but only single-component `uint8` layers
   whose component interpretation is `scalar`, over a black background.

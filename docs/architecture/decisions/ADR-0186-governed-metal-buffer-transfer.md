@@ -82,7 +82,7 @@ approved this design with the conditions captured in the companion evidence.
    with overflow-preflighted output capacity. `Float` uses its exact
    `bitPattern`, and `Int32` uses `UInt32(bitPattern:)`. The window parameter
    block is exactly 28 bytes in MSL field order, composite is exactly 8 and
-   invert exactly 4; composite opacity values are serialized word by word. No
+   invert exactly 4; composite opacity values are serialised word by word. No
    Swift struct or `[Float]` storage layout is transferred.
 6. **Counts narrow exactly.** Sample, element and layer counts use
    `UInt32(exactly:)`; representability failure maps to the owning kernel's
@@ -147,8 +147,8 @@ borrowed memory. Its exact file content and three markers are scanner-pinned.
 
 Upload and readback each make the same one required copy as the existing
 kernel path. Inline binding preserves Metal's existing synchronous-copy
-behaviour and adds no parameter-buffer allocation. Manual scalar serialization
-allocates small bounded byte arrays; composite opacity serialization replaces
+behaviour and adds no parameter-buffer allocation. Manual scalar serialisation
+allocates small bounded byte arrays; composite opacity serialisation replaces
 the former implicit raw-array bridge with an equal-size explicit copy.
 
 ## Validation impact

@@ -248,9 +248,9 @@ and parameters. Computing them can introduce a separate multiplication/addition
 representability problem. This proposal keeps the minimal traversal result;
 point evaluation requires its own explicit operation contract.
 
-### Normalize every ray before intersection
+### Normalise every ray before intersection
 
-Normalization would make parameters resemble distance, but it would alter the
+Normalisation would make parameters resemble distance, but it would alter the
 supplied semantic value, introduce magnitude conditioning and contradict the
 existing explicit-normalisation rule.
 

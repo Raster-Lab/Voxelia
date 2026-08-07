@@ -50,8 +50,8 @@ with identity and source-linked provenance. `VOX-GEO-009` now requires the
 next operation to have deterministic reference behaviour.
 
 The v0.1.1 baseline does not choose face versus vertex domain, weighting,
-crease policy, degenerate handling, reduction order, normalization expression,
-zero-vector behavior, output scalar layout or a publication source shape.
+crease policy, degenerate handling, reduction order, normalisation expression,
+zero-vector behaviour, output scalar layout or a publication source shape.
 Those choices change scientific output bits and cannot be inferred from a
 renderer. The project owner's broadened autonomous approval authorises this
 separate design/algorithm increment and subsequent verified migration while
@@ -71,7 +71,7 @@ measurement, rendering and acceleration remain out of scope.
    `triangle-area-weighted-vertex-normals/binary64-v1`: triangle/corner/
    component order, ordered edge subtraction and cross product, serial
    area-weighted accumulation, exact-zero degeneracy, maximum-component-scaled
-   Euclidean normalization, positive-zero output and every representability
+   Euclidean normalisation, positive-zero output and every representability
    failure. The CPU reference cannot use FMA, fast math, reassociation,
    compensation, a parallel reduction or an epsilon. An implementation with a
    different weighting or reduction requires another algorithm/version.
@@ -116,7 +116,7 @@ measurement, rendering and acceleration remain out of scope.
    attribute is appended last with float64, absent valid-bit count,
    little-endian byte order, three `.vector` components, interleaved layout,
    absent component names and source vertex count. Components are
-   dimensionless coordinates in the source position basis. Serialization is
+   dimensionless coordinates in the source position basis. Serialisation is
    explicit checked little-endian encoding, never raw-memory rebinding.
 8. **Orientation comes only from authoritative topology.** For `(i0, i1, i2)`,
    the face contribution is `(p1 - p0) cross (p2 - p0)` in the exact expression
@@ -137,7 +137,7 @@ measurement, rendering and acceleration remain out of scope.
     count ceilings; the existing-attribute scan; checked additional bytes;
     then allocation. The attribute scan polls before ordinal zero and every
     4,096 attributes, triangle traversal before ordinal zero and every 64
-    triangles, and vertex normalization before ordinal zero and every 4,096
+    triangles, and vertex normalisation before ordinal zero and every 4,096
     vertices. Cancellation at a poll precedes the item at that ordinal. Within
     one item, the exact numerical/failure order is `ALG-0030`. A final check
     after complete mesh construction precedes every identity/provenance
@@ -195,7 +195,7 @@ measurement, rendering and acceleration remain out of scope.
 15. **Independent analytical evidence is registered now.** The standard-
     library Python oracle forces every displayed binary64 operation, proves
     orientation, area weighting, reversed winding, degenerate contribution,
-    gradual-subnormal normalization, positive-zero serialization, undefined
+    gradual-subnormal normalisation, positive-zero serialisation, undefined
     cancellation/isolated vertices, numerical overflow and one-past checked
     logical bytes. Its two SHA-256 fixtures are frozen in `ALG-0030`. Swift must
     reproduce all successful output bits and failure classes exactly; no
@@ -215,7 +215,7 @@ topology and identity. Both remain separate operations.
 Uniform weighting overemphasises small triangles; angle weighting requires a
 separate trigonometric and degeneracy contract. Oriented doubled-area vectors
 use the authoritative positions directly, retain winding and avoid an
-intermediate normalization. Other weighting remains a new algorithm.
+intermediate normalisation. Other weighting remains a new algorithm.
 
 ### Parallel or compensated accumulation
 
@@ -247,7 +247,7 @@ mesh aggregate would expand this criterion.
 
 The next migration can implement one bounded, stateless, bit-exact CPU
 reference with no remaining choice about output domain, weighting,
-degeneracy, reduction, normalization, failure, cancellation or provenance.
+degeneracy, reduction, normalisation, failure, cancellation or provenance.
 The deliberate limitations are smooth all-incident-face averaging, rejection
 of any undefined vertex, no normal replacement and no canonical mesh digest.
 
@@ -267,7 +267,7 @@ change.
 ## Compatibility impact
 
 None in this design-only increment. Later APIs are additive before 1.0. A
-different weighting, degeneracy, reduction, normalization, output descriptor
+different weighting, degeneracy, reduction, normalisation, output descriptor
 or replacement policy requires a new operation or algorithm version.
 
 ## Security impact
@@ -276,7 +276,7 @@ All counts and byte products are checked before allocation, scans and
 numerical work are cancellable, errors are payload-free and publication is
 atomic. Diagnostics reveal no coordinates, normal values, topology, counts,
 attributes, identifiers or provenance. No unsafe memory, raw-pointer
-serialization or backend buffer enters the design.
+serialisation or backend buffer enters the design.
 
 ## Performance and memory impact
 

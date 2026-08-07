@@ -33,7 +33,7 @@ The reviewer requires:
    work;
 5. invocation-local logical ownership with no concurrent CPU or unrelated GPU
    access to the range;
-6. manual exact little-endian serialization of `Float`, `UInt32` and `Int32`
+6. manual exact little-endian serialisation of `Float`, `UInt32` and `Int32`
    values, exact 28/8/4-byte parameter blocks and no raw Swift struct or
    `[Float]` layout transfer;
 7. `UInt32(exactly:)` narrowing and reporting-overflow preflight for products
@@ -41,7 +41,7 @@ The reviewer requires:
 8. one exact-path scanner exception conditioned on a full-file SHA-256 and
    expected marker multiset, while every other category and source remains
    fail closed; and
-9. focused range/storage/completion/lifetime/concurrency/serialization tests,
+9. focused range/storage/completion/lifetime/concurrency/serialisation tests,
    all affected kernel and residency evidence, scanner mutation tests and the
    complete semantic gate.
 
@@ -83,7 +83,7 @@ Both now retain their upload buffer explicitly through exact command
 completion, including the concurrent asynchronous path. After that correction,
 the reviewer independently rechecked the exact three markers and file hash,
 owned-byte signatures, overflow and storage validation, same-writer status
-split, owned readback, scalar serialization and fail-closed scanner rules. The
+split, owned readback, scalar serialisation and fail-closed scanner rules. The
 reviewer's reruns passed all eight boundary tests, all fifty-two scanner unit
 tests, the raw inventory scan and diff validation, with no remaining boundary
 blocker.
@@ -109,7 +109,7 @@ range, unsupported storage, inline binding, incomplete/failed command and
 unknown errors classify as execution. Regression evidence covers every class,
 and direct element- and layer-count narrowing plus packed-product overflow are
 all exercised. The reviewer then independently rechecked the exact 28/8/4-byte
-MSL layouts, `Float` and `Int32` bit serialization, same-writer completed
+MSL layouts, `Float` and `Int32` bit serialisation, same-writer completed
 readback, per-dispatch resource lifetimes, residency blit lifetime, unchanged
 concurrency isolation, additive payload-free invert error and scanner
 containment.

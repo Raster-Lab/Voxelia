@@ -362,7 +362,7 @@ cancellable, errors are payload-free and publication is atomic. Diagnostics
 reveal no coordinates, volume values, facet counts, topology, attributes,
 identifiers or provenance — in particular, a certification failure discloses
 neither the offending facet ordinal nor the offending edge. No unsafe memory,
-raw-pointer serialization or backend buffer enters the design.
+raw-pointer serialisation or backend buffer enters the design.
 
 ## Performance and memory impact
 

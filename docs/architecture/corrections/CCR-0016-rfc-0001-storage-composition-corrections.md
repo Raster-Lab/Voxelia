@@ -144,7 +144,7 @@ review regardless of milestone.
 - [RFC-0001 - Storage contract and logical data-model composition](../../rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md)
 - [RFC-0001-CCD-01 - Controlled correction delta companion](../../rfcs/RFC-0001-controlled-correction-delta.md)
 - [ADR-0039 - Closed storage capability and descriptor admission boundary](../decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md)
-- [ADR-0040 - Normalized logical sample and representation projection boundary](../decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
+- [ADR-0040 - Normalised logical sample and representation projection boundary](../decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
 - [ADR-0041 - Safe storage read transaction and type-erasure lifetime boundary](../decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md)
 - [Voxelia Master Technical Architecture v0.1.1](../../project/Voxelia_Master_Technical_Architecture_v0.1.1.md)
 - [Voxelia Core Data Model Specification v0.1.1](../../project/Voxelia_Core_Data_Model_Specification_v0.1.1.md)

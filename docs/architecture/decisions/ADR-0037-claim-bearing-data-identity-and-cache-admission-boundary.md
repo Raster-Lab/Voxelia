@@ -186,7 +186,7 @@ Let `C` mean a present top-level content claim, `S` a non-empty source array and
 | 1 | 1 | 1 | content plus mixed lineage | Valid claim with both lineage forms. |
 
 Source-only validity is structural and provisional. It does not by itself
-satisfy the M2 cache/provenance behavior in corrected `VOX-RGN-007`; that
+satisfy the M2 cache/provenance behaviour in corrected `VOX-RGN-007`; that
 requires a purpose-specific host attestation for the exact versioned source or
 later content/derivation assurance.
 
@@ -242,7 +242,7 @@ execution-cache key. Its future corrected contract must provide:
 
 - a bounded, exact operation identifier and semantic operation version;
 - a separately identified exact implementation version when implementation
-  behavior affects the output;
+  behaviour affects the output;
 - a registered, versioned canonical parameter projection whose digest binds
   every output-affecting semantic parameter;
 - a positional input sequence with operation-defined roles;

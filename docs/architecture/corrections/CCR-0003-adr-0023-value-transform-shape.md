@@ -72,7 +72,7 @@ The corrected sketch is identical to the `CCR-0003-A` corrected sketch. The
 `piecewiseLinear` case is deferred: `PiecewiseLinearDescriptor` is undefined
 in every governing document, and no case is added until an approved
 descriptor and evaluation contract define its knots, ordering,
-duplicate-input behavior, continuity, endpoint inclusion, extrapolation,
+duplicate-input behaviour, continuity, endpoint inclusion, extrapolation,
 units, identity and wire format.
 
 ### CCR-0003-C - Core Data Model Specification section 18.4 composition rule
@@ -104,7 +104,7 @@ The corrected rule selects the rejection branch exactly:
   equality, hashing and encoding representation.
 - The lookup-table case preserves the existing validated
   `LookupTableDescriptor` contract including its currently permitted empty
-  table; lookup application, missing-entry behavior, interpolation and
+  table; lookup application, missing-entry behaviour, interpolation and
   extrapolation remain undefined and unclaimed.
 - Display windows, VOI LUTs, transfer functions and colour maps remain
   presentation-stage values and must not enter `ValueTransform`.

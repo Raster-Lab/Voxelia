@@ -1,37 +1,13 @@
 # American spellings in documentation prose, per `ADR-0321`.
 # A count may shrink but never grow, and a file absent here may add none.
 # Regenerate deliberately with --write, never to silence a failure.
-2 docs/algorithms/VOXELIA-ALG-0028-freudenthal-surface-extraction.md
-8 docs/algorithms/VOXELIA-ALG-0030-triangle-area-weighted-vertex-normals.md
-2 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
-3 docs/architecture/corrections/CCR-0016-rfc-0001-storage-composition-corrections.md
-1 docs/architecture/decisions/ADR-0021-axis-model-ownership.md
-1 docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md
-8 docs/architecture/decisions/ADR-0023-value-transform-shape.md
-2 docs/architecture/decisions/ADR-0026-ray-axis-aligned-bounds-intersection.md
-1 docs/architecture/decisions/ADR-0027-frame-geometry-anchor-index-boundary.md
-1 docs/architecture/decisions/ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md
-2 docs/architecture/decisions/ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md
-10 docs/architecture/decisions/ADR-0038-closed-provenance-record-and-graph-admission-boundary.md
-16 docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md
-9 docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md
-8 docs/architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md
-2 docs/architecture/decisions/ADR-0042-storage-api-name-wire-and-limit-freeze.md
-1 docs/architecture/decisions/ADR-0114-clinical-pipeline-assessments.md
-2 docs/architecture/decisions/ADR-0183-geometry-arc.md
-1 docs/architecture/decisions/ADR-0185-triangle-mesh-topology.md
-3 docs/architecture/decisions/ADR-0186-governed-metal-buffer-transfer.md
-1 docs/architecture/decisions/ADR-0188-coordinate-bearing-triangle-mesh-design.md
-2 docs/architecture/decisions/ADR-0189-coordinate-bearing-triangle-mesh.md
-3 docs/architecture/decisions/ADR-0191-scalar-surface-operation-boundary.md
-11 docs/architecture/decisions/ADR-0193-deterministic-triangle-mesh-vertex-normals-design.md
-1 docs/architecture/decisions/ADR-0194-triangle-mesh-total-facet-area-design.md
-1 docs/architecture/decisions/ADR-0195-triangle-mesh-enclosed-volume-design.md
-1 docs/architecture/decisions/ADR-0208-colour-and-overlay-arc.md
-3 docs/architecture/decisions/README.md
-1 docs/architecture/modules/VoxeliaCPU.md
-4 docs/progress/AUTONOMY_STATUS.md
-4 docs/progress/evidence/ADR-0186-metal-buffer-transfer-independent-review.md
-2 docs/rfcs/RFC-0001-controlled-correction-delta.md
-2 docs/rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md
-2 docs/security/SWIFT_SAFETY_POLICY.md
+2 docs/architecture/corrections/CCR-0016-rfc-0001-storage-composition-corrections.md
+1 docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md
+4 docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md
+1 docs/architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md
+1 docs/architecture/decisions/ADR-0042-storage-api-name-wire-and-limit-freeze.md
+1 docs/architecture/decisions/ADR-0183-geometry-arc.md
+2 docs/architecture/decisions/README.md
+1 docs/rfcs/RFC-0001-controlled-correction-delta.md
+1 docs/rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md
+1 docs/security/SWIFT_SAFETY_POLICY.md

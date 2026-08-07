@@ -31,14 +31,14 @@ transforms. The detailed specification additionally includes
 application, and requires finite linear and table parameters.
 
 `PiecewiseLinearDescriptor` is referenced but never defined. The governing
-documents do not specify its knots, ordering, duplicate-input behavior,
+documents do not specify its knots, ordering, duplicate-input behaviour,
 continuity, endpoint inclusion, extrapolation, units, identity or wire format.
 No baseline requirement specifically mandates piecewise-linear support.
 
 Directly constructible enum payloads also cannot enforce the required finite
 linear parameters or nonempty composition invariant. This record selects a
 validated declaration model while leaving transform execution and undefined
-piecewise behavior outside the decision. It was reviewed and accepted by the
+piecewise behaviour outside the decision. It was reviewed and accepted by the
 project owner on 2026-08-04.
 
 ## Decision
@@ -104,11 +104,11 @@ byte-ingress layer.
 
 The lookup-table case will preserve the existing validated
 `LookupTableDescriptor` contract, including its currently permitted empty
-table. This ADR does not define lookup application, missing-entry behavior,
+table. This ADR does not define lookup application, missing-entry behaviour,
 interpolation or extrapolation and does not claim executable lookup semantics.
 
 `piecewiseLinear` will remain deferred until an approved descriptor and
-evaluation contract define every material behavior. Display windows, VOI LUTs,
+evaluation contract define every material behaviour. Display windows, VOI LUTs,
 transfer functions and colour maps remain presentation-stage values and must
 not enter `ValueTransform`.
 
@@ -136,9 +136,9 @@ payloads still permit invalid standalone values.
 
 Binding-time checks would avoid new payload types. It is not recommended
 because invalid standalone and decoded `ValueTransform` values could circulate,
-hash and serialize before binding.
+hash and serialise before binding.
 
-### Define piecewise-linear behavior now
+### Define piecewise-linear behaviour now
 
 This could complete the larger case set but would invent every consequential
 knot, continuity and extrapolation rule. It is deferred until a focused
@@ -159,7 +159,7 @@ four-case intersection provides a bounded path after approval.
   names them; this is the minimum deviation needed to enforce stated
   invariants by construction.
 - Piecewise-linear transforms remain unavailable rather than acquiring
-  speculative scientific behavior.
+  speculative scientific behaviour.
 - Lookup-table declarations remain possible, but lookup evaluation stays
   blocked on its own domain and extrapolation policy.
 - Both governing transform declarations require correction after acceptance.
@@ -217,7 +217,7 @@ After acceptance:
 2. implement both validated payload types and `ValueTransform` in
    `VoxeliaCore`;
 3. add focused invariant, identity and Codable tests;
-4. specify lookup execution and piecewise-linear behavior separately; and
+4. specify lookup execution and piecewise-linear behaviour separately; and
 5. update traceability and release-integrity evidence.
 
 These migration steps are authorised as of the 2026-08-04 acceptance and are

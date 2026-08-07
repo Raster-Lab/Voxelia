@@ -339,7 +339,7 @@ representation requires a new operation or algorithm version.
 Both counts are checked before traversal, traversal is cancellable, errors are
 payload-free and publication is atomic. Diagnostics reveal no coordinates, area
 values, facet counts, topology, attributes, identifiers or provenance. No
-unsafe memory, raw-pointer serialization or backend buffer enters the design.
+unsafe memory, raw-pointer serialisation or backend buffer enters the design.
 
 ## Performance and memory impact
 

@@ -186,7 +186,7 @@ nz = sz / length
 Every division, multiplication and addition is a separate correctly rounded
 binary64 operation. `sqrt` is the platform's correctly rounded IEEE-754 square
 root. Because one scaled magnitude is exactly one, `sum` lies in `[1, 3]` and
-the normalization does not form an overflowing unscaled norm. After division,
+the normalisation does not form an overflowing unscaled norm. After division,
 every component comparing equal to zero is explicitly written as positive
 zero. Non-zero subnormal components are preserved. The output is the exact
 result of this definition; no subsequent unit-length tolerance correction is
@@ -233,8 +233,8 @@ Triangle traversal checks cancellation before triangle zero and every triangle
 ordinal divisible by 64. At one triangle, edge/cross representability precedes
 its corner/component accumulator additions. Vertex traversal checks
 cancellation before vertex zero and every vertex ordinal divisible by 4,096;
-at one vertex, zero-vector classification precedes normalization
-representability and serialization. A final cancellation check occurs after
+at one vertex, zero-vector classification precedes normalisation
+representability and serialisation. A final cancellation check occurs after
 the complete mesh exists and before any result identity or provenance is
 constructed. Every failure returns no result aggregate or partial normal
 attribute; local working allocations may have existed and are discarded.
@@ -268,15 +268,15 @@ fixtures:
 
 - a `2 x 3` right-hand triangle producing exact positive Z normals;
 - unequal-area positive Z and positive Y faces producing the shared
-  normalized sum `(0, 2, 1)`;
+  normalised sum `(0, 2, 1)`;
 - a shared vertex whose ordered Z contributions are `1e16`, `-1e16`, then `1`
   alongside Y `1`, distinguishing the frozen serial topology order from a
   reordered or pairwise reduction;
-- a cross product whose separated multiply/subtract result and normalized
+- a cross product whose separated multiply/subtract result and normalised
   output bits differ from a contracted fused multiply-add;
 - reversed winding producing exact negative Z;
 - a zero-vector face followed by a valid face;
-- a least-subnormal doubled-area component that still normalizes to positive Z;
+- a least-subnormal doubled-area component that still normalises to positive Z;
 - a YZ triangle proving positive-zero output components;
 - opposite-wound cancellation and an isolated vertex, both undefined;
 - edge-subtraction overflow; and
@@ -296,7 +296,7 @@ orientation=right-hand-area-weighted zeroComponents=positive
 Swift conformance is bit-exact for every normal byte and exact for errors,
 mesh preservation, parameter digest, claims and checkpoint order. No numeric
 tolerance applies. The oracle does not validate Swift allocation lifetime,
-copy-on-write behavior, concurrency, cancellation machinery or provenance
+copy-on-write behaviour, concurrency, cancellation machinery or provenance
 construction.
 
 ## Provenance fields
@@ -307,7 +307,7 @@ A successful CPU operation records:
 - implementation token
   `org.voxelia.impl.triangle-mesh-vertex-normal-generation.cpu`;
 - algorithm `triangle-area-weighted-vertex-normals/binary64-v1`;
-- the fixed weighting, degeneracy, accumulation, normalization, zero-component,
+- the fixed weighting, degeneracy, accumulation, normalisation, zero-component,
   output-attribute and existing-normal rules from `ADR-0193`; and
 - exactly one input with role `source-mesh`, occurrence one, source object
   identity and source provenance parent.

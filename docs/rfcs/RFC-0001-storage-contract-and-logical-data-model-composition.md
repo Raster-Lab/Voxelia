@@ -1014,5 +1014,5 @@ None may be resolved implicitly by the first convenient implementation.
 - [ADR-0037 - Claim-bearing data identity and cache-admission boundary](../architecture/decisions/ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md)
 - [ADR-0038 - Closed provenance record and graph admission boundary](../architecture/decisions/ADR-0038-closed-provenance-record-and-graph-admission-boundary.md)
 - [ADR-0039 - Closed storage capability and descriptor admission boundary](../architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md)
-- [ADR-0040 - Normalized logical sample and representation projection boundary](../architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
+- [ADR-0040 - Normalised logical sample and representation projection boundary](../architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
 - [ADR-0041 - Safe storage read transaction and type-erasure lifetime boundary](../architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md)

@@ -37,7 +37,7 @@ approval to continue the governed roadmap and push verified increments.
    space.** It stores one Spatial-owned `CoordinateSpaceDescriptor` and one
    flattened `ContiguousArray<Double>` in `(x, y, z)` order. Empty domains are
    valid. Incomplete triples reject before non-finite components, and admitted
-   binary64 bits, including signed zero, are preserved without normalization.
+   binary64 bits, including signed zero, are preserved without normalisation.
 2. **`TriangleMeshVertexAttribute` owns exact descriptor-sized bytes.** The
    generic position semantic and `storageDefined` layout reject before checked
    byte arithmetic. Element/component and scalar-byte products use
@@ -55,7 +55,7 @@ approval to continue the governed roadmap and push verified increments.
 5. **The identity boundary stays closed.** The three new values deliberately
    omit `Hashable` and `Codable`; they claim neither canonical bytes nor content
    identity. The public documentation states ownership, validation precedence,
-   concurrency behavior, exact numeric preservation, performance and deferred
+   concurrency behaviour, exact numeric preservation, performance and deferred
    provenance/storage boundaries.
 6. **Tests import Spatial explicitly.** `VoxeliaGeometryTests` declares its
    direct `VoxeliaSpatial` dependency to construct coordinate descriptors; no

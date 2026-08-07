@@ -154,7 +154,7 @@ is superseded.
 - [Voxelia Requirements Baseline v0.1.1](../../project/Voxelia_Requirements_Baseline_v0.1.1.md)
 - [Voxelia Master Technical Architecture v0.1.1](../../project/Voxelia_Master_Technical_Architecture_v0.1.1.md)
 - [Voxelia Core Data Model Specification v0.1.1](../../project/Voxelia_Core_Data_Model_Specification_v0.1.1.md)
-- [ADR-0040 - Normalized logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
+- [ADR-0040 - Normalised logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
 - [ADR-0058 - Provenance record aggregate](ADR-0058-provenance-record-aggregate.md)
 - [ADR-0063 - Image data aggregate](ADR-0063-image-data-aggregate.md)
 - [ADR-0143 - Area and volume measurement design](ADR-0143-area-volume-measurement-design.md)

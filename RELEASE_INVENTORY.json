@@ -3496,8 +3496,8 @@
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0028-freudenthal-surface-extraction.md",
-      "size": 14294,
-      "sha256": "b7d2d47bbfb23a3f3b6ec02f9a75f68e004d138052324a243adcb150caf8b122"
+      "size": 14295,
+      "sha256": "3e10d045042604736f0fc831c88877d7dfbeebf22ebbaa56c60e18bf520725ab"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0029-freudenthal-label-set-surface.md",
@@ -3506,8 +3506,8 @@
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0030-triangle-area-weighted-vertex-normals.md",
-      "size": 15359,
-      "sha256": "960b85e05a4afbaadc65c0d31ff9581a1c5919848ad144f3337e8093d33d6937"
+      "size": 15360,
+      "sha256": "2a68c577ebc1db09030bc0148e89c5e25dc0e7d3cb92b92f11dee4d6a8800649"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0031-triangle-mesh-total-facet-area.md",
@@ -3636,8 +3636,8 @@
     },
     {
       "path": "docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md",
-      "size": 4746,
-      "sha256": "ac2ea27e98262808bf0ac296913294cf43c7f9d72a582240a18a49596acf557e"
+      "size": 4748,
+      "sha256": "ea1543d30e95784fb28595b249ee203d0f7688361034ad89e3331389dfc07e43"
     },
     {
       "path": "docs/architecture/corrections/CCR-0004-adr-0027-frame-anchor-index-boundary.md",
@@ -3702,7 +3702,7 @@
     {
       "path": "docs/architecture/corrections/CCR-0016-rfc-0001-storage-composition-corrections.md",
       "size": 8963,
-      "sha256": "6ef1f97e13669a352007109333a6ac7c30331f120bac01ba1bbe046b2e559427"
+      "sha256": "cd0510c077b506fcb0c6a38a598f6c9a603628a43a8b7b2ce04c93cdd6dd32c1"
     },
     {
       "path": "docs/architecture/corrections/CCR-0017-adr-0043-spatial-descriptor-admission.md",
@@ -3766,18 +3766,18 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0021-axis-model-ownership.md",
-      "size": 7006,
-      "sha256": "e3a0ff46948be8999d084ee630632206f4a4baf5285fb6bc3088ab12a62e5d6d"
+      "size": 7007,
+      "sha256": "0d5d367f27a08fbe38b9d631b1985d16a5e8d9b01943a81cc460eda64448ad98"
     },
     {
       "path": "docs/architecture/decisions/ADR-0022-coordinate-convention-shape.md",
       "size": 8633,
-      "sha256": "2f3d655428403d9c72ef3ba10e058a0c36496818e705c73480f6bdd9c4431a56"
+      "sha256": "6eea4c127b0bd7144f323612a984d87f2916f0eb605846acd0c742023902cd05"
     },
     {
       "path": "docs/architecture/decisions/ADR-0023-value-transform-shape.md",
-      "size": 9569,
-      "sha256": "b82d0368b9bb483642a313f2ee1a60e5ae93f14b3e91eb455a8e34d563653c55"
+      "size": 9576,
+      "sha256": "2060f569a8bbe9276d4fdb1d884cf464b3acdc43273501042974e7b88dadf3eb"
     },
     {
       "path": "docs/architecture/decisions/ADR-0024-decision-register-reconciliation.md",
@@ -3792,12 +3792,12 @@
     {
       "path": "docs/architecture/decisions/ADR-0026-ray-axis-aligned-bounds-intersection.md",
       "size": 19551,
-      "sha256": "810472b8f2534854bcd2a91e98a1acdebe4d279f4f10ff5d66b2a075ad9825fd"
+      "sha256": "1ce661b37e8a057fad78781c75ac94139db6db45d185532427493aea70023280"
     },
     {
       "path": "docs/architecture/decisions/ADR-0027-frame-geometry-anchor-index-boundary.md",
-      "size": 17101,
-      "sha256": "d9689ed0d34b3556fbc5118c85f4a201d5066bcbd8f97026cd569055f73c79cb"
+      "size": 17102,
+      "sha256": "ad7fa9d6ee13147424341bc8878de98e7ea62208e1c654f9c0fcfa472d0a7ede"
     },
     {
       "path": "docs/architecture/decisions/ADR-0028-canonical-instant-boundary.md",
@@ -3837,7 +3837,7 @@
     {
       "path": "docs/architecture/decisions/ADR-0035-versioned-canonical-metadata-json-and-raw-ingress-boundary.md",
       "size": 67481,
-      "sha256": "d60bf3b84f79cc94b26e0534a7c521805da6896fe8853ade158b1058a47f0001"
+      "sha256": "27d1a0b6ec22eabab1d10757403b45a855631b7207c2b3afcd6b5f10bb295813"
     },
     {
       "path": "docs/architecture/decisions/ADR-0036-domain-separated-complete-canonical-metadata-record-identity.md",
@@ -3846,33 +3846,33 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md",
-      "size": 37242,
-      "sha256": "5b3aee9a45c1fe6a9836cca5f1231202bfacc8553f7ef9dc8192ecac05fcf1cc"
+      "size": 37244,
+      "sha256": "32321a730786fcafa445c69cd8d32cfb76af08a0af40bc27f6812b11e5f6b032"
     },
     {
       "path": "docs/architecture/decisions/ADR-0038-closed-provenance-record-and-graph-admission-boundary.md",
-      "size": 51893,
-      "sha256": "8a5e92feaf92999b5d893bb2f0f0e6142412a084397aee48d7ab60162a58c053"
+      "size": 51903,
+      "sha256": "ce5a1608b35edf5a69e6ba23c99ddaba4e856c4097bea3aa838faa4fb6a1fdff"
     },
     {
       "path": "docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md",
-      "size": 45993,
-      "sha256": "4a8a5083af9fbf7d703705b3574a0035eca8ba759f9e5b9b387282cb60239d94"
+      "size": 45996,
+      "sha256": "3aaf612cdb55d871505031e1791ac0339c2dcb0c1ef67a17bed545c5acfcba5d"
     },
     {
       "path": "docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md",
       "size": 34592,
-      "sha256": "966c107a02f18ff3546522724ffc96da65b7039032431a142021426cba9e501b"
+      "sha256": "b29d64ad9d723ec0482d3eb04e306740a37c9b66cd13a3a36539b97c1b80a52c"
     },
     {
       "path": "docs/architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md",
-      "size": 50040,
-      "sha256": "c4e38a01e3fd34fc00f7143d0bcfaf3eeb1dd7900e0498d13b0ea5a2a6197f41"
+      "size": 50042,
+      "sha256": "b6414936bddf465ce8640a4492b69359d5c8882c3837b63ce817df140178d46b"
     },
     {
       "path": "docs/architecture/decisions/ADR-0042-storage-api-name-wire-and-limit-freeze.md",
       "size": 7866,
-      "sha256": "6d7ca414deb19f1fba7a8ca594d993e32f8aa6cee0776bf33883dfdf765dadc9"
+      "sha256": "83b92ac0b8060a0e28ebe86f85ebd3056c21a51344e02473d7271a5ed9b7cd13"
     },
     {
       "path": "docs/architecture/decisions/ADR-0043-spatial-descriptor-admission-boundary.md",
@@ -4232,7 +4232,7 @@
     {
       "path": "docs/architecture/decisions/ADR-0114-clinical-pipeline-assessments.md",
       "size": 3731,
-      "sha256": "4ee9d3f56f17c3fc12a4874a6412469a6386e806317d1e6f196d0a44866a084b"
+      "sha256": "228da4d869fd4cc3f2b2a2866c3fd45c264cf95a17035c3868ff95995013923c"
     },
     {
       "path": "docs/architecture/decisions/ADR-0115-axis-transposition-operation.md",
@@ -4577,7 +4577,7 @@
     {
       "path": "docs/architecture/decisions/ADR-0183-geometry-arc.md",
       "size": 7943,
-      "sha256": "1b7bc22335f25488bf8bae39cdc76eefa11a627351598de58eb735af5ee387e9"
+      "sha256": "c40627b03e45a2d258b449e67d0401f7d52abc9071de5ddd64e5e828cab6137d"
     },
     {
       "path": "docs/architecture/decisions/ADR-0184-triangle-mesh-topology-design.md",
@@ -4586,13 +4586,13 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0185-triangle-mesh-topology.md",
-      "size": 3165,
-      "sha256": "ccb0142952e887755cf24b13a993f6d8f6f7696796cb8a7069f5cb6156b9e6c3"
+      "size": 3166,
+      "sha256": "a9ef98bfd4f7554e01fc6586210121674f47c393c21506f44be20e5e49a66c56"
     },
     {
       "path": "docs/architecture/decisions/ADR-0186-governed-metal-buffer-transfer.md",
       "size": 10179,
-      "sha256": "1f80abe32565bf5fc2d68fe63a23df097e154a684bf4aff144b2488c22ed300c"
+      "sha256": "985ed5b483c78e260ec81157d8bae48ac471be6fd9c5e8d62f82b0a34c47e5ab"
     },
     {
       "path": "docs/architecture/decisions/ADR-0187-geometry-coordinate-space-dependency.md",
@@ -4602,12 +4602,12 @@
     {
       "path": "docs/architecture/decisions/ADR-0188-coordinate-bearing-triangle-mesh-design.md",
       "size": 11751,
-      "sha256": "d7869ef013cf10d5c2d8ecf4e747a728bab9431922624f6b5832eedbe339eefc"
+      "sha256": "48509633c767748edafb7465439f562c874850424735ce5686de9d4216709563"
     },
     {
       "path": "docs/architecture/decisions/ADR-0189-coordinate-bearing-triangle-mesh.md",
-      "size": 7138,
-      "sha256": "73ba9961144d884d384d64666ea16bc93b1e5adb83a8af1a3f13e97fe24fec39"
+      "size": 7139,
+      "sha256": "f53ddd2aac501e63300c1098fb92ecc218cc6b6f3670d5bc7826fb15949017a6"
     },
     {
       "path": "docs/architecture/decisions/ADR-0190-scalar-surface-extraction-design.md",
@@ -4616,8 +4616,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0191-scalar-surface-operation-boundary.md",
-      "size": 21039,
-      "sha256": "62b42e4de421f5613e3a1e0f21c32113e000b7524d9132ad36d91a2c9525bc61"
+      "size": 21041,
+      "sha256": "ca0b0660777229e336bbc82e2c4f85437885092910f0eca4df78ad2160228ac8"
     },
     {
       "path": "docs/architecture/decisions/ADR-0192-labelled-surface-extraction-design.md",
@@ -4626,18 +4626,18 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0193-deterministic-triangle-mesh-vertex-normals-design.md",
-      "size": 18381,
-      "sha256": "36aaa583e610e95c027928302325baaad237965c8772bd429860cdb0225552f4"
+      "size": 18382,
+      "sha256": "c70290a3b31d9439ca8f1cb560480f3a4a527de3c9ba11ec294f8bec4ea7b4d0"
     },
     {
       "path": "docs/architecture/decisions/ADR-0194-triangle-mesh-total-facet-area-design.md",
       "size": 23185,
-      "sha256": "e131cdf6dab5add5b5e3e979d663f00551864fbe27cbcd39231336680f5c39b5"
+      "sha256": "74a90532578fef61b29bebdec00bd7093d3da5f3b63be18f0a42934970226225"
     },
     {
       "path": "docs/architecture/decisions/ADR-0195-triangle-mesh-enclosed-volume-design.md",
       "size": 24257,
-      "sha256": "a83e09d748d97c50041e50eeba487d9f8847f8fb6a39d8d183effe9ebfc1aebc"
+      "sha256": "4c5acdff7f9dc542b08afe3eed5ac8e2cbb7443cbd552edf39f6f02d2d097262"
     },
     {
       "path": "docs/architecture/decisions/ADR-0196-geometry-acceleration-architecture-assessment.md",
@@ -4701,8 +4701,8 @@
     },
     {
       "path": "docs/architecture/decisions/ADR-0208-colour-and-overlay-arc.md",
-      "size": 11130,
-      "sha256": "248f6a8b9a358df0ab9bb8798772971499921d2190a1ef499c3f72edb689d423"
+      "size": 11131,
+      "sha256": "a379fb9d37e6ae6a3943da41a7b8a3750f81fb43af91d694dbc426eb1d641d29"
     },
     {
       "path": "docs/architecture/decisions/ADR-0209-display-colour-vocabulary.md",
@@ -5335,9 +5335,14 @@
       "sha256": "713dab29d15ec9feb4764cc15811c9472918e1ca63781519cd6ed48bd4fc5765"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0335-correct-the-documentation-spelling.md",
+      "size": 5079,
+      "sha256": "c5f1611cc7c4a1a51ac071505c1032541464891e89591132796147c904ddbd00"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 45061,
-      "sha256": "60ade244829e58cb6699686e40d74420603d50bc5b1223962aa1cb0833dc4b47"
+      "size": 45172,
+      "sha256": "6c0d569784d9a8f008e35ebc1c2455f4789b23eda4796ed9ca5783139853735b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5357,7 +5362,7 @@
     {
       "path": "docs/architecture/modules/VoxeliaCPU.md",
       "size": 1178,
-      "sha256": "be451bbf5b12cf76a15a1c39c10ff78e0bb29b8fc3e2fe64dd0e976f9b211236"
+      "sha256": "80275dd3d24beb1b0e887061800723a6c206443b50dfc965747255b848be8118"
     },
     {
       "path": "docs/architecture/modules/VoxeliaCore.md",
@@ -5431,13 +5436,13 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 422490,
-      "sha256": "8d757302f7593dbe8e13e9428bcfc50b196d0b3d961c8a0097cf6feeb3c8f504"
+      "size": 424473,
+      "sha256": "b123ea9da7ef36f61af5d57c91442170e64a973630907895c3c1a543d61b7479"
     },
     {
       "path": "docs/progress/american-spellings.txt",
-      "size": 2735,
-      "sha256": "657a34bb1bf7c3a4a32f4fa4a6f7f8a3dc2c5aca3d78b271d9e34b104861cbbf"
+      "size": 947,
+      "sha256": "33ee1838d71b40f1234ec6059c21b66dd7dcfde16fb4c6cf9e7c8d7e21e6305b"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5497,7 +5502,7 @@
     {
       "path": "docs/progress/evidence/ADR-0186-metal-buffer-transfer-independent-review.md",
       "size": 7497,
-      "sha256": "ba954270d665138f38f012639655af4695c858000a1d21b80f7ebcc31d5cdbe0"
+      "sha256": "efd99ec5df9ebf0f9dd8a5edc7a0f435e00016a31fa2944d5839e3967c233968"
     },
     {
       "path": "docs/progress/evidence/ADR-0190-scalar-surface-extraction-oracle.py",
@@ -5887,12 +5892,12 @@
     {
       "path": "docs/rfcs/RFC-0001-controlled-correction-delta.md",
       "size": 36733,
-      "sha256": "437a80c2660eea85f72fcd33b3240e84f99ad5eedfdaa13d673d56a8f3b60045"
+      "sha256": "39683be9b1fff8f216ff4e62acf1a569c30b781e5995a69bcde9cbf53d8e9c32"
     },
     {
       "path": "docs/rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md",
       "size": 62812,
-      "sha256": "466507b40912b48ecc3b36edffb00870e45c0fa0bbb9d33c8318909add9f09ac"
+      "sha256": "964649e19b1160b19082b4e8de596dfc66ddb6e9d74d707b34a71cf02ead88a4"
     },
     {
       "path": "docs/rfcs/RFC-0002-scoped-projected-content-identifier-record.md",
@@ -5907,7 +5912,7 @@
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
       "size": 10554,
-      "sha256": "58adf043e36603e2058f4c781d9f0e165e7f94394ecb847854115f2de2a95030"
+      "sha256": "a05114f044b98ad66a6e84e2f2362d0ad7355df4c19cf904b3d1079ad4fd9d1c"
     },
     {
       "path": "docs/shaders/README.md",
@@ -5956,8 +5961,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 68207,
-      "sha256": "5017e434195ad8566f138cadba130ccb79ceb558660641e81a3c8c948579a568"
+      "size": 68282,
+      "sha256": "bcb5a51a0f6c28d85b3773f54d8acbfa77f7aed3b4067762eacdd67dd304e0fa"
     }
   ]
 }

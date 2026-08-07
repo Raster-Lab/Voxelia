@@ -121,11 +121,11 @@ depend on layout, padding and execution platform.
 Proposed `ADR-0036` defines one metadata-record identity only. Proposed
 `ADR-0037` distinguishes content claims from runtime assurance and leaves image
 projections undefined. Proposed `ADR-0039` separates logical binding from
-physical representation but intentionally leaves the normalized logical
+physical representation but intentionally leaves the normalised logical
 sample/component projection as a source gate. This proposal closes that gate
 conceptually. The `ADR-0039` probe proves checked physical gathering but does
 not byte-swap values, so it is representation evidence rather than logical-
-endian normalization evidence. This proposal does not complete the canonical
+endian normalisation evidence. This proposal does not complete the canonical
 `ImageDescriptor` wire, authorise a `ContentID`, or authorise storage product
 source.
 
@@ -370,7 +370,7 @@ an explicit conversion to one supported decoded `ScalarType`.
 
 Allocation padding, row/plane padding, alignment gaps, tile halos, compressed
 headers and uninitialised slack are not logical sample values. A complete
-representation descriptor proves which exact initialized bytes are addressed;
+representation descriptor proves which exact initialised bytes are addressed;
 the logical projection visits each logical sample/component exactly once and
 skips physical padding.
 
@@ -398,7 +398,7 @@ of the following are established:
 | Completeness | The provider supplies exactly the requested logical values; no successful prefix. |
 | Snapshot | The retained provider authority, descriptor, owner, snapshot and generation remain exactly bound. A current-only operation additionally requires the non-forgeable current-generation permit proposed by `ADR-0041`; historical bound-snapshot reads do not silently stale or relabel. |
 
-Different endian order, interleaved/planar strides and initialized physical
+Different endian order, interleaved/planar strides and initialised physical
 padding can be compatible. Equal byte length, equal labels or equal hashes in a
 different projection are not compatibility evidence.
 
@@ -691,7 +691,7 @@ logical-content identity or descriptor aggregate source is authorised.
 
 ## Supersession
 
-This proposal refines the normalized logical-binding gate in proposed
+This proposal refines the normalised logical-binding gate in proposed
 `ADR-0039`. It does not supersede the live controlled baseline while Proposed.
 
 It composes with proposed `ADR-0036` for versioned content claim shape,

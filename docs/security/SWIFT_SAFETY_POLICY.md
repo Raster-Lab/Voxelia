@@ -123,7 +123,7 @@ resolution is a single explicit internal Swift transfer boundary. The project
 owner approved that option and an independent subagent review on 2026-08-05.
 Accepted `ADR-0186` fixes the exact three-operation byte-only scope; the
 boundary, checked word serializer, exact scanner fingerprint and focused range,
-storage, completion, lifetime, concurrency, serialization and scanner-fault
+storage, completion, lifetime, concurrency, serialisation and scanner-fault
 evidence are implemented. All three kernels and the residency round trip are
 migrated, and the independent reviewer approved both the boundary/scanner and
 migration diffs. Its six test-only C-format initializers were then replaced

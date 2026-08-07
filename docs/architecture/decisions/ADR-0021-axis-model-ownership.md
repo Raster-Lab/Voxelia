@@ -131,7 +131,7 @@ After acceptance and implementation, focused evidence must cover:
 
 - strict-concurrency builds of `VoxeliaSpatial`, `VoxeliaCore` and direct
   consumers;
-- exact axis vocabulary and invariant-preserving Codable behavior;
+- exact axis vocabulary and invariant-preserving Codable behaviour;
 - regular, irregular and categorical sampling validation;
 - image-rank and unique-identifier validation in `ImageDescriptor`; and
 - a static package-graph check proving that Spatial does not depend on Core.

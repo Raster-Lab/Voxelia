@@ -126,7 +126,7 @@ The names also mix unrelated facts:
 - residency changes by device and generation, so it cannot be immutable state.
 
 The displayed `StorageDescriptor` is an optional-field bag. It has no base
-offset, component/plane stride, exact initialized representation length,
+offset, component/plane stride, exact initialised representation length,
 packing description, encoded-versus-decoded length distinction, non-overlap
 proof, strict byte-order rule or declared `StorageIntegrityDescriptor`.
 `DestinationDescriptor` and `ImageReadSource` are referenced but undeclared.
@@ -216,7 +216,7 @@ The minimal base contract exposes immutable snapshot identity plus the exact
 logical and representation descriptors. Region reading is a separate witness.
 The initial M1 storage-read profile requires a complete, bounded, history-
 independent logical region-read witness. Its presence, not `randomRead`,
-establishes that behavior.
+establishes that behaviour.
 
 A genuine sequential source requires an actor-isolated session defining
 canonical order, cursor ownership, restart, retry, cancellation and concurrent
@@ -325,7 +325,7 @@ binding also excludes paths, storage objects, strides, allocation padding,
 compressed headers, tile order and device state.
 
 Before aggregate source, the model must move physical byte order/component
-arrangement out of logical identity or define an equally exact normalized
+arrangement out of logical identity or define an equally exact normalised
 projection. Ordinary `ImageDescriptor` coding bytes are not canonical logical
 content bytes until that correction is accepted.
 
@@ -339,15 +339,15 @@ Initial representation tags are:
 
 - **decoded strided**: base offset, one positive byte stride per logical axis,
   positive component stride, scalar container width, explicit byte order,
-  component arrangement, exact initialized length and optional alignment; and
+  component arrangement, exact initialised length and optional alignment; and
 - **opaque**: typed compressed or provider-defined representation with an
-  optional exact initialized length.
+  optional exact initialised length.
 
 `byteLength` is split into:
 
 - checked full logical sample byte count;
 - required addressed decoded span; and
-- exact initialized representation byte length.
+- exact initialised representation byte length.
 
 Full logical representability, representation length, one read and one
 authority's active-target-plus-retained-result-backing budget use independent
@@ -376,7 +376,7 @@ Construction and untrusted decoding enforce limits before allocation:
 - interleaved component stride equal to scalar width;
 - planar component-plane stride at least one checked plane span;
 - proved non-overlapping injective axis/component addressing;
-- required addressed span no greater than initialized length and resource cap;
+- required addressed span no greater than initialised length and resource cap;
 - positive power-of-two capped alignment compatible with base offset and
   concrete lease evidence;
 - multi-byte `.native` only for process-local owned decoded memory;
@@ -486,7 +486,7 @@ A representation-integrity claim binds:
 - exact immutable snapshot and generation;
 - projection identifier and version;
 - algorithm and algorithm-sized digest bytes;
-- exact initialized byte coverage and representation length; and
+- exact initialised byte coverage and representation length; and
 - an exact non-recursive claim-free representation-descriptor projection
   needed to interpret that coverage.
 
@@ -514,7 +514,7 @@ Representation verification proves only covered stored bytes. It does not
 prove logical identity, provenance, authenticity, cache authority, clinical
 meaning or diagnostic validation. A checksum is neither signature nor MAC.
 
-- Representation digest covers defined initialized representation bytes, so
+- Representation digest covers defined initialised representation bytes, so
   covered row/plane padding, compressed headers or encoded bytes may change it.
 - Logical `descriptorAndSamples` identity enumerates logical indices/components
   once in a fixed scalar encoding and excludes offsets, strides, alignment
@@ -522,7 +522,7 @@ meaning or diagnostic validation. A checksum is neither signature nor MAC.
 - Uninitialized bytes never enter either digest or export.
 
 Unused-bit and packed source layouts are decoded under an accepted source
-contract, never normalized by guessing. Pixel-padding semantics are typed
+contract, never normalised by guessing. Pixel-padding semantics are typed
 processing/presentation metadata, not allocation padding, and remain in the
 relevant operation policy/identity.
 
@@ -553,7 +553,7 @@ Residency is not an immutable operation bit. Core may state static
 representation compatibility and locality; Metal owns generation-qualified
 per-device observations.
 
-Compressed/mapped, decoded CPU/shared and GPU-optimized resources have
+Compressed/mapped, decoded CPU/shared and GPU-optimised resources have
 independent eviction. Mapping/prefetch does not imply residency. Device
 replacement, pressure, eviction and generation changes invalidate observations.
 Core imports no Metal type.
@@ -676,7 +676,7 @@ and residency are orthogonal.
 
 ### Keep random/sequential bits
 
-Rejected. Bits do not define callable behavior, and no sequential session
+Rejected. Bits do not define callable behaviour, and no sequential session
 contract exists.
 
 ### Keep public raw `OptionSet` and synthesised coding
@@ -724,7 +724,7 @@ Rejected. Comments do not enforce scope, retention or race freedom.
 - The package graph remains intact.
 - Core has one future backend-neutral contract family; Storage implements it.
 - Capabilities become typed retained operations plus characteristics.
-- Stable bit and unknown-data behavior are fixed before persistence.
+- Stable bit and unknown-data behaviour are fixed before persistence.
 - Layout construction fails closed on rank, overlap, overflow, length,
   alignment and byte-order errors.
 - Core-owned reads cannot expose partial, stale, substituted or unaccounted
@@ -892,7 +892,7 @@ read, builder and integrity sketches. It does not change the live graph.
 
 It composes with proposed `ADR-0037` for data identity/cache admission and
 proposed `ADR-0038` for provenance/publication, and proposed `ADR-0040` for the
-normalized logical sample projection, and proposed `ADR-0041` for the read
+normalised logical sample projection, and proposed `ADR-0041` for the read
 transaction/type-erasure lifetime boundary. If the proposals are accepted in
 their recorded order, `ADR-0041` controls read authority, stamping, allocation,
 drain, result-accounting, erasure and scoped-byte lifetime where the older
@@ -913,7 +913,7 @@ diagnostic status.
 - [Voxelia Validation and Benchmark Strategy v0.1.1](../../project/Voxelia_Validation_and_Benchmark_Strategy_v0.1.1.md)
 - [ADR-0037 - Claim-bearing data identity and cache-admission boundary](ADR-0037-claim-bearing-data-identity-and-cache-admission-boundary.md)
 - [ADR-0038 - Closed provenance record and graph admission boundary](ADR-0038-closed-provenance-record-and-graph-admission-boundary.md)
-- [ADR-0040 - Normalized logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
+- [ADR-0040 - Normalised logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
 - [ADR-0041 - Safe storage read transaction and type-erasure lifetime boundary](ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md)
 - [RFC-0001 - Storage contract and logical data-model composition](../../rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md)
 - [RFC-0001-CCD-01 - Controlled-correction delta](../../rfcs/RFC-0001-controlled-correction-delta.md)

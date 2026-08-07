@@ -68,7 +68,7 @@ One linear bounds-validation pass with constant auxiliary storage; the supplied
 `TriangleMeshTopologyTests` executes seven focused tests: empty and ordinary
 admission, both validation-precedence boundaries, every bounds category, exact
 order/multiplicity/degeneracy preservation, the host vertex-domain boundary,
-and `Sendable`/`Hashable`/payload-free behavior. The owning target and direct
+and `Sendable`/`Hashable`/payload-free behaviour. The owning target and direct
 dependants compile as part of the focused SwiftPM build. The wider repository
 Swift-safety inventory was also run and failed on ten pre-existing
 `@unchecked Sendable` conformances outside this increment; that gate is

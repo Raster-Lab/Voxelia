@@ -298,7 +298,7 @@ identity or access decisions. The canonical byte-ingress layer must cap raw
 payload and container sizes, and reject duplicate keys before handing a parsed
 value to the leaf decoder or materialising an unbounded component array. This
 value contains no patient identity, file path, pointer, storage offset or
-executable behavior.
+executable behaviour.
 
 ## Performance and memory impact
 

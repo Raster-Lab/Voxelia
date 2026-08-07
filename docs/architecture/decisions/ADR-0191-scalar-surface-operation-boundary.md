@@ -255,7 +255,7 @@ bounded read preserves the accepted aggregate.
 ### Include a mesh content ID
 
 No canonical mesh byte projection exists. Hashing Swift memory, only topology,
-or a provisional serialization would be a false persistent identity. The
+or a provisional serialisation would be a false persistent identity. The
 derivation-only `DataIdentity` states exactly the claim that can currently be
 made.
 
@@ -269,7 +269,7 @@ instead.
 ## Consequences
 
 The next increment can implement public values and the CPU reference without
-choosing identity, provenance, read, transform or error behavior inside the
+choosing identity, provenance, read, transform or error behaviour inside the
 code review. Scientific parameters remain distinct from output authority and
 execution policy. The cost is an intentionally closed initial source domain,
 no `Int64`/`UInt64` input, no generic semantic, no implicit padding treatment,
@@ -319,7 +319,7 @@ separate identity and boundary.
 This acceptance increment must prove the exact three-dependency CPU edge in
 both graph checkers, cycle freedom, prohibited-import policy and strict
 debug/release compilation of CPU and its direct dependants. The source
-increment must prove request declaration behavior, the complete
+increment must prove request declaration behaviour, the complete
 admission/error precedence, every accepted/rejected scalar, component
 interpretation and image semantic, endianness, all accepted transform forms
 and transform failures, exact parameter bytes/digest, corrected tokens/role/

@@ -158,7 +158,7 @@ The live package direction remains unchanged:
 | Dynamic per-device residency | `VoxeliaMetal` with Execution coordination | Never inferred from a lease or static storage capability. |
 | File policy, locators, credentials and authorisation | Host/application | Not reusable-toolkit storage authority. |
 
-The Core contract names behavior, immutable binding and the sole result-
+The Core contract names behaviour, immutable binding and the sole result-
 adoption coordinator. Storage owns the backing class/reference, fills only the
 Core-supplied bounded target, returns an outcome through its exact retained
 witness and owns any synchronised resource close implementation. A Storage
@@ -244,8 +244,8 @@ checked bounded fill capability; it never receives the bare backing, mutable
 pointer, result or budget token. Writes beyond capacity are recorded and
 rejected without allocation.
 
-The initial fill is serialized and monotonic. Each synchronous chunk names its
-checked start offset, which must equal the current initialized cursor; the
+The initial fill is serialised and monotonic. Each synchronous chunk names its
+checked start offset, which must equal the current initialised cursor; the
 capability checked-adds the chunk length before copying and advances once.
 Duplicate, overlapping, gapped/out-of-order, concurrent-out-of-order,
 after-close or overrun writes poison the target and can never be repaired into
@@ -258,7 +258,7 @@ candidate. The capability is read-scope-bounded and does not own a transferable
 backing; retaining the sealed capability cannot extend the final backing/
 resource lifetime.
 
-The provider returns only an outcome. The closed target's own initialized count
+The provider returns only an outcome. The closed target's own initialised count
 and overrun state determine complete/short/overrun status. An exactly filled
 target becomes one immutable candidate owner that remains in the structured
 read scope, private and unpublishable, until the transaction authority adopts
@@ -843,7 +843,7 @@ is released, bounding aggregate active and caller-retained read results. Any
 proved independent deep copy returned to a caller is caller-owned memory, not
 an uncharged alias of the target.
 
-No optimization may expose partial bytes, move validation after access, weaken
+No optimisation may expose partial bytes, move validation after access, weaken
 owner retention, split the commit gate or convert a mapped representation into
 logical samples implicitly.
 
@@ -869,7 +869,7 @@ Acceptance requires focused evidence for:
 - stale invalidation while suspended and no stale-current publication;
 - cancelled/stale uncooperative work stays charged until provider drain, so
   cancellation/generation storms cannot reuse occupied capacity;
-- explicit commit-wins-versus-cancel/invalidate first-terminal behavior;
+- explicit commit-wins-versus-cancel/invalidate first-terminal behaviour;
 - foreign seal/binding denial, replay/duplicate denial and budget release;
 - more sequential reads than the tombstone capacity, safe retired-entry
   eviction and non-consuming rejection of an evicted seal replay;
@@ -957,6 +957,6 @@ compression, remote/sequential transport or Metal residency.
 - [Voxelia First Vertical Slice Plan v0.1.1](../../project/Voxelia_First_Vertical_Slice_Plan_v0.1.1.md)
 - [Voxelia Validation and Benchmark Strategy v0.1.1](../../project/Voxelia_Validation_and_Benchmark_Strategy_v0.1.1.md)
 - [ADR-0039 - Closed storage capability and descriptor admission boundary](ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md)
-- [ADR-0040 - Normalized logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
+- [ADR-0040 - Normalised logical sample and representation projection boundary](ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
 - [RFC-0001 - Storage contract and logical data-model composition](../../rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md)
 - [ADR-0041 storage read/lifetime probe](../../progress/evidence/ADR-0041-storage-read-lifetime-probe.swift)

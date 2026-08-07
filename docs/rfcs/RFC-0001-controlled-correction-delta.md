@@ -812,5 +812,5 @@ rerun for this Draft.
 - [Voxelia Core Data Model Specification v0.1.1](../project/Voxelia_Core_Data_Model_Specification_v0.1.1.md)
 - [Voxelia First Vertical Slice Plan v0.1.1](../project/Voxelia_First_Vertical_Slice_Plan_v0.1.1.md)
 - [ADR-0039 - Closed storage capability and descriptor admission boundary](../architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md)
-- [ADR-0040 - Normalized logical sample and representation projection boundary](../architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
+- [ADR-0040 - Normalised logical sample and representation projection boundary](../architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md)
 - [ADR-0041 - Safe storage read transaction and type-erasure lifetime boundary](../architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md)
