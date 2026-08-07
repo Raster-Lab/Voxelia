@@ -225,6 +225,12 @@ storage semantics.
 - ``LandmarkAffineRegistration``
 - ``LandmarkRigidRegistration``
 - ``LandmarkRegistrationError``
+- ``RegistrationMetric``
+- ``RegistrationMetricPolarity``
+- ``RegistrationMetricEvaluation``
+- ``MeanSquaresMetric``
+- ``MutualInformationMetric``
+- ``RegistrationMetricError``
 
 ### Common errors
 

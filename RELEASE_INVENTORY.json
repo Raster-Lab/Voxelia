@@ -745,6 +745,11 @@
       "sha256": "9d6e49805e6072c75819641ebabe2c34ab4e7d03b65080ff55bdbb80824ee3fd"
     },
     {
+      "path": "Sources/VoxeliaCore/Public/RegistrationMetrics.swift",
+      "size": 9055,
+      "sha256": "ec7e174a256ab7a0ede64bb9ac09d6ca6684a10024ffdcc73fd5aef984d5ab6b"
+    },
+    {
       "path": "Sources/VoxeliaCore/Public/RegistrationResult.swift",
       "size": 6081,
       "sha256": "2a4a35686effbed1e421599320b8d8660e93c1b65e24cfb8ce37557edd64e08d"
@@ -816,8 +821,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md",
-      "size": 5320,
-      "sha256": "2191accc517d82b272230ef382a8c5ee7746e30e57fce66bed3e129f375b639a"
+      "size": 5497,
+      "sha256": "2744d8f054d13dea6be07cb15f4660f1aa664b7c003ba5020acf102bce8423d6"
     },
     {
       "path": "Sources/VoxeliaDICOMKit/ApplePlatformGate.swift",
@@ -2380,6 +2385,11 @@
       "sha256": "24544d2c5774cfe4a01aa5c75e9f0864c5167f61916b3f928f94f5ce4eeba1b8"
     },
     {
+      "path": "Tests/VoxeliaCoreTests/RegistrationMetricTests.swift",
+      "size": 4641,
+      "sha256": "828f5415c7f5142a16803b956988c12bb647ebb5b0a4548e93fe4eec4ad67486"
+    },
+    {
       "path": "Tests/VoxeliaCoreTests/RegistrationResultTests.swift",
       "size": 7387,
       "sha256": "55fb4a9dc6ae55348414a610c0102505787dd81f21d23f1a73e37aa893ce8bf0"
@@ -3686,8 +3696,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 8750,
-      "sha256": "a29999480dfbf58ee4951e0e46e7af0d0d40ac7a7bdb19242db0e22df6b8c83d"
+      "size": 8863,
+      "sha256": "255bccfce837a730b8993c95a941078e1bf0c3b6d9bd26f43f4acaf3b3985e96"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -4043,6 +4053,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0071-landmark-rigid.md",
       "size": 3705,
       "sha256": "f7833b4db43e655a92f12d62970e1c50da4e9a32b33d1f0c4714e07f036547f3"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0072-registration-metrics.md",
+      "size": 2919,
+      "sha256": "2baa6108ebe0c868ce921120c63762a425bd73d528eb0de6f70d8d7b401b8816"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -5930,9 +5945,14 @@
       "sha256": "610c593689b843537595b0e2694f8ceed256486818d48fa6864a72bb690b7c84"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0370-the-registration-metric-architecture.md",
+      "size": 3950,
+      "sha256": "0cce79d2f8fd72c9561e26ffbac56a37ff28425cb266e9952bf065989e6d8828"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 50187,
-      "sha256": "aeede0889dab1db0184eeff94588ef05bcd3a7c21c181765db0842d5cf05afdc"
+      "size": 50367,
+      "sha256": "0529532c441ef8b8ad9376699cb1f45fee52e48f4b9fb92b74def100701cdb1a"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6031,8 +6051,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 487127,
-      "sha256": "29d730aef5f6e2095db1690e904da84fe7e86ba5764758e80b8774e89feb3718"
+      "size": 488623,
+      "sha256": "881dbc7276c5db5e7996e86dbf34a4b9bcce0d53bb721d90e3546cd743cbedd2"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6320,6 +6340,11 @@
       "sha256": "02ce95c924b6bef9f3606d938ba4052d4c85d1f9c15dd58255c7cd6c495e8c9e"
     },
     {
+      "path": "docs/progress/evidence/ADR-0370-registration-metrics-oracle.py",
+      "size": 3180,
+      "sha256": "2862762530f3ce28f6be3cbb02f4e779c95ce25b960c33abc76c1240e42fe764"
+    },
+    {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
       "size": 6675,
       "sha256": "9d877102af34ae69ca3861dd75b1f2f55f5544453d3ea63d172469ad70a1c47c"
@@ -6341,8 +6366,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 1573,
-      "sha256": "7d0417368a8ceef56c23f712549ce0629b4bd50b42ff9a9baf40c425a114d6c9"
+      "size": 1561,
+      "sha256": "2924bc9196c8a050d02d5c6b658f1c1dfa4fa0537fee6ed98aa61c40f147868d"
     },
     {
       "path": "docs/project/README.md",
@@ -6656,8 +6681,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 76498,
-      "sha256": "e8e6b861d3114807fb446a93a1fcd81c02c9f0f43aaf1090805289da28d6b0c5"
+      "size": 76801,
+      "sha256": "a818064484854710465e48e14d3c6de633c2c52236a757c204a86622eeb3d8dd"
     }
   ]
 }

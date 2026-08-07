@@ -75,3 +75,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0069](VOXELIA-ALG-0069-rigid-composition.md) | Accepted | Rigid composition `binary64-v1` |
 | [VOXELIA-ALG-0070](VOXELIA-ALG-0070-landmark-affine.md) | Accepted | Landmark affine estimation `binary64-v1` |
 | [VOXELIA-ALG-0071](VOXELIA-ALG-0071-landmark-rigid.md) | Accepted | Landmark rigid estimation `binary64-v1` |
+| [VOXELIA-ALG-0072](VOXELIA-ALG-0072-registration-metrics.md) | Accepted | Registration metrics `binary64-v1` |

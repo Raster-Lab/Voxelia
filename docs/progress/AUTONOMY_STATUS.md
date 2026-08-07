@@ -7594,3 +7594,25 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    suites passed`. **Next**: the metric rows — the mean-square and
    mutual-information-class metric architecture row (`I,T`), which the
    intensity-driven portfolio members and the pyramid row compose.
+
+1. **2026-08-07 — ~~`VOX-REG-007`~~ DISCHARGED: the registration metric
+   architecture (`ADR-0370` + `VOXELIA-ALG-0072`).** `RegistrationMetric`
+   protocol in `VoxeliaCore` over aligned binary64 sample pairs — sampling
+   is the CALLER'S seam (metrics never see images; the interpolation
+   decision belongs to the intensity-registration increment), each
+   instance declares its `ADR-0366` identity, version and POLARITY
+   structurally so no optimiser guesses a direction. Evaluations return
+   an optional value + contributing/excluded counts (the honesty rule
+   again: absence, never zero; shrunken denominators visible). Two
+   founding classes frozen: `MeanSquaresMetric` (frozen fold of squared
+   differences) and `MutualInformationMetric` (caller-declared defaultless
+   bin count + per-side ranges — an assumed range is a silent rescale;
+   upper bound joins the last bin; out-of-range excluded+counted; platform
+   libm log under the `VOXELIA-ALG-0060` determinism contract). Fixtures
+   bit-exact: perfect correlation gives exactly libm's `log 2`,
+   independence exactly zero. Baseline shrinks by one. Full suite:
+   `✔ Test run with 1378 tests in 250 suites passed`. **Next**: continue
+   the arc in baseline-table order — the pyramid architecture row
+   (`I,T`, composing the existing `LevelSelectOperation` substance per
+   the `ADR-0351` note) or the failure-reporting row (`T`, composing the
+   `ADR-0366` convergence vocabulary), whichever the queue reads first.
