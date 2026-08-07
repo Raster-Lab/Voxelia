@@ -5275,9 +5275,14 @@
       "sha256": "74f1ba1d7e09d5058090f1be8c5c867159bcc54fb25377c2f6718c5d28944a99"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0324-interpolation-rows.md",
+      "size": 4170,
+      "sha256": "8fa4e36e01aaeff3057706270e20bdf1970a1d6dd915dcaa03819c09b1e20172"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 43975,
-      "sha256": "f574e9a2fd493af69497daf773822e7db745dc24b66979236073dc58b0e05ad6"
+      "size": 44054,
+      "sha256": "184e6ca0da7a98ad6b8c451024d57a238c73239ae468cfcd91949c76c2bf44c5"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5371,8 +5376,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 404266,
-      "sha256": "e6645192282636351b2f31cecf8a33ef8bf47c6de67cab1fe456d1a40528c685"
+      "size": 405655,
+      "sha256": "e8be75a9aaa45a6dc872c8f7583a2ba1beb7cf9b8995d5f2f91f690b34d9f9ed"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5896,8 +5901,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67402,
-      "sha256": "ea4d51b90b69583b55e0811287fb15ca11bab73b5c62db7cd95aaabe9e8b8d2d"
+      "size": 67461,
+      "sha256": "3775b0919cbc07f9da045582cec66833814bad5b6d8982460e1837192cafb0d2"
     }
   ]
 }

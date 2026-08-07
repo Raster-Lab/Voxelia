@@ -6251,3 +6251,25 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    becomes an accident.
 
    **9 rows remain unclaimed** — unchanged.
+
+   **Increment (qqqq): `ADR-0324` — two M2 interpolation rows claimed; `VOX-IMG-008` NOT.**
+   1238/219 unchanged; no code.
+
+   **`VOX-IMG-003`**: `ResampleNearestOperation`, registered `org.voxelia.op.resample-nearest`,
+   implementing **`VOXELIA-ALG-0008`**'s whole-sample selection, 3 tests.
+   **`VOX-IMG-004`**: `ResampleLinearOperation`, registered `org.voxelia.op.resample-linear`,
+   implementing **`VOXELIA-ALG-0015`**'s `bilinear-resampling/binary64-v1`, 3 tests.
+   **Both are STRONGER than the rows require** — each names a **frozen specification** rather
+   than an implementation choice, so "nearest" and "linear" mean a registered model with
+   conformance fixtures, not whatever the code happens to do.
+
+   **`VOX-IMG-008` LEFT, reason recorded.** It asks for resampling between explicit source and
+   target **grids**; both operations resample between explicit **extents**, and whether a
+   *grid* — extents **plus a geometry** — is what they accept was not established. **These are
+   not the same: extents-to-extents is a PIXEL operation; grid-to-grid is a SPATIAL one.**
+
+   **THIRD TIME in this queue that adjacent evidence would have carried a row it does not
+   address** (`VOX-SPA-010`, `VOX-MTL-013` were the others) — **consistent enough now to treat
+   as a standing hazard rather than a coincidence.**
+
+   **7 rows remain unclaimed** — recomputed.

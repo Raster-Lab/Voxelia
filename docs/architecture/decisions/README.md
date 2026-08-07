@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0324`.
+The next unallocated numeric identifier is `ADR-0325`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -510,3 +510,4 @@ The next unallocated numeric identifier is `ADR-0324`.
 | [ADR-0321](ADR-0321-british-english-ratchet.md) | Accepted | British English ratchet |
 | [ADR-0322](ADR-0322-canonical-shape-rows.md) | Accepted | Canonical shape rows |
 | [ADR-0323](ADR-0323-spatial-bounds-half-built.md) | Accepted | Spatial bounds half built |
+| [ADR-0324](ADR-0324-interpolation-rows.md) | Accepted | Interpolation rows |
