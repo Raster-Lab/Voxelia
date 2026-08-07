@@ -278,7 +278,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0410` is allocated to registration Metal acceptance resolution.
 `ADR-0411` is allocated to the DICOMKit fix-what-surfaces confirmation.
 `ADR-0412` is allocated to five batch resolutions.
-The next unallocated numeric identifier is `ADR-0413`.
+`ADR-0413` is allocated to thresholds and the session.
+The next unallocated numeric identifier is `ADR-0414`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -674,3 +675,4 @@ The next unallocated numeric identifier is `ADR-0413`.
 | [ADR-0410](ADR-0410-registration-metal-acceptance.md) | Accepted | Registration Metal acceptance resolution |
 | [ADR-0411](ADR-0411-dicomkit-fix-what-surfaces.md) | Accepted | DICOMKit fix-what-surfaces confirmed |
 | [ADR-0412](ADR-0412-five-batch-resolutions.md) | Accepted | Five batch resolutions |
+| [ADR-0413](ADR-0413-thresholds-and-the-session.md) | Accepted | Thresholds and the session |

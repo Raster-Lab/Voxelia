@@ -6515,9 +6515,14 @@
       "sha256": "0b52a37242a7f3146cee58de13185e6d350237357fc640f275ce777062b1628f"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0413-thresholds-and-the-session.md",
+      "size": 2614,
+      "sha256": "5bdd3ef92aaca0d9ba56f4ecac1559fb328f7dfffe2697ee77c8dc3b3409b248"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 56943,
-      "sha256": "14991c0b89c313c9e236583defad0d95f8e15e1b3aa1101753f31c5189c22e6c"
+      "size": 57093,
+      "sha256": "b28a3604c77538e0f4b07f5bf42f1c4f1549e92e7e5b876ca95408f867edff90"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6636,8 +6641,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 544690,
-      "sha256": "139f6189d3f7e2f68bb0d2e167eb053b4d63a1dd4e4b061988daa63abc9356cc"
+      "size": 545892,
+      "sha256": "4c10c564f3a1cdefd19db54e9965565c26aad4eb3c67eacdb8eb8fc34216e8fc"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7260,6 +7265,11 @@
       "sha256": "e847da1e55d4b8779934d352f43b0a9e0fc5d9bbc0ed69c67be5f18ee57eaf95"
     },
     {
+      "path": "docs/releases/v1.0-session-checklist.md",
+      "size": 2654,
+      "sha256": "9244410c7e807c0bf9ae138e90b2d29ff28287aac43b6047a835e381da95515b"
+    },
+    {
       "path": "docs/requirements/README.md",
       "size": 323,
       "sha256": "c9a801e921479e07e5b3d67da1f0f7daec06e686ce43cca3779172a9c33b584f"
@@ -7341,8 +7351,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 84985,
-      "sha256": "dcad9e7d1cfb74a2c97ac592c0fd0b9de6a53e0b4775fef72ba817c9629f2689"
+      "size": 85092,
+      "sha256": "02ab3ace3b015d6c256515e4f970174e398e8742e6fc96ee70dd4149ff0910f4"
     }
   ]
 }

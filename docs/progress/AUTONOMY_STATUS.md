@@ -8488,3 +8488,22 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `BenchmarkRecord` rows decoded through the revalidating admission
    before emission. TWO items remain: approved regression thresholds,
    and THE 1.0 RELEASE SESSION.
+
+1. **2026-08-08 — THE OWNER BATCH IS FULLY RESOLVED (`ADR-0413`).**
+   Regression thresholds APPROVED AT TEN PERCENT — latency and peak
+   memory may not exceed the baseline by more than 10%, throughput may
+   not fall more than 10% below it, evaluated by the `ADR-0407` seam
+   with `threshold: 0.1`; the approved baseline is the 2026-08-08
+   campaign's steady-state record, and each accepted release's campaign
+   becomes the next baseline. Enforcement is explicit review against
+   the seam at each release (the row's second branch) — a wall-clock
+   gate inside the deterministic suite would be the first flaky thing
+   in it. THE 1.0 RELEASE SESSION IS SCHEDULED AND STAGED:
+   `docs/releases/v1.0-session-checklist.md` holds the complete
+   acceptance package — policy, limitations, platform matrix, batch
+   decisions `ADR-0409..0413`, test status, benchmark records,
+   validation evidence, SBOM, and the cut procedure (VERSION +
+   `RELEASE.json` to 1.0.0 with toolchain recorded, the full release
+   gate green, release notes, the `v1.0.0` tag). Conducting the
+   session and cutting the tag are the owner's act, exactly as v0.2.0
+   was. THE PROJECT IS ONE OWNER SESSION FROM 1.0.

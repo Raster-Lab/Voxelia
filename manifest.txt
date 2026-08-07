@@ -1301,6 +1301,7 @@ docs/architecture/decisions/ADR-0409-vtk-itk-out-of-scope.md
 docs/architecture/decisions/ADR-0410-registration-metal-acceptance.md
 docs/architecture/decisions/ADR-0411-dicomkit-fix-what-surfaces.md
 docs/architecture/decisions/ADR-0412-five-batch-resolutions.md
+docs/architecture/decisions/ADR-0413-thresholds-and-the-session.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md
@@ -1450,6 +1451,7 @@ docs/releases/v0.1.1/logs/requirement_index.log
 docs/releases/v0.1.1/logs/shell_syntax.log
 docs/releases/v0.1.1/logs/yaml_parse.log
 docs/releases/v0.2.0/README.md
+docs/releases/v1.0-session-checklist.md
 docs/requirements/README.md
 docs/rfcs/README.md
 docs/rfcs/RFC-0001-controlled-correction-delta.md
