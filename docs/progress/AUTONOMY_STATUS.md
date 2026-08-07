@@ -5499,6 +5499,42 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **17 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (rrr): `ADR-0299` — lossless equality + random-access correctness;
+   `VOX-VAL-013` DISCHARGED.** 1224 tests / 216 suites (was 1218/215). **No source changed.**
+
+   **THE REPOSITORY HAD NEVER RUN THE CODEC.** `VoxeliaCompression` links `J2KCodec` and
+   `J2K3D`, and every existing suite covers the vocabulary around them — scopes, payloads,
+   destination admission, header budgets, the adapter — with **every** `J2KVolume`
+   constructed by hand. No test encoded anything; no test decoded anything. `ADR-0271`
+   measured region decode, but in a **scratch** harness, and a measurement is not a
+   correctness test.
+
+   **The fixture is a POSITIONAL phantom**: every voxel holds `100i + 10j + k`, so its value
+   **names its own index**. Extents all below ten so the place values never carry —
+   **injectivity asserted, not assumed**. That is the whole design: a region decode returning
+   the right *shape* from the wrong *offset* is invisible against random bytes and immediate
+   against this.
+
+   **Lossless asserted BYTE-FOR-BYTE**, not sample-wise with a tolerance — that is what the
+   word means. **Plus a separate value-exact assertion**, because byte equality alone would
+   hold even if the codec read every sample in the wrong byte order: it would write them back
+   the same way and the bytes would still match.
+
+   **The region is deliberately NOT at the origin** — a `(0,0,0)` region is returned correctly
+   by a decoder that ignores the offset entirely. Compared against `decodedRegion`, not the
+   requested region, so a clamped or expanded result is checked where it actually landed.
+
+   **Tile counts asserted EXACTLY: 1 decoded, 7 skipped** of an 8-tile grid. `tilesSkipped > 0`
+   would also pass for a decoder that skipped one tile and decoded the rest — which is not
+   random access.
+
+   **All six passed first run.** On this fixture `J2KSwift`'s JP3D path is correct in both
+   respects. Worth stating plainly because `ADR-0272`/`ADR-0273` recorded real defects in the
+   same dependency — those findings stand; this records a different part of the surface
+   behaving correctly under test.
+
+   **16 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 
