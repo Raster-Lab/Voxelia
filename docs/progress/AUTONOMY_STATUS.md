@@ -7776,3 +7776,27 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    canonical models through OPTIONAL adapter capabilities — design the
    capability vocabulary over the existing DICOMKit boundary, minding
    the owner's outstanding fix-what-surfaces batch answer.
+
+1. **2026-08-07 — ~~`VOX-DCM-012`~~ DISCHARGED: DICOM adapter
+   capabilities (`ADR-0378`, no ALG). THE CURVED-PLANAR/DICOM-TAILS
+   ARC'S ENGINEERING IS CLOSED.** Four OPTIONAL capability protocols in
+   `VoxeliaDICOMKit` — `DICOMSegmentationCapability` /
+   `DICOMParametricMapCapability` / `DICOMSurfaceCapability` /
+   `DICOMRegistrationCapability` — each mapping a parsed `DataSet` to
+   the CANONICAL model (`VoxeliaCore.Segmentation` fully qualified:
+   DICOMKit exports a `Segmentation` of its own; parametric `ImageData`;
+   `TriangleMesh`; `RegistrationTransform`) through that model's own
+   throwing admission, each declaring an `adapterIdentity` for
+   provenance. Nothing in the base import path requires any of them.
+   The inspection half is the EXISTING per-target DICOMKit import
+   prohibition — no new gate (`ADR-0338` d10). `VoxeliaDICOMKit` gains
+   the in-repo `VoxeliaGeometry` dependency (acyclic, no external
+   supply-chain touch). NO reference readers: DICOMKit SEG/parametric
+   surface work sits behind the owner's fix-what-surfaces batch answer;
+   the stub conformances prove the boundary implementable. Arc summary:
+   `ADR-0375..0378`, `ALG-0074/0075`, rows MPR-012/013 + DCM-011/012 +
+   SPA-012 discharged. Full suite: `✔ Test run with 1399 tests in 258
+   suites passed`. **Next**: open the EXTENSION-MECHANISM arc per
+   `ADR-0351` (VOX-EXT rows in M7 — much substance already exists in
+   `ImplementationRegistry`; derive the arc's queue from the baseline
+   table first, then design-first as always).

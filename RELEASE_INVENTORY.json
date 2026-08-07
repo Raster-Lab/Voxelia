@@ -281,8 +281,8 @@
     },
     {
       "path": "Package.swift",
-      "size": 7401,
-      "sha256": "dd99654111eb23aec7a481c99359daeb72720b01eb884f817470f51c680ffd28"
+      "size": 7436,
+      "sha256": "6677a31a08cecc72c0803ab0b129640fce03aa45eda0b6b049c3800c8de52e9e"
     },
     {
       "path": "README.md",
@@ -838,6 +838,11 @@
       "path": "Sources/VoxeliaDICOMKit/ApplePlatformGate.swift",
       "size": 234,
       "sha256": "62f2724afe24cf4d1d9999f5927392d0c9441a4b05d3f2429bc770f6b0b750d9"
+    },
+    {
+      "path": "Sources/VoxeliaDICOMKit/Public/DICOMAdapterCapabilities.swift",
+      "size": 2506,
+      "sha256": "be9346e22f1e3835c5693ab50d8c027653a07cbc6b7d5557003663dbd2202823"
     },
     {
       "path": "Sources/VoxeliaDICOMKit/Public/DICOMFrameAdapter.swift",
@@ -2468,6 +2473,11 @@
       "path": "Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift",
       "size": 308,
       "sha256": "f0e40214bfa1aa07ef7c0c7d9e740414244730ce372d6167820c8bd8816e75af"
+    },
+    {
+      "path": "Tests/VoxeliaDICOMKitTests/DICOMAdapterCapabilityTests.swift",
+      "size": 10172,
+      "sha256": "b01a281fdc879ec9c78e247d82397930498958215067bb48730ce71ce2d36572"
     },
     {
       "path": "Tests/VoxeliaDICOMKitTests/DICOMFrameAdapterTests.swift",
@@ -6065,9 +6075,14 @@
       "sha256": "89ec2236b6346e0da820f7f566a9d3fd2c144e60916aa42073fb01193620c84a"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0378-dicom-adapter-capabilities.md",
+      "size": 4286,
+      "sha256": "2b7dad3fe2723bd4842ef6d2f2efeebe914429779476e01ceb8ecf59b30e50e5"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 51474,
-      "sha256": "a0d0b699e88578f157143c6e1cf49c7622cce4209c76bb5db500d421b8dd75f0"
+      "size": 51624,
+      "sha256": "35001e4ed77a7dc3dfb1448c32a94b0711c4706aae62df2044e1581cc7ee0ef0"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6166,8 +6181,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 499095,
-      "sha256": "9d971edb48e0155a62ea1ed07f6dba950aeb94e03fef50fb067a7d325d843ac0"
+      "size": 500649,
+      "sha256": "f7ae5e6cb4289c0584f0454af557daf312c44f021561418834dcab2878cef3aa"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6811,8 +6826,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 78361,
-      "sha256": "927d105a003cfb83a866fd4e8ced63752d0a2fb921f6bf26bc305bec34bfdf28"
+      "size": 78551,
+      "sha256": "775d9fdc6cd54fb5e4ce89d8edab822761394acf0c8fdb15d8deb821c5606754"
     }
   ]
 }

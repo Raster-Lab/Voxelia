@@ -243,7 +243,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0375` is allocated to the explicit centreline.
 `ADR-0376` is allocated to curved planar back-mapping.
 `ADR-0377` is allocated to explicit frame geometry models.
-The next unallocated numeric identifier is `ADR-0378`.
+`ADR-0378` is allocated to DICOM adapter capabilities.
+The next unallocated numeric identifier is `ADR-0379`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -604,3 +605,4 @@ The next unallocated numeric identifier is `ADR-0378`.
 | [ADR-0375](ADR-0375-the-explicit-centreline.md) | Accepted | The explicit centreline |
 | [ADR-0376](ADR-0376-curved-planar-back-mapping.md) | Accepted | Curved planar back-mapping |
 | [ADR-0377](ADR-0377-explicit-frame-geometry-models.md) | Accepted | Explicit frame geometry models |
+| [ADR-0378](ADR-0378-dicom-adapter-capabilities.md) | Accepted | DICOM adapter capabilities |

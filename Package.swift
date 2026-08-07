@@ -87,6 +87,7 @@ let package = Package(
             name: "VoxeliaDICOMKit",
             dependencies: [
                 "VoxeliaImaging",
+                "VoxeliaGeometry",
                 .product(name: "DICOMKit", package: "DICOMKit"),
             ],
             swiftSettings: [.strictMemorySafety()]
