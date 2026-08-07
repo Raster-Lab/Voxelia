@@ -7244,3 +7244,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    frozen decisions are the structuring-element vocabulary and the boundary
    rule's interaction with min/max (a replicate boundary is the identity for
    both; the record must say what zero means for erosion).
+
+   **Increment (wwwww): `ADR-0356` + `VOXELIA-ALG-0061` — `VOX-IMG-012` IS
+   DISCHARGED; morphology is binary, over masks, exact.** 1314 tests / 231
+   suites.
+
+   **The named question is ANSWERED in the record**: under `zero`,
+   border-touching foreground ERODES (out-of-image is background — the
+   conservative mask reading); under `replicate` the border extends and the
+   all-ones mask is an erosion fixed point. The all-ones fixture witnesses
+   both readings side by side. Dilation is unaffected by zero taps —
+   background never satisfies ANY.
+
+   **`MorphologyOperation` (CPU 24, combined 27)**: general caller-supplied
+   0/1 structuring element (a box and a cross are INPUTS, not vocabulary),
+   odd rank-matched extents ceilinged at 31, at least one 1 (an empty element
+   makes ANY vacuously false and ALL vacuously true — a trap, not a
+   morphology). Corrupt mask bytes reject fail-closed per the `ALG-0058`
+   rule. Erosion-dilation duality recorded as a property, deliberately NOT
+   used as the implementation. Greyscale min/max morphology deferred to its
+   own record — no consumer has asked. Five oracle fixtures exact on first
+   run, `exact-v1`: no arithmetic exists to round, no warnings can arise.
+
+   **Next**: `VOX-IMG-013` connected-component analysis — frozen decisions:
+   the connectivity vocabulary (6/18/26 in three dimensions, 4/8 in two),
+   the label-assignment determinism rule (labels must be reproducible, so
+   first-encounter order in canonical scan), and the output's label-semantic
+   descriptor.

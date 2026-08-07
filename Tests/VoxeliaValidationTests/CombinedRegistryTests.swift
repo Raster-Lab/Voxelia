@@ -13,13 +13,13 @@ struct CombinedRegistryTests {
     @Test("[Unit][VOX-CCH-001][VOX-ARC-010] both backends register into one registry")
     func bothBackendsRegisterIntoOneRegistry() throws {
         // The combined CPU-plus-metal registry constructs without
-        // collision: twenty-six implementations across two backends,
+        // collision: twenty-seven implementations across two backends,
         // with dual-implementation operations listing both.
         let combined = try ImplementationRegistry(
             implementations: try CPUBackendRegistrations.standard().implementations
                 + (try MetalBackendRegistrations.standard().implementations)
         )
-        #expect(combined.implementations.count == 26)
+        #expect(combined.implementations.count == 27)
         let windowEntries = combined.implementations(
             for: try DerivationOperationToken(
                 rawValue: WindowLevelOperation.operationIdentifier

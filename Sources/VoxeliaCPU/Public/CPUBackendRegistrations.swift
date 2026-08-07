@@ -187,6 +187,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0355-gaussian-filter"
             ),
             try entry(
+                operation: MorphologyOperation.operationIdentifier,
+                implementation: MorphologyOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: exact,
+                evidence: "adr-0356-morphology"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,

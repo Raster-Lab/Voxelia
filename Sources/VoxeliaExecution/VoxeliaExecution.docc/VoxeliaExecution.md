@@ -76,6 +76,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``ConvolveError``
 - ``GaussianFilterOperation``
 - ``GaussianFilterError``
+- ``MorphologyOperation``
+- ``MorphologyOperator``
+- ``MorphologyError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

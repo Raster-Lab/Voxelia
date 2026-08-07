@@ -64,3 +64,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0058](VOXELIA-ALG-0058-mask-application-and-arithmetic.md) | Accepted | Mask application and image arithmetic `binary64-v1` |
 | [VOXELIA-ALG-0059](VOXELIA-ALG-0059-explicit-boundary-convolution.md) | Accepted | Explicit-boundary convolution `binary64-v1` |
 | [VOXELIA-ALG-0060](VOXELIA-ALG-0060-separable-gaussian.md) | Accepted | Separable Gaussian filter `binary64-v1` |
+| [VOXELIA-ALG-0061](VOXELIA-ALG-0061-binary-morphology.md) | Accepted | Binary morphology `exact-v1` |
