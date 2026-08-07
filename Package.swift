@@ -34,48 +34,66 @@ let package = Package(
         .package(
             url: "https://github.com/Raster-Lab/J2KSwift.git",
             exact: "11.0.2"
-        )
+        ),
     ],
     targets: [
-        .target(name: "VoxeliaSpatial"),
-        .target(name: "VoxeliaCore", dependencies: ["VoxeliaSpatial"]),
-        .target(name: "VoxeliaStorage", dependencies: ["VoxeliaCore"]),
-        .target(name: "VoxeliaExecution", dependencies: ["VoxeliaStorage"]),
-        .target(name: "VoxeliaImaging", dependencies: ["VoxeliaExecution"]),
+        .target(name: "VoxeliaSpatial", swiftSettings: [.strictMemorySafety()]),
+        .target(
+            name: "VoxeliaCore", dependencies: ["VoxeliaSpatial"],
+            swiftSettings: [.strictMemorySafety()]),
+        .target(
+            name: "VoxeliaStorage", dependencies: ["VoxeliaCore"],
+            swiftSettings: [.strictMemorySafety()]),
+        .target(
+            name: "VoxeliaExecution", dependencies: ["VoxeliaStorage"],
+            swiftSettings: [.strictMemorySafety()]),
+        .target(
+            name: "VoxeliaImaging", dependencies: ["VoxeliaExecution"],
+            swiftSettings: [.strictMemorySafety()]),
         .target(
             name: "VoxeliaCompression",
             dependencies: [
                 "VoxeliaCore",
                 .product(name: "J2KCodec", package: "J2KSwift"),
                 .product(name: "J2K3D", package: "J2KSwift"),
-            ]
+            ],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .target(
             name: "VoxeliaGeometry",
-            dependencies: ["VoxeliaCore", "VoxeliaSpatial"]
+            dependencies: ["VoxeliaCore", "VoxeliaSpatial"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .target(
             name: "VoxeliaRendering",
-            dependencies: ["VoxeliaImaging", "VoxeliaGeometry"]
+            dependencies: ["VoxeliaImaging", "VoxeliaGeometry"],
+            swiftSettings: [.strictMemorySafety()]
         ),
-        .target(name: "VoxeliaInteraction", dependencies: ["VoxeliaRendering"]),
+        .target(
+            name: "VoxeliaInteraction", dependencies: ["VoxeliaRendering"],
+            swiftSettings: [.strictMemorySafety()]),
         .target(
             name: "VoxeliaCPU",
-            dependencies: ["VoxeliaImaging", "VoxeliaGeometry", "VoxeliaExecution"]
+            dependencies: ["VoxeliaImaging", "VoxeliaGeometry", "VoxeliaExecution"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .target(
             name: "VoxeliaMetal",
             dependencies: ["VoxeliaExecution", "VoxeliaRendering"],
-            resources: [.process("Resources")]
+            resources: [.process("Resources")],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .target(
             name: "VoxeliaDICOMKit",
             dependencies: [
                 "VoxeliaImaging",
                 .product(name: "DICOMKit", package: "DICOMKit"),
-            ]
+            ],
+            swiftSettings: [.strictMemorySafety()]
         ),
-        .target(name: "VoxeliaValidation", dependencies: ["VoxeliaCPU", "VoxeliaMetal"]),
+        .target(
+            name: "VoxeliaValidation", dependencies: ["VoxeliaCPU", "VoxeliaMetal"],
+            swiftSettings: [.strictMemorySafety()]),
         .target(
             name: "Voxelia",
             dependencies: [
@@ -87,37 +105,45 @@ let package = Package(
                 "VoxeliaGeometry",
                 "VoxeliaRendering",
                 "VoxeliaInteraction",
-            ]
+            ],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .target(
             name: "VoxeliaTestSupport",
             dependencies: ["VoxeliaCore", "VoxeliaValidation"],
             path: "Tests/Support",
-            resources: [.process("Resources")]
+            resources: [.process("Resources")],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaSpatialTests",
-            dependencies: ["VoxeliaSpatial", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaSpatial", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaCoreTests",
-            dependencies: ["VoxeliaCore", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaCore", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaStorageTests",
-            dependencies: ["VoxeliaStorage", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaStorage", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaExecutionTests",
-            dependencies: ["VoxeliaExecution", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaExecution", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaImagingTests",
-            dependencies: ["VoxeliaImaging", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaImaging", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaDICOMKitTests",
-            dependencies: ["VoxeliaDICOMKit", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaDICOMKit", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaCompressionTests",
@@ -125,7 +151,8 @@ let package = Package(
                 "VoxeliaCompression",
                 "VoxeliaStorage",
                 "VoxeliaTestSupport",
-            ]
+            ],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaGeometryTests",
@@ -133,29 +160,37 @@ let package = Package(
                 "VoxeliaGeometry",
                 "VoxeliaSpatial",
                 "VoxeliaTestSupport",
-            ]
+            ],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaRenderingTests",
-            dependencies: ["VoxeliaRendering", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaRendering", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaInteractionTests",
-            dependencies: ["VoxeliaInteraction", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaInteraction", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaCPUTests",
-            dependencies: ["VoxeliaCPU", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaCPU", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaMetalTests",
-            dependencies: ["VoxeliaMetal", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaMetal", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "VoxeliaValidationTests",
-            dependencies: ["VoxeliaValidation", "VoxeliaTestSupport"]
+            dependencies: ["VoxeliaValidation", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]
         ),
-        .testTarget(name: "VoxeliaTests", dependencies: ["Voxelia", "VoxeliaTestSupport"]),
+        .testTarget(
+            name: "VoxeliaTests", dependencies: ["Voxelia", "VoxeliaTestSupport"],
+            swiftSettings: [.strictMemorySafety()]),
     ],
     swiftLanguageModes: [.v6]
 )

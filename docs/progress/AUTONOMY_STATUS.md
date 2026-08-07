@@ -5056,6 +5056,48 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    vs per-target, and whether `MetalBufferTransfer`'s governed `expected_findings` needs
    revisiting once the compiler rather than convention requires its markers.
 
+   **Increment (ggg): `ADR-0288` — STRICT MEMORY SAFETY IS ENABLED. The policy's stated
+   model is now TRUE.** 1152 tests / 207 suites after a **clean rebuild**; no Swift source
+   changed.
+
+   **A correction to my own working assumption mid-increment**: a probe reported
+   `'strictMemorySafety' is unavailable` and I concluded a tools-version raise was needed.
+   **Wrong** — my probe was at `swift-tools-version:6.0` while **Voxelia has been at 6.2 all
+   along**. The setting was available the whole time. That wrong conclusion would have
+   turned a two-identifier change into a manifest-semantics migration.
+
+   **All four of `ADR-0287`'s items settled:**
+   1. **Exactly two identifiers** added (`swiftSettings`, `strictMemorySafety`) — declarative
+      configuration, not executable logic.
+   2. **Per-target, and NOT by choice**: the manifest lexer permits **exactly one `let` and
+      one `=`**, so single-sourcing via `let safety: [SwiftSetting] = [...]` is
+      **structurally forbidden**. Written inline on all **29** targets — verbose, and
+      matching the house rule that every optional is passed explicitly.
+   3. **Negative-tested three ways, all still refusing**: `.unsafeFlags(["-Onone"])` →
+      *unsafe package compiler flags* **and** *outside approved declarative subset*;
+      `.define("ARBITRARY")` → refused; a **second `let`** → refused. The widening admitted
+      two identifiers and **nothing else**.
+   4. **`MetalBufferTransfer` unchanged and now STRONGER**: its three `unsafe` markers were
+      **voluntary**; the compiler now **requires** them. SHA pin and `expected_findings`
+      untouched.
+
+   **POSITIVE CONTROL — a silently-ignored manifest change looks exactly like a working
+   one.** A temporary probe using `withUnsafeBufferPointer` with no marker made the build
+   emit `warning: expression uses unsafe constructs but is not marked with 'unsafe'
+   [#StrictMemorySafety]`; removing it returned clean. **The mode is live.**
+
+   **A PRE-EXISTING FAILURE FOUND, AND NOT MINE.**
+   `Tools/Tests/Python/test_repository_scripts.py` fails 1 of 12: it asserts the DocC wrapper
+   passes `OTHER_DOCC_FLAGS='--warnings-as-errors'`, which the wrapper **deliberately does
+   not** — its own comment records that `ADR-0233` removed the global flag because
+   `docbuild` documents the whole package graph. **The script was corrected and its
+   self-test was not.** **Verified by stashing and reproducing on pristine `main`**, per the
+   standing rule after a whole-suite failure was once misattributed. It is **not in
+   `validate-docs.sh`**, which is why it went unnoticed. Recorded for its own increment
+   rather than folded into a governed manifest change.
+
+   **Next**: the stale DocC self-test, then a re-derived queue.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

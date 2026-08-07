@@ -251,8 +251,8 @@
     },
     {
       "path": "Package.swift",
-      "size": 5791,
-      "sha256": "9bda2caeafb8ba0a7759e9fa4407b7ef3f723498a98225d1df32341c09b52c95"
+      "size": 7379,
+      "sha256": "6d415de4bb0a5a3dd6359de3e54cc2d4c063b0b5c00b6328f135354468a255d8"
     },
     {
       "path": "README.md",
@@ -3041,8 +3041,8 @@
     },
     {
       "path": "Tools/Scripts/check_swift_safety.py",
-      "size": 48758,
-      "sha256": "b080c975b2f885bd53a39a0dcd8bf58719149f711e966660dcccadc123a50197"
+      "size": 48805,
+      "sha256": "390acf94e8564912a0f492d4920b5c7505f793685a32f3016a6ea6281108db31"
     },
     {
       "path": "Tools/Scripts/generate-sbom.sh",
@@ -4985,9 +4985,14 @@
       "sha256": "aef79d76c79e0e162f1c9f447d2751678cfbeab3a409d6ddfe10bbca0e5d9966"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0288-enable-strict-memory-safety.md",
+      "size": 8630,
+      "sha256": "81467f2a4ec0203461c8e190e2368e943b0ea4cba2adb1fb0c985d5b83a8f677"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 40349,
-      "sha256": "ef98749433e2391dacfc777b463cf10b033b8f8991e517e9bad1a766dbbc1e64"
+      "size": 40446,
+      "sha256": "3a3b209be982e725f3cf4278b511b6092102da654b9c3905053f2071c67b8015"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5081,8 +5086,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1194869,
-      "sha256": "7f213b23d159da7f3a4661ba4469a3d6f2d50723f24f9a017945bf1741313ba0"
+      "size": 1197653,
+      "sha256": "5ac4a74f898f653b72c89680f2a1cbd43c80431c5e615a3e11011bf826283d08"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5591,8 +5596,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 63596,
-      "sha256": "c98d0de10597ea596ae6a995ac864bc8d3db1dd0d4650610ab003b2a1f93389f"
+      "size": 63664,
+      "sha256": "70bc6da3154319d8bf783d79de9357a7ed818112ef610e6f75fd8beb32995abe"
     }
   ]
 }
