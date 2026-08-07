@@ -185,7 +185,7 @@ let package = Package(
         ),
         .testTarget(
             name: "VoxeliaValidationTests",
-            dependencies: ["VoxeliaValidation", "VoxeliaTestSupport"],
+            dependencies: ["VoxeliaValidation", "VoxeliaTestSupport", "VoxeliaInteraction"],
             swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(

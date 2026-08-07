@@ -5321,6 +5321,61 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
+   **Increment (nnn): `ADR-0295` — §55.4's distance phantom; the MEASUREMENT kind of
+   `VOX-VAL-003`.** 1194 tests / 212 suites (was 1180/211).
+
+   **A FALSE EXACTNESS CERTIFICATE, found before it was ever used.** The obvious way to
+   certify a length as exact is to square the root back — admit when `fl(√s)² == s`. It is
+   **wrong, and it fails at the smallest scale**: `s = 11` passes the round trip and `√11` is
+   irrational. Eleven is not contrived — it is the squared length of the delta `(1, 1, 3)`, an
+   entirely plausible oblique segment. Under that certificate the phantom would assert wrong
+   expected distances **and no test could see it**, because the phantom is the oracle.
+
+   **So the certificate is an INTEGER IDENTITY**: `a² + b² + c² = d²` checked in `Int`. The
+   frozen table is four Pythagorean quadruples in whole millimetres — `(3,4,0)/5`,
+   `(1,2,2)/3`, `(2,3,6)/7`, `(1,4,8)/9` — and the tests **re-derive the identity from the
+   endpoints** rather than trusting the declared length. The falsification of the round trip
+   is itself a test, not a claim in prose.
+
+   **Frozen in PHYSICAL space, not index space.** The plan says *known physical distances*, so
+   the distances must not depend on the sampling. Index separations are derived by dividing by
+   spacing, which turns "does this endpoint land on a sample" into a check the phantom
+   performs rather than an assumption it makes.
+
+   **Spacing must be a POWER OF TWO** (`2⁻¹⁰…2¹⁰`) and the **origin an integer ≤ `2³⁰`**.
+   Division by a power of two is exact, so integrality of the quotient is a real alignment
+   test rather than a rounded one; together they keep every coordinate a dyadic rational
+   spanning ≤ 42 significant bits, so the whole chain origin → measured length is exact in
+   binary64. Probed at **both origin extremes**, not asserted.
+
+   **Every z component of the table is EVEN** — so the realistic anisotropic case (0.5 mm in
+   plane, 2 mm between slices) stays voxel-aligned. A phantom that only worked isotropically
+   would not resemble the data the measurement path actually sees.
+
+   **Both per-axis fallacies falsified on every segment**: summing axis distances gives
+   `7,5,11,13` against the true `5,3,7,9`; longest-axis gives `4,2,6,8`. An axis-aligned
+   segment would let both mistakes pass — which is why **none is in the table**.
+
+   **Sampling invariance in one assertion**: halving the spacing doubles every index
+   separation and leaves the measured distance identical.
+
+   **The measurement runs through the SHIPPED `MeasurementConstruction`** (`ALG-0010`,
+   composed not restated), compared with `==`. No length is computed inside the test.
+   `VoxeliaValidationTests` gains a `VoxeliaInteraction` dependency for that; test targets are
+   outside `check_package_graph.py`'s layered graph by design, so the library graph is
+   unchanged.
+
+   **My extents test refused NOTHING at first** — the reference fixture `9×12×7` has a sample
+   of slack in every axis, so the triples chosen as "one short" were all still large enough.
+   Boundary now pinned at the true minimum `8×11×6`.
+
+   **`VOX-VAL-003` STILL not discharged** — intensity (`ADR-0294`) and measurement (this) are
+   in; **spatial remains**.
+
+   **Next**: §55.2's physical-coordinate ramp, **design-first with a `VOXELIA-ALG`
+   specification and an independent oracle** — its summation order AND its quantisation are
+   both observable, unlike either phantom built so far.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 
