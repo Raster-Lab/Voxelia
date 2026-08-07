@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0303`.
+The next unallocated numeric identifier is `ADR-0304`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -489,3 +489,4 @@ The next unallocated numeric identifier is `ADR-0303`.
 | [ADR-0300](ADR-0300-cpu-metal-differential-references.md) | Accepted | CPU Metal differential references |
 | [ADR-0301](ADR-0301-enforce-the-test-level-taxonomy.md) | Accepted | Enforce the test level taxonomy |
 | [ADR-0302](ADR-0302-declared-temporary-file-sites.md) | Accepted | Declared temporary file sites |
+| [ADR-0303](ADR-0303-headless-rendering-enforced.md) | Accepted | Headless rendering enforced |

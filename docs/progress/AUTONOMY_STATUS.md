@@ -5640,6 +5640,35 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **13 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (vvv): `ADR-0303` — headless rendering ENFORCED; `VOX-HLS-001` **T**
+   discharged, **D** left with the owner.** 1229/217 unchanged. **No source changed.**
+
+   **Measured: ZERO windowing hits in `Sources/`** — `AppKit`, `UIKit`, `SwiftUI`,
+   `MetalKit`, `CAMetalLayer`, `NSWindow`, `UIWindow`, `MTKView`. The product is headless in
+   fact, and the 21 byte-exact off-screen renders (now `[Pipeline]`) are what shows it.
+
+   **I CORRECTED MYSELF BEFORE WRITING.** My first read reported `VoxeliaMetal` forbidding
+   **nothing** — wrong. It forbids `DICOMKit`, `RealityKit`, `ModelIO`, `CoreImage`,
+   `VoxeliaCompression`; the entry spans several lines and my single-line regex missed it. Read
+   it directly before claiming a defect.
+
+   **The real gap is narrower and sharper**: every other target forbids `MetalKit`;
+   **`VoxeliaMetal` does not** — the one target that talks to the GPU, and the one where an
+   `MTKView` would plausibly be reached for. `AppKit`/`UIKit`/`SwiftUI` were forbidden in
+   `VoxeliaInteraction` **alone**. The property held, and was enforced everywhere except where
+   it mattered most.
+
+   **Applied UNIFORMLY over all targets**, not pasted into eleven sets — eleven near-identical
+   edits are eleven chances to omit one, and that failure mode has already happened once here.
+
+   **Proven able to fail**: `import MetalKit` added to `MetalSliceRenderer.swift` → reported by
+   path, exit 1. Before this change it would have passed.
+
+   **`D` NOT claimed** — the ledger's own standing rule says byte-exact off-screen renders
+   discharge **Test, never Demonstration**. Joins `VOX-VAL-006`'s `R` on the owner list.
+
+   **12 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

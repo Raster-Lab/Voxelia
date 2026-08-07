@@ -112,6 +112,14 @@ PROHIBITED = {
         "VoxeliaCompression",
     },
 }
+# `VOX-HLS-001` requires off-screen rendering without an application window, per `ADR-0303`.
+# The four frameworks below are how a window or a view would enter, and every product target
+# refuses them -- including `VoxeliaMetal`, which forbade five things and none of these, and
+# is the one target that actually talks to the GPU.
+WINDOWING = {"AppKit", "UIKit", "SwiftUI", "MetalKit"}
+for target in PROHIBITED:
+    PROHIBITED[target] = PROHIBITED[target] | WINDOWING
+
 pattern = re.compile(r"^\s*import\s+([A-Za-z_][A-Za-z0-9_]*)", re.MULTILINE)
 errors = []
 for target, prohibited in PROHIBITED.items():
