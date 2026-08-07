@@ -59,7 +59,7 @@ public struct ViewportSize: Sendable, Hashable {
 ///
 /// Parameters are admitted at camera construction, the owning
 /// aggregate, following the axis-sampling precedent.
-public enum CameraProjection: Sendable, Hashable {
+public enum CameraProjection: Sendable, Hashable, Codable {
     /// A parallel projection with the view-plane height in world
     /// units.
     case orthographic(planeHeight: Double)
@@ -74,7 +74,7 @@ public enum CameraProjection: Sendable, Hashable {
 /// float-precision transform derivation happens here, because
 /// `VOX-SPA-004` admits rendering-specific float transforms only after
 /// verified error bounds, which remain a recorded gate.
-public struct RenderCamera: Sendable, Hashable {
+public struct RenderCamera: Sendable, Hashable, Codable {
     public let position: Point3D
     public let target: Point3D
     public let up: Vector3D
@@ -130,5 +130,39 @@ public struct RenderCamera: Sendable, Hashable {
         self.target = target
         self.up = up
         self.projection = projection
+    }
+}
+
+extension RenderCamera {
+    private enum CodingKeys: String, CodingKey {
+        case position
+        case target
+        case up
+        case projection
+    }
+
+    /// Decodes and revalidates through the throwing admission — the
+    /// `ADR-0401` camera-serialisation rule: off-screen and
+    /// distributed rendering snapshot the same validated type.
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(
+            position: try container.decode(Point3D.self, forKey: .position),
+            target: try container.decode(Point3D.self, forKey: .target),
+            up: try container.decode(Vector3D.self, forKey: .up),
+            projection: try container.decode(
+                CameraProjection.self,
+                forKey: .projection
+            )
+        )
+    }
+
+    /// Encodes every member.
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(position, forKey: .position)
+        try container.encode(target, forKey: .target)
+        try container.encode(up, forKey: .up)
+        try container.encode(projection, forKey: .projection)
     }
 }

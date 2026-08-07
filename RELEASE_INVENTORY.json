@@ -815,6 +815,11 @@
       "sha256": "baea57b0d558686977670dbd440da481f55a356e53cb6574099cacc441130887"
     },
     {
+      "path": "Sources/VoxeliaCore/Public/TransportCodable.swift",
+      "size": 2080,
+      "sha256": "7ff467a30ee3cb2b85fb85e5ba4585f93cb999ae48894533102f1cf29fcf6dbd"
+    },
+    {
       "path": "Sources/VoxeliaCore/Public/ValueTransform.swift",
       "size": 10086,
       "sha256": "db5c79699169b2afa61ce077cba54e65fbc0b1c2a7160efef66c76c8d013f47b"
@@ -955,6 +960,11 @@
       "sha256": "9f5eb5d0a4c79069f7b5dfddc144521a48bce2b80fc531f0df0b277382b63257"
     },
     {
+      "path": "Sources/VoxeliaExecution/Public/DistributedJobDescription.swift",
+      "size": 7279,
+      "sha256": "96253a9d1345033e38a45370a6a9b23fc6c17d4fb55f873cc705d06ae2998bd6"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Public/FirstUsefulImage.swift",
       "size": 7140,
       "sha256": "7d2ccf34414fb43a2dd60b485ca11c7529b6df210befc3345abc0efec412fd58"
@@ -971,8 +981,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/Public/ImplementationRegistry.swift",
-      "size": 6961,
-      "sha256": "437653c386d2b07eba5ae6a05eb575546b53d3dc82cefc2ed104523cd79aefd1"
+      "size": 7806,
+      "sha256": "ce2bb26c5e6ad5051415b9b3fc5687480be43090b359d0678bd7862756e05602"
     },
     {
       "path": "Sources/VoxeliaExecution/Public/InvertDisplayOperation.swift",
@@ -1106,8 +1116,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/VoxeliaExecution.md",
-      "size": 3171,
-      "sha256": "87c5723ef3e01ff41bc3911ce146641a8e5907bc92882d07231968a1c820c540"
+      "size": 3272,
+      "sha256": "a61890a40e87e6139508d2bca584d1160b68631efc8048eb72bbf5a21dfc7469"
     },
     {
       "path": "Sources/VoxeliaGeometry/ApplePlatformGate.swift",
@@ -1741,8 +1751,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderCamera.swift",
-      "size": 4821,
-      "sha256": "da6fb638b4e08cca5ceda1ab7a1329fa62be7620a049f83f14d60cf40c3aad9c"
+      "size": 6097,
+      "sha256": "e93a2642f6a04988c5f66d9daeb78fc1a69d300cbe7c56e1e91052c6e16439e1"
     },
     {
       "path": "Sources/VoxeliaRendering/Public/RenderRequest.swift",
@@ -2605,6 +2615,11 @@
       "sha256": "7eb65938843d6d8cb05c887ac75af682efe3d2340b01cdae154d5845a490f15a"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/DistributedJobTests.swift",
+      "size": 5155,
+      "sha256": "ce56dbfec5e687b5f1c7edb50ef07d857755b572cdfd0fb6eb122ba34cd70f80"
+    },
+    {
       "path": "Tests/VoxeliaExecutionTests/FirstUsefulImageTests.swift",
       "size": 10528,
       "sha256": "487669b5a8f755969a8d00b5a344e65340fdb43c68c076e0788fd60bac7f8ebc"
@@ -3133,6 +3148,11 @@
       "path": "Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift",
       "size": 8547,
       "sha256": "d1f1798ac287dc02a5589e2465f2f5cc86185325f4e4bfae865f3e1a8aac38c8"
+    },
+    {
+      "path": "Tests/VoxeliaRenderingTests/CameraSerialisationTests.swift",
+      "size": 1426,
+      "sha256": "5fac0b0ad81d5a467512f905557c7ef336e7befec29957b8b28efeb5921c6299"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/DiagnosticFailClosedTests.swift",
@@ -6370,9 +6390,14 @@
       "sha256": "febe3414a9d9d97898ac87c7a2c6e0194fc7dd5a45e7624bc1b9ddaa90939bd7"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0401-distributed-job-descriptions.md",
+      "size": 4266,
+      "sha256": "d290e9574730a17160b919e56d099673621d125e2156f58ca96093b82013c244"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 55096,
-      "sha256": "736cd5cddc3a86080f99af56fe576e101abd4d2968f36c3957f06b6534db56b5"
+      "size": 55252,
+      "sha256": "ea5b7d9d522aff1ecc4dcbcd949cc240816a45809c2de42c9a1a218027c7ac87"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6481,8 +6506,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 526745,
-      "sha256": "a0487603768cd9406c4771620d467a5b203fd5f8ebe8565276bdc919242d07c0"
+      "size": 528658,
+      "sha256": "c5514e8f8411190795c321163d0433f2136d772e788018f69144ef53bd06b5d0"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7161,8 +7186,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 82883,
-      "sha256": "dce91d8d8c61c9ba787a8629bc684b57002f8b41c75310404b9206e19b1f54eb"
+      "size": 83179,
+      "sha256": "8e9b573e1548eaa41312ea07e4026b191b6f5d53da219a254e595762e3fb989b"
     }
   ]
 }

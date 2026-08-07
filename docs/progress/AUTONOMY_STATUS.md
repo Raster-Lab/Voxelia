@@ -8206,3 +8206,32 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    composing the `ADR-0380` contract, tile/frame/brick/sample
    partitioning with the photorealistic partitioning row,
    `VOXELIA-ALG-0079` seeds, camera serialisation.
+
+1. **2026-08-07 — ~~`VOX-DST-001`~~ + ~~`VOX-DST-002`~~ + ~~`VOX-DST-003`~~
+   + ~~`VOX-DST-004`~~ + ~~`VOX-DST-005`~~ + ~~`VOX-PRR-016`~~ +
+   ~~`VOX-INT-003`~~ DISCHARGED: distributed job descriptions
+   (`ADR-0401`). M9 ARC 3 IS CLOSED.** `DistributedJobDescription` is
+   Codable with REVALIDATING decode (the frame-geometry precedent —
+   transport-neutral means JSON through the ordinary coder, and every
+   decode passes the same throwing admission; witnessed by a tampered
+   wire form refusing with the construction error). Identity/versions/
+   parameters travel as the operation token, `SemanticVersion` and the
+   `ADR-0054` parameters `ContentID` — parameters travel as their
+   DIGEST, not re-encoded structures; inputs as object-identifier +
+   content-digest pairs. Compatibility is the `ADR-0380` contract
+   EMBEDDED VERBATIM — one spelling, no transport mirror (the contract
+   vocabulary + tokens + implementation reference gained revalidating
+   Codable). `WorkPartition` is the row's four shapes verbatim
+   (tile/frameRange/brickSet/sampleRange, each validated); the
+   photorealistic partitioning row is served by tile + sampleRange,
+   witnessed. A SAMPLE-RANGE PARTITION REQUIRES A SEED — stochastic
+   work without a declared `VOXELIA-ALG-0079` seed refuses typed.
+   `RenderCamera` is Codable through its OWN admission (a tampered
+   degenerate view direction refuses with the camera's typed error) —
+   off-screen and distributed rendering snapshot the same validated
+   type. Full suite: `✔ Test run with 1448 tests in 278 suites passed`.
+   **Next**: M9 arc 4, distributed integrity — checksummed partial
+   results with provenance and partition identity, merges detecting
+   missing/duplicated/incompatible partitions, the ORDER-INDEPENDENT
+   Welford merge with its analysis half, declared reduction semantics,
+   worker-side rejection, pre-emption/cancellation.

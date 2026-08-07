@@ -106,6 +106,10 @@ public API is introduced only by reviewed milestone specifications.
 - ``DiagnosticSelection``
 - ``DiagnosticApprovalSet``
 - ``DiagnosticSelectionError``
+- ``DistributedJobDescription``
+- ``JobInputIdentity``
+- ``WorkPartition``
+- ``DistributedJobError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

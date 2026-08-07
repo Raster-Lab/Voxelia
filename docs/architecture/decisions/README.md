@@ -266,7 +266,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0398` is allocated to the headless foundation.
 `ADR-0399` is allocated to progressive frames and cancellation.
 `ADR-0400` is allocated to headless output capabilities.
-The next unallocated numeric identifier is `ADR-0401`.
+`ADR-0401` is allocated to distributed job descriptions.
+The next unallocated numeric identifier is `ADR-0402`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -650,3 +651,4 @@ The next unallocated numeric identifier is `ADR-0401`.
 | [ADR-0398](ADR-0398-the-headless-foundation.md) | Accepted | The headless foundation |
 | [ADR-0399](ADR-0399-progressive-frames-and-cancellation.md) | Accepted | Progressive frames and cancellation |
 | [ADR-0400](ADR-0400-headless-output-capabilities.md) | Accepted | Headless output capabilities |
+| [ADR-0401](ADR-0401-distributed-job-descriptions.md) | Accepted | Distributed job descriptions |

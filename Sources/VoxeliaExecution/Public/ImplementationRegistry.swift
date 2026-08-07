@@ -24,21 +24,21 @@ public enum ImplementationContractError: Error, Sendable, Equatable {
 }
 
 /// Declared rank support: an honest `any`, or a validated range.
-public enum DeclaredRankSupport: Sendable, Hashable {
+public enum DeclaredRankSupport: Sendable, Hashable, Codable {
     case any
     case range(ClosedRange<Int>)
 }
 
 /// Declared scalar-format support: an honest `any`, or a non-empty
 /// unique list.
-public enum DeclaredScalarSupport: Sendable, Hashable {
+public enum DeclaredScalarSupport: Sendable, Hashable, Codable {
     case any
     case scalars(ContiguousArray<ScalarType>)
 }
 
 /// Declared geometry support: an honest `any`, or a calibrated-affine
 /// requirement.
-public enum DeclaredGeometrySupport: Sendable, Hashable {
+public enum DeclaredGeometrySupport: Sendable, Hashable, Codable {
     case any
     case requiresAffine
 }
@@ -46,7 +46,7 @@ public enum DeclaredGeometrySupport: Sendable, Hashable {
 /// The declared sample domain: image envelopes, or the mesh domain —
 /// forcing mesh operations to fake image envelopes would be exactly
 /// the kind of lie the registry exists to prevent.
-public enum DeclaredSampleDomain: Sendable, Hashable {
+public enum DeclaredSampleDomain: Sendable, Hashable, Codable {
     case image(
         ranks: DeclaredRankSupport,
         scalars: DeclaredScalarSupport,
@@ -59,7 +59,7 @@ public enum DeclaredSampleDomain: Sendable, Hashable {
 /// every registration, defaultless. The declaration is selection
 /// metadata — the operation's own typed admission stays authoritative,
 /// so a declaration cannot admit anything the operation would refuse.
-public struct DeclaredImplementationContract: Sendable, Hashable {
+public struct DeclaredImplementationContract: Sendable, Hashable, Codable {
     public let domain: DeclaredSampleDomain
     /// The quality profiles the implementation may serve; non-empty.
     public let qualityProfiles: ContiguousArray<ExecutionClaimToken>
@@ -99,6 +99,28 @@ public struct DeclaredImplementationContract: Sendable, Hashable {
         self.domain = domain
         self.qualityProfiles = qualityProfiles
         self.capabilityRequirements = capabilityRequirements
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case domain
+        case qualityProfiles
+        case capabilityRequirements
+    }
+
+    /// Decodes and revalidates through the throwing admission.
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(
+            domain: try container.decode(DeclaredSampleDomain.self, forKey: .domain),
+            qualityProfiles: try container.decode(
+                ContiguousArray<ExecutionClaimToken>.self,
+                forKey: .qualityProfiles
+            ),
+            capabilityRequirements: try container.decode(
+                ContiguousArray<ExecutionClaimToken>.self,
+                forKey: .capabilityRequirements
+            )
+        )
     }
 }
 
