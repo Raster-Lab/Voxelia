@@ -6201,3 +6201,24 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    an illustration; here the *author* was.
 
    **11 rows remain unclaimed** — recomputed.
+
+   **Increment (oooo): `ADR-0322` — two M1 shape rows claimed; `VOX-SPA-010` deliberately
+   NOT.** 1238/219 unchanged; no code.
+
+   **`VOX-DAT-002`** (variable-rank): `ImageShape` stores `extents` as `ContiguousArray<Int>`
+   and **derives `rank` from its count** — rank is a property of the *value*, not the type —
+   and the init is generic over any `Collection` of `Int`, so callers aren't pushed toward a
+   fixed arity either.
+
+   **`VOX-DAT-003`** (reject zero/negative): throws `nonPositiveExtent(axis:value:)` on the
+   first offender plus `emptyRank`. **The refusal NAMES the axis and the value** — more than
+   the row asks, and what makes a failure actionable rather than merely correct. 14 tests.
+
+   **`VOX-SPA-010` LEFT UNCLAIMED, with the reason recorded rather than the omission.** Both
+   representations exist — `ImageRegion` (integer bounds), `AxisAlignedBounds3D` (two `Point3D`
+   with a space) — but whether a **conversion between them** exists, and under which frozen
+   evaluation, **was not established**. **Claiming on the existence of two types would assert a
+   relationship neither of them states** — and this arc has already had to untangle one row
+   claimed on adjacent evidence.
+
+   **9 rows remain unclaimed** — recomputed.
