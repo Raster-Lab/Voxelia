@@ -37,6 +37,10 @@ public API is introduced only by reviewed milestone specifications.
 - ``StampedFrame``
 - ``PresentationOutcome``
 - ``FramePresenter``
+- ``ProgressiveFrame``
+- ``ProgressiveFrameMetadata``
+- ``ProgressiveRenderSession``
+- ``ProgressiveFrameError``
 - ``PickResolver``
 - ``PickResolution``
 

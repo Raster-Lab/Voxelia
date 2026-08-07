@@ -264,7 +264,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0396` is allocated to photorealistic validation witnesses.
 `ADR-0397` is allocated to the M9 queue.
 `ADR-0398` is allocated to the headless foundation.
-The next unallocated numeric identifier is `ADR-0399`.
+`ADR-0399` is allocated to progressive frames and cancellation.
+The next unallocated numeric identifier is `ADR-0400`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -646,3 +647,4 @@ The next unallocated numeric identifier is `ADR-0399`.
 | [ADR-0396](ADR-0396-photorealistic-validation-witnesses.md) | Accepted | Photorealistic validation witnesses |
 | [ADR-0397](ADR-0397-the-m9-queue.md) | Accepted | The M9 queue |
 | [ADR-0398](ADR-0398-the-headless-foundation.md) | Accepted | The headless foundation |
+| [ADR-0399](ADR-0399-progressive-frames-and-cancellation.md) | Accepted | Progressive frames and cancellation |

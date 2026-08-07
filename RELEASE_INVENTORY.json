@@ -1365,6 +1365,11 @@
       "sha256": "42bee82dfe51ffc0838b0f27af484061d6847dd47cb1aef3f2ea2007cf518e63"
     },
     {
+      "path": "Sources/VoxeliaInteraction/Public/ProgressiveFrames.swift",
+      "size": 3495,
+      "sha256": "301be82c30ade2c57d05e51ea07207326ad3252acf6623702f333ecd8650b38f"
+    },
+    {
       "path": "Sources/VoxeliaInteraction/Public/RenderGeneration.swift",
       "size": 1500,
       "sha256": "5e2267ac68456ff5efe38c7d920ce3a9710de2ad61b62c831411194f2179c29d"
@@ -1386,8 +1391,8 @@
     },
     {
       "path": "Sources/VoxeliaInteraction/VoxeliaInteraction.docc/VoxeliaInteraction.md",
-      "size": 938,
-      "sha256": "c8a04eb97e60cbf6a0c58479d2330c4461dedc711e8183fb0cd2425e3cfa2e52"
+      "size": 1051,
+      "sha256": "04c3dbcba62055614ed9658f495f7d79901e526a7cc0c1b3ea5e18a781509206"
     },
     {
       "path": "Sources/VoxeliaMetal/ApplePlatformGate.swift",
@@ -2938,6 +2943,11 @@
       "path": "Tests/VoxeliaInteractionTests/PickResolverTests.swift",
       "size": 12683,
       "sha256": "6ed5be8a77e59a8312e0d8339bb0a24a1b21aeb2c4dba8b265f134a790bb0c35"
+    },
+    {
+      "path": "Tests/VoxeliaInteractionTests/ProgressiveFrameTests.swift",
+      "size": 3568,
+      "sha256": "ff1c865a0e9243b25986b262a8a1b48342180ac3e455eeb5c70166cc9c37af25"
     },
     {
       "path": "Tests/VoxeliaInteractionTests/ReconstructedMeasurementGeometryTests.swift",
@@ -6340,9 +6350,14 @@
       "sha256": "1460e17e6d063edd842d4e6631f6819787e27c553e3470086b4d7aac68c5a579"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0399-progressive-frames-and-cancellation.md",
+      "size": 3318,
+      "sha256": "47191970df43d3822a342957514ce0e549df025dd145dfd10fc68d8b9e1182bd"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 54763,
-      "sha256": "7bde034cc86e02f81199b411e9e4f33bb2d3053084342a9e8885ada435be41ac"
+      "size": 54940,
+      "sha256": "53d47002e432c29b8ca5bd97b74a5d7bb0c8d710c1398add187f584f5dfa6926"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6451,8 +6466,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 523802,
-      "sha256": "8673db9c57c71ef63e420f83c138a3823d4ff636ff492e23d9d2500612411d53"
+      "size": 525068,
+      "sha256": "3ac18dbe055216ddade6b732ecde4fcf78aefc99d5f4b28ae72f18d8f707ce8c"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7131,8 +7146,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 82515,
-      "sha256": "4f0f5ac88bf00f3942df17443953f4c8519429574950365981193b7f85d1d586"
+      "size": 82707,
+      "sha256": "251a9593f318c165005403681f86164b6ee46ffb03da206d4d765c3a4b6a8272"
     }
   ]
 }

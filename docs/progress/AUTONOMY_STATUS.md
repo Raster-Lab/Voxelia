@@ -8160,3 +8160,23 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    cancellation row composes generations; SDR/HDR descriptors,
    depth/object-ID outputs, the media-buffer adapter and
    media-encoding isolation follow.
+
+1. **2026-08-07 — ~~`VOX-HLS-008`~~ + ~~`VOX-HLS-009`~~ DISCHARGED:
+   progressive frames and cancellation (`ADR-0399`).**
+   `ProgressiveFrameMetadata` = the `ADR-0122` generation + the
+   TRANSPORTABLE half of the `ADR-0391` convergence triple (sample
+   count + optional variance, absent below two; the mean IS the frame —
+   a metadata copy would invite divergence).
+   `ProgressiveRenderSession` composes the counter and presenter
+   UNCHANGED: a final frame is not special — a stale final drops
+   exactly like a stale intermediate, which is the whole of "shall not
+   publish stale final output". CANCELLATION IS A GENERATION ADVANCE:
+   no flag to poll, no race against a final publish, because staleness
+   is decided at the presentation seam by one comparison — `ADR-0122`'s
+   contract doing the row's work, recorded rather than re-invented
+   (witnessed: cancel → the 4096-sample final drops; the successor
+   request publishes). Full suite: `✔ Test run with 1440 tests in 275
+   suites passed`. **Next**: the remaining arc-2 rows — SDR/HDR output
+   descriptors (`I,T`), depth/object-identifier outputs (`T`), the
+   optional media-buffer adapter (`T`), and media-encoding isolation
+   (`I,T`, structural like every optional-module row).

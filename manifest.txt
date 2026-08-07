@@ -271,6 +271,7 @@ Sources/VoxeliaInteraction/Public/.gitkeep
 Sources/VoxeliaInteraction/Public/FramePresenter.swift
 Sources/VoxeliaInteraction/Public/InteractionCommand.swift
 Sources/VoxeliaInteraction/Public/PickResolver.swift
+Sources/VoxeliaInteraction/Public/ProgressiveFrames.swift
 Sources/VoxeliaInteraction/Public/RenderGeneration.swift
 Sources/VoxeliaInteraction/Public/ViewportSyncGroup.swift
 Sources/VoxeliaInteraction/VoxeliaInteraction.docc/Architecture.md
@@ -586,6 +587,7 @@ Tests/VoxeliaInteractionTests/FramePresenterTests.swift
 Tests/VoxeliaInteractionTests/InteractionCommandTests.swift
 Tests/VoxeliaInteractionTests/InteractiveResponsivenessTests.swift
 Tests/VoxeliaInteractionTests/PickResolverTests.swift
+Tests/VoxeliaInteractionTests/ProgressiveFrameTests.swift
 Tests/VoxeliaInteractionTests/ReconstructedMeasurementGeometryTests.swift
 Tests/VoxeliaInteractionTests/RenderGenerationTests.swift
 Tests/VoxeliaInteractionTests/ViewportSyncGroupTests.swift
@@ -1266,6 +1268,7 @@ docs/architecture/decisions/ADR-0395-multidimensional-transfer-functions.md
 docs/architecture/decisions/ADR-0396-photorealistic-validation-witnesses.md
 docs/architecture/decisions/ADR-0397-the-m9-queue.md
 docs/architecture/decisions/ADR-0398-the-headless-foundation.md
+docs/architecture/decisions/ADR-0399-progressive-frames-and-cancellation.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md
