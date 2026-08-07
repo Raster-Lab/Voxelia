@@ -3110,6 +3110,11 @@
       "sha256": "390acf94e8564912a0f492d4920b5c7505f793685a32f3016a6ea6281108db31"
     },
     {
+      "path": "Tools/Scripts/check_temporary_files.py",
+      "size": 3517,
+      "sha256": "1d8cfcb3e0dcb0547e9c31a113870e33f8cd9d599370c98c0cecf8d7d5a93ca7"
+    },
+    {
       "path": "Tools/Scripts/check_test_levels.py",
       "size": 5460,
       "sha256": "fa5043c9362cf3e8636afe21c2d655460e376c07f22aecd33eb1aaa76e8afc3d"
@@ -3151,8 +3156,8 @@
     },
     {
       "path": "Tools/Scripts/validate-docs.sh",
-      "size": 512,
-      "sha256": "c13c7314b2e516b425def49e530f82359237ac3f8e4c5cc3697cebee5c8a58b6"
+      "size": 559,
+      "sha256": "ebaa22d70df62f2e25d67006e49be320c8f6ae06c7fe6413a8670696d0d5186f"
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
@@ -3218,6 +3223,11 @@
       "path": "Tools/Tests/Python/test_swift_safety.py",
       "size": 36415,
       "sha256": "8b0d1087590df2772cb8c4a3b087f75f6b9199aa5713789b88b4444847ce5b4b"
+    },
+    {
+      "path": "Tools/Tests/Python/test_temporary_files.py",
+      "size": 4207,
+      "sha256": "e98da8f20ad8b2a3bf5fe81ab63b81b972295aae1157c27ebafbdb900b734c4d"
     },
     {
       "path": "Tools/Tests/VoxeliaRepositoryToolTests/RepositoryToolTests.swift",
@@ -5130,9 +5140,14 @@
       "sha256": "7140cfb8d4acff96f9b2a50bd3b56d73eaaf2b79ee45233f71270f2a938dd55d"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0302-declared-temporary-file-sites.md",
+      "size": 6295,
+      "sha256": "8a188b6f7c1dff010abb811f013067dcafbe27cd66aed962265f9874ba3dc14a"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 41779,
-      "sha256": "7533683323d5f61e421c409c3f7e23714d1b8f6fd329ae49867f68a30fb83e7c"
+      "size": 41880,
+      "sha256": "a51953b4410d7061a86fc15d0ddbb0262196e87411aa40f039073c43ee09afd6"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5226,8 +5241,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1230792,
-      "sha256": "9a2e78885940c44de66af37f98ef8cd84fd8f385abccea32486ee32491e36eb9"
+      "size": 1232834,
+      "sha256": "20b5b9dd3fad9bf70b884f1f9b0050f68e141fbb2b97cfd2efb9142c8ddff03a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5423,6 +5438,11 @@
       "path": "docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md",
       "size": 26620,
       "sha256": "2c24f65a4faf8565d8d210e655cfcaa3ab65d1cb864db8c28a5906b010c5bb9a"
+    },
+    {
+      "path": "docs/progress/temporary-file-sites.txt",
+      "size": 507,
+      "sha256": "6f7c39bf95eba777d1d859362fff89cb47da6616aa1f944bf4a6024f5c34439e"
     },
     {
       "path": "docs/progress/untagged-tests.txt",
@@ -5741,8 +5761,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 65491,
-      "sha256": "1a2bd3d064e8b633d17b48ca89224794ce8de69accd6847831f0c4255a374253"
+      "size": 65682,
+      "sha256": "00c94567ded2f841bb1569fd430d2b5cbdf6419d3a51005fb73cf1b9608e3f30"
     }
   ]
 }

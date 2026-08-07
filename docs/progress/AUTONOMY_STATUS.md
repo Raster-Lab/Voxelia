@@ -5608,6 +5608,38 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **14 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (uuu): `ADR-0302` — temporary-file sites DECLARED; `VOX-SEC-005` discharged
+   (I+T).** Six python self-tests; Swift suite unchanged at 1229/217. **No source changed.**
+
+   **Measured first: ZERO hits across 242 product sources** for every temp spelling —
+   `temporaryDirectory`, `NSTemporaryDirectory`, `itemReplacementDirectory`, `mkstemp`,
+   `mkdtemp`, `tmpfile`, `tmpnam`, literal `/tmp` and `/var/tmp`. `Tools/`, `Benchmarks/`,
+   `Validation/` also clean. `FileManager` appears in `Sources/` exactly **4** times, all
+   existence/attribute queries in `CanonicalDocumentStore`, which writes only to a
+   caller-supplied directory it "never creates implicitly".
+
+   **The finding: the property held BY ACCIDENT.** Nothing documented it; nothing stopped the
+   next increment adding a temp file silently. A requirement reading "explicit, documented and
+   configurable" is not satisfied by a codebase that merely happens to create nothing today.
+
+   **A declaration requirement, NOT a ban** — banning would be easier to enforce and would
+   answer a *different* requirement than the one written. Any site in `Sources/` must be
+   declared with `path:line`, the authorising record, and how a caller configures it.
+
+   **Clean gate, not a ratchet.** `ADR-0301` needed a ratchet for its 219-test backlog; here
+   the backlog is nothing, so the stricter form is available and used.
+
+   **Proven able to fail** — undeclared site probe → reported by file and line, exit 1. Plus
+   self-tests: declared passes; a declaration for a *different* line does **not** excuse this
+   one (moving a site is caught, not silently inherited); **all NINE spellings detected**, so
+   a pattern cannot be listed and be dead; clean source passes; live repo passes with zero
+   declared sites.
+
+   **Tests deliberately out of scope** — three legitimate scratch dirs would need permanent
+   declarations, diluting a list whose value is being short and product-facing.
+
+   **13 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

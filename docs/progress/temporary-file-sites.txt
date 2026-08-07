@@ -1,0 +1,8 @@
+# Declared temporary-file sites in product code, per `ADR-0302` (`VOX-SEC-005`).
+#
+# One entry per site, as `Sources/path.swift:line  ADR-NNNN  what it creates and how a
+# caller configures it`. A site absent from this list fails check_temporary_files.py.
+#
+# The list is EMPTY on purpose: as of ADR-0302 the product creates no temporary files at
+# all. `CanonicalDocumentStore` writes only to a directory the caller supplies and, as its
+# own documentation states, never creates that directory implicitly.
