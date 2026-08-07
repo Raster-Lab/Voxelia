@@ -6399,3 +6399,37 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **`VOX-PER-004` is now the only row unaccounted for** — 512³ at 30–60 fps, a measurement on
    **reference hardware the owner has yet to name**, which is already on the owner list.
+
+   **Increment (wwww): `ADR-0330` — `VOX-PER-004` characterised. THE QUEUE IS EXHAUSTED.**
+   1238/219 unchanged; no code, **no benchmark run on purpose**.
+
+   **No frame-rate measurement exists** — `docs/benchmarks/` holds `BEN-0001` (vertical slice
+   baseline) and `BEN-0002` (compression); **neither reports frames per second**, and no test
+   does.
+
+   **A frame rate is a number about A MACHINE.** This host is an Apple-silicon Mac; a figure
+   measured here is a fact about **this laptop**, and the row's target is not qualified by "on
+   whatever hardware happened to run the suite". **The reference device has not been named** —
+   an owner decision predating this arc. Until then 30–60 fps is **either met or missed
+   depending on the device, and both answers are equally true and equally useless**.
+
+   **Producing a number anyway would be the most tempting possible fabrication** — it would
+   look like progress, be arithmetically honest, and answer a question nobody asked. **Refused
+   both "benchmark here and call it indicative"** (that is how a number about a laptop becomes
+   a number about the product) **and "pick a plausible reference device"** (that spends the
+   owner's decision to make my work look finished).
+
+   **Not filed as unbuilt** — the renderer exists and renders; **what is missing is the
+   CRITERION, not the capability**. `VOX-IMG-008`/`VOX-CON-008` are unbuilt; this is
+   **unmeasured**.
+
+   **Four measurement constraints fixed** for whoever takes it: named device; a **512³** volume
+   (the row's own case, not a convenient fixture); a **clean process** per `ADR-0271` d4; and
+   **the quality the frames ran at**, since `ADR-0329` records interactive and full currently
+   execute identically — so a frame rate today is a **full-quality** figure and must say so.
+
+   **EVERY entered-milestone row is now claimed, discharged, characterised, or recorded as
+   unbuilt with its blocking question named.** What remains is **not a queue of unexamined rows
+   but a list of OWNER DECISIONS, each attached to the row it blocks.** Next iteration **reruns
+   `ADR-0319`'s criterion rather than assuming exhaustion**, since rows enter as milestones
+   open.

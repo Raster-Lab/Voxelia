@@ -5310,9 +5310,14 @@
       "sha256": "4c1d888c4d7f986b2fba14d8a9e77b6d8d6ff53e822edcc0a05ce59a5ab2443c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0330-frame-rate-target-needs-its-hardware.md",
+      "size": 4707,
+      "sha256": "cb779712c5d7f1feb6fa44e007dceaac903a1a5caa03ee80c605785f346217e3"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 44544,
-      "sha256": "6d9e3ed43cc8ac6d5389e2a9609d9d5ae39e74716832e7c8aa1af0f32c977942"
+      "size": 44659,
+      "sha256": "420c48b411c8e443da35bf81b99f516213e8675dc88a0b233e6378c3361a2716"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5406,8 +5411,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 413468,
-      "sha256": "41de785b68ed773aee156decae1fb5f5c097f48b88b647089786404e19197ef5"
+      "size": 415678,
+      "sha256": "760bf7884ec1fd683f34af3dc88524443904424786f19013761c1afb7d87b1dd"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5931,8 +5936,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67851,
-      "sha256": "5cfa56f6753b8b268ef29178b1cb3b78fd81d07f89dbfad5acee239c2f60abf6"
+      "size": 67928,
+      "sha256": "7bdbad114e59d6ed6928e8dca2ce023382d818c590192d2fc8492e8715cdfe98"
     }
   ]
 }
