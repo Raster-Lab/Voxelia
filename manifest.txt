@@ -179,6 +179,7 @@ Sources/VoxeliaExecution/Public/ResampleLinearOperation.swift
 Sources/VoxeliaExecution/Public/ResampleNearestOperation.swift
 Sources/VoxeliaExecution/Public/SqueezeAxesOperation.swift
 Sources/VoxeliaExecution/Public/StorageReadCoordinator.swift
+Sources/VoxeliaExecution/Public/StudyCacheGenerator.swift
 Sources/VoxeliaExecution/Public/TransposeAxesOperation.swift
 Sources/VoxeliaExecution/Public/WindowLevelOperation.swift
 Sources/VoxeliaExecution/VoxeliaExecution.docc/Architecture.md
@@ -473,6 +474,7 @@ Tests/VoxeliaExecutionTests/ResampleNearestOperationTests.swift
 Tests/VoxeliaExecutionTests/SqueezeAxesOperationTests.swift
 Tests/VoxeliaExecutionTests/StorageReadCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/StoredSignednessTests.swift
+Tests/VoxeliaExecutionTests/StudyCacheGeneratorTests.swift
 Tests/VoxeliaExecutionTests/TransposeAxesOperationTests.swift
 Tests/VoxeliaExecutionTests/VOILookupTests.swift
 Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift
@@ -1077,6 +1079,7 @@ docs/architecture/decisions/ADR-0337-every-gate-is-reachable.md
 docs/architecture/decisions/ADR-0338-the-owner-decision-batch.md
 docs/architecture/decisions/ADR-0339-sample-centre-physical-bounds.md
 docs/architecture/decisions/ADR-0340-grid-resample-operation.md
+docs/architecture/decisions/ADR-0341-study-cache-generation-and-priority.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

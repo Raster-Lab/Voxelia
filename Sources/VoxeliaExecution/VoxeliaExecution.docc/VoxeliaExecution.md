@@ -74,6 +74,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``BrickRequestError``
 - ``BrickResultCache``
 - ``BrickCacheError``
+- ``StudyCacheGenerator``
+- ``StudyCacheBrick``
+- ``StudyCacheProgress``
 
 ### Publication
 

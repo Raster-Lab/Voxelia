@@ -206,7 +206,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0338` is allocated to the owner decision batch.
 `ADR-0339` is allocated to the sample-centre physical bounds.
 `ADR-0340` is allocated to the grid resample operation.
-The next unallocated numeric identifier is `ADR-0341`.
+`ADR-0341` is allocated to the study cache generation stage.
+The next unallocated numeric identifier is `ADR-0342`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -530,3 +531,4 @@ The next unallocated numeric identifier is `ADR-0341`.
 | [ADR-0338](ADR-0338-the-owner-decision-batch.md) | Accepted | The owner decision batch |
 | [ADR-0339](ADR-0339-sample-centre-physical-bounds.md) | Accepted | Sample-centre physical bounds |
 | [ADR-0340](ADR-0340-grid-resample-operation.md) | Accepted | Grid resample operation |
+| [ADR-0341](ADR-0341-study-cache-generation-and-priority.md) | Accepted | Study cache generation and priority |
