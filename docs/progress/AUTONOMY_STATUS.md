@@ -7472,3 +7472,21 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    out → SegmentCollectionSegmentation with algorithm descriptors carrying
    type/.automatic/model identity), inspected for the I half; no runtime
    enters the tree without the owner's supply-chain say.
+
+1. **2026-08-07 — ~~`VOX-SEG-010`~~ DISCHARGED (`I` half; `R` in the owner
+   batch): the AI adapter boundary (`ADR-0364`). THE SEGMENTATION ARC'S
+   ENGINEERING IS CLOSED.** `SegmentInferenceAdapter` +
+   `SegmentInferenceResult` in `VoxeliaCore` beside the model: an adapter
+   takes `ImageData` and returns descriptors (`.automatic` + model identity
+   through the accepted `SegmentAlgorithmDescriptor`) and fields — the HOST
+   assembles the `Segmentation`, so admission and provenance never leave the
+   accepted lifecycle. "Never embedded" is enforced: `CoreML`/`CreateML`
+   joined `check_prohibited_imports.py` for all ten targets (the `ADR-0328`
+   Model I/O pattern) and the widened gate was negative-tested both ways.
+   Stub conformance proves the protocol implementable and that an undeclared
+   segment cannot smuggle past section 52.11 admission. No reference
+   adapter/runtime: the supply chain stays owner-reserved (`ADR-0351`
+   batch Q2). Full suite: `✔ Test run with 1343 tests in 240 suites
+   passed`. **Next**: open the REGISTRATION arc — `VOX-REG-001` first (the
+   transform category model), then the arc's remaining registration,
+   validation and pyramid rows per the `ADR-0351` order.

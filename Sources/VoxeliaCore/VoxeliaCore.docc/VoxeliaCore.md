@@ -202,6 +202,8 @@ storage semantics.
 - ``SegmentAlgorithmDescriptor``
 - ``SegmentAlgorithmType``
 - ``SegmentDisplayRecommendation``
+- ``SegmentInferenceAdapter``
+- ``SegmentInferenceResult``
 - ``SegmentationModelError``
 - ``ImageDataError``
 

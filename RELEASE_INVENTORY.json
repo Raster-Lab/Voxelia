@@ -740,6 +740,11 @@
       "sha256": "6c612ae372b9a86d0d701e6f132557ebf7ca2481649d365a752f7a809c249932"
     },
     {
+      "path": "Sources/VoxeliaCore/Public/SegmentInference.swift",
+      "size": 1895,
+      "sha256": "bef6372150a7f44294271818fd39a11fa46c4e5e3951889e0392a985f0ef675c"
+    },
+    {
       "path": "Sources/VoxeliaCore/Public/SegmentationModel.swift",
       "size": 12454,
       "sha256": "61a16865b0dd4086c807fbae92b030456cd308c788000034c27c2f205dc777c2"
@@ -786,8 +791,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md",
-      "size": 4716,
-      "sha256": "f67ca367c3b21a07beaac8a6036b5a56492963cc31d208fe56625468ae148ebe"
+      "size": 4775,
+      "sha256": "dd533c63771be849c7a5d4f9afdfd8ff92aea3d7bcba6148f51dc988a5a3e567"
     },
     {
       "path": "Sources/VoxeliaDICOMKit/ApplePlatformGate.swift",
@@ -3170,6 +3175,11 @@
       "sha256": "a5ce2e44ec2c0999868978717fb8bf1af91ece489c27659dfed4901df2f2df0a"
     },
     {
+      "path": "Tests/VoxeliaStorageTests/SegmentInferenceTests.swift",
+      "size": 10795,
+      "sha256": "78dbc80652fb629ee0158ad6dc705e444d0235de46238614ad99900010155814"
+    },
+    {
       "path": "Tests/VoxeliaStorageTests/SegmentationModelTests.swift",
       "size": 14272,
       "sha256": "14b111d0167d247c617a8f69d537ebad7813835c3127973ec8e3d75e6ff4412b"
@@ -3336,8 +3346,8 @@
     },
     {
       "path": "Tools/Scripts/check_prohibited_imports.py",
-      "size": 4594,
-      "sha256": "b27295453c35aea0bde8307674aacbc33edc33be53bebf0dab8e7a20f59bbba8"
+      "size": 4974,
+      "sha256": "c7f1a02dcc2fac492c614f37a805b737f1ae66387a114bd9f649b75c5c58601a"
     },
     {
       "path": "Tools/Scripts/check_release_integrity.py",
@@ -5785,9 +5795,14 @@
       "sha256": "3bfd6230b3eca2ec9d963bf5c40a56f89ad33e112721f4754907b900d6e5c092"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0364-the-ai-adapter-boundary.md",
+      "size": 3906,
+      "sha256": "04925d978270157b8183f4d14c70e2f16748b080a11f6015d94f71a043c45165"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 49218,
-      "sha256": "b865e827a1aba17e801369a8cca3f12af9b7203d817ccc2ca37cb3f09e25b42d"
+      "size": 49359,
+      "sha256": "6675dddc05324c769dbe932e81b03f7a1ef2f30fa50dfce679428f666f08a880"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5886,8 +5901,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 478968,
-      "sha256": "415911b399f54795152d1573b78699092a9e0b586aa2145fac7215c4f41827da"
+      "size": 480191,
+      "sha256": "aa140885606c1399d8ad58a67c63da1c93dfc4834aabbec2012b5680f05b7893"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6491,8 +6506,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 74566,
-      "sha256": "1e6bbae6021266b0b72331af91c6fac262d8bfe155784c3b893c30004cc270f9"
+      "size": 74734,
+      "sha256": "6c517b67a603c954464231ee8f33b393d29cbb220a6ce1b9a5dfdf5b77e31582"
     }
   ]
 }
