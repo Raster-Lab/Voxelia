@@ -205,7 +205,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0226` is allocated to the DICOM ingest arc.
 `ADR-0338` is allocated to the owner decision batch.
 `ADR-0339` is allocated to the sample-centre physical bounds.
-The next unallocated numeric identifier is `ADR-0340`.
+`ADR-0340` is allocated to the grid resample operation.
+The next unallocated numeric identifier is `ADR-0341`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -528,3 +529,4 @@ The next unallocated numeric identifier is `ADR-0340`.
 | [ADR-0337](ADR-0337-every-gate-is-reachable.md) | Accepted | Every gate is reachable |
 | [ADR-0338](ADR-0338-the-owner-decision-batch.md) | Accepted | The owner decision batch |
 | [ADR-0339](ADR-0339-sample-centre-physical-bounds.md) | Accepted | Sample-centre physical bounds |
+| [ADR-0340](ADR-0340-grid-resample-operation.md) | Accepted | Grid resample operation |

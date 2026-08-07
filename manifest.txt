@@ -165,6 +165,7 @@ Sources/VoxeliaExecution/Public/BrickRequestBroker.swift
 Sources/VoxeliaExecution/Public/BrickResultCache.swift
 Sources/VoxeliaExecution/Public/CompositeLayersOperation.swift
 Sources/VoxeliaExecution/Public/ContentResultCache.swift
+Sources/VoxeliaExecution/Public/GridResampleOperation.swift
 Sources/VoxeliaExecution/Public/ImplementationRegistry.swift
 Sources/VoxeliaExecution/Public/InvertDisplayOperation.swift
 Sources/VoxeliaExecution/Public/MetadataIdentityCoordinator.swift
@@ -453,6 +454,7 @@ Tests/VoxeliaExecutionTests/CompositeLayersOperationTests.swift
 Tests/VoxeliaExecutionTests/ConcurrencyStormTests.swift
 Tests/VoxeliaExecutionTests/ContentResultCacheTests.swift
 Tests/VoxeliaExecutionTests/FusedReconstructionTests.swift
+Tests/VoxeliaExecutionTests/GridResampleOperationTests.swift
 Tests/VoxeliaExecutionTests/InterpolationAnalyticalTests.swift
 Tests/VoxeliaExecutionTests/InvertDisplayOperationTests.swift
 Tests/VoxeliaExecutionTests/MetadataIdentityCoordinatorTests.swift
@@ -726,6 +728,7 @@ docs/algorithms/VOXELIA-ALG-0051-stored-value-interpretation.md
 docs/algorithms/VOXELIA-ALG-0052-affine-composition-and-directions.md
 docs/algorithms/VOXELIA-ALG-0053-physical-coordinate-ramp.md
 docs/algorithms/VOXELIA-ALG-0054-sample-centre-physical-bounds.md
+docs/algorithms/VOXELIA-ALG-0055-grid-resampling.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -1073,6 +1076,7 @@ docs/architecture/decisions/ADR-0336-the-spelling-floor-is-exempt.md
 docs/architecture/decisions/ADR-0337-every-gate-is-reachable.md
 docs/architecture/decisions/ADR-0338-the-owner-decision-batch.md
 docs/architecture/decisions/ADR-0339-sample-centre-physical-bounds.md
+docs/architecture/decisions/ADR-0340-grid-resample-operation.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
@@ -1132,6 +1136,7 @@ docs/progress/evidence/ADR-0232-volume-layout-oracle.py
 docs/progress/evidence/ADR-0236-value-interpretation-oracle.py
 docs/progress/evidence/ADR-0239-sample-normalisation-exhaustive.py
 docs/progress/evidence/ADR-0339-sample-centre-bounds-oracle.py
+docs/progress/evidence/ADR-0340-grid-resample-oracle.py
 docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md
 docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md
 docs/progress/temporary-file-sites.txt

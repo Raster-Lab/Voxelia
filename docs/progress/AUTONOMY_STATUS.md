@@ -6716,3 +6716,53 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: `VOX-IMG-008` grid resampling — design first; read `ADR-0324`'s
    interpolation-row findings and the existing `Resample*Operation`s before designing,
    per the vocabulary-vs-capability trap recorded against `VOX-VS1-011`.
+
+   **Increment (ggggg): `ADR-0340` + `VOXELIA-ALG-0055` — `VOX-IMG-008` DISCHARGED.**
+   1261 tests / 221 suites.
+
+   **The row's missing capability now has its surface**: `GridResampleOperation`
+   takes the output's own rank-three `AffineGridGeometry` — the target `ADR-0325`
+   proved inexpressible in the extents-based operations — and claims it verbatim,
+   registered as the seventeenth CPU implementation. The chain composes accepted
+   authorities only: the `ALG-0017` request order extended by the third slot term,
+   the `ADR-0138` inverse, and `ObliqueSliceOperation.sample` with its built-in
+   exact zero padding (`ADR-0338` d7's answer).
+
+   **The forward order was chosen FOR a cross-check, and the cross-check runs**: the
+   spec deliberately extends the sampler's own request order rather than matching
+   `ALG-0052`/`ALG-0054`'s translation-last shape, so a depth-one grid resample is
+   byte-identical to the oblique slice under a shared rotated request — asserted in
+   the suite, not argued in prose. Consistency within the consumer family beat
+   consistency across families, and the record says why.
+
+   **Padding is recorded in provenance as `ADR-0338` d7 required**: the aggregated
+   warning `org.voxelia.warn.grid-resample-padding` (`qualityAffecting` — padded
+   samples are synthetic, not measured) carries the padded-sample count, and is
+   ABSENT when nothing padded, per the padding-entry precedent. The support test
+   was EXTRACTED into public `ObliqueSliceOperation.supports` — `sample` now calls
+   it — so counting uses the same expressions that decide padding; the oblique
+   fixtures re-ran green, proving the extraction changed nothing.
+
+   **Two ceilings, distinctly typed**: the sibling per-dimension `16384` and a
+   total-sample ceiling of exactly `1024^3` (three ceiling dimensions would admit a
+   four-terabyte output). The budget boundary is asserted as the frozen constant —
+   executing a gibibyte output is not a unit test.
+
+   **Two registry count assertions moved 16→17 and 19→20** (`CPUBackendRegistrations`,
+   `CombinedRegistry`) — the second found by the full unfiltered run, not the
+   filtered one, which is recipe step 12 doing its job. The first's comment still
+   said "fourteen" while asserting sixteen; it now names no number.
+
+   **Six oracle fixtures, all exact on first run** (`ADR-0340-grid-resample-oracle.py`):
+   identity, coarser-grid border replication (16, not the extrapolation 17),
+   axis-exchange transposition, padding with attribution, the inclusive-then-
+   exclusive support edge at 2.5 vs 2.5000000000000004, and ties-to-even in both
+   directions.
+
+   **Every M2 row is now accounted for.** Remaining queue per `ADR-0338`:
+   `VOX-PER-006` first useful image, `VOX-CON-008` priority propagation, the
+   `VOX-BRK-009`/`VOX-DVR-013` progressive-refinement arc, `VOX-PER-004` on the
+   named device, the `Examples` application, then release assembly.
+
+   **Next**: `VOX-CON-008` priority propagation — read `ADR-0330`'s and the
+   concurrency records' framing of what "unbuilt" meant for it before designing.

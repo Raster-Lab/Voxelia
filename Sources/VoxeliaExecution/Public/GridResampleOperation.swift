@@ -5,59 +5,68 @@ import VoxeliaCore
 import VoxeliaSpatial
 import VoxeliaStorage
 
-/// An error raised by oblique-slice admission.
+/// An error raised by grid-resample admission.
 ///
 /// Cases deliberately carry no payload; every other failure surfaces as
 /// the audited typed error of the underlying accepted contract.
-public enum ObliqueSliceError: Error, Sendable, Equatable {
+public enum GridResampleError: Error, Sendable, Equatable {
     case unsupportedLayerFormat
     case volumeNotSpatiallyCalibrated
     case unsupportedVolumeMapping
     case unsupportedRequestMapping
     case coordinateSpaceMismatch
     case invalidOutputExtent
+    case outputBudgetExceeded
     case invalidOutputAxis
 }
 
-/// The oblique slice operation registered by `ADR-0142` under the
-/// `oblique-slice-sampling/binary64-v1` model of `VOXELIA-ALG-0017`.
+/// The grid resampling operation registered by `ADR-0340` under the
+/// `grid-resample/binary64-v1` model of `VOXELIA-ALG-0055` — the
+/// explicit source-to-target-grid resampling of `VOX-IMG-008`.
 ///
-/// The request is the output's own affine geometry and the output
-/// claims it verbatim; sampling composes only accepted authorities —
-/// the claimed forward evaluation, the `ADR-0138` world-to-index
-/// composition and the trilinear reduction over the declared
-/// pixel-centre support with exact zero padding outside it. The
-/// operation mints no identifiers and acquires no clock.
-public enum ObliqueSliceOperation {
+/// The request is the output's own rank-three affine geometry and the
+/// output claims it verbatim; sampling composes only accepted
+/// authorities — the frozen target forward evaluation, the `ADR-0138`
+/// world-to-index composition and the `VOXELIA-ALG-0017` sampling
+/// authority with its exact zero padding. Padded samples are counted
+/// and recorded as an aggregated provenance warning per `ADR-0338`
+/// decision 7. The operation mints no identifiers and acquires no
+/// clock.
+public enum GridResampleOperation {
     /// The registered operation token spelling.
-    public static let operationIdentifier = "org.voxelia.op.oblique-slice"
+    public static let operationIdentifier = "org.voxelia.op.grid-resample"
     /// The registered implementation token spelling.
-    public static let implementationIdentifier = "org.voxelia.impl.oblique-slice.cpu"
+    public static let implementationIdentifier = "org.voxelia.impl.grid-resample.cpu"
 
     /// The inclusive per-dimension output extent ceiling.
     public static let maximumOutputExtent = 16_384
+    /// The inclusive total output sample ceiling, exactly `1024^3`.
+    public static let maximumOutputSampleCount = 1_073_741_824
+
+    /// The aggregated warning code recording padded samples.
+    public static let paddingWarningCode = "org.voxelia.warn.grid-resample-padding"
 
     private static let parameterDocumentByteCeiling: UInt64 = 65_536
 
-    /// Executes one oblique extraction through the budgeted
-    /// coordinated read boundary.
+    /// Executes one grid resampling through the budgeted coordinated
+    /// read boundary.
     ///
-    /// - Throws: ``ObliqueSliceError``, or the audited typed errors
-    ///   of the spatial, storage, metadata, identity, provenance and
+    /// - Throws: ``GridResampleError``, or the audited typed errors of
+    ///   the spatial, storage, metadata, identity, provenance and
     ///   aggregate contracts.
     public static func execute(
         input: ImageData,
         request: AffineGridGeometry,
-        outputWidth: Int,
-        outputHeight: Int,
+        outputExtents: [Int],
         outputObjectID: DataObjectID,
         outputProvenanceID: ProvenanceID,
         createdAt: CanonicalInstant,
         software: SoftwareIdentity,
         coordinator: StorageReadCoordinator
     ) async throws -> ImageData {
-        // Version-one admission per ADR-0142: the display-policy
-        // value domain over a calibrated rank-three volume.
+        // Version-one admission per ADR-0340: the sampler's value
+        // domain over a calibrated rank-three volume, mirrored from the
+        // oblique admission it composes.
         let extents = input.descriptor.shape.extents
         guard
             extents.count == 3,
@@ -67,27 +76,33 @@ public enum ObliqueSliceOperation {
             input.descriptor.semantic == .intensity,
             input.descriptor.valueTransform == nil
         else {
-            throw ObliqueSliceError.unsupportedLayerFormat
+            throw GridResampleError.unsupportedLayerFormat
         }
         guard case .affine(let volumeGeometry)? = input.descriptor.spatialGeometry
         else {
-            throw ObliqueSliceError.volumeNotSpatiallyCalibrated
+            throw GridResampleError.volumeNotSpatiallyCalibrated
         }
         guard Set(volumeGeometry.spatialAxes.imageAxes) == Set([0, 1, 2]) else {
-            throw ObliqueSliceError.unsupportedVolumeMapping
+            throw GridResampleError.unsupportedVolumeMapping
         }
-        guard request.spatialAxes.imageAxes == [0, 1] else {
-            throw ObliqueSliceError.unsupportedRequestMapping
+        guard request.spatialAxes.imageAxes == [0, 1, 2] else {
+            throw GridResampleError.unsupportedRequestMapping
         }
         guard request.coordinateSpace.id == volumeGeometry.coordinateSpace.id
         else {
-            throw ObliqueSliceError.coordinateSpaceMismatch
+            throw GridResampleError.coordinateSpaceMismatch
         }
-        guard
-            outputWidth >= 1, outputWidth <= Self.maximumOutputExtent,
-            outputHeight >= 1, outputHeight <= Self.maximumOutputExtent
-        else {
-            throw ObliqueSliceError.invalidOutputExtent
+        guard outputExtents.count == 3 else {
+            throw GridResampleError.invalidOutputExtent
+        }
+        for extent in outputExtents {
+            guard extent >= 1, extent <= Self.maximumOutputExtent else {
+                throw GridResampleError.invalidOutputExtent
+            }
+        }
+        let sampleCount = outputExtents[0] * outputExtents[1] * outputExtents[2]
+        guard sampleCount <= Self.maximumOutputSampleCount else {
+            throw GridResampleError.outputBudgetExceeded
         }
 
         // One budgeted coordinated full read; the retention is released
@@ -100,44 +115,57 @@ public enum ObliqueSliceOperation {
         let storedBytes = read.result.bytes
         try await coordinator.release(read.retention)
 
-        // The frozen VOXELIA-ALG-0017 chain: claimed forward world
-        // positions, the accepted inverse composition, then the
-        // trilinear reduction over the declared support.
+        // The frozen VOXELIA-ALG-0055 chain: the target forward
+        // evaluation in the sampler's request order extended by the
+        // third slot term, the accepted inverse composition, then the
+        // one sampling authority with its exact zero padding.
         let map = try AffineWorldToIndexMap(geometry: volumeGeometry)
         let requestElements = request.indexToWorld.elements
         let requestSpace = request.coordinateSpace.id
         var outputBytes = [UInt8]()
-        outputBytes.reserveCapacity(outputWidth * outputHeight)
-        for outputRow in 0..<outputHeight {
-            for outputColumn in 0..<outputWidth {
-                let column = Double(outputColumn)
-                let row = Double(outputRow)
-                var world = [0.0, 0.0, 0.0]
-                for r in 0...2 {
-                    world[r] =
-                        (requestElements[4 * r + 3]
-                            + (requestElements[4 * r] * column))
-                        + (requestElements[4 * r + 1] * row)
-                }
-                let slots = try map.continuousSlotIndices(
-                    of: try Point3D(
-                        x: world[0],
-                        y: world[1],
-                        z: world[2],
-                        coordinateSpace: requestSpace
+        outputBytes.reserveCapacity(sampleCount)
+        var paddedSampleCount: UInt64 = 0
+        for outputPlane in 0..<outputExtents[2] {
+            for outputRow in 0..<outputExtents[1] {
+                for outputColumn in 0..<outputExtents[0] {
+                    let j0 = Double(outputColumn)
+                    let j1 = Double(outputRow)
+                    let j2 = Double(outputPlane)
+                    var world = [0.0, 0.0, 0.0]
+                    for r in 0...2 {
+                        world[r] =
+                            ((requestElements[4 * r + 3]
+                                + (requestElements[4 * r] * j0))
+                                + (requestElements[4 * r + 1] * j1))
+                            + (requestElements[4 * r + 2] * j2)
+                    }
+                    let slots = try map.continuousSlotIndices(
+                        of: try Point3D(
+                            x: world[0],
+                            y: world[1],
+                            z: world[2],
+                            coordinateSpace: requestSpace
+                        )
                     )
-                )
-                var continuous = [0.0, 0.0, 0.0]
-                for (slot, axis) in map.spatialAxes.imageAxes.enumerated() {
-                    continuous[axis] = slots[slot]
+                    var continuous = [0.0, 0.0, 0.0]
+                    for (slot, axis) in map.spatialAxes.imageAxes.enumerated() {
+                        continuous[axis] = slots[slot]
+                    }
+                    if !ObliqueSliceOperation.supports(continuous, extents: extents) {
+                        paddedSampleCount += 1
+                    }
+                    outputBytes.append(
+                        ObliqueSliceOperation.sample(
+                            continuous,
+                            extents: extents,
+                            bytes: storedBytes
+                        )
+                    )
                 }
-                outputBytes.append(
-                    Self.sample(continuous, extents: extents, bytes: storedBytes)
-                )
             }
         }
 
-        let outputShape = try ImageShape(extents: [outputWidth, outputHeight])
+        let outputShape = try ImageShape(extents: ContiguousArray(outputExtents))
         let outputStorage = AnyImageStorage(
             erasing: try ContiguousImageStorage(
                 binding: try LogicalSampleBinding(
@@ -149,7 +177,7 @@ public enum ObliqueSliceOperation {
             )
         )
         // Fresh index-only axes: the verbatim request claim is the one
-        // calibration authority for the oblique grid.
+        // calibration authority for the resampled grid.
         let outputDescriptor = try ImageDescriptor(
             shape: outputShape,
             scalarFormat: input.descriptor.scalarFormat,
@@ -158,6 +186,7 @@ public enum ObliqueSliceOperation {
             axes: [
                 try Self.outputAxis("u", semantic: .spatialX),
                 try Self.outputAxis("v", semantic: .spatialY),
+                try Self.outputAxis("w", semantic: .spatialZ),
             ],
             spatialGeometry: .affine(request),
             valueTransform: nil,
@@ -170,8 +199,7 @@ public enum ObliqueSliceOperation {
             overCanonicalBytes: try CanonicalMetadataJSON.encodeUniqueDocument(
                 payload: try parameterCollection(
                     request: request,
-                    outputWidth: outputWidth,
-                    outputHeight: outputHeight
+                    outputExtents: outputExtents
                 ),
                 maximumOutputByteCount: Self.parameterDocumentByteCeiling
             )
@@ -211,6 +239,21 @@ public enum ObliqueSliceOperation {
             sourceIdentities: [],
             derivation: derivation
         )
+        // The ADR-0338 d7 padding record: an aggregated warning claim,
+        // present exactly when padding occurred.
+        var warnings = ContiguousArray<ProvenanceWarning>()
+        if paddedSampleCount >= 1 {
+            warnings.append(
+                try ProvenanceWarning(
+                    code: try ProvenanceWarningCode(
+                        rawValue: Self.paddingWarningCode
+                    ),
+                    schemaVersion: ProvenanceWarningSchemaVersion(major: 1, minor: 0),
+                    severity: .qualityAffecting,
+                    occurrenceCount: paddedSampleCount
+                )
+            )
+        }
         let provenance = try ProvenanceRecord(
             id: outputProvenanceID,
             kind: .transformed,
@@ -235,7 +278,7 @@ public enum ObliqueSliceOperation {
                     parent: .graphNode(input.provenance.id)
                 )
             ],
-            warnings: [],
+            warnings: warnings,
             validationClaim: .unknown,
             declaresZeroInputGenerator: false
         )
@@ -249,86 +292,12 @@ public enum ObliqueSliceOperation {
         )
     }
 
-    /// The exact `VOXELIA-ALG-0017` sample: the declared pixel-centre
-    /// support with exact zero padding outside it, the accepted
-    /// unclamped-floor tap rule per axis, and the trilinear reduction
-    /// over ascending volume axes.
-    ///
-    /// This is the one public sampling authority per `ADR-0174`:
-    /// consumers compose it rather than restating the frozen rule.
-    public static func sample(
-        _ continuous: [Double],
-        extents: ContiguousArray<Int>,
-        bytes: [UInt8]
-    ) -> UInt8 {
-        guard Self.supports(continuous, extents: extents) else {
-            return 0
-        }
-        let a = Self.axisTaps(continuous[0], count: extents[0])
-        let b = Self.axisTaps(continuous[1], count: extents[1])
-        let d = Self.axisTaps(continuous[2], count: extents[2])
-        let width = extents[0]
-        let height = extents[1]
-        func value(_ x: Int, _ y: Int, _ z: Int) -> Double {
-            Double(bytes[x + width * (y + height * z)])
-        }
-        func acrossX(_ y: Int, _ z: Int) -> Double {
-            (value(a.lower, y, z) * (1.0 - a.weight))
-                + (value(a.upper, y, z) * a.weight)
-        }
-        func acrossXY(_ z: Int) -> Double {
-            (acrossX(b.lower, z) * (1.0 - b.weight))
-                + (acrossX(b.upper, z) * b.weight)
-        }
-        let sampled =
-            (acrossXY(d.lower) * (1.0 - d.weight))
-            + (acrossXY(d.upper) * d.weight)
-        let rounded = sampled.rounded(.toNearestOrEven)
-        return UInt8(min(255.0, max(0.0, rounded)))
-    }
-
-    /// Returns whether a continuous position lies inside the declared
-    /// pixel-centre support, inclusive at both edges.
-    ///
-    /// This is the exact test ``sample(_:extents:bytes:)`` applies before
-    /// interpolating; a position it refuses samples as exact zero. It is
-    /// public so a composing operation can count padded samples against
-    /// the same expressions that decide padding (`ADR-0340` decision 4).
-    public static func supports(
-        _ continuous: [Double],
-        extents: ContiguousArray<Int>
-    ) -> Bool {
-        for axis in 0...2 {
-            let upper = Double(extents[axis]) - 0.5
-            guard continuous[axis] >= -0.5, continuous[axis] <= upper else {
-                return false
-            }
-        }
-        return true
-    }
-
-    /// The accepted per-axis tap rule over an in-support continuous
-    /// coordinate: the weight comes from the unclamped floor so border
-    /// coordinates replicate the border sample.
-    static func axisTaps(
-        _ continuous: Double,
-        count: Int
-    ) -> (lower: Int, upper: Int, weight: Double) {
-        let floored = floor(continuous)
-        let weight = continuous - floored
-        let index = Int(floored)
-        let lower = min(count - 1, max(0, index))
-        let upper = min(count - 1, max(0, index + 1))
-        return (lower, upper, weight)
-    }
-
     /// Builds the frozen parameter collection: the full request matrix,
-    /// its coordinate space and the output extents — the complete
+    /// its coordinate space and the three output extents — the complete
     /// reproduction recipe.
     static func parameterCollection(
         request: AffineGridGeometry,
-        outputWidth: Int,
-        outputHeight: Int
+        outputExtents: [Int]
     ) throws -> MetadataCollection {
         var entries = [MetadataEntry]()
         for (index, element) in request.indexToWorld.elements.enumerated() {
@@ -353,26 +322,18 @@ public enum ObliqueSliceOperation {
                 privacyClass: .technical
             )
         )
-        entries.append(
-            MetadataEntry(
-                key: try AnyMetadataKey(
-                    namespace: Self.operationIdentifier,
-                    name: "output-width"
-                ),
-                value: .signedInteger(Int64(outputWidth)),
-                privacyClass: .technical
+        for (index, extent) in outputExtents.enumerated() {
+            entries.append(
+                MetadataEntry(
+                    key: try AnyMetadataKey(
+                        namespace: Self.operationIdentifier,
+                        name: "output-extent-\(index)"
+                    ),
+                    value: .signedInteger(Int64(extent)),
+                    privacyClass: .technical
+                )
             )
-        )
-        entries.append(
-            MetadataEntry(
-                key: try AnyMetadataKey(
-                    namespace: Self.operationIdentifier,
-                    name: "output-height"
-                ),
-                value: .signedInteger(Int64(outputHeight)),
-                privacyClass: .technical
-            )
-        )
+        }
         return try MetadataCollection(entries: entries)
     }
 
@@ -409,7 +370,7 @@ public enum ObliqueSliceOperation {
         semantic: AxisSemantic
     ) throws -> AxisDescriptor {
         guard let axisID = AxisID(rawValue: name) else {
-            throw ObliqueSliceError.invalidOutputAxis
+            throw GridResampleError.invalidOutputAxis
         }
         return try AxisDescriptor(
             id: axisID,

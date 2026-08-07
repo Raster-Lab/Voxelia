@@ -131,6 +131,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0142-oblique-slice"
             ),
             try entry(
+                operation: GridResampleOperation.operationIdentifier,
+                implementation: GridResampleOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0340-grid-resample"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,
