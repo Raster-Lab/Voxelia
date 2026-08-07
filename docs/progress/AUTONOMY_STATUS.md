@@ -7334,3 +7334,35 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    the natural shape; `VOX-SEG-003`'s descriptors (stable IDs, labels,
    colours, algorithm provenance) and `VOX-SEG-004`'s geometry binding join
    the same design.
+
+   **Increment (zzzzz): `ADR-0359` — THE SEGMENTATION ARC IS OPEN;
+   `VOX-SEG-001..004` DISCHARGED by activating CDMS section 52 as written.**
+   1327 tests / 234 suites.
+
+   **Nothing was invented**: the CDMS already specifies the whole model —
+   `SegmentID`, algorithm descriptors, display recommendations (explicitly
+   non-authoritative), segment descriptors, the TWO-representation vocabulary
+   and the aggregate — hosted in Core per CDMS section 15. The increment's work
+   is turning section 52.11's eleven invariants into ADMISSION: unique segment
+   identifiers, unique label values with the background outside the mapping,
+   representation references resolving to declared segments, explicit ordered
+   finite fractional domains with in-domain thresholds, and one shared shape
+   with declared-geometry agreement.
+
+   **The overlap requirement is discharged STRUCTURALLY**: the segment
+   collection admits overlapping fields by construction (the suite's witness
+   has two segments claiming the same sample), the label image CANNOT express
+   overlap, and having both — with conversion explicit — is exactly how the
+   model refuses to collapse overlap while still offering the exclusive form.
+
+   **A pairing lesson recorded**: `ProvenanceRecord` enforces kind-activity
+   agreement (`.transformed` demands an operation activity) — the test
+   fixture's mismatch was caught by the accepted admission, which is that
+   admission doing its job.
+
+   **Next**: `VOX-SEG-005` + `VOX-SEG-006` — the nearest-neighbour resampling
+   default for masks and labels (composing the discharged `VOX-IMG-007` rule
+   against `GridResampleOperation`'s trilinear-only surface: the design must
+   either widen grid resampling with a nearest mode or refuse mask semantics
+   there and route them to a mask-honest resampler), and the segmentation
+   operation set over the foundations.

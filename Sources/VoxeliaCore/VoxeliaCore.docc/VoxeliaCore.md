@@ -188,6 +188,21 @@ storage semantics.
 ### Image data
 
 - ``ImageData``
+
+### Segmentation model
+
+- ``Segmentation``
+- ``SegmentationRepresentation``
+- ``LabelImageSegmentation``
+- ``SegmentCollectionSegmentation``
+- ``SegmentField``
+- ``SegmentFieldInterpretation``
+- ``SegmentDescriptor``
+- ``SegmentID``
+- ``SegmentAlgorithmDescriptor``
+- ``SegmentAlgorithmType``
+- ``SegmentDisplayRecommendation``
+- ``SegmentationModelError``
 - ``ImageDataError``
 
 ### Common errors
