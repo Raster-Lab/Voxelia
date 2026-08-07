@@ -5535,6 +5535,41 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **16 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (sss): `ADR-0300` — CPU↔Metal differential; `VOX-VAL-006` **T** discharged,
+   **R** left with the owner.** 1229 tests / 217 suites (was 1224/216). **No source changed.**
+
+   **The sweep was WRONG about this row, and I checked before writing.** `ADR-0290` listed it
+   untouched — true of the **records**, false of the **tests**. All three diagnostic Metal
+   kernels already had an analytical comparison: window/level against `ALG-0002`'s model,
+   invert against `255 − x` over all 256 values, composite against `ALG-0009`'s model. They
+   were simply **tagged to other rows** (`VOX-PLT-011`, `VOX-MTL-016`, `VOX-VAL-007`).
+   Reporting "unverified" would have been the easier claim and the false one.
+
+   **What WAS missing: the CPU leg.** Every one of those references is a model **transcribed
+   into the test file**. If a transcription and the shipped CPU operation drifted, the Metal
+   suite keeps passing while the product disagrees with itself — and NOTHING compared
+   `WindowLevelOperation` ↔ `MetalWindowLevelOperation`, `InvertDisplayOperation` ↔ its Metal
+   twin, or `CompositeLayersOperation` ↔ its Metal twin.
+
+   **Compared at the OPERATION level**, not the kernel level — the kernels were already
+   covered; the operations are what callers use. **Input is the analytical phantom**, giving a
+   third leg: CPU==GPU is *consistency*, both==closed form is *correctness*.
+
+   **Window/level and invert asserted BYTE-EQUAL, no tolerance.** Composite deliberately is
+   **not**: the GPU composites in float32, the CPU in binary64, and `ADR-0096` already
+   measured and bounded that at **one code value with a 99% exact floor**. The test
+   **composes that accepted bound** rather than inventing a tolerance — the only tolerance in
+   the suite, and the record it comes from is named.
+
+   **The differential is shown able to FAIL**: two windows that genuinely disagree must
+   produce differing bytes on both backends, else asserting equality proves nothing.
+
+   **`R` NOT claimed.** Review is human judgement. What the owner is asked to review is
+   concrete: whether a one-code-value CPU↔GPU composite divergence is acceptable for
+   diagnostic use. Evidence is in place; the judgement is not mine.
+
+   **15 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

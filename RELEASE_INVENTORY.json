@@ -2950,6 +2950,11 @@
       "sha256": "6a537869f637ac3c2333fe359f73a5cf45070a207a5831a1800efc94279247f4"
     },
     {
+      "path": "Tests/VoxeliaValidationTests/CPUMetalDifferentialTests.swift",
+      "size": 16589,
+      "sha256": "508e67c4ab6788a278793bd1430552c5200863b776d00777061f9e94b3fb4d18"
+    },
+    {
       "path": "Tests/VoxeliaValidationTests/CombinedRegistryTests.swift",
       "size": 1254,
       "sha256": "18505d877a7225009378d28ef2b18c3fb982cbcb282309aa409bdcd0d52a90ee"
@@ -5110,9 +5115,14 @@
       "sha256": "b016ba115c43f44f1f5bca512b063c55f063ae0b8460733f7d1cbe3a843c96db"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0300-cpu-metal-differential-references.md",
+      "size": 7004,
+      "sha256": "3a10e2f473c1d5651da4c959f0796744653650e790ab08278843e6d5c1bbc8be"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 41565,
-      "sha256": "3dd8e2f3bfaa5b42ff20491a620aa7c2b1e71b58adf604cc4414632f0b0b7636"
+      "size": 41674,
+      "sha256": "509fe609c872d5aa8f0eda1b00f19799baa5b65395f2e82cb67f5ee4d60028a4"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5206,8 +5216,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1226022,
-      "sha256": "045de2a17ceea4a6c0d3383095e228d3011edba0d7a4d5440400312ab6fb3ea7"
+      "size": 1228342,
+      "sha256": "66216e2881d334be0929ca91dead64458660ecf33bb268bf9580cfd8fd9eb9f7"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5716,8 +5726,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 65216,
-      "sha256": "417f0cb8aa181209d30ee2cebb5433d9823642f24a211d03abf2588044543700"
+      "size": 65351,
+      "sha256": "e818e5c2d6bfed1a9e51772c3f89082c79bf3571f5e6730c65f08042bddf1241"
     }
   ]
 }
