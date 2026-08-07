@@ -51,6 +51,12 @@ public API is introduced only by reviewed milestone specifications.
 - ``SliceRenderer``
 - ``MultiplanarRenderCoordinator``
 - ``InteractiveLevelRenderCoordinator``
+- ``HeadlessOutputDescriptor``
+- ``HeadlessOutputCapabilities``
+- ``OutputDynamicRange``
+- ``AuxiliaryOutput``
+- ``MediaBufferAdapter``
+- ``HeadlessOutputError``
 - ``MultiDimensionalTransferFunction``
 - ``MaterialConditionedTransfer``
 - ``TransferTableEntry``

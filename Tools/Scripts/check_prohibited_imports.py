@@ -90,6 +90,8 @@ PROHIBITED = {
         "vImage",
     },
     "VoxeliaRendering": {
+        "AVFoundation",
+        "VideoToolbox",
         "SwiftUI",
         "AppKit",
         "UIKit",
@@ -122,12 +124,16 @@ PROHIBITED = {
         "vImage",
     },
     "VoxeliaInteraction": {
+        "AVFoundation",
+        "VideoToolbox",
         "SwiftUI", "AppKit", "UIKit", "RealityKit", "MetalKit", "ModelIO",
         "CoreML",
         "CreateML",
     },
     "VoxeliaCPU": {"Metal", "MetalKit", "RealityKit", "DICOMKit"},
     "VoxeliaPhotorealistic": {
+        "AVFoundation",
+        "VideoToolbox",
         "SwiftUI",
         "AppKit",
         "UIKit",
@@ -143,6 +149,8 @@ PROHIBITED = {
         "vImage",
     },
     "VoxeliaMetal": {
+        "AVFoundation",
+        "VideoToolbox",
         "SwiftUI",
         "AppKit",
         "UIKit",

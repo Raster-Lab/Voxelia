@@ -8180,3 +8180,29 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    descriptors (`I,T`), depth/object-identifier outputs (`T`), the
    optional media-buffer adapter (`T`), and media-encoding isolation
    (`I,T`, structural like every optional-module row).
+
+1. **2026-08-07 — ~~`VOX-HLS-005`~~ + ~~`VOX-HLS-006`~~ + ~~`VOX-HLS-007`~~
+   + ~~`VOX-HLS-010`~~ DISCHARGED: headless output capabilities
+   (`ADR-0400`). M9 ARC 2 IS CLOSED.** One vocabulary: what an output
+   IS, what a backend DECLARES it can produce, what arrives only via an
+   optional adapter. Dynamic range: closed sdr/hdr, declared support,
+   HDR against an SDR backend REFUSES typed — "where the backend
+   supports them" is an admission check, never a silent downgrade (a
+   downgrade the host did not choose is a clinical presentation change
+   made silently). Auxiliaries: closed depth/objectIdentifier, empty
+   selection valid (optional means optional), undeclared requests
+   refuse — never silently omitted, because a missing depth buffer a
+   host believed it requested is a measurement error waiting
+   downstream. Media buffers: `MediaBufferAdapter` protocol with an
+   ASSOCIATED buffer type — core modules never name `CVPixelBuffer`;
+   stub conformance witnesses the seam. Media-encoding isolation
+   ENFORCED: AVFoundation + VideoToolbox prohibited in
+   Rendering/Metal/Interaction/Photorealistic, negative-tested — when
+   an encoder arrives it arrives as an optional module, and the gate
+   makes "shall be isolated" a CI fact. Full suite: `✔ Test run with
+   1443 tests in 276 suites passed`. **Next**: M9 arc 3, distributed
+   descriptions — transport-neutral serialisable job descriptions
+   (identity, versions, parameters, input identities), compatibility
+   composing the `ADR-0380` contract, tile/frame/brick/sample
+   partitioning with the photorealistic partitioning row,
+   `VOXELIA-ALG-0079` seeds, camera serialisation.
