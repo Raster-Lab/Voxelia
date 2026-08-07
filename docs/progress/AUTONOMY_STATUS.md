@@ -5868,6 +5868,37 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **9 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (cccc): `ADR-0310` — documented example safety; `VOX-DOC-011` **I** discharged,
+   **R** to the owner.** 1235/218 unchanged. **No source changed.**
+
+   **WHERE the examples are was the first question, and the answer was not where it looked.**
+   The DocC catalogues contain **no Swift code blocks at all**, and there is no `Examples/` or
+   `Snippets/` directory. The project's examples are the **224 fenced Swift blocks in
+   `docs/`** — algorithm specs, RFCs, project specs. `check_swift_safety.py` scans `.swift`
+   files; **a fenced example in Markdown is not one**, so not one of the 224 had ever been
+   scanned.
+
+   **Scanning found ONE hit, and it is NOT a violation**: `UnsafeMutableRawBufferPointer` in a
+   write-destination protocol. `ADR-0287` corrected an earlier over-strict reading of this
+   exact rule — the policy reserves the **bare word** `unsafe`; an identifier merely containing
+   it is not reserved. **Re-making that mistake inside the gate that enforces the rule would
+   have been a poor way to enforce it**, so the gate documents the exclusion and cites 0287.
+
+   **`try!` and `as!` are the substantive rules** — they turn a typed refusal into a crash,
+   which is exactly "bypassing canonical validation for convenience", and **an example doing it
+   teaches a reader to do it**.
+
+   **Rejected: extracting blocks to temp files to reuse `check_swift_safety.py`** — it would
+   duplicate that gate's full rule set onto prose that legitimately elides detail, AND
+   `ADR-0302` forbids product code creating temporary files; adding a script that did so to
+   enforce a documentation rule would be a poor precedent.
+
+   **Clean gate, not a ratchet** — nothing to absorb, same as `ADR-0302`, opposite of
+   `ADR-0301`'s 219-test carry. **Proven able to fail**: a `try!` example → reported by file and
+   line, exit 1.
+
+   **8 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

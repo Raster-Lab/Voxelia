@@ -3065,6 +3065,11 @@
       "sha256": "18dd7d5190c055f18f5184cea9e9a95f578cb779d3e7d93689693ccd2345b827"
     },
     {
+      "path": "Tools/Scripts/check_example_safety.py",
+      "size": 2476,
+      "sha256": "90ecc3c080ac9bdf57e91aa1a0018d05fc21d9a1f7540ba9c8fc7e79e3a2e5d9"
+    },
+    {
       "path": "Tools/Scripts/check_front_matter.py",
       "size": 1226,
       "sha256": "50df4b26d2d10b9d50083632b305f25b65480c3bb6346534bb076e7b67b2793e"
@@ -3166,8 +3171,8 @@
     },
     {
       "path": "Tools/Scripts/validate-docs.sh",
-      "size": 600,
-      "sha256": "667a3aa0e519e44bdbf1a10197f2e2093df0b48739da056d0d92a5a0f8d7b259"
+      "size": 646,
+      "sha256": "96f094b5e939805482d7b8e57e6d8f415b04d6204354223c6636c565cc54340e"
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
@@ -5190,9 +5195,14 @@
       "sha256": "06bfdbcc47a74cbc235b88589bfaf2424ce343279322ba85a4fd6d8f5abaea5a"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0310-documented-example-safety.md",
+      "size": 5055,
+      "sha256": "91faab73cc3c750f748540e0192603f28fdad19f89d6ad91fe5c01116a82b892"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 42593,
-      "sha256": "56bb672ab6501d4851065f95c918cb0666f9b2351480d10c45230b5f923fdc00"
+      "size": 42686,
+      "sha256": "05b2d4097d872139ac6e49dbc792b21f6d9388f7c46679d593c29da1065a41c0"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5286,8 +5296,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1247510,
-      "sha256": "4483fe7754254f8f87fa1321ac00a90a21e984f1e7697038dc2c6ff2262fa282"
+      "size": 1249447,
+      "sha256": "67cfc2b96af3f91de67040642cce8d25746f58f29d38a9ae295c48a5d18ce573"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5806,8 +5816,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66264,
-      "sha256": "d05ab6bf1b4dd9581774b5fa41a3a399c9e3657cdf102ccc6066d55a56d965ea"
+      "size": 66368,
+      "sha256": "d1b0acf109497b9ba7d434ea9e17c4ad5bee38cfffab19bb0ef20141160efd0e"
     }
   ]
 }

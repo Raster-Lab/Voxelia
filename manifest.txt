@@ -611,6 +611,7 @@ Tools/Scripts/check_adr_register.py
 Tools/Scripts/check_apple_platform_policy.py
 Tools/Scripts/check_docc_archives.py
 Tools/Scripts/check_document_text.py
+Tools/Scripts/check_example_safety.py
 Tools/Scripts/check_front_matter.py
 Tools/Scripts/check_licence_policy.py
 Tools/Scripts/check_manifest_paths.py
@@ -1036,6 +1037,7 @@ docs/architecture/decisions/ADR-0306-residency-duplication-analysis.md
 docs/architecture/decisions/ADR-0307-first-useful-image-is-unbuilt.md
 docs/architecture/decisions/ADR-0308-public-api-needs-no-window.md
 docs/architecture/decisions/ADR-0309-resolve-decision-cross-references.md
+docs/architecture/decisions/ADR-0310-documented-example-safety.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
