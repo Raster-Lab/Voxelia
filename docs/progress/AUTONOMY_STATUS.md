@@ -6349,3 +6349,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Eleventh unenforced property CLOSED.** 6 rows remain unclaimed — unchanged, since
    `ADR-0326` already claimed this row.
+
+   **Increment (uuuu): `ADR-0328` — `VOX-ADP-003` claimed (I+T).** 1238/219 unchanged. **No
+   source changed.**
+
+   **Recomputed the queue rather than trusting my own running total: 4 unclaimed, not the 6 I
+   had been quoting** — the M0/M1/M2 claims landed more rows than the arithmetic tracked.
+   `ADR-0319`'s lesson, applied.
+
+   **The row has TWO clauses pulling opposite ways**: Model I/O is **permitted** for asset
+   interchange and mesh preparation, and **forbidden** as the canonical model. **A gate doing
+   only one would answer half the row.**
+
+   **Zero ModelIO anywhere** — optional in the strongest sense. Forbidden in **9 of 11**
+   targets; the two exceptions were **not** alike: `VoxeliaCPU` is where surface extraction,
+   facet area and vertex normals live — **mesh preparation, which the row explicitly
+   permits** — while `VoxeliaInteraction` is **neither**, and its exemption had no rationale.
+   Every canonical-model target already forbade it, so clause two was protected and clause one
+   was under-enforced in exactly one place.
+
+   **Proven BOTH directions**: ModelIO in `VoxeliaInteraction` → failed by path, exit 1; in
+   `VoxeliaCPU` → **passed**, exit 0. **The second is load-bearing — failing on both would make
+   Model I/O unusable for the purposes the row PERMITS, a stricter rule and therefore a
+   different one.**
+
+   **3 rows remain unclaimed**, all M6 and all `T,D` — `VOX-BRK-009`, `VOX-DVR-013`,
+   `VOX-PER-004`. **Each carries a Demonstration, so none can be fully discharged without the
+   owner.**

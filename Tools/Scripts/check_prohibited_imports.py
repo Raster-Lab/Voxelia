@@ -102,7 +102,9 @@ PROHIBITED = {
         "Accelerate",
         "vImage",
     },
-    "VoxeliaInteraction": {"SwiftUI", "AppKit", "UIKit", "RealityKit", "MetalKit"},
+    "VoxeliaInteraction": {
+        "SwiftUI", "AppKit", "UIKit", "RealityKit", "MetalKit", "ModelIO",
+    },
     "VoxeliaCPU": {"Metal", "MetalKit", "RealityKit", "DICOMKit"},
     "VoxeliaMetal": {
         "DICOMKit",

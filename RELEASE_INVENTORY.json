@@ -3106,8 +3106,8 @@
     },
     {
       "path": "Tools/Scripts/check_prohibited_imports.py",
-      "size": 4568,
-      "sha256": "ef251667f79a87103d283f271298ba95045b68d60beb485eca62bf02264fe488"
+      "size": 4594,
+      "sha256": "b27295453c35aea0bde8307674aacbc33edc33be53bebf0dab8e7a20f59bbba8"
     },
     {
       "path": "Tools/Scripts/check_release_integrity.py",
@@ -5300,9 +5300,14 @@
       "sha256": "1eef991fca89ae32bfb06399a87960cc1eb8f97f45cf9e72906d43eff5cb4e4f"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0328-model-io-is-optional.md",
+      "size": 4799,
+      "sha256": "c509731210a631e9038463a6c5d54f666f0776811567f71ad226def74ae27e2b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 44349,
-      "sha256": "4ce260e7cff3bf493f4b2a90eb614d94fb651f4e05bcf5cd9ba50954787bb644"
+      "size": 44433,
+      "sha256": "5d7f89a8a92226b70f11295c8d854acb4dcb35d6e8b962303dedc539891bac3a"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5396,8 +5401,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 410356,
-      "sha256": "881c26242db900a5be9328e02808856815ca3c3d8d282b709d3885ff96b5a0a0"
+      "size": 411923,
+      "sha256": "1eef0ba8496537485708d6dc7bf00475d291a298a95dc3f3b35f69acd6ca641d"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5921,8 +5926,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67715,
-      "sha256": "3327ca7f337ca77e4788913ab1aeeb5773117a70dcb895f30bf6851237e48e35"
+      "size": 67776,
+      "sha256": "ef901447738409accd3a91174b711539244da6d0ce7f108cd4140120e64c86ae"
     }
   ]
 }
