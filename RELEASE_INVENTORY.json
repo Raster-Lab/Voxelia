@@ -1795,6 +1795,11 @@
       "sha256": "8fc012cccdbcee2d26d1447b7d2bdec211b093cbb1d55da089852206ba996231"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/CurvedCentreline.swift",
+      "size": 4618,
+      "sha256": "1ab89e6c6389cffc1d207a4efc7947a3e2c6588b3a40f4cb6e2deafdcf2e0be5"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/ExternalFrameReference.swift",
       "size": 4778,
       "sha256": "02c65f3e021d6f759b70027c70e8f4af6ee2203bedf6f35abb2a09214dd8b8bb"
@@ -1881,8 +1886,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 1835,
-      "sha256": "dbfab53250b96421326b5cea04f74bf381b50c2a745e3f61864534c6d7b4c32c"
+      "size": 1886,
+      "sha256": "31881925583c3b78aba9e9835f385dcb9ee2c63c902c58167a53c6b91d5463e6"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -3150,6 +3155,11 @@
       "sha256": "83a00830971f5c675d9eb042287cb38f485eb123f0673f4a22177b1b06d6a365"
     },
     {
+      "path": "Tests/VoxeliaSpatialTests/CurvedCentrelineTests.swift",
+      "size": 4078,
+      "sha256": "9f6ec5aa5bd521bb113f88d7ee2f58c06a0d3dd41b17beeb6c222b795b7a8a1a"
+    },
+    {
       "path": "Tests/VoxeliaSpatialTests/ExternalFrameReferenceTests.swift",
       "size": 6400,
       "sha256": "0a15523ee121a1497386250a43aab25c1617c7c657d80bf201842ef74e3ab94b"
@@ -3731,8 +3741,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 8976,
-      "sha256": "13c40576d96cd967bf77786fad8a8004bb7ea77d1a26a8af678e597f8a8cb19e"
+      "size": 9083,
+      "sha256": "b5022fcaa297c1c8e7a4d7742088fbcc74e0a598b8c90b06996d58ead925b85e"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -4098,6 +4108,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0073-registration-quality.md",
       "size": 2643,
       "sha256": "d40615a951a14cae50dfa0f1456c90d5d758b087f53a36861733769b8ca20bcf"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0074-curved-centreline.md",
+      "size": 2678,
+      "sha256": "42aedfc6c36f768c60076b4e0f0362f9589d4ac10c488378962e5840c0b096ca"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -6010,9 +6025,14 @@
       "sha256": "8f8f3070f14648b75fe0b5903841fa5179fb742d0d3ff98d6ab45a93cba23a83"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0375-the-explicit-centreline.md",
+      "size": 3377,
+      "sha256": "b5fd9e0876c5e0868eca0cf37d8574bb7b6899be060370dd2cfe404d99ea13ce"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 51021,
-      "sha256": "34b62dfd01718c96519ce3d421580fc3ca837399dee1d3eaf86844bf3789a7ec"
+      "size": 51162,
+      "sha256": "a32e3c258ff5229da3a389231d88b9e4f19b145880e21c6f2da011d34dbee1f1"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6111,8 +6131,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 494356,
-      "sha256": "0a5aa437cd63e1525afeef51b806b08912b8748adbb1b61a3947bf380b1f7295"
+      "size": 495717,
+      "sha256": "b35afdc8ca2e8089e68395b588e060eec3458f18ac5f0b19ef998adf97567401"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6408,6 +6428,11 @@
       "path": "docs/progress/evidence/ADR-0373-registration-quality-oracle.py",
       "size": 1978,
       "sha256": "8391065516e163cd700053373b07ed57138ae7765b447243b98a355dc9144d48"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0375-curved-centreline-oracle.py",
+      "size": 1807,
+      "sha256": "2b5fa5da17c3e43f0de9031d28434ab36b370ce40ba679f1b1de52659df6ac21"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -6746,8 +6771,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 77600,
-      "sha256": "9f47d8106e9b6ee1bc9890a8a54eb2b251edccf5c8f732f25eb71c56e471ff7c"
+      "size": 77885,
+      "sha256": "914099b9a4e2c0d208a6da3675d3da81031f50ee0c471b8e56f484bd0721662b"
     }
   ]
 }

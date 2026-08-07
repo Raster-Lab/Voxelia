@@ -240,7 +240,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0372` is allocated to explicit registration failure.
 `ADR-0373` is allocated to registration quality for the host.
 `ADR-0374` is allocated to registration references before Metal.
-The next unallocated numeric identifier is `ADR-0375`.
+`ADR-0375` is allocated to the explicit centreline.
+The next unallocated numeric identifier is `ADR-0376`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -598,3 +599,4 @@ The next unallocated numeric identifier is `ADR-0375`.
 | [ADR-0372](ADR-0372-explicit-registration-failure.md) | Accepted | Explicit registration failure |
 | [ADR-0373](ADR-0373-registration-quality-for-the-host.md) | Accepted | Registration quality for the host |
 | [ADR-0374](ADR-0374-registration-references-before-metal.md) | Accepted | Registration references before Metal |
+| [ADR-0375](ADR-0375-the-explicit-centreline.md) | Accepted | The explicit centreline |

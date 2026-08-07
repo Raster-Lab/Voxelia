@@ -7703,3 +7703,24 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    passed`. **Next**: open the CURVED-PLANAR/DICOM-TAILS arc per
    `ADR-0351` — first row from that arc's queue (curved-planar
    reformation rows, then the DICOM tail rows), design-first as always.
+
+1. **2026-08-07 — ~~`VOX-MPR-012`~~ DISCHARGED: the explicit centreline
+   (`ADR-0375` + `VOXELIA-ALG-0074`). THE CURVED-PLANAR/DICOM-TAILS ARC
+   IS OPEN.** `CurvedCentreline` in `VoxeliaSpatial`: an ordered
+   polyline in ONE declared physical space (`CoordinateSpaceDescriptor`
+   + `N >= 2` `Point3D`s, every point validated in-space; exactly
+   coincident consecutive points refuse — silently dropping a
+   zero-length segment would edit the clinician's input). A POLYLINE,
+   NOT A SPLINE: smoothing changes where the reconstruction looks, so a
+   smoothed path must be supplied explicitly. Arc-length
+   parameterisation frozen at admission (segment lengths, cumulative
+   marks); `position(atArcLength:)` with interior vertices and the far
+   endpoint exact BY RULE (mark hits give t=0; the total returns the
+   last point verbatim); NaN and out-of-range refuse typed. Fixtures:
+   the integer elbow exact everywhere; the diagonal pins `sqrt 2` and
+   the one-ulp-inside endpoint. Full suite: `✔ Test run with 1391 tests
+   in 255 suites passed`. **Next**: the back-mapping row — CPR output
+   positions map back to source patient coordinates (`T`): design the
+   CPR output parameterisation (arc length x lateral offset over a
+   frozen frame along the centreline) and its inverse to patient
+   coordinates, composing this increment's lookup.

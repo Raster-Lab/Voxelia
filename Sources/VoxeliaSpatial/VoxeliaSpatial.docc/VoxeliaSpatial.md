@@ -64,6 +64,8 @@ None.
 - ``LandmarkAffineEstimation``
 - ``LandmarkRigidEstimation``
 - ``LandmarkEstimationError``
+- ``CurvedCentreline``
+- ``CurvedCentrelineError``
 
 ### Spatial-axis mappings
 
