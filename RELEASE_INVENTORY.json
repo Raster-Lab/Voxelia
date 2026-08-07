@@ -1585,6 +1585,11 @@
       "sha256": "f60a9943d97c4e98ef62254e59bd082ab790d26142dcc7daa1df5c8e4328a11d"
     },
     {
+      "path": "Sources/VoxeliaPhotorealistic/Public/VolumetricIllumination.swift",
+      "size": 3249,
+      "sha256": "74508f212e8a5f36cd0ea372bc2daadb1678dc393cd884359550c7e0a9da79ee"
+    },
+    {
       "path": "Sources/VoxeliaRendering/ApplePlatformGate.swift",
       "size": 234,
       "sha256": "62f2724afe24cf4d1d9999f5927392d0c9441a4b05d3f2429bc770f6b0b750d9"
@@ -3030,6 +3035,11 @@
       "sha256": "44c268df55d37292e28213eec0885e183d6e56bb87c9153037e65d959464ac88"
     },
     {
+      "path": "Tests/VoxeliaPhotorealisticTests/VolumetricIlluminationTests.swift",
+      "size": 3106,
+      "sha256": "913bffcec5d2530f37f063330996f9f778968bd96118ba4d79ac0545cd7f2dfc"
+    },
+    {
       "path": "Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift",
       "size": 8547,
       "sha256": "d1f1798ac287dc02a5589e2465f2f5cc86185325f4e4bfae865f3e1a8aac38c8"
@@ -3801,8 +3811,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 9198,
-      "sha256": "6a46960a61cfd93a43a350a82e8ede9a1209d53ee1ff5f3b6bd049cc46ac9141"
+      "size": 9321,
+      "sha256": "85da446a1fb8abe072d3367fff778b220aaea1e95c0a76aeb6393b1e25747eaf"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -4178,6 +4188,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0075-curved-planar-mapping.md",
       "size": 2696,
       "sha256": "3cce310c02280a1edb263acbc518da2e0c84817daf864b25f7f57dc65a204893"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0076-emission-absorption.md",
+      "size": 2694,
+      "sha256": "c1b58fa3594254aa687e1564d647523a1333d60809dbc75c2c109900e1572aad"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -6145,9 +6160,14 @@
       "sha256": "d4a4eacdee1aa06e640a68bdfd82f2a8d1658f8f8eeb50485a937f405b9f4140"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0386-volumetric-illumination.md",
+      "size": 3343,
+      "sha256": "137d2a296d7e7a4aa8b91921fd78db49ba7c01810e0eaaf417af961d18b283be"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 52754,
-      "sha256": "4d3c053c016bd6a147ea1b8d441ca5f9ab1203a0d71288db2bb893fd57fcd35b"
+      "size": 52895,
+      "sha256": "f224a9b49e8a8ebbe501845306f15d26200bbcf2b14155caca0a5f0351e48789"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6256,8 +6276,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 510954,
-      "sha256": "c416c6379f59877497b1b59ee031eab656805b7b52d7f60d849250be0b45459c"
+      "size": 512331,
+      "sha256": "e19a68535e50b5c44b8a954004d5e693621dede38b55903e740ff8299d393880"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6563,6 +6583,11 @@
       "path": "docs/progress/evidence/ADR-0376-curved-planar-mapping-oracle.py",
       "size": 2537,
       "sha256": "6fda0f647e1601eeb43c8b79db1a9af74168eec2aa9b4d8bd6fa3121103f7048"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0386-emission-absorption-oracle.py",
+      "size": 1246,
+      "sha256": "e1e65a8607ea3dac5582f2099a96f5edb36d84fb8c1a980c67d345b016b4a94c"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -6901,8 +6926,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 79515,
-      "sha256": "84c5e448194654d38030674f0374ffb0b38a0208e3fae160058ad39a81322b11"
+      "size": 79830,
+      "sha256": "a8954fe395674c2e8dcd566d278ab35b0a9bb512a120aa6dc0404b581f94362e"
     }
   ]
 }

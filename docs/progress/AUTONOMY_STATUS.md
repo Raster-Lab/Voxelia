@@ -7959,3 +7959,24 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    (physically based volumetric illumination: emission-absorption
    radiative transfer as the frozen v1 model with an independent
    oracle, extended by the shadows and scattering rows after it).
+
+1. **2026-08-07 — ~~`VOX-PRR-004`~~ DISCHARGED: volumetric illumination
+   (`ADR-0386` + `VOXELIA-ALG-0076`). THE PHYSICS ARC IS OPEN.** The
+   founding model is EMISSION-ABSORPTION radiative transfer — the
+   recognised physically based baseline of volume rendering, not a
+   stylistic approximation: per-sample emission attenuated by
+   accumulated Beer-Lambert absorption, composited front to back with
+   frozen folds (`w = (1-A)·α` rounded once; channels r,g,b in order;
+   no fused multiply-add). EXACT saturation is the only early exit —
+   accumulated opacity exactly 1 occludes what follows, no visibility
+   epsilon. The empty ray is exactly transparent — honest absence, not
+   a refusal. `VolumetricIlluminationIntegrator` is the NUMERICAL CORE,
+   not a renderer: sampling (volume interpolation, transfer functions,
+   step sizes) is the caller's seam, the same discipline as the
+   registration metrics, which is what keeps the fixtures exact and the
+   later renderer decomposable. The `D` half is the specification
+   itself. Fixtures bit-exact incl. the irrational triple. Full suite:
+   `✔ Test run with 1414 tests in 263 suites passed`. **Next**: the
+   volumetric shadows row — an opacity-only transmittance walk toward a
+   light composing this integrator's accumulation, design-first with
+   its own oracle; then area/environment lighting.
