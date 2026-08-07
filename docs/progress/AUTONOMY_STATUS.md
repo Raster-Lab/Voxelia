@@ -6166,3 +6166,38 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    assertion**.
 
    **12 rows remain unclaimed** under `ADR-0319`'s criterion — **recomputed, not decremented**.
+
+   **Increment (nnnn): `ADR-0321` — British English ENFORCED; `VOX-DOC-003` **I** discharged,
+   **R** to the owner.** 1238/219 unchanged. **No source changed.**
+
+   **Nothing had ever checked spelling** — `check_document_text.py` is 30 lines and checks
+   other properties. Measured: **121 American spellings across 34 files** in prose (fences and
+   inline code removed). **Sampled to test the row's exemption** — "resource-limit `behavior`",
+   "copy-on-write `behavior`", "duplicate-input `behavior`" — **ordinary prose, not external
+   standards, not identifiers.** Tenth instance of the pattern.
+
+   **The exemption is honoured STRUCTURALLY, not by a blessed-word list**: fences and inline
+   code are blanked before scanning, so an identifier or DICOM keyword is invisible **as long
+   as it is written as code**, which this project's style already does. **A word list would
+   grow by argument; a structural rule does not.**
+
+   **Code blanked, NOT deleted — newlines preserved so line numbers stay true.** Same fix
+   `ADR-0309` needed after its link checker read an illustration as a citation; applied here
+   **from the start** rather than after a false positive.
+
+   **A RATCHET, not a clean gate** — 121 across 34 files is a backlog, and `ADR-0301`
+   established what a red-on-landing gate produces. Counts per file; may shrink, never grow.
+   **Rejected correcting all 121 now**: rewording 34 documents, several of them frozen specs
+   and accepted records, bundled with the gate that would check it.
+
+   **Proven able to fail**: `the color of the behavior is optimized` → file, count and each
+   spelling with its line, exit 1.
+
+   **THE GATE REJECTED THIS VERY RECORD** on its first live run, and the ledger entry beside
+   it: I quoted the failure probe in **plain prose instead of backticks** — the exact convention
+   decision 4 states — so it counted 3 spellings in a file with no baseline. **The rule working,
+   not a false positive**, and worth recording that the record introducing a convention **broke
+   it in the same commit**. `ADR-0309` hit the mirror image: there the *checker* was wrong about
+   an illustration; here the *author* was.
+
+   **11 rows remain unclaimed** — recomputed.
