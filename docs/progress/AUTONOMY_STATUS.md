@@ -5376,6 +5376,53 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    specification and an independent oracle** — its summation order AND its quantisation are
    both observable, unlike either phantom built so far.
 
+   **Increment (ooo): `VOXELIA-ALG-0053` + `ADR-0296` — §55.2's physical ramp, DESIGN-FIRST;
+   the SPATIAL kind of `VOX-VAL-003`.** 1208 tests / 213 suites (was 1194/212).
+
+   **The order is observable in the PUBLISHED INTEGER, not just the bits.** The oracle was
+   written and run before any Swift. Fixture D — a 3-4-5 rotation with a non-dyadic `0.3`
+   slice spacing — has two samples where a rival association rounds to a different value:
+   `(2,1,2)` frozen `4.500000000000001`→`5` vs right-assoc `4.5`→`4`; `(3,3,2)` frozen
+   `7.5`→`8` vs right-assoc `7.499999999999999`→`7`. **That is why the spec exists**, and it
+   also shows why §55.1 and §55.4 correctly have none — neither has an order anyone could
+   disagree about.
+
+   **All twelve fixture and geometry tests passed FIRST RUN** — the Swift evaluation
+   reproduced the Python oracle exactly. That is what design-first is supposed to produce.
+
+   **Composed, not restated**: index→patient is `ADR-0138`'s frozen forward evaluation
+   (translation FIRST, then ascending slots); rounding is `ALG-0002`'s ties-to-even; affine
+   admission is `ALG-0052`'s exact structural test. **Which accumulation applies is NAMED** —
+   Voxelia has two that differ in where the translation lands (`ADR-0138` first,
+   `ALG-0052` last), so naming it is part of the spec, not a detail.
+
+   **REFUSED, not clamped**, departing from `ALG-0002` deliberately: saturation is what a
+   display window *means*; for a phantom it would publish an expected value that is not the
+   ramp's value.
+
+   **Rounding asserted against its RIVAL**: fixture A's rows are `1.0,1.5,2.0,2.5` and
+   `2.0,2.5,3.0,3.5` pre-round; the suite asserts both the ties-to-even result and that it
+   differs from ties-away. Fixture C adds a **negative** half, `−0.5`, which ties-away would
+   send to `−1`.
+
+   **Two of my own expectations were wrong and the suite caught both.** The identity at
+   `(1,1,1)` is `2.5` → ties to the even **2**, not 3. And a test claiming an interior sample
+   could escape `Int16` while every corner fits was **UNCONSTRUCTIBLE** — the composed value
+   is affine in the indices, so no such geometry exists. Replaced by a test asserting the
+   property that makes corner admission sound: the extreme over the whole box equals the
+   extreme over the eight corners.
+
+   **`VOX-VAL-003` STILL NOT DISCHARGED — and the reason matters more than the outcome.**
+   All three kinds now have a phantom, but the tests are NOT equal: only §55.4's is fed into
+   **shipped product code** (`MeasurementConstruction`). §55.1's and §55.2's suites verify
+   that the phantom is what it claims to be — necessary, and not the same thing. Plan §46.2's
+   criterion is about a **pipeline**, so discharging on three self-verifying suites would
+   claim it on evidence that never runs one.
+
+   **Next**: drive the §55.1 ramp through **value transformation** and the §55.2 ramp through
+   an **oblique reconstruction**. Both small now the phantoms exist; both are what the row
+   actually needs.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

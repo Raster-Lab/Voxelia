@@ -19,6 +19,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``LinearRampPhantomError``
 - ``DistancePhantom``
 - ``DistancePhantomError``
+- ``PhysicalRampPhantom``
+- ``PhysicalRampPhantomError``
 
 ### Project documents
 

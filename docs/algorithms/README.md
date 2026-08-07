@@ -56,3 +56,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0050](VOXELIA-ALG-0050-volume-sample-layout.md) | Accepted | CT volume sample layout `v1` |
 | [VOXELIA-ALG-0051](VOXELIA-ALG-0051-stored-value-interpretation.md) | Accepted | CT stored-value interpretation `binary64-v1` (rescale clause superseded by `ADR-0237`; `VOXELIA-ALG-0003` governs it) |
 | [VOXELIA-ALG-0052](VOXELIA-ALG-0052-affine-composition-and-directions.md) | Accepted | Affine composition and direction transformation `binary64-v1` |
+| [VOXELIA-ALG-0053](VOXELIA-ALG-0053-physical-coordinate-ramp.md) | Accepted | Physical-coordinate ramp `binary64-v1` |
