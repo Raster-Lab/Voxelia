@@ -1146,8 +1146,8 @@
     },
     {
       "path": "Sources/VoxeliaImaging/Public/MPRSliceCoordinator.swift",
-      "size": 8103,
-      "sha256": "5976055ae9666c23c94c55cc21f41622fdff26c27a7ef1e416262e6c5a66544f"
+      "size": 8274,
+      "sha256": "1592fb96e42677b87017929c759e9b2a8b9c38e0463b21c01fdaefd7d5d6146c"
     },
     {
       "path": "Sources/VoxeliaImaging/VoxeliaImaging.docc/Architecture.md",
@@ -1495,6 +1495,11 @@
       "sha256": "623717d65fc1b9d7830726fb3b4d641eb8ead400c80a5aadd559edbfdf0365bf"
     },
     {
+      "path": "Sources/VoxeliaRendering/Public/InteractiveLevelRenderCoordinator.swift",
+      "size": 4596,
+      "sha256": "dacde1aa0b2aec21b1fef4c3b2f2af4f8d68aad5132a70972ec07938f68b8221"
+    },
+    {
       "path": "Sources/VoxeliaRendering/Public/MultiplanarRenderCoordinator.swift",
       "size": 3811,
       "sha256": "065bc8072fbc91cf0a8c863622dde628f37926e47fab762f7573f16321d58396"
@@ -1566,8 +1571,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/VoxeliaRendering.docc/VoxeliaRendering.md",
-      "size": 1470,
-      "sha256": "930c2c58b69ef6e8b9e96914026cbae123cd7c1406a029a24c42d1857c84351d"
+      "size": 1571,
+      "sha256": "889812320b3894e7e865e17ec1885d96d1fe9dd22c02d574a9d162c43bbb8cc8"
     },
     {
       "path": "Sources/VoxeliaSpatial/ApplePlatformGate.swift",
@@ -2613,6 +2618,11 @@
       "path": "Tests/VoxeliaMetalTests/ExactVolumeRendererTests.swift",
       "size": 49967,
       "sha256": "cc299fa028c32e9ee633754351517e03607270d34b60e36616d8003185241c7c"
+    },
+    {
+      "path": "Tests/VoxeliaMetalTests/InteractiveLevelRenderTests.swift",
+      "size": 18444,
+      "sha256": "f8f5a0b7622744315b852930d72ea14fca5d53cd9af91ffecc49e8be2dd1947a"
     },
     {
       "path": "Tests/VoxeliaMetalTests/MetalBackendRegistrationsTests.swift",
@@ -5445,9 +5455,14 @@
       "sha256": "1f17c2123801f6f9200bc5b2ee897e08a01b2c687590b1c5d662db8bb95cfd00"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0344-interactive-level-render-path.md",
+      "size": 5590,
+      "sha256": "48134e7b8388641bf294bbafeda0521e8cbfcebd21b59af9724bb1330e5a3373"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 46288,
-      "sha256": "ee96215dee9f3ae8b5c625c2af68d413dc595f61d45026e1d3c3a76ee2193828"
+      "size": 46451,
+      "sha256": "9ccb7c2cc776821052ec0c54f3360c9a1a2e0e4a2ec140528ef5c0521aebf32a"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5541,8 +5556,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 443883,
-      "sha256": "f59b7e00dff968f5bf4e23e500c42eb892056be6ab0371146a03181334d1ea80"
+      "size": 446495,
+      "sha256": "6a6a5722767f7329f0365441333735e2699de2405874834a8bd72afe00149892"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6086,8 +6101,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 69814,
-      "sha256": "e87cfc2997718d6b4ee5aa285a58d89441ddb5bcc96e388899ba59d7bf3ab483"
+      "size": 70014,
+      "sha256": "83594f77e415a80102299f0e9cd4863b960a4038a865a53f1fb2236b259177b3"
     }
   ]
 }

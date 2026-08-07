@@ -26,7 +26,10 @@ public enum MPRPlane: Sendable, Hashable {
     case coronal
     case sagittal
 
-    var fixedAxis: Int {
+    /// The volume axis this plane fixes; public per `ADR-0344` so the
+    /// interactive level path composes one axis authority rather than
+    /// mirroring it.
+    public var fixedAxis: Int {
         switch self {
         case .axial: 2
         case .coronal: 1

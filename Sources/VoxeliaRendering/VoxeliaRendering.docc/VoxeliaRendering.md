@@ -50,6 +50,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``DenoisingState``
 - ``SliceRenderer``
 - ``MultiplanarRenderCoordinator``
+- ``InteractiveLevelRenderCoordinator``
+- ``InteractiveSourceSelection``
+- ``InteractiveLevelError``
 - ``CameraRelativeFloatTransform``
 - ``RenderModelError``
 

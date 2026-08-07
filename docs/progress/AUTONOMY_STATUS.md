@@ -6877,3 +6877,45 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    load, claiming `org.voxelia.quality.interactive` with the level recorded,
    composing `ADR-0341`'s stage. Read `ADR-0174`'s claim routing and the
    `MetalSliceRenderer` stage-injection note in memory before designing.
+
+   **Increment (kkkkk): `ADR-0344` — `VOX-BRK-009` `T` DISCHARGED; interactive
+   rendering uses the level while bricks load.** 1287 tests / 225 suites.
+
+   **The arc's shape crystallised into a principle: the REPRESENTATION degrades,
+   the EXECUTION never does.** `InteractiveLevelRenderCoordinator` is the degraded
+   path's decision layer: `.full` renders full resolution ALWAYS (a diagnostic
+   request never gets the level); `.interactive` renders the level while
+   generation is incomplete and full resolution once it completes — the third
+   case being arc step 3's seed. The renderer runs its accepted full-precision
+   math over whichever volume is selected, so every stage claim stays exactly
+   what it says.
+
+   **`ADR-0343` step 2's wording REFINED, recorded not edited**: it said the
+   interactive path claims `org.voxelia.quality.interactive`; stamping a
+   full-math execution "interactive" would be LESS honest than the ancestry
+   already is — the published render's lineage reaches the level volume whose own
+   derivation names `org.voxelia.op.level-select` and its factors (the `ADR-0221`
+   "not restated in the presentation claim" discipline). The `ADR-0103` guard
+   therefore stays IN FORCE, untouched: per-quality claims arrive only if a
+   future increment degrades execution itself — arc step 4 is conditional and
+   this arc may never trigger it.
+
+   **The e2e witness is the row's own sentence**: a REAL gated study-cache
+   generation supplies the loading state; while blocked, the interactive render's
+   extract-stage provenance input IS the level volume, the full render's IS the
+   full volume; after completion the interactive render refines to full
+   resolution. Slice indices map by floor division through the now-public
+   `MPRPlane.fixedAxis` — one axis authority, not a mirror. Everything else is
+   forwarded, never chosen.
+
+   **Every M6 row except three is now accounted for**: `VOX-DVR-013` (arc step 3
+   — refinement after interaction stops, composing the same selection rule's
+   completion case), `VOX-PER-004` (the frame-rate measurement on the named
+   device, after the refinement lands so both representations can be measured
+   and labelled), and the release assembly.
+
+   **Next**: arc step 3 — `VOX-DVR-013`, refinement after interaction stops. The
+   selection rule's completion case is the mechanism; what needs designing is the
+   "after interaction stops" trigger composed with `ADR-0341`'s completion, and
+   the refinement obligation: the refined render must be the SAME bytes a direct
+   full render of the same request produces.
