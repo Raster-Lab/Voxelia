@@ -92,7 +92,7 @@ struct CTSeriesAssemblerTests {
 
     // MARK: - F1 and F2: ordering is a function of the frame set
 
-    @Test("F1 an axial series orders by ascending projection")
+    @Test("[Unit] F1 an axial series orders by ascending projection")
     func f1AxialSeries() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", position: (-175.5, -175.5, 0.0)),
@@ -109,7 +109,7 @@ struct CTSeriesAssemblerTests {
         #expect(projections(assembled) == [0x0.0p+0, 0x1.4p+1, 0x1.4p+2])
     }
 
-    @Test("F2 a shuffled arrival order gives the identical result")
+    @Test("[Unit] F2 a shuffled arrival order gives the identical result")
     func f2ShuffledInput() throws {
         let ordered = CTSeriesAssembler.assemble([
             try make("f1", position: (-175.5, -175.5, 0.0)),
@@ -127,7 +127,7 @@ struct CTSeriesAssemblerTests {
 
     // MARK: - F3, F4, F5, F10: the projection is the ordering, not a coordinate
 
-    @Test("F3 a flipped column direction reverses the ordering axis")
+    @Test("[Unit] F3 a flipped column direction reverses the ordering axis")
     func f3FlippedColumn() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", column: (0, -1, 0), position: (0, 0, 0.0)),
@@ -141,7 +141,7 @@ struct CTSeriesAssemblerTests {
         #expect(projections(assembled) == [-0x1.4p+2, -0x1.4p+1, 0x0.0p+0])
     }
 
-    @Test("F4 an oblique series does not order by any single coordinate")
+    @Test("[Unit] F4 an oblique series does not order by any single coordinate")
     func f4Oblique() throws {
         let row = (0.7071067811865476, 0.7071067811865475, 0.0)
         let series = CTSeriesAssembler.assemble([
@@ -168,7 +168,7 @@ struct CTSeriesAssemblerTests {
         )
     }
 
-    @Test("F5 non-orthogonal directions are ordered, not judged")
+    @Test("[Unit] F5 non-orthogonal directions are ordered, not judged")
     func f5NonOrthogonal() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", column: (0.5, 0.5, 0), position: (0, 0, 4.0)),
@@ -182,7 +182,7 @@ struct CTSeriesAssemblerTests {
         #expect(projections(assembled) == [0x1.0p-1, 0x1.0p+1])
     }
 
-    @Test("F10 a nearly cancelling cross product keeps two slices distinct")
+    @Test("[Unit] F10 a nearly cancelling cross product keeps two slices distinct")
     func f10NearCancellation() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", row: (1.0, 1e-16, 0), column: (1, 0, 0), position: (0, 0, 1)),
@@ -205,7 +205,7 @@ struct CTSeriesAssemblerTests {
 
     // MARK: - F6, F7, F8: observations are reported, never judged
 
-    @Test("F6 parallel directions give an exactly zero normal")
+    @Test("[Unit] F6 parallel directions give an exactly zero normal")
     func f6DegenerateNormal() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", column: (2, 0, 0), position: (0, 0, 1)),
@@ -221,7 +221,7 @@ struct CTSeriesAssemblerTests {
         #expect(projections(assembled) == [0.0, 0.0])
     }
 
-    @Test("F7 an overflowing cross product reports both non-finite observations")
+    @Test("[Unit] F7 an overflowing cross product reports both non-finite observations")
     func f7NonFiniteNormal() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", row: (1e200, 0, 0), column: (0, 1e200, 0), position: (0, 0, 1)),
@@ -238,7 +238,7 @@ struct CTSeriesAssemblerTests {
         #expect(projections(assembled).allSatisfy { $0 == .infinity })
     }
 
-    @Test("F8 a finite normal with an overflowing projection reports only that")
+    @Test("[Unit] F8 a finite normal with an overflowing projection reports only that")
     func f8NonFiniteProjectionOnly() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", row: (1e100, 0, 0), column: (0, 1e100, 0), position: (0, 0, 1)),
@@ -260,7 +260,7 @@ struct CTSeriesAssemblerTests {
 
     // MARK: - F9: ties
 
-    @Test("F9 co-located frames tie and break by exact identity order")
+    @Test("[Unit] F9 co-located frames tie and break by exact identity order")
     func f9Tie() throws {
         let series = CTSeriesAssembler.assemble([
             try make("fb", position: (0, 0, 3)),
@@ -275,7 +275,7 @@ struct CTSeriesAssemblerTests {
 
     // MARK: - F11 to F14: the grouping key
 
-    @Test("F11 two series identities in one frame of reference stay separate")
+    @Test("[Unit] F11 two series identities in one frame of reference stay separate")
     func f11TwoSeries() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", series: "1.2.840.series.A", position: (0, 0, 1)),
@@ -289,7 +289,7 @@ struct CTSeriesAssemblerTests {
         #expect(series[1].key.seriesIdentity.identifier == "1.2.840.series.B")
     }
 
-    @Test("F12 an absent frame of reference never joins a present one")
+    @Test("[Unit] F12 an absent frame of reference never joins a present one")
     func f12AbsentReference() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", position: (0, 0, 1), omitReference: true),
@@ -304,7 +304,7 @@ struct CTSeriesAssemblerTests {
         #expect(identifiers(series[1]) == ["f2"])
     }
 
-    @Test("F13 a differing coordinate space separates a series")
+    @Test("[Unit] F13 a differing coordinate space separates a series")
     func f13DifferingSpace() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", space: Self.patient, position: (0, 0, 1)),
@@ -317,7 +317,7 @@ struct CTSeriesAssemblerTests {
         #expect(identifiers(series[1]) == ["f2"])
     }
 
-    @Test("F14 disagreeing orientation stays in ONE group for the validator")
+    @Test("[Unit] F14 disagreeing orientation stays in ONE group for the validator")
     func f14DisagreeingOrientation() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f1", row: (1, 0, 0), column: (0, 1, 0), position: (0, 0, 1)),
@@ -336,7 +336,7 @@ struct CTSeriesAssemblerTests {
 
     // MARK: - The anchor and the group order
 
-    @Test("The anchor is chosen by identity, not by arrival")
+    @Test("[Unit] The anchor is chosen by identity, not by arrival")
     func anchorIsIdentityChosen() throws {
         // f1 is axial and fz is flipped. Whichever arrives first, f1 wins the
         // anchor because "f1" precedes "fz" in exact byte order, so the
@@ -355,7 +355,7 @@ struct CTSeriesAssemblerTests {
         #expect(assembled.referenceNormal == CTReferenceNormal(x: 0, y: 0, z: 0x1.0p+0))
     }
 
-    @Test("Groups are emitted in exact key order regardless of arrival")
+    @Test("[Unit] Groups are emitted in exact key order regardless of arrival")
     func groupsAreKeyOrdered() throws {
         let series = CTSeriesAssembler.assemble([
             try make("f3", series: "1.2.840.series.C", position: (0, 0, 1)),
@@ -372,12 +372,12 @@ struct CTSeriesAssemblerTests {
 
     // MARK: - Degenerate inputs
 
-    @Test("An empty input assembles no series")
+    @Test("[Unit] An empty input assembles no series")
     func emptyInput() throws {
         #expect(CTSeriesAssembler.assemble([]).isEmpty)
     }
 
-    @Test("A single frame assembles one series of one member")
+    @Test("[Unit] A single frame assembles one series of one member")
     func singleFrame() throws {
         let series = CTSeriesAssembler.assemble([try make("f1", position: (0, 0, 7))])
         let assembled = try #require(series.first)
@@ -386,7 +386,7 @@ struct CTSeriesAssemblerTests {
         #expect(projections(assembled) == [0x1.cp+2])
     }
 
-    @Test("Frames sharing an identity and a projection stay ordered and total")
+    @Test("[Unit] Frames sharing an identity and a projection stay ordered and total")
     func duplicateIdentityIsTotal() throws {
         // The frozen fixtures leave this case unspecified: identity ties and so
         // does the projection. Arrival order breaks it, so the result is always

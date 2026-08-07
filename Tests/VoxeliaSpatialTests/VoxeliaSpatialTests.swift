@@ -4,7 +4,7 @@ import Testing
 @testable import VoxeliaSpatial
 import VoxeliaTestSupport
 
-@Test("VoxeliaSpatial M0 target is linked")
+@Test("[Unit] VoxeliaSpatial M0 target is linked")
 func targetIsLinked() {
     #expect(_VoxeliaSpatialModuleMarker.name == "VoxeliaSpatial")
     #expect(VoxeliaTestSupport.scaffoldRequirement == "VOX-REP-001")

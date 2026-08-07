@@ -93,7 +93,7 @@ struct CTFrameDescriptionTests {
 
     // MARK: - Acceptance
 
-    @Test("An admissible description preserves every supplied field")
+    @Test("[Unit] An admissible description preserves every supplied field")
     func preservesFields() throws {
         let reference = try ExternalFrameReference(
             namespace: "dicom",
@@ -127,13 +127,13 @@ struct CTFrameDescriptionTests {
         #expect(description.coordinateSpace == (try space(Self.patientSpace)))
     }
 
-    @Test("A single-sample frame is admitted")
+    @Test("[Unit] A single-sample frame is admitted")
     func admitsSmallestFrame() throws {
         let description = try make(rows: 1, columns: 1)
         #expect(description.sampleCount == 1)
     }
 
-    @Test("An absent frame of reference and padding stay absent")
+    @Test("[Unit] An absent frame of reference and padding stay absent")
     func admitsAbsentOptionals() throws {
         let description = try make()
         #expect(description.frameOfReference == nil)
@@ -142,7 +142,7 @@ struct CTFrameDescriptionTests {
 
     // MARK: - The transcription principle
 
-    @Test("Directions far from orthogonal are admitted, not judged")
+    @Test("[Unit] Directions far from orthogonal are admitted, not judged")
     func admitsNonOrthogonalDirections() throws {
         let description = try make(
             rowDirection: try vector(1, 0, 0),
@@ -151,19 +151,19 @@ struct CTFrameDescriptionTests {
         #expect(description.columnDirection == (try vector(0.5, 0.5, 0.0)))
     }
 
-    @Test("Directions that are not unit length are admitted, not normalised")
+    @Test("[Unit] Directions that are not unit length are admitted, not normalised")
     func admitsNonUnitDirections() throws {
         let description = try make(rowDirection: try vector(3, 0, 0))
         #expect(description.rowDirection.x == 3)
     }
 
-    @Test("A zero rescale slope is admitted per ADR-0227 decision 5")
+    @Test("[Unit] A zero rescale slope is admitted per ADR-0227 decision 5")
     func admitsZeroRescaleSlope() throws {
         let description = try make(rescaleSlope: 0.0)
         #expect(description.rescaleSlope == 0.0)
     }
 
-    @Test("A scalar format wider than the first vertical slice is admitted")
+    @Test("[Unit] A scalar format wider than the first vertical slice is admitted")
     func admitsUnnarrowedScalarFormat() throws {
         let description = try make(scalarType: .float32)
         #expect(description.scalarFormat.type == .float32)
@@ -190,14 +190,14 @@ struct CTFrameDescriptionTests {
         }
     }
 
-    @Test("Extents whose product overflows are rejected")
+    @Test("[Unit] Extents whose product overflows are rejected")
     func rejectsSampleCountOverflow() throws {
         #expect(throws: CTFrameDescriptionError.sampleCountOverflow) {
             try make(rows: Int.max, columns: 2)
         }
     }
 
-    @Test("The largest non-overflowing product is admitted")
+    @Test("[Unit] The largest non-overflowing product is admitted")
     func admitsBoundaryProduct() throws {
         let description = try make(rows: Int.max, columns: 1)
         #expect(description.sampleCount == Int.max)
@@ -225,7 +225,7 @@ struct CTFrameDescriptionTests {
         }
     }
 
-    @Test("The smallest positive spacing is admitted")
+    @Test("[Unit] The smallest positive spacing is admitted")
     func admitsSubnormalSpacing() throws {
         let description = try make(rowSpacing: Double.leastNonzeroMagnitude)
         #expect(description.rowSpacingMillimetres == Double.leastNonzeroMagnitude)
@@ -233,28 +233,28 @@ struct CTFrameDescriptionTests {
 
     // MARK: - Direction admission
 
-    @Test("An exactly zero row direction is rejected")
+    @Test("[Unit] An exactly zero row direction is rejected")
     func rejectsZeroRowDirection() throws {
         #expect(throws: CTFrameDescriptionError.zeroRowDirection) {
             try make(rowDirection: try vector(0, 0, 0))
         }
     }
 
-    @Test("An exactly zero column direction is rejected")
+    @Test("[Unit] An exactly zero column direction is rejected")
     func rejectsZeroColumnDirection() throws {
         #expect(throws: CTFrameDescriptionError.zeroColumnDirection) {
             try make(columnDirection: try vector(0, 0, 0))
         }
     }
 
-    @Test("A negative zero direction is rejected, since it canonicalises to zero")
+    @Test("[Unit] A negative zero direction is rejected, since it canonicalises to zero")
     func rejectsNegativeZeroDirection() throws {
         #expect(throws: CTFrameDescriptionError.zeroRowDirection) {
             try make(rowDirection: try vector(-0.0, -0.0, -0.0))
         }
     }
 
-    @Test("A direction with one subnormal component is admitted")
+    @Test("[Unit] A direction with one subnormal component is admitted")
     func admitsSubnormalDirection() throws {
         let description = try make(
             rowDirection: try vector(0, 0, Double.leastNonzeroMagnitude)
@@ -264,21 +264,21 @@ struct CTFrameDescriptionTests {
 
     // MARK: - Coordinate space admission
 
-    @Test("A row direction in another space is rejected")
+    @Test("[Unit] A row direction in another space is rejected")
     func rejectsRowDirectionSpace() throws {
         #expect(throws: CTFrameDescriptionError.coordinateSpaceMismatch) {
             try make(rowDirection: try vector(1, 0, 0, space: Self.otherSpace))
         }
     }
 
-    @Test("A column direction in another space is rejected")
+    @Test("[Unit] A column direction in another space is rejected")
     func rejectsColumnDirectionSpace() throws {
         #expect(throws: CTFrameDescriptionError.coordinateSpaceMismatch) {
             try make(columnDirection: try vector(0, 1, 0, space: Self.otherSpace))
         }
     }
 
-    @Test("A description entirely in another space is admitted")
+    @Test("[Unit] A description entirely in another space is admitted")
     func admitsAlternativeSharedSpace() throws {
         let description = try make(
             rowDirection: try vector(1, 0, 0, space: Self.otherSpace),
@@ -345,7 +345,7 @@ struct CTFrameDescriptionTests {
         #expect(description.pixelPadding?.value == value)
     }
 
-    @Test("A padding value beyond exact double precision is rejected for float32")
+    @Test("[Unit] A padding value beyond exact double precision is rejected for float32")
     func rejectsInexactFloatPadding() throws {
         // Inside `Float.greatestFiniteMagnitude`, but not exactly representable
         // as a `Double`, so containment alone would have admitted it.
@@ -357,7 +357,7 @@ struct CTFrameDescriptionTests {
         }
     }
 
-    @Test("A padding value beyond a narrower float range is rejected")
+    @Test("[Unit] A padding value beyond a narrower float range is rejected")
     func rejectsPaddingBeyondFloat16() throws {
         #expect(throws: CTFrameDescriptionError.pixelPaddingNotRepresentable) {
             try make(
@@ -367,7 +367,7 @@ struct CTFrameDescriptionTests {
         }
     }
 
-    @Test("A padding value representable as a uint64 is admitted")
+    @Test("[Unit] A padding value representable as a uint64 is admitted")
     func admitsWidePadding() throws {
         let description = try make(
             scalarType: .uint64,
@@ -378,14 +378,14 @@ struct CTFrameDescriptionTests {
 
     // MARK: - Rule ordering
 
-    @Test("Extent admission precedes spacing admission")
+    @Test("[Unit] Extent admission precedes spacing admission")
     func extentPrecedesSpacing() throws {
         #expect(throws: CTFrameDescriptionError.nonPositiveRowCount) {
             try make(rows: 0, rowSpacing: -1.0)
         }
     }
 
-    @Test("Direction admission precedes coordinate-space admission")
+    @Test("[Unit] Direction admission precedes coordinate-space admission")
     func directionPrecedesSpace() throws {
         #expect(throws: CTFrameDescriptionError.zeroRowDirection) {
             try make(rowDirection: try vector(0, 0, 0, space: Self.otherSpace))
@@ -394,7 +394,7 @@ struct CTFrameDescriptionTests {
 
     // MARK: - Supporting types
 
-    @Test("Every monochrome interpretation round-trips through its raw value")
+    @Test("[Unit] Every monochrome interpretation round-trips through its raw value")
     func monochromeRawValues() throws {
         #expect(MonochromeInterpretation.allCases.count == 2)
         for interpretation in MonochromeInterpretation.allCases {
@@ -404,7 +404,7 @@ struct CTFrameDescriptionTests {
         }
     }
 
-    @Test("Descriptions with differing fields are unequal")
+    @Test("[Unit] Descriptions with differing fields are unequal")
     func equalityDistinguishesFields() throws {
         let base = try make()
         #expect(try base == make())

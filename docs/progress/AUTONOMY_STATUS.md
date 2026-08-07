@@ -6433,3 +6433,31 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    but a list of OWNER DECISIONS, each attached to the row it blocks.** Next iteration **reruns
    `ADR-0319`'s criterion rather than assuming exhaustion**, since rows enter as milestones
    open.
+
+   **Increment (xxxx): `ADR-0331` — untagged-test backlog 219 → 21 (90% cut).** 1238/219
+   unchanged; **no source changed, no behaviour changed** — display strings only.
+
+   **QUEUE CONFIRMED EXHAUSTED: 0 of 356 entered rows unclaimed.** So this turned to work
+   needing **no owner decision**: the two ratchets this arc created.
+
+   **`ADR-0301` said the backlog "shrinks opportunistically, whenever one of those 27 files is
+   touched for another reason". Did it deliberately instead** — the 27 are **stable ingest
+   suites**, so "whenever touched" may be **never**, and opportunistic shrinking of a 219-item
+   debt is another way of saying it stays.
+
+   **198 tagged `[Unit]`**: 206 DICOM-ingest tests over CT value types/validators/builders, plus
+   13 module-linkage assertions. All unit-level — each exercises one type's construction,
+   validation or refusals; the registered operations are elsewhere and already `[Operation]`.
+
+   **`CTVolumeBridgeCompositionTests` DELIBERATELY SKIPPED (7 tests)** — its name says
+   *composition*, which is what `[Integration]` describes, and **a pass whose job is to remove
+   ambiguity should not resolve one by guessing.** 14 more are multi-line `@Test(` forms left
+   rather than hand-edited at the end of a pass.
+
+   **`[Unit]` is conservative, not a shrug**: reclassifying later to Kernel/Operation/Pipeline
+   is a strict improvement the ratchet permits — **the tag being ABSENT was the defect**,
+   because it made a level's coverage unmeasurable. `Unit` 843 → 1041, and the level counts are
+   now a fair picture of the suite rather than one **missing 219 tests**.
+
+   **Next**: the 21 remaining (7 judgement, 14 mechanical) and the **121-spelling ratchet** —
+   same shape of debt.

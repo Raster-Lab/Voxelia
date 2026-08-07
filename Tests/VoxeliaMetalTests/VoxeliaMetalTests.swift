@@ -23,13 +23,13 @@ func sixteenBitFixturesSerializeExplicitly() {
     #expect(bytes == [0x00, 0x00, 0x01, 0x00, 0x34, 0x12, 0xFF, 0xFF])
 }
 
-@Test("VoxeliaMetal M0 target is linked")
+@Test("[Unit] VoxeliaMetal M0 target is linked")
 func targetIsLinked() {
     #expect(_VoxeliaMetalModuleMarker.name == "VoxeliaMetal")
     #expect(VoxeliaTestSupport.scaffoldRequirement == "VOX-REP-001")
 }
 
-@Test("VoxeliaMetal shader manifest is accessible from its target bundle")
+@Test("[Unit] VoxeliaMetal shader manifest is accessible from its target bundle")
 func shaderManifestIsBundled() throws {
     let url = try #require(
         Bundle.module.url(

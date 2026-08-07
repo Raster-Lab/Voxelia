@@ -112,7 +112,7 @@ struct CTVolumeStorageBuilderTests {
 
     // MARK: - The happy path
 
-    @Test("A complete volume binds to storage whose snapshot matches the descriptor")
+    @Test("[Unit] A complete volume binds to storage whose snapshot matches the descriptor")
     func bindsCompleteVolume() throws {
         let (buffer, descriptor) = try filled()
         let storage = try CTVolumeStorageBuilder.storage(
@@ -129,7 +129,7 @@ struct CTVolumeStorageBuilderTests {
         #expect(buffer.bytes.count == 24)
     }
 
-    @Test("The bound storage composes into a validated ImageData shape check")
+    @Test("[Unit] The bound storage composes into a validated ImageData shape check")
     func satisfiesImageDataShapeInvariants() throws {
         // ImageData's admission compares the descriptor against the snapshot
         // binding, so agreement here is what makes publication possible later.
@@ -145,7 +145,7 @@ struct CTVolumeStorageBuilderTests {
         )
     }
 
-    @Test("A read of the whole volume returns the transferred bytes")
+    @Test("[Unit] A read of the whole volume returns the transferred bytes")
     func readsBackBytes() throws {
         let (buffer, descriptor) = try filled()
         let storage = try CTVolumeStorageBuilder.storage(
@@ -163,7 +163,7 @@ struct CTVolumeStorageBuilderTests {
 
     // MARK: - Admission
 
-    @Test("An incomplete volume is refused rather than published with gaps")
+    @Test("[Unit] An incomplete volume is refused rather than published with gaps")
     func refusesIncompleteVolume() throws {
         let (buffer, descriptor) = try filled(fillEverySlice: false)
         #expect(!buffer.isComplete)
@@ -173,7 +173,7 @@ struct CTVolumeStorageBuilderTests {
         }
     }
 
-    @Test("A descriptor from a different volume is refused")
+    @Test("[Unit] A descriptor from a different volume is refused")
     func refusesMismatchedDescriptor() throws {
         let (buffer, _) = try filled(rows: 3, columns: 2, slices: 2)
         let (_, otherDescriptor) = try filled(rows: 3, columns: 2, slices: 4)
@@ -185,7 +185,7 @@ struct CTVolumeStorageBuilderTests {
         }
     }
 
-    @Test("A descriptor with a wider scalar type is refused")
+    @Test("[Unit] A descriptor with a wider scalar type is refused")
     func refusesWiderScalarType() throws {
         let (buffer, _) = try filled(type: .uint8)
         let (_, wideDescriptor) = try filled(type: .uint16)
@@ -198,7 +198,7 @@ struct CTVolumeStorageBuilderTests {
         }
     }
 
-    @Test("A single-slice volume binds, since one slice is the whole volume")
+    @Test("[Unit] A single-slice volume binds, since one slice is the whole volume")
     func singleSliceVolume() throws {
         let (buffer, descriptor) = try filled(slices: 1)
         #expect(buffer.isComplete)

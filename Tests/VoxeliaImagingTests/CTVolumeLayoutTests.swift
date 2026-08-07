@@ -30,7 +30,7 @@ struct CTVolumeLayoutTests {
 
     // MARK: - L1, L2: admitted volumes
 
-    @Test("L1 a typical 512 x 512 x 200 int16 volume")
+    @Test("[Unit] L1 a typical 512 x 512 x 200 int16 volume")
     func l1Typical() throws {
         let volume = try layout(rows: 512, columns: 512, slices: 200)
 
@@ -44,7 +44,7 @@ struct CTVolumeLayoutTests {
         )
     }
 
-    @Test("L2 the smallest possible volume")
+    @Test("[Unit] L2 the smallest possible volume")
     func l2Smallest() throws {
         let volume = try layout(rows: 1, columns: 1, slices: 1)
 
@@ -56,14 +56,14 @@ struct CTVolumeLayoutTests {
 
     // MARK: - L3, L4, L6: the overflow boundaries
 
-    @Test("L3 an overflowing sample count is refused")
+    @Test("[Unit] L3 an overflowing sample count is refused")
     func l3SampleCountOverflow() throws {
         #expect(throws: CTVolumeLayoutError.sampleCountOverflow) {
             try layout(rows: Int.max, columns: 2, slices: 1)
         }
     }
 
-    @Test("L4 a representable sample count with an overflowing byte count")
+    @Test("[Unit] L4 a representable sample count with an overflowing byte count")
     func l4ByteCountOverflow() throws {
         // Two bytes per sample: the sample count is exactly Int.max and the byte
         // count is not representable. An implementation that checked only the
@@ -73,7 +73,7 @@ struct CTVolumeLayoutTests {
         }
     }
 
-    @Test("L6 the same extents at one byte per sample are admitted")
+    @Test("[Unit] L6 the same extents at one byte per sample are admitted")
     func l6ByteCountBoundary() throws {
         let volume = try layout(rows: Int.max, columns: 1, slices: 1, type: .uint8)
 
@@ -85,7 +85,7 @@ struct CTVolumeLayoutTests {
         )
     }
 
-    @Test("L4 and L6 differ only in the scalar format's width")
+    @Test("[Unit] L4 and L6 differ only in the scalar format's width")
     func byteCountRuleIsAboutWidth() throws {
         // The pair, asserted together, so the rule cannot be satisfied by
         // accident on one side alone.
@@ -121,7 +121,7 @@ struct CTVolumeLayoutTests {
 
     // MARK: - L5, L7: the index order
 
-    @Test("L5 a 3 x 5 x 2 volume reproduces the frozen offset table")
+    @Test("[Unit] L5 a 3 x 5 x 2 volume reproduces the frozen offset table")
     func l5OffsetTable() throws {
         let volume = try layout(rows: 3, columns: 5, slices: 2)
         #expect(volume.sampleCount == 30)
@@ -158,7 +158,7 @@ struct CTVolumeLayoutTests {
         )
     }
 
-    @Test("L7 a row advances by columns, not by rows")
+    @Test("[Unit] L7 a row advances by columns, not by rows")
     func l7RowStride() throws {
         // For a 3-row, 5-column frame the correct offset is 5. An implementation
         // writing `row * rows` gives 3, and the two agree only when the frame is
@@ -168,7 +168,7 @@ struct CTVolumeLayoutTests {
         #expect(volume.sampleOffset(sliceIndex: 0, row: 1, column: 0) != 3)
     }
 
-    @Test("A slice is one contiguous span, which is what direct-write needs")
+    @Test("[Unit] A slice is one contiguous span, which is what direct-write needs")
     func sliceSpansAreContiguous() throws {
         let volume = try layout(rows: 3, columns: 5, slices: 2)
 
@@ -183,7 +183,7 @@ struct CTVolumeLayoutTests {
         )
     }
 
-    @Test("Byte offsets scale sample offsets by the format's width")
+    @Test("[Unit] Byte offsets scale sample offsets by the format's width")
     func byteOffsets() throws {
         let volume = try layout(rows: 3, columns: 5, slices: 2)
         #expect(volume.byteOffset(sliceIndex: 1, row: 2, column: 4) == 58)
@@ -249,7 +249,7 @@ struct CTVolumeLayoutTests {
         )
     }
 
-    @Test("A placement admits a matching frame and exposes its span")
+    @Test("[Unit] A placement admits a matching frame and exposes its span")
     func placementAdmitsMatchingFrame() throws {
         let volume = try layout(rows: 3, columns: 5, slices: 2)
         let placement = try CTFramePlacement(
@@ -263,7 +263,7 @@ struct CTVolumeLayoutTests {
         #expect(placement.byteOffset == 30)
     }
 
-    @Test("A placement refuses a slice index out of range")
+    @Test("[Unit] A placement refuses a slice index out of range")
     func placementRefusesSliceIndex() throws {
         let volume = try layout(rows: 3, columns: 5, slices: 2)
         for index in [-1, 2, 99] {
@@ -277,7 +277,7 @@ struct CTVolumeLayoutTests {
         }
     }
 
-    @Test("A placement refuses mismatched extents")
+    @Test("[Unit] A placement refuses mismatched extents")
     func placementRefusesExtents() throws {
         let volume = try layout(rows: 3, columns: 5, slices: 2)
         #expect(throws: CTFramePlacementError.extentsMismatch) {
@@ -297,7 +297,7 @@ struct CTVolumeLayoutTests {
         }
     }
 
-    @Test("A placement refuses a mismatched scalar format")
+    @Test("[Unit] A placement refuses a mismatched scalar format")
     func placementRefusesFormat() throws {
         let volume = try layout(rows: 3, columns: 5, slices: 2, type: .int16)
         #expect(throws: CTFramePlacementError.scalarFormatMismatch) {
@@ -309,7 +309,7 @@ struct CTVolumeLayoutTests {
         }
     }
 
-    @Test("Extent admission precedes format admission")
+    @Test("[Unit] Extent admission precedes format admission")
     func admissionOrder() throws {
         let volume = try layout(rows: 3, columns: 5, slices: 2, type: .int16)
         #expect(throws: CTFramePlacementError.extentsMismatch) {

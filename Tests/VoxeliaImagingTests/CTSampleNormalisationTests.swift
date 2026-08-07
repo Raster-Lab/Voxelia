@@ -33,7 +33,7 @@ struct CTSampleNormalisationTests {
 
     // MARK: - The exhaustive property
 
-    @Test("Normalising then reading at full width preserves every stored value")
+    @Test("[Unit] Normalising then reading at full width preserves every stored value")
     func exhaustiveProperty() throws {
         var checked = 0
         for (type, wideType) in [(ScalarType.uint8, ScalarType.uint8), (.int8, .int8)] {
@@ -71,7 +71,7 @@ struct CTSampleNormalisationTests {
         #expect(checked == 8 * 256 * 2)
     }
 
-    @Test("The same property holds exhaustively for sixteen-bit containers")
+    @Test("[Unit] The same property holds exhaustively for sixteen-bit containers")
     func exhaustiveSixteenBit() throws {
         var checked = 0
         for type in [ScalarType.uint16, ScalarType.int16] {
@@ -111,7 +111,7 @@ struct CTSampleNormalisationTests {
 
     // MARK: - The identity case, which is the measured corpus
 
-    @Test("Normalisation is the identity at full width, for every value")
+    @Test("[Unit] Normalisation is the identity at full width, for every value")
     func identityAtFullWidth() throws {
         for type in [ScalarType.uint8, .int8, .uint16, .int16] {
             let subject = try CTSampleNormalisation(scalarFormat: try format(type, nil))
@@ -123,7 +123,7 @@ struct CTSampleNormalisationTests {
         }
     }
 
-    @Test("A narrowed format is not the identity")
+    @Test("[Unit] A narrowed format is not the identity")
     func narrowedIsNotIdentity() throws {
         #expect(!(try CTSampleNormalisation(scalarFormat: try format(.int16, 12)).isIdentity))
         #expect(try CTSampleNormalisation(scalarFormat: try format(.int16, 16)).isIdentity)
@@ -157,7 +157,7 @@ struct CTSampleNormalisationTests {
 
     // MARK: - Multi-sample frames and admission
 
-    @Test("A multi-sample frame normalises every container independently")
+    @Test("[Unit] A multi-sample frame normalises every container independently")
     func multiSampleFrame() throws {
         let subject = try CTSampleNormalisation(scalarFormat: try format(.int16, 12))
         // 0x0FFF -> -1 -> 0xFFFF, 0x0001 -> 1 -> 0x0001, 0x0800 -> -2048 -> 0xF800
@@ -166,7 +166,7 @@ struct CTSampleNormalisationTests {
         #expect(Array(normalised) == [0xFF, 0xFF, 0x01, 0x00, 0x00, 0xF8])
     }
 
-    @Test("A partial container is refused rather than padded")
+    @Test("[Unit] A partial container is refused rather than padded")
     func partialContainerRefused() throws {
         let subject = try CTSampleNormalisation(scalarFormat: try format(.int16, 12))
         #expect(subject.normalise(frameBytes: [0x01] as [UInt8]) == nil)
@@ -174,7 +174,7 @@ struct CTSampleNormalisationTests {
         #expect(subject.normalise(frameBytes: [] as [UInt8])?.isEmpty == true)
     }
 
-    @Test("The normalised format drops the narrowing, which is what makes nil true")
+    @Test("[Unit] The normalised format drops the narrowing, which is what makes nil true")
     func normalisedFormatDropsNarrowing() throws {
         let source = try format(.int16, 12)
         let result = try CTSampleNormalisation.normalisedFormat(from: source)
@@ -183,7 +183,7 @@ struct CTSampleNormalisationTests {
         #expect(result.byteOrder == source.byteOrder)
     }
 
-    @Test("A floating-point format is refused")
+    @Test("[Unit] A floating-point format is refused")
     func refusesFloatingPoint() throws {
         #expect(throws: CTValueInterpretationError.unsupportedScalarFormat) {
             try CTSampleNormalisation(scalarFormat: try format(.float32, nil))

@@ -57,7 +57,7 @@ struct CTVolumeByteBufferTests {
         )
     }
 
-    @Test("A new buffer is zero-filled, sized from the layout, and incomplete")
+    @Test("[Unit] A new buffer is zero-filled, sized from the layout, and incomplete")
     func newBuffer() throws {
         let volume = try layout()
         let buffer = CTVolumeByteBuffer(layout: volume)
@@ -70,7 +70,7 @@ struct CTVolumeByteBufferTests {
         #expect(!buffer.isComplete)
     }
 
-    @Test("Writing a frame places its bytes at exactly the layout's offset")
+    @Test("[Unit] Writing a frame places its bytes at exactly the layout's offset")
     func writePlacesBytes() throws {
         let volume = try layout()
         var buffer = CTVolumeByteBuffer(layout: volume)
@@ -90,7 +90,7 @@ struct CTVolumeByteBufferTests {
         #expect(Array(try #require(buffer.sliceBytes(0))) == Array(repeating: 0, count: 12))
     }
 
-    @Test("Filling every slice reports completeness")
+    @Test("[Unit] Filling every slice reports completeness")
     func completeness() throws {
         let volume = try layout()
         var buffer = CTVolumeByteBuffer(layout: volume)
@@ -111,7 +111,7 @@ struct CTVolumeByteBufferTests {
         #expect(Array(try #require(buffer.sliceBytes(1))) == Array(repeating: 2, count: 12))
     }
 
-    @Test("Re-writing a slice overwrites and is not an error")
+    @Test("[Unit] Re-writing a slice overwrites and is not an error")
     func rewriteOverwrites() throws {
         let volume = try layout()
         var buffer = CTVolumeByteBuffer(layout: volume)
@@ -127,7 +127,7 @@ struct CTVolumeByteBufferTests {
         #expect(Array(try #require(buffer.sliceBytes(0))) == Array(repeating: 4, count: 12))
     }
 
-    @Test("A wrong frame byte count is refused")
+    @Test("[Unit] A wrong frame byte count is refused")
     func wrongByteCount() throws {
         let volume = try layout()
         var buffer = CTVolumeByteBuffer(layout: volume)
@@ -147,7 +147,7 @@ struct CTVolumeByteBufferTests {
         #expect(buffer.writtenSliceCount == 0)
     }
 
-    @Test("A placement from another layout is refused")
+    @Test("[Unit] A placement from another layout is refused")
     func layoutMismatch() throws {
         let volume = try layout()
         let other = try layout(slices: 3)
@@ -165,7 +165,7 @@ struct CTVolumeByteBufferTests {
         }
     }
 
-    @Test("A differing scalar format is a layout mismatch, not a silent reinterpretation")
+    @Test("[Unit] A differing scalar format is a layout mismatch, not a silent reinterpretation")
     func scalarFormatIsPartOfTheLayout() throws {
         let volume = try layout(type: .int16)
         let other = try layout(type: .uint16)
@@ -183,7 +183,7 @@ struct CTVolumeByteBufferTests {
         }
     }
 
-    @Test("A single-byte format halves the slice size")
+    @Test("[Unit] A single-byte format halves the slice size")
     func singleByteFormat() throws {
         let volume = try layout(type: .uint8)
         var buffer = CTVolumeByteBuffer(layout: volume)
@@ -198,7 +198,7 @@ struct CTVolumeByteBufferTests {
         #expect(Array(try #require(buffer.sliceBytes(1))) == [1, 2, 3, 4, 5, 6])
     }
 
-    @Test("Slice bytes are absent for an out-of-range index")
+    @Test("[Unit] Slice bytes are absent for an out-of-range index")
     func sliceBytesBounds() throws {
         let buffer = CTVolumeByteBuffer(layout: try layout())
         #expect(buffer.sliceBytes(0) != nil)

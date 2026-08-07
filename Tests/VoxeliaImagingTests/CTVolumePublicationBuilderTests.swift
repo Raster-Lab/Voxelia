@@ -163,7 +163,7 @@ struct CTVolumePublicationBuilderTests {
 
     // MARK: - The proof
 
-    @Test("A complete ingested volume assembles into a valid ImageData")
+    @Test("[Unit] A complete ingested volume assembles into a valid ImageData")
     func assemblesImageData() throws {
         let (image, identity, provenance) = try assembled()
 
@@ -175,7 +175,7 @@ struct CTVolumePublicationBuilderTests {
         #expect(image.provenance.subject == .object(identity.objectID))
     }
 
-    @Test("The descriptor declares the platform byte order the storage speaks")
+    @Test("[Unit] The descriptor declares the platform byte order the storage speaks")
     func byteOrderAgrees() throws {
         // ADR-0240's original declaration was `.littleEndian` while
         // ContiguousImageStorage admits `.native`, and ImageData compares them as
@@ -194,7 +194,7 @@ struct CTVolumePublicationBuilderTests {
 
     // MARK: - Where an origin's sources live
 
-    @Test("Every contributing frame becomes a source locator on the identity")
+    @Test("[Unit] Every contributing frame becomes a source locator on the identity")
     func sourcesAreOnTheIdentity() throws {
         let assembledSeries = try series(["instance.1", "instance.2", "instance.3"])
         let identity = try CTVolumePublicationBuilder.identity(
@@ -212,7 +212,7 @@ struct CTVolumePublicationBuilderTests {
         #expect(identity.derivation == nil)
     }
 
-    @Test("The origin record carries no inputs, by requirement rather than omission")
+    @Test("[Unit] The origin record carries no inputs, by requirement rather than omission")
     func originHasNoInputs() throws {
         let (_, _, provenance) = try assembled()
         #expect(provenance.activity == .origin)
@@ -221,13 +221,13 @@ struct CTVolumePublicationBuilderTests {
         #expect(provenance.warnings.isEmpty)
     }
 
-    @Test("An ingest claims no validation it has not performed")
+    @Test("[Unit] An ingest claims no validation it has not performed")
     func defaultValidationClaimIsUnknown() throws {
         let (_, _, provenance) = try assembled()
         #expect(provenance.validationClaim == .unknown)
     }
 
-    @Test("The ingest instant is the caller's, not a clock's")
+    @Test("[Unit] The ingest instant is the caller's, not a clock's")
     func instantIsSupplied() throws {
         let (_, _, provenance) = try assembled()
         #expect(provenance.createdAt == (try instant()))
@@ -235,7 +235,7 @@ struct CTVolumePublicationBuilderTests {
 
     // MARK: - Admission
 
-    @Test("A duplicated source frame is refused rather than deduplicated")
+    @Test("[Unit] A duplicated source frame is refused rather than deduplicated")
     func refusesDuplicateSourceLocator() throws {
         // Two frames claiming one SOP Instance UID is a contradiction in the
         // input; collapsing it silently would hide a duplicated frame.
@@ -250,7 +250,7 @@ struct CTVolumePublicationBuilderTests {
         }
     }
 
-    @Test("A series with no members yields no source claim")
+    @Test("[Unit] A series with no members yields no source claim")
     func refusesEmptySeries() throws {
         let empty = CTSeries(
             key: CTSeriesKey(
@@ -275,7 +275,7 @@ struct CTVolumePublicationBuilderTests {
         }
     }
 
-    @Test("A provenance record for a different subject is refused by ImageData")
+    @Test("[Unit] A provenance record for a different subject is refused by ImageData")
     func refusesSubjectMismatch() throws {
         let assembledSeries = try series(["instance.1", "instance.2"])
         let identity = try CTVolumePublicationBuilder.identity(
@@ -335,7 +335,7 @@ struct CTVolumePublicationBuilderTests {
         }
     }
 
-    @Test("The platform byte-order guard is satisfied on a supported platform")
+    @Test("[Unit] The platform byte-order guard is satisfied on a supported platform")
     func platformIsLittleEndian() throws {
         // PLATFORM_SUPPORT scopes Voxelia to Apple Silicon. The guard exists so a
         // big-endian port fails loudly rather than mis-declaring.

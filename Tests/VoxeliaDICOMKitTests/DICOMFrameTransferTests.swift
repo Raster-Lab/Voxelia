@@ -79,7 +79,7 @@ struct DICOMFrameTransferTests {
         return (frame, layout)
     }
 
-    @Test("A frame's sample bytes land in its slice, byte for byte")
+    @Test("[Unit] A frame's sample bytes land in its slice, byte for byte")
     func transfersBytes() throws {
         let (frame, layout) = try context()
         var buffer = CTVolumeByteBuffer(layout: layout)
@@ -99,7 +99,7 @@ struct DICOMFrameTransferTests {
         #expect(!buffer.isComplete)
     }
 
-    @Test("Filling every slice completes the volume")
+    @Test("[Unit] Filling every slice completes the volume")
     func fillsVolume() throws {
         let (frame, layout) = try context()
         var buffer = CTVolumeByteBuffer(layout: layout)
@@ -116,7 +116,7 @@ struct DICOMFrameTransferTests {
         #expect(Array(try #require(buffer.sliceBytes(1))) == Array(repeating: 2, count: 12))
     }
 
-    @Test("A data set without pixel data is refused")
+    @Test("[Unit] A data set without pixel data is refused")
     func missingPixelData() throws {
         let (frame, layout) = try context()
         var buffer = CTVolumeByteBuffer(layout: layout)
@@ -132,7 +132,7 @@ struct DICOMFrameTransferTests {
         }
     }
 
-    @Test("A frame index beyond the pixel data is refused")
+    @Test("[Unit] A frame index beyond the pixel data is refused")
     func missingFrame() throws {
         let (frame, layout) = try context()
         var buffer = CTVolumeByteBuffer(layout: layout)
@@ -146,7 +146,7 @@ struct DICOMFrameTransferTests {
         }
     }
 
-    @Test("A truncated pixel payload is caught by DICOMKit, before Voxelia sees it")
+    @Test("[Unit] A truncated pixel payload is caught by DICOMKit, before Voxelia sees it")
     func truncatedPayload() throws {
         let (frame, layout) = try context()
         var buffer = CTVolumeByteBuffer(layout: layout)
@@ -164,7 +164,7 @@ struct DICOMFrameTransferTests {
         #expect(buffer.writtenSliceCount == 0)
     }
 
-    @Test("A placement from another layout is refused by volume admission")
+    @Test("[Unit] A placement from another layout is refused by volume admission")
     func layoutMismatchIsRefused() throws {
         let (frame, layout) = try context()
         var buffer = CTVolumeByteBuffer(layout: layout)

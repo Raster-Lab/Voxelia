@@ -126,7 +126,7 @@ struct DICOMFrameAdapterTests {
 
     // MARK: - The complete translation
 
-    @Test("A complete CT data set translates to every neutral field")
+    @Test("[Unit] A complete CT data set translates to every neutral field")
     func translatesCompleteDataSet() throws {
         let frame = try translate(elements(paddingValue: -2000))
 
@@ -147,7 +147,7 @@ struct DICOMFrameAdapterTests {
 
     // MARK: - The axis convention, which ADR-0227 made this adapter own
 
-    @Test("DICOM Pixel Spacing maps row-first, and orientation row-direction-first")
+    @Test("[Unit] DICOM Pixel Spacing maps row-first, and orientation row-direction-first")
     func axisConventionIsSatisfied() throws {
         // Distinct spacings and a distinguishable orientation, so a swap in
         // either pair changes an asserted value.
@@ -165,7 +165,7 @@ struct DICOMFrameAdapterTests {
         #expect(frame.columnDirection.y == 1)
     }
 
-    @Test("An oblique orientation carries all six components in order")
+    @Test("[Unit] An oblique orientation carries all six components in order")
     func obliqueOrientation() throws {
         let frame = try translate(
             elements(orientation: "0\\1\\0\\0\\0\\1", position: "1.0\\2.0\\3.0")
@@ -196,7 +196,7 @@ struct DICOMFrameAdapterTests {
         #expect(frame.photometricInterpretation == expected)
     }
 
-    @Test("A colour interpretation is refused rather than treated as greyscale")
+    @Test("[Unit] A colour interpretation is refused rather than treated as greyscale")
     func colourInterpretationRefused() throws {
         #expect(throws: DICOMFrameAdapterError.unsupportedPhotometricInterpretation) {
             try translate(elements(photometric: "RGB"))
@@ -229,14 +229,14 @@ struct DICOMFrameAdapterTests {
         #expect(frame.scalarFormat.type == expected)
     }
 
-    @Test("An unsupported allocation is refused rather than approximated")
+    @Test("[Unit] An unsupported allocation is refused rather than approximated")
     func unsupportedAllocationRefused() throws {
         #expect(throws: DICOMFrameAdapterError.unsupportedSampleFormat) {
             try translate(elements(bitsAllocated: 32, bitsStored: nil))
         }
     }
 
-    @Test("Bits stored equal to the container width leaves the bit count absent")
+    @Test("[Unit] Bits stored equal to the container width leaves the bit count absent")
     func bitsStoredAtFullWidth() throws {
         // ScalarFormat's validBitCount describes narrower-than-container
         // semantics, so a full-width Bits Stored is not restated.
@@ -246,7 +246,7 @@ struct DICOMFrameAdapterTests {
 
     // MARK: - Optional attributes and DICOM defaults
 
-    @Test("Absent rescale terms take DICOM's identity default")
+    @Test("[Unit] Absent rescale terms take DICOM's identity default")
     func absentRescaleTerms() throws {
         let frame = try translate(
             elements(rescaleSlope: nil, rescaleIntercept: nil)
@@ -255,13 +255,13 @@ struct DICOMFrameAdapterTests {
         #expect(frame.rescaleIntercept == 0.0)
     }
 
-    @Test("An absent frame of reference stays absent rather than becoming a wildcard")
+    @Test("[Unit] An absent frame of reference stays absent rather than becoming a wildcard")
     func absentFrameOfReference() throws {
         let frame = try translate(elements(frameOfReferenceUID: nil))
         #expect(frame.frameOfReference == nil)
     }
 
-    @Test("An absent pixel padding value stays absent")
+    @Test("[Unit] An absent pixel padding value stays absent")
     func absentPadding() throws {
         let frame = try translate(elements(paddingValue: nil))
         #expect(frame.pixelPadding == nil)
@@ -269,7 +269,7 @@ struct DICOMFrameAdapterTests {
 
     // MARK: - Missing required attributes
 
-    @Test("Each missing required attribute has its own case")
+    @Test("[Unit] Each missing required attribute has its own case")
     func missingAttributes() throws {
         #expect(throws: DICOMFrameAdapterError.missingSOPInstanceUID) {
             try translate(elements(sopUID: nil))
@@ -279,7 +279,7 @@ struct DICOMFrameAdapterTests {
         }
     }
 
-    @Test("A malformed multi-valued attribute is refused by count")
+    @Test("[Unit] A malformed multi-valued attribute is refused by count")
     func malformedMultiValued() throws {
         #expect(throws: DICOMFrameAdapterError.malformedPixelSpacing) {
             try translate(elements(pixelSpacing: "0.7"))
@@ -294,7 +294,7 @@ struct DICOMFrameAdapterTests {
 
     // MARK: - Voxelia admission is not bypassed
 
-    @Test("A value the neutral description refuses surfaces as one opaque case")
+    @Test("[Unit] A value the neutral description refuses surfaces as one opaque case")
     func voxeliaAdmissionRefusal() throws {
         // A zero row direction is admissible DICOM and inadmissible Voxelia. The
         // adapter must not smuggle it past ADR-0227's admission, and must not
@@ -310,7 +310,7 @@ struct DICOMFrameAdapterTests {
 
     // MARK: - Composition with the accepted pipeline
 
-    @Test("Translated frames assemble, validate and build through the real pipeline")
+    @Test("[Unit] Translated frames assemble, validate and build through the real pipeline")
     func composesWithPipeline() throws {
         let frames = try (0..<3).map { index in
             try translate(

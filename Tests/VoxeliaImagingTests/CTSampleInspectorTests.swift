@@ -117,7 +117,7 @@ struct CTSampleInspectorTests {
 
     // MARK: - The rescale
 
-    @Test("A linear transform is applied to the stored value")
+    @Test("[Unit] A linear transform is applied to the stored value")
     func appliesLinearTransform() throws {
         // The CT case: slope 1, intercept -8192, as the real corpus declares.
         let subject = try slice(
@@ -135,7 +135,7 @@ struct CTSampleInspectorTests {
         #expect(inspection.value == .measured(-8189.0))
     }
 
-    @Test("A non-unit slope scales before the intercept")
+    @Test("[Unit] A non-unit slope scales before the intercept")
     func nonUnitSlope() throws {
         let subject = try slice(
             transform: .linear(
@@ -170,7 +170,7 @@ struct CTSampleInspectorTests {
 
     // MARK: - Indexing
 
-    @Test("Axis zero is the fastest-varying index")
+    @Test("[Unit] Axis zero is the fastest-varying index")
     func axisZeroIsFastest() throws {
         let subject = try slice(transform: .identity)
         // Samples 0, 1, 2, 3 laid out with axis zero fastest.
@@ -187,7 +187,7 @@ struct CTSampleInspectorTests {
         }
     }
 
-    @Test("An index outside the slice is refused")
+    @Test("[Unit] An index outside the slice is refused")
     func refusesOutOfRange() throws {
         let subject = try slice(transform: .identity)
         for (column, row) in [(-1, 0), (0, -1), (2, 0), (0, 2), (99, 99)] {
@@ -204,7 +204,7 @@ struct CTSampleInspectorTests {
 
     // MARK: - Padding
 
-    @Test("A stored value matching the supplied padding reports padding")
+    @Test("[Unit] A stored value matching the supplied padding reports padding")
     func reportsPadding() throws {
         let subject = try slice(transform: .identity)
         let inspection = try CTSampleInspector.inspect(
@@ -217,7 +217,7 @@ struct CTSampleInspectorTests {
         #expect(inspection.value == .padding)
     }
 
-    @Test("Padding is compared on the stored value, not the rescaled one")
+    @Test("[Unit] Padding is compared on the stored value, not the rescaled one")
     func paddingComparedOnStoredValue() throws {
         // Stored 2 with intercept -8192 rescales to -8190. Supplying -8190 as the
         // padding must NOT match, because the comparison is on the stored value.
@@ -237,7 +237,7 @@ struct CTSampleInspectorTests {
 
     // MARK: - Admission
 
-    @Test("A rank-three image is refused: this inspects slices")
+    @Test("[Unit] A rank-three image is refused: this inspects slices")
     func refusesRankThree() throws {
         let subject = try slice(transform: .identity, rank2: false)
         #expect(throws: CTSampleInspectionError.unsupportedRank) {
@@ -250,7 +250,7 @@ struct CTSampleInspectorTests {
         }
     }
 
-    @Test("A lookup-table transform is refused rather than half-evaluated")
+    @Test("[Unit] A lookup-table transform is refused rather than half-evaluated")
     func refusesLookupTable() throws {
         // A general evaluator would duplicate the model VOXELIA-ALG-0005 governs;
         // ADR-0237 records what re-freezing a governed boundary costs.
@@ -269,7 +269,7 @@ struct CTSampleInspectorTests {
         }
     }
 
-    @Test("An eight-bit slice inspects correctly")
+    @Test("[Unit] An eight-bit slice inspects correctly")
     func eightBitSlice() throws {
         let subject = try slice(transform: .identity, type: .uint8)
         let inspection = try CTSampleInspector.inspect(

@@ -101,7 +101,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - G1: the regular case
 
-    @Test("G1 a perfectly regular three-slice axial series is representable")
+    @Test("[Unit] G1 a perfectly regular three-slice axial series is representable")
     func g1Regular() throws {
         let result = assess(
             try series([
@@ -128,7 +128,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - G2, G3: spacing irregularity
 
-    @Test("G2 a spacing short by 1e-4 mm is rejected under exact tolerance")
+    @Test("[Unit] G2 a spacing short by 1e-4 mm is rejected under exact tolerance")
     func g2NearlyRegular() throws {
         let result = assess(
             try series([
@@ -147,7 +147,7 @@ struct CTGeometryValidatorTests {
         #expect(result.measurement.maximumSliceSpacing == 0x1.4p+1)
     }
 
-    @Test("G3 a missing slice doubles a gap and is rejected")
+    @Test("[Unit] G3 a missing slice doubles a gap and is rejected")
     func g3MissingSlice() throws {
         let result = assess(
             try series([
@@ -165,7 +165,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - G4: duplicates
 
-    @Test("G4 two co-located slices are detected as duplicates")
+    @Test("[Unit] G4 two co-located slices are detected as duplicates")
     func g4Duplicate() throws {
         let result = assess(
             try series([
@@ -184,7 +184,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - G5: the grid
 
-    @Test("G5 a mixed grid cannot be one array and is rejected")
+    @Test("[Unit] G5 a mixed grid cannot be one array and is rejected")
     func g5MixedGrid() throws {
         let result = assess(
             try series([
@@ -200,7 +200,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - G6, G13: the exact-tolerance boundary
 
-    @Test("G6 orientation differing by one ULP is rejected")
+    @Test("[Unit] G6 orientation differing by one ULP is rejected")
     func g6OneULP() throws {
         let result = assess(
             try series([
@@ -215,7 +215,7 @@ struct CTGeometryValidatorTests {
         #expect(result.measurement.maximumOrientationDeviation == 0x1.0p-52)
     }
 
-    @Test("G13 two decimal spellings of one double are accepted")
+    @Test("[Unit] G13 two decimal spellings of one double are accepted")
     func g13Respelling() throws {
         // 0.99999999999999999 and 1.0 are different decimal strings naming the
         // same binary64 value. Exact tolerance forgives re-spelling; it refuses
@@ -234,7 +234,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - G7, G8: orthonormality
 
-    @Test("G7 non-orthogonal anchor directions are rejected")
+    @Test("[Unit] G7 non-orthogonal anchor directions are rejected")
     func g7NonOrthogonal() throws {
         let result = assess(
             try series([
@@ -250,7 +250,7 @@ struct CTGeometryValidatorTests {
         #expect(result.measurement.rowMagnitudeResidual == 0x0.0p+0)
     }
 
-    @Test("G8 a non-unit row direction is rejected")
+    @Test("[Unit] G8 a non-unit row direction is rejected")
     func g8NonUnit() throws {
         let result = assess(
             try series([
@@ -267,7 +267,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - G9, G12: warnings rather than rejections
 
-    @Test("G9 a single-member series warns rather than rejecting")
+    @Test("[Unit] G9 a single-member series warns rather than rejecting")
     func g9SingleMember() throws {
         let result = assess(try series([(try frame("g1"), 0.0)]))
 
@@ -278,7 +278,7 @@ struct CTGeometryValidatorTests {
         #expect(result.measurement.sliceSpacingSpread == nil)
     }
 
-    @Test("G12 contradictory rescale warns rather than rejecting geometry")
+    @Test("[Unit] G12 contradictory rescale warns rather than rejecting geometry")
     func g12PresentationDisagreement() throws {
         let result = assess(
             try series([
@@ -294,7 +294,7 @@ struct CTGeometryValidatorTests {
         #expect(result.measurement.maximumOrientationDeviation == 0x0.0p+0)
     }
 
-    @Test("A differing photometric interpretation is the same warning")
+    @Test("[Unit] A differing photometric interpretation is the same warning")
     func photometricDisagreement() throws {
         let result = assess(
             try series([
@@ -309,7 +309,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - G10: observations are inherited, not recomputed
 
-    @Test("G10 an assembly observation is inherited and spacings stay absent")
+    @Test("[Unit] G10 an assembly observation is inherited and spacings stay absent")
     func g10InheritedObservation() throws {
         // The members share a projection, so a validator that recomputed
         // spacings over the identity-order fallback would report an irregular
@@ -360,7 +360,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - G11: in-plane spacing
 
-    @Test("G11 in-plane spacing disagreement is rejected")
+    @Test("[Unit] G11 in-plane spacing disagreement is rejected")
     func g11InPlaneDisagreement() throws {
         let result = assess(
             try series([
@@ -379,7 +379,7 @@ struct CTGeometryValidatorTests {
 
     // MARK: - Beyond the fixtures
 
-    @Test("An empty series is rejected rather than falling through")
+    @Test("[Unit] An empty series is rejected rather than falling through")
     func emptySeries() throws {
         // Unreachable through CTSeriesAssembler, but CTSeries has a public
         // initialiser. Without its own finding this would report no findings and
@@ -391,7 +391,7 @@ struct CTGeometryValidatorTests {
         #expect(result.measurement.memberCount == 0)
     }
 
-    @Test("A supplied permissive tolerance admits what exact rejects")
+    @Test("[Unit] A supplied permissive tolerance admits what exact rejects")
     func permissiveToleranceIsHonoured() throws {
         // The project defines no permissive tolerance, but a caller holding its
         // own evidence can supply one, which is the point of decision 6.
@@ -416,14 +416,14 @@ struct CTGeometryValidatorTests {
         #expect(result.measurement.sliceSpacingSpread == 0x1.a36e2eb1c0000p-14)
     }
 
-    @Test("Exactly one finding warns, and the rest reject")
+    @Test("[Unit] Exactly one finding warns, and the rest reject")
     func findingClassification() throws {
         let warnings = CTGeometryFinding.allCases.filter { !$0.rejects }
         #expect(Set(warnings) == [.singleMemberSeries, .presentationDisagreement])
         #expect(CTGeometryFinding.allCases.count == 13)
     }
 
-    @Test("A rejection and a warning together still reject")
+    @Test("[Unit] A rejection and a warning together still reject")
     func rejectionDominatesWarning() throws {
         let result = assess(
             try series([

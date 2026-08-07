@@ -96,7 +96,7 @@ struct CTVolumeDescriptorBuilderTests {
 
     // MARK: - The shape and axis order
 
-    @Test("Axis 0 is the column index, so extents are columns, rows, slices")
+    @Test("[Unit] Axis 0 is the column index, so extents are columns, rows, slices")
     func axisOrder() throws {
         // Distinct extents in all three, so a transposition changes an assertion.
         let descriptor = try CTVolumeDescriptorBuilder.descriptor(
@@ -111,7 +111,7 @@ struct CTVolumeDescriptorBuilderTests {
         #expect(descriptor.axes.map(\.semantic) == [.spatialX, .spatialY, .spatialZ])
     }
 
-    @Test("Axis sampling is index-only, because the affine carries the spacing")
+    @Test("[Unit] Axis sampling is index-only, because the affine carries the spacing")
     func axisSamplingIsIndexOnly() throws {
         let descriptor = try CTVolumeDescriptorBuilder.descriptor(
             frame: try frame(),
@@ -125,7 +125,7 @@ struct CTVolumeDescriptorBuilderTests {
 
     // MARK: - The geometry and value transform slots
 
-    @Test("The affine geometry is carried in the descriptor's own slot")
+    @Test("[Unit] The affine geometry is carried in the descriptor's own slot")
     func carriesGeometry() throws {
         let built = try geometry()
         let descriptor = try CTVolumeDescriptorBuilder.descriptor(
@@ -140,7 +140,7 @@ struct CTVolumeDescriptorBuilderTests {
         #expect(affine == built)
     }
 
-    @Test("The rescale becomes a linear value transform")
+    @Test("[Unit] The rescale becomes a linear value transform")
     func carriesRescale() throws {
         let descriptor = try CTVolumeDescriptorBuilder.descriptor(
             frame: try frame(slope: 1.0, intercept: -8192.0),
@@ -155,7 +155,7 @@ struct CTVolumeDescriptorBuilderTests {
         #expect(linear.offset == -8192.0)
     }
 
-    @Test("A non-unit slope is carried faithfully")
+    @Test("[Unit] A non-unit slope is carried faithfully")
     func nonUnitSlope() throws {
         let descriptor = try CTVolumeDescriptorBuilder.descriptor(
             frame: try frame(slope: 2.5, intercept: -1024.0),
@@ -170,7 +170,7 @@ struct CTVolumeDescriptorBuilderTests {
         #expect(linear.offset == -1024.0)
     }
 
-    @Test("A unit slope with a zero intercept is published as identity")
+    @Test("[Unit] A unit slope with a zero intercept is published as identity")
     func identityTransform() throws {
         // VOXELIA-ALG-0003 states scale 1, offset 0 is bit-identical to no
         // mapping, so the two declarations are equivalent and identity spares
@@ -183,7 +183,7 @@ struct CTVolumeDescriptorBuilderTests {
         #expect(descriptor.valueTransform == .identity)
     }
 
-    @Test("The transform helper agrees at the identity boundary")
+    @Test("[Unit] The transform helper agrees at the identity boundary")
     func transformHelper() throws {
         #expect(try CTVolumeDescriptorBuilder.valueTransform(slope: 1, intercept: 0) == .identity)
         // A hair off unity is linear, not identity.
@@ -209,7 +209,7 @@ struct CTVolumeDescriptorBuilderTests {
 
     // MARK: - ADR-0239: the published format drops the narrowing
 
-    @Test("A narrowed stored-bit count is not published, because normalisation removes it")
+    @Test("[Unit] A narrowed stored-bit count is not published, because normalisation removes it")
     func publishesNormalisedFormat() throws {
         let descriptor = try CTVolumeDescriptorBuilder.descriptor(
             frame: try frame(type: .int16, storedBits: 12),
@@ -222,7 +222,7 @@ struct CTVolumeDescriptorBuilderTests {
         #expect(descriptor.scalarFormat.type == .int16)
     }
 
-    @Test("A full-width format is published unchanged")
+    @Test("[Unit] A full-width format is published unchanged")
     func fullWidthFormat() throws {
         let descriptor = try CTVolumeDescriptorBuilder.descriptor(
             frame: try frame(type: .uint16),
@@ -235,7 +235,7 @@ struct CTVolumeDescriptorBuilderTests {
 
     // MARK: - Semantics and components
 
-    @Test("A CT volume is scalar intensity with one interleaved component")
+    @Test("[Unit] A CT volume is scalar intensity with one interleaved component")
     func semanticsAndComponents() throws {
         let descriptor = try CTVolumeDescriptorBuilder.descriptor(
             frame: try frame(),
@@ -250,7 +250,7 @@ struct CTVolumeDescriptorBuilderTests {
 
     // MARK: - Admission
 
-    @Test("A frame whose extents disagree with the layout is refused")
+    @Test("[Unit] A frame whose extents disagree with the layout is refused")
     func refusesExtentMismatch() throws {
         #expect(throws: CTVolumeDescriptorError.frameLayoutMismatch) {
             try CTVolumeDescriptorBuilder.descriptor(
@@ -269,7 +269,7 @@ struct CTVolumeDescriptorBuilderTests {
         }
     }
 
-    @Test("A frame whose scalar format disagrees with the layout is refused")
+    @Test("[Unit] A frame whose scalar format disagrees with the layout is refused")
     func refusesFormatMismatch() throws {
         #expect(throws: CTVolumeDescriptorError.frameLayoutMismatch) {
             try CTVolumeDescriptorBuilder.descriptor(
@@ -280,7 +280,7 @@ struct CTVolumeDescriptorBuilderTests {
         }
     }
 
-    @Test("An affine mapping other than the three axes in order is refused")
+    @Test("[Unit] An affine mapping other than the three axes in order is refused")
     func refusesUnexpectedAxisMapping() throws {
         #expect(throws: CTVolumeDescriptorError.unexpectedAxisMapping) {
             try CTVolumeDescriptorBuilder.descriptor(
@@ -298,7 +298,7 @@ struct CTVolumeDescriptorBuilderTests {
         }
     }
 
-    @Test("A length unit for the samples is refused as a category error")
+    @Test("[Unit] A length unit for the samples is refused as a category error")
     func refusesLengthSampleUnit() throws {
         // A present unit describes sample values; a millimetre would claim the
         // Hounsfield numbers are lengths.
@@ -319,7 +319,7 @@ struct CTVolumeDescriptorBuilderTests {
         }
     }
 
-    @Test("Sample units are absent by default, because Rescale Type is not read")
+    @Test("[Unit] Sample units are absent by default, because Rescale Type is not read")
     func unitsAbsentByDefault() throws {
         // The corpus does declare Rescale Type HU, but the adapter does not read
         // it, so the builder declines to assert a unit it has not seen.

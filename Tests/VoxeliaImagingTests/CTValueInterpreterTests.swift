@@ -39,7 +39,7 @@ struct CTValueInterpreterTests {
 
     // MARK: - V1, V2: the two scanner conventions reach the same value
 
-    @Test("V1 signed samples with a zero intercept give -1000 HU for air")
+    @Test("[Unit] V1 signed samples with a zero intercept give -1000 HU for air")
     func v1SignedAir() throws {
         let subject = try interpreter(.int16)
         let value = subject.interpret(sampleBytes: [0x18, 0xFC] as [UInt8])
@@ -47,7 +47,7 @@ struct CTValueInterpreterTests {
         #expect(try measured(value) == -0x1.f4p+9)
     }
 
-    @Test("V2 unsigned samples with a -1024 intercept give the same -1000 HU")
+    @Test("[Unit] V2 unsigned samples with a -1024 intercept give the same -1000 HU")
     func v2UnsignedAir() throws {
         // ADR-0235's real-data run found this scanner emits unsigned samples, so
         // this is the route the measured corpus actually exercises.
@@ -59,21 +59,21 @@ struct CTValueInterpreterTests {
 
     // MARK: - V3 to V7: sign extension and masking
 
-    @Test("V3 a twelve-bit signed 0x0FFF is minus one, not 4095")
+    @Test("[Unit] V3 a twelve-bit signed 0x0FFF is minus one, not 4095")
     func v3SignExtension() throws {
         let subject = try interpreter(.int16, storedBits: 12)
         #expect(subject.storedValue(container: 0x0FFF) == -1)
         #expect(try measured(subject.interpret(sampleBytes: [0xFF, 0x0F] as [UInt8])) == -0x1p+0)
     }
 
-    @Test("V4 a twelve-bit signed 0x0800 is the most negative value")
+    @Test("[Unit] V4 a twelve-bit signed 0x0800 is the most negative value")
     func v4MostNegative() throws {
         let subject = try interpreter(.int16, storedBits: 12)
         #expect(subject.storedValue(container: 0x0800) == -2048)
         #expect(try measured(subject.interpret(sampleBytes: [0x00, 0x08] as [UInt8])) == -0x1p+11)
     }
 
-    @Test("V5 a twelve-bit signed 0x07FF is the most positive value")
+    @Test("[Unit] V5 a twelve-bit signed 0x07FF is the most positive value")
     func v5MostPositive() throws {
         let subject = try interpreter(.int16, storedBits: 12)
         #expect(subject.storedValue(container: 0x07FF) == 2047)
@@ -83,7 +83,7 @@ struct CTValueInterpreterTests {
         )
     }
 
-    @Test("V6 the same bits unsigned are 4095: the boundary V3 exists for")
+    @Test("[Unit] V6 the same bits unsigned are 4095: the boundary V3 exists for")
     func v6UnsignedSameBits() throws {
         let subject = try interpreter(.uint16, storedBits: 12)
         #expect(subject.storedValue(container: 0x0FFF) == 4095)
@@ -99,7 +99,7 @@ struct CTValueInterpreterTests {
         )
     }
 
-    @Test("V7 bits above the stored count are masked away")
+    @Test("[Unit] V7 bits above the stored count are masked away")
     func v7Masking() throws {
         let subject = try interpreter(.uint16, storedBits: 12)
         #expect(subject.storedValue(container: 0xFFFF) == 4095)
@@ -111,7 +111,7 @@ struct CTValueInterpreterTests {
 
     // MARK: - V8, V14: the rescale
 
-    @Test("V8 a non-unit slope scales before the intercept is added")
+    @Test("[Unit] V8 a non-unit slope scales before the intercept is added")
     func v8NonUnitSlope() throws {
         let subject = try interpreter(.uint16, slope: 2.5, intercept: -1024.0)
         #expect(
@@ -120,7 +120,7 @@ struct CTValueInterpreterTests {
         )
     }
 
-    @Test("V14 the rescale is genuinely binary64")
+    @Test("[Unit] V14 the rescale is genuinely binary64")
     func v14Binary64() throws {
         let subject = try interpreter(.uint16, slope: 0.1)
         // 0.1 * 3 is 0.30000000000000004, not 0.3.
@@ -132,13 +132,13 @@ struct CTValueInterpreterTests {
 
     // MARK: - V9, V10: padding is compared before the rescale
 
-    @Test("V9 a stored value matching padding is excluded")
+    @Test("[Unit] V9 a stored value matching padding is excluded")
     func v9PaddingExcluded() throws {
         let subject = try interpreter(.int16, intercept: -1024.0, padding: -2000)
         #expect(subject.interpret(sampleBytes: [0x30, 0xF8] as [UInt8]) == .padding)
     }
 
-    @Test("V10 a value equal to padding only after rescale stays measured")
+    @Test("[Unit] V10 a value equal to padding only after rescale stays measured")
     func v10PaddingOrder() throws {
         // Stored 0, intercept -2000, padding -2000: the rescaled value equals the
         // padding number. Comparing after the rescale would delete real signal at
@@ -151,7 +151,7 @@ struct CTValueInterpreterTests {
 
     // MARK: - V11: the zero slope, closing ADR-0227 decision 5
 
-    @Test("V11 a zero slope is computed and reported, not refused")
+    @Test("[Unit] V11 a zero slope is computed and reported, not refused")
     func v11DegenerateSlope() throws {
         let subject = try interpreter(.uint16, slope: 0.0, intercept: -1024.0)
         #expect(subject.findings == [.degenerateSlope])
@@ -166,7 +166,7 @@ struct CTValueInterpreterTests {
         )
     }
 
-    @Test("A non-zero slope reports no finding")
+    @Test("[Unit] A non-zero slope reports no finding")
     func nonDegenerateSlope() throws {
         #expect(try interpreter(.uint16, slope: 1.0).findings.isEmpty)
         #expect(try interpreter(.uint16, slope: -1.0).findings.isEmpty)
@@ -174,14 +174,14 @@ struct CTValueInterpreterTests {
 
     // MARK: - V12, V13: eight-bit formats
 
-    @Test("V12 an eight-bit unsigned sample")
+    @Test("[Unit] V12 an eight-bit unsigned sample")
     func v12EightBitUnsigned() throws {
         let subject = try interpreter(.uint8)
         #expect(subject.byteCount == 1)
         #expect(try measured(subject.interpret(sampleBytes: [0x7F] as [UInt8])) == 0x1.fcp+6)
     }
 
-    @Test("V13 an eight-bit signed 0xFF is minus one")
+    @Test("[Unit] V13 an eight-bit signed 0xFF is minus one")
     func v13EightBitSigned() throws {
         let subject = try interpreter(.int8)
         #expect(subject.storedValue(container: 0xFF) == -1)
@@ -190,7 +190,7 @@ struct CTValueInterpreterTests {
 
     // MARK: - Admission
 
-    @Test("A big-endian format is refused rather than reinterpreted")
+    @Test("[Unit] A big-endian format is refused rather than reinterpreted")
     func refusesBigEndian() throws {
         #expect(throws: CTValueInterpretationError.unsupportedByteOrder) {
             try CTValueInterpreter(
@@ -206,14 +206,14 @@ struct CTValueInterpreterTests {
         }
     }
 
-    @Test("A floating-point format is refused")
+    @Test("[Unit] A floating-point format is refused")
     func refusesFloatingPoint() throws {
         #expect(throws: CTValueInterpretationError.unsupportedScalarFormat) {
             try interpreter(.float32)
         }
     }
 
-    @Test("A non-finite rescale term is refused")
+    @Test("[Unit] A non-finite rescale term is refused")
     func refusesNonFiniteTerms() throws {
         for slope in [Double.infinity, Double.nan] {
             #expect(throws: CTValueInterpretationError.nonFiniteRescaleTerm) {
@@ -225,7 +225,7 @@ struct CTValueInterpreterTests {
         }
     }
 
-    @Test("A wrong byte count yields no value rather than a wrong one")
+    @Test("[Unit] A wrong byte count yields no value rather than a wrong one")
     func refusesWrongByteCount() throws {
         let subject = try interpreter(.int16)
         #expect(subject.interpret(sampleBytes: [0x01] as [UInt8]) == nil)
@@ -233,7 +233,7 @@ struct CTValueInterpreterTests {
         #expect(subject.container([] as [UInt8]) == nil)
     }
 
-    @Test("An interpreter can be built straight from a frame description")
+    @Test("[Unit] An interpreter can be built straight from a frame description")
     func fromFrameDescription() throws {
         // Exercises the path the pipeline actually uses.
         let subject = try interpreter(.uint16, storedBits: 12, intercept: -1024.0)

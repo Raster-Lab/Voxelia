@@ -122,7 +122,7 @@ struct CTAffineVolumeBuilderTests {
 
     // MARK: - D1: the regular case, and the axis crossing
 
-    @Test("D1 a regular axial series builds the frozen matrix")
+    @Test("[Unit] D1 a regular axial series builds the frozen matrix")
     func d1Regular() throws {
         let (construction, assessment) = try build([
             try frame("d1", position: (-175.5, -175.5, 0.0)),
@@ -143,7 +143,7 @@ struct CTAffineVolumeBuilderTests {
         #expect(construction.carriedWarnings.isEmpty)
     }
 
-    @Test("D1 the in-plane steps cross: columnSpacing scales rowDirection")
+    @Test("[Unit] D1 the in-plane steps cross: columnSpacing scales rowDirection")
     func d1AxisCrossing() throws {
         let (construction, _) = try build([
             try frame("d1", position: (0, 0, 0.0)),
@@ -161,7 +161,7 @@ struct CTAffineVolumeBuilderTests {
 
     // MARK: - D2: oblique
 
-    @Test("D2 an oblique series builds the frozen matrix")
+    @Test("[Unit] D2 an oblique series builds the frozen matrix")
     func d2Oblique() throws {
         let (construction, assessment) = try build([
             try frame("d1", position: (1, 2, 3), row: (0, 1, 0), column: (0, 0, 1)),
@@ -182,7 +182,7 @@ struct CTAffineVolumeBuilderTests {
 
     // MARK: - D3: a validated series that cannot be constructed
 
-    @Test("D3 an approved series whose determinant underflows is singular")
+    @Test("[Unit] D3 an approved series whose determinant underflows is singular")
     func d3DeterminantUnderflow() throws {
         let frames = [
             try frame("d1", position: (0, 0, 0), rowSpacing: 1e-160, columnSpacing: 1e-160),
@@ -209,7 +209,7 @@ struct CTAffineVolumeBuilderTests {
 
     // MARK: - D4: the single-member series
 
-    @Test("D4 a single member leaves the slice step undefined")
+    @Test("[Unit] D4 a single member leaves the slice step undefined")
     func d4SingleMember() throws {
         let series = try #require(
             CTSeriesAssembler.assemble([try frame("d1", position: (0, 0, 0))]).first
@@ -230,7 +230,7 @@ struct CTAffineVolumeBuilderTests {
 
     // MARK: - D5 and D6: the fidelity residual
 
-    @Test("D5 an exactly regular series still drifts from its own lattice")
+    @Test("[Unit] D5 an exactly regular series still drifts from its own lattice")
     func d5Drift() throws {
         let frames = [
             try frame("d1", position: (0, 0, -21.779939649890252)),
@@ -252,7 +252,7 @@ struct CTAffineVolumeBuilderTests {
         #expect(m[11] == -0x1.5c7aa1ff921e0p+4)
     }
 
-    @Test("D6 a dyadic spacing reproduces every position exactly")
+    @Test("[Unit] D6 a dyadic spacing reproduces every position exactly")
     func d6Exact() throws {
         let (construction, _) = try build([
             try frame("d1", position: (0, 0, 0.0)),
@@ -267,7 +267,7 @@ struct CTAffineVolumeBuilderTests {
 
     // MARK: - Verdict handling
 
-    @Test("A rejected series is refused")
+    @Test("[Unit] A rejected series is refused")
     func rejectedSeriesRefused() throws {
         let frames = [
             try frame("d1", position: (0, 0, 0.0)),
@@ -287,7 +287,7 @@ struct CTAffineVolumeBuilderTests {
         }
     }
 
-    @Test("A warned series builds and carries its warnings forward")
+    @Test("[Unit] A warned series builds and carries its warnings forward")
     func warningsCarriedForward() throws {
         let (construction, assessment) = try build([
             try frame("d1", position: (0, 0, 0.0)),
@@ -303,7 +303,7 @@ struct CTAffineVolumeBuilderTests {
 
     // MARK: - The coordinate-space contract
 
-    @Test("A descriptor naming another space is refused")
+    @Test("[Unit] A descriptor naming another space is refused")
     func coordinateSpaceMismatch() throws {
         #expect(throws: CTVolumeConstructionError.coordinateSpaceMismatch) {
             try build(
@@ -316,7 +316,7 @@ struct CTAffineVolumeBuilderTests {
         }
     }
 
-    @Test("A series frame-of-reference the descriptor omits is refused")
+    @Test("[Unit] A series frame-of-reference the descriptor omits is refused")
     func frameOfReferenceNotPreserved() throws {
         let reference = try ExternalFrameReference(
             namespace: "dicom",
@@ -359,7 +359,7 @@ struct CTAffineVolumeBuilderTests {
 
     // MARK: - The accepted geometry surface
 
-    @Test("The constructed geometry carries the supplied space and axis mapping")
+    @Test("[Unit] The constructed geometry carries the supplied space and axis mapping")
     func geometrySurface() throws {
         let (construction, _) = try build([
             try frame("d1", position: (0, 0, 0.0)),
