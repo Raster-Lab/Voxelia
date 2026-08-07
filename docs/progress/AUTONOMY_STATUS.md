@@ -8468,3 +8468,23 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    generative-output acceptance; runtime plug-in introduction;
    photorealistic validation + preset review; measurement campaigns;
    regression thresholds; the 1.0 release session.
+
+1. **2026-08-08 — FIVE OWNER BATCH ITEMS RESOLVED by adopted
+   recommendation (`ADR-0412`) AND THE MEASUREMENT CAMPAIGN RAN.**
+   Decisions: (1) SEG reference AI adapter — BOUNDARY-ONLY for 1.0 (an
+   adapter without a clinically validated model would validate
+   nothing); (2) validated distribution — THIS distribution only, host
+   approval the only other path; (3) generative output — NEVER in
+   diagnostic presentation at 1.0, non-diagnostic contexts require
+   visible labelling; (4) runtime plug-ins — revisit post-1.0,
+   `ADR-0403` stands; (5) photorealistic validation + presets —
+   ACCEPTED within the module's non-diagnostic status (the witnesses
+   re-run green on every suite execution). CAMPAIGN
+   (`docs/progress/evidence/benchmark-campaign-2026-08-08.{json,md}`):
+   window-level 1.5.0 over ~1.05M int16 samples on Mac17,4/M5 —
+   cold 172.74 ms, warm 174.81 ms, steady-state median 169.50 ms
+   (~6.1 M samples/s); modes not run are DECLARED not run;
+   headless-batch is the suite itself; records are schema-conformant
+   `BenchmarkRecord` rows decoded through the revalidating admission
+   before emission. TWO items remain: approved regression thresholds,
+   and THE 1.0 RELEASE SESSION.

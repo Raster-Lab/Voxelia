@@ -3570,6 +3570,11 @@
       "sha256": "07c4199577b8f579ef9b997122b493ef698de5044cfaf20cc6f53a68af859c56"
     },
     {
+      "path": "Tests/VoxeliaValidationTests/BenchmarkCampaignTests.swift",
+      "size": 8393,
+      "sha256": "e616320d0ef9dd0632d7e600a91244a43ae7baa28634656d43bc022507238ea0"
+    },
+    {
       "path": "Tests/VoxeliaValidationTests/BenchmarkReportTests.swift",
       "size": 4289,
       "sha256": "a562c715d734de546aede4468d16103d6e3c73ec108f9c7a6dbcb1448477aee5"
@@ -6505,9 +6510,14 @@
       "sha256": "09c3078344e3ef64b15b42be02127810193ec8796193d68e5a0148dd79f422da"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0412-five-batch-resolutions.md",
+      "size": 3935,
+      "sha256": "0b52a37242a7f3146cee58de13185e6d350237357fc640f275ce777062b1628f"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 56805,
-      "sha256": "c91f77327def6c518fa40fab838b335872e75a36dd5e6a9349a99a381812d012"
+      "size": 56943,
+      "sha256": "14991c0b89c313c9e236583defad0d95f8e15e1b3aa1101753f31c5189c22e6c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6626,8 +6636,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 543462,
-      "sha256": "a53c78fa4ec6e74895d6132fae5e822eaf3e5be8708bb2cac3ada5e161734cf5"
+      "size": 544690,
+      "sha256": "139f6189d3f7e2f68bb0d2e167eb053b4d63a1dd4e4b061988daa63abc9356cc"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6985,6 +6995,16 @@
       "sha256": "2c24f65a4faf8565d8d210e655cfcaa3ab65d1cb864db8c28a5906b010c5bb9a"
     },
     {
+      "path": "docs/progress/evidence/benchmark-campaign-2026-08-08.json",
+      "size": 2083,
+      "sha256": "228a06a9f0b6493f88a5e5e8ec5feb6d1c3daaf98eebe1e52155b001387120fa"
+    },
+    {
+      "path": "docs/progress/evidence/benchmark-campaign-2026-08-08.md",
+      "size": 1254,
+      "sha256": "66ba4ee53724ab4fec55aab0457b7bfd983eb179295afd258c2071c2bb2d9f8c"
+    },
+    {
       "path": "docs/progress/temporary-file-sites.txt",
       "size": 507,
       "sha256": "6f7c39bf95eba777d1d859362fff89cb47da6616aa1f944bf4a6024f5c34439e"
@@ -7321,8 +7341,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 84750,
-      "sha256": "395aee18d24bbd1fe74e262595971d9bc503766a35d3956cde551779a5245235"
+      "size": 84985,
+      "sha256": "dcad9e7d1cfb74a2c97ac592c0fd0b9de6a53e0b4775fef72ba817c9629f2689"
     }
   ]
 }

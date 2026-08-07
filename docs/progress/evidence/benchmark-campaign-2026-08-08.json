@@ -1,0 +1,71 @@
+[
+  {
+    "cacheState" : "cold",
+    "compiler" : "Apple Swift 6.3.3",
+    "dataset" : "ramp-int16-128x128x64",
+    "hardware" : "Mac17,4 Apple M5",
+    "latencyMilliseconds" : 172.740333,
+    "mode" : "coldStart",
+    "operatingSystem" : "macOS 26.5.1",
+    "operationIdentifier" : "org.voxelia.op.window-level",
+    "operationVersion" : {
+      "buildMetadata" : null,
+      "major" : 1,
+      "minor" : 5,
+      "patch" : 0,
+      "prerelease" : null
+    },
+    "peakMemoryBytes" : 3145728,
+    "quality" : "org.voxelia.quality.full",
+    "storageForm" : "contiguous",
+    "throughputPerSecond" : 6070244.173953283,
+    "validationStatus" : "suite-green",
+    "voxeliaVersion" : "0.2.0"
+  },
+  {
+    "cacheState" : "warm",
+    "compiler" : "Apple Swift 6.3.3",
+    "dataset" : "ramp-int16-128x128x64",
+    "hardware" : "Mac17,4 Apple M5",
+    "latencyMilliseconds" : 174.807166,
+    "mode" : "warmCache",
+    "operatingSystem" : "macOS 26.5.1",
+    "operationIdentifier" : "org.voxelia.op.window-level",
+    "operationVersion" : {
+      "buildMetadata" : null,
+      "major" : 1,
+      "minor" : 5,
+      "patch" : 0,
+      "prerelease" : null
+    },
+    "peakMemoryBytes" : 3145728,
+    "quality" : "org.voxelia.quality.full",
+    "storageForm" : "contiguous",
+    "throughputPerSecond" : 5998472.625544425,
+    "validationStatus" : "suite-green",
+    "voxeliaVersion" : "0.2.0"
+  },
+  {
+    "cacheState" : "warm",
+    "compiler" : "Apple Swift 6.3.3",
+    "dataset" : "ramp-int16-128x128x64",
+    "hardware" : "Mac17,4 Apple M5",
+    "latencyMilliseconds" : 169.495625,
+    "mode" : "steadyState",
+    "operatingSystem" : "macOS 26.5.1",
+    "operationIdentifier" : "org.voxelia.op.window-level",
+    "operationVersion" : {
+      "buildMetadata" : null,
+      "major" : 1,
+      "minor" : 5,
+      "patch" : 0,
+      "prerelease" : null
+    },
+    "peakMemoryBytes" : 3145728,
+    "quality" : "org.voxelia.quality.full",
+    "storageForm" : "contiguous",
+    "throughputPerSecond" : 6186448.76527049,
+    "validationStatus" : "suite-green",
+    "voxeliaVersion" : "0.2.0"
+  }
+]
