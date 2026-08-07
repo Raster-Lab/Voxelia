@@ -8357,3 +8357,25 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    seams), the validated Codable benchmark-record schema carrying the
    baseline's required report fields, and the regression-threshold
    check seam (thresholds are the owner's).
+
+1. **2026-08-07 — ~~`VOX-ERR-008`~~ + ~~`VOX-PER-010`~~ + ~~`VOX-PER-011`~~
+   + ~~`VOX-PER-012`~~ (engineering halves; campaigns and thresholds to
+   the owner) DISCHARGED: benchmark reporting and instrumentation
+   (`ADR-0407`). M10 ARC 2 IS CLOSED.** `BenchmarkRecord` in
+   `VoxeliaValidation`: the baseline's field list VERBATIM — hardware,
+   OS, compiler, Voxelia version, operation identity+version, honestly
+   optional shader identity, dataset, storage form, cache state,
+   quality token, latency, throughput, peak memory, validation status —
+   admitted and revalidated on decode. `BenchmarkMode` is the closed
+   eight-case vocabulary; a report SAYS which modes ran ("as
+   applicable" is a declaration, not an implication); the multi-mode
+   measurement campaigns are release evidence for the owner's session.
+   `RegressionCheck`: caller-declared fractional threshold —
+   DEFAULTLESS, approval is the owner's — closed pass/regression
+   outcome on latency/throughput/memory for CI to consume.
+   Instrumentation is REMOVABLE BY CONSTRUCTION: telemetry is
+   sink-based and every producer accepts a nil sink; no ambient global
+   collector exists — recorded, with enabled-overhead measurement
+   routed to the owner's campaign rather than promised here. **Next**:
+   M10 arc 3, the last engineering — the thirteen release-policy rows
+   consolidated into release documentation for the owner's session.
