@@ -231,6 +231,9 @@ storage semantics.
 - ``MeanSquaresMetric``
 - ``MutualInformationMetric``
 - ``RegistrationMetricError``
+- ``RegistrationOutcome``
+- ``RegistrationFailureReport``
+- ``RegistrationOutcomeError``
 
 ### Common errors
 

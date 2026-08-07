@@ -237,7 +237,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0369` is allocated to landmark rigid registration.
 `ADR-0370` is allocated to the registration metric architecture.
 `ADR-0371` is allocated to the registration pyramid.
-The next unallocated numeric identifier is `ADR-0372`.
+`ADR-0372` is allocated to explicit registration failure.
+The next unallocated numeric identifier is `ADR-0373`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -592,3 +593,4 @@ The next unallocated numeric identifier is `ADR-0372`.
 | [ADR-0369](ADR-0369-landmark-rigid-registration.md) | Accepted | Landmark rigid registration |
 | [ADR-0370](ADR-0370-the-registration-metric-architecture.md) | Accepted | The registration metric architecture |
 | [ADR-0371](ADR-0371-the-registration-pyramid.md) | Accepted | The registration pyramid |
+| [ADR-0372](ADR-0372-explicit-registration-failure.md) | Accepted | Explicit registration failure |

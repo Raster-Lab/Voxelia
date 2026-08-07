@@ -148,6 +148,7 @@ Sources/VoxeliaCore/Public/ProvenanceRecord.swift
 Sources/VoxeliaCore/Public/ProvenanceWarning.swift
 Sources/VoxeliaCore/Public/RegionReadTransaction.swift
 Sources/VoxeliaCore/Public/RegistrationMetrics.swift
+Sources/VoxeliaCore/Public/RegistrationOutcome.swift
 Sources/VoxeliaCore/Public/RegistrationResult.swift
 Sources/VoxeliaCore/Public/RegistrationTransform.swift
 Sources/VoxeliaCore/Public/RegistrationTransformComposition.swift
@@ -477,6 +478,7 @@ Tests/VoxeliaCoreTests/ProvenanceRecordTests.swift
 Tests/VoxeliaCoreTests/ProvenanceWarningTests.swift
 Tests/VoxeliaCoreTests/RegionReadTransactionTests.swift
 Tests/VoxeliaCoreTests/RegistrationMetricTests.swift
+Tests/VoxeliaCoreTests/RegistrationOutcomeTests.swift
 Tests/VoxeliaCoreTests/RegistrationResultTests.swift
 Tests/VoxeliaCoreTests/ScalarFormatTests.swift
 Tests/VoxeliaCoreTests/SemanticVersionTests.swift
@@ -1191,6 +1193,7 @@ docs/architecture/decisions/ADR-0368-landmark-affine-registration.md
 docs/architecture/decisions/ADR-0369-landmark-rigid-registration.md
 docs/architecture/decisions/ADR-0370-the-registration-metric-architecture.md
 docs/architecture/decisions/ADR-0371-the-registration-pyramid.md
+docs/architecture/decisions/ADR-0372-explicit-registration-failure.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

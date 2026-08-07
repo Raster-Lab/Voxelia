@@ -7639,3 +7639,25 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    convergence vocabulary into an explicit success/failure seam), then
    the quality-metrics and reference-implementation rows to close the
    arc's unblocked queue.
+
+1. **2026-08-07 — ~~`VOX-REG-008`~~ DISCHARGED: explicit registration
+   failure (`ADR-0372`, no ALG).** `RegistrationOutcome` in `VoxeliaCore`
+   is the presentation seam: a closed two-case vocabulary —
+   `succeeded(result)` / `notConverged(report)` — where the failure
+   report carries identities, configuration, status, iteration count and
+   the honest optional final metric value AND NO TRANSFORM, so a
+   non-converged run structurally cannot hand one out. ONLY `converged`
+   is success: iteration-limit, user-stop and failure all classify into
+   the failure case (accepting a limit-reached estimate is an explicit
+   host decision against the report, never an implicit transform grab).
+   `classify` is total and non-throwing — no path around the seam; a
+   failure report of a `converged` status refuses typed (`notAFailure`).
+   The `ADR-0366` record stays COMPLETE for audit — audit and
+   presentation are different consumers with different honesty rules.
+   Baseline shrinks by one. Full suite: `✔ Test run with 1383 tests in
+   252 suites passed`. **Next**: the quality-metrics row (`T` —
+   registration quality metrics available to the host; compose the
+   `ADR-0370` metric evaluations and landmark residuals into a
+   host-facing quality surface), then the reference-implementation row
+   (`T,R` — its `R` half may join the owner batch) to close the arc's
+   unblocked queue before the curved-planar/DICOM-tails arc.
