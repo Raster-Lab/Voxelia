@@ -8336,3 +8336,24 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    (`stop:true`) and surfaces the complete owner batch — the
    accumulated `R` halves from three milestones plus the release
    session itself. **Next**: arc 1.
+
+1. **2026-08-07 — ~~`VOX-REP-007`~~ + ~~`VOX-DOC-004`~~ DISCHARGED:
+   umbrella and module overviews (`ADR-0406`). M10 ARC 1 IS CLOSED.**
+   The row's `T` half CAUGHT A REAL GAP: the umbrella IMPORTED its
+   eight modules without re-exporting them — `import Voxelia` alone
+   granted nothing. Fixed: `@_exported import` for the eight stable
+   modules, witnessed by a test importing ONLY `Voxelia` and using
+   every module's vocabulary; the optional integrations are not
+   dependencies of the umbrella target, so non-re-export stays
+   STRUCTURAL. All fifteen module overviews rewritten with the four
+   required facts — purpose, dependencies, supported platforms (Apple
+   Silicon arm64, macOS 15+/iOS 18+/tvOS 18+/visionOS 2+), and a
+   PER-MODULE diagnostic-status honesty line (CPU is THE diagnostic
+   reference; Metal non-diagnostic by default with selection
+   owner-gated; Photorealistic explicitly non-diagnostic presentation);
+   the two undocumented modules gained overviews. Full suite: `✔ Test
+   run with 1458 tests in 283 suites passed`. **Next**: M10 arc 2 —
+   instrumentation overhead (analysis + witness over the telemetry
+   seams), the validated Codable benchmark-record schema carrying the
+   baseline's required report fields, and the regression-threshold
+   check seam (thresholds are the owner's).

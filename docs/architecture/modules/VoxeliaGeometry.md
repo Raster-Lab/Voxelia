@@ -1,22 +1,9 @@
 # VoxeliaGeometry
 
-**Purpose:** Point, curve, mesh and geometry data models.
+**Purpose:** Triangle meshes, surface extraction requests and mesh measurements.
 
 **Direct dependencies:** VoxeliaCore, VoxeliaSpatial
 
-`VoxeliaSpatial` owns the coordinate-space values consumed by canonical
-Geometry APIs; Geometry does not redeclare or re-export them. The direct edge is
-governed by accepted `ADR-0187` and controlled correction `CCR-0027`.
+**Supported platforms:** Apple Silicon (`arm64`) on macOS 15+, iOS 18+, tvOS 18+ and visionOS 2+ — enforced by the manifest and the platform gate.
 
-The canonical `TriangleMesh` payload owns one finite binary64 position domain,
-one independently checked triangle topology and ordered non-position vertex
-attributes with exact descriptor-sized bytes. Its coordinate descriptor is the
-position domain's Spatial-owned value. The payload is immutable and `Sendable`
-but intentionally has no stable wire, hash/content identity, provenance
-aggregate or backend residency contract.
-
-The `ADR-0191` scalar-surface boundary adds immutable unadmitted request,
-explicit host limits, caller-supplied publication authority and a validated
-result that binds `TriangleMesh` to derivation-only identity and provenance.
-Geometry performs no source read or extraction kernel; those remain with the
-separately implemented CPU operation.
+**Diagnostic status:** Diagnostic-eligible: mesh admission and measurements are frozen, certified models.

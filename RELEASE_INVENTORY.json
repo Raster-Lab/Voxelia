@@ -316,8 +316,8 @@
     },
     {
       "path": "Sources/Voxelia/Module.swift",
-      "size": 433,
-      "sha256": "5c6316689226ab7f753d96846ee99720df3fbb23524436570a33c0b192adb372"
+      "size": 831,
+      "sha256": "9e06bc176d92dcf748739d725a7b59e4210b0a50822283865e7947ed2218c646"
     },
     {
       "path": "Sources/Voxelia/Public/.gitkeep",
@@ -3555,6 +3555,11 @@
       "sha256": "7ea5de3290f05361d627f18fac238217346afe16c88304b4a3cf1e1a25fb97dd"
     },
     {
+      "path": "Tests/VoxeliaTests/UmbrellaExportTests.swift",
+      "size": 1476,
+      "sha256": "6897f6e12fee0c3dc994fac78dbd87acbba8b7fb5cd6e56d106842d04e734ed2"
+    },
+    {
       "path": "Tests/VoxeliaTests/VoxeliaTests.swift",
       "size": 292,
       "sha256": "07c4199577b8f579ef9b997122b493ef698de5044cfaf20cc6f53a68af859c56"
@@ -6460,9 +6465,14 @@
       "sha256": "34137a06c5680ca086009e817ed7fea91e1756ad6f26eca93ec7b2448e2d56f8"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0406-umbrella-and-module-overviews.md",
+      "size": 3285,
+      "sha256": "7bccbbc74ad83bdf9b2fae0b05cee618c979ca82172835dda315851e0546f778"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 55825,
-      "sha256": "47129e935d5a41b351acec396ba997753b67b60c455e860f3da63b49a4d64408"
+      "size": 55984,
+      "sha256": "7e5b6f6ef7ebd52d3ce112d712a1a2f748302a70a4a8dab2831ce7c5a4f7e830"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6481,68 +6491,78 @@
     },
     {
       "path": "docs/architecture/modules/Voxelia.md",
-      "size": 331,
-      "sha256": "7afc857a6a10cc85f81fc942e2e956ac1d019a48542dc03093dd3756345cc06b"
+      "size": 528,
+      "sha256": "35698b1d20e9d10fd402681672b3351449d4315049300f6103f47130eb75086e"
     },
     {
       "path": "docs/architecture/modules/VoxeliaCPU.md",
-      "size": 1178,
-      "sha256": "80275dd3d24beb1b0e887061800723a6c206443b50dfc965747255b848be8118"
+      "size": 473,
+      "sha256": "46ca762b01bace448084c62bcff0742bcca12210d56a6dddb67c375d8dbc59a6"
+    },
+    {
+      "path": "docs/architecture/modules/VoxeliaCompression.md",
+      "size": 419,
+      "sha256": "ad07e62e3462f5e8638783e78af5b57933d35b39c866552aeb56b91665847529"
     },
     {
       "path": "docs/architecture/modules/VoxeliaCore.md",
-      "size": 222,
-      "sha256": "050f57abcbb600235f2a7877a7b64bfc00e35e5d92dea1e0646200e0f3712297"
+      "size": 453,
+      "sha256": "e6a0beca9e7d16e27aaaf289b302f54095ba42434f391ed8e71ea13cf54e6cc8"
+    },
+    {
+      "path": "docs/architecture/modules/VoxeliaDICOMKit.md",
+      "size": 461,
+      "sha256": "d1a41ecefd6a1197185a9e0e326e1fd27afaea12c63d973574228a19c0b7ea2f"
     },
     {
       "path": "docs/architecture/modules/VoxeliaExecution.md",
-      "size": 223,
-      "sha256": "e10b693cebbbb04e425a45f78b8299a44a51c1185ea7531a453e7eba3985055c"
+      "size": 495,
+      "sha256": "e091a15b7e6dfb7b79c2fd713b050648988e7948f8a2cb2f657b29f441b8590d"
     },
     {
       "path": "docs/architecture/modules/VoxeliaGeometry.md",
-      "size": 1125,
-      "sha256": "f4dae87e8e23eebf4bba9bb16100f32079ab7b95fc96f8ae6683afbe3f2ecc04"
+      "size": 411,
+      "sha256": "4bf9f13e32db47a5c3df1231fce224d6fb7cadd3de80d8c4c5e687473eff2527"
     },
     {
       "path": "docs/architecture/modules/VoxeliaImaging.md",
-      "size": 211,
-      "sha256": "25b9a7698806f84fe144f74623069f1462056b03ca97afbeb9098fed7947d367"
+      "size": 405,
+      "sha256": "d4bc5d2a480f8d2acd32eef7427784bcb62c23ea33aca3ce7e0bdc5e4eb43a33"
     },
     {
       "path": "docs/architecture/modules/VoxeliaInteraction.md",
-      "size": 213,
-      "sha256": "e1ce347b11f332ad23d72e6cb24d60f1978d29d01489405ba1cbd4898217d1ef"
+      "size": 457,
+      "sha256": "15024de8b9d4701f8aa941948fce5233d95fd3f5ad9d7c9d5640abed5577f17f"
     },
     {
       "path": "docs/architecture/modules/VoxeliaMetal.md",
-      "size": 232,
-      "sha256": "df97896bf09a865e6261976be0380e0ff58957a0da63c5efaccbab47c716cb1a"
+      "size": 482,
+      "sha256": "d3367177d6edfd01ec9b7967d6dcb3d39561f89188be5a15c97a857035d44f9f"
     },
     {
       "path": "docs/architecture/modules/VoxeliaPhotorealistic.md",
-      "size": 601,
-      "sha256": "8ef0e4367a7e285eb8bd0e317dfb2113ae351f151cff59e16dfe2021ba7f3d98"
+      "size": 493,
+      "sha256": "edca8be3631ede6ae0526a9bf476df334ee3a530670028ba2a9fad88022dada4"
     },
     {
       "path": "docs/architecture/modules/VoxeliaRendering.md",
-      "size": 231,
-      "sha256": "578ff51ec4d7fd3fb78efbea550e25b3acb726a6766d948aac886020523cd923"
+      "size": 472,
+      "sha256": "e4346153deb3cd740c96dac662a39d2dd3bcb7ac7e3019483123caaad4b9b846"
     },
     {
       "path": "docs/architecture/modules/VoxeliaSpatial.md",
-      "size": 215,
-      "sha256": "85100f77c1dbe0eeb147a4d00c6d36d4591702484d3379b3174624e2ff715978"
+      "size": 444,
+      "sha256": "606c65cd40e7d6ebacbac5dd9fe2dc36956f0b39eb9ae522982717591dd958ac"
     },
     {
       "path": "docs/architecture/modules/VoxeliaStorage.md",
-      "size": 223,
-      "sha256": "6e5ba8436fcd89799e5fbd91cde7c2bbf27a144f23f0d1e2ec7562bdf6c48915"
+      "size": 411,
+      "sha256": "a96b17d07dac359796dee78fe8cb94cef764c3883898ab521aef9e4fc57b240c"
     },
     {
       "path": "docs/architecture/modules/VoxeliaValidation.md",
-      "size": 221,
-      "sha256": "22b631c17e3bf87688ef4bedd1bd1c50bc4bce2c547c836f02822256540d9602"
+      "size": 406,
+      "sha256": "006c730f9ca141c22cb2334f658901f1487bc172832baa6df79d062982283c71"
     },
     {
       "path": "docs/benchmarks/README.md",
@@ -6571,8 +6591,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 535186,
-      "sha256": "10e28ac3806a500040f123a52f3edfabd2a142b4ac2475c7f5dfd1a698fa2741"
+      "size": 536522,
+      "sha256": "0fcdde4845377a1a848232bc558e77d07b45736e3035bddf0b7341dbb0e4b928"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7256,8 +7276,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 84027,
-      "sha256": "f9c9ca8fe221cf135b50fdb08141c6b74cbab2fbb90905fcc55dd7cf5206ebec"
+      "size": 84235,
+      "sha256": "c0632d6c7aa5fcf162bb62ea8386f49361c06eac07cec42b69630d0b5d932156"
     }
   ]
 }

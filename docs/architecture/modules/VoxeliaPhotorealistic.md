@@ -1,14 +1,9 @@
 # VoxeliaPhotorealistic
 
-**Purpose:** Optional photorealistic rendering module (`ADR-0385`). Not
-re-exported by the umbrella `Voxelia` product: a host that does not link
-this product has no photorealistic code at all, and conventional
-diagnostic rendering in `VoxeliaRendering` neither depends on nor knows
-about this module.
+**Purpose:** Optional photorealistic rendering: illumination, shadows, lighting, determinism and declared post-processing.
 
 **Direct dependencies:** VoxeliaCore
 
-**M8 status:** Foundation only — the activation seam and the closed
-interactive/progressive/reference quality-mode vocabulary. The physics,
-determinism, presentation and validation arcs of the `ADR-0384` queue
-build into this module.
+**Supported platforms:** Apple Silicon (`arm64`) on macOS 15+, iOS 18+, tvOS 18+ and visionOS 2+ — enforced by the manifest and the platform gate.
+
+**Diagnostic status:** Explicitly non-diagnostic presentation: not re-exported by the umbrella, disableable by typed gate, and never a measurement surface.
