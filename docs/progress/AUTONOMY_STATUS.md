@@ -5669,6 +5669,37 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **12 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (www): `ADR-0304` — interaction state ownership; `VOX-ARC-009` **I**
+   discharged, **R** left with the owner.** 1229/217 unchanged. **No code added at all.**
+
+   **Measured**: `VoxeliaInteraction` publishes **24 public types** across 5 files — commands
+   (`InteractionCommand`, `MeasurementCommand`), state (`CrosshairState`, `ViewportSyncGroup`,
+   `ClipBox`, `ZoomFactor`, `PanDelta`, `RotationAngle`, `RenderGeneration`), resolution and
+   presentation, four measurement values, one error family. **Nothing outside holds
+   interaction state**: the only candidate, `MPRSliceCoordinator`, uses the *word* crosshair
+   while mapping a world point to a slice index — geometry, no state, never names an
+   interaction type.
+
+   **The `I` was DELIVERED (by `ADR-0111` and successors); no record ever CLAIMED it.** Same
+   shape as `VOX-VAL-006`: evidence existed, the record trail didn't point at it.
+
+   **NO NEW GATE — deliberately.** Both properties are already enforced:
+   *UI-framework-neutral* by `check_prohibited_imports.py` (and `ADR-0303` made it uniform),
+   *owns* by `check_package_graph.py` pinning the graph exactly — only `Voxelia` depends on
+   `VoxeliaInteraction`, so no other module can grow a second copy callers would reach. **A
+   gate whose condition another gate guarantees is a gate that gets deleted the first time it
+   is inconvenient.**
+
+   **`R` NOT claimed**, and it is concrete: whether the four measurement value types belong in
+   an interaction module or a spatial one. They are constructed by interaction commands and
+   consumed by presentation — defensible, and not the only defensible placement. **Deciding it
+   unilaterally would spend the owner's decision for them.**
+
+   **Owner list now: 3 verification items** — `VOX-VAL-006` R (composite one-code divergence),
+   `VOX-HLS-001` D (off-screen demonstration), `VOX-ARC-009` R (measurement-type placement).
+
+   **11 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

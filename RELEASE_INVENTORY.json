@@ -5150,9 +5150,14 @@
       "sha256": "af04e5826b635432e3f2ddd7e971a1bbfef5e08637eb86e91315b49b744652e7"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0304-interaction-state-ownership.md",
+      "size": 5146,
+      "sha256": "773dbb217000a3b5949f917c843e757bdb32ea0a581a44e80490d3de23c81fdb"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 41977,
-      "sha256": "f7ed2a9c8315070725746bdac9b094f170cefd67ef75dcce1c526bb01aa7e604"
+      "size": 42074,
+      "sha256": "31817ff4677dc4292df8788cc9d0dab431dce2b1f25883e7617c1d60721399a8"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5246,8 +5251,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1234575,
-      "sha256": "c501b7b20bfc29a88ff3dd47506a9f9a45615367e6eac49de349a46f86068e9a"
+      "size": 1236572,
+      "sha256": "a1534525edc618c6db3307fee677df8b3d508a08531c9db592adf25c3bcb84cd"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5766,8 +5771,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 65750,
-      "sha256": "46e5f9afc56724ce68818c5b3f7eafaadd9f6cfc80127492ffd83f382e72aece"
+      "size": 65818,
+      "sha256": "ff982d9d6f97807444170d94595d110f4259ff82f3d6f56db2c57983338e92e6"
     }
   ]
 }
