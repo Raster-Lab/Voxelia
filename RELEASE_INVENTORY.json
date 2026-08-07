@@ -5025,9 +5025,14 @@
       "sha256": "e8a8ea3d055c02eaceaa51a65a666443206c1643cab4b293ca9d9b7c8cc552a3"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0293-open-the-analytical-phantom-arc.md",
+      "size": 7831,
+      "sha256": "6ca28b3cfa6f254057ce1469c1c335588fb1ed87875703f8ce7b30e61039ae04"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 40822,
-      "sha256": "56df0c327530ca2047349ac734a21df21228dba625f6380a927d2c782c33f71d"
+      "size": 40927,
+      "sha256": "65ff802cb63db4081bfa5d57bc1efbc3b16ffd4f1d60c6f2caea95919acc43c5"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5121,8 +5126,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1207560,
-      "sha256": "89dd8b42622a9ea9946aa2f88b9a39d919f3d6ddb1c14271f2175c3c766f4698"
+      "size": 1210212,
+      "sha256": "77b16bce15145bba577fc1fa4ba2ebf1c6a660bb3724d9539f2d539c0b1e3c67"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5631,8 +5636,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 64120,
-      "sha256": "d48006d10c821d237c2c6578d61430be2ad9350a8761fabeeeaae232c737db52"
+      "size": 64192,
+      "sha256": "bdcc5c6315fd8230fa6a8df782021dc8a1df06e94f413fee0315bc5175fb4b53"
     }
   ]
 }

@@ -5245,6 +5245,46 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Next**: 20 rows remain from the sweep.
 
+   **Increment (lll): `ADR-0293` opens the analytical phantom arc (`VOX-VAL-003`).** No
+   code; 1172 tests / 210 suites unchanged.
+
+   **THIS ROW IS DIFFERENT FROM THE LAST THREE.** `VOX-ERR-004`, `VOX-R2D-003` and
+   `VOX-MPR-014` were each **implemented and untested** — those increments supplied the `T`
+   and changed no source. **`VoxeliaValidation` is a shell**: `Public/` and `Internal/` are
+   both **empty**, the target holds only `ApplePlatformGate.swift` and `Module.swift`, and
+   **no phantom exists anywhere**. So this row needs **construction**, not verification. One
+   thing is already right: the target depends on `VoxeliaCPU` **and** `VoxeliaMetal` —
+   exactly the position §55.1's "CPU–Metal difference" purpose needs.
+
+   **Plan §55 specifies FIVE phantoms with formulas, not descriptions**: linear ramp
+   `2i + 3j − 5k + 100`; physical ramp `x + 2y − 0.5z`; fiducial points; distance endpoints;
+   padding border. §46.2's exit criterion: "known phantoms produce the expected CT values and
+   physical distances **independently of windowing and zoom**."
+
+   **Mapped to the row's three kinds** (not one-to-one): **spatial** = physical ramp +
+   fiducials; **intensity** = index ramp + padding; **measurement** = distance endpoints. The
+   row discharges when all three kinds have a phantom *and a test that consumes it* — not
+   when five types exist.
+
+   **FOUR numeric boundaries identified, and TWO explicitly declared NOT to need a
+   specification** — so the arc doesn't manufacture ceremony for exact integer arithmetic:
+   §55.1 is integer throughout and no order can change it; §55.2 **does** need one
+   (binary64 summation order is observable, plus quantisation — composing `ALG-0002`'s
+   ties-to-even rather than restating it); §55.5's sentinel **must not collide** with a
+   legitimate sample or a padding test passes for the wrong reason; §55.4's endpoints need
+   **Pythagorean triples** so distances are exact rather than forcing a tolerance.
+
+   **Order chosen for a reason**: index ramp first (exact, unblocks intensity), then the
+   **distance phantom second — because `ADR-0292` has just verified the measurement chain it
+   feeds, so it arrives with a tested consumer**, then the physical ramp design-first.
+
+   **Frozen**: a phantom is a **value generated from its formula**, not a fixture file — the
+   formula is the artefact and nothing can drift; and phantoms are **public**, because a
+   phantom locked in a test target cannot serve the validation reports this project
+   publishes.
+
+   **Next**: §55.1's linear ramp volume — `VoxeliaValidation`'s first public surface.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
