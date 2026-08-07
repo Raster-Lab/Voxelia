@@ -245,7 +245,96 @@ struct InteractiveLevelRenderTests {
         }
     }
 
+    @Test("[Unit][VOX-DVR-013] the refinement rule is total and frozen")
+    func refinementRuleIsTotalAndFrozen() {
+        let activeLoading = InteractiveLevelRenderCoordinator.refinementDecision(
+            phase: .active,
+            studyCacheGenerationComplete: false
+        )
+        #expect(activeLoading.source == .level)
+        #expect(activeLoading.refinementDue == false)
+
+        let activeComplete = InteractiveLevelRenderCoordinator.refinementDecision(
+            phase: .active,
+            studyCacheGenerationComplete: true
+        )
+        #expect(activeComplete.source == .fullResolution)
+        #expect(activeComplete.refinementDue == false)
+
+        // The one owed case: interaction stopped, loading incomplete.
+        let idleLoading = InteractiveLevelRenderCoordinator.refinementDecision(
+            phase: .idle,
+            studyCacheGenerationComplete: false
+        )
+        #expect(idleLoading.source == .level)
+        #expect(idleLoading.refinementDue == true)
+
+        // The discharging case: this render is full-resolution.
+        let idleComplete = InteractiveLevelRenderCoordinator.refinementDecision(
+            phase: .idle,
+            studyCacheGenerationComplete: true
+        )
+        #expect(idleComplete.source == .fullResolution)
+        #expect(idleComplete.refinementDue == false)
+    }
+
+    @Test("[Pipeline][VOX-DVR-013] the idle refinement reaches diagnostic quality exactly")
+    func idleRefinementReachesDiagnosticQualityExactly() async throws {
+        // The ADR-0345 obligation: the idle render over completed
+        // generation produces the same bytes a direct full-quality
+        // render of the same request produces — compared on published
+        // bytes, never on object identifiers.
+        let publisher = try publisher()
+        let full = try volume(name: "brk-volume")
+        _ = try await publisher.publish(full, mode: .complete)
+        let level = try BrickResolutionLevel(index: 1, downsamplingFactors: [2, 2, 2])
+
+        let decision = InteractiveLevelRenderCoordinator.refinementDecision(
+            phase: .idle,
+            studyCacheGenerationComplete: true
+        )
+        #expect(decision.source == .fullResolution)
+        let refined = try await render(
+            quality: .interactive,
+            generationComplete: true,
+            level: level,
+            prefix: "brk-r",
+            publisher: publisher
+        )
+        let direct = try await render(
+            quality: .full,
+            generationComplete: true,
+            level: level,
+            prefix: "brk-d",
+            publisher: publisher
+        )
+        let refinedBytes = try await renderedBytes(
+            refined.outputObjectID,
+            publisher: publisher
+        )
+        let directBytes = try await renderedBytes(
+            direct.outputObjectID,
+            publisher: publisher
+        )
+        #expect(refinedBytes == directBytes)
+        #expect(refinedBytes.isEmpty == false)
+    }
+
     // MARK: - Helpers, mirroring the multiplanar suite's private set.
+
+    private func renderedBytes(
+        _ objectID: DataObjectID,
+        publisher: PublicationCoordinator
+    ) async throws -> [UInt8] {
+        let image = try #require(await publisher.publishedImage(for: objectID))
+        let extents = image.descriptor.shape.extents
+        return try image.storage.read(
+            region: try ImageRegion(
+                lowerBounds: [Int](repeating: 0, count: extents.count),
+                upperBounds: extents
+            )
+        ).bytes
+    }
 
     private func render(
         quality: RenderQuality,

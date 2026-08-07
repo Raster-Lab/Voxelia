@@ -6919,3 +6919,35 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    "after interaction stops" trigger composed with `ADR-0341`'s completion, and
    the refinement obligation: the refined render must be the SAME bytes a direct
    full render of the same request produces.
+
+   **Increment (lllll): `ADR-0345` — `VOX-DVR-013` `T` DISCHARGED; ARC STEPS 1-3
+   ARE COMPLETE.** 1289 tests / 225 suites.
+
+   **Refinement is a representation upgrade with a host-supplied trigger and a
+   proven obligation.** `InteractionPhase` (`active`/`idle`) is the host's —
+   debouncing "input stopped" needs a clock the library refuses to own.
+   `refinementDecision(phase:generationComplete:)` returns `ADR-0344`'s
+   interactive source UNCHANGED plus `refinementDue`, true exactly in the one
+   owed case: interaction stopped, loading incomplete. An idle view over
+   completed generation discharges the obligation BY that render, which the
+   selection rule makes full-resolution.
+
+   **The obligation is byte-identity, proven on published bytes**: the idle
+   refinement render and a direct full-quality render of the same request
+   produce identical bytes — render-path purity made it structural, the suite
+   made it evidence, and object identifiers were never compared (they are the
+   host's to mint).
+
+   **The `ADR-0103` guard survives the whole arc**, untouched and still green:
+   no increment degraded execution, so arc step 4 stays conditional and
+   untriggered — the strongest possible outcome for that guard.
+
+   **What remains to the M6 line**: `VOX-PER-004` (frame rate on the named
+   device — `Mac17,4` / Apple M5 — under `ADR-0330`'s four constraints, now
+   able to measure and label BOTH representations), the `Examples` reference
+   application, then release assembly with the owner-witnessed Demonstrations
+   (now including `VOX-BRK-009` and `VOX-DVR-013` halves) and pending Reviews.
+
+   **Next**: `VOX-PER-004` — the frame-rate measurement increment. Reread
+   `ADR-0330` and `ADR-0271` d4 (clean process) before building the harness;
+   the 512-cubed volume is the row's own case, not a convenient fixture.

@@ -53,6 +53,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``InteractiveLevelRenderCoordinator``
 - ``InteractiveSourceSelection``
 - ``InteractiveLevelError``
+- ``InteractionPhase``
+- ``RefinementDecision``
 - ``CameraRelativeFloatTransform``
 - ``RenderModelError``
 
