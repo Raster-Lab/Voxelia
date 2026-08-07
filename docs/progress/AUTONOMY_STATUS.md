@@ -8379,3 +8379,42 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    routed to the owner's campaign rather than promised here. **Next**:
    M10 arc 3, the last engineering — the thirteen release-policy rows
    consolidated into release documentation for the owner's session.
+
+1. **2026-08-07 — the thirteen release-policy rows DISCHARGED
+   (engineering halves; every `R` is the owner's release session): the
+   release policy (`ADR-0408`). M10 ARC 3 IS CLOSED — AND M10'S
+   ENGINEERING IS COMPLETE. THE QUEUE IS EXHAUSTED.**
+   `docs/releases/release-policy.md`: major semver for incompatible
+   public API changes after 1.0; deprecation before removal except
+   urgent security/correctness with recorded evidence;
+   diagnostic-output-affecting changes identified EXPLICITLY with
+   updated validation evidence (the frozen-model discipline makes the
+   trigger mechanical — a model version bump); published platform
+   matrix, test/benchmark/validation status, known limitations, SBOM
+   dependency inventory (exact pinned versions = the
+   vulnerability-assessment artefact), toolchain recording +
+   reproducibility where practical, advisory monitoring per release
+   cycle with vulnerable dependencies blocking absent an owner waiver;
+   SOURCE-PACKAGE COMPATIBILITY IS THE COMMITMENT, no binary ABI
+   promise. `docs/releases/known-limitations.md`: the honest list by
+   operation/format/platform, seeded with the current truth. Full
+   suite: `✔ Test run with 1460 tests in 284 suites passed`.
+
+1. **2026-08-07 — THE LOOP STOPS. Phase two is engineering-complete
+   from M7 through M10.** Sixty-plus increments, `ADR-0338..0408`,
+   `ALG-0057..0083`, suite 1238 → 1460 tests, the traceability debt
+   baseline 103 → 0. THE COMPLETE OWNER BATCH, in one place:
+   (1) VTK/ITK interop package scope or post-1.0 deferral (blocks only
+   that arc); (2) whether `VOX-SEG-010` gets a reference AI adapter;
+   (3) DICOMKit fix-what-surfaces confirmation for SEG/parametric
+   reading; (4) Metal acceptance for registration operations
+   (`ADR-0374`); (5) validated-distribution semantics and
+   diagnostic-policy acceptance (`ADR-0382`); (6) generative-output
+   acceptance policy (`ADR-0393`); (7) whether runtime binary plug-ins
+   are ever introduced (`ADR-0403`); (8) photorealistic validation
+   acceptance + clinical preset review (`ADR-0396`); (9) the
+   reference-hardware/energy measurement campaigns (`ADR-0404`,
+   `ADR-0407`); (10) approved regression thresholds (`ADR-0407`);
+   (11) THE 1.0 RELEASE SESSION: accept the release policy, the
+   known-limitations list, the platform matrix and the evidence set
+   (`ADR-0408`). The ledger is the handover.

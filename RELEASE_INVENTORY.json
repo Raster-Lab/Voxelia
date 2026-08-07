@@ -6485,9 +6485,14 @@
       "sha256": "35c5df613d4450ce22cacf92684bccba7dcb673df8246b93040ee0f1a7effdcc"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0408-the-release-policy.md",
+      "size": 4013,
+      "sha256": "70d6e9a9ac6a1803ef878b9bca7e5cb567571f4b1beaae2627e6583b54f50c17"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 56173,
-      "sha256": "0e86c664ec76c3b22892146598ffe44f47926d218c3d4f47b2948dba3c9c283e"
+      "size": 56299,
+      "sha256": "c8bbc3d60cdeef86d604b398bbe23de257e10f04a01102cd7463b7178368d20e"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6606,8 +6611,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 537954,
-      "sha256": "eb6e3a8651e53717f2376301784270b1b280627e1113fe75fe8d7787a28dcea6"
+      "size": 540359,
+      "sha256": "4cc1734699161dd858b62e253dc809bc4e7b5e87099ce1ba5fed28383f3cfb17"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7025,9 +7030,19 @@
       "sha256": "670ed7c05c5c61953588cbfc44162c76bdc957b9b845fc070fdac7797170b312"
     },
     {
+      "path": "docs/releases/known-limitations.md",
+      "size": 2115,
+      "sha256": "7290e64b3497e385233fcab444a51e19d1b353250422d2efbe62cc5bb2b634af"
+    },
+    {
       "path": "docs/releases/m0/README.md",
       "size": 447,
       "sha256": "4a84a8a646f8f7313ccf167c126cd1b119f1c103e1f77702620efb21004614b3"
+    },
+    {
+      "path": "docs/releases/release-policy.md",
+      "size": 2589,
+      "sha256": "378b2d5531dbda4de68f686dd33bed8b09e6284f4dd889ed1abdd84de0f7593d"
     },
     {
       "path": "docs/releases/v0.1.1/Apple_Platform_Acceptance_Checklist.md",
@@ -7291,8 +7306,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 84426,
-      "sha256": "fba105c27a2d3f10c7ad54002730b5ababd98932e6f142dacb8083a3610936fa"
+      "size": 84552,
+      "sha256": "05688deaf5c83555e0bc411ca1286fb388e6349955d647aecf56058848c29638"
     }
   ]
 }

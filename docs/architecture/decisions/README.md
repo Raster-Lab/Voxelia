@@ -273,7 +273,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0405` is allocated to the M10 queue.
 `ADR-0406` is allocated to umbrella and module overviews.
 `ADR-0407` is allocated to benchmark reporting and instrumentation.
-The next unallocated numeric identifier is `ADR-0408`.
+`ADR-0408` is allocated to the release policy.
+The next unallocated numeric identifier is `ADR-0409`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -664,3 +665,4 @@ The next unallocated numeric identifier is `ADR-0408`.
 | [ADR-0405](ADR-0405-the-m10-queue.md) | Accepted | The M10 queue |
 | [ADR-0406](ADR-0406-umbrella-and-module-overviews.md) | Accepted | Umbrella and module overviews |
 | [ADR-0407](ADR-0407-benchmark-reporting-and-instrumentation.md) | Accepted | Benchmark reporting and instrumentation |
+| [ADR-0408](ADR-0408-the-release-policy.md) | Accepted | The release policy |
