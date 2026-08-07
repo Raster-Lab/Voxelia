@@ -960,6 +960,11 @@
       "sha256": "9f5eb5d0a4c79069f7b5dfddc144521a48bce2b80fc531f0df0b277382b63257"
     },
     {
+      "path": "Sources/VoxeliaExecution/Public/DistributedIntegrity.swift",
+      "size": 7235,
+      "sha256": "04cc62779c2bda5921335713aae7b04e5a52e890edbb384bad5ba96cba333f3c"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Public/DistributedJobDescription.swift",
       "size": 7279,
       "sha256": "96253a9d1345033e38a45370a6a9b23fc6c17d4fb55f873cc705d06ae2998bd6"
@@ -1116,8 +1121,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/VoxeliaExecution.md",
-      "size": 3272,
-      "sha256": "a61890a40e87e6139508d2bca584d1160b68631efc8048eb72bbf5a21dfc7469"
+      "size": 3443,
+      "sha256": "d5061d6c823bd3e53843aecc268fb62f3144289c11adf8dd6c90776448389247"
     },
     {
       "path": "Sources/VoxeliaGeometry/ApplePlatformGate.swift",
@@ -1608,6 +1613,11 @@
       "path": "Sources/VoxeliaPhotorealistic/Public/MaterialSeparation.swift",
       "size": 2982,
       "sha256": "dfa178943b995405df6cb0ed1e835834b88c3b1471048d088c2272fb0c4489fb"
+    },
+    {
+      "path": "Sources/VoxeliaPhotorealistic/Public/MergeableAccumulation.swift",
+      "size": 2535,
+      "sha256": "b233f86627d7ff47ede18bb17b6c0b4caa6d0a16ce8a1a6545df0ddf2da5edae"
     },
     {
       "path": "Sources/VoxeliaPhotorealistic/Public/PhotorealisticFoundation.swift",
@@ -2615,6 +2625,11 @@
       "sha256": "7eb65938843d6d8cb05c887ac75af682efe3d2340b01cdae154d5845a490f15a"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/DistributedIntegrityTests.swift",
+      "size": 5831,
+      "sha256": "85f042f3084226e046e40f9dcb9722aa931ad30b7e3e7ccc908f85c66b49a8d0"
+    },
+    {
       "path": "Tests/VoxeliaExecutionTests/DistributedJobTests.swift",
       "size": 5155,
       "sha256": "ce56dbfec5e687b5f1c7edb50ef07d857755b572cdfd0fb6eb122ba34cd70f80"
@@ -3108,6 +3123,11 @@
       "path": "Tests/VoxeliaPhotorealisticTests/LightingTransilluminationTests.swift",
       "size": 4175,
       "sha256": "463c5532df3be9e33493d50edb3acf9fd07b7aa487be9b2e8198b2416573d882"
+    },
+    {
+      "path": "Tests/VoxeliaPhotorealisticTests/MergeableAccumulationTests.swift",
+      "size": 2390,
+      "sha256": "2a17226581bacd7cdbaef14ad1a55a568f4d126abb9ea1b3bd3e49f022eb82e1"
     },
     {
       "path": "Tests/VoxeliaPhotorealisticTests/PhotorealisticFoundationTests.swift",
@@ -3936,8 +3956,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 10026,
-      "sha256": "02f571be0727ebb5597f4d125954476bff147239d101bd7d281eb4a349b4c3de"
+      "size": 10125,
+      "sha256": "a7f7336bf16b6c98be3199e32211d3b63281cfa1daba4d1d383ae59d778705a6"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -4348,6 +4368,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0082-multidimensional-transfer.md",
       "size": 2454,
       "sha256": "b07ea44056cc4b3bf32c4e88facac68da48b281b33b0f0d831c2f95bd717e020"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0083-welford-merge.md",
+      "size": 2568,
+      "sha256": "1b5b1a860843f75297a207c94b5f93dc49cd0be9e3815fc1a9c247aad8dade45"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -6395,9 +6420,14 @@
       "sha256": "d290e9574730a17160b919e56d099673621d125e2156f58ca96093b82013c244"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0402-distributed-integrity.md",
+      "size": 4223,
+      "sha256": "d2f6b2db3fd23caddc667b3f6a86224a68157ab7fb8d13640aea5fe0ff81b094"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 55252,
-      "sha256": "ea5b7d9d522aff1ecc4dcbcd949cc240816a45809c2de42c9a1a218027c7ac87"
+      "size": 55387,
+      "sha256": "e7be49bcf38363bd7da0dffd41dd407f2412339ac3f7fbd617562d73df7ce340"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6506,8 +6536,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 528658,
-      "sha256": "c5514e8f8411190795c321163d0433f2136d772e788018f69144ef53bd06b5d0"
+      "size": 530400,
+      "sha256": "a978aa25e769b09057eee5b484fbcff126294dcec7ebc83b5ac020a7aea707fc"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6850,6 +6880,11 @@
       "sha256": "a6d37c1b5097fca2b41b51ded042953f75466bc8f35f5d75fec4b45b0fa54f75"
     },
     {
+      "path": "docs/progress/evidence/ADR-0402-welford-merge-oracle.py",
+      "size": 1572,
+      "sha256": "d15a2eebf1980304d31cd843c04319819f18fb5b09c2d10e54a0a1b71ba24e12"
+    },
+    {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
       "size": 6675,
       "sha256": "9d877102af34ae69ca3861dd75b1f2f55f5544453d3ea63d172469ad70a1c47c"
@@ -7186,8 +7221,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 83179,
-      "sha256": "8e9b573e1548eaa41312ea07e4026b191b6f5d53da219a254e595762e3fb989b"
+      "size": 83597,
+      "sha256": "fe06a20f957a07d59215f6900de879990564284eb3714662ebb24564cd2719fe"
     }
   ]
 }

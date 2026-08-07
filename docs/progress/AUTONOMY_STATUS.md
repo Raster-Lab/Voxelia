@@ -8235,3 +8235,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    missing/duplicated/incompatible partitions, the ORDER-INDEPENDENT
    Welford merge with its analysis half, declared reduction semantics,
    worker-side rejection, pre-emption/cancellation.
+
+1. **2026-08-07 — ~~`VOX-DST-006`~~ + ~~`VOX-DST-007`~~ + ~~`VOX-DST-008`~~
+   + ~~`VOX-DST-009`~~ + ~~`VOX-DST-011`~~ + ~~`VOX-DST-012`~~
+   DISCHARGED: distributed integrity (`ADR-0402` + `VOXELIA-ALG-0083`).
+   M9 ARC 4 IS CLOSED.** `PartialResult` = partition identity + payload
+   `ContentID` + producer `SoftwareIdentity` (provenance, not trust).
+   `MergeValidator` refuses in FIXED PRECEDENCE — foreign job,
+   duplicated, unexpected, missing — so one failure never masks
+   another's category. The Welford merge is Chan's combination FROZEN:
+   it consumes states, not samples (no sample ordering required — the
+   row's demand), and the analysis half is PINNED, not wished away:
+   both merge orders agree bit-exactly on the fixture while the
+   sequential fold lands ONE ULP away — the merge is a different frozen
+   model, which is exactly why `ReductionSemantics` DECLARES the model
+   identifier + ordering (ascending-partition-identity left fold) and a
+   reduction without declared semantics is unrepresentable
+   (`VOX-DST-009` doing its work). Workers refuse jobs outside their
+   declared `ADR-0380` envelope typed — silent best-effort acceptance
+   is the prohibited shape. Pre-emption is a typed cooperative actor
+   seam; publication races are already guarded by the `ADR-0399`
+   stale-drop. Full suite: `✔ Test run with 1454 tests in 280 suites
+   passed`. **Next**: M9 arc 5 — the runtime plug-in rows resolve as a
+   NOT-INTRODUCED decision record (the rows are conditional), with the
+   capability-negotiation vocabulary recorded against the
+   source-package mechanism and the out-of-process question documented;
+   `R` to the owner batch. Then arc 6 (Apple adapters + energy) ends
+   M9's queue.

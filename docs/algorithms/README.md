@@ -86,3 +86,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0080](VOXELIA-ALG-0080-progressive-variance.md) | Accepted | Progressive variance `binary64-v1` |
 | [VOXELIA-ALG-0081](VOXELIA-ALG-0081-material-separation.md) | Accepted | Material separation `binary64-v1` |
 | [VOXELIA-ALG-0082](VOXELIA-ALG-0082-multidimensional-transfer.md) | Accepted | Multi-dimensional transfer function `v1` |
+| [VOXELIA-ALG-0083](VOXELIA-ALG-0083-welford-merge.md) | Accepted | Welford merge `binary64-v1` |

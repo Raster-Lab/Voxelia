@@ -110,6 +110,13 @@ public API is introduced only by reviewed milestone specifications.
 - ``JobInputIdentity``
 - ``WorkPartition``
 - ``DistributedJobError``
+- ``PartialResult``
+- ``MergeValidator``
+- ``ReductionSemantics``
+- ``ReductionOrdering``
+- ``WorkerCompatibility``
+- ``WorkerPreemption``
+- ``DistributedIntegrityError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``
