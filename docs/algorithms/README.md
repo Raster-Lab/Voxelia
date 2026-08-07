@@ -71,3 +71,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0065](VOXELIA-ALG-0065-region-growing.md) | Accepted | Region growing `exact-v1` |
 | [VOXELIA-ALG-0066](VOXELIA-ALG-0066-mask-editing.md) | Accepted | Mask editing `exact-v1` |
 | [VOXELIA-ALG-0067](VOXELIA-ALG-0067-segment-statistics.md) | Accepted | Segment statistics `binary64-v1` |
+| [VOXELIA-ALG-0068](VOXELIA-ALG-0068-rigid-motion.md) | Accepted | Rigid motion `binary64-v1` |

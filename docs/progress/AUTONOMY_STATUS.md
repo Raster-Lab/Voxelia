@@ -7490,3 +7490,24 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    passed`. **Next**: open the REGISTRATION arc — `VOX-REG-001` first (the
    transform category model), then the arc's remaining registration,
    validation and pyramid rows per the `ADR-0351` order.
+
+1. **2026-08-07 — ~~`VOX-REG-001`~~ + ~~`VOX-REG-003`~~ DISCHARGED: the
+   registration transform categories (`ADR-0365` + `VOXELIA-ALG-0068`).
+   THE REGISTRATION ARC IS OPEN.** A closed defaultless three-case
+   vocabulary, distinct **by type**: `rigid(RigidMotion)` — canonical unit
+   quaternion + translation per `rigid-motion/binary64-v1`, rigid by
+   construction so no orthonormality tolerance exists;
+   `affine(AffineRegistrationTransform)` — exact `isAffine` bottom row +
+   invertibility proven by the `VOXELIA-ALG-0016` determinant authority;
+   `deformable(DeformableRegistrationTransform)` — structural admission of
+   a `float32` three-component `.vector` `deformationField` image with
+   declared geometry (evaluation deferred to its consuming row). The
+   aggregate carries `sourceSpace`/`destinationSpace` full descriptors —
+   that is `VOX-REG-003`, one model, two rows. Oracle fixtures bit-exact
+   (permutation, sign-flip `diag(-1,-1,1)`, irrational `sqrt 5` norm);
+   `q`/`-q` admit to one stored form. Baseline shrinks by one. Full
+   suite: `✔ Test run with 1351 tests in 242 suites passed`. **Next**:
+   the registration result record — fixed data, moving data, metric,
+   optimiser, multi-resolution schedule and convergence status identified
+   per row two of the arc, composing `DataIdentity` references and this
+   increment's category vocabulary.

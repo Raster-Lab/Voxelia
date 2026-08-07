@@ -230,7 +230,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0362` is allocated to the mask editing.
 `ADR-0363` is allocated to the segment statistics.
 `ADR-0364` is allocated to the AI adapter boundary.
-The next unallocated numeric identifier is `ADR-0365`.
+`ADR-0365` is allocated to the registration transform categories.
+The next unallocated numeric identifier is `ADR-0366`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -578,3 +579,4 @@ The next unallocated numeric identifier is `ADR-0365`.
 | [ADR-0362](ADR-0362-mask-editing.md) | Accepted | Mask editing |
 | [ADR-0363](ADR-0363-segment-statistics.md) | Accepted | Segment statistics |
 | [ADR-0364](ADR-0364-the-ai-adapter-boundary.md) | Accepted | The AI adapter boundary |
+| [ADR-0365](ADR-0365-the-registration-transform-categories.md) | Accepted | The registration transform categories |

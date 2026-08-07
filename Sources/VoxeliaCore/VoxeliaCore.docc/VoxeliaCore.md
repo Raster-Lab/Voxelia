@@ -207,6 +207,14 @@ storage semantics.
 - ``SegmentationModelError``
 - ``ImageDataError``
 
+### Registration model
+
+- ``RegistrationTransform``
+- ``RegistrationTransformCategory``
+- ``AffineRegistrationTransform``
+- ``DeformableRegistrationTransform``
+- ``RegistrationTransformError``
+
 ### Common errors
 
 - ``DataModelError``

@@ -59,6 +59,8 @@ None.
 - ``AffineTransformError``
 - ``AffineWorldToIndexMap``
 - ``AffineWorldToIndexError``
+- ``RigidMotion``
+- ``RigidMotionError``
 
 ### Spatial-axis mappings
 
