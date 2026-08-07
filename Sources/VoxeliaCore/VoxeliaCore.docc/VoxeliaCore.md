@@ -223,6 +223,7 @@ storage semantics.
 - ``RegistrationTransformComposition``
 - ``RegistrationCompositionError``
 - ``LandmarkAffineRegistration``
+- ``LandmarkRigidRegistration``
 - ``LandmarkRegistrationError``
 
 ### Common errors

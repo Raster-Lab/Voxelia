@@ -7571,3 +7571,26 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    decision to make first (deterministic frame alignment vs a quaternion
    eigen-solver; determinism consequences differ), then the
    intensity-driven members with the metric rows.
+
+1. **2026-08-07 — `VOX-REG-005` ADVANCED again (landmark RIGID member
+   built; the row stays OPEN for the intensity-driven members):
+   `ADR-0369` + `VOXELIA-ALG-0071`.** The deferred design decision is
+   made: Horn's quaternion method, NOT frame alignment (which fits a
+   triad and discards every further landmark). The deterministic
+   realisation is cyclic Jacobi with EXACTLY 30 sweeps in a frozen pair
+   order — no convergence threshold; the sweep count is part of the
+   model, so repeated estimation is bit-identical. The winning
+   eigenvector re-admits through `VOXELIA-ALG-0068` (raw eigenvector
+   admitted once at the end — re-normalising an already-normalised
+   quaternion would shift last bits); translation = fixed mean minus the
+   rotated moving mean, frozen folds. Exact collinearity refuses on BOTH
+   sets with no epsilon (an unconstrained rotation about the landmark
+   line would be fabrication); near-degenerate sets stay the caller's
+   responsibility, the standing pivot contract. Oracle fixtures
+   bit-exact: the exact-motion fixture pins the quaternion to its ulp
+   and recovers translation `(1,2,3)` exactly; the inconsistent fixture
+   pins the least-squares bits. `LandmarkRigidRegistration` face mirrors
+   the affine member. Full suite: `✔ Test run with 1373 tests in 249
+   suites passed`. **Next**: the metric rows — the mean-square and
+   mutual-information-class metric architecture row (`I,T`), which the
+   intensity-driven portfolio members and the pyramid row compose.

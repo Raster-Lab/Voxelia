@@ -650,6 +650,11 @@
       "sha256": "ac7872a2366b1efa68b0be8d7d9b3e435d97f6a72c470910e7f4d03b83ba15a3"
     },
     {
+      "path": "Sources/VoxeliaCore/Public/LandmarkRigidRegistration.swift",
+      "size": 1484,
+      "sha256": "a69d6f0d86823a2a73549ef5166fa3480c6484c3ced9e656e01143c43059e91d"
+    },
+    {
       "path": "Sources/VoxeliaCore/Public/LookupTableDescriptor.swift",
       "size": 4640,
       "sha256": "3a9f9347b0b4aca96583de8d94f747c1e7cbabf85780a7f5c6503922d4341a04"
@@ -811,8 +816,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md",
-      "size": 5288,
-      "sha256": "220a2bb9fa07b71e2053e73406b9cb25f5f6311b2ea9dcd9fd75e534da445732"
+      "size": 5320,
+      "sha256": "2191accc517d82b272230ef382a8c5ee7746e30e57fce66bed3e129f375b639a"
     },
     {
       "path": "Sources/VoxeliaDICOMKit/ApplePlatformGate.swift",
@@ -1785,6 +1790,11 @@
       "sha256": "354488abff2bb271a8dbc6dafcf533bb4759da932890c100608b0c16bc0ddaaf"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/LandmarkRigidEstimation.swift",
+      "size": 6375,
+      "sha256": "3d0e2e82935849e92d06af01214851c1675f5fa219abe97a2176f18fe8828d17"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/Matrix4x4Double.swift",
       "size": 4693,
       "sha256": "afb0401cb295a119c0a0369b3fda5316ae40e4beae297c88d718c85790848b26"
@@ -1851,8 +1861,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 1805,
-      "sha256": "f98b2cc56e57c7f9ce6204afcf9d7f2137fcb99a0c65475ec03d2f1b614146f3"
+      "size": 1835,
+      "sha256": "dbfab53250b96421326b5cea04f74bf381b50c2a745e3f61864534c6d7b4c32c"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -2273,6 +2283,11 @@
       "path": "Tests/VoxeliaCoreTests/LandmarkAffineRegistrationTests.swift",
       "size": 2848,
       "sha256": "c7328145f0834deb313a3f2dc67dcb9b7f74ae40360e52f9380952b1a9cb8273"
+    },
+    {
+      "path": "Tests/VoxeliaCoreTests/LandmarkRigidRegistrationTests.swift",
+      "size": 2755,
+      "sha256": "8b57b8b3ab515a5897edc3bc4115119e3bc6b2c3f0199ce42e18e8dd46df8385"
     },
     {
       "path": "Tests/VoxeliaCoreTests/LookupTableDescriptorTests.swift",
@@ -3110,6 +3125,11 @@
       "sha256": "8723aae450eaf42ebc7484a4102b5357f1fe4fca5e8687628e9b3363d36d51d8"
     },
     {
+      "path": "Tests/VoxeliaSpatialTests/LandmarkRigidTests.swift",
+      "size": 3490,
+      "sha256": "310e833af8d2ae9dd0512cd3f8e7360c4a478635343468fb1588c63b21d399f1"
+    },
+    {
       "path": "Tests/VoxeliaSpatialTests/Matrix4x4DoubleTests.swift",
       "size": 6042,
       "sha256": "52788eab9a6509d0fbcb5fe4c59f7bdfd905d6ca865ee2edba9a908676b81df4"
@@ -3666,8 +3686,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 8638,
-      "sha256": "e06a4c3c5a0f0d484600a65666f5a9deb725ebc72a3d55109bfe199aff072cb3"
+      "size": 8750,
+      "sha256": "a29999480dfbf58ee4951e0e46e7af0d0d40ac7a7bdb19242db0e22df6b8c83d"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -4018,6 +4038,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0070-landmark-affine.md",
       "size": 2979,
       "sha256": "33fe854461d070c50b6e736ed9eb7d9c1c192dc625ee0e2261427df3889240b6"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0071-landmark-rigid.md",
+      "size": 3705,
+      "sha256": "f7833b4db43e655a92f12d62970e1c50da4e9a32b33d1f0c4714e07f036547f3"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -5900,9 +5925,14 @@
       "sha256": "ac9310d786eac46b9fa7c31cfb47487df5934a32ffdbc201946cffd174252d19"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0369-landmark-rigid-registration.md",
+      "size": 3774,
+      "sha256": "610c593689b843537595b0e2694f8ceed256486818d48fa6864a72bb690b7c84"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 50034,
-      "sha256": "f7f2c4d23d6a3f489d7014e8e665f4212b3fbdd0d34539e1879adc4c017f9dfe"
+      "size": 50187,
+      "sha256": "aeede0889dab1db0184eeff94588ef05bcd3a7c21c181765db0842d5cf05afdc"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6001,8 +6031,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 485600,
-      "sha256": "182989429db4f939d0278c83472eece8e95b2814254cbdb49ae527447309c9eb"
+      "size": 487127,
+      "sha256": "29d730aef5f6e2095db1690e904da84fe7e86ba5764758e80b8774e89feb3718"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6283,6 +6313,11 @@
       "path": "docs/progress/evidence/ADR-0368-landmark-affine-oracle.py",
       "size": 3396,
       "sha256": "8133ccfb932ef72dd0bbe70bd8b4261bf04afe187df178d9c6e911ad5c1da0ad"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0369-landmark-rigid-oracle.py",
+      "size": 5354,
+      "sha256": "02ce95c924b6bef9f3606d938ba4052d4c85d1f9c15dd58255c7cd6c495e8c9e"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -6621,8 +6656,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 76092,
-      "sha256": "ea568bc2b826a935e84d299da4e990441de4ed9917c2b53bd2c0fbad7012d70e"
+      "size": 76498,
+      "sha256": "e8e6b861d3114807fb446a93a1fcd81c02c9f0f43aaf1090805289da28d6b0c5"
     }
   ]
 }

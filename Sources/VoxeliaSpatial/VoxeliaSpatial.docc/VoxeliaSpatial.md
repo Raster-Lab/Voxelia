@@ -62,6 +62,7 @@ None.
 - ``RigidMotion``
 - ``RigidMotionError``
 - ``LandmarkAffineEstimation``
+- ``LandmarkRigidEstimation``
 - ``LandmarkEstimationError``
 
 ### Spatial-axis mappings

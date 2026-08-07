@@ -128,6 +128,7 @@ Sources/VoxeliaCore/Public/ImageSemantic.swift
 Sources/VoxeliaCore/Public/ImageShape.swift
 Sources/VoxeliaCore/Public/ImageStorageContract.swift
 Sources/VoxeliaCore/Public/LandmarkAffineRegistration.swift
+Sources/VoxeliaCore/Public/LandmarkRigidRegistration.swift
 Sources/VoxeliaCore/Public/LookupTableDescriptor.swift
 Sources/VoxeliaCore/Public/MetadataBinary.swift
 Sources/VoxeliaCore/Public/MetadataCollection.swift
@@ -355,6 +356,7 @@ Sources/VoxeliaSpatial/Public/CoordinateHandedness.swift
 Sources/VoxeliaSpatial/Public/ExternalFrameReference.swift
 Sources/VoxeliaSpatial/Public/FrameAnchorIndex.swift
 Sources/VoxeliaSpatial/Public/LandmarkAffineEstimation.swift
+Sources/VoxeliaSpatial/Public/LandmarkRigidEstimation.swift
 Sources/VoxeliaSpatial/Public/Matrix4x4Double.swift
 Sources/VoxeliaSpatial/Public/MeasurementUnit.swift
 Sources/VoxeliaSpatial/Public/RayAxisAlignedBoundsIntersection.swift
@@ -453,6 +455,7 @@ Tests/VoxeliaCoreTests/ImageRegionTests.swift
 Tests/VoxeliaCoreTests/ImageSemanticTests.swift
 Tests/VoxeliaCoreTests/ImageShapeTests.swift
 Tests/VoxeliaCoreTests/LandmarkAffineRegistrationTests.swift
+Tests/VoxeliaCoreTests/LandmarkRigidRegistrationTests.swift
 Tests/VoxeliaCoreTests/LookupTableDescriptorTests.swift
 Tests/VoxeliaCoreTests/MetadataBinaryTests.swift
 Tests/VoxeliaCoreTests/MetadataCollectionTests.swift
@@ -620,6 +623,7 @@ Tests/VoxeliaSpatialTests/CoordinateHandednessTests.swift
 Tests/VoxeliaSpatialTests/ExternalFrameReferenceTests.swift
 Tests/VoxeliaSpatialTests/FrameAnchorIndexTests.swift
 Tests/VoxeliaSpatialTests/LandmarkAffineTests.swift
+Tests/VoxeliaSpatialTests/LandmarkRigidTests.swift
 Tests/VoxeliaSpatialTests/Matrix4x4DoubleTests.swift
 Tests/VoxeliaSpatialTests/MeasurementUnitTests.swift
 Tests/VoxeliaSpatialTests/PlaneAndRayTests.swift
@@ -802,6 +806,7 @@ docs/algorithms/VOXELIA-ALG-0067-segment-statistics.md
 docs/algorithms/VOXELIA-ALG-0068-rigid-motion.md
 docs/algorithms/VOXELIA-ALG-0069-rigid-composition.md
 docs/algorithms/VOXELIA-ALG-0070-landmark-affine.md
+docs/algorithms/VOXELIA-ALG-0071-landmark-rigid.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -1178,6 +1183,7 @@ docs/architecture/decisions/ADR-0365-the-registration-transform-categories.md
 docs/architecture/decisions/ADR-0366-the-registration-result-record.md
 docs/architecture/decisions/ADR-0367-registration-transform-composition.md
 docs/architecture/decisions/ADR-0368-landmark-affine-registration.md
+docs/architecture/decisions/ADR-0369-landmark-rigid-registration.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
@@ -1255,6 +1261,7 @@ docs/progress/evidence/ADR-0363-segment-statistics-oracle.py
 docs/progress/evidence/ADR-0365-rigid-motion-oracle.py
 docs/progress/evidence/ADR-0367-rigid-composition-oracle.py
 docs/progress/evidence/ADR-0368-landmark-affine-oracle.py
+docs/progress/evidence/ADR-0369-landmark-rigid-oracle.py
 docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md
 docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md
 docs/progress/temporary-file-sites.txt
