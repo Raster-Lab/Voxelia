@@ -116,12 +116,12 @@
     {
       "algorithm": "SHA-256",
       "path": "Package.swift",
-      "value": "dd99654111eb23aec7a481c99359daeb72720b01eb884f817470f51c680ffd28"
+      "value": "a46f8ce8bbf364ad399dea28ab45672bdd2dc4371b108a86d34d924061ffd83f"
     },
     {
       "algorithm": "SHA-256",
       "path": "RELEASE.json",
-      "value": "dc966f5e16d1d1f5914b05dfa9be4260f4a2a631a2b968d661a7504f843a32ac"
+      "value": "aadd3d7949c1ab7d614021c06d3bdaca3bbb70cd9fc08733e3e86474b9bcfd54"
     },
     {
       "algorithm": "SHA-256",
@@ -146,7 +146,7 @@
     {
       "algorithm": "SHA-256",
       "path": "VERSION",
-      "value": "1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9"
+      "value": "59854984853104df5c353e2f681a15fc7924742f9a2e468c29af248dce45ce03"
     }
   ],
   "externalPackages": [
@@ -260,14 +260,14 @@
       ]
     },
     "project": "Voxelia",
-    "release": "First vertical slice and interactive stack",
-    "releaseDate": "2026-08-07",
+    "release": "First stable release",
+    "releaseDate": "2026-08-08",
     "sourceRevision": {
-      "commit": "a21f2e558d3acc378b8959f4438c57d0a0c75924",
+      "commit": "59206670c2414d2efd68e207dedd3deb66463aca",
       "scope": "Checked-out source revision observed before writing the generated SBOM artifact.",
       "workingTreeDirty": true
     },
-    "version": "0.2.0"
+    "version": "1.0.0"
   },
   "optionalDependencies": [
     "compressionfamily",
@@ -346,6 +346,13 @@
       "name": "VoxeliaMetal",
       "targets": [
         "VoxeliaMetal"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaPhotorealistic",
+      "targets": [
+        "VoxeliaPhotorealistic"
       ],
       "type": "library"
     },
@@ -465,6 +472,7 @@
     {
       "dependencies": [
         "DICOMKit",
+        "VoxeliaGeometry",
         "VoxeliaImaging"
       ],
       "name": "VoxeliaDICOMKit",
@@ -516,6 +524,15 @@
       ],
       "name": "VoxeliaMetal",
       "path": "Sources/VoxeliaMetal",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
+        "VoxeliaCore"
+      ],
+      "name": "VoxeliaPhotorealistic",
+      "path": "Sources/VoxeliaPhotorealistic",
       "scope": "runtime",
       "type": "regular"
     },
@@ -657,6 +674,16 @@
       ],
       "name": "VoxeliaMetalTests",
       "path": "Tests/VoxeliaMetalTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
+        "VoxeliaPhotorealistic",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaPhotorealisticTests",
+      "path": "Tests/VoxeliaPhotorealisticTests",
       "scope": "test",
       "type": "test"
     },

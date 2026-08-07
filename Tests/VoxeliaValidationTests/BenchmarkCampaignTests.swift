@@ -21,13 +21,13 @@ struct BenchmarkCampaignTests {
         hardware: "Mac17,4 Apple M5",
         operatingSystem: "macOS 26.5.1",
         compiler: "Apple Swift 6.3.3",
-        voxeliaVersion: "0.2.0"
+        voxeliaVersion: "1.0.0"
     )
 
     private func software() throws -> SoftwareIdentity {
         try SoftwareIdentity(
             name: "Voxelia",
-            version: try SemanticVersion(major: 0, minor: 2, patch: 0),
+            version: try SemanticVersion(major: 1, minor: 0, patch: 0),
             commit: nil,
             buildIdentifier: nil
         )

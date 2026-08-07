@@ -1,9 +1,14 @@
 {
   "project": "Voxelia",
-  "release": "First vertical slice and interactive stack",
-  "version": "0.2.0",
-  "date": "2026-08-07",
-  "status": "v0.2.0 - M0-M6 complete, released after the owner's demonstration and review session",
+  "release": "First stable release",
+  "version": "1.0.0",
+  "date": "2026-08-08",
+  "status": "v1.0.0 - M0-M10 complete, released after the owner's 1.0 acceptance session",
+  "toolchain": {
+    "compiler": "Apple Swift 6.3.3",
+    "operatingSystem": "macOS 26.5.1",
+    "hardware": "Mac17,4 Apple M5"
+  },
   "platformPolicy": {
     "hardware": "Apple Silicon ARM64 only",
     "operatingSystems": [

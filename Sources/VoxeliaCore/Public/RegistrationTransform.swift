@@ -23,7 +23,7 @@ public struct AffineRegistrationTransform: Sendable, Hashable {
     ///
     /// Admission composes what already exists rather than rebuilding it:
     /// `AffineTransformAlgebra.isAffine` checks the exact bottom row and
-    /// ``AffineSpatialInverse`` — the `VOXELIA-ALG-0016` determinant
+    /// `AffineSpatialInverse` — the `VOXELIA-ALG-0016` determinant
     /// authority — proves invertibility.
     ///
     /// - Throws: ``RegistrationTransformError``.

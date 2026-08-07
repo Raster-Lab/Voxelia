@@ -319,6 +319,7 @@ Sources/VoxeliaMetal/Resources/Shaders/VolumeRendering/.gitkeep
 Sources/VoxeliaMetal/VoxeliaMetal.docc/Architecture.md
 Sources/VoxeliaMetal/VoxeliaMetal.docc/Requirements.md
 Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md
+Sources/VoxeliaPhotorealistic/ApplePlatformGate.swift
 Sources/VoxeliaPhotorealistic/Public/DeterministicSequence.swift
 Sources/VoxeliaPhotorealistic/Public/LightingTransillumination.swift
 Sources/VoxeliaPhotorealistic/Public/MaterialSeparation.swift
@@ -1452,6 +1453,7 @@ docs/releases/v0.1.1/logs/shell_syntax.log
 docs/releases/v0.1.1/logs/yaml_parse.log
 docs/releases/v0.2.0/README.md
 docs/releases/v1.0-session-checklist.md
+docs/releases/v1.0.0/README.md
 docs/requirements/README.md
 docs/rfcs/README.md
 docs/rfcs/RFC-0001-controlled-correction-delta.md

@@ -2,7 +2,7 @@
 
 All notable project changes shall be documented in this file.
 
-The project uses Semantic Versioning. During the `0.x` series, breaking public API changes remain possible and shall be recorded explicitly.
+The project uses Semantic Versioning. From `1.0.0`, an incompatible public API change requires a major version, and deprecation precedes removal (`docs/releases/release-policy.md`). During the `0.x` series, breaking public API changes remained possible and were recorded explicitly.
 
 ## Unreleased
 
@@ -13,6 +13,47 @@ The project uses Semantic Versioning. During the `0.x` series, breaking public A
 ### Changed
 
 - None.
+
+## 1.0.0 - 2026-08-08
+
+The first stable release: the complete M7-M10 phase-two programme per
+`ADR-0338`, released after the owner's 1.0 acceptance session against
+`docs/releases/v1.0-session-checklist.md`. Everything since v0.2.0 is
+additive: no accepted numeric model changed its numbers.
+
+### Added
+
+- The M7 registration stack: rigid motions on canonical unit
+  quaternions, rigid composition, landmark affine and rigid (Horn)
+  estimation, similarity metrics (mean squares, histogram mutual
+  information) and registration quality residuals — each under a frozen
+  algorithm specification (`VOXELIA-ALG-0068..0073`) with an
+  independent oracle, and failure carrying no transform by type.
+- The M8 photorealistic module (`VoxeliaPhotorealistic`, optional and
+  outside the umbrella, non-diagnostic by declaration): emission-
+  absorption integration, shadow transmittance, lighting and
+  transillumination, the deterministic SplitMix64 sequence, progressive
+  Welford accumulation with the Chan merge, material separation and
+  side-by-side comparison (`VOXELIA-ALG-0076..0083`).
+- The M9 headless and distributed seams: distributed job descriptions
+  with revalidating admission, partial-result merge validation with
+  fixed precedence, worker compatibility envelopes, preemption,
+  capability negotiation, diagnostic selection, and the declared
+  implementation contract in the registry.
+- The M10 publication surface: the umbrella module re-exporting the
+  eight stable modules, all fifteen module overviews, the release
+  policy and known-limitations list, benchmark reporting
+  (`BenchmarkRecord`, `RegressionCheck`) and the 2026-08-08 measurement
+  campaign that stands as the regression baseline.
+- The owner's batch decisions `ADR-0409..0413`, including the approved
+  10% regression threshold and this release session.
+
+### Changed
+
+- Requirement traceability debt reduced from 103 rows to zero
+  (`ADR-0405`); the full suite stands at 1,461 tests in 285 suites.
+- `RELEASE.json` now records the release toolchain
+  (Apple Swift 6.3.3, macOS 26.5.1, Mac17,4).
 
 ## 0.2.0 - 2026-08-07
 

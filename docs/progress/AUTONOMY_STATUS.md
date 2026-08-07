@@ -8507,3 +8507,44 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    gate green, release notes, the `v1.0.0` tag). Conducting the
    session and cutting the tag are the owner's act, exactly as v0.2.0
    was. THE PROJECT IS ONE OWNER SESSION FROM 1.0.
+
+1. **2026-08-08 — v1.0.0 IS CUT. THE 1.0 SESSION IS CONDUCTED.** The
+   owner directed the cut (“conduct the release”) with no amendments;
+   every staged checklist item is accepted as presented and the
+   checklist carries the session record. THE CUT: `VERSION` and
+   `RELEASE.json` to 1.0.0 with the toolchain recorded (Apple Swift
+   6.3.3, macOS 26.5.1, Mac17,4); the changelog's 1.0.0 entry; the
+   release notes (`docs/releases/v1.0.0/README.md`) stating the
+   diagnostic-output finding — M7-M10 is additive, no accepted numeric
+   model changed its numbers, every v0.2.0 fixture still passes
+   bit-exact; the campaign runner's version stamp advanced to 1.0.0
+   (the pinned 2026-08-08 evidence keeps its 0.2.0 environment — it
+   records what was measured). THE SESSION CAUGHT RELEASE-GATE
+   DRIFT: the first `prepare-release.sh` runs went RED at the static
+   and then the dump-package graph checks — release-only gates, so
+   they had drifted since v0.2.0: `VoxeliaPhotorealistic` was never
+   registered in either EXPECTED graph, `VoxeliaDICOMKit` had gained
+   its declared `VoxeliaGeometry` dependency, the M8 module lacked its
+   mandatory `ApplePlatformGate.swift`, and a sweep of every remaining
+   release-only registry found `EXPECTED_ARCHIVES` (the DocC gate)
+   also missing the module while the licence permit-list needed
+   nothing. All four corrected to the declared manifest (each gate's
+   own red is the negative evidence; the platform gate file copies the
+   v0.2.0 Compression/DICOMKit precedent verbatim), the SBOM test's
+   per-release version pin advanced exactly as the v0.2.0 cut advanced
+   it, and the DocC gate — also release-only — flagged four
+   cross-module ``symbol`` links in M7/M8 doc comments that per-target
+   archives cannot resolve, demoted to the repository's plain
+   code-font idiom for cross-module mentions. All entered here as the
+   session's one in-session amendment; none touches executable
+   behaviour. The complete release gate
+   (`prepare-release.sh`) then ran green end to end and the full unfiltered
+   suite showed its literal pass line before the release commit; the
+   annotated `v1.0.0` tag is cut and pushed, exactly as v0.2.0 was.
+   ON ACCEPTANCE the 2026-08-08 campaign's steady-state record stands
+   as the regression baseline at the approved 10% threshold
+   (`ADR-0413`). POST-1.0 OBLIGATIONS NOW BIND: major-version
+   discipline for incompatible public API changes, deprecation before
+   removal. THE FINISH LINE IS CROSSED: M0-M10 complete, traceability
+   debt zero, 1,461 tests in 285 suites. The queue is EMPTY — further
+   work is new scope the owner directs.

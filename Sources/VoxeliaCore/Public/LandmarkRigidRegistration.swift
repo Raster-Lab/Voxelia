@@ -13,7 +13,7 @@ public enum LandmarkRigidRegistration {
     /// elsewhere is a typed refusal, not a silent reinterpretation.
     ///
     /// - Throws: ``LandmarkRegistrationError``,
-    ///   ``LandmarkEstimationError`` or ``RigidMotionError``.
+    ///   `LandmarkEstimationError` or `RigidMotionError`.
     public static func register(
         moving: ContiguousArray<Point3D>,
         fixed: ContiguousArray<Point3D>,

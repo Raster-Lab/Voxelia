@@ -29,7 +29,7 @@ class SBOMGenerationTests(unittest.TestCase):
 
         self.assertEqual(validation_errors(document), [])
         self.assertEqual(document["specVersion"], PROFILE_VERSION)
-        self.assertEqual(document["metadata"]["version"], "0.2.0")
+        self.assertEqual(document["metadata"]["version"], "1.0.0")
         # Counted against `Package.swift` rather than pinned to literals. The
         # literals here read 12, 13 and 12 and had been wrong since modules were
         # added; a hardcoded count drifts on every new target and says nothing

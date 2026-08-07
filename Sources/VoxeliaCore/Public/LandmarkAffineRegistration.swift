@@ -21,7 +21,7 @@ public enum LandmarkAffineRegistration {
     /// the returned transform has proven its own invertibility.
     ///
     /// - Throws: ``LandmarkRegistrationError``,
-    ///   ``LandmarkEstimationError`` or ``RegistrationTransformError``.
+    ///   `LandmarkEstimationError` or ``RegistrationTransformError``.
     public static func register(
         moving: ContiguousArray<Point3D>,
         fixed: ContiguousArray<Point3D>,

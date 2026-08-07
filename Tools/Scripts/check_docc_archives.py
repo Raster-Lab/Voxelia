@@ -19,6 +19,7 @@ EXPECTED_ARCHIVES = frozenset(
         "VoxeliaImaging.doccarchive",
         "VoxeliaInteraction.doccarchive",
         "VoxeliaMetal.doccarchive",
+        "VoxeliaPhotorealistic.doccarchive",
         "VoxeliaRendering.doccarchive",
         "VoxeliaSpatial.doccarchive",
         "VoxeliaStorage.doccarchive",

@@ -20,10 +20,11 @@ EXPECTED = {
     "VoxeliaCPU": {"VoxeliaImaging", "VoxeliaGeometry", "VoxeliaExecution"},
     "VoxeliaMetal": {"VoxeliaExecution", "VoxeliaRendering"},
     "VoxeliaCompression": {"VoxeliaCore"},
+    "VoxeliaPhotorealistic": {"VoxeliaCore"},
     # Only `byName` dependencies are extracted below, so the external DICOMKit
     # product this target also links is not visible here. That linkage is gated by
     # check_licence_policy.py's TARGETS_PERMITTED_EXTERNAL_PRODUCTS instead.
-    "VoxeliaDICOMKit": {"VoxeliaImaging"},
+    "VoxeliaDICOMKit": {"VoxeliaImaging", "VoxeliaGeometry"},
     "VoxeliaTestSupport": {"VoxeliaCore", "VoxeliaValidation"},
     "VoxeliaValidation": {"VoxeliaCPU", "VoxeliaMetal"},
     "Voxelia": {

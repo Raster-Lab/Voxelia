@@ -21,8 +21,9 @@ EXPECTED = {
     "VoxeliaCPU": {"VoxeliaImaging", "VoxeliaGeometry", "VoxeliaExecution"},
     "VoxeliaMetal": {"VoxeliaExecution", "VoxeliaRendering"},
     "VoxeliaCompression": {"VoxeliaCore"},
+    "VoxeliaPhotorealistic": {"VoxeliaCore"},
     "VoxeliaTestSupport": {"VoxeliaCore", "VoxeliaValidation"},
-    "VoxeliaDICOMKit": {"VoxeliaImaging"},
+    "VoxeliaDICOMKit": {"VoxeliaImaging", "VoxeliaGeometry"},
     "VoxeliaValidation": {"VoxeliaCPU", "VoxeliaMetal"},
     "Voxelia": {
         "VoxeliaSpatial", "VoxeliaCore", "VoxeliaStorage", "VoxeliaExecution",

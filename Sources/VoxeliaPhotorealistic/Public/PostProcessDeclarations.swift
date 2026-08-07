@@ -17,7 +17,7 @@ public enum PostProcessKind: String, Sendable, Hashable, Codable {
 
 /// One declared post-processing step: kind, processor identity and
 /// method. Anonymous or unversioned post-processing is
-/// unrepresentable — the processor is a full ``SoftwareIdentity``,
+/// unrepresentable — the processor is a full `SoftwareIdentity`,
 /// the accepted provenance vocabulary.
 public struct PostProcessDeclaration: Sendable {
     public let kind: PostProcessKind

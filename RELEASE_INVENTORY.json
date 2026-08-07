@@ -201,8 +201,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size": 4587,
-      "sha256": "adfba145310829703a46914cbb4b12bd26c9be1e17a9029db6158e38e05746ee"
+      "size": 6805,
+      "sha256": "7a737969c3ea9a78690fc7359e71289c635438c6f0a4d18b9ab9870affb4379b"
     },
     {
       "path": "CODEOWNERS",
@@ -291,8 +291,8 @@
     },
     {
       "path": "RELEASE.json",
-      "size": 551,
-      "sha256": "dc966f5e16d1d1f5914b05dfa9be4260f4a2a631a2b968d661a7504f843a32ac"
+      "size": 653,
+      "sha256": "aadd3d7949c1ab7d614021c06d3bdaca3bbb70cd9fc08733e3e86474b9bcfd54"
     },
     {
       "path": "SECURITY.md",
@@ -646,13 +646,13 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/LandmarkAffineRegistration.swift",
-      "size": 1929,
-      "sha256": "ac7872a2366b1efa68b0be8d7d9b3e435d97f6a72c470910e7f4d03b83ba15a3"
+      "size": 1927,
+      "sha256": "2a187402457e9e91c183c9ec7b8d85c9b5989bf1b844ff0724fc9e35532c8989"
     },
     {
       "path": "Sources/VoxeliaCore/Public/LandmarkRigidRegistration.swift",
-      "size": 1484,
-      "sha256": "a69d6f0d86823a2a73549ef5166fa3480c6484c3ced9e656e01143c43059e91d"
+      "size": 1480,
+      "sha256": "710f3daed945e6ba6a89ea0ea38b72ac2d337be768de4b9d8349ddcaadc667f7"
     },
     {
       "path": "Sources/VoxeliaCore/Public/LookupTableDescriptor.swift",
@@ -766,8 +766,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/RegistrationTransform.swift",
-      "size": 4084,
-      "sha256": "6db4fb8500290cdbaa3cc4acfaa7665d79e0426de8a34ca074b4d25f413b1bda"
+      "size": 4082,
+      "sha256": "c7f1d3f91ac8d17d9a72eb93aa02faf78cf3237b48ad4eb9af5fb1d332b8cd92"
     },
     {
       "path": "Sources/VoxeliaCore/Public/RegistrationTransformComposition.swift",
@@ -1605,6 +1605,11 @@
       "sha256": "f71b1b9804038dcc34c6a581e6e4bac906b72baac9eae4bb05bfb1cc03f197db"
     },
     {
+      "path": "Sources/VoxeliaPhotorealistic/ApplePlatformGate.swift",
+      "size": 234,
+      "sha256": "62f2724afe24cf4d1d9999f5927392d0c9441a4b05d3f2429bc770f6b0b750d9"
+    },
+    {
       "path": "Sources/VoxeliaPhotorealistic/Public/DeterministicSequence.swift",
       "size": 1181,
       "sha256": "b0bd9a16325ad63bd819f2f377892abb03a563a13ca8e564e09e644949108778"
@@ -1631,8 +1636,8 @@
     },
     {
       "path": "Sources/VoxeliaPhotorealistic/Public/PostProcessDeclarations.swift",
-      "size": 2470,
-      "sha256": "ec817647e58dc75d27977ad24a989ef9c644ac3a7ebf579aa3184a39399fcfd3"
+      "size": 2468,
+      "sha256": "ec7f582dd22f6dea6ed19bd9777e253cd5045540508c8fff7bda5e3f5fbf635b"
     },
     {
       "path": "Sources/VoxeliaPhotorealistic/Public/ProgressiveAccumulation.swift",
@@ -3572,7 +3577,7 @@
     {
       "path": "Tests/VoxeliaValidationTests/BenchmarkCampaignTests.swift",
       "size": 8393,
-      "sha256": "e616320d0ef9dd0632d7e600a91244a43ae7baa28634656d43bc022507238ea0"
+      "sha256": "de1ebf42e64a0787f0dc0c1ce84e9e8cbed0c3d06a25eb96b1d84d4f6ccd06bb"
     },
     {
       "path": "Tests/VoxeliaValidationTests/BenchmarkReportTests.swift",
@@ -3701,8 +3706,8 @@
     },
     {
       "path": "Tools/Scripts/check_docc_archives.py",
-      "size": 3347,
-      "sha256": "b4a89242f2a38a4d68ecaede323b74d662d796b772d93ab13db29e52a42ef5f0"
+      "size": 3392,
+      "sha256": "f62f55b39493255aef0bdaf65f5f3b9143b6b1b7ac35c3a7c022414a0113c930"
     },
     {
       "path": "Tools/Scripts/check_document_text.py",
@@ -3731,13 +3736,13 @@
     },
     {
       "path": "Tools/Scripts/check_package_graph.py",
-      "size": 3609,
-      "sha256": "5126b359c260b979d7fb759866759121065034625b2c03355fc705fbcfb18d59"
+      "size": 3674,
+      "sha256": "4a62b7973f86e22c8e4ed04c11235865531103999630345dcd0a3d203d30f415"
     },
     {
       "path": "Tools/Scripts/check_package_graph_static.py",
-      "size": 3541,
-      "sha256": "abb8f36337c1136f643e6eb59decffb5ec84b119115b35718b757fe1eaa17f3d"
+      "size": 3606,
+      "sha256": "0ed1f6956a8c8e92ab6ccc105a6983f9720b8dabf80891ea32ac5fb08ef5ef01"
     },
     {
       "path": "Tools/Scripts/check_prohibited_imports.py",
@@ -3857,7 +3862,7 @@
     {
       "path": "Tools/Tests/Python/test_generate_sbom.py",
       "size": 8047,
-      "sha256": "aa88f46e14c8980ef21e8d719bba950d4fcd2c618f910c451fb9f319ca4507b9"
+      "sha256": "859ddbcf3d55834b4049eaf0490b9b05dd5d9b3b1f11528d32a95ad8196c0939"
     },
     {
       "path": "Tools/Tests/Python/test_manifest_paths.py",
@@ -3902,7 +3907,7 @@
     {
       "path": "VERSION",
       "size": 6,
-      "sha256": "1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9"
+      "sha256": "59854984853104df5c353e2f681a15fc7924742f9a2e468c29af248dce45ce03"
     },
     {
       "path": "Validation/Datasets/Fetch/README.md",
@@ -6641,8 +6646,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 545892,
-      "sha256": "4c10c564f3a1cdefd19db54e9965565c26aad4eb3c67eacdb8eb8fc34216e8fc"
+      "size": 548557,
+      "sha256": "401fde72562744b3b254bcb4a2e50756dc489bb0630d3a4ff34bc3be599b24be"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7116,8 +7121,8 @@
     },
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.generated.json",
-      "size": 18448,
-      "sha256": "515f10835de329a8902c1c281421f83bb560adaa133fb6c8401ad5fd1758721f"
+      "size": 19039,
+      "sha256": "6270c0dc6b688bfd3aa9d34facd88888399c0f9ad775270828b45a160d95322e"
     },
     {
       "path": "docs/releases/v0.1.1/SBOM.scaffold.json",
@@ -7266,8 +7271,13 @@
     },
     {
       "path": "docs/releases/v1.0-session-checklist.md",
-      "size": 2654,
-      "sha256": "9244410c7e807c0bf9ae138e90b2d29ff28287aac43b6047a835e381da95515b"
+      "size": 2849,
+      "sha256": "e767ac0644a67ab01c270ec24702ae7f98f343f557b429d57ce8792dd83e0a5e"
+    },
+    {
+      "path": "docs/releases/v1.0.0/README.md",
+      "size": 2257,
+      "sha256": "f39e03a3b1f25d6ea296d089735a48789668e25ef40716e7771e5bf62e020780"
     },
     {
       "path": "docs/requirements/README.md",
@@ -7351,8 +7361,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 85092,
-      "sha256": "02ab3ace3b015d6c256515e4f970174e398e8742e6fc96ee70dd4149ff0910f4"
+      "size": 85177,
+      "sha256": "63291b021a078dec02d24d14469a63d6d7dc8381f8fba63152a6c108b8c5c955"
     }
   ]
 }
