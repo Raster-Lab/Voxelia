@@ -138,7 +138,7 @@ test suite or replace the separate Apple destination matrix.
 
 | Exception ID | Declaration | Owner | Invariant | Review | Tests |
 |---|---|---|---|---|---|
-| `SWIFT-MEM-001` (enabled for exact fingerprint) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval plus independent design, boundary/scanner and migration-diff approvals recorded under `ADR-0186` | Boundary fingerprint, range, storage, completion, lifetime, concurrency, serialization, scanner mutation, three kernels and residency pass; complete semantic gate passes every repository package in debug and release |
+| `SWIFT-MEM-001` (enabled for exact fingerprint) | Three expression markers inside internal `MetalBufferTransfer`: bounded shared write, inline byte binding and completed shared readback | `VoxeliaMetal` maintainer | Owned nonempty bytes; checked size/range; shared storage only; same writer completed; fresh owned output; no concurrent range access | Owner approval plus independent design, boundary/scanner and migration-diff approvals recorded under `ADR-0186` | Boundary fingerprint, range, storage, completion, lifetime, concurrency, serialisation, scanner mutation, three kernels and residency pass; complete semantic gate passes every repository package in debug and release |
 
 ## Introducing an exception
 

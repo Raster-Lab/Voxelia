@@ -139,7 +139,7 @@ layers:
 |---|---|---|
 | Logical sample-layout binding | Shape, exact decoded scalar type, component count and exact logical component ordinals needed to enumerate values. | `VoxeliaCore` |
 | Source value interpretation | Source container, byte order, stored-bit field, signed extension and source-defined unused-bit rule used to obtain a decoded logical value. | Optional adapter, with backend-neutral claim values in Core where required |
-| Storage representation | Exact initialized bytes, strides, component arrangement, padding, compression, tiling and resource lifetime. | Core contract; concrete implementation in `VoxeliaStorage` |
+| Storage representation | Exact initialised bytes, strides, component arrangement, padding, compression, tiling and resource lifetime. | Core contract; concrete implementation in `VoxeliaStorage` |
 | Persistent identity/evidence | Versioned projection claim plus separately admitted runtime evidence over one immutable snapshot. | Core claim values; Execution/Storage/Validation evidence owners |
 
 No layer acquires the authority of another merely because byte counts or labels
@@ -423,7 +423,7 @@ Logical and representation digests are separate claims:
 
 | Domain | Covered input | Excluded authority |
 |---|---|---|
-| Representation integrity | Exact claim-free representation descriptor and exact initialized representation bytes, including covered physical padding/headers. | Does not prove logical equality, provenance, authenticity or diagnostic validity. |
+| Representation integrity | Exact claim-free representation descriptor and exact initialised representation bytes, including covered physical padding/headers. | Does not prove logical equality, provenance, authenticity or diagnostic validity. |
 | Logical sample sequence | Exact sample-layout binding plus canonical decoded sample sequence. | Does not by itself cover component-role semantics, the full image descriptor, metadata, provenance or assurance. |
 | Descriptor and samples | Future canonical complete logical descriptor plus logical sample sequence under one versioned domain frame. | Remains undefined until the full descriptor projection is accepted. |
 | Source/derivation | Exact source or operation-specific record. | Is not interchangeable with either byte domain. |

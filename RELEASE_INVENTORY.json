@@ -3862,7 +3862,7 @@
     {
       "path": "docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md",
       "size": 34592,
-      "sha256": "b29d64ad9d723ec0482d3eb04e306740a37c9b66cd13a3a36539b97c1b80a52c"
+      "sha256": "a449bddae87ca86355d90008607e4040c7cfdf5aa75916f2908c124facb55d61"
     },
     {
       "path": "docs/architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md",
@@ -5340,9 +5340,14 @@
       "sha256": "c5f1611cc7c4a1a51ac071505c1032541464891e89591132796147c904ddbd00"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0336-the-spelling-floor-is-exempt.md",
+      "size": 4692,
+      "sha256": "9f28bdd2f7d1838d45371aaaba4f7f4ee600d6d93911abdddaf84c08298ac6a8"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 45172,
-      "sha256": "6c0d569784d9a8f008e35ebc1c2455f4789b23eda4796ed9ca5783139853735b"
+      "size": 45271,
+      "sha256": "0d713e905a17b7a37887e64e373b31b16b7ff6b558dfbecbf1cc75cdce8a139e"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5441,8 +5446,8 @@
     },
     {
       "path": "docs/progress/american-spellings.txt",
-      "size": 947,
-      "sha256": "33ee1838d71b40f1234ec6059c21b66dd7dcfde16fb4c6cf9e7c8d7e21e6305b"
+      "size": 908,
+      "sha256": "9f165914709eeb831b9aa808d13df48a053b811839ca7cf05eaf3fe91f00402a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5912,7 +5917,7 @@
     {
       "path": "docs/security/SWIFT_SAFETY_POLICY.md",
       "size": 10554,
-      "sha256": "a05114f044b98ad66a6e84e2f2362d0ad7355df4c19cf904b3d1079ad4fd9d1c"
+      "sha256": "dedcece791709ca954bc7a2912f8b94835077d861651265a4a58eec5691b2fec"
     },
     {
       "path": "docs/shaders/README.md",
@@ -5961,8 +5966,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 68282,
-      "sha256": "bcb5a51a0f6c28d85b3773f54d8acbfa77f7aed3b4067762eacdd67dd304e0fa"
+      "size": 68351,
+      "sha256": "1dfe53cdc8c6bb3f5035c89d463e315453370b821d12469fb640d4904832b9c1"
     }
   ]
 }

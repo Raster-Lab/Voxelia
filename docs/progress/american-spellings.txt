@@ -3,11 +3,10 @@
 # Regenerate deliberately with --write, never to silence a failure.
 2 docs/architecture/corrections/CCR-0016-rfc-0001-storage-composition-corrections.md
 1 docs/architecture/decisions/ADR-0039-closed-storage-capability-and-descriptor-admission-boundary.md
-4 docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md
+2 docs/architecture/decisions/ADR-0040-normalized-logical-sample-and-representation-projection-boundary.md
 1 docs/architecture/decisions/ADR-0041-safe-storage-read-transaction-and-type-erasure-lifetime-boundary.md
 1 docs/architecture/decisions/ADR-0042-storage-api-name-wire-and-limit-freeze.md
 1 docs/architecture/decisions/ADR-0183-geometry-arc.md
 2 docs/architecture/decisions/README.md
 1 docs/rfcs/RFC-0001-controlled-correction-delta.md
 1 docs/rfcs/RFC-0001-storage-contract-and-logical-data-model-composition.md
-1 docs/security/SWIFT_SAFETY_POLICY.md
