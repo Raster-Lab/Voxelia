@@ -126,10 +126,10 @@ struct DiagnosticFailClosedTests {
         // `ADR-0057` states no ordering exists between claim cases. If the type were
         // `Comparable`, a caller could write `max(preview, diagnosticReady)` and select
         // the stronger claim arithmetically. It is not, and this asserts that.
-        #expect(!(ProvenanceValidationClaim.self is any Comparable.Type))
+        #expect(!(ProvenanceValidationClaim.self as Any is any Comparable.Type))
         // The positive control: a type that *is* Comparable must be seen as such, or the
         // assertion above passes for a reason unrelated to the claim vocabulary.
-        #expect(Int.self is any Comparable.Type)
+        #expect(Int.self as Any is any Comparable.Type)
     }
 
     // MARK: - The refusal is not a silent optional

@@ -8,6 +8,21 @@ The project uses Semantic Versioning. During the `0.x` series, breaking public A
 
 ### Added
 
+- None.
+
+### Changed
+
+- None.
+
+## 0.2.0 - 2026-08-07
+
+The first tagged release: the complete M0-M6 series per `ADR-0338`
+decision 11, released after the owner's witnessed demonstration and
+review session, including the explicit acceptance of the `VOX-PER-004`
+frame-rate target standing recorded in `VOXELIA-BEN-0003`.
+
+### Added
+
 - The complete M1-M3 foundations: canonical data model, spatial vocabulary
   and affine machinery (composition, direction and normal transforms,
   world-to-index mapping, sample-centre physical bounds), storage and

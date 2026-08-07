@@ -200,16 +200,16 @@ struct InteractiveResponsivenessTests {
         // Asserted rather than described, because this is the whole argument and a later
         // refactor to a class or an actor would silently remove it while every other test
         // here kept passing.
-        #expect(!(ViewportSyncGroup.self is AnyObject.Type))
-        #expect(!(CrosshairState.self is AnyObject.Type))
-        #expect(!(RenderGeneration.self is AnyObject.Type))
-        #expect(!(StampedFrame<String>.self is AnyObject.Type))
+        #expect(!(ViewportSyncGroup.self as Any is AnyObject.Type))
+        #expect(!(CrosshairState.self as Any is AnyObject.Type))
+        #expect(!(RenderGeneration.self as Any is AnyObject.Type))
+        #expect(!(StampedFrame<String>.self as Any is AnyObject.Type))
 
         // The positive control: the check must be able to fail. The two reference types
         // in this module are the actors, and they are reference types precisely because
         // they carry the shared state — which is why their methods are the ones that had
         // to be shown non-suspending.
-        #expect(RenderGenerationCounter.self is AnyObject.Type)
-        #expect(FramePresenter<String>.self is AnyObject.Type)
+        #expect(RenderGenerationCounter.self as Any is AnyObject.Type)
+        #expect(FramePresenter<String>.self as Any is AnyObject.Type)
     }
 }

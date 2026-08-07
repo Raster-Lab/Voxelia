@@ -28,6 +28,8 @@ IGNORED_RELATIVE_TREES = {
     Path("Benchmarks/.build"),
     Path("Benchmarks/.swiftpm"),
     Path("Build"),
+    Path("Examples/VoxeliaCTReference/.build"),
+    Path("Examples/VoxeliaCTReference/.swiftpm"),
     Path("DerivedData"),
     Path("Tools/.build"),
     Path("Tools/.swiftpm"),
@@ -37,10 +39,17 @@ IGNORED_RELATIVE_TREES = {
 }
 CONFIGURATION_SUFFIXES = {".pbxproj", ".sh", ".xcconfig", ".yaml", ".yml"}
 CONFIGURATION_FILENAMES = {"Makefile"}
-PACKAGE_PATHS = (Path("."), Path("Validation"), Path("Benchmarks"), Path("Tools"))
+PACKAGE_PATHS = (
+    Path("."),
+    Path("Validation"),
+    Path("Benchmarks"),
+    Path("Tools"),
+    Path("Examples/VoxeliaCTReference"),
+)
 KNOWN_MANIFESTS = {
     Path("Package.swift"),
     Path("Benchmarks/Package.swift"),
+    Path("Examples/VoxeliaCTReference/Package.swift"),
     Path("Tools/Package.swift"),
     Path("Validation/Package.swift"),
 }
@@ -49,6 +58,7 @@ KNOWN_SWIFT_TREES = {
     Path("Tests"),
     Path("Benchmarks/Sources"),
     Path("Benchmarks/Tests"),
+    Path("Examples/VoxeliaCTReference/Sources"),
     Path("Tools/Sources"),
     Path("Tools/Tests"),
     Path("Validation/Sources"),
@@ -74,6 +84,9 @@ PACKAGE_SOURCE_TREES = {
         Path("Benchmarks/Sources"),
         Path("Benchmarks/Tests"),
     ),
+    Path("Examples/VoxeliaCTReference"): (
+        Path("Examples/VoxeliaCTReference/Sources"),
+    ),
     Path("Tools"): (Path("Tools/Sources"), Path("Tools/Tests")),
     Path("Validation"): (
         Path("Validation/Sources"),
@@ -83,6 +96,7 @@ PACKAGE_SOURCE_TREES = {
 EXPECTED_LOCAL_DEPENDENCIES = {
     Path("."): set(),
     Path("Benchmarks"): {Path(".")},
+    Path("Examples/VoxeliaCTReference"): {Path(".")},
     Path("Tools"): set(),
     Path("Validation"): {Path(".")},
 }
@@ -92,7 +106,7 @@ MAX_SCANNED_FILE_BYTES = 1024 * 1024
 MAX_SUBPROCESS_OUTPUT_BYTES = 4 * 1024 * 1024
 MAX_DIAGNOSTIC_TOKEN_CHARACTERS = 240
 PACKAGE_COMMAND_TIMEOUT_SECONDS = 60
-PACKAGE_BUILD_TIMEOUT_SECONDS = 300
+PACKAGE_BUILD_TIMEOUT_SECONDS = 900
 MANIFEST_HEADER = "// swift-tools-version: 6.2"
 # The manifest's permitted declarative vocabulary. The policy's intent is that a
 # manifest declare and never compute, so this list admits declaration keywords
@@ -190,9 +204,27 @@ APPROVED_SOURCE_EXCEPTIONS = {
             ("reserved Swift unsafe marker", "unsafe"),
             ("reserved Swift unsafe marker", "unsafe"),
         ),
-    )
+    ),
+    # The example application's one display bridge: CGImage's initializer
+    # carries an UnsafePointer<CGFloat>? decode parameter, so the call site
+    # needs the marker even passing nil. ADR-0186 pattern: one minimal
+    # fingerprinted file, no logic.
+    Path(
+        "Examples/VoxeliaCTReference/Sources/VoxeliaCTReference/GreyImageBridge.swift"
+    ): ApprovedSourceException(
+        sha256="849af7c7bbd1f2f0d75c42b981e640b418615e0a98d5d6f444b3a46a51723f9e",
+        expected_findings=(
+            ("reserved Swift unsafe marker", "unsafe"),
+        ),
+    ),
 }
 APPROVED_EXCEPTION_POLICY_PATH = Path("docs/security/SWIFT_SAFETY_POLICY.md")
+# The owner-approved external dependencies (`ADR-0233` DICOMKit, `ADR-0267`
+# J2KSwift). Their exact pinned closure is the licence gate's authority
+# (`check_licence_policy.py`); this set only names which source-control
+# identities that authority governs, so this check stays the refusal path
+# for everything else.
+APPROVED_EXTERNAL_DEPENDENCY_IDENTITIES = {"dicomkit", "j2kswift"}
 
 
 class SubprocessOutputLimitExceeded(RuntimeError):
@@ -1142,6 +1174,20 @@ def _dependency_errors(
     actual_paths: set[Path] = set()
     errors: list[str] = []
     for dependency in dependencies:
+        if isinstance(dependency, dict) and set(dependency) == {"sourceControl"}:
+            entries = dependency.get("sourceControl")
+            identity = None
+            if isinstance(entries, list) and len(entries) == 1:
+                entry = entries[0]
+                if isinstance(entry, dict):
+                    identity = entry.get("identity")
+            if identity in APPROVED_EXTERNAL_DEPENDENCY_IDENTITIES:
+                continue
+            errors.append(
+                f"{package_path}: source-control dependency "
+                f"{identity!r} is outside the approved external set"
+            )
+            continue
         if not isinstance(dependency, dict) or set(dependency) != {"fileSystem"}:
             errors.append(
                 f"{package_path}: non-filesystem SwiftPM dependency is outside "
@@ -1312,10 +1358,18 @@ def strict_memory_safety_command(
 ) -> list[str]:
     """Build command using Swift's semantic strict-memory-safety oracle."""
 
-    command = ["swift", "build", "--build-tests"]
+    # Test targets compile in the debug pass only. The release pass covers
+    # product targets: Swift 6.3.3's optimiser crashes (signal 11) compiling
+    # `VoxeliaCPUTests` under `--configuration release` with `-enable-testing`
+    # regardless of the safety flags, and test code neither ships in release
+    # nor gains semantic coverage there beyond what the debug pass already
+    # proves. Revisit on the next toolchain update.
+    command = ["swift", "build"]
     if configuration == "release":
         command.extend(["--configuration", "release"])
-    elif configuration != "debug":
+    elif configuration == "debug":
+        command.append("--build-tests")
+    else:
         raise ValueError(f"unsupported build configuration: {configuration}")
     if package_path != Path("."):
         command.extend(["--package-path", str(package_path)])
@@ -1327,8 +1381,6 @@ def strict_memory_safety_command(
             "-warnings-as-errors",
         ]
     )
-    if configuration == "release":
-        command.extend(["-Xswiftc", "-enable-testing"])
     return command
 
 

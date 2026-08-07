@@ -1006,7 +1006,7 @@ struct ExactSliceRendererTests {
 
     /// One request exercising every §35.1 semantic the request can carry.
     private func equivalenceRequest() throws -> RenderRequest {
-        try RenderRequest(
+        RenderRequest(
             scene: try scene([try layer("series-7")]),
             viewport: try ViewportSize(width: 4, height: 3),
             crop: nil,

@@ -47,6 +47,7 @@ Examples/Shared/README.md
 Examples/VoxeliaCTReference/Package.resolved
 Examples/VoxeliaCTReference/Package.swift
 Examples/VoxeliaCTReference/README.md
+Examples/VoxeliaCTReference/Sources/VoxeliaCTReference/GreyImageBridge.swift
 Examples/VoxeliaCTReference/Sources/VoxeliaCTReference/VoxeliaCTReferenceApp.swift
 GOVERNANCE.md
 LICENSE
@@ -85,6 +86,7 @@ Sources/VoxeliaCPU/Public/CPUTriangleMeshVertexNormalGenerationOperation.swift
 Sources/VoxeliaCPU/VoxeliaCPU.docc/Architecture.md
 Sources/VoxeliaCPU/VoxeliaCPU.docc/Requirements.md
 Sources/VoxeliaCPU/VoxeliaCPU.docc/VoxeliaCPU.md
+Sources/VoxeliaCompression/ApplePlatformGate.swift
 Sources/VoxeliaCompression/Public/CachePreservationRule.swift
 Sources/VoxeliaCompression/Public/CodestreamHeaderBudget.swift
 Sources/VoxeliaCompression/Public/CompressedDecodeSession.swift
@@ -153,6 +155,7 @@ Sources/VoxeliaCore/Public/ValueTransform.swift
 Sources/VoxeliaCore/VoxeliaCore.docc/Architecture.md
 Sources/VoxeliaCore/VoxeliaCore.docc/Requirements.md
 Sources/VoxeliaCore/VoxeliaCore.docc/VoxeliaCore.md
+Sources/VoxeliaDICOMKit/ApplePlatformGate.swift
 Sources/VoxeliaDICOMKit/Public/DICOMFrameAdapter.swift
 Sources/VoxeliaDICOMKit/Public/DICOMFrameSource.swift
 Sources/VoxeliaDICOMKit/Public/DICOMFrameTransfer.swift
@@ -674,6 +677,7 @@ Validation/Datasets/Fetch/README.md
 Validation/Datasets/Manifests/voxelia.phantom.scaffold.yaml
 Validation/Datasets/Phantoms/README.md
 Validation/Expected/README.md
+Validation/Package.resolved
 Validation/Package.swift
 Validation/README.md
 Validation/Reports/README.md

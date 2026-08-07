@@ -67,6 +67,10 @@ for active_root in active_roots:
     for path in active_root.rglob("*"):
         if path.resolve() == Path(__file__).resolve():
             continue
+        # Resolved third-party checkouts and build products are not the
+        # repository's active configuration.
+        if ".build" in path.parts or ".swiftpm" in path.parts:
+            continue
         if not path.is_file() or path.suffix.lower() not in {".swift", ".py", ".sh", ".yml", ".yaml", ".md"}:
             continue
         text = path.read_text(encoding="utf-8", errors="ignore").lower()

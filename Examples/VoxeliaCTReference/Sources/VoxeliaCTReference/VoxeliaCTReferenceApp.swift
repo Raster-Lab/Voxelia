@@ -54,7 +54,7 @@ final class ViewerState: ObservableObject {
             }
             let engine = try await ViewerEngine(studyDirectory: directory)
             self.engine = engine
-            studyMode = await engine.studyMode
+            studyMode = engine.studyMode
             maxSlice = Double(max(await engine.sliceCount(for: plane) - 1, 1))
             if studyMode {
                 statusLine = "study imported (full resolution)"
@@ -540,40 +540,16 @@ actor ViewerEngine {
                 upperBounds: extents
             )
         ).bytes
-        return try Self.greyImage(
-            bytes: bytes,
-            width: extents[0],
-            height: extents[1]
-        )
-    }
-
-    private static func greyImage(
-        bytes: [UInt8],
-        width: Int,
-        height: Int
-    ) throws -> NSImage {
         guard
-            let provider = CGDataProvider(data: Data(bytes) as CFData),
-            let cgImage = CGImage(
-                width: width,
-                height: height,
-                bitsPerComponent: 8,
-                bitsPerPixel: 8,
-                bytesPerRow: width,
-                space: CGColorSpaceCreateDeviceGray(),
-                bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue),
-                provider: provider,
-                decode: nil,
-                shouldInterpolate: false,
-                intent: .defaultIntent
+            let image = GreyImageBridge.makeImage(
+                bytes: bytes,
+                width: extents[0],
+                height: extents[1]
             )
         else {
             throw ViewerError.imageConversionFailed
         }
-        return NSImage(
-            cgImage: cgImage,
-            size: NSSize(width: width, height: height)
-        )
+        return image
     }
 
     /// A banded radial phantom: concentric shells around the centre so

@@ -23,7 +23,7 @@ public enum DICOMFrameSourceError: Error, Sendable, Equatable {
 /// A DICOM-backed frame source for `ADR-0249`'s import session.
 ///
 /// Supplies the two closures `CTImportSession` needs: one turning a file URL
-/// into a ``CTFrameDescription``, and one yielding that frame's sample bytes.
+/// into a `CTFrameDescription`, and one yielding that frame's sample bytes.
 /// Nothing here interprets a sample; `ADR-0235` decision 2's boundary is
 /// unchanged.
 ///

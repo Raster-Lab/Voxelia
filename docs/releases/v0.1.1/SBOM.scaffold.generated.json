@@ -116,12 +116,12 @@
     {
       "algorithm": "SHA-256",
       "path": "Package.swift",
-      "value": "37da332e3cb51aaf9897dfe2b1f2ccb2812ca4acc4f847d855015a18a374ebe8"
+      "value": "dd99654111eb23aec7a481c99359daeb72720b01eb884f817470f51c680ffd28"
     },
     {
       "algorithm": "SHA-256",
       "path": "RELEASE.json",
-      "value": "a09f66213f5e78739ce8965166d0768a4a8145a7007c86b806fd096bdabdb2ea"
+      "value": "dc966f5e16d1d1f5914b05dfa9be4260f4a2a631a2b968d661a7504f843a32ac"
     },
     {
       "algorithm": "SHA-256",
@@ -146,7 +146,7 @@
     {
       "algorithm": "SHA-256",
       "path": "VERSION",
-      "value": "80447316529fc62014fbaa047fb67c51ac30e32830cda370405349d8d66d196c"
+      "value": "1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9"
     }
   ],
   "externalPackages": [
@@ -260,14 +260,14 @@
       ]
     },
     "project": "Voxelia",
-    "release": "Repository and Package Scaffold",
-    "releaseDate": "2026-08-02",
+    "release": "First vertical slice and interactive stack",
+    "releaseDate": "2026-08-07",
     "sourceRevision": {
-      "commit": "585249b3b256670bdab46ef84792f3a545a51589",
+      "commit": "a21f2e558d3acc378b8959f4438c57d0a0c75924",
       "scope": "Checked-out source revision observed before writing the generated SBOM artifact.",
       "workingTreeDirty": true
     },
-    "version": "0.1.1"
+    "version": "0.2.0"
   },
   "optionalDependencies": [
     "compressionfamily",
@@ -290,6 +290,13 @@
       "name": "VoxeliaCPU",
       "targets": [
         "VoxeliaCPU"
+      ],
+      "type": "library"
+    },
+    {
+      "name": "VoxeliaCompression",
+      "targets": [
+        "VoxeliaCompression"
       ],
       "type": "library"
     },
@@ -437,6 +444,17 @@
     },
     {
       "dependencies": [
+        "J2K3D",
+        "J2KCodec",
+        "VoxeliaCore"
+      ],
+      "name": "VoxeliaCompression",
+      "path": "Sources/VoxeliaCompression",
+      "scope": "runtime",
+      "type": "regular"
+    },
+    {
+      "dependencies": [
         "VoxeliaSpatial"
       ],
       "name": "VoxeliaCore",
@@ -562,6 +580,17 @@
     },
     {
       "dependencies": [
+        "VoxeliaCompression",
+        "VoxeliaStorage",
+        "VoxeliaTestSupport"
+      ],
+      "name": "VoxeliaCompressionTests",
+      "path": "Tests/VoxeliaCompressionTests",
+      "scope": "test",
+      "type": "test"
+    },
+    {
+      "dependencies": [
         "VoxeliaCore",
         "VoxeliaTestSupport"
       ],
@@ -673,6 +702,7 @@
     },
     {
       "dependencies": [
+        "VoxeliaInteraction",
         "VoxeliaTestSupport",
         "VoxeliaValidation"
       ],

@@ -174,8 +174,11 @@ class SwiftSafetyTests(unittest.TestCase):
 
         findings = CHECKER.scan_repository(self.root)
 
-        self.assertEqual(len(findings), 1)
-        self.assertEqual(findings[0].category, "approved source exception missing")
+        self.assertEqual(len(findings), 2)
+        for finding in findings:
+            self.assertEqual(
+                finding.category, "approved source exception missing"
+            )
 
     def test_governing_repository_requires_policy_and_boundary(self) -> None:
         with mock.patch.object(CHECKER, "ROOT", self.root):
@@ -871,21 +874,9 @@ class SwiftSafetyTests(unittest.TestCase):
     )
     def test_compiler_rejects_inferred_unsafe_operations(self) -> None:
         self.write_minimal_package()
-        manifest = (self.root / "Package.swift").read_text(encoding="utf-8")
-        manifest = manifest.replace(
-            'targets: [.target(name: "Probe")],',
-            "targets: [\n"
-            '        .target(name: "Probe"),\n'
-            '        .testTarget(name: "ProbeTests", dependencies: ["Probe"]),\n'
-            "    ],",
-        )
-        (self.root / "Package.swift").write_text(manifest, encoding="utf-8")
         self.write(
             "Sources/Probe/Probe.swift",
-            "public struct Probe {}\n",
-        )
-        self.write(
-            "Tests/ProbeTests/UnsafeTests.swift",
+            "public struct Probe {}\n"
             "import Darwin\n"
             "#if DEBUG\n"
             "public func use() {}\n"
@@ -907,12 +898,17 @@ class SwiftSafetyTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("unsafe constructs", result.stdout + result.stderr)
 
-    def test_release_command_enables_test_target_imports(self) -> None:
-        command = CHECKER.strict_memory_safety_command(Path("."), "release")
+    def test_release_command_covers_products_only(self) -> None:
+        # Test targets compile in the debug pass; the release pass covers
+        # products only, per the recorded Swift 6.3.3 optimiser crash on
+        # release test builds.
+        release = CHECKER.strict_memory_safety_command(Path("."), "release")
+        self.assertIn("--configuration", release)
+        self.assertNotIn("--build-tests", release)
+        self.assertNotIn("-enable-testing", release)
 
-        self.assertIn("--build-tests", command)
-        self.assertIn("--configuration", command)
-        self.assertEqual(command[-2:], ["-Xswiftc", "-enable-testing"])
+        debug = CHECKER.strict_memory_safety_command(Path("."), "debug")
+        self.assertIn("--build-tests", debug)
 
     def test_bounded_subprocess_capture_rejects_excess_output(self) -> None:
         command = [

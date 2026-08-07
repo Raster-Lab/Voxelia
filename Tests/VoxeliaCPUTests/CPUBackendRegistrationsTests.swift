@@ -40,8 +40,7 @@ struct CPUBackendRegistrationsTests {
                 == "org.voxelia.precision.binary64-strict"
         )
         let operationTokens = Set(registry.implementations.map(\.operationID.rawValue))
-        #expect(
-            operationTokens == [
+        let expectedTokens: Set<String> = [
                 RegionExtractionOperation.operationIdentifier,
                 WindowLevelOperation.operationIdentifier,
                 ResampleNearestOperation.operationIdentifier,
@@ -60,8 +59,8 @@ struct CPUBackendRegistrationsTests {
                 TriangleMeshVertexNormalGenerationRequest.operationIdentifier,
                 TriangleMeshTotalFacetAreaRequest.operationIdentifier,
                 TriangleMeshEnclosedVolumeRequest.operationIdentifier,
-            ]
-        )
+        ]
+        #expect(operationTokens == expectedTokens)
         let surfaceEntries = registry.implementations(
             for: try DerivationOperationToken(
                 rawValue: ScalarSurfaceExtractionRequest.operationIdentifier
