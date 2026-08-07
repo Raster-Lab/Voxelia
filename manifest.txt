@@ -1296,6 +1296,8 @@ docs/architecture/decisions/ADR-0405-the-m10-queue.md
 docs/architecture/decisions/ADR-0406-umbrella-and-module-overviews.md
 docs/architecture/decisions/ADR-0407-benchmark-reporting-and-instrumentation.md
 docs/architecture/decisions/ADR-0408-the-release-policy.md
+docs/architecture/decisions/ADR-0409-vtk-itk-out-of-scope.md
+docs/architecture/decisions/ADR-0410-registration-metal-acceptance.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md

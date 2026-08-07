@@ -8418,3 +8418,37 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    (11) THE 1.0 RELEASE SESSION: accept the release policy, the
    known-limitations list, the platform matrix and the evidence set
    (`ADR-0408`). The ledger is the handover.
+
+1. **2026-08-07 — OWNER BATCH ITEM 1 RESOLVED: VTK/ITK interop is OUT
+   OF SCOPE (`ADR-0409`).** The owner plans a replacement; the four
+   interoperability rows are dispositioned — the "should" exchange rows
+   out of scope by owner decision (the replacement enters through a
+   baseline revision when specified, not through this record); the
+   optionality row satisfied structurally and still enforced (no VTK/
+   ITK dependency exists, the supply-chain gate admits only approved
+   identities, the canonical-API type prohibition is a standing M1
+   row); the conversion-convention row discharged by the conversions
+   that exist (every shipped seam exchanges values carrying their
+   `CoordinateSpaceDescriptor`, and convention disagreement is a typed
+   refusal, witnessed). The M7 queue's only never-opened arc is
+   resolved without construction.
+
+1. **2026-08-07 — OWNER BATCH ITEM 4 RESOLVED: registration Metal
+   acceptance (`ADR-0410`). `VOX-REG-010` IS FULLY DISCHARGED — BOTH
+   HALVES.** The diagnostic implementations for registration are the
+   CPU references; NO Metal registration acceleration is accepted —
+   none exists, and accepting unbuilt code would be the
+   fabricated-validation shape this project refuses. The ordering
+   constraint closes as satisfied and STAYS GUARDED: the registry
+   tripwire remains, and any future Metal registration implementation
+   requires a new owner session with CPU/Metal differential evidence
+   plus `ADR-0382` diagnostic-selection approval. RECORDED
+   INTERPRETATION: the owner's direction is read as accepting the
+   reference-first CPU-only posture; if the intent was instead to
+   BUILD Metal registration, that is new scope and the record defines
+   its acceptance path. NINE owner-batch items remain: SEG reference
+   adapter; DICOMKit fix-what-surfaces; validated-distribution +
+   diagnostic-policy acceptance; generative-output acceptance; runtime
+   plug-in introduction; photorealistic validation + preset review;
+   measurement campaigns; regression thresholds; the 1.0 release
+   session.

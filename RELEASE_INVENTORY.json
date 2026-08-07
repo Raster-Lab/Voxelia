@@ -6490,9 +6490,19 @@
       "sha256": "70d6e9a9ac6a1803ef878b9bca7e5cb567571f4b1beaae2627e6583b54f50c17"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0409-vtk-itk-out-of-scope.md",
+      "size": 3035,
+      "sha256": "63b519d7d37eb5ba3545fdc78e842ea43fc9b4fff466d1b8b3854c473941e182"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0410-registration-metal-acceptance.md",
+      "size": 2997,
+      "sha256": "b77f2267d4a3ad47b407d1c79a98d090b2da98ad43b364f158c04d072fe8ee7c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 56299,
-      "sha256": "c8bbc3d60cdeef86d604b398bbe23de257e10f04a01102cd7463b7178368d20e"
+      "size": 56628,
+      "sha256": "d2f37a61ba7d0c9865ec813e81f91abf010f822f954f3f9367a8b1a14cee3411"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6611,8 +6621,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 540359,
-      "sha256": "4cc1734699161dd858b62e253dc809bc4e7b5e87099ce1ba5fed28383f3cfb17"
+      "size": 542436,
+      "sha256": "b639e74e8e0be646784e1b6798b77a7a524848cb3868c4e7a0766851d59bc011"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7306,8 +7316,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 84552,
-      "sha256": "05688deaf5c83555e0bc411ca1286fb388e6349955d647aecf56058848c29638"
+      "size": 84683,
+      "sha256": "166a0c9f92454eeb5565654d8a2d1e0614d18743127c8aadd686cedd77879459"
     }
   ]
 }
