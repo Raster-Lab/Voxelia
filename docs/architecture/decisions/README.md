@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0305`.
+The next unallocated numeric identifier is `ADR-0306`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -491,3 +491,4 @@ The next unallocated numeric identifier is `ADR-0305`.
 | [ADR-0302](ADR-0302-declared-temporary-file-sites.md) | Accepted | Declared temporary file sites |
 | [ADR-0303](ADR-0303-headless-rendering-enforced.md) | Accepted | Headless rendering enforced |
 | [ADR-0304](ADR-0304-interaction-state-ownership.md) | Accepted | Interaction state ownership |
+| [ADR-0305](ADR-0305-open-the-residency-duplication-row.md) | Accepted | Open the residency duplication row |

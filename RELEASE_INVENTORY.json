@@ -5155,9 +5155,14 @@
       "sha256": "773dbb217000a3b5949f917c843e757bdb32ea0a581a44e80490d3de23c81fdb"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0305-open-the-residency-duplication-row.md",
+      "size": 5862,
+      "sha256": "518b91b3cb7b264ef2e4128ccad3ea60db5002fe37e00c6f350ba1917d6eb9cf"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 42074,
-      "sha256": "31817ff4677dc4292df8788cc9d0dab431dce2b1f25883e7617c1d60721399a8"
+      "size": 42185,
+      "sha256": "c9ba9385308617fd3e992923d0930ba5485fb48b999e5fd2843399baf81eb677"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5251,8 +5256,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1236572,
-      "sha256": "a1534525edc618c6db3307fee677df8b3d508a08531c9db592adf25c3bcb84cd"
+      "size": 1238633,
+      "sha256": "1e254f9f8f82f4a86a76ada5ff955a42352318b20386af3ef30d835044cb2808"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5771,8 +5776,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 65818,
-      "sha256": "ff982d9d6f97807444170d94595d110f4259ff82f3d6f56db2c57983338e92e6"
+      "size": 65893,
+      "sha256": "67ed19c2353ae1b37d0e869ae3fba17788f6bd0583323fbb344a177b81e1524d"
     }
   ]
 }

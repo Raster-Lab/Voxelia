@@ -5700,6 +5700,39 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **11 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (xxx): `ADR-0305` — opens `VOX-MTL-009` (A,T,D). NOTHING DISCHARGED.**
+   1229/217 unchanged; no code.
+
+   **The mechanism is precise and worth stating**: `MetalResidencyManager.selection(for:)`
+   maps `.automatic`/`.shared` → `.shared` **only if the device reports unified memory** (else
+   typed `sharedStorageUnavailable`); `.gpuOptimised` → `.privateDevice`; `.cpuOnly`,
+   `.streamed`, `.sparse` refuse by distinct cases. **On unified memory a `.shared` buffer is
+   ONE allocation both processors address — the full-volume copy never exists.** The manager
+   never rewrites a declared policy, so a caller asking for no duplication cannot be silently
+   given one.
+
+   **SIXTH instance of the pattern: NOTHING MEASURES DUPLICATION.** `ResidencyPolicyTests`
+   covers the vocabulary and `Sendable` conformance and is tagged **`MTA-18.2` — a
+   milestone-task id, not a requirement**. No test names `VOX-MTL-009`; none asserts the
+   `.automatic` path avoids a copy.
+
+   **Deliberately did NOT take the two shortcuts.** (a) Discharging `A` from the selection
+   table — rejected: the table says what is *selected*, not what is *allocated*, and that
+   difference IS the requirement. (b) Retagging `ResidencyPolicyTests` to the row and calling
+   `T` done — rejected, and it was the tempting one: those tests assert a vocabulary exists and
+   is Sendable, neither of which bears on duplication. Relabelling would put a requirement's
+   name on evidence that does not address it — the exact defect `ADR-0300` had to untangle in
+   the other direction.
+
+   **The three methods are FIXED HERE** so the next increment cannot redefine them to suit
+   itself. Also frozen: the measurement must not be a bare peak-memory figure, because
+   `ADR-0271` established a combined run's peak is a harness artefact.
+
+   **`D` is owner-witnessed** — a fourth item on the owner list, beside `VOX-VAL-006` R,
+   `VOX-HLS-001` D, `VOX-ARC-009` R.
+
+   **11 entered-milestone rows remain** — UNCHANGED, because this record discharges nothing.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 
