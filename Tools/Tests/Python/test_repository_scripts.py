@@ -155,8 +155,26 @@ class RepositoryScriptTests(unittest.TestCase):
             self.assertIn(f"Tools/Scripts/{dependency}", workflow)
         self.assertNotIn("swift package generate-documentation", workflow)
         self.assertIn("xcodebuild -quiet docbuild", wrapper)
-        self.assertIn("OTHER_DOCC_FLAGS='--warnings-as-errors'", wrapper)
         self.assertIn("check_docc_archives.py", wrapper)
+
+        # The gate's guarantee is that VOXELIA's documentation builds clean, and
+        # since `ADR-0233` it achieves that by scoping diagnostics to this
+        # repository's own sources rather than by passing
+        # `OTHER_DOCC_FLAGS='--warnings-as-errors'` globally. A global flag would
+        # fail the gate on a transitive dependency's doc comments, because
+        # `docbuild` documents the whole package graph.
+        #
+        # This assertion pair replaces one that still required the removed flag.
+        # It had been failing since the script was corrected and the test was
+        # not, and it was not noticed because these self-tests are not part of
+        # `validate-docs.sh`. `ADR-0289` records that.
+        self.assertIn('grep -F "$REPOSITORY_ROOT/Sources/"', wrapper)
+        self.assertIn(
+            "DocC diagnostics in Voxelia sources (treated as errors):", wrapper
+        )
+        # The removal is asserted, not merely tolerated, so a later re-add of the
+        # global flag fails here with the reason attached.
+        self.assertNotIn("OTHER_DOCC_FLAGS='--warnings-as-errors'", wrapper)
 
     def test_sbom_workflow_validates_the_release_profile(self) -> None:
         workflow = (ROOT / ".github/workflows/sbom.yml").read_text(

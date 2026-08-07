@@ -5098,6 +5098,42 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Next**: the stale DocC self-test, then a re-derived queue.
 
+   **Increment (hhh): `ADR-0289` — the one stale self-test was SEVEN, and FOUR were MINE.**
+   150 repository-script tests green (was 143 pass / 7 fail); 1152 Swift tests unchanged.
+
+   **`Tools/Scripts/test-repository-scripts.sh` was wired to NOTHING** — no workflow, no
+   gate. It is the runner for **every checker's own regression tests** and it had no caller.
+   Seven of its 150 were failing: **4 in `test_adr_register.py` broken by MY `ADR-0282`
+   change** (added `check_readme_index`, which fails a synthetic fixture with records but no
+   register — and I never ran that checker's tests, *because nothing runs them*); 1 in
+   `test_docc_archives` (`ADR-0233` narrowed the gate to `Voxelia`-prefixed archives, fixture
+   still used an unprefixed name the checker ignores **by design**); 2 in `test_generate_sbom`
+   (hardcoded counts `12/13/12` and a hardcoded index `[0]` that drifted when modules and
+   dependencies were added).
+
+   **Fixed so they cannot drift again**: register fixtures now **generate** a matching
+   register (so they also exercise `check_readme_index`); SBOM counts **cross-checked against
+   `Package.swift`** rather than pinned to literals — an independent source, so a
+   cross-check not a tautology; licence index **derived** from where the fixture is appended;
+   external-package assertions now test the **property** (every package has a reviewed
+   licence) rather than the count that rotted.
+
+   **THE FIX I GOT WRONG, IMMEDIATELY.** The obvious durable answer — call
+   `test-repository-scripts.sh` from `validate-docs.sh` — **recursed without bound**, because
+   `test_repository_scripts.py` **executes `validate-docs.sh` as a subprocess**. Caught within
+   a minute **because I ran it rather than assumed**: six nested processes were visible before
+   anything was committed. Reverted; `validate-docs.sh` is **byte-identical** to before. The
+   self-tests now run as **their own workflow step** after `validate-docs.sh`, where the two
+   are separate processes. Recorded because "add it to the obvious gate" is what anyone would
+   try next and the reason it cannot work is invisible from outside.
+
+   **FOURTH INSTANCE OF THE SAME PATTERN**: `ADR-0196` a rule asserted and not enforced;
+   `ADR-0282` an authoritative document no gate read; `ADR-0287` a policy describing compiler
+   enforcement with no compiler enabled; and now a test suite with no caller. **Something
+   exists, and nothing runs it.**
+
+   **Next**: a re-derived queue.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

@@ -33,5 +33,13 @@ jobs:
       - name: Assert Apple Silicon environment
         run: Tools/Scripts/assert-apple-platform.sh
       - run: Tools/Scripts/validate-docs.sh
+      # Runs here rather than inside validate-docs.sh: one of these tests
+      # executes validate-docs.sh as a subprocess, so calling them from it
+      # recurses without bound. `ADR-0289` records that, and records why these
+      # ran nowhere until now -- seven of a hundred and fifty were failing,
+      # four of them broken two increments earlier by a change to the very
+      # checker they test.
+      - name: Repository script regression tests
+        run: Tools/Scripts/test-repository-scripts.sh
       - name: Build DocC documentation
         run: Tools/Scripts/build-docc.sh

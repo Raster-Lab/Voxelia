@@ -81,8 +81,8 @@
     },
     {
       "path": ".github/workflows/documentation.yml",
-      "size": 1179,
-      "sha256": "01e20bf9518ecdd13969e34e709cb27c0350c8f325b4ee78983614c1ea04457e"
+      "size": 1688,
+      "sha256": "254e15682e705c6d5d1dbeb593af8fae449e20cf517efcab00971b0c0f7775cc"
     },
     {
       "path": ".github/workflows/nightly-benchmarks.yml",
@@ -3106,18 +3106,18 @@
     },
     {
       "path": "Tools/Tests/Python/test_adr_register.py",
-      "size": 14317,
-      "sha256": "df6d7d57c4106d52de562e44e94101fe0c6c1279ac49f30ae4d081480f74e6cc"
+      "size": 15796,
+      "sha256": "ba5f5bab20d04dbbf5224da34f2184c54decce325faceacd79ade4e5a57b5b84"
     },
     {
       "path": "Tools/Tests/Python/test_docc_archives.py",
-      "size": 1811,
-      "sha256": "a268f762f007ae643d151abdc9fff3bd87eaca949b0d7e4d35278d8ededc87cf"
+      "size": 2399,
+      "sha256": "4d4cf5cef3e933d95736b8c194a6f54ac44b2050dcc2494c16f1fcf38a39f8b5"
     },
     {
       "path": "Tools/Tests/Python/test_generate_sbom.py",
-      "size": 6761,
-      "sha256": "dd68893018030e01196de3cf95a2c162a1cc007e2826b3bf66093e837551c7f5"
+      "size": 8047,
+      "sha256": "70f5e97b5f498a07ff2cea8edeb1ebc689d2a0737675c3f8aa159ecfe72d1609"
     },
     {
       "path": "Tools/Tests/Python/test_manifest_paths.py",
@@ -3131,8 +3131,8 @@
     },
     {
       "path": "Tools/Tests/Python/test_repository_scripts.py",
-      "size": 7611,
-      "sha256": "df272076cad8a7d4cb3605f67f275215871b80c1f598762896a30f08237aa47d"
+      "size": 8669,
+      "sha256": "82dcc3d1c331d645fda50db8ae40751ffd766318af3da6bfe049007fd4f0b62f"
     },
     {
       "path": "Tools/Tests/Python/test_requirement_index.py",
@@ -4990,9 +4990,14 @@
       "sha256": "81467f2a4ec0203461c8e190e2368e943b0ea4cba2adb1fb0c985d5b83a8f677"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0289-repository-self-test-recovery.md",
+      "size": 7135,
+      "sha256": "d9181b0c2221dcc9673cbf9179c5c96d135ba732154685ad634d9116a8c4ddbe"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 40446,
-      "sha256": "3a3b209be982e725f3cf4278b511b6092102da654b9c3905053f2071c67b8015"
+      "size": 40547,
+      "sha256": "6e4cc275c31d5f09ee546454368e8a51b7fcbf6bda54aa1f199d7b615e1cf0f7"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5086,8 +5091,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1197653,
-      "sha256": "5ac4a74f898f653b72c89680f2a1cbd43c80431c5e615a3e11011bf826283d08"
+      "size": 1200150,
+      "sha256": "4047d42c94a5575f8826d885562fe69bbd01a13c5886a58d296bdc35a4fc3951"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5596,8 +5601,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 63664,
-      "sha256": "70bc6da3154319d8bf783d79de9357a7ed818112ef610e6f75fd8beb32995abe"
+      "size": 63734,
+      "sha256": "e310a328e1701f8ef2c82df3dfbaac1cd5788bc343104751dfd61a81d767020d"
     }
   ]
 }

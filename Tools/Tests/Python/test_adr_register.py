@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import subprocess
 import tempfile
 import unittest
@@ -90,6 +91,7 @@ class ADRRegisterTests(unittest.TestCase):
             decisions = Path(directory)
             for name, text in documents.items():
                 (decisions / name).write_text(text, encoding="utf-8")
+            self.write_register(decisions, documents)
             return subprocess.run(
                 ["python3", str(CHECKER), "--decisions-dir", str(decisions)],
                 cwd=ROOT,
@@ -97,6 +99,37 @@ class ADRRegisterTests(unittest.TestCase):
                 capture_output=True,
                 text=True,
             )
+
+    def write_register(self, decisions: Path, documents: dict[str, str]) -> None:
+        """Write the register the checker's index validation requires.
+
+        `ADR-0282` added `check_readme_index`, which requires every `ADR-NNNN`
+        file to have a linking row and the next-unallocated counter to be
+        correct. These fixtures are synthetic directories of records, so they
+        need a matching register or the index check fails them for a reason that
+        has nothing to do with what they test.
+
+        Generating it here rather than hand-writing one per test means the
+        fixtures also exercise the index check, and cannot drift from it.
+        """
+        identifiers = sorted(
+            int(name[4:8])
+            for name in documents
+            if re.fullmatch(r"ADR-\d{4}-.*\.md", name)
+        )
+        rows = "".join(
+            f"| [ADR-{number:04d}]"
+            f"({next(n for n in documents if n.startswith(f'ADR-{number:04d}'))}) "
+            "| Accepted | Fixture |\n"
+            for number in identifiers
+        )
+        following = (identifiers[-1] + 1) if identifiers else 21
+        (decisions / "README.md").write_text(
+            "# Architecture Decision Records\n\n"
+            f"The next unallocated numeric identifier is `ADR-{following:04d}`.\n\n"
+            "| ID | Status | Decision |\n|---|---|---|\n" + rows,
+            encoding="utf-8",
+        )
 
     def test_accepts_numeric_and_milestone_identifiers(self) -> None:
         result = self.run_checker(

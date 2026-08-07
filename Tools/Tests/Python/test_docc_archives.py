@@ -25,13 +25,21 @@ class DocCArchiveTests(unittest.TestCase):
             self.create_expected_archives(products)
             missing = sorted(EXPECTED_ARCHIVES)[0]
             (products / missing).rmdir()
-            (products / "Unexpected.doccarchive").mkdir()
+            # `ADR-0233` narrowed this gate to `Voxelia`-prefixed archives,
+            # because docbuild documents the whole package graph and a
+            # dependency's archives legitimately appear beside Voxelia's. A
+            # non-prefixed name is therefore ignored by design, so the fixture
+            # uses a prefixed one -- which is also the case that matters: a new
+            # Voxelia module nobody added to `EXPECTED_ARCHIVES`.
+            (products / "VoxeliaUnregistered.doccarchive").mkdir()
 
             errors = archive_errors(products)
 
             self.assertIn(f"missing archives: {missing}", errors)
             self.assertIn(
-                "unexpected archives: Unexpected.doccarchive",
+                "unexpected Voxelia archives: VoxeliaUnregistered.doccarchive. "
+                "Add the module to EXPECTED_ARCHIVES with a record, or explain "
+                "its absence.",
                 errors,
             )
 

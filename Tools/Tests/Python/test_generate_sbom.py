@@ -30,11 +30,30 @@ class SBOMGenerationTests(unittest.TestCase):
         self.assertEqual(validation_errors(document), [])
         self.assertEqual(document["specVersion"], PROFILE_VERSION)
         self.assertEqual(document["metadata"]["version"], "0.1.1")
-        self.assertEqual(len(document["products"]), 12)
-        self.assertEqual(len(document["sourceTargets"]), 13)
-        self.assertEqual(len(document["testTargets"]), 12)
-        self.assertEqual(document["externalPackages"], [])
-        self.assertEqual(document["optionalDependencies"], [])
+        # Counted against `Package.swift` rather than pinned to literals. The
+        # literals here read 12, 13 and 12 and had been wrong since modules were
+        # added; a hardcoded count drifts on every new target and says nothing
+        # about whether the SBOM actually covers the package. The manifest is an
+        # independent source, so this is a cross-check rather than a tautology.
+        manifest = (ROOT / "Package.swift").read_text(encoding="utf-8")
+        self.assertEqual(len(document["products"]), manifest.count(".library("))
+        self.assertEqual(
+            len(document["sourceTargets"]), manifest.count(".target(")
+        )
+        self.assertEqual(
+            len(document["testTargets"]), manifest.count(".testTarget(")
+        )
+
+        # `ADR-0233` and `ADR-0267` declared dependencies, so these are no longer
+        # empty. Every external package must carry a reviewed licence, which is
+        # the property that matters rather than the count.
+        self.assertNotEqual(document["externalPackages"], [])
+        for index, package in enumerate(document["externalPackages"]):
+            self.assertNotEqual(
+                package["licence"],
+                "REVIEW_REQUIRED",
+                f"externalPackages[{index}] has an unreviewed licence",
+            )
 
         resources = {
             resource["path"]: resource
@@ -91,8 +110,12 @@ class SBOMGenerationTests(unittest.TestCase):
             }
         )
 
+        # The appended fixture lands after the real packages, so the index is
+        # derived rather than pinned to zero -- which it was, and which broke
+        # the moment a dependency was declared.
+        appended = len(document["externalPackages"]) - 1
         self.assertIn(
-            "externalPackages[0] requires a reviewed licence",
+            f"externalPackages[{appended}] requires a reviewed licence",
             validation_errors(document),
         )
 
