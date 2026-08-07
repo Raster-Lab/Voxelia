@@ -27,7 +27,7 @@ struct MetalWindowLevelKernelTests {
         return UInt8(min(255.0, max(0.0, rounded)))
     }
 
-    @Test("[Unit][VOX-PLT-011][VOX-REP-008] the kernel is digest-pinned and fixture-exact")
+    @Test("[Kernel][VOX-PLT-011][VOX-REP-008] the kernel is digest-pinned and fixture-exact")
     func kernelIsDigestPinnedAndFixtureExact() throws {
         // The shader manifest's digest pin must equal the embedded
         // source digest, so manifest and source can never drift.
@@ -74,7 +74,7 @@ struct MetalWindowLevelKernelTests {
         requireSendable(MetalKernelError.self)
     }
 
-    @Test("[Unit][VOX-SEC-001][VOX-REP-008] window parameters have exact bytes")
+    @Test("[Kernel][VOX-SEC-001][VOX-REP-008] window parameters have exact bytes")
     func windowParametersHaveExactBytes() throws {
         let bytes = try MetalWindowLevelKernel.parameterBytes(
             center: 6,
@@ -107,7 +107,7 @@ struct MetalWindowLevelKernelTests {
         } catch MetalKernelError.invalidSampleByteCount {}
     }
 
-    @Test("[Unit][VOX-VAL-007][VOX-EXE-003] the differential harness measures the GPU model")
+    @Test("[Kernel][VOX-VAL-007][VOX-EXE-003] the differential harness measures the GPU model")
     func differentialHarnessMeasuresTheGPUModel() throws {
         // The exhaustive uint8 domain across a spread of windows,
         // including the degenerate unit width, measured against the
@@ -246,7 +246,7 @@ struct MetalWindowLevelKernelTests {
         )
     }
 
-    @Test("[Unit][VOX-VAL-007][VOX-PLT-011] the sixteen-bit paths measure their differentials")
+    @Test("[Kernel][VOX-VAL-007][VOX-PLT-011] the sixteen-bit paths measure their differentials")
     func sixteenBitPathsMeasureTheirDifferentials() async throws {
         let kernel = try MetalWindowLevelKernel(
             context: try MetalExecutionContext(),
@@ -407,7 +407,7 @@ struct MetalWindowLevelKernelTests {
         } catch MetalKernelError.invalidSampleByteCount {}
     }
 
-    @Test("[Unit][VOX-VAL-007][VOX-R2D-009] the padding sentinel excludes exactly on device")
+    @Test("[Kernel][VOX-VAL-007][VOX-R2D-009] the padding sentinel excludes exactly on device")
     func paddingSentinelExcludesExactlyOnDevice() throws {
         // The ADR-0146 rule measured across all three scalar types:
         // an enabled sentinel writes exactly zero at every sentinel
@@ -503,7 +503,7 @@ struct MetalWindowLevelKernelTests {
         )
     }
 
-    @Test("[Unit][VOX-ERR-001] the device rejects an unrepresentable sentinel")
+    @Test("[Kernel][VOX-ERR-001] the device rejects an unrepresentable sentinel")
     func deviceRejectsAnUnrepresentableSentinel() async throws {
         // The CPU operation's exact representability rule and typed
         // case, applied at the device admission per ADR-0146.

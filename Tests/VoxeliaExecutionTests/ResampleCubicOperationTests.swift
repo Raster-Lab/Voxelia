@@ -120,7 +120,7 @@ struct ResampleCubicOperationTests {
         ).bytes
     }
 
-    @Test("[Unit][VOX-IMG-005] the frozen kernel reproduces the fixtures")
+    @Test("[Operation][VOX-IMG-005] the frozen kernel reproduces the fixtures")
     func frozenKernelReproducesTheFixtures() async throws {
         // The ALG-0021 fixtures: the ramp upscale, the overshoot ray
         // whose raw interior value exceeds the domain before the
@@ -153,7 +153,7 @@ struct ResampleCubicOperationTests {
         #expect(repeated == upscaled)
     }
 
-    @Test("[Unit][VOX-IMG-005] the identity mapping reproduces the input exactly")
+    @Test("[Operation][VOX-IMG-005] the identity mapping reproduces the input exactly")
     func identityMappingReproducesTheInputExactly() async throws {
         // Equal dimensions give t = 0 and weights (0, 1, 0, 0): the
         // interpolating kernel passes through the samples.
@@ -164,7 +164,7 @@ struct ResampleCubicOperationTests {
         )
     }
 
-    @Test("[Unit][VOX-ERR-001] cubic admissions reject typed")
+    @Test("[Operation][VOX-ERR-001] cubic admissions reject typed")
     func cubicAdmissionsRejectTyped() async throws {
         let corner = try input(extents: [2, 2], bytes: [10, 20, 30, 40])
         await #expect(throws: ResampleCubicError.invalidOutputExtent) {

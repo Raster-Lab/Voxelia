@@ -262,7 +262,7 @@ struct ExactSliceRendererTests {
     }
 
     @Test(
-        "[Unit][VOX-R2D-015][VOX-ERR-001] a colour output this renderer cannot produce is rejected"
+        "[Pipeline][VOX-R2D-015][VOX-ERR-001] a colour output this renderer cannot produce is rejected"
     )
     func colourOutputThisRendererCannotProduceIsRejected() async throws {
         let publisher = try publisher()
@@ -325,7 +325,7 @@ struct ExactSliceRendererTests {
         #expect(undeclared.presentation.outputColourSpace == nil)
     }
 
-    @Test("[Unit][VOX-VS1-017][VOX-VS1-019] the first vertical slice renders end to end")
+    @Test("[Pipeline][VOX-VS1-017][VOX-VS1-019] the first vertical slice renders end to end")
     func firstVerticalSliceRendersEndToEnd() async throws {
         let publisher = try publisher()
         _ = try await publisher.publish(try originImage(), mode: .complete)
@@ -409,7 +409,7 @@ struct ExactSliceRendererTests {
         requireSendable(RenderPublicationStage.self)
     }
 
-    @Test("[Unit][VOX-VS1-017][VOX-ARC-008] a cropped scene extracts before windowing")
+    @Test("[Pipeline][VOX-VS1-017][VOX-ARC-008] a cropped scene extracts before windowing")
     func croppedSceneExtractsBeforeWindowing() async throws {
         let publisher = try publisher()
         _ = try await publisher.publish(try originImage(), mode: .complete)
@@ -447,7 +447,7 @@ struct ExactSliceRendererTests {
         #expect(await publisher.publishedImage(for: croppedID) != nil)
     }
 
-    @Test("[Unit][VOX-VS1-017][VOX-EXE-004] the composed pipeline renders every stage cached")
+    @Test("[Pipeline][VOX-VS1-017][VOX-EXE-004] the composed pipeline renders every stage cached")
     func composedPipelineRendersEveryStageCached() async throws {
         // Every stage kind in one render — two crops, two windows,
         // one composite and one resample — through a publisher wired
@@ -524,7 +524,7 @@ struct ExactSliceRendererTests {
         }
     }
 
-    @Test("[Unit][VOX-R2D-013][VOX-VS1-019] the linear policy resamples and claims bilinear")
+    @Test("[Pipeline][VOX-R2D-013][VOX-VS1-019] the linear policy resamples and claims bilinear")
     func linearPolicyResamplesAndClaimsBilinear() async throws {
         let publisher = try publisher()
         _ = try await publisher.publish(try originImage(), mode: .complete)
@@ -576,7 +576,7 @@ struct ExactSliceRendererTests {
         requireSendable(InterpolationPolicy.self)
     }
 
-    @Test("[Unit][VOX-R2D-005][VOX-R2D-008] inverted polarity presents monochrome-one")
+    @Test("[Pipeline][VOX-R2D-005][VOX-R2D-008] inverted polarity presents monochrome-one")
     func invertedPolarityPresentsMonochromeOne() async throws {
         let publisher = try publisher()
         _ = try await publisher.publish(try originImage(), mode: .complete)
@@ -630,7 +630,7 @@ struct ExactSliceRendererTests {
         #expect(operation.operationID.rawValue == "org.voxelia.op.invert-display")
     }
 
-    @Test("[Unit][VOX-ARC-008][VOX-VS1-019] both qualities execute identically")
+    @Test("[Pipeline][VOX-ARC-008][VOX-VS1-019] both qualities execute identically")
     func bothQualitiesExecuteIdentically() async throws {
         // The ADR-0103 equivalence: interactive and full requests over
         // one scene publish identical bytes with identical full
@@ -676,7 +676,7 @@ struct ExactSliceRendererTests {
         #expect(qualityTokens == ["org.voxelia.quality.full", "org.voxelia.quality.full"])
     }
 
-    @Test("[Unit][VOX-VS1-017][VOX-VS1-019] a differing viewport resamples both stages")
+    @Test("[Pipeline][VOX-VS1-017][VOX-VS1-019] a differing viewport resamples both stages")
     func differingViewportResamplesBothStages() async throws {
         let publisher = try publisher()
         _ = try await publisher.publish(try originImage(), mode: .complete)
@@ -731,7 +731,7 @@ struct ExactSliceRendererTests {
         #expect(resampledRecord.inputs[0].parent == .graphNode(intermediateRecordID))
     }
 
-    @Test("[Unit][VOX-VS1-017][VOX-ARC-008] a two-layer scene composites end to end")
+    @Test("[Pipeline][VOX-VS1-017][VOX-ARC-008] a two-layer scene composites end to end")
     func twoLayerSceneCompositesEndToEnd() async throws {
         let publisher = try publisher()
         _ = try await publisher.publish(try originImage(), mode: .complete)
@@ -1018,7 +1018,7 @@ struct ExactSliceRendererTests {
         )
     }
 
-    @Test("[Unit][VOX-VS1-016] one request renders byte-identically every time")
+    @Test("[Pipeline][VOX-VS1-016] one request renders byte-identically every time")
     func oneRequestRendersByteIdenticallyEveryTime() async throws {
         // VOX-VS1-016 requires off-screen output to use the same presentation
         // semantics as the interactive viewport. There is no interactive viewport
@@ -1050,7 +1050,7 @@ struct ExactSliceRendererTests {
         #expect(first.presentation == second.presentation)
     }
 
-    @Test("[Unit][VOX-VS1-016] an intervening different render does not change the result")
+    @Test("[Pipeline][VOX-VS1-016] an intervening different render does not change the result")
     func anInterveningRenderDoesNotChangeTheResult() async throws {
         // The sharper form: render A, then a materially different B, then A
         // again. If any state survived between renders and reached the output --
@@ -1085,7 +1085,7 @@ struct ExactSliceRendererTests {
         #expect(firstA.presentation == secondA.presentation)
     }
 
-    @Test("[Unit][VOX-VS1-016][VOX-R2D-014] two separately constructed renderers agree exactly")
+    @Test("[Pipeline][VOX-VS1-016][VOX-R2D-014] two separately constructed renderers agree exactly")
     func twoSeparatelyConstructedRenderersAgreeExactly() async throws {
         // The case that actually models off-screen versus interactive: two
         // independently constructed renderers, as an export path and a viewport
@@ -1185,7 +1185,7 @@ struct ExactSliceRendererTests {
         )
     }
 
-    @Test("[Unit][VOX-R2D-014] the padding semantic changes output, so its equality is not vacuous")
+    @Test("[Pipeline][VOX-R2D-014] the padding semantic changes output, not vacuous")
     func paddingSemanticChangesOutput() async throws {
         // `ADR-0251` stated off-screen equivalence as conditional on identical renderer
         // construction, because padding policy travels through the injected window stage

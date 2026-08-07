@@ -68,7 +68,7 @@ struct TriangleMeshTotalFacetAreaReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-010][VOX-NUM-001] the quantity is unsigned, multiplicity-retaining and deterministic"
+        "[Kernel][VOX-GEO-010][VOX-NUM-001] the quantity is unsigned, multiplicity-retaining and deterministic"
     )
     func quantityIsUnsignedMultiplicityRetainingAndDeterministic() throws {
         let rightTriangle = try mesh(
@@ -159,7 +159,7 @@ struct TriangleMeshTotalFacetAreaReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-ERR-001][VOX-SEC-001] admission precedence is exact"
+        "[Kernel][VOX-ERR-001][VOX-SEC-001] admission precedence is exact"
     )
     func admissionPrecedenceIsExact() throws {
         let simple = try mesh(
@@ -261,7 +261,7 @@ struct TriangleMeshTotalFacetAreaReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-NUM-001][VOX-ERR-001] every non-finite ordered intermediate fails closed"
+        "[Kernel][VOX-NUM-001][VOX-ERR-001] every non-finite ordered intermediate fails closed"
     )
     func everyNonFiniteOrderedIntermediateFailsClosed() throws {
         // Edge subtraction overflow fails before any geometric conclusion.
@@ -309,7 +309,7 @@ struct TriangleMeshTotalFacetAreaReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-CON-006][VOX-CON-007] cancellation polls exactly the frozen ordinals"
+        "[Kernel][VOX-CON-006][VOX-CON-007] cancellation polls exactly the frozen ordinals"
     )
     func cancellationPollsExactlyTheFrozenOrdinals() throws {
         let manyFacets = try repeatedFacetMesh(facetCount: 200)
@@ -501,7 +501,7 @@ struct TriangleMeshTotalFacetAreaReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-EXE-008][VOX-NUM-001] an observer reports ALG-0046's sequence and changes nothing"
+        "[Kernel][VOX-EXE-008][VOX-NUM-001] an observer reports ALG-0046's sequence and changes nothing"
     )
     func observerReportsSequenceAndChangesNothing() throws {
         // THE claim: progress cannot change a result. The observer returns

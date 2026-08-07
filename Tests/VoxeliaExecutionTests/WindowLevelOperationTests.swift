@@ -139,7 +139,7 @@ struct WindowLevelOperationTests {
         ).bytes
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-IMG-001] the frozen model reproduces every fixture")
+    @Test("[Operation][VOX-EXE-002][VOX-IMG-001] the frozen model reproduces every fixture")
     func frozenModelReproducesEveryFixture() async throws {
         // The uint8 conformance fixture of VOXELIA-ALG-0002.
         let displayInput = try input()
@@ -251,7 +251,7 @@ struct WindowLevelOperationTests {
         requireSendable(WindowLevelError.self)
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-DAT-014] the composition rule reproduces real-domain fixtures")
+    @Test("[Operation][VOX-EXE-002][VOX-DAT-014] the composition rule reproduces real fixtures")
     func compositionRuleReproducesRealDomainFixtures() async throws {
         // The VOXELIA-ALG-0003 CT rescale fixture: rescaled stored
         // values windowed in the Hounsfield domain reproduce the exact
@@ -373,7 +373,7 @@ struct WindowLevelOperationTests {
         #expect(derivation.implementation?.version == advanced)
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-R2D-009] padding excludes stored sentinels exactly")
+    @Test("[Operation][VOX-EXE-002][VOX-R2D-009] padding excludes stored sentinels exactly")
     func paddingExcludesStoredSentinelsExactly() async throws {
         // The ADR-0113 fixtures: the declared stored-domain sentinel
         // displays exactly zero before any stored-to-real step, an
@@ -429,7 +429,7 @@ struct WindowLevelOperationTests {
         } catch WindowLevelError.invalidPaddingValue {}
     }
 
-    @Test("[Unit][VOX-EXE-006][VOX-ERR-001] admission and budgets reject typed")
+    @Test("[Operation][VOX-EXE-006][VOX-ERR-001] admission and budgets reject typed")
     func admissionAndBudgetsRejectTyped() async throws {
         // A width below one is a typed rejection, never a substitution.
         do {

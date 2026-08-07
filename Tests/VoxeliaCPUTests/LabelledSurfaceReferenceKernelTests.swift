@@ -33,7 +33,7 @@ struct LabelledSurfaceReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-007] every integer container and byte order matches the golden",
+        "[Kernel][VOX-GEO-007] every integer container and byte order matches the golden",
         arguments: [
             ScalarType.int8, .uint8, .int16, .uint16,
             .int32, .uint32, .int64, .uint64,
@@ -304,7 +304,7 @@ struct LabelledSurfaceReferenceKernelTests {
         )
     }
 
-    @Test("[Unit][VOX-GEO-007] unions suppress selected interfaces and preserve open bounds")
+    @Test("[Kernel][VOX-GEO-007] unions suppress selected interfaces and preserve open bounds")
     func unionAndEmptyBoundarySemantics() throws {
         let fixture = try LabelledSurfaceTestSupport.fixture(
             extents: [3, 2, 2],
@@ -351,7 +351,7 @@ struct LabelledSurfaceReferenceKernelTests {
         #expect(noCell.topology.indices.isEmpty)
     }
 
-    @Test("[Unit][VOX-GEO-006][VOX-ERR-001] mapping winding midpoints and limits fail closed")
+    @Test("[Kernel][VOX-GEO-006][VOX-ERR-001] mapping winding midpoints and limits fail closed")
     func mappingMidpointAndLimits() async throws {
         #expect(try LabelledSurfaceReferenceKernel.midpoint(0, 1) == 0.5)
         #expect(throws: LabelledSurfaceExtractionError.positionNotRepresentable) {

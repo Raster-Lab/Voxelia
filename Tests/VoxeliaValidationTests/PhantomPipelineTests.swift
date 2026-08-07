@@ -153,7 +153,7 @@ struct PhantomPipelineTests {
 
     // MARK: - Intensity: the CT value survives the window
 
-    @Test("[Unit][VOX-VAL-003] the phantom's CT values are unchanged by the window")
+    @Test("[SystemReference][VOX-VAL-003] the phantom's CT values are unchanged by the window")
     func phantomCTValuesAreUnchangedByTheWindow() async throws {
         // Plan §46.2's first half, instantiated. The §55.1 ramp's slice k = 0 holds
         // 100 + 2i + 3j, and the test asserts the inspected value against that closed form
@@ -189,7 +189,7 @@ struct PhantomPipelineTests {
         }
     }
 
-    @Test("[Unit][VOX-VAL-003] the identity window is exact over the whole byte range")
+    @Test("[SystemReference][VOX-VAL-003] the identity window is exact over the whole byte range")
     func identityWindowIsExactOverTheWholeByteRange() async throws {
         // The spatial test below depends on this: a centre of 128 with a width of 256 maps
         // every stored value 0...255 to itself under `VOXELIA-ALG-0002`. Asserted over the
@@ -207,7 +207,7 @@ struct PhantomPipelineTests {
 
     // MARK: - Spatial: the oblique reconstruction of a known ramp
 
-    @Test("[Unit][VOX-VAL-003] an oblique reconstruction reproduces the ramp's closed form")
+    @Test("[SystemReference][VOX-VAL-003] an oblique reconstruction matches the closed form")
     func obliqueReconstructionReproducesTheRampsClosedForm() async throws {
         // Plan §46.2's second half, and the reason §55.2 exists. The volume geometry makes
         // the ramp exactly 10 + i + 2j - k, so the reconstruction's expected value is
@@ -300,7 +300,7 @@ struct PhantomPipelineTests {
             ])
     }
 
-    @Test("[Unit][VOX-VAL-003] the oblique plane is not an axis-aligned slice in disguise")
+    @Test("[SystemReference][VOX-VAL-003] the oblique plane is not axis-aligned in disguise")
     func obliquePlaneIsNotAnAxisAlignedSliceInDisguise() async throws {
         // The falsification. If the reconstruction ignored the y step and read the volume
         // row zero throughout, it would publish 10 + u - v instead. The two disagree at

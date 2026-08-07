@@ -11,7 +11,7 @@ import VoxeliaSpatial
 
 @Suite("CPU scalar-surface publication")
 struct CPUScalarSurfaceExtractionOperationTests {
-    @Test("[Unit][VOX-GEO-006][VOX-EXE-002] public execution binds every fixed claim")
+    @Test("[Operation][VOX-GEO-006][VOX-EXE-002] public execution binds every fixed claim")
     func executePublishesCompleteFixedClaims() async throws {
         let fixture = try ScalarSurfaceTestSupport.fixture()
         let request = ScalarSurfaceTestSupport.request(fixture: fixture)
@@ -145,7 +145,7 @@ struct CPUScalarSurfaceExtractionOperationTests {
     }
 
     @Test(
-        "[Unit][VOX-EXE-008][VOX-NUM-001] two passes with different cadences compose into one sequence"
+        "[Operation][VOX-EXE-008][VOX-NUM-001] two passes with different cadences compose into one sequence"
     )
     func twoPassesWithDifferentCadencesComposeIntoOneSequence() async throws {
         // The sharpest shape yet: ONE operation whose two passes use DIFFERENT
@@ -214,7 +214,7 @@ struct CPUScalarSurfaceExtractionOperationTests {
         }
     }
 
-    @Test("[Unit][VOX-GEO-007] empty scalar sources publish a coherent empty mesh")
+    @Test("[Operation][VOX-GEO-007] empty scalar sources publish a coherent empty mesh")
     func executePublishesEmptyMesh() async throws {
         let fixture = try ScalarSurfaceTestSupport.fixture(
             extents: [1, 2, 2],
@@ -238,7 +238,7 @@ struct CPUScalarSurfaceExtractionOperationTests {
         #expect(await coordinator.currentChargedByteCount == 0)
     }
 
-    @Test("[Unit][VOX-EXE-006] final cancellation precedes publication assembly")
+    @Test("[Operation][VOX-EXE-006] final cancellation precedes publication assembly")
     func finalCancellationPublishesNothing() async throws {
         let fixture = try ScalarSurfaceTestSupport.fixture()
         let coordinator = StorageReadCoordinator(
@@ -258,7 +258,7 @@ struct CPUScalarSurfaceExtractionOperationTests {
         #expect(await coordinator.currentChargedByteCount == 0)
     }
 
-    @Test("[Unit][VOX-ERR-001][VOX-SEC-011] publication construction maps payload-free")
+    @Test("[Operation][VOX-ERR-001][VOX-SEC-011] publication construction maps payload-free")
     func publicationConstructionFailuresMapClosed() throws {
         let fixture = try ScalarSurfaceTestSupport.fixture()
         let request = ScalarSurfaceTestSupport.request(fixture: fixture)

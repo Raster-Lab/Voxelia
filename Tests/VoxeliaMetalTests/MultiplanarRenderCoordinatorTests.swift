@@ -16,7 +16,7 @@ import VoxeliaStorage
 @Suite("Multiplanar render coordinator")
 struct MultiplanarRenderCoordinatorTests {
     @Test(
-        "[Unit][VOX-VS1-009][VOX-VS1-010] all three planes render and genuinely differ"
+        "[Pipeline][VOX-VS1-009][VOX-VS1-010] all three planes render and genuinely differ"
     )
     func allThreePlanesRenderAndGenuinelyDiffer() async throws {
         // ANISOTROPIC on purpose. A cube would let a transposed or duplicated
@@ -92,7 +92,7 @@ struct MultiplanarRenderCoordinatorTests {
     }
 
     @Test(
-        "[Unit][VOX-VS1-010][VOX-API-003] the caller's colour claim reaches the request unchanged"
+        "[Pipeline][VOX-VS1-010][VOX-API-003] the caller's colour claim reaches the request unchanged"
     )
     func callersColourClaimReachesTheRequestUnchanged() async throws {
         let publisher = try publisher()
@@ -293,7 +293,7 @@ struct MultiplanarRenderCoordinatorTests {
     }
 
     @Test(
-        "[Unit][VOX-VS1-010] CPU and Metal agree exactly on all three planes"
+        "[Pipeline][VOX-VS1-010] CPU and Metal agree exactly on all three planes"
     )
     func cpuAndMetalAgreeExactlyOnAllThreePlanes() async throws {
         // The differential the plan's §53 table requires and that no suite

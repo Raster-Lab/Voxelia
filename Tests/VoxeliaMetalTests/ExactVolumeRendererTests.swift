@@ -645,7 +645,7 @@ struct ExactVolumeRendererTests {
         #expect(secondBytes == rendered)
     }
 
-    @Test("[Unit][VOX-DVR-008] headlight shading modulates colour, never opacity")
+    @Test("[Pipeline][VOX-DVR-008] headlight shading modulates colour, never opacity")
     func headlightShadingModulatesColourNeverOpacity() async throws {
         // The ADR-0177 obligations at the surface: the shaded render
         // differs from the unshaded one in colour somewhere, every
@@ -696,7 +696,7 @@ struct ExactVolumeRendererTests {
         }
     }
 
-    @Test("[Unit][VOX-DVR-008] the frozen factors reproduce the fixtures")
+    @Test("[Pipeline][VOX-DVR-008] the frozen factors reproduce the fixtures")
     func frozenFactorsReproduceTheFixtures() throws {
         // The ALG-0025 fixtures through the internal factor helper:
         // the linear field's exact gradient, head-on, grazing and
@@ -771,7 +771,7 @@ struct ExactVolumeRendererTests {
         #expect(flat == 1)
     }
 
-    @Test("[Unit][VOX-ERR-001] volume render admissions reject typed")
+    @Test("[Pipeline][VOX-ERR-001] volume render admissions reject typed")
     func volumeRenderAdmissionsRejectTyped() async throws {
         let publisher = try publisher()
         let renderer = ExactVolumeRenderer(
@@ -1019,7 +1019,7 @@ struct ExactVolumeRendererTests {
         #expect(repeatedBytes == maskedBytes)
     }
 
-    @Test("[Unit][VOX-ERR-001] mask admissions reject typed")
+    @Test("[Pipeline][VOX-ERR-001] mask admissions reject typed")
     func maskAdmissionsRejectTyped() async throws {
         let publisher = try publisher()
         _ = try await publisher.publish(
@@ -1192,7 +1192,7 @@ struct ExactVolumeRendererTests {
         #expect(unacceleratedBytes.contains { $0 > 200 })
     }
 
-    @Test("[Unit][VOX-ERR-001] acceleration admissions reject typed")
+    @Test("[Pipeline][VOX-ERR-001] acceleration admissions reject typed")
     func accelerationAdmissionsRejectTyped() async throws {
         let publisher = try publisher()
         _ = try await publisher.publish(

@@ -11,7 +11,7 @@ import VoxeliaGeometry
 @Suite("CPU scalar-surface reference kernel")
 struct ScalarSurfaceReferenceKernelTests {
     @Test(
-        "[Unit][VOX-GEO-006][VOX-ERR-001] every admitted scalar and byte order matches the golden",
+        "[Kernel][VOX-GEO-006][VOX-ERR-001] every admitted scalar and byte order matches the golden",
         arguments: [
             ScalarType.int8, .uint8, .int16, .uint16, .int32, .uint32,
             .float16, .float32, .float64,
@@ -47,7 +47,7 @@ struct ScalarSurfaceReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-006] signed and floating negative samples decode exactly",
+        "[Kernel][VOX-GEO-006] signed and floating negative samples decode exactly",
         arguments: [
             ScalarType.int8, .int16, .int32, .float16, .float32, .float64,
         ],
@@ -141,7 +141,7 @@ struct ScalarSurfaceReferenceKernelTests {
         #expect(await coordinator.currentChargedByteCount == 0)
     }
 
-    @Test("[Unit][VOX-GEO-006] equality collapse, empty cells, and shared seams are exact")
+    @Test("[Kernel][VOX-GEO-006] equality collapse, empty cells, and shared seams are exact")
     func equalityEmptyAndSharedSeamFixtures() async throws {
         let coordinator = StorageReadCoordinator(
             maximumRetainedResultByteCount: 4_096
@@ -190,7 +190,7 @@ struct ScalarSurfaceReferenceKernelTests {
         )
     }
 
-    @Test("[Unit][VOX-GEO-006] reflected and permuted spaces preserve physical winding")
+    @Test("[Kernel][VOX-GEO-006] reflected and permuted spaces preserve physical winding")
     func reflectedAndPermutedGeometry() async throws {
         let coordinator = StorageReadCoordinator(
             maximumRetainedResultByteCount: 1_024
@@ -263,7 +263,7 @@ struct ScalarSurfaceReferenceKernelTests {
         )
     }
 
-    @Test("[Unit][VOX-ERR-001] interpolation and position failures never regularize")
+    @Test("[Kernel][VOX-ERR-001] interpolation and position failures never regularize")
     func numericalFailuresAreTyped() async throws {
         let coordinator = StorageReadCoordinator(
             maximumRetainedResultByteCount: 1_024
@@ -311,7 +311,7 @@ struct ScalarSurfaceReferenceKernelTests {
         }
     }
 
-    @Test("[Unit][VOX-SEC-001][VOX-ERR-001] vertex and triangle ceilings fail atomically")
+    @Test("[Kernel][VOX-SEC-001][VOX-ERR-001] vertex and triangle ceilings fail atomically")
     func resourceLimitsFailBeforeMutation() async throws {
         let fixture = try ScalarSurfaceTestSupport.fixture()
         let coordinator = StorageReadCoordinator(

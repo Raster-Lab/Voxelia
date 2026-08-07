@@ -127,7 +127,7 @@ struct TransposeAxesOperationTests {
         ).bytes
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-MPR-001] the exact remap reproduces the fixtures")
+    @Test("[Operation][VOX-EXE-002][VOX-MPR-001] the exact remap reproduces the fixtures")
     func exactRemapReproducesTheFixtures() async throws {
         // The rank-two VOXELIA-ALG-0012 fixture, with axis descriptors
         // and sampling payloads travelling with their axes.
@@ -188,7 +188,7 @@ struct TransposeAxesOperationTests {
         requireSendable(TransposeError.self)
     }
 
-    @Test("[Unit][VOX-EXE-006][VOX-ERR-001] transposition admission rejects typed")
+    @Test("[Operation][VOX-EXE-006][VOX-ERR-001] transposition admission rejects typed")
     func transpositionAdmissionRejectsTyped() async throws {
         let plane = try volume(
             extents: [2, 3],

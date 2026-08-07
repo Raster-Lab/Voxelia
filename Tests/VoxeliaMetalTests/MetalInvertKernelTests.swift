@@ -7,7 +7,7 @@ import VoxeliaCore
 
 @Suite("MetalInvertKernel")
 struct MetalInvertKernelTests {
-    @Test("[Unit][VOX-PLT-011][VOX-MTL-016] the involution is device-exact over the domain")
+    @Test("[Kernel][VOX-PLT-011][VOX-MTL-016] the involution is device-exact over the domain")
     func involutionIsDeviceExactOverTheDomain() throws {
         // The pinned digest binds the manifest to the embedded source.
         #expect(
@@ -43,7 +43,7 @@ struct MetalInvertKernelTests {
         requireSendable(MetalInvertKernelError.self)
     }
 
-    @Test("[Unit][VOX-SEC-001][VOX-REP-008] invert parameters have exact bytes")
+    @Test("[Kernel][VOX-SEC-001][VOX-REP-008] invert parameters have exact bytes")
     func invertParametersHaveExactBytes() throws {
         #expect(
             try MetalInvertKernel.parameterBytes(sampleCount: 256)

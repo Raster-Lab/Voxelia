@@ -140,7 +140,7 @@ struct RegionExtractionOperationTests {
         )
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-IMG-001] the crop is byte-exact end to end")
+    @Test("[Operation][VOX-EXE-002][VOX-IMG-001] the crop is byte-exact end to end")
     func cropIsByteExactEndToEnd() async throws {
         let source = try input()
         let region = try ImageRegion(lowerBounds: [1, 0], upperBounds: [3, 2])
@@ -248,7 +248,7 @@ struct RegionExtractionOperationTests {
         requireSendable(RegionExtractionError.self)
     }
 
-    @Test("[Unit][VOX-EXE-006][VOX-ERR-001] admission and budgets reject typed")
+    @Test("[Operation][VOX-EXE-006][VOX-ERR-001] admission and budgets reject typed")
     func admissionAndBudgetsRejectTyped() async throws {
         let region = try ImageRegion(lowerBounds: [1, 0], upperBounds: [3, 2])
 

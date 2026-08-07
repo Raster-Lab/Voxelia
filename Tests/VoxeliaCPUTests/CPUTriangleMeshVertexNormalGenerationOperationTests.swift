@@ -11,7 +11,7 @@ import VoxeliaSpatial
 @Suite("CPU triangle-mesh vertex-normal publication")
 struct CPUTriangleMeshVertexNormalGenerationOperationTests {
     @Test(
-        "[Unit][VOX-GEO-009][VOX-META-003][VOX-META-006] public execution binds every fixed claim"
+        "[Operation][VOX-GEO-009][VOX-META-003][VOX-META-006] public execution binds every fixed claim"
     )
     func executePublishesCompleteFixedClaims() async throws {
         let request = try self.request(mesh: sourceMesh())
@@ -161,7 +161,7 @@ struct CPUTriangleMeshVertexNormalGenerationOperationTests {
         #expect(transferred.2 == publication.outputProvenanceID)
     }
 
-    @Test("[Unit][VOX-GEO-009] an empty mesh publishes one coherent empty normal stream")
+    @Test("[Operation][VOX-GEO-009] an empty mesh publishes one coherent empty normal stream")
     func executePublishesEmptyMesh() async throws {
         let source = try mesh(positions: [], indices: [], attributes: [])
         let result = try await CPUTriangleMeshVertexNormalGenerationOperation.execute(
@@ -180,7 +180,7 @@ struct CPUTriangleMeshVertexNormalGenerationOperationTests {
     }
 
     @Test(
-        "[Unit][VOX-CON-006][VOX-CON-007] task and final cancellation publish no aggregate"
+        "[Operation][VOX-CON-006][VOX-CON-007] task and final cancellation publish no aggregate"
     )
     func cancellationPublishesNothing() async throws {
         let request = try self.request(mesh: sourceMesh())
@@ -211,7 +211,7 @@ struct CPUTriangleMeshVertexNormalGenerationOperationTests {
     }
 
     @Test(
-        "[Unit][VOX-ERR-001][VOX-SEC-011] kernel and publication failures remain atomic and payload-free"
+        "[Operation][VOX-ERR-001][VOX-SEC-011] kernel and publication failures remain atomic and payload-free"
     )
     func failuresPublishNothing() async throws {
         let isolated = try mesh(

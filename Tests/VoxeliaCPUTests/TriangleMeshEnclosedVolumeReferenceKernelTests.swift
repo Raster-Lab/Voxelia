@@ -72,7 +72,7 @@ struct TriangleMeshEnclosedVolumeReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-010][VOX-NUM-001] certified surfaces reduce exactly and deterministically"
+        "[Kernel][VOX-GEO-010][VOX-NUM-001] certified surfaces reduce exactly and deterministically"
     )
     func certifiedSurfacesReduceExactlyAndDeterministically() throws {
         let unitCube = try mesh(shell: cube(origin: (0, 0, 0), side: 1))
@@ -161,7 +161,7 @@ struct TriangleMeshEnclosedVolumeReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-010][VOX-ERR-001] certification rejects every uncertifiable surface"
+        "[Kernel][VOX-GEO-010][VOX-ERR-001] certification rejects every uncertifiable surface"
     )
     func certificationRejectsEveryUncertifiableSurface() throws {
         // A cube missing one facet leaves boundary edges.
@@ -251,7 +251,7 @@ struct TriangleMeshEnclosedVolumeReferenceKernelTests {
         }
     }
 
-    @Test("[Unit][VOX-ERR-001][VOX-SEC-001] admission precedence is exact")
+    @Test("[Kernel][VOX-ERR-001][VOX-SEC-001] admission precedence is exact")
     func admissionPrecedenceIsExact() throws {
         let shell = cube(origin: (0, 0, 0), side: 1)
         let simple = try mesh(shell: shell)
@@ -358,7 +358,7 @@ struct TriangleMeshEnclosedVolumeReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-CON-006][VOX-CON-007] cancellation polls exactly the frozen ordinals"
+        "[Kernel][VOX-CON-006][VOX-CON-007] cancellation polls exactly the frozen ordinals"
     )
     func cancellationPollsExactlyTheFrozenOrdinals() throws {
         // Sixteen disjoint cubes give 192 facets: poll ordinals 0, 64 and 128
@@ -648,7 +648,7 @@ struct TriangleMeshEnclosedVolumeReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-EXE-008][VOX-NUM-001] progress composes across three passes and changes nothing"
+        "[Kernel][VOX-EXE-008][VOX-NUM-001] progress composes across three passes and changes nothing"
     )
     func progressComposesAcrossThreePassesAndChangesNothing() throws {
         // Sixteen disjoint cubes give 192 facets and three cancellable

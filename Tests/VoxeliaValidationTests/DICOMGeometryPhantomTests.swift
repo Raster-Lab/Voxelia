@@ -110,7 +110,7 @@ struct DICOMGeometryPhantomTests {
 
     // MARK: - The derived geometry places the ramp phantom
 
-    @Test("[Unit][VOX-VAL-012] a DICOM-derived geometry samples the ramp at its closed form")
+    @Test("[SystemReference][VOX-VAL-012] a derived geometry samples the ramp's closed form")
     func dicomDerivedGeometrySamplesTheRampAtItsClosedForm() throws {
         // Column spacing 1 and row spacing 2 are deliberately not in the ratio the ramp's
         // own weights would hide: the derived value is 10 + i + 4j - k, where a transposed
@@ -143,7 +143,7 @@ struct DICOMGeometryPhantomTests {
         #expect(try phantom.value(column: 3, row: 2, slice: 0) == 21)
     }
 
-    @Test("[Unit][VOX-VAL-012] a transposed in-plane pairing changes the sampled values")
+    @Test("[SystemReference][VOX-VAL-012] a transposed in-plane pairing changes the sampled values")
     func transposedInPlanePairingChangesTheSampledValues() throws {
         // The falsification. `CTAffineVolumeBuilder` crosses the axes — column spacing scales
         // the row direction — and its own comment warns that reading it backwards transposes
@@ -168,7 +168,7 @@ struct DICOMGeometryPhantomTests {
         #expect(try swappedPhantom.value(column: 0, row: 1, slice: 0) == 12)
     }
 
-    @Test("[Unit][VOX-VAL-012] an oblique DICOM series derives the crossed in-plane steps")
+    @Test("[SystemReference][VOX-VAL-012] an oblique series derives the crossed steps")
     func obliqueDICOMSeriesDerivesTheCrossedInPlaneSteps() throws {
         // The plan's oblique stack. Three-four-five direction cosines keep the expected
         // elements exactly statable: the column step is columnSpacing times the row
@@ -219,7 +219,7 @@ struct DICOMGeometryPhantomTests {
 
     // MARK: - The derived geometry carries physical distance
 
-    @Test("[Unit][VOX-VAL-012] distances measured in a DICOM-derived geometry are exact")
+    @Test("[SystemReference][VOX-VAL-012] distances measured in a DICOM-derived geometry are exact")
     func distancesMeasuredInADICOMDerivedGeometryAreExact() throws {
         // A realistic acquisition: half-millimetre pixels, two-millimetre slices. That is
         // exactly `DistancePhantom`'s admitted configuration, so the phantom can be placed
@@ -256,7 +256,7 @@ struct DICOMGeometryPhantomTests {
         #expect(phantom.segments.map(\.exactLength) == [5.0, 3.0, 7.0, 9.0])
     }
 
-    @Test("[Unit][VOX-VAL-012] a coarser dataset moves the samples but not the distances")
+    @Test("[SystemReference][VOX-VAL-012] a coarser dataset moves samples, not distances")
     func coarserDatasetMovesTheSamplesButNotTheDistances() throws {
         // The patient-space claim, made from the DICOM side: a different acquisition grid
         // changes every index separation and leaves the physical lengths alone.
@@ -296,7 +296,7 @@ struct DICOMGeometryPhantomTests {
 
     // MARK: - The dataset has to be one the ingest path actually accepts
 
-    @Test("[Unit][VOX-VAL-012] the phantom datasets pass geometry validation unwarned")
+    @Test("[SystemReference][VOX-VAL-012] the phantom datasets pass geometry validation unwarned")
     func phantomDatasetsPassGeometryValidationUnwarned() throws {
         // A phantom placed by a geometry the validator only tolerated would be validating
         // against a dataset the product would flag, so the verdict is asserted rather than

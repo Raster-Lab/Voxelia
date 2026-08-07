@@ -115,7 +115,7 @@ struct SqueezeAxesOperationTests {
         )
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-MPR-001] the squeeze drops singletons byte-identically")
+    @Test("[Operation][VOX-EXE-002][VOX-MPR-001] the squeeze drops singletons byte-identically")
     func squeezeDropsSingletonsByteIdentically() async throws {
         // Both VOXELIA-ALG-0013 fixtures: the payload is byte-identical
         // and the remaining axes keep their descriptors in order.
@@ -151,7 +151,7 @@ struct SqueezeAxesOperationTests {
         requireSendable(SqueezeError.self)
     }
 
-    @Test("[Unit][VOX-EXE-006][VOX-ERR-001] squeeze admission rejects typed")
+    @Test("[Operation][VOX-EXE-006][VOX-ERR-001] squeeze admission rejects typed")
     func squeezeAdmissionRejectsTyped() async throws {
         let thick = try slab(extents: [2, 3, 1], axisNames: ["x", "y", "z"])
 

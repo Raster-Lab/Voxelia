@@ -48,7 +48,7 @@ struct TriangleMeshVertexNormalReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-009][VOX-NUM-001] output is deterministic, source-preserving, and exactly described"
+        "[Kernel][VOX-GEO-009][VOX-NUM-001] output is deterministic, source-preserving, and exactly described"
     )
     func outputIsDeterministicAndSourcePreserving() throws {
         let sourceAttribute = try attribute(
@@ -102,7 +102,7 @@ struct TriangleMeshVertexNormalReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-009][VOX-NUM-001] topology order remains numerically observable"
+        "[Kernel][VOX-GEO-009][VOX-NUM-001] topology order remains numerically observable"
     )
     func topologyOrderRemainsObservable() throws {
         let large = 0x1.1c37937e08000p+53
@@ -146,7 +146,7 @@ struct TriangleMeshVertexNormalReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-SEC-001][VOX-ERR-001] admission limits and failure precedence are fail-closed"
+        "[Kernel][VOX-SEC-001][VOX-ERR-001] admission limits and failure precedence are fail-closed"
     )
     func admissionAndFailurePrecedenceAreFailClosed() throws {
         let simple = try mesh(
@@ -238,7 +238,7 @@ struct TriangleMeshVertexNormalReferenceKernelTests {
     }
 
     @Test(
-        "[Boundary][VOX-SEC-001] fixed logical-byte accounting accepts the registered maximum only"
+        "[Kernel][VOX-SEC-001] fixed logical-byte accounting accepts the registered maximum only"
     )
     func logicalByteBoundaryIsCheckedWithoutAllocation() throws {
         let maximumVertexCount = UInt64.max / 48
@@ -276,7 +276,7 @@ struct TriangleMeshVertexNormalReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-009] empty mesh succeeds and appends an exact empty normal stream"
+        "[Kernel][VOX-GEO-009] empty mesh succeeds and appends an exact empty normal stream"
     )
     func emptyMeshSucceeds() throws {
         let result = try generate(mesh: try mesh(positions: [], indices: []))
@@ -289,7 +289,7 @@ struct TriangleMeshVertexNormalReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-CON-001][VOX-ERR-001] every frozen cancellation cadence wins at its checkpoint"
+        "[Kernel][VOX-CON-001][VOX-ERR-001] every frozen cancellation cadence wins at its checkpoint"
     )
     func frozenCancellationCadenceWins() throws {
         let normalBearing = try mesh(
@@ -379,7 +379,7 @@ struct TriangleMeshVertexNormalReferenceKernelTests {
     }
 
     @Test(
-        "[Unit][VOX-CON-001] non-cadence ordinals are not probed and optional final check is exact"
+        "[Kernel][VOX-CON-001] non-cadence ordinals are not probed and optional final check is exact"
     )
     func nonCadenceOrdinalsAreNotProbed() throws {
         let source = try mesh(

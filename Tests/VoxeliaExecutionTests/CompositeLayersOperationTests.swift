@@ -126,7 +126,7 @@ struct CompositeLayersOperationTests {
         ).bytes
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-IMG-001] the frozen blend reproduces the fixtures")
+    @Test("[Operation][VOX-EXE-002][VOX-IMG-001] the frozen blend reproduces the fixtures")
     func frozenBlendReproducesTheFixtures() async throws {
         // The VOXELIA-ALG-0009 fixtures: half-opacity overlay, the
         // fractional pair, and exact reproduction through opacity one
@@ -192,7 +192,7 @@ struct CompositeLayersOperationTests {
         requireSendable(CompositeError.self)
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-SPA-013] equal calibration blends and passes through")
+    @Test("[Operation][VOX-EXE-002][VOX-SPA-013] equal calibration blends and passes through")
     func equalCalibrationBlendsAndPassesThrough() async throws {
         // The ADR-0128 rule: identically calibrated layers blend with
         // the shared axes and geometry carried through untouched, at
@@ -264,7 +264,7 @@ struct CompositeLayersOperationTests {
         } catch CompositeError.layerCalibrationMismatch {}
     }
 
-    @Test("[Unit][VOX-EXE-006][VOX-ERR-001] admission rejects unsupported layers typed")
+    @Test("[Operation][VOX-EXE-006][VOX-ERR-001] admission rejects unsupported layers typed")
     func admissionRejectsUnsupportedLayersTyped() async throws {
         let first = try layer(bytes: Self.layerA, name: "series-a")
         let second = try layer(bytes: Self.layerB, name: "series-b")

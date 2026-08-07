@@ -10,7 +10,7 @@ import VoxeliaSpatial
 
 @Suite("CPU labelled-surface publication")
 struct CPULabelledSurfaceExtractionOperationTests {
-    @Test("[Unit][VOX-GEO-007][VOX-GEO-008][VOX-EXE-002] public execution binds every fixed claim")
+    @Test("[Operation][VOX-GEO-007][VOX-GEO-008][VOX-EXE-002] execution binds every fixed claim")
     func executePublishesCompleteFixedClaims() async throws {
         let fixture = try LabelledSurfaceTestSupport.fixture(
             scalarType: .int8,
@@ -152,7 +152,7 @@ struct CPULabelledSurfaceExtractionOperationTests {
         #expect(transferred.2 == publication.outputProvenanceID)
     }
 
-    @Test("[Unit][VOX-GEO-007] empty labelled sources publish a coherent empty mesh")
+    @Test("[Operation][VOX-GEO-007] empty labelled sources publish a coherent empty mesh")
     func executePublishesEmptyMesh() async throws {
         let fixture = try LabelledSurfaceTestSupport.fixture(
             extents: [1, 2, 2],
@@ -175,7 +175,7 @@ struct CPULabelledSurfaceExtractionOperationTests {
         #expect(await coordinator.currentChargedByteCount == 0)
     }
 
-    @Test("[Unit][VOX-EXE-006] final cancellation precedes publication assembly")
+    @Test("[Operation][VOX-EXE-006] final cancellation precedes publication assembly")
     func finalCancellationPublishesNothing() async throws {
         let fixture = try LabelledSurfaceTestSupport.fixture()
         let coordinator = StorageReadCoordinator(
@@ -194,7 +194,7 @@ struct CPULabelledSurfaceExtractionOperationTests {
         #expect(await coordinator.currentChargedByteCount == 0)
     }
 
-    @Test("[Unit][VOX-ERR-001][VOX-SEC-011] publication construction maps payload-free")
+    @Test("[Operation][VOX-ERR-001][VOX-SEC-011] publication construction maps payload-free")
     func publicationConstructionFailuresMapClosed() throws {
         let fixture = try LabelledSurfaceTestSupport.fixture()
         let request = LabelledSurfaceTestSupport.request(fixture: fixture)

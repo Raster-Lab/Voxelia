@@ -5570,6 +5570,44 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **15 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (ttt): `ADR-0301` — the test-level taxonomy ENFORCED; `VOX-VAL-001`
+   discharged (I+T).** 1229 tests / 217 suites, unchanged — retagging and a gate, no
+   behaviour change. **No source changed.**
+
+   **FIFTH instance of "something exists and nothing runs it"** — after `ADR-0196`,
+   `ADR-0282`, `ADR-0287`, `ADR-0289`. Measured before deciding anything: of the row's six
+   named levels, only **unit** and **integration** had a tag. **kernel, operation, pipeline
+   and system-reference had NO tag at all** — their tests existed but were all labelled
+   `Unit`, so nothing could tell whether a level had coverage. Three unnamed tags were in
+   use, one of which — **`Boundary` — appeared exactly ONCE in 1,229 tests**. That singleton
+   is the finding in miniature: an unenforced vocabulary does not stay a vocabulary.
+
+   **`Concurrency` and `Oracle` ADMITTED, not rewritten** — each marks a real distinction the
+   six do not cover, and rejecting them would delete information to satisfy a word count.
+   `Boundary` was **not** admitted: one occurrence is a slip, retagged `Kernel` where it
+   belongs.
+
+   **Three rules; two clean from day one** (vocabulary closed, all six levels non-empty) and
+   **one RATCHET** for the 219 untagged tests across 27 files — explicit debt baseline that
+   may shrink, never grow. Follows `check_requirement_traceability.py`'s own precedent
+   deliberately: a clean gate would have been red on landing and switched off.
+
+   **THE GATE IS PROVEN ABLE TO FAIL** — all three rules run against deliberate violations
+   before wiring in: `[Bogus]` tag → exit 1; extra untagged test → "above its baseline of 1"
+   → exit 1; required level removed → exit 1. A gate that has never failed is a gate nobody
+   has tested, which is exactly how the four earlier omissions survived.
+
+   **Levels established by retagging whole unambiguous suites** (125 tests): Kernel 37,
+   Operation 58, Pipeline 21, SystemReference 10.
+
+   **system-reference had ZERO members until this week** — `Tests/VoxeliaTests` is a single
+   linkage assertion, not a system test. The qualifying suites are the phantom-driven ones
+   from `ADR-0297`/`ADR-0298`. **Ten tests is thin and the record says so** rather than
+   presenting the level as healthy; the gate makes the thinness visible instead of hiding it
+   inside 959 `Unit` tags.
+
+   **14 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

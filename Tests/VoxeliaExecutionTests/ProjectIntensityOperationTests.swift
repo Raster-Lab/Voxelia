@@ -129,7 +129,7 @@ struct ProjectIntensityOperationTests {
     /// (10, 30, 20), (1, 2, 2), (0, 1, 0), (3, 4, 0).
     private let primaryBytes: [UInt8] = [10, 1, 0, 3, 30, 2, 1, 4, 20, 2, 0, 0]
 
-    @Test("[Unit][VOX-MPR-007][VOX-MPR-008][VOX-MPR-009] all modes project all axes exactly")
+    @Test("[Operation][VOX-MPR-007][VOX-MPR-008][VOX-MPR-009] all modes project all axes exactly")
     func allModesProjectAllAxesExactly() async throws {
         // The ALG-0020 primary fixture along axis two, plus the
         // independently computed axis-zero and axis-one projections —
@@ -166,7 +166,7 @@ struct ProjectIntensityOperationTests {
         #expect(repeated == [20, 2, 0, 2])
     }
 
-    @Test("[Unit][VOX-MPR-009] the half-even boundary rounds in every direction")
+    @Test("[Operation][VOX-MPR-009] the half-even boundary rounds in every direction")
     func halfEvenBoundaryRoundsInEveryDirection() async throws {
         // Depth-two rays (1,2), (2,3), (0,1), (255,254): the average
         // half-even boundary rounding up to even, down to even, to
@@ -178,7 +178,7 @@ struct ProjectIntensityOperationTests {
         #expect(try await project(input, mode: .average, axis: 2) == [2, 2, 0, 254])
     }
 
-    @Test("[Unit][VOX-MPR-010] the sentinel excludes and all-excluded rays are zero")
+    @Test("[Operation][VOX-MPR-010] the sentinel excludes and all-excluded rays are zero")
     func sentinelExcludesAndAllExcludedRaysAreZero() async throws {
         // Sentinel 7 over rays (7,5,7), (7,7,7), (6,7,9): partial
         // exclusion reduces to the ray's remaining samples, the
@@ -202,7 +202,7 @@ struct ProjectIntensityOperationTests {
         )
     }
 
-    @Test("[Unit][VOX-MPR-006] a depth-one projection is the identity")
+    @Test("[Operation][VOX-MPR-006] a depth-one projection is the identity")
     func depthOneProjectionIsTheIdentity() async throws {
         let input = try volume(extents: [2, 2, 1], bytes: [10, 1, 0, 3])
         for mode in ProjectionMode.allCases {
@@ -210,7 +210,7 @@ struct ProjectIntensityOperationTests {
         }
     }
 
-    @Test("[Unit][VOX-ERR-001] projection admissions reject typed")
+    @Test("[Operation][VOX-ERR-001] projection admissions reject typed")
     func projectionAdmissionsRejectTyped() async throws {
         let input = try volume(extents: [2, 2, 3], bytes: primaryBytes)
         await #expect(throws: ProjectIntensityError.invalidProjectionAxis) {

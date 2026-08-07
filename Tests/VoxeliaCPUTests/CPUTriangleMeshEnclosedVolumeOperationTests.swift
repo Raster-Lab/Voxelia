@@ -11,7 +11,7 @@ import VoxeliaSpatial
 @Suite("CPU triangle-mesh enclosed-volume publication")
 struct CPUTriangleMeshEnclosedVolumeOperationTests {
     @Test(
-        "[Unit][VOX-GEO-010][VOX-META-003][VOX-META-006] public execution binds every fixed claim"
+        "[Operation][VOX-GEO-010][VOX-META-003][VOX-META-006] public execution binds every fixed claim"
     )
     func executePublishesCompleteFixedClaims() async throws {
         let request = try self.request(mesh: sourceMesh())
@@ -144,7 +144,7 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-010] an empty mesh publishes a coherent positive-zero measurement"
+        "[Operation][VOX-GEO-010] an empty mesh publishes a coherent positive-zero measurement"
     )
     func executePublishesEmptyMesh() async throws {
         let source = try mesh(positions: [], indices: [])
@@ -162,7 +162,7 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-010] the published unit derives from the source coordinate space"
+        "[Operation][VOX-GEO-010] the published unit derives from the source coordinate space"
     )
     func publishedUnitDerivesFromSourceCoordinateSpace() async throws {
         let centimetre = try MeasurementUnit(
@@ -198,7 +198,7 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
     }
 
     @Test(
-        "[Unit][VOX-CON-006][VOX-CON-007] task and final cancellation publish no aggregate"
+        "[Operation][VOX-CON-006][VOX-CON-007] task and final cancellation publish no aggregate"
     )
     func cancellationPublishesNothing() async throws {
         let request = try self.request(mesh: sourceMesh())
@@ -239,7 +239,7 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
     }
 
     @Test(
-        "[Unit][VOX-ERR-001] every kernel failure surfaces unchanged and publishes nothing"
+        "[Operation][VOX-ERR-001] every kernel failure surfaces unchanged and publishes nothing"
     )
     func kernelFailuresSurfaceUnchanged() async throws {
         let publication = try publicationContext()
@@ -373,7 +373,7 @@ struct CPUTriangleMeshEnclosedVolumeOperationTests {
     }
 
     @Test(
-        "[Unit][VOX-GEO-010][VOX-CON-003] repeated and concurrent execution are identical"
+        "[Operation][VOX-GEO-010][VOX-CON-003] repeated and concurrent execution are identical"
     )
     func repeatedAndConcurrentExecutionAreIdentical() async throws {
         let request = try self.request(mesh: sourceMesh())

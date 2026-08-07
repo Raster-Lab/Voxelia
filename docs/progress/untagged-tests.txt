@@ -1,0 +1,30 @@
+# Tests carrying no level tag, per `ADR-0301`.
+# A count may shrink but never grow, and a file absent here may not add any.
+# Regenerate deliberately with `check_test_levels.py --write`, never to silence a failure.
+1 Tests/VoxeliaCPUTests/VoxeliaCPUTests.swift
+1 Tests/VoxeliaCoreTests/VoxeliaCoreTests.swift
+15 Tests/VoxeliaDICOMKitTests/DICOMFrameAdapterTests.swift
+6 Tests/VoxeliaDICOMKitTests/DICOMFrameTransferTests.swift
+1 Tests/VoxeliaExecutionTests/VoxeliaExecutionTests.swift
+1 Tests/VoxeliaGeometryTests/VoxeliaGeometryTests.swift
+12 Tests/VoxeliaImagingTests/CTAffineVolumeBuilderTests.swift
+31 Tests/VoxeliaImagingTests/CTFrameDescriptionTests.swift
+19 Tests/VoxeliaImagingTests/CTGeometryValidatorTests.swift
+10 Tests/VoxeliaImagingTests/CTSampleInspectorTests.swift
+9 Tests/VoxeliaImagingTests/CTSampleNormalisationTests.swift
+19 Tests/VoxeliaImagingTests/CTSeriesAssemblerTests.swift
+20 Tests/VoxeliaImagingTests/CTValueInterpreterTests.swift
+7 Tests/VoxeliaImagingTests/CTVolumeBridgeCompositionTests.swift
+9 Tests/VoxeliaImagingTests/CTVolumeByteBufferTests.swift
+15 Tests/VoxeliaImagingTests/CTVolumeDescriptorBuilderTests.swift
+17 Tests/VoxeliaImagingTests/CTVolumeLayoutTests.swift
+10 Tests/VoxeliaImagingTests/CTVolumePublicationBuilderTests.swift
+7 Tests/VoxeliaImagingTests/CTVolumeStorageBuilderTests.swift
+1 Tests/VoxeliaImagingTests/VoxeliaImagingTests.swift
+1 Tests/VoxeliaInteractionTests/VoxeliaInteractionTests.swift
+2 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
+1 Tests/VoxeliaRenderingTests/VoxeliaRenderingTests.swift
+1 Tests/VoxeliaSpatialTests/VoxeliaSpatialTests.swift
+1 Tests/VoxeliaStorageTests/VoxeliaStorageTests.swift
+1 Tests/VoxeliaTests/VoxeliaTests.swift
+1 Tests/VoxeliaValidationTests/VoxeliaValidationTests.swift

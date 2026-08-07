@@ -107,7 +107,7 @@ struct InvertDisplayOperationTests {
         )
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-IMG-001] the exact involution reproduces the fixtures")
+    @Test("[Operation][VOX-EXE-002][VOX-IMG-001] the exact involution reproduces the fixtures")
     func exactInvolutionReproducesTheFixtures() async throws {
         // The VOXELIA-ALG-0011 fixture and the involution: double
         // inversion reproduces the input exactly, with the accepted
@@ -133,7 +133,7 @@ struct InvertDisplayOperationTests {
         requireSendable(InvertDisplayError.self)
     }
 
-    @Test("[Unit][VOX-EXE-006][VOX-ERR-001] inversion admission rejects typed")
+    @Test("[Operation][VOX-EXE-006][VOX-ERR-001] inversion admission rejects typed")
     func inversionAdmissionRejectsTyped() async throws {
         // A value transform rejects typed; scalar-format admission
         // mirrors the accepted pattern.

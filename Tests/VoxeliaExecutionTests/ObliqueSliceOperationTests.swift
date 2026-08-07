@@ -195,7 +195,7 @@ struct ObliqueSliceOperationTests {
         ).bytes
     }
 
-    @Test("[Unit][VOX-MPR-003][VOX-SPA-004] the diagonal fixture samples exactly")
+    @Test("[Operation][VOX-MPR-003][VOX-SPA-004] the diagonal fixture samples exactly")
     func diagonalFixtureSamplesExactly() async throws {
         // The frozen ALG-0017 diagonal request over the affine-field
         // volume: trilinear reduction reproduces the field exactly,
@@ -235,7 +235,7 @@ struct ObliqueSliceOperationTests {
         #expect(parent.rawValue == "record-in")
     }
 
-    @Test("[Unit][VOX-MPR-003] padding, border and rounding fixtures hold")
+    @Test("[Operation][VOX-MPR-003] padding, border and rounding fixtures hold")
     func paddingBorderAndRoundingFixturesHold() async throws {
         // The remaining frozen fixtures: out-of-support padding is
         // exactly zero, a border coordinate replicates the border
@@ -264,7 +264,7 @@ struct ObliqueSliceOperationTests {
         #expect(try bytes(thirds) == [1])
     }
 
-    @Test("[Unit][VOX-MPR-003][VOX-MPR-004] integer coordinates reproduce the stored plane")
+    @Test("[Operation][VOX-MPR-003][VOX-MPR-004] integer coordinates reproduce the stored plane")
     func integerCoordinatesReproduceTheStoredPlane() async throws {
         // The axial plane at index two as an oblique request: every
         // sample lands on an integer in-support coordinate and the
@@ -280,7 +280,7 @@ struct ObliqueSliceOperationTests {
         )
     }
 
-    @Test("[Unit][VOX-ERR-001] oblique admissions reject typed")
+    @Test("[Operation][VOX-ERR-001] oblique admissions reject typed")
     func obliqueAdmissionsRejectTyped() async throws {
         let calibrated = try volume(geometry: try identityVolumeGeometry())
         let request = try pointRequest(origin: (0, 0, 0))

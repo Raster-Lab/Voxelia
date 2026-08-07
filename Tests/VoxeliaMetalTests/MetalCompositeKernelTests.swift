@@ -25,7 +25,7 @@ struct MetalCompositeKernelTests {
         return UInt8(min(255.0, max(0.0, rounded)))
     }
 
-    @Test("[Unit][VOX-PLT-011][VOX-REP-008] the composite kernel is pinned and anchored")
+    @Test("[Kernel][VOX-PLT-011][VOX-REP-008] the composite kernel is pinned and anchored")
     func compositeKernelIsPinnedAndAnchored() throws {
         #expect(
             MetalCompositeKernel.sourceDigestHexText
@@ -83,7 +83,7 @@ struct MetalCompositeKernelTests {
         requireSendable(MetalCompositeKernelError.self)
     }
 
-    @Test("[Unit][VOX-SEC-001][VOX-REP-008] composite parameters have exact bytes")
+    @Test("[Kernel][VOX-SEC-001][VOX-REP-008] composite parameters have exact bytes")
     func compositeParametersHaveExactBytes() throws {
         #expect(
             try MetalCompositeKernel.parameterBytes(
@@ -131,7 +131,7 @@ struct MetalCompositeKernelTests {
         } catch MetalCompositeKernelError.invalidLayerShape {}
     }
 
-    @Test("[Unit][VOX-VAL-007][VOX-EXE-003] the composite differential measures the GPU model")
+    @Test("[Kernel][VOX-VAL-007][VOX-EXE-003] the composite differential measures the GPU model")
     func compositeDifferentialMeasuresTheGPUModel() throws {
         let kernel = try MetalCompositeKernel(
             context: try MetalExecutionContext(),

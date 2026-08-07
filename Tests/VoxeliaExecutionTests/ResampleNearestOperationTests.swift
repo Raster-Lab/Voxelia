@@ -120,7 +120,7 @@ struct ResampleNearestOperationTests {
         ).bytes
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-IMG-001] the frozen index model reproduces the fixtures")
+    @Test("[Operation][VOX-EXE-002][VOX-IMG-001] the frozen index model reproduces the fixtures")
     func frozenIndexModelReproducesTheFixtures() async throws {
         // The VOXELIA-ALG-0008 upsampling fixture: 4x3 to 8x6
         // duplicates every sample into a 2x2 block.
@@ -174,7 +174,7 @@ struct ResampleNearestOperationTests {
         requireSendable(ResampleError.self)
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-MPR-003] calibration rescales under the registered rules")
+    @Test("[Operation][VOX-EXE-002][VOX-MPR-003] calibration rescales under the registered rules")
     func calibrationRescalesUnderTheRegisteredRules() async throws {
         // The ADR-0126 rescale fixtures at both scales one half: the
         // regular axis and the affine matrix, with the coordinate
@@ -238,7 +238,7 @@ struct ResampleNearestOperationTests {
         )
     }
 
-    @Test("[Unit][VOX-EXE-006][VOX-ERR-001] admission rejects unsupported inputs typed")
+    @Test("[Operation][VOX-EXE-006][VOX-ERR-001] admission rejects unsupported inputs typed")
     func admissionRejectsUnsupportedInputsTyped() async throws {
         // Irregular payloads and out-of-range extents reject typed;
         // rank admission mirrors the accepted pattern, and regular

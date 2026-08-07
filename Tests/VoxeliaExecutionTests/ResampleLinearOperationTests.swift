@@ -121,7 +121,7 @@ struct ResampleLinearOperationTests {
         ).bytes
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-R2D-013] the frozen interpolation reproduces the fixtures")
+    @Test("[Operation][VOX-EXE-002][VOX-R2D-013] the frozen interpolation reproduces the fixtures")
     func frozenInterpolationReproducesTheFixtures() async throws {
         // The VOXELIA-ALG-0015 fixtures: the 2-by-2 upscale, the
         // 4-by-3 downscale, and the exact identity at equal
@@ -160,7 +160,7 @@ struct ResampleLinearOperationTests {
         requireSendable(ResampleLinearError.self)
     }
 
-    @Test("[Unit][VOX-EXE-002][VOX-MPR-003] linear calibration rescales identically")
+    @Test("[Operation][VOX-EXE-002][VOX-MPR-003] linear calibration rescales identically")
     func linearCalibrationRescalesIdentically() async throws {
         // The registered rescale fixtures through the linear
         // operation at the widened version — the same shared rule
@@ -225,7 +225,7 @@ struct ResampleLinearOperationTests {
         )
     }
 
-    @Test("[Unit][VOX-EXE-006][VOX-ERR-001] linear admission rejects typed")
+    @Test("[Operation][VOX-EXE-006][VOX-ERR-001] linear admission rejects typed")
     func linearAdmissionRejectsTyped() async throws {
         let gradient = try input(extents: [4, 3], bytes: Array(0..<12))
 
