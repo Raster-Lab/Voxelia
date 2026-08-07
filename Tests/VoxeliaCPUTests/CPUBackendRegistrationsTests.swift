@@ -15,7 +15,7 @@ struct CPUBackendRegistrationsTests {
         // equal to the operations' own constants, the pinned current
         // contract versions, and the CPU backend claim.
         let registry = try CPUBackendRegistrations.standard()
-        #expect(registry.implementations.count == 19)
+        #expect(registry.implementations.count == 21)
         #expect(
             registry.implementations.allSatisfy {
                 $0.backend.rawValue == "org.voxelia.backend.cpu"
@@ -53,6 +53,8 @@ struct CPUBackendRegistrationsTests {
             GridResampleOperation.operationIdentifier,
             LevelSelectOperation.operationIdentifier,
             ThresholdOperation.operationIdentifier,
+            MaskApplyOperation.operationIdentifier,
+            ArithmeticOperation.operationIdentifier,
             ProjectIntensityOperation.operationIdentifier,
             ResampleCubicOperation.operationIdentifier,
             ScalarSurfaceExtractionRequest.operationIdentifier,

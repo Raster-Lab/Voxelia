@@ -155,6 +155,22 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0352-threshold"
             ),
             try entry(
+                operation: MaskApplyOperation.operationIdentifier,
+                implementation: MaskApplyOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: exact,
+                evidence: "adr-0353-mask-apply"
+            ),
+            try entry(
+                operation: ArithmeticOperation.operationIdentifier,
+                implementation: ArithmeticOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0353-image-arithmetic"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,

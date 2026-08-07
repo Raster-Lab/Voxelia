@@ -61,3 +61,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0055](VOXELIA-ALG-0055-grid-resampling.md) | Accepted | Grid resampling `binary64-v1` |
 | [VOXELIA-ALG-0056](VOXELIA-ALG-0056-level-selection-downsampling.md) | Accepted | Level selection downsampling `binary64-v1` |
 | [VOXELIA-ALG-0057](VOXELIA-ALG-0057-range-threshold.md) | Accepted | Range threshold `binary64-v1` |
+| [VOXELIA-ALG-0058](VOXELIA-ALG-0058-mask-application-and-arithmetic.md) | Accepted | Mask application and image arithmetic `binary64-v1` |

@@ -7155,3 +7155,34 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: mask application and image arithmetic, completing `VOX-IMG-010` —
    same domain, design-first; the arithmetic overflow rule per integer type is
    the frozen decision to settle.
+
+   **Increment (ttttt): `ADR-0353` + `VOXELIA-ALG-0058` — `VOX-IMG-010` IS
+   DISCHARGED; the overflow rule is saturate-and-count.** 1301 tests / 228
+   suites.
+
+   **The frozen decision**: integer arithmetic rounds ties-to-even, saturates
+   to the type range, and COUNTS every saturation into the aggregated
+   `arithmetic-saturated` warning (absent at zero) — silent saturation distorts
+   invisibly, rejection fails a volume for one hot sample, counting keeps the
+   distortion visible where it belongs. Float32 stores non-finite results
+   VERBATIM, counted into `arithmetic-non-finite` — binary32 has a vocabulary
+   for infinity and substituting finite values would fabricate data.
+
+   **`MaskApplyOperation` (CPU 20)**: masked-in samples byte-verbatim, the fill
+   must round-trip the stored type EXACTLY (`fillValueNotRepresentable` — a
+   written value must be the declared one), and any mask byte other than 0/1
+   rejects fail-closed (a corrupted mask must never silently threshold).
+
+   **`ArithmeticOperation` (CPU 21, combined 24)**: add/subtract/multiply over
+   two same-shape same-type images or an image and one finite scalar, binary64
+   over the domain's exact widening; mixed-type promotion is a future record's
+   rule, not this one's accident. Five oracle fixtures exact on first run —
+   including 15x17=255 NOT counting as saturation, and both tie directions
+   rounding to even before the range check.
+
+   **Threshold, mask and arithmetic all exist under one domain** — VOX-IMG-010
+   complete; `VOX-R2D-004` advances again (both admit float32).
+
+   **Next**: `VOX-IMG-011` — convolution and Gaussian foundations; the frozen
+   decisions are the BOUNDARY CONDITIONS the row itself names, and the Gaussian
+   kernel's discretisation rule (sampled vs integrated, truncation radius).

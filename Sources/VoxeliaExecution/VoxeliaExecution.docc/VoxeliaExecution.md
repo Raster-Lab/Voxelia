@@ -65,6 +65,12 @@ public API is introduced only by reviewed milestone specifications.
 - ``LevelSelectError``
 - ``ThresholdOperation``
 - ``ThresholdError``
+- ``MaskApplyOperation``
+- ``MaskApplyError``
+- ``ArithmeticOperation``
+- ``ArithmeticOperator``
+- ``ArithmeticOperand``
+- ``ArithmeticError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``
