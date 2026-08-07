@@ -3145,6 +3145,11 @@
       "sha256": "fa5043c9362cf3e8636afe21c2d655460e376c07f22aecd33eb1aaa76e8afc3d"
     },
     {
+      "path": "Tools/Scripts/check_unstructured_concurrency.py",
+      "size": 2613,
+      "sha256": "b6154b22ec86f0c9539eb2ecb18088c765fee68f10dd01ee1545e55404844638"
+    },
+    {
       "path": "Tools/Scripts/generate-sbom.sh",
       "size": 284,
       "sha256": "1d562dc44415865beeac5765ff9495bcee5375d576e1f5f3152c897cd4a53df4"
@@ -3181,8 +3186,8 @@
     },
     {
       "path": "Tools/Scripts/validate-docs.sh",
-      "size": 693,
-      "sha256": "5a0467666d7134140cbdc1c8725526278a098b639fed6b7e88a862fb05957dc9"
+      "size": 749,
+      "sha256": "b813f77d902d35cf16ef6a6358a565ee0dbe40e675b0b5b4c126fe20affd1546"
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
@@ -5290,9 +5295,14 @@
       "sha256": "109e8277e5dde872b48b4d8411e69a9b75f481626aa5e467743433edc613d880"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0327-interaction-launches-nothing.md",
+      "size": 4301,
+      "sha256": "1eef991fca89ae32bfb06399a87960cc1eb8f97f45cf9e72906d43eff5cb4e4f"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 44250,
-      "sha256": "1e4093f92cbc22822c62f6717de329a8714970b22c703bcec8c991fb76285588"
+      "size": 44349,
+      "sha256": "4ce260e7cff3bf493f4b2a90eb614d94fb651f4e05bcf5cd9ba50954787bb644"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5386,8 +5396,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 408948,
-      "sha256": "b59b9867be38f88a481129f2ad28614bc27cc52895c231c42c3181a918d6667e"
+      "size": 410356,
+      "sha256": "881c26242db900a5be9328e02808856815ca3c3d8d282b709d3885ff96b5a0a0"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5911,8 +5921,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67598,
-      "sha256": "8cfde968c62a97c4f50c4d2e17188183da7666a009fb9950d81458733999f2e6"
+      "size": 67715,
+      "sha256": "3327ca7f337ca77e4788913ab1aeeb5773117a70dcb895f30bf6851237e48e35"
     }
   ]
 }

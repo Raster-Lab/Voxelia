@@ -6327,3 +6327,25 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    the end of a session**, because every gate here needs its failure proof.
 
    **6 rows remain unclaimed** — recomputed.
+
+   **Increment (tttt): `ADR-0327` — the gate `ADR-0326` named, BUILT with its failure proof.**
+   1238/219 unchanged. **No source changed.**
+
+   **A BOUNDARY, not a ban** (same shape as `ADR-0311`'s MPS rule): `Task.detached`, bare
+   `Task {` and `Task.init` forbidden in **`VoxeliaInteraction`** — the module a draw callback
+   calls into, where **a task is launched PER DRAW**. Permitted in the coordinators, where a
+   task is launched **per distinct unit of work** and each binds it to a name and **shares**
+   it. **Forbidding those would remove the mechanism that PREVENTS overlap.**
+
+   **PROVEN IN THREE DIRECTIONS**: `Task.detached` in `FramePresenter.swift` → failed, named by
+   file and line, exit 1; the four `VoxeliaExecution` coordinators → **passed**, exit 0;
+   `EmissionTask` → **not matched**. **The second matters as much as the first — a gate failing
+   on both would have turned a boundary into a ban.**
+
+   **The third is the one a hurried version would skip, and it is the exact mistake the
+   PREVIOUS increment made by hand.** `ADR-0326` found `CanonicalMetadataJSON`'s private
+   `EmissionTask` enum matching a naive search; the patterns here require a **word boundary
+   before `Task`**, and that immunity is **asserted, not assumed**.
+
+   **Eleventh unenforced property CLOSED.** 6 rows remain unclaimed — unchanged, since
+   `ADR-0326` already claimed this row.
