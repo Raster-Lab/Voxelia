@@ -203,6 +203,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0357-connected-components"
             ),
             try entry(
+                operation: DistanceTransformOperation.operationIdentifier,
+                implementation: DistanceTransformOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: exact,
+                evidence: "adr-0358-distance-transform"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,

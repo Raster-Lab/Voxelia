@@ -223,7 +223,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0355` is allocated to the separable Gaussian filter.
 `ADR-0356` is allocated to the binary morphology.
 `ADR-0357` is allocated to the connected components.
-The next unallocated numeric identifier is `ADR-0358`.
+`ADR-0358` is allocated to the distance transform.
+The next unallocated numeric identifier is `ADR-0359`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -564,3 +565,4 @@ The next unallocated numeric identifier is `ADR-0358`.
 | [ADR-0355](ADR-0355-separable-gaussian-filter.md) | Accepted | Separable Gaussian filter |
 | [ADR-0356](ADR-0356-binary-morphology.md) | Accepted | Binary morphology |
 | [ADR-0357](ADR-0357-connected-components.md) | Accepted | Connected components |
+| [ADR-0358](ADR-0358-squared-euclidean-distance.md) | Accepted | Squared Euclidean distance transform |

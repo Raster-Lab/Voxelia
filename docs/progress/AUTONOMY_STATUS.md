@@ -7298,3 +7298,39 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    frozen decisions: the metric (exact Euclidean squared via the parabola
    method vs chamfer — the row is "should", P1), the output type and units,
    and whether distance measures to background or to the foreground boundary.
+
+   **Increment (yyyyy): `ADR-0358` + `VOXELIA-ALG-0063` — `VOX-IMG-014` IS
+   DISCHARGED, and THE PROCESSING FOUNDATIONS ARC IS CLOSED.** 1322 tests /
+   233 suites.
+
+   **The exactness move**: the transform publishes SQUARED Euclidean distances
+   as exact integers — the square root is the transform's only possible
+   rounding, so it belongs to the presenter, never the operation. Distance
+   measures to background (background publishes exactly zero); no-background
+   rejects typed (an infinite distance has no honest uint32 spelling);
+   physical-unit/anisotropic weighting is a recorded future widening.
+
+   **The oracle is deliberately BRUTE FORCE** — the minimum over all
+   background samples, sharing NO structure with the implementation's
+   separable Felzenszwalb-Huttenlocher parabola method — and the exactness
+   argument is in the spec: published values are integer parabola evaluations
+   within binary64's exact range; the envelope's divisions only pick winners,
+   and ties evaluate equal either way. 1-D, 2-D radial, competing-seeds and
+   3-D corner fixtures all match brute force exactly. CPU 26, combined 29.
+
+   **THE ARC (`ADR-0352`..`ADR-0358`) IS COMPLETE**: threshold, mask apply,
+   arithmetic, convolution, Gaussian, morphology, connected components and
+   distance transforms — eight operations under ONE stored-value domain, every
+   numeric rule frozen with an independent oracle, every warning attributed,
+   seven requirement rows discharged (`VOX-IMG-007` claimed by `ADR-0352` d3's
+   binding rule, `VOX-IMG-010/011/012/013/014`, `VOX-R2D-004` advanced
+   throughout).
+
+   **Next: OPEN THE SEGMENTATION ARC** — `VOX-SEG-001`, the mask and
+   multi-segment model. Read the CDMS segmentation sections and `VOX-SEG-002`'s
+   overlap requirement BEFORE designing the representation: overlapping
+   segments must not be forced into one exclusive label value, which rules out
+   a single label map as THE model and makes the per-segment mask collection
+   the natural shape; `VOX-SEG-003`'s descriptors (stable IDs, labels,
+   colours, algorithm provenance) and `VOX-SEG-004`'s geometry binding join
+   the same design.
