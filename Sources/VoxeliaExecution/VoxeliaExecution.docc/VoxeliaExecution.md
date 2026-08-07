@@ -103,6 +103,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``DeclaredScalarSupport``
 - ``DeclaredGeometrySupport``
 - ``ImplementationContractError``
+- ``DiagnosticSelection``
+- ``DiagnosticApprovalSet``
+- ``DiagnosticSelectionError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

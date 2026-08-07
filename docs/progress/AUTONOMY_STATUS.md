@@ -7873,3 +7873,27 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    Design the approval seam (an explicit host-supplied approval set the
    selection admission checks against provider + identity), witness the
    refusal and the approved path; the `R` half joins the owner batch.
+
+1. **2026-08-07 — `VOX-EXT-006` `T`-half DISCHARGED (`R` joins the owner
+   batch): the diagnostic selection guard (`ADR-0382`). THE
+   EXTENSION-MECHANISM ARC'S ENGINEERING IS CLOSED.** Approval is an
+   EXPLICIT SET, never an inference: `DiagnosticApprovalSet` builds from
+   a validated distribution's own registry (here: the built-in backend
+   registrations) plus host-approved references, keyed on
+   `DerivationImplementationReference` — identifier + EXACT version, so
+   approval never survives a version change silently (witnessed: the
+   same identifier at 1.1.0 refuses). PROVIDER NAMES ARE NOT TRUST: the
+   witness's third-party entry claims `provider: "Voxelia"` and gains
+   nothing — approval keys on the distribution's actual registry
+   contents, not a spoofable string. Default posture is refusal;
+   `implementationsForDiagnosticUse` never lists an unapproved entry at
+   all. Arc summary: `ADR-0379..0382` — mechanism, contract (32 entries
+   migrated), provenance, guard; the arc's two `R` halves
+   (validated-distribution semantics + diagnostic-policy acceptance)
+   join the owner batch. Full suite: `✔ Test run with 1407 tests in 261
+   suites passed`. **Next**: M7's remaining unblocked queue — check the
+   remaining M7 debt rows in `docs/progress/untraced-requirements.txt`
+   (the additional-axes data-model row and any image tails should be
+   there); if all remaining M7 rows are owner-blocked or need the
+   optimiser design, open M8 (photorealistic rendering, 17 rows) per the
+   finish plan.

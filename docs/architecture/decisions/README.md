@@ -247,7 +247,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0379` is allocated to the source-package extension mechanism.
 `ADR-0380` is allocated to the registration declaration contract.
 `ADR-0381` is allocated to implementation provenance.
-The next unallocated numeric identifier is `ADR-0382`.
+`ADR-0382` is allocated to the diagnostic selection guard.
+The next unallocated numeric identifier is `ADR-0383`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -612,3 +613,4 @@ The next unallocated numeric identifier is `ADR-0382`.
 | [ADR-0379](ADR-0379-the-source-package-extension-mechanism.md) | Accepted | The source-package extension mechanism |
 | [ADR-0380](ADR-0380-the-registration-declaration-contract.md) | Accepted | The registration declaration contract |
 | [ADR-0381](ADR-0381-implementation-provenance.md) | Accepted | Implementation provenance |
+| [ADR-0382](ADR-0382-the-diagnostic-selection-guard.md) | Accepted | The diagnostic selection guard |

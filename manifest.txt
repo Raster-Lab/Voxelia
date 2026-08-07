@@ -187,6 +187,7 @@ Sources/VoxeliaExecution/Public/CompositeLayersOperation.swift
 Sources/VoxeliaExecution/Public/ConnectedComponentsOperation.swift
 Sources/VoxeliaExecution/Public/ContentResultCache.swift
 Sources/VoxeliaExecution/Public/ConvolveOperation.swift
+Sources/VoxeliaExecution/Public/DiagnosticSelection.swift
 Sources/VoxeliaExecution/Public/DistanceTransformOperation.swift
 Sources/VoxeliaExecution/Public/FirstUsefulImage.swift
 Sources/VoxeliaExecution/Public/GaussianFilterOperation.swift
@@ -675,6 +676,7 @@ Tests/VoxeliaTests/VoxeliaTests.swift
 Tests/VoxeliaValidationTests/CPUMetalDifferentialTests.swift
 Tests/VoxeliaValidationTests/CombinedRegistryTests.swift
 Tests/VoxeliaValidationTests/DICOMGeometryPhantomTests.swift
+Tests/VoxeliaValidationTests/DiagnosticSelectionTests.swift
 Tests/VoxeliaValidationTests/DistancePhantomTests.swift
 Tests/VoxeliaValidationTests/ExtensionMechanismTests.swift
 Tests/VoxeliaValidationTests/LinearRampPhantomTests.swift
@@ -1219,6 +1221,7 @@ docs/architecture/decisions/ADR-0378-dicom-adapter-capabilities.md
 docs/architecture/decisions/ADR-0379-the-source-package-extension-mechanism.md
 docs/architecture/decisions/ADR-0380-the-registration-declaration-contract.md
 docs/architecture/decisions/ADR-0381-implementation-provenance.md
+docs/architecture/decisions/ADR-0382-the-diagnostic-selection-guard.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md
