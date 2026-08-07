@@ -250,7 +250,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0382` is allocated to the diagnostic selection guard.
 `ADR-0383` is allocated to the initial portfolio completion.
 `ADR-0384` is allocated to the M8 queue.
-The next unallocated numeric identifier is `ADR-0385`.
+`ADR-0385` is allocated to the optional photorealistic module.
+The next unallocated numeric identifier is `ADR-0386`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -618,3 +619,4 @@ The next unallocated numeric identifier is `ADR-0385`.
 | [ADR-0382](ADR-0382-the-diagnostic-selection-guard.md) | Accepted | The diagnostic selection guard |
 | [ADR-0383](ADR-0383-the-initial-portfolio-is-complete.md) | Accepted | The initial portfolio is complete |
 | [ADR-0384](ADR-0384-the-m8-queue.md) | Accepted | The M8 queue |
+| [ADR-0385](ADR-0385-the-optional-photorealistic-module.md) | Accepted | The optional photorealistic module |

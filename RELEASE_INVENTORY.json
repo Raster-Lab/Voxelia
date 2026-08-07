@@ -281,8 +281,8 @@
     },
     {
       "path": "Package.swift",
-      "size": 7436,
-      "sha256": "6677a31a08cecc72c0803ab0b129640fce03aa45eda0b6b049c3800c8de52e9e"
+      "size": 7926,
+      "sha256": "a46f8ce8bbf364ad399dea28ab45672bdd2dc4371b108a86d34d924061ffd83f"
     },
     {
       "path": "README.md",
@@ -1578,6 +1578,11 @@
       "path": "Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md",
       "size": 1320,
       "sha256": "f71b1b9804038dcc34c6a581e6e4bac906b72baac9eae4bb05bfb1cc03f197db"
+    },
+    {
+      "path": "Sources/VoxeliaPhotorealistic/Public/PhotorealisticFoundation.swift",
+      "size": 1871,
+      "sha256": "f60a9943d97c4e98ef62254e59bd082ab790d26142dcc7daa1df5c8e4328a11d"
     },
     {
       "path": "Sources/VoxeliaRendering/ApplePlatformGate.swift",
@@ -3018,6 +3023,11 @@
       "path": "Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift",
       "size": 2331,
       "sha256": "e9831cd898298a89bf5628b09c15c986fa10cc0e7e327e48da9911f729286e2f"
+    },
+    {
+      "path": "Tests/VoxeliaPhotorealisticTests/PhotorealisticFoundationTests.swift",
+      "size": 1397,
+      "sha256": "44c268df55d37292e28213eec0885e183d6e56bb87c9153037e65d959464ac88"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift",
@@ -6130,9 +6140,14 @@
       "sha256": "0e6508d0330aeb4b2beb9b562529b1be072caa34b5a8af679c59dc4e96fb53f4"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0385-the-optional-photorealistic-module.md",
+      "size": 3541,
+      "sha256": "d4a4eacdee1aa06e640a68bdfd82f2a8d1658f8f8eeb50485a937f405b9f4140"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 52580,
-      "sha256": "479ecc5235708c27090598096a9780b0e1bbcfa07348d2e1edeff6ed7ccc1deb"
+      "size": 52754,
+      "sha256": "4d3c053c016bd6a147ea1b8d441ca5f9ab1203a0d71288db2bb893fd57fcd35b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6190,6 +6205,11 @@
       "sha256": "df97896bf09a865e6261976be0380e0ff58957a0da63c5efaccbab47c716cb1a"
     },
     {
+      "path": "docs/architecture/modules/VoxeliaPhotorealistic.md",
+      "size": 601,
+      "sha256": "8ef0e4367a7e285eb8bd0e317dfb2113ae351f151cff59e16dfe2021ba7f3d98"
+    },
+    {
       "path": "docs/architecture/modules/VoxeliaRendering.md",
       "size": 231,
       "sha256": "578ff51ec4d7fd3fb78efbea550e25b3acb726a6766d948aac886020523cd923"
@@ -6236,8 +6256,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 509411,
-      "sha256": "f0ad378aa38d54c964124e4d4fcf13ef60958ba16e561d7808e01a49b555c2db"
+      "size": 510954,
+      "sha256": "c416c6379f59877497b1b59ee031eab656805b7b52d7f60d849250be0b45459c"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6881,8 +6901,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 79252,
-      "sha256": "fb9111d9d5f1e49984798d0fb1480a5df4d0e302fdcee4c4f0bec81b8729bf14"
+      "size": 79515,
+      "sha256": "84c5e448194654d38030674f0374ffb0b38a0208e3fae160058ad39a81322b11"
     }
   ]
 }

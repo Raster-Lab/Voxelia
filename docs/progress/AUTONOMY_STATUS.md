@@ -7935,3 +7935,27 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    the ledger tracks discharge). **Next**: arc 1 — the optional
    `VoxeliaPhotorealistic` module with its quality-mode vocabulary and
    the disable-independence seam.
+
+1. **2026-08-07 — ~~`VOX-PRR-001`~~ + ~~`VOX-PRR-002`~~ + ~~`VOX-PRR-003`~~
+   DISCHARGED: the optional photorealistic module (`ADR-0385`). M8 ARC 1
+   IS CLOSED.** `VoxeliaPhotorealistic` is its own library product
+   depending on `VoxeliaCore` only — the physics arc adds what it needs
+   when it needs it — and the umbrella `Voxelia` product does NOT
+   re-export it: optionality is STRUCTURAL (no link, no photorealistic
+   code), which also honours the M10 umbrella row's direction early.
+   Disable-independence is a typed seam on top of the structural one:
+   `PhotorealisticActivation` (enabled/disabledByHost) +
+   `PhotorealisticGate.requireEnabled` refusing typed; conventional
+   rendering in `VoxeliaRendering` neither depends on nor knows about
+   this module, by construction. The quality modes are the
+   `VOX-PRR-003` triad VERBATIM and defaultless —
+   interactive/progressive/reference, no `automatic` case (a library
+   guess about quality is a hidden clinical decision); each mode's
+   numeric behaviour belongs to the arcs that build it, so the
+   vocabulary carries no knobs. New target + test target in
+   `Package.swift`; module note in `docs/architecture/modules/`. Full
+   suite: `✔ Test run with 1409 tests in 262 suites passed`. **Next**:
+   M8 arc 2, the physics core — first optical model design-first
+   (physically based volumetric illumination: emission-absorption
+   radiative transfer as the frozen v1 model with an independent
+   oracle, extended by the shadows and scattering rows after it).

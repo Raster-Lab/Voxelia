@@ -314,6 +314,7 @@ Sources/VoxeliaMetal/Resources/Shaders/VolumeRendering/.gitkeep
 Sources/VoxeliaMetal/VoxeliaMetal.docc/Architecture.md
 Sources/VoxeliaMetal/VoxeliaMetal.docc/Requirements.md
 Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md
+Sources/VoxeliaPhotorealistic/Public/PhotorealisticFoundation.swift
 Sources/VoxeliaRendering/ApplePlatformGate.swift
 Sources/VoxeliaRendering/Internal/.gitkeep
 Sources/VoxeliaRendering/Internal/SurfaceAnnotationRegistrar.swift
@@ -602,6 +603,7 @@ Tests/VoxeliaMetalTests/PipelineArchivalTests.swift
 Tests/VoxeliaMetalTests/ResidencyDuplicationTests.swift
 Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift
 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
+Tests/VoxeliaPhotorealisticTests/PhotorealisticFoundationTests.swift
 Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift
 Tests/VoxeliaRenderingTests/DiagnosticFailClosedTests.swift
 Tests/VoxeliaRenderingTests/DisplayColourTests.swift
@@ -1224,6 +1226,7 @@ docs/architecture/decisions/ADR-0381-implementation-provenance.md
 docs/architecture/decisions/ADR-0382-the-diagnostic-selection-guard.md
 docs/architecture/decisions/ADR-0383-the-initial-portfolio-is-complete.md
 docs/architecture/decisions/ADR-0384-the-m8-queue.md
+docs/architecture/decisions/ADR-0385-the-optional-photorealistic-module.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md
@@ -1236,6 +1239,7 @@ docs/architecture/modules/VoxeliaGeometry.md
 docs/architecture/modules/VoxeliaImaging.md
 docs/architecture/modules/VoxeliaInteraction.md
 docs/architecture/modules/VoxeliaMetal.md
+docs/architecture/modules/VoxeliaPhotorealistic.md
 docs/architecture/modules/VoxeliaRendering.md
 docs/architecture/modules/VoxeliaSpatial.md
 docs/architecture/modules/VoxeliaStorage.md

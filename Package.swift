@@ -24,6 +24,10 @@ let package = Package(
         .library(name: "VoxeliaCompression", targets: ["VoxeliaCompression"]),
         .library(name: "VoxeliaValidation", targets: ["VoxeliaValidation"]),
         .library(name: "VoxeliaDICOMKit", targets: ["VoxeliaDICOMKit"]),
+        .library(
+            name: "VoxeliaPhotorealistic",
+            targets: ["VoxeliaPhotorealistic"]
+        ),
         .library(name: "Voxelia", targets: ["Voxelia"]),
     ],
     dependencies: [
@@ -96,6 +100,11 @@ let package = Package(
             name: "VoxeliaValidation", dependencies: ["VoxeliaCPU", "VoxeliaMetal"],
             swiftSettings: [.strictMemorySafety()]),
         .target(
+            name: "VoxeliaPhotorealistic",
+            dependencies: ["VoxeliaCore"],
+            swiftSettings: [.strictMemorySafety()]
+        ),
+        .target(
             name: "Voxelia",
             dependencies: [
                 "VoxeliaSpatial",
@@ -114,6 +123,11 @@ let package = Package(
             dependencies: ["VoxeliaCore", "VoxeliaValidation"],
             path: "Tests/Support",
             resources: [.process("Resources")],
+            swiftSettings: [.strictMemorySafety()]
+        ),
+        .testTarget(
+            name: "VoxeliaPhotorealisticTests",
+            dependencies: ["VoxeliaPhotorealistic", "VoxeliaTestSupport"],
             swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
