@@ -7549,3 +7549,25 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    registration, `T`), which needs its metric/optimisation design; expect
    it to span more than one increment (landmark first: exact
    correspondence-based rigid/affine estimation with an oracle).
+
+1. **2026-08-07 — `VOX-REG-005` ADVANCED (landmark affine member built;
+   the row stays OPEN until the portfolio completes): `ADR-0368` +
+   `VOXELIA-ALG-0070`.** `LandmarkAffineEstimation` in `VoxeliaSpatial`:
+   least squares over `N >= 4` correspondences — frozen normal-equation
+   assembly in ascending landmark order, one augmented 4x7 forward
+   elimination with partial pivoting (largest pivot, ties to the lowest
+   row; a pivot below `leastNormalMagnitude` refuses as degenerate — the
+   `VOXELIA-ALG-0016` no-epsilon rule), left-associative back
+   substitution. Determinism is the promise, NOT interpolation: fixture A
+   pins the frozen elimination's own rounding bits on a consistent set;
+   coplanar landmarks refuse typed; the inconsistent fixture pins the
+   exact-dyadic least-squares row. `LandmarkAffineRegistration` in
+   `VoxeliaCore` is the face: moving points must live in the source
+   space, fixed in the destination (typed refusal), and the estimate
+   re-admits through `AffineRegistrationTransform` so it proves its own
+   invertibility. The row left the traced baseline (named in a record)
+   but the LEDGER keeps it open. Full suite: `✔ Test run with 1367 tests
+   in 247 suites passed`. **Next**: the landmark RIGID member — design
+   decision to make first (deterministic frame alignment vs a quaternion
+   eigen-solver; determinism consequences differ), then the
+   intensity-driven members with the metric rows.

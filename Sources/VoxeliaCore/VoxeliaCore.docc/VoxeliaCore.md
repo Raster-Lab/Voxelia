@@ -222,6 +222,8 @@ storage semantics.
 - ``RegistrationResultError``
 - ``RegistrationTransformComposition``
 - ``RegistrationCompositionError``
+- ``LandmarkAffineRegistration``
+- ``LandmarkRegistrationError``
 
 ### Common errors
 

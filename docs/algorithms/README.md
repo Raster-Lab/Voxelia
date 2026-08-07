@@ -73,3 +73,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0067](VOXELIA-ALG-0067-segment-statistics.md) | Accepted | Segment statistics `binary64-v1` |
 | [VOXELIA-ALG-0068](VOXELIA-ALG-0068-rigid-motion.md) | Accepted | Rigid motion `binary64-v1` |
 | [VOXELIA-ALG-0069](VOXELIA-ALG-0069-rigid-composition.md) | Accepted | Rigid composition `binary64-v1` |
+| [VOXELIA-ALG-0070](VOXELIA-ALG-0070-landmark-affine.md) | Accepted | Landmark affine estimation `binary64-v1` |

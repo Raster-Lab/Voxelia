@@ -233,7 +233,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0365` is allocated to the registration transform categories.
 `ADR-0366` is allocated to the registration result record.
 `ADR-0367` is allocated to registration transform composition.
-The next unallocated numeric identifier is `ADR-0368`.
+`ADR-0368` is allocated to landmark affine registration.
+The next unallocated numeric identifier is `ADR-0369`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -584,3 +585,4 @@ The next unallocated numeric identifier is `ADR-0368`.
 | [ADR-0365](ADR-0365-the-registration-transform-categories.md) | Accepted | The registration transform categories |
 | [ADR-0366](ADR-0366-the-registration-result-record.md) | Accepted | The registration result record |
 | [ADR-0367](ADR-0367-registration-transform-composition.md) | Accepted | Registration transform composition |
+| [ADR-0368](ADR-0368-landmark-affine-registration.md) | Accepted | Landmark affine registration |
