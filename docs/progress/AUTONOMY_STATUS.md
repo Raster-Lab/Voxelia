@@ -7103,3 +7103,29 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Next**: derive the M7 queue — group the M7 rows by arc, read their plan
    sections, and open the first arc design-first. The finish line is M10.
+
+   **Increment (rrrrr): `ADR-0351` — THE M7 QUEUE IS DERIVED; phase two's first
+   arc is named.** 1289/225 unchanged; no code — the derivation record.
+
+   **Six arcs, ordered by dependency**: (1) image-processing foundations
+   (`VOX-IMG-010/011/012/013/014`, `VOX-IMG-007`, `VOX-R2D-004`) — pure CPU
+   numerics, no owner input, and segmentation composes every one of them;
+   (2) segmentation (`VOX-SEG-001..010`); (3) registration (`VOX-REG-001..010`,
+   `VOX-VAL-014`, plus `VOX-DAT-008`/`VOX-SPA-012` whose first consumer is
+   registration — pyramids compose `LevelSelectOperation`); (4) curved planar
+   and DICOM format tails (`VOX-MPR-012/013`, `VOX-DCM-011/012`);
+   (5) the extension mechanism (`VOX-EXT-001..006` — much substance exists,
+   the arc measures rows against it); (6) VTK/ITK interoperability
+   (`VOX-ADP-007..010`) — **blocked on the owner batch, the only blocked arc**.
+
+   **The owner batch is surfaced ONCE** (`ADR-0351`): VTK/ITK package scope or
+   post-1.0 deferral; whether `VOX-SEG-010` gets a reference AI adapter now or
+   the boundary alone; confirmation the fix-what-surfaces instruction covers
+   DICOMKit SEG/parametric reading. Arcs 1-5 proceed without it.
+
+   **The ratchet did its job on the derivation**: naming the rows traced 23 of
+   them; the baseline is 80 rows, all known debt, shrink-only.
+
+   **Next**: arc 1, increment one — the `VOX-IMG-010` threshold/mask/arithmetic
+   design, design-first with an independent oracle, value domain decided
+   against `VOX-R2D-004`'s floating-point row rather than assumed uint8.
