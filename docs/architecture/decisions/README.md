@@ -242,7 +242,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0374` is allocated to registration references before Metal.
 `ADR-0375` is allocated to the explicit centreline.
 `ADR-0376` is allocated to curved planar back-mapping.
-The next unallocated numeric identifier is `ADR-0377`.
+`ADR-0377` is allocated to explicit frame geometry models.
+The next unallocated numeric identifier is `ADR-0378`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -602,3 +603,4 @@ The next unallocated numeric identifier is `ADR-0377`.
 | [ADR-0374](ADR-0374-registration-references-before-metal.md) | Accepted | Registration references before Metal |
 | [ADR-0375](ADR-0375-the-explicit-centreline.md) | Accepted | The explicit centreline |
 | [ADR-0376](ADR-0376-curved-planar-back-mapping.md) | Accepted | Curved planar back-mapping |
+| [ADR-0377](ADR-0377-explicit-frame-geometry-models.md) | Accepted | Explicit frame geometry models |

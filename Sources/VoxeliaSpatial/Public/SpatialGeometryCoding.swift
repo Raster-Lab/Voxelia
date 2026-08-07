@@ -149,20 +149,38 @@ extension SpatialGeometry: Codable {
     /// Decodes the strict externally tagged one-member representation.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: SpatialGeometryCodingKey.self)
-        guard
-            container.allKeys.count == 1,
-            container.allKeys.first?.stringValue == "affine"
-        else {
+        guard container.allKeys.count == 1, let key = container.allKeys.first else {
             throw spatialGeometryDecodingError(
                 "Expected one spatial-geometry case object."
             )
         }
-        self = .affine(
-            try container.decode(
-                AffineGridGeometry.self,
-                forKey: SpatialGeometryCodingKey("affine")
+        switch key.stringValue {
+        case "affine":
+            self = .affine(
+                try container.decode(
+                    AffineGridGeometry.self,
+                    forKey: SpatialGeometryCodingKey("affine")
+                )
             )
-        )
+        case "rectilinear":
+            self = .rectilinear(
+                try container.decode(
+                    RectilinearGridGeometry.self,
+                    forKey: SpatialGeometryCodingKey("rectilinear")
+                )
+            )
+        case "frameSet":
+            self = .frameSet(
+                try container.decode(
+                    FrameSetGeometry.self,
+                    forKey: SpatialGeometryCodingKey("frameSet")
+                )
+            )
+        default:
+            throw spatialGeometryDecodingError(
+                "Expected one spatial-geometry case object."
+            )
+        }
     }
 
     public func encode(to encoder: any Encoder) throws {
@@ -170,6 +188,16 @@ extension SpatialGeometry: Codable {
         switch self {
         case .affine(let geometry):
             try container.encode(geometry, forKey: SpatialGeometryCodingKey("affine"))
+        case .rectilinear(let geometry):
+            try container.encode(
+                geometry,
+                forKey: SpatialGeometryCodingKey("rectilinear")
+            )
+        case .frameSet(let geometry):
+            try container.encode(
+                geometry,
+                forKey: SpatialGeometryCodingKey("frameSet")
+            )
         }
     }
 }

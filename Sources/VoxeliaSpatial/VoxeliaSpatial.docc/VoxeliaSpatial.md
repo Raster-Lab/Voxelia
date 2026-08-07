@@ -68,6 +68,10 @@ None.
 - ``CurvedCentrelineError``
 - ``CurvedPlanarMapping``
 - ``CurvedPlanarMappingError``
+- ``RectilinearGridGeometry``
+- ``FramePlaneGeometry``
+- ``FrameSetGeometry``
+- ``FrameGeometryError``
 
 ### Spatial-axis mappings
 

@@ -68,12 +68,25 @@ public struct ImageDescriptor: Sendable, Hashable {
             }
         }
 
-        if case .affine(let affine) = spatialGeometry {
+        switch spatialGeometry {
+        case .affine(let affine):
             for imageAxis in affine.spatialAxes.imageAxes {
                 guard imageAxis < shape.rank else {
                     throw ImageDescriptorError.invalidGeometryAxisReference
                 }
             }
+        case .rectilinear(let rectilinear):
+            for imageAxis in rectilinear.spatialAxes.imageAxes {
+                guard imageAxis < shape.rank else {
+                    throw ImageDescriptorError.invalidGeometryAxisReference
+                }
+            }
+        case .frameSet(let frameSet):
+            guard frameSet.frameAxis < shape.rank else {
+                throw ImageDescriptorError.invalidGeometryAxisReference
+            }
+        case nil:
+            break
         }
 
         // A sample unit describes authoritative sample values; spatial

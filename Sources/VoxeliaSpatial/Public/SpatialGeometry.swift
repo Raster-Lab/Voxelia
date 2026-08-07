@@ -103,4 +103,6 @@ public struct AffineGridGeometry: Sendable, Hashable {
 /// already-frozen admission rules without reopening this boundary.
 public enum SpatialGeometry: Sendable, Hashable {
     case affine(AffineGridGeometry)
+    indirect case rectilinear(RectilinearGridGeometry)
+    indirect case frameSet(FrameSetGeometry)
 }

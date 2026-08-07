@@ -611,8 +611,8 @@
     },
     {
       "path": "Sources/VoxeliaCore/Public/ImageDescriptor.swift",
-      "size": 3486,
-      "sha256": "f95893bfe374bf7aa31d7bf7386fb9541d6b478c5833f5a50039769310e095e1"
+      "size": 3983,
+      "sha256": "5db2dd68f0f57256c6e7b644acf6560690da26b2d54ed7a68139d5bddfc22f45"
     },
     {
       "path": "Sources/VoxeliaCore/Public/ImageDescriptorCoding.swift",
@@ -1815,6 +1815,11 @@
       "sha256": "ecdbacbfd942278626729702ed54bac11c356ebc0c1f51de37de03beaf2884c6"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/FrameGeometries.swift",
+      "size": 9841,
+      "sha256": "14843ed1bfc13e199aaf99ceb5165e0fc383e6f538bbd6c2bb20638cb70b0e2b"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/LandmarkAffineEstimation.swift",
       "size": 4698,
       "sha256": "354488abff2bb271a8dbc6dafcf533bb4759da932890c100608b0c16bc0ddaaf"
@@ -1856,13 +1861,13 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/SpatialGeometry.swift",
-      "size": 4157,
-      "sha256": "2d7d32a34ac056527739f39eec325cb14c28b4779ae4f2412a835602db3288c2"
+      "size": 4257,
+      "sha256": "eb395d806a43c8322101dedc7ef0c49e955ceb3781e9f4e380d6623ef142be36"
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/SpatialGeometryCoding.swift",
-      "size": 6075,
-      "sha256": "6ccd08f9ac3260931d136af6d6417495da0d497ebd3709ffc58ad5e494e8a899"
+      "size": 7092,
+      "sha256": "18337df8cb461c102d71e1539fedf83b705ff984893dd6ba6ba69724aa05327d"
     },
     {
       "path": "Sources/VoxeliaSpatial/Public/SpatialPrimitives.swift",
@@ -1891,8 +1896,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 1943,
-      "sha256": "0f4e46912454929b44894b38cf96255ab14122efcf1097457b5acf56a0165a99"
+      "size": 2046,
+      "sha256": "87506bb0565789bd43fa6f3ecd4f43f2036ddf61269dede6f644e3da424fb537"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -2716,13 +2721,13 @@
     },
     {
       "path": "Tests/VoxeliaGeometryTests/LabelledSurfaceExtractionTests.swift",
-      "size": 38475,
-      "sha256": "1963e4d2591ea280b8714b0c733fb907f0bf3f7a99c6b85628fecc5e3f3c3209"
+      "size": 38474,
+      "sha256": "09f02bbe73f30952df2b9999cde2022c629df3cf8daa85c281e2d17bc703e26b"
     },
     {
       "path": "Tests/VoxeliaGeometryTests/ScalarSurfaceExtractionTests.swift",
-      "size": 34127,
-      "sha256": "76b7eb87dd68b4739b6946ec6867071bee802362e93ac7c08915d70bb5d6e5a9"
+      "size": 34126,
+      "sha256": "68d75a6f4a5f428bacd4c8d2b01a2fc822f65c6c6edc4b887cffff5f2d136df1"
     },
     {
       "path": "Tests/VoxeliaGeometryTests/TriangleMeshByteDecoderTests.swift",
@@ -3178,6 +3183,11 @@
       "path": "Tests/VoxeliaSpatialTests/FrameAnchorIndexTests.swift",
       "size": 8361,
       "sha256": "32be3f416faceb94c1b390d540a86b351533768c4bd5c9464f7fef60f143a7ac"
+    },
+    {
+      "path": "Tests/VoxeliaSpatialTests/FrameGeometryTests.swift",
+      "size": 6648,
+      "sha256": "fa97accfa6ec18a77d5b4dbfcdbe06fa3e28673611dc06152220cbd0e0ca0048"
     },
     {
       "path": "Tests/VoxeliaSpatialTests/LandmarkAffineTests.swift",
@@ -6050,9 +6060,14 @@
       "sha256": "d71304fada1ed8d3cd8cd5952d36b08a877f9161e73bd5d6c8dbde681c9e107e"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0377-explicit-frame-geometry-models.md",
+      "size": 4144,
+      "sha256": "89ec2236b6346e0da820f7f566a9d3fd2c144e60916aa42073fb01193620c84a"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 51312,
-      "sha256": "cae1af688b29322f2b0416883eb9efc41a17d064b26210686db973cd5a09bdff"
+      "size": 51474,
+      "sha256": "a0d0b699e88578f157143c6e1cf49c7622cce4209c76bb5db500d421b8dd75f0"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6151,8 +6166,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 497295,
-      "sha256": "370c0e3ace91a1a2d333228866a7c8982a7f66c906e73533573a53896feed89d"
+      "size": 499095,
+      "sha256": "9d971edb48e0155a62ea1ed07f6dba950aeb94e03fef50fb067a7d325d843ac0"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6796,8 +6811,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 78187,
-      "sha256": "b4591b18d4f6e790ac3056ccd0b947c05f57c1f5fa1c885eb6c5ce0745d47ccb"
+      "size": 78361,
+      "sha256": "927d105a003cfb83a866fd4e8ced63752d0a2fb921f6bf26bc305bec34bfdf28"
     }
   ]
 }

@@ -1031,7 +1031,7 @@ struct LabelledSurfaceExtractionTests {
         switch source.descriptor.spatialGeometry {
         case .affine(let geometry):
             geometry.coordinateSpace
-        case nil:
+        default:
             throw FixtureError.missingAffineGeometry
         }
     }

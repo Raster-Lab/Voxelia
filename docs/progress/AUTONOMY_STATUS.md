@@ -7749,3 +7749,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    rectilinear/frame-set vocabulary and the CT frame descriptions are
    the substance to compose or extend), then the DICOM adapter-
    capabilities row.
+
+1. **2026-08-07 — ~~`VOX-DCM-011`~~ + ~~`VOX-SPA-012`~~ DISCHARGED:
+   explicit frame geometry models (`ADR-0377`, no ALG — declared data,
+   not computation).** `SpatialGeometry` gains two cases:
+   `rectilinear(RectilinearGridGeometry)` — shared orientation and
+   in-plane spacing with EXPLICIT strictly monotone slice positions
+   (exactly equal adjacents REFUSE: averaging or deduplicating them is
+   precisely the hidden regularisation the row prohibits, witnessed) —
+   and `frameSet(FrameSetGeometry)` — a declared frame axis with one
+   independently admitted plane per frame, no inter-frame relationship
+   asserted because none is promised. NO conversion to affine exists
+   anywhere — that absence IS the inspection half of both rows; a
+   consumer needing a regular grid must resample through an operation
+   that records what it did. Descriptor admission checks the new axis
+   references; Codable round-trips revalidate through the throwing
+   admissions in the strict externally-tagged style. LESSON RELEARNED:
+   widening a public enum's payload cases over an incremental build left
+   STALE value-witness artifacts and every successful construction
+   crashed signal-11 at destroy — `rm -rf .build` clean rebuild fixed
+   it (same remedy as the release-gate note); if an enum layout changes,
+   clean-build before believing a crash. Full suite: `✔ Test run with
+   1398 tests in 257 suites passed`. **Next**: the arc's last row — the
+   DICOM adapter-capabilities row (`I,T`): DICOM segmentation,
+   parametric map, surface and registration integrations map to
+   canonical models through OPTIONAL adapter capabilities — design the
+   capability vocabulary over the existing DICOMKit boundary, minding
+   the owner's outstanding fix-what-surfaces batch answer.
