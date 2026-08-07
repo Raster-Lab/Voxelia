@@ -6222,3 +6222,32 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    claimed on adjacent evidence.
 
    **9 rows remain unclaimed** — recomputed.
+
+   **Increment (pppp): `ADR-0323` — `VOX-SPA-010` is HALF-BUILT; nothing discharged.**
+   1238/219 unchanged; no code, no test.
+
+   **Settled the question `ADR-0322` left open.** Index bounds exist and are used
+   (`ImageRegion`, every storage read takes one). **Physical bounds exist ONLY as a type**:
+   `AxisAlignedBounds3D` is **constructed nowhere except inside its own file**, by its own
+   `intersection`, referenced only by ray intersection and its DocC page. **No function
+   anywhere takes a shape, grid or region and produces physical bounds** — so a volume's bounds
+   are not computable in physical coordinates at all.
+
+   **THE NUMERIC BOUNDARY, FROZEN BEFORE IT IS BUILT — the obvious implementation is WRONG.**
+   Transforming the index box's **min and max corners** through `indexToWorld` is correct
+   **only for an axis-aligned affine**. Under any rotation — the normal CT case, and the one
+   `ADR-0313` confirmed the oblique path admits — the transformed box **is not axis-aligned**
+   and those two corners **are not the extremes**. The correct construction transforms **all
+   EIGHT corners** and takes the axis-aligned hull. **The cheap version is correct on every
+   axis-aligned fixture and quietly too small on every oblique one — a defect that passes the
+   tests a hurried author would write.**
+
+   **Also to freeze**: traversal order of the eight corners and accumulation order of min/max
+   (both observable in binary64).
+
+   **Owner item — a MODELLING choice, not an engineering one**: do a volume's physical bounds
+   enclose its **sample centres** or its **sample extents**? They differ by **half a voxel per
+   direction**, and choosing it silently inside an implementation is how a modelling decision
+   becomes an accident.
+
+   **9 rows remain unclaimed** — unchanged.

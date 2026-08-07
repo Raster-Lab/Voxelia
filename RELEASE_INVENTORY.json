@@ -5270,9 +5270,14 @@
       "sha256": "64ae2f29193e37f307de32794195c6a803320798bcef4275d2f5f440d843d70e"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0323-spatial-bounds-half-built.md",
+      "size": 5301,
+      "sha256": "74f1ba1d7e09d5058090f1be8c5c867159bcc54fb25377c2f6718c5d28944a99"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 43882,
-      "sha256": "1e0d137d7be487fd5492e40b0c1d0188590bbd2757df5093f2695415edb50c57"
+      "size": 43975,
+      "sha256": "f574e9a2fd493af69497daf773822e7db745dc24b66979236073dc58b0e05ad6"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5366,8 +5371,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 402443,
-      "sha256": "f70c8d0b28b1c4d49207c1adb88ef3291a7f8a3b6c7dc90f026efb3f9948660d"
+      "size": 404266,
+      "sha256": "e6645192282636351b2f31cecf8a33ef8bf47c6de67cab1fe456d1a40528c685"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5891,8 +5896,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67336,
-      "sha256": "82d874b97d21caaba58c11d052d608fc425ddaaa2991b25f14419482e33297fe"
+      "size": 67402,
+      "sha256": "ea4d51b90b69583b55e0811287fb15ca11bab73b5c62db7cd95aaabe9e8b8d2d"
     }
   ]
 }
