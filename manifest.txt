@@ -145,6 +145,7 @@ Sources/VoxeliaCore/Public/ProvenanceKind.swift
 Sources/VoxeliaCore/Public/ProvenanceRecord.swift
 Sources/VoxeliaCore/Public/ProvenanceWarning.swift
 Sources/VoxeliaCore/Public/RegionReadTransaction.swift
+Sources/VoxeliaCore/Public/RegistrationResult.swift
 Sources/VoxeliaCore/Public/RegistrationTransform.swift
 Sources/VoxeliaCore/Public/ScalarFormat.swift
 Sources/VoxeliaCore/Public/SegmentInference.swift
@@ -466,6 +467,7 @@ Tests/VoxeliaCoreTests/ProvenanceKindTests.swift
 Tests/VoxeliaCoreTests/ProvenanceRecordTests.swift
 Tests/VoxeliaCoreTests/ProvenanceWarningTests.swift
 Tests/VoxeliaCoreTests/RegionReadTransactionTests.swift
+Tests/VoxeliaCoreTests/RegistrationResultTests.swift
 Tests/VoxeliaCoreTests/ScalarFormatTests.swift
 Tests/VoxeliaCoreTests/SemanticVersionTests.swift
 Tests/VoxeliaCoreTests/StorageContractTests.swift
@@ -1164,6 +1166,7 @@ docs/architecture/decisions/ADR-0362-mask-editing.md
 docs/architecture/decisions/ADR-0363-segment-statistics.md
 docs/architecture/decisions/ADR-0364-the-ai-adapter-boundary.md
 docs/architecture/decisions/ADR-0365-the-registration-transform-categories.md
+docs/architecture/decisions/ADR-0366-the-registration-result-record.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

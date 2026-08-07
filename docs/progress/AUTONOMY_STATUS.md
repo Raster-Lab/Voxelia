@@ -7511,3 +7511,21 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    optimiser, multi-resolution schedule and convergence status identified
    per row two of the arc, composing `DataIdentity` references and this
    increment's category vocabulary.
+
+1. **2026-08-07 — ~~`VOX-REG-002`~~ DISCHARGED: the registration result
+   record (`ADR-0366`).** `RegistrationResult` in `VoxeliaCore`: fixed and
+   moving data identified by full `DataIdentity` (a result outlives its
+   images), metric and optimiser by `VoxeliaStringIdentifier`-pattern IDs
+   plus optional versions (NOT closed enums — the arc has no
+   implementations to enumerate yet, and identity is all the row asks),
+   a structural never-optional multi-resolution schedule (positive shrink
+   factor + finite non-negative sigma per level; single-resolution is one
+   explicit level), a closed defaultless convergence vocabulary
+   (converged/iterationLimitReached/stoppedByUser/failed) with iteration
+   count and an honest optional final metric value, and the `ADR-0365`
+   transform the run estimated. No ALG — admission only, no numerics.
+   Baseline shrinks by one. Full suite: `✔ Test run with 1354 tests in
+   243 suites passed`. **Next**: continue the registration arc per the
+   `ADR-0351` order — the initialisation row (centred/geometry-based
+   initial transforms) or the next unblocked registration row from the
+   baseline table, composing the categories and this record.

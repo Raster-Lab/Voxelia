@@ -214,6 +214,12 @@ storage semantics.
 - ``AffineRegistrationTransform``
 - ``DeformableRegistrationTransform``
 - ``RegistrationTransformError``
+- ``RegistrationResult``
+- ``RegistrationScheduleLevel``
+- ``RegistrationConvergenceStatus``
+- ``RegistrationMetricID``
+- ``RegistrationOptimiserID``
+- ``RegistrationResultError``
 
 ### Common errors
 
