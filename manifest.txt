@@ -1067,6 +1067,7 @@ docs/architecture/decisions/ADR-0333-tests-are-format-clean.md
 docs/architecture/decisions/ADR-0334-the-repository-is-format-clean.md
 docs/architecture/decisions/ADR-0335-correct-the-documentation-spelling.md
 docs/architecture/decisions/ADR-0336-the-spelling-floor-is-exempt.md
+docs/architecture/decisions/ADR-0337-every-gate-is-reachable.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

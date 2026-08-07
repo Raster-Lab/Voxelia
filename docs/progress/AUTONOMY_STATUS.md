@@ -6601,3 +6601,33 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **All three ratchets resolved**: test levels **0**, temp-file list **empty by achievement**,
    spelling **at its exempt floor**.
+
+   **Increment (ddddd): `ADR-0337` — turned the pattern on ITSELF; NEGATIVE result, recorded.**
+   1238/219 unchanged; **nothing changed**.
+
+   **Eleven times this arc found a rule asserted with nothing running it.** Reliable enough to
+   ask: **do the gates enforcing those rules actually run?** — especially the three I
+   strengthened this session **on the assumption that they do**.
+
+   **21 `check_*.py` gates exist. EVERY ONE is reachable from CI on every push.**
+   `validate-docs.sh` runs 12, `validate-scaffold.sh` runs 12 (overlapping), `docc_archives` is
+   named directly; **`ci.yml` invokes both shell scripts on `pull_request` and `push` to
+   `main`.**
+
+   **MY HYPOTHESIS WAS WRONG TWICE.** First reading — "seven gates run nowhere" — came from
+   grepping workflows for gate **filenames**, which **misses a gate invoked through a shell
+   script**. Second doubt — that the scaffold suite might be nightly-only, since the ledger says
+   *"do not rerun the complete scaffold suite unless…"* — resolved by **reading `ci.yml`'s
+   triggers** instead of inferring: **that ledger line is about a local development habit, not
+   CI.**
+
+   **REFUSED to publish the first reading.** It was a plausible list of seven unenforced gates
+   with real-looking evidence — **publishing it would have been a fabricated defect.** The
+   second and third measurements exist **because the first result was too convenient.**
+
+   **Declined to add a gate-checking gate**, narrowly: it would be **a gate whose own invocation
+   needs checking**, and the regress has to stop somewhere. A **recorded, rerunnable comparison**
+   is the better stopping point.
+
+   **The thread closes at the meta level**: eleven real defects found; turned on the enforcement
+   layer itself, **none**.
