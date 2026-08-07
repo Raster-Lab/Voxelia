@@ -6570,3 +6570,34 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **All three ratchets this arc created are now at or near zero**: test levels **0**,
    temporary-file list **empty by achievement**, spelling **at its frozen floor**.
+
+   **Increment (ccccc): `ADR-0336` — `VOX-DOC-003` SATISFIED; the proposed `ADR-0040` rename
+   WITHDRAWN.** 1238/219 unchanged; no source changed.
+
+   **Read all 15 hits one at a time instead of assuming.** Three were **ordinary prose** and are
+   corrected: "exact `initialized` bytes" twice in an `ADR-0040` **table cell**, and
+   "`serialization`" in the safety policy's list of concerns. **My previous pass skipped lines
+   beginning with `|`** to protect register rows — **a table CELL can contain ordinary prose**,
+   so that rule was too broad.
+
+   **THIRD protection in this sequence correct in intent and wrong in reach** — after fenced
+   blocks (`ADR-0309`) and link targets (`ADR-0335`). Each protected something real and caught
+   something it should not have.
+
+   **The remaining 12 are ALL ONE THING**: `ADR-0040`'s filename, the `title:` and heading that
+   mirror it, the register row quoting both, and **8 citations of the path** from other records.
+
+   **THE DECISION TURNS ON THE ROW'S OWN WORDING**: `VOX-DOC-003` requires British English
+   *"except where external standards or **programming identifiers** require otherwise"*. **A
+   record's filename IS an identifier** — what the register indexes, what `check_adr_links.py`
+   resolves, what 8 accepted records cite. **So the 12 are COMPLIANT, not deferred.**
+
+   **`ADR-0335`'s proposed rename is WITHDRAWN** — it would change an accepted record's identity
+   and rewrite 8 citations plus a register row **to satisfy a rule that exempts identifiers**.
+   Floating it was reasonable; **reading the clause closes it.**
+
+   **Baseline kept at 12, not deleted** — an empty file would say the property is *clean*; a file
+   listing 12 exempt cases says it is **understood**, which is what a later reader needs.
+
+   **All three ratchets resolved**: test levels **0**, temp-file list **empty by achievement**,
+   spelling **at its exempt floor**.
