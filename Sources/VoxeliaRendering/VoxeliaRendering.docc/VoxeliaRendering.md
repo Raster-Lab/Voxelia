@@ -56,6 +56,10 @@ public API is introduced only by reviewed milestone specifications.
 - ``OutputDynamicRange``
 - ``AuxiliaryOutput``
 - ``MediaBufferAdapter``
+- ``SpatialPresentationAdapter``
+- ``SpatialAnnotation``
+- ``TwoDimensionalMediaAdapter``
+- ``AppleAdapterError``
 - ``HeadlessOutputError``
 - ``MultiDimensionalTransferFunction``
 - ``MaterialConditionedTransfer``

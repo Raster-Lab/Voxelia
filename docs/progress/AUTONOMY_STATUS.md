@@ -8287,3 +8287,29 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    platform-gated) and the optional Core Image row under the `ADR-0378`
    capability discipline, plus the energy row whose measured half
    likely routes to the owner's hardware session.
+
+1. **2026-08-07 — ~~`VOX-ADP-001`~~ + ~~`VOX-ADP-002`~~ + ~~`VOX-ADP-004`~~
+   + ~~`VOX-PER-013`~~ (disposition; measurement to the owner batch)
+   DISCHARGED: Apple adapter seams and energy (`ADR-0404`). M9 ARC 6 IS
+   CLOSED — AND WITH IT, M9'S QUEUE IS COMPLETE.** RealityKit
+   optionality was ALREADY enforced (every canonical module prohibits
+   the import) — recorded, and integration happens only through
+   `SpatialPresentationAdapter`: associated entity type (core never
+   names RealityKit), adapter identity, availability as the ADAPTER'S
+   OWN declared report ("where platform capability permits" is never a
+   canonical-module conditional), conversions for canonical
+   `TriangleMesh` + labelled `SpatialAnnotation`.
+   `TwoDimensionalMediaAdapter`: the LIMITATION IS THE SIGNATURE —
+   two-dimensional raw pixels in, no volume/scene/camera expressible,
+   so `VOX-ADP-004`'s "limited to" is not a policy to audit. Energy
+   (`P2`, "should ... where practical"): dispositioned, not staged —
+   sustained-workload energy is measured EXTERNALLY (`powermetrics`
+   beside the benchmark harness; no in-process API exists to pretend
+   with), and the measured campaign joins the owner's hardware session.
+   Full suite: `✔ Test run with 1457 tests in 282 suites passed`.
+   **Next**: derive and open the M10 queue — the publication tail (the
+   18 remaining baseline rows across the release, documentation,
+   instrumentation, benchmark-reporting, umbrella-product, security and
+   validation families) — a planning record first, per the standing
+   pattern; note many M10 rows carry `R` halves that will land in the
+   owner's release session.
