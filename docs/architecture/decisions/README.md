@@ -211,7 +211,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0343` is allocated to the progressive refinement arc.
 `ADR-0344` is allocated to the interactive level render path.
 `ADR-0345` is allocated to the refinement trigger and obligation.
-The next unallocated numeric identifier is `ADR-0346`.
+`ADR-0346` is allocated to the frame rate measurement.
+The next unallocated numeric identifier is `ADR-0347`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -540,3 +541,4 @@ The next unallocated numeric identifier is `ADR-0346`.
 | [ADR-0343](ADR-0343-open-the-progressive-refinement-arc.md) | Accepted | Open the progressive refinement arc |
 | [ADR-0344](ADR-0344-interactive-level-render-path.md) | Accepted | Interactive level render path |
 | [ADR-0345](ADR-0345-refinement-after-interaction-stops.md) | Accepted | Refinement after interaction stops |
+| [ADR-0346](ADR-0346-frame-rate-measured.md) | Accepted | Frame rate measured |

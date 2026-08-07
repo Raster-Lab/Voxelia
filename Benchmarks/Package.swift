@@ -10,7 +10,8 @@ let package = Package(
         .executableTarget(
             name: "voxelia-benchmark",
             dependencies: [
-                .product(name: "Voxelia", package: "Voxelia")
+                .product(name: "Voxelia", package: "Voxelia"),
+                .product(name: "VoxeliaMetal", package: "Voxelia"),
             ]
         ),
         .testTarget(

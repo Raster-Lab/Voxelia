@@ -140,9 +140,14 @@
       "sha256": "5ab2cdd96c534ccd7ae39386f5546d30446ee2aa80e2a2ecbb71ddd343ca51e8"
     },
     {
+      "path": "Benchmarks/Package.resolved",
+      "size": 2023,
+      "sha256": "d16aeb99716e8e65b6600fdf1546217b365b6233df1866146abad5433331a70c"
+    },
+    {
       "path": "Benchmarks/Package.swift",
-      "size": 566,
-      "sha256": "cf715f3aa3da25a05bb9c69f8b80b9d1cc524b356047d11b5d655dff13dafbaa"
+      "size": 635,
+      "sha256": "72b7b110815b7eb1530b5c76353a31945a58441c6e06b52e098b63243442568b"
     },
     {
       "path": "Benchmarks/README.md",
@@ -180,9 +185,14 @@
       "sha256": "e7cbd237bbbe4c6b4f599952905129441c54039b1ed6ba2454a79bcb76c5bc0e"
     },
     {
+      "path": "Benchmarks/Sources/voxelia-benchmark/FrameRateScenario.swift",
+      "size": 11520,
+      "sha256": "c51d6e2f437a211b454ddc4b4fd8b46f252db2b9e24cd9e9ea38057d6c51a201"
+    },
+    {
       "path": "Benchmarks/Sources/voxelia-benchmark/VoxeliaBenchmarkCommand.swift",
-      "size": 1098,
-      "sha256": "2f954217240eed4ae8c85ef0a4c7c06dd6341b768b135b9c6c2b72dfc2b84041"
+      "size": 1234,
+      "sha256": "7b6dd45b7aaec470e923168a91145988cb6d02c26fddd5d11f9af1724fb0b196"
     },
     {
       "path": "Benchmarks/Tests/VoxeliaBenchmarkToolTests/BenchmarkToolTests.swift",
@@ -5470,9 +5480,14 @@
       "sha256": "1241597a8b893527c9744d60711d0d71fd88b376f8affd23c2c4165dec2584ce"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0346-frame-rate-measured.md",
+      "size": 4753,
+      "sha256": "301f2a2e04c278b3479acd8dbc99ea0ff8f8ffca87aaaf152b7ac346fa9d0c43"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 46628,
-      "sha256": "547fde3c9a6278df5884a2e4c104ae91be89b4c3a7d00beec103d00d6f5d950a"
+      "size": 46764,
+      "sha256": "c26fbc2548d053f73808ab801e119fe171ac782e3b31b294136a17fd13fcab4e"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5560,14 +5575,19 @@
       "sha256": "9590cdb7604b9809d27618fbe201ea8a431fabe09c5a552d8798e6c1c5425d42"
     },
     {
+      "path": "docs/benchmarks/VOXELIA-BEN-0003-frame-rate-baseline.md",
+      "size": 3948,
+      "sha256": "96ecb01d0a6589be994e3fffc63c4a84d6802ae12f423300138e9617da2de46d"
+    },
+    {
       "path": "docs/index.md",
       "size": 794,
       "sha256": "e82ed8799284471194ba078966b301b63d3b5fd4a0a2c51b9b74316c2d41975d"
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 448358,
-      "sha256": "cbed5a9e8e7c502e4d758c237c60a3569231ee5be8100e617f219db94e73930a"
+      "size": 450517,
+      "sha256": "fa0eacd9ef0a1d7438be601e30582d75935aa5606be030684c0995ffd1f0baef"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6111,8 +6131,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 70149,
-      "sha256": "2ec0854d6ce680478a5ddf80d6a0656e2d99b4f9ab5504f1787826c874512e8e"
+      "size": 70354,
+      "sha256": "bc2492126923c73931e941ad16e290f00a149ba0d42833925821279ffc6e2b8c"
     }
   ]
 }

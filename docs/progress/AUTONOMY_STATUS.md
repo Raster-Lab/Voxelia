@@ -6951,3 +6951,39 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: `VOX-PER-004` — the frame-rate measurement increment. Reread
    `ADR-0330` and `ADR-0271` d4 (clean process) before building the harness;
    the 512-cubed volume is the row's own case, not a convenient fixture.
+
+   **Increment (mmmmm): `ADR-0346` + `VOXELIA-BEN-0003` — `VOX-PER-004` MEASURED,
+   and the verdict is a MISS, recorded not softened.** 1289/225 unchanged; no
+   product source changed — the benchmark package gains the scenario.
+
+   **All four `ADR-0330` constraints satisfied for the first time**: the named
+   device (`Mac17,4` / Apple M5, `ADR-0338` d1), the row's own 512-cubed case (a
+   deterministic ramp, not a convenient fixture), a clean release-build process
+   (`voxelia-benchmark --frames`, `ADR-0271` d4), and the quality labelled —
+   full-precision execution every frame, profiled across `ADR-0343`'s levels.
+
+   **The numbers**: 0.068 fps at 512-cubed (14.7 s/frame), 0.194 at level 1,
+   0.415 at level 2 — roughly **440x from the target's lower bound**, with
+   under two percent frame-to-frame spread. **Attributed, not excused**: the
+   only volume renderer is the CPU-exact reference path whose purpose is
+   correctness evidence; no Metal DVR kernel exists (measured absence); each
+   frame re-reads the full volume through the coordinated boundary; no
+   acceleration engaged. The representation lever works (6.1x level 0 to
+   level 2) and cannot close 440x alone. **Conditions that would reverse the
+   conclusion recorded**: a device DVR kernel with resident textures under the
+   same claims discipline.
+
+   **`T` discharged BY the measurement; the target standing is the OWNER'S
+   release matter** — "withholding an unfavourable number is the same
+   dishonesty reversed" (`ADR-0346` alternatives). No performance work starts
+   on a measurement record's authority; a device DVR kernel is its own future
+   arc.
+
+   **EVERY M6 ENGINEERING ROW IS NOW DISCHARGED OR MEASURED.** What remains to
+   the finish line: the `Examples` reference application (`ADR-0338` d5's
+   location decision), then release assembly with the owner's Demonstrations
+   and Reviews — now including this row's target standing.
+
+   **Next**: the `Examples` reference application — read the application-location
+   decision (`ADR-0338` d5) and `VOX-REP-003`'s `Examples` directory row; the
+   draw-loop demonstrations run there at release.

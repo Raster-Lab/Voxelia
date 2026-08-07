@@ -5,8 +5,12 @@ import Voxelia
 
 @main
 struct VoxeliaBenchmarkCommand {
-    static func main() throws {
+    static func main() async throws {
         let arguments = CommandLine.arguments.dropFirst()
+        if arguments.contains("--frames") {
+            try await FrameRateScenario.run()
+            return
+        }
         if arguments.contains("--self-check") {
             let start = ContinuousClock.now
             var accumulator = 0
@@ -29,6 +33,6 @@ struct VoxeliaBenchmarkCommand {
         }
 
         print("Voxelia benchmark scaffold")
-        print("Usage: voxelia-benchmark --self-check")
+        print("Usage: voxelia-benchmark --self-check | --frames")
     }
 }

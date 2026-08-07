@@ -25,6 +25,7 @@
 .swift-format
 AGENTS.md
 Benchmarks/Baselines/README.md
+Benchmarks/Package.resolved
 Benchmarks/Package.swift
 Benchmarks/README.md
 Benchmarks/Reports/README.md
@@ -33,6 +34,7 @@ Benchmarks/Scenarios/scaffold.yaml
 Benchmarks/Schemas/benchmark-result.schema.yaml
 Benchmarks/Schemas/benchmark-scenario.schema.yaml
 Benchmarks/Sources/voxelia-benchmark/ApplePlatformGate.swift
+Benchmarks/Sources/voxelia-benchmark/FrameRateScenario.swift
 Benchmarks/Sources/voxelia-benchmark/VoxeliaBenchmarkCommand.swift
 Benchmarks/Tests/VoxeliaBenchmarkToolTests/BenchmarkToolTests.swift
 CHANGELOG.md
@@ -1092,6 +1094,7 @@ docs/architecture/decisions/ADR-0342-first-useful-image.md
 docs/architecture/decisions/ADR-0343-open-the-progressive-refinement-arc.md
 docs/architecture/decisions/ADR-0344-interactive-level-render-path.md
 docs/architecture/decisions/ADR-0345-refinement-after-interaction-stops.md
+docs/architecture/decisions/ADR-0346-frame-rate-measured.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
@@ -1110,6 +1113,7 @@ docs/architecture/modules/VoxeliaValidation.md
 docs/benchmarks/README.md
 docs/benchmarks/VOXELIA-BEN-0001-first-vertical-slice-baseline.md
 docs/benchmarks/VOXELIA-BEN-0002-compression-benchmark.md
+docs/benchmarks/VOXELIA-BEN-0003-frame-rate-baseline.md
 docs/index.md
 docs/progress/AUTONOMY_STATUS.md
 docs/progress/american-spellings.txt
