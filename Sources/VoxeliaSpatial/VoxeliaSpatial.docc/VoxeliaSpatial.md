@@ -66,6 +66,8 @@ None.
 - ``LandmarkEstimationError``
 - ``CurvedCentreline``
 - ``CurvedCentrelineError``
+- ``CurvedPlanarMapping``
+- ``CurvedPlanarMappingError``
 
 ### Spatial-axis mappings
 

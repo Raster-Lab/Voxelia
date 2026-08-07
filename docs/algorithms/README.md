@@ -78,3 +78,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0072](VOXELIA-ALG-0072-registration-metrics.md) | Accepted | Registration metrics `binary64-v1` |
 | [VOXELIA-ALG-0073](VOXELIA-ALG-0073-registration-quality.md) | Accepted | Registration quality `binary64-v1` |
 | [VOXELIA-ALG-0074](VOXELIA-ALG-0074-curved-centreline.md) | Accepted | Curved centreline `binary64-v1` |
+| [VOXELIA-ALG-0075](VOXELIA-ALG-0075-curved-planar-mapping.md) | Accepted | Curved planar mapping `binary64-v1` |

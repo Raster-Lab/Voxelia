@@ -7724,3 +7724,28 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    CPR output parameterisation (arc length x lateral offset over a
    frozen frame along the centreline) and its inverse to patient
    coordinates, composing this increment's lookup.
+
+1. **2026-08-07 — ~~`VOX-MPR-013`~~ DISCHARGED: curved planar
+   back-mapping (`ADR-0376` + `VOXELIA-ALG-0075`).**
+   `CurvedPlanarMapping` in `VoxeliaSpatial`: output positions are arc
+   length x lateral offset, and `patientPosition(atArcLength:
+   lateralOffset:)` is the one inverse — centre from the `ADR-0375`
+   lookup, lateral direction as the normalised REJECTION of a
+   caller-declared reference direction from the per-segment tangent
+   (stretched-CPR convention; "up" is a clinical choice, never a library
+   guess). The frame is piecewise constant, discontinuous at vertices
+   exactly where the polyline's tangent is — rotation-minimising frames
+   REJECTED for v1 (they smuggle an integration scheme and its step-size
+   knob into an exactly testable mapping). Admission refuses: wrong
+   space, zero reference, reference exactly parallel to any segment
+   (exact cross-zero, the no-epsilon contract), non-finite offset.
+   Fixtures: elbow maps back exactly; the diagonal pins the honest
+   `0x1p-53` rounding residual. Sampling is NOT built here — the CPR
+   image composes this mapping in its own increment if a row demands
+   one. Full suite: `✔ Test run with 1394 tests in 256 suites passed`.
+   **Next**: the DICOM tails — the explicit-geometry row (enhanced
+   multi-frame and irregular frame-sets through explicit geometry
+   models, never hidden regularisation, `I,T`; VoxeliaSpatial's
+   rectilinear/frame-set vocabulary and the CT frame descriptions are
+   the substance to compose or extend), then the DICOM adapter-
+   capabilities row.
