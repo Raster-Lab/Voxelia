@@ -3111,8 +3111,8 @@
     },
     {
       "path": "Tools/Scripts/check_required_files.py",
-      "size": 1484,
-      "sha256": "79a92639724d71c119d9026dfb444861fb54dcfcca97bb96c00f76b64c025aeb"
+      "size": 1518,
+      "sha256": "0882f9c461ec6220f09422d71da174f4878096f5beec5a8465a9b210dc76686d"
     },
     {
       "path": "Tools/Scripts/check_requirement_traceability.py",
@@ -5250,9 +5250,14 @@
       "sha256": "1cd1b784410f7830d6cd1483e8ad4bc048dc4d7051f8fff3e7959c4ea216349a"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0320-repository-baseline-rows.md",
+      "size": 5118,
+      "sha256": "8fbe68d7598300e5fd49d2b165b89389a952945ad1964902ef19e0f571337ce6"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 43619,
-      "sha256": "89954d4264e79ec240f20b23d21a6f4658219511cfbb2772d1273c436b83960b"
+      "size": 43710,
+      "sha256": "d9ef5e75c71103eb98a5e4ead531cd8f55cdf2fd314d226d44fa9a409c65f14e"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5346,8 +5351,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 397356,
-      "sha256": "6c7a22b0022849ab78927533d9ed9a76f12172cd4fde37ebbc4b2e0b077c7c2c"
+      "size": 398931,
+      "sha256": "613f451b52cc32807b37bc301c252e586260b13c28affe9d0dce7dbb8d1d8ea3"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5866,8 +5871,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67070,
-      "sha256": "101f86c19d1fc5308a345ef25a20e3b4785a9e5d960afbf69f7498ce39494aa4"
+      "size": 67135,
+      "sha256": "bb6b0f16888b086484999c7a6b0ee1203081cdb95a87fea5018052f6db1ffa9a"
     }
   ]
 }

@@ -6141,3 +6141,28 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Next: the five M0 rows**, each claimed on evidence read for it. **The derivation is in the
    record so it is RECOMPUTED, not read as another list to decrement.**
+
+   **Increment (mmmm): `ADR-0320` — four M0 rows claimed; a PARTIALLY complete gate completed.**
+   1238/219 unchanged. **No source changed.**
+
+   **Expected these to be trivial. Two were satisfied and UNENFORCED — ninth instance, and this
+   time the enforcement was PARTIAL, which is harder to see than absent.**
+   `check_required_files.py` covered **7 of 8** files `VOX-REP-002` names (missing
+   **`CODEOWNERS`**) and **6 of 7** directories `VOX-REP-003` names (missing **`Examples`**).
+   Both were **present on disk and unchecked**. A list covering seven of eight **reads as
+   complete at a glance** — which is exactly why a partial omission outlives a missing gate.
+
+   **Proven able to fail**: `Examples` moved away → exit 1; `.github/CODEOWNERS` moved away →
+   exit 1. **Before this change both moves passed.**
+
+   **A discrepancy RECORDED rather than resolved**: `VOX-REP-002` says the **root** shall
+   contain `CODEOWNERS`; the file is at **`.github/CODEOWNERS`** — one of the three paths
+   GitHub resolves, and the conventional one. Gate now requires it **where it actually is**.
+   Moving the file or amending the row is one line **either way and not mine to pick** — the row
+   is frozen text, the file is where its tooling expects. **Owner item.**
+
+   **`VOX-DOC-003` deliberately NOT bundled** — it declares `I,R` and asks a linguistic
+   question the other four do not; including it would be **four verifications and one
+   assertion**.
+
+   **12 rows remain unclaimed** under `ADR-0319`'s criterion — **recomputed, not decremented**.
