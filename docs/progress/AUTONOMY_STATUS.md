@@ -7800,3 +7800,28 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `ADR-0351` (VOX-EXT rows in M7 — much substance already exists in
    `ImplementationRegistry`; derive the arc's queue from the baseline
    table first, then design-first as always).
+
+1. **2026-08-07 — ~~`VOX-EXT-001`~~ + ~~`VOX-EXT-002`~~ + ~~`VOX-EXT-004`~~
+   DISCHARGED: the source-package extension mechanism (`ADR-0379`, docs +
+   tests only). THE EXTENSION-MECHANISM ARC IS OPEN.** The primary
+   mechanism is SOURCE-LEVEL Swift packages over public modules — no
+   plug-in loader, no dynamic discovery, no binary boundary in M7 (the
+   runtime plug-in questions stay with their M9 rows, unpresumed); the
+   documentation deliverable is `docs/architecture/extension-mechanism.md`
+   (what an extension can and cannot do). Third-party operations register
+   AS DATA, never as patches: the witness defines a `com.example.*` entry
+   entirely inside the validation suite and composes it beside the
+   standard CPU registrations WITHOUT one line of any core module
+   changing — registries are values the host constructs, not global
+   state. Duplicate identity pairs refuse typed (`duplicateImplementation`
+   — the existing admission rejects EVERY duplicate, strictly stronger
+   than the row and deliberately so: identity is the selection key, and
+   idempotent re-registration would make selection order-dependent).
+   Baseline shrinks by two. Full suite: `✔ Test run with 1401 tests in
+   259 suites passed`. **Next**: the arc's one real design decision —
+   the registration DECLARATION CONTRACT row (`I,T`): registrations
+   declare operation ID, implementation ID, versions, supported ranks,
+   formats, geometry, quality profiles and capability requirements;
+   widening `RegisteredImplementation` touches every backend
+   registration, so design the contract shape first, then migrate the
+   32 entries mechanically.

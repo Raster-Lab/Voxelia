@@ -244,7 +244,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0376` is allocated to curved planar back-mapping.
 `ADR-0377` is allocated to explicit frame geometry models.
 `ADR-0378` is allocated to DICOM adapter capabilities.
-The next unallocated numeric identifier is `ADR-0379`.
+`ADR-0379` is allocated to the source-package extension mechanism.
+The next unallocated numeric identifier is `ADR-0380`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -606,3 +607,4 @@ The next unallocated numeric identifier is `ADR-0379`.
 | [ADR-0376](ADR-0376-curved-planar-back-mapping.md) | Accepted | Curved planar back-mapping |
 | [ADR-0377](ADR-0377-explicit-frame-geometry-models.md) | Accepted | Explicit frame geometry models |
 | [ADR-0378](ADR-0378-dicom-adapter-capabilities.md) | Accepted | DICOM adapter capabilities |
+| [ADR-0379](ADR-0379-the-source-package-extension-mechanism.md) | Accepted | The source-package extension mechanism |

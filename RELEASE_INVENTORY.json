@@ -3385,6 +3385,11 @@
       "sha256": "a460df09405cf39fad5fe8cd40f958e4e9f2231f1c782c7b59265895d578795c"
     },
     {
+      "path": "Tests/VoxeliaValidationTests/ExtensionMechanismTests.swift",
+      "size": 3001,
+      "sha256": "f1305cc5eb770ea1ddc69d9e994913055f3b6305d2c7be1c358420ca39881ede"
+    },
+    {
       "path": "Tests/VoxeliaValidationTests/LinearRampPhantomTests.swift",
       "size": 7661,
       "sha256": "038a2071c50eea19409eeeb230de92fc89b16ef3754010591c52d6d02a27fba6"
@@ -6080,14 +6085,24 @@
       "sha256": "2b7dad3fe2723bd4842ef6d2f2efeebe914429779476e01ceb8ecf59b30e50e5"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0379-the-source-package-extension-mechanism.md",
+      "size": 4216,
+      "sha256": "41de2afd8c75a7b7f388581276f4d75ff31eb9f1f2216da63a7a79dbba2deff3"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 51624,
-      "sha256": "35001e4ed77a7dc3dfb1448c32a94b0711c4706aae62df2044e1581cc7ee0ef0"
+      "size": 51810,
+      "sha256": "f838ddffe4f28042114ce3a93b9b0c278adc0a92ccf083b1ec9fac0cfb8f33a1"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
       "size": 84,
       "sha256": "d5b8431902dde7ed132b1bd445e10ea8b094b87dee7b41d6dce0d3e46e88e09c"
+    },
+    {
+      "path": "docs/architecture/extension-mechanism.md",
+      "size": 2486,
+      "sha256": "9b3303d8f1b842f1e2f13c5a39e3cbc219c8e466eb1c15ecf32964b0910e4c81"
     },
     {
       "path": "docs/architecture/index.md",
@@ -6181,8 +6196,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 500649,
-      "sha256": "f7ae5e6cb4289c0584f0454af557daf312c44f021561418834dcab2878cef3aa"
+      "size": 502308,
+      "sha256": "21dca4495e710fd24ee7f806ef6cfd62d0f95597445f20ee250ecaa50f0021f9"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6511,8 +6526,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 1525,
-      "sha256": "5f1b92bf1997fcc0b974dd409034ba83eabc5f9b127227d677b1999dabef63b6"
+      "size": 1501,
+      "sha256": "f7e0c09d458cbcb60446c42c0f5a5c5574263e2976edcecffd15a663fd855af2"
     },
     {
       "path": "docs/project/README.md",
@@ -6826,8 +6841,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 78551,
-      "sha256": "775d9fdc6cd54fb5e4ce89d8edab822761394acf0c8fdb15d8deb821c5606754"
+      "size": 78730,
+      "sha256": "1951b4d6558f5f9110a5bca5ee4670bd0698be7c3def5012a8017e5f92149e2b"
     }
   ]
 }
