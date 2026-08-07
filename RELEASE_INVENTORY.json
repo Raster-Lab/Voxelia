@@ -5170,9 +5170,14 @@
       "sha256": "dd1166c3a2d98e5cefe40d2f8f54430dfc577179656b67b675aa4d35bf0d7a20"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0307-first-useful-image-is-unbuilt.md",
+      "size": 5679,
+      "sha256": "f896ef0d0e2ddd7ced3bda90c0d7e92466f11753c061e214409dcefecfd44de5"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 42288,
-      "sha256": "2d9d773879203a60d90510eb328ca4ea0a404e70f5300714a9e94d7b988a09f4"
+      "size": 42389,
+      "sha256": "08b9ddd79671e8e970c85b8dd452dce5456528f9461baa4872fcfa62ae7c6732"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5266,8 +5271,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1240880,
-      "sha256": "0453b81bd786cdf83d2152827b01d6cd0d82dd2edb268b3112f53b1df180ce91"
+      "size": 1242907,
+      "sha256": "0527e1ba9f24650f1e2b421c83bdd7f9f6434e5c9b2de39e49e9f7c7b221ecea"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5786,8 +5791,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66020,
-      "sha256": "479105c91817c15a0d819fd49347cfb0407ee86faed250848307a92bf683a365"
+      "size": 66090,
+      "sha256": "4cc41123613c6d2257e4a4e54dd562f74f7538d2c62af4350210cdb065e8ab23"
     }
   ]
 }

@@ -5766,6 +5766,36 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **11 rows still remain** — the row isn't fully discharged, so the count is unchanged.
 
+   **Increment (zzz): `ADR-0307` — `VOX-PER-006` recorded as UNBUILT, not untested.**
+   1235/218 unchanged; no code, **no test written on purpose**.
+
+   **This row is DIFFERENT from the last six.** Those were properties that held, designed for
+   and unevidenced. Here: **there is no study cache** (the only caches are
+   `CachePreservationRule`, `BrickResultCache`, `ContentResultCache` — none a study-level
+   artefact whose *generation* has a completion to be earlier than), and **there is no
+   incremental publication** — `CTImportSession.importVolume` returns ONE `CTImportedVolume`
+   when every stage has finished. A test today could only assert the property is absent.
+
+   **THE TENSION WORTH RECORDING BEFORE ANYONE BUILDS IT.** `CTImportSession` has seven
+   checkpoints — `metadataRead(n)`, `grouping`, `frameValidation`, `decode(n)`, `assembly`,
+   `identity`, `final` — and **they look like publication points. They are not.** They are
+   cancellation probes, and `ADR-0249` decision 7 made the last load-bearing: *a caller cannot
+   publish what it never receives*. An increment satisfying this row by emitting a partial
+   volume at `decode(n)` would **dismantle that guarantee while looking like reuse of an
+   existing seam**. The two properties are compatible — but only if the progressive path is
+   built as its own thing rather than by relaxing a checkpoint.
+
+   **Two definitions must precede implementation, and neither is mine**: what a **study cache**
+   is (the row's clock starts at its generation), and what makes an image **useful** — a single
+   decoded frame, a full plane, or a reduced-resolution volume are three different answers with
+   three different costs, and "useful" is a **clinical** judgement about what a radiologist can
+   act on, not an engineering one.
+
+   **Owner list now SIX items**: `VOX-VAL-006` R, `VOX-HLS-001` D, `VOX-ARC-009` R,
+   `VOX-MTL-009` D, plus these two definitions gating `VOX-PER-006`.
+
+   **11 entered-milestone rows remain** — unchanged.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

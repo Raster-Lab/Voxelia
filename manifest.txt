@@ -1032,6 +1032,7 @@ docs/architecture/decisions/ADR-0303-headless-rendering-enforced.md
 docs/architecture/decisions/ADR-0304-interaction-state-ownership.md
 docs/architecture/decisions/ADR-0305-open-the-residency-duplication-row.md
 docs/architecture/decisions/ADR-0306-residency-duplication-analysis.md
+docs/architecture/decisions/ADR-0307-first-useful-image-is-unbuilt.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
