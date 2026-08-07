@@ -86,6 +86,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``DistanceTransformError``
 - ``LabelResampleOperation``
 - ``LabelResampleError``
+- ``RegionGrowOperation``
+- ``RegionGrowError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

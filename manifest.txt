@@ -193,6 +193,7 @@ Sources/VoxeliaExecution/Public/ProgressObservation.swift
 Sources/VoxeliaExecution/Public/ProjectIntensityOperation.swift
 Sources/VoxeliaExecution/Public/PublicationCoordinator.swift
 Sources/VoxeliaExecution/Public/RegionExtractionOperation.swift
+Sources/VoxeliaExecution/Public/RegionGrowOperation.swift
 Sources/VoxeliaExecution/Public/ResampleCubicOperation.swift
 Sources/VoxeliaExecution/Public/ResampleLinearOperation.swift
 Sources/VoxeliaExecution/Public/ResampleNearestOperation.swift
@@ -499,6 +500,7 @@ Tests/VoxeliaExecutionTests/PublicationAtomicityTests.swift
 Tests/VoxeliaExecutionTests/PublicationCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/RGBSourcePresentationTests.swift
 Tests/VoxeliaExecutionTests/RegionExtractionOperationTests.swift
+Tests/VoxeliaExecutionTests/RegionGrowOperationTests.swift
 Tests/VoxeliaExecutionTests/ResampleCubicOperationTests.swift
 Tests/VoxeliaExecutionTests/ResampleLinearOperationTests.swift
 Tests/VoxeliaExecutionTests/ResampleNearestOperationTests.swift
@@ -775,6 +777,7 @@ docs/algorithms/VOXELIA-ALG-0061-binary-morphology.md
 docs/algorithms/VOXELIA-ALG-0062-connected-components.md
 docs/algorithms/VOXELIA-ALG-0063-squared-euclidean-distance.md
 docs/algorithms/VOXELIA-ALG-0064-nearest-label-resampling.md
+docs/algorithms/VOXELIA-ALG-0065-region-growing.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -1143,6 +1146,7 @@ docs/architecture/decisions/ADR-0357-connected-components.md
 docs/architecture/decisions/ADR-0358-squared-euclidean-distance.md
 docs/architecture/decisions/ADR-0359-open-the-segmentation-arc.md
 docs/architecture/decisions/ADR-0360-nearest-label-resampling.md
+docs/architecture/decisions/ADR-0361-region-growing.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
@@ -1214,6 +1218,7 @@ docs/progress/evidence/ADR-0356-morphology-oracle.py
 docs/progress/evidence/ADR-0357-connected-components-oracle.py
 docs/progress/evidence/ADR-0358-distance-transform-oracle.py
 docs/progress/evidence/ADR-0360-label-resample-oracle.py
+docs/progress/evidence/ADR-0361-region-grow-oracle.py
 docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md
 docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md
 docs/progress/temporary-file-sites.txt

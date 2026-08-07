@@ -226,7 +226,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0358` is allocated to the distance transform.
 `ADR-0359` is allocated to the segmentation arc.
 `ADR-0360` is allocated to the nearest label resampling.
-The next unallocated numeric identifier is `ADR-0361`.
+`ADR-0361` is allocated to the region growing.
+The next unallocated numeric identifier is `ADR-0362`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -570,3 +571,4 @@ The next unallocated numeric identifier is `ADR-0361`.
 | [ADR-0358](ADR-0358-squared-euclidean-distance.md) | Accepted | Squared Euclidean distance transform |
 | [ADR-0359](ADR-0359-open-the-segmentation-arc.md) | Accepted | Open the segmentation arc |
 | [ADR-0360](ADR-0360-nearest-label-resampling.md) | Accepted | Nearest label resampling and the operation set |
+| [ADR-0361](ADR-0361-region-growing.md) | Accepted | Region growing |

@@ -7395,3 +7395,29 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    connectivity and implementation version in the parameter document; the
    growth rule composes the threshold domain and the components connectivity
    vocabulary.
+
+   **Increment (bbbbbb): `ADR-0361` + `VOXELIA-ALG-0065` — `VOX-SEG-007`
+   DISCHARGED; the recording IS the parameter document.** 1335 tests / 237
+   suites.
+
+   **`RegionGrowOperation` (CPU 28, combined 31)**: a sample is included
+   exactly when in the inclusive range — padding excluded FIRST (a sentinel
+   inside the range blocks growth, witnessed), NaN never in range (uncounted
+   here: threshold is the instrument for that observation) — and connected to
+   an in-range seed under the `ALG-0062` connectivity. **An out-of-range seed
+   founds nothing, deliberately not an error** — interactive seeding must not
+   throw on a miss.
+
+   **The row's four nouns, all recorded**: every seed coordinate in order,
+   both bounds, the sentinel only when declared, the connectivity token — in
+   the parameter document, verified by DIGEST IDENTITY in the suite — and the
+   implementation version bound structurally by the operation pattern's
+   derivation and provenance. Reproducing the growth needs nothing outside
+   the record. Four oracle fixtures exact, including the diagonal bridge
+   crossing only under vertex connectivity.
+
+   **Next**: `VOX-SEG-008` editing provenance — explicit, undoable-by-host,
+   provenance-producing editing operations; the design composes mask
+   arithmetic (union/subtract via the existing operations?) or freezes a
+   dedicated mask-edit vocabulary; CDMS 52.11's "segmentation editing shall
+   create new provenance" binds.

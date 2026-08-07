@@ -219,6 +219,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0360-label-resample"
             ),
             try entry(
+                operation: RegionGrowOperation.operationIdentifier,
+                implementation: RegionGrowOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0361-region-grow"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,
