@@ -173,6 +173,7 @@ Sources/VoxeliaExecution/Public/ArithmeticOperation.swift
 Sources/VoxeliaExecution/Public/BrickRequestBroker.swift
 Sources/VoxeliaExecution/Public/BrickResultCache.swift
 Sources/VoxeliaExecution/Public/CompositeLayersOperation.swift
+Sources/VoxeliaExecution/Public/ConnectedComponentsOperation.swift
 Sources/VoxeliaExecution/Public/ContentResultCache.swift
 Sources/VoxeliaExecution/Public/ConvolveOperation.swift
 Sources/VoxeliaExecution/Public/FirstUsefulImage.swift
@@ -471,6 +472,7 @@ Tests/VoxeliaExecutionTests/BrickWorkingSetBoundTests.swift
 Tests/VoxeliaExecutionTests/BrickedPipelineTests.swift
 Tests/VoxeliaExecutionTests/CompositeLayersOperationTests.swift
 Tests/VoxeliaExecutionTests/ConcurrencyStormTests.swift
+Tests/VoxeliaExecutionTests/ConnectedComponentsOperationTests.swift
 Tests/VoxeliaExecutionTests/ContentResultCacheTests.swift
 Tests/VoxeliaExecutionTests/ConvolveOperationTests.swift
 Tests/VoxeliaExecutionTests/FirstUsefulImageTests.swift
@@ -764,6 +766,7 @@ docs/algorithms/VOXELIA-ALG-0058-mask-application-and-arithmetic.md
 docs/algorithms/VOXELIA-ALG-0059-explicit-boundary-convolution.md
 docs/algorithms/VOXELIA-ALG-0060-separable-gaussian.md
 docs/algorithms/VOXELIA-ALG-0061-binary-morphology.md
+docs/algorithms/VOXELIA-ALG-0062-connected-components.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -1128,6 +1131,7 @@ docs/architecture/decisions/ADR-0353-mask-application-and-arithmetic.md
 docs/architecture/decisions/ADR-0354-explicit-boundary-convolution.md
 docs/architecture/decisions/ADR-0355-separable-gaussian-filter.md
 docs/architecture/decisions/ADR-0356-binary-morphology.md
+docs/architecture/decisions/ADR-0357-connected-components.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
@@ -1196,6 +1200,7 @@ docs/progress/evidence/ADR-0353-mask-arithmetic-oracle.py
 docs/progress/evidence/ADR-0354-convolution-oracle.py
 docs/progress/evidence/ADR-0355-gaussian-oracle.py
 docs/progress/evidence/ADR-0356-morphology-oracle.py
+docs/progress/evidence/ADR-0357-connected-components-oracle.py
 docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md
 docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md
 docs/progress/temporary-file-sites.txt

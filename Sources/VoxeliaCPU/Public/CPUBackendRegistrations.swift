@@ -195,6 +195,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0356-morphology"
             ),
             try entry(
+                operation: ConnectedComponentsOperation.operationIdentifier,
+                implementation: ConnectedComponentsOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: exact,
+                evidence: "adr-0357-connected-components"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,

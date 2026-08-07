@@ -79,6 +79,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``MorphologyOperation``
 - ``MorphologyOperator``
 - ``MorphologyError``
+- ``ConnectedComponentsOperation``
+- ``ComponentConnectivity``
+- ``ConnectedComponentsError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

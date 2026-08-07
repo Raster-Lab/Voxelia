@@ -222,7 +222,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0354` is allocated to the explicit-boundary convolution.
 `ADR-0355` is allocated to the separable Gaussian filter.
 `ADR-0356` is allocated to the binary morphology.
-The next unallocated numeric identifier is `ADR-0357`.
+`ADR-0357` is allocated to the connected components.
+The next unallocated numeric identifier is `ADR-0358`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -562,3 +563,4 @@ The next unallocated numeric identifier is `ADR-0357`.
 | [ADR-0354](ADR-0354-explicit-boundary-convolution.md) | Accepted | Explicit-boundary convolution |
 | [ADR-0355](ADR-0355-separable-gaussian-filter.md) | Accepted | Separable Gaussian filter |
 | [ADR-0356](ADR-0356-binary-morphology.md) | Accepted | Binary morphology |
+| [ADR-0357](ADR-0357-connected-components.md) | Accepted | Connected components |
