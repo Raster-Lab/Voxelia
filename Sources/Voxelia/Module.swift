@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 
-import VoxeliaSpatial
 import VoxeliaCore
-import VoxeliaStorage
 import VoxeliaExecution
-import VoxeliaImaging
 import VoxeliaGeometry
-import VoxeliaRendering
+import VoxeliaImaging
 import VoxeliaInteraction
+import VoxeliaRendering
+import VoxeliaSpatial
+import VoxeliaStorage
 
 /// Internal marker confirming that the Voxelia target has been linked.
 ///

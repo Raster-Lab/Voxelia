@@ -1064,6 +1064,7 @@ docs/architecture/decisions/ADR-0330-frame-rate-target-needs-its-hardware.md
 docs/architecture/decisions/ADR-0331-shrink-the-untagged-test-backlog.md
 docs/architecture/decisions/ADR-0332-the-test-level-ratchet-is-clean.md
 docs/architecture/decisions/ADR-0333-tests-are-format-clean.md
+docs/architecture/decisions/ADR-0334-the-repository-is-format-clean.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

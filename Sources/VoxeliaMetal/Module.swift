@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MIT
 
+import Metal
 import VoxeliaExecution
 import VoxeliaRendering
-
-import Metal
 
 /// Internal marker confirming that the VoxeliaMetal target has been linked.
 ///

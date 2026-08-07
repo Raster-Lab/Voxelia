@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-import VoxeliaImaging
 import VoxeliaGeometry
+import VoxeliaImaging
 
 /// Internal marker confirming that the VoxeliaRendering target has been linked.
 ///

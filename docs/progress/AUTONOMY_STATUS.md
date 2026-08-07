@@ -6511,3 +6511,31 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `StrictMemorySafety`, and **24 indentation edits across it is a diff that must be read
    against the compiler**, not waved through at the end of a session that has already touched
    219 test display strings. Next increment, **one rule class at a time**.
+
+   **Increment (aaaaa): `ADR-0334` — THE WHOLE REPOSITORY IS FORMAT-CLEAN.** `Sources/` 29 → 0,
+   `Tests/` 0. Build clean, 1238/219 pass.
+
+   **The 29 looked like product-code churn and were not.** Read by file: **5 `Module.swift`
+   marker stubs** (4 OrderedImports + 1 RemoveLine) and **24 in twelve
+   `ApplePlatformGate.swift` files** — two each, every one the **same shape**: an `#error(…)`
+   inside `#if`, unindented, **identical to the fix `ADR-0333` already verified** in
+   `Tests/Support`. **Not one finding was in a file containing algorithm or operation logic.**
+   `ADR-0333`'s caution was right on the information available and **turned out not to apply**.
+
+   **`ADR-0333`'s formatter finding REFINED, not edited there**: it concluded the formatter
+   "does not fix what its linter reports". **True of some rules, not all** — run over the five
+   `Module.swift` files it fixed **every one** (29 → 24), because lexicographic sorting *is* a
+   formatter capability. It did **not** regroup `@testable` imports or indent a preprocessor
+   directive. **Accurate statement: the formatter fixes a MEASURED SUBSET, and which subset must
+   be measured rather than assumed in either direction.**
+
+   **Verified THREE ways, not one**: lint zero over both trees, **`swift build` completes**, and
+   the suite passes. **A whitespace change to files containing `#error` directives could
+   plausibly have altered which branch compiled**, so the build is evidence rather than an
+   afterthought.
+
+   **Abandoned `ADR-0333`'s own plan** to split by rule class — that assumed the indentation
+   findings were spread through product logic; they are **24 instances of ONE pattern in 12 stub
+   files**, and splitting would produce two commits with the same one-line diff repeated.
+
+   **Next**: `ADR-0321`'s 121-spelling ratchet — the last backlog this arc created.

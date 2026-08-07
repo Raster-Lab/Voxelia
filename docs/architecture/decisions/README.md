@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0334`.
+The next unallocated numeric identifier is `ADR-0335`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -520,3 +520,4 @@ The next unallocated numeric identifier is `ADR-0334`.
 | [ADR-0331](ADR-0331-shrink-the-untagged-test-backlog.md) | Accepted | Shrink the untagged test backlog |
 | [ADR-0332](ADR-0332-the-test-level-ratchet-is-clean.md) | Accepted | The test level ratchet is clean |
 | [ADR-0333](ADR-0333-tests-are-format-clean.md) | Accepted | Tests are format clean |
+| [ADR-0334](ADR-0334-the-repository-is-format-clean.md) | Accepted | The repository is format clean |
