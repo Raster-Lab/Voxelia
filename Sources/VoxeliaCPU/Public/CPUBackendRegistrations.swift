@@ -211,6 +211,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0358-distance-transform"
             ),
             try entry(
+                operation: LabelResampleOperation.operationIdentifier,
+                implementation: LabelResampleOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: exact,
+                evidence: "adr-0360-label-resample"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,

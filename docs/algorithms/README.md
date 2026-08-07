@@ -67,3 +67,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0061](VOXELIA-ALG-0061-binary-morphology.md) | Accepted | Binary morphology `exact-v1` |
 | [VOXELIA-ALG-0062](VOXELIA-ALG-0062-connected-components.md) | Accepted | Connected components `exact-v1` |
 | [VOXELIA-ALG-0063](VOXELIA-ALG-0063-squared-euclidean-distance.md) | Accepted | Squared Euclidean distance transform `exact-v1` |
+| [VOXELIA-ALG-0064](VOXELIA-ALG-0064-nearest-label-resampling.md) | Accepted | Nearest label resampling `exact-v1` |

@@ -225,7 +225,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0357` is allocated to the connected components.
 `ADR-0358` is allocated to the distance transform.
 `ADR-0359` is allocated to the segmentation arc.
-The next unallocated numeric identifier is `ADR-0360`.
+`ADR-0360` is allocated to the nearest label resampling.
+The next unallocated numeric identifier is `ADR-0361`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -568,3 +569,4 @@ The next unallocated numeric identifier is `ADR-0360`.
 | [ADR-0357](ADR-0357-connected-components.md) | Accepted | Connected components |
 | [ADR-0358](ADR-0358-squared-euclidean-distance.md) | Accepted | Squared Euclidean distance transform |
 | [ADR-0359](ADR-0359-open-the-segmentation-arc.md) | Accepted | Open the segmentation arc |
+| [ADR-0360](ADR-0360-nearest-label-resampling.md) | Accepted | Nearest label resampling and the operation set |

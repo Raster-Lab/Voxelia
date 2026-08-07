@@ -7366,3 +7366,32 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    either widen grid resampling with a nearest mode or refuse mask semantics
    there and route them to a mask-honest resampler), and the segmentation
    operation set over the foundations.
+
+   **Increment (aaaaaa): `ADR-0360` + `VOXELIA-ALG-0064` — `VOX-SEG-005` and
+   `VOX-SEG-006` DISCHARGED; the nearest default is STRUCTURAL.** 1331 tests /
+   236 suites.
+
+   **The default is not a parameter that could drift — it is the only door**:
+   mask and label semantics are REFUSED by the intensity resampler (typed,
+   witnessed in the suite) and admitted only by `LabelResampleOperation`
+   (CPU 27, combined 30), so nothing can interpolate a label by accident. An
+   interpolating override would be a future validated operation with its own
+   record — the row's own wording made structural.
+
+   **A composition finding worth the record**: `ALG-0026`'s accepted nearest
+   rule CLAMPS — right for in-support sampling, WRONG for a grid resample,
+   where clamping would replicate edge labels into space the source never
+   covered. The resampler composes the ROUNDING and owns its boundary rule:
+   background zero outside, counted. Every output value is an input value or
+   the background; no interpolation exists anywhere in the chain. Four oracle
+   fixtures exact, including the -0.5 tie rounding away from zero.
+
+   **`VOX-SEG-006` discharged by foundations + the composition WITNESS**: an
+   `[Integration]` test drives threshold → erode → connected components into
+   the CDMS section 52 aggregate end to end — unit evidence of halves does not
+   prove they meet, so this does.
+
+   **Next**: `VOX-SEG-007` region growing — recorded seeds, thresholds,
+   connectivity and implementation version in the parameter document; the
+   growth rule composes the threshold domain and the components connectivity
+   vocabulary.
