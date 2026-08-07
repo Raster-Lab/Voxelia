@@ -5796,6 +5796,39 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **11 entered-milestone rows remain** — unchanged.
 
+   **Increment (aaaa): `ADR-0308` — `VOX-API-008` **I**+**T** discharged; **D** to the owner.**
+   1235/218 unchanged. **No code, no gate.**
+
+   **The two rows are DIFFERENT claims, and separating them was the first job.**
+   `VOX-HLS-001` is a **capability** (off-screen rendering is supported); `VOX-API-008` is an
+   **absence of a precondition** (no public entry point *requires* a window). A library could
+   satisfy the first and fail the second — an off-screen path beside a public API whose
+   signature still demands a view.
+
+   **Two facts, the second sharper**: (1) no target imports `AppKit`/`UIKit`/`SwiftUI`/
+   `MetalKit`, and since `ADR-0303` none *can* — a module that cannot import a framework cannot
+   name its types in a signature; (2) **`drawable`/`Drawable` appear ZERO times in
+   `Sources/`**. That matters independently: a renderer returning a `CAMetalDrawable` would
+   require a layer to exist even in a module importing nothing from AppKit, because the
+   drawable **comes from** the layer. Fact 1 rules out *naming* a view; fact 2 rules out
+   *needing* one.
+
+   **`T` discharged by the existing off-screen renders READ FOR THIS ROW**, not borrowed: the
+   21 `[Pipeline]` tests call the public rendering API in a process where no window, view or
+   layer exists at all. **If any public entry point required one, they could not run.**
+
+   **Deliberately wrote NO test and NO gate.** A test asserting "callable without a window" in
+   a suite where no window can exist asserts nothing the suite doesn't already assert by
+   running. A gate scanning public signatures would duplicate `check_prohibited_imports.py`;
+   the one thing it would add — catching a drawable — needs `Metal` allowed and one type from
+   it forbidden, **a rule that gets relaxed the first time it is inconvenient**.
+
+   **Did NOT let `ADR-0303` silently cover this row** — that record claims `VOX-HLS-001`, and
+   folding them would leave `VOX-API-008` discharged by a record that never mentions it: the
+   exact untraceability `ADR-0300` had to untangle.
+
+   **10 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

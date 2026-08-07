@@ -5175,9 +5175,14 @@
       "sha256": "f896ef0d0e2ddd7ced3bda90c0d7e92466f11753c061e214409dcefecfd44de5"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0308-public-api-needs-no-window.md",
+      "size": 5166,
+      "sha256": "7374021ffb7c37d704b3881fdfd517aebb349a56e8b3e5aa15c48375cde21c5b"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 42389,
-      "sha256": "08b9ddd79671e8e970c85b8dd452dce5456528f9461baa4872fcfa62ae7c6732"
+      "size": 42484,
+      "sha256": "1758df0766a9a47ab71c8a28178cacec00cc05128e461be86d9fc447d5f261e4"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5271,8 +5276,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1242907,
-      "sha256": "0527e1ba9f24650f1e2b421c83bdd7f9f6434e5c9b2de39e49e9f7c7b221ecea"
+      "size": 1245044,
+      "sha256": "1cc1c674db12cca2831a8a1c672fbe0ee0685a9b3271138dbe1175a9284230fc"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5791,8 +5796,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66090,
-      "sha256": "4cc41123613c6d2257e4a4e54dd562f74f7538d2c62af4350210cdb065e8ab23"
+      "size": 66157,
+      "sha256": "782431ef0770a4d70f11052e1beac177873a1187ff18d016c86b9393e8ec7264"
     }
   ]
 }
