@@ -208,7 +208,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0340` is allocated to the grid resample operation.
 `ADR-0341` is allocated to the study cache generation stage.
 `ADR-0342` is allocated to the first useful image.
-The next unallocated numeric identifier is `ADR-0343`.
+`ADR-0343` is allocated to the progressive refinement arc.
+The next unallocated numeric identifier is `ADR-0344`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -534,3 +535,4 @@ The next unallocated numeric identifier is `ADR-0343`.
 | [ADR-0340](ADR-0340-grid-resample-operation.md) | Accepted | Grid resample operation |
 | [ADR-0341](ADR-0341-study-cache-generation-and-priority.md) | Accepted | Study cache generation and priority |
 | [ADR-0342](ADR-0342-first-useful-image.md) | Accepted | First useful image |
+| [ADR-0343](ADR-0343-open-the-progressive-refinement-arc.md) | Accepted | Open the progressive refinement arc |

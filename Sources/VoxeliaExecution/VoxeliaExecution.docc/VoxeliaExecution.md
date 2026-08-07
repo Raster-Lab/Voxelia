@@ -61,6 +61,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``ObliqueSliceError``
 - ``GridResampleOperation``
 - ``GridResampleError``
+- ``LevelSelectOperation``
+- ``LevelSelectError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

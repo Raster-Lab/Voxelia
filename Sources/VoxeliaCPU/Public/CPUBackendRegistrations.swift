@@ -139,6 +139,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0340-grid-resample"
             ),
             try entry(
+                operation: LevelSelectOperation.operationIdentifier,
+                implementation: LevelSelectOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: exact,
+                evidence: "adr-0343-level-select"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,

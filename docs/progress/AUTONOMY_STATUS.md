@@ -6841,3 +6841,39 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    superseding version `ADR-0103` named as future. Read `ADR-0329` d3 first: the
    "both qualities execute identically" guard test must be CONSCIOUSLY REPLACED
    by per-quality claims, never quietly deleted.
+
+   **Increment (jjjjj): `ADR-0343` + `VOXELIA-ALG-0056` — THE PROGRESSIVE-REFINEMENT
+   ARC IS OPEN, and its foundation exists.** 1283 tests / 224 suites.
+
+   **The arc order is FIXED in the record**: (1) the level representation — this
+   increment; (2) the interactive render path over it while bricks load
+   (`VOX-BRK-009`); (3) refinement to full after interaction stops
+   (`VOX-DVR-013`); (4) the `ADR-0103` guard replaced BY PER-QUALITY CLAIMS in the
+   SAME increment the qualities diverge — never earlier, so the old position stays
+   guarded until the new one is tested. Neither row is claimed yet; nothing is
+   claimed early.
+
+   **A level's samples are SELECTED, never averaged** — level sample `(j)` IS the
+   level-zero stored value at `(j*f)`, so every interactive pixel shows a real
+   acquired sample and no synthesised intensity enters the diagnostic path (the
+   same no-fabrication line as padding and halos; aliasing-vs-smoothing trade
+   recorded, an averaged pyramid stays open as a separate representation). The
+   level geometry scales the index-step columns by the factors, translation
+   verbatim — a level sample's centre IS its selected sample's centre, and for
+   power-of-two factors the scaled-matrix and scaled-index routes agree
+   BIT-EXACTLY (oracle witness).
+
+   **`LevelSelectOperation` registered (CPU 18, combined 21)**: sampler value
+   domain, `BrickResolutionLevel` parameter with index >= 1 (level zero IS the
+   volume — an identity copy would mint a duplicate object while looking like
+   work), factors ceiling 16384, parameter document = level index + three
+   factors, claim `exact` (selection copies bytes; a below-full quality claim
+   belongs to the RENDER in arc step 2, through the claim vocabulary `ADR-0103`
+   already routes). Five oracle fixtures exact on first run, including both
+   collapsed-axis cases through the ordinary arithmetic.
+
+   **Next**: arc step 2 — the interactive render path over the level
+   (`VOX-BRK-009`): render from a level-select volume while level-zero bricks
+   load, claiming `org.voxelia.quality.interactive` with the level recorded,
+   composing `ADR-0341`'s stage. Read `ADR-0174`'s claim routing and the
+   `MetalSliceRenderer` stage-injection note in memory before designing.

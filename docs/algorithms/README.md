@@ -59,3 +59,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0053](VOXELIA-ALG-0053-physical-coordinate-ramp.md) | Accepted | Physical-coordinate ramp `binary64-v1` |
 | [VOXELIA-ALG-0054](VOXELIA-ALG-0054-sample-centre-physical-bounds.md) | Accepted | Sample-centre physical bounds `binary64-v1` |
 | [VOXELIA-ALG-0055](VOXELIA-ALG-0055-grid-resampling.md) | Accepted | Grid resampling `binary64-v1` |
+| [VOXELIA-ALG-0056](VOXELIA-ALG-0056-level-selection-downsampling.md) | Accepted | Level selection downsampling `binary64-v1` |
