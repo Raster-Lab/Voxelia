@@ -6678,3 +6678,41 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: `VOX-SPA-010`'s physical half on the sample-centre convention — the
    smallest newly unblocked row, and a design-first increment (ADR + oracle) per the
    standing recipe.
+
+   **Increment (fffff): `ADR-0339` + `VOXELIA-ALG-0054` — `VOX-SPA-010` DISCHARGED.**
+   1248 tests / 220 suites; the first code increment of the restarted loop.
+
+   **The physical half now has its producer**:
+   `AffineGridGeometry.sampleCentreBounds(slot0SampleCount:slot1SampleCount:slot2SampleCount:)`
+   returns the axis-aligned hull of the outermost sample centres in the geometry's own
+   coordinate space, per `ADR-0338` d7's centres answer. Eight corners, frozen
+   slot-0-fastest ordinals, the `ADR-0138`/`ALG-0052` expression shape with translation
+   added last, sequential fold — all frozen in `VOXELIA-ALG-0054` with a python oracle
+   (`ADR-0339-sample-centre-bounds-oracle.py`), and all ten fixture tests passed
+   **bit-exact on the first run**.
+
+   **`ADR-0323`'s predicted defect is REGISTERED EVIDENCE, not prose**: fixture 5's
+   world x mixes two slots with opposite signs, the true hull spans `[-2, 3]`, and the
+   two-corner shortcut's `[0, 1]` is recorded in the spec AND asserted against in the
+   test, so the wrong implementation cannot come back quietly.
+
+   **Three typed failures with attribution, nothing dead**: non-positive and
+   above-`2^53` counts name their slot (the ceiling is what makes every corner
+   coordinate exact — `2^53` itself admits, corner index `9007199254740991.0`);
+   a non-finite component names its corner ordinal and axis, checked BEFORE `Point3D`
+   so the failure belongs to the corner computation (`ADR-0258` attribution rule).
+   Product overflow (ordinal 1) and accumulation overflow (ordinal 3) are separate
+   fixtures. `invertedBounds`/`nonFiniteComponent` are provably unreachable downstream
+   — and a `-0.0` component is UNREACHABLE, with the proof in the spec: the last
+   addition is with a translation `Matrix4x4Double` normalised on admission, and
+   round-to-nearest addition returns `-0.0` only for `-0.0 + -0.0`.
+
+   **Every M1 row is now accounted for.** Remaining queue per `ADR-0338`:
+   `VOX-IMG-008` grid resampling (zero-pad + provenance), `VOX-PER-006` first useful
+   image, `VOX-CON-008` priority propagation, the `VOX-BRK-009`/`VOX-DVR-013`
+   progressive-refinement arc, `VOX-PER-004` on the named device, the `Examples`
+   application, then release assembly.
+
+   **Next**: `VOX-IMG-008` grid resampling — design first; read `ADR-0324`'s
+   interpolation-row findings and the existing `Resample*Operation`s before designing,
+   per the vocabulary-vs-capability trap recorded against `VOX-VS1-011`.

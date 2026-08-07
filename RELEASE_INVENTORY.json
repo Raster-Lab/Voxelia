@@ -1635,6 +1635,11 @@
       "sha256": "6ef593ef43bfb7849cf7e0485af43866d41aa153521548abed1551de85441649"
     },
     {
+      "path": "Sources/VoxeliaSpatial/Public/SampleCentreBounds.swift",
+      "size": 4959,
+      "sha256": "5dc56635b72d00db4b74de375f33df639e5d11403fcb600c0db944b82c9afc5f"
+    },
+    {
       "path": "Sources/VoxeliaSpatial/Public/SpatialAxisMapping.swift",
       "size": 4772,
       "sha256": "1b0fb71a3ad3435b2cfb4af28b799bc4999233444fb82955ebddac255220e086"
@@ -1676,8 +1681,8 @@
     },
     {
       "path": "Sources/VoxeliaSpatial/VoxeliaSpatial.docc/VoxeliaSpatial.md",
-      "size": 1673,
-      "sha256": "b190335b8781e1e9850871d9d07d07925a3b570db1def95290f56ee41a8ae137"
+      "size": 1703,
+      "sha256": "d61cf7ebf7671fc6e5e818292acd10141f68f460134f37600d90c01dee70dd80"
     },
     {
       "path": "Sources/VoxeliaStorage/ApplePlatformGate.swift",
@@ -2860,6 +2865,11 @@
       "sha256": "a10abc4d6c175324e39fc94473d1899edbd28bb6606c033b89015ed86e198ce5"
     },
     {
+      "path": "Tests/VoxeliaSpatialTests/SampleCentreBoundsTests.swift",
+      "size": 8286,
+      "sha256": "f89b4e52e85f5f02379576d66fd7265717fcb897feffa98922b91bf98e4f1dcc"
+    },
+    {
       "path": "Tests/VoxeliaSpatialTests/SingularTransformTypedErrorTests.swift",
       "size": 7466,
       "sha256": "490de08387c9fcd127576b4a449382377a2fb44d3e9bd3ab3d811f4f008f2c54"
@@ -3356,8 +3366,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 6701,
-      "sha256": "80ba6138dda6e8843715cf7f795d2e0031a3b199f8f813faf557b3056f0c62f5"
+      "size": 6832,
+      "sha256": "55625c3154c33eaa6b22533007cf55ed6403d963b2ae692a7248396d2384907e"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3623,6 +3633,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0053-physical-coordinate-ramp.md",
       "size": 8347,
       "sha256": "34d6282686155652baa1b4d7d6624c5bf29e6b44505b40f02536414458d7f2c9"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0054-sample-centre-physical-bounds.md",
+      "size": 8351,
+      "sha256": "86c5b33c641c6b23c163a2db69a29f13535de4ef852ae42562fd4cf37bb8c5a1"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -5355,9 +5370,14 @@
       "sha256": "a644aa958ca74cb8651d3a37a4040abd69d2149cb05ad5dbf163f7c1cf168046"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0339-sample-centre-physical-bounds.md",
+      "size": 6746,
+      "sha256": "222dd797bf99ffc5b9a047be386db794e79880d882fbc5b8717932b969dbf9ba"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 45504,
-      "sha256": "a8457328f568ff417611b3a71c3028d957d66594c782155d7962830e10c691b0"
+      "size": 45667,
+      "sha256": "56510ed7f310ddcd14e6f987891a94642fd2046c17a7e753647167f7206f6a94"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5451,8 +5471,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 431323,
-      "sha256": "760faef96762a38897c7c42e0fb894736ac9b60b82bdbf96a744231e8f24ce69"
+      "size": 433820,
+      "sha256": "7afafcb1337c89b537f70a83d5a2373323ce42f131b60aeae13dc79f9e8eb878"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5643,6 +5663,11 @@
       "path": "docs/progress/evidence/ADR-0239-sample-normalisation-exhaustive.py",
       "size": 4168,
       "sha256": "cf652d2fb5b3d74ab39d98f3340732085d01ada3e0438a6d38039112638143b9"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0339-sample-centre-bounds-oracle.py",
+      "size": 5268,
+      "sha256": "c0dcfd8558be53faed4537238c33b9937857a48fcfdcb496da3277a054a420b6"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -5976,8 +6001,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 68472,
-      "sha256": "296f4def2c058c509dbdff9c70cb1fb586287e49226f5cb9fe18d1a8ab060639"
+      "size": 68782,
+      "sha256": "5f4ef07cec383b949679c756cc9242c475c874cf7f8ad34953bbf499f9f82f5f"
     }
   ]
 }

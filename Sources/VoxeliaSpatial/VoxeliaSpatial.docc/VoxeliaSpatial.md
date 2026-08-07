@@ -74,6 +74,7 @@ None.
 - ``SpatialPrimitiveError``
 - ``AxisAlignedBounds3D``
 - ``SpatialBoundsError``
+- ``SampleCentreBoundsError``
 - ``SpatialTransformKind``
 
 ### Ray intersection
