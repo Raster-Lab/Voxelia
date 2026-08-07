@@ -8313,3 +8313,26 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    validation families) — a planning record first, per the standing
    pattern; note many M10 rows carry `R` halves that will land in the
    owner's release session.
+
+1. **2026-08-07 — M10 OPENED: the M10 queue is derived (`ADR-0405`,
+   planning record) — AND THE TRACEABILITY DEBT BASELINE IS EMPTY.**
+   Every row of every entered milestone is now traced by a record; from
+   here, the only honest ledger is THIS one, tracking discharge. Three
+   arcs: (1) umbrella + module documentation — the umbrella re-export
+   witness (the `Voxelia` product already re-exports exactly the eight
+   stable modules and none of the optional integrations, preserved
+   deliberately since `ADR-0385`) and the module-overview audit
+   (purpose/dependencies/platforms/diagnostic status for every public
+   module); (2) instrumentation + benchmark reporting — the overhead
+   analysis/witness, the VALIDATED Codable benchmark-record schema
+   carrying the baseline's required fields (the report schema is the
+   engineering half; the multi-mode measurement campaign is release
+   evidence for the owner's session), and the regression-threshold
+   check seam (thresholds are the owner's); (3) release policy records
+   — the thirteen `I,R` rows consolidated into release documentation
+   the owner's session accepts (substance exists: `prepare-release.sh`,
+   the SBOM, `RELEASE.json`, the security docs). WHEN THE ARCS'
+   ENGINEERING HALVES ARE DONE, THE QUEUE IS EXHAUSTED: the loop stops
+   (`stop:true`) and surfaces the complete owner batch — the
+   accumulated `R` halves from three milestones plus the release
+   session itself. **Next**: arc 1.

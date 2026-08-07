@@ -270,7 +270,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0402` is allocated to distributed integrity.
 `ADR-0403` is allocated to runtime plug-ins not introduced.
 `ADR-0404` is allocated to Apple adapter seams and energy.
-The next unallocated numeric identifier is `ADR-0405`.
+`ADR-0405` is allocated to the M10 queue.
+The next unallocated numeric identifier is `ADR-0406`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -658,3 +659,4 @@ The next unallocated numeric identifier is `ADR-0405`.
 | [ADR-0402](ADR-0402-distributed-integrity.md) | Accepted | Distributed integrity |
 | [ADR-0403](ADR-0403-runtime-plug-ins-not-introduced.md) | Accepted | Runtime plug-ins not introduced |
 | [ADR-0404](ADR-0404-apple-adapter-seams-and-energy.md) | Accepted | Apple adapter seams and energy |
+| [ADR-0405](ADR-0405-the-m10-queue.md) | Accepted | The M10 queue |

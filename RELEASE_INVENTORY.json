@@ -6455,9 +6455,14 @@
       "sha256": "cb8d895e420d4bf74ba91d83c797102083ab0ebb4811738eb4168c8054851014"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0405-the-m10-queue.md",
+      "size": 3721,
+      "sha256": "34137a06c5680ca086009e817ed7fea91e1756ad6f26eca93ec7b2448e2d56f8"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 55714,
-      "sha256": "81c862b7d4de85db7141a1d7eecb9af684afa0c27921cdedb0128dad61178508"
+      "size": 55825,
+      "sha256": "47129e935d5a41b351acec396ba997753b67b60c455e860f3da63b49a4d64408"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6566,8 +6571,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 533702,
-      "sha256": "3b3f93b1518f96a2e5248307ac643109d37effd3a4dbd9371e3f6de1430a7e2b"
+      "size": 535186,
+      "sha256": "10e28ac3806a500040f123a52f3edfabd2a142b4ac2475c7f5dfd1a698fa2741"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6936,8 +6941,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 901,
-      "sha256": "3da1ba7aca5629723daff2d8152f8fdcbb3eedc76020bdeb3bef30ae3dcfde8d"
+      "size": 685,
+      "sha256": "e583ca5ff26a8ed1420b63015cec39947cc68af567e5b073d6483bdca2b6f315"
     },
     {
       "path": "docs/project/README.md",
@@ -7251,8 +7256,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 83973,
-      "sha256": "f0c4ae11ec0efc3cce2d92b3c265534de388dafba30c5a13b603178bff7a1304"
+      "size": 84027,
+      "sha256": "f9c9ca8fe221cf135b50fdb08141c6b74cbab2fbb90905fcc55dd7cf5206ebec"
     }
   ]
 }

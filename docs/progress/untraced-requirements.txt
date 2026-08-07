@@ -11,21 +11,3 @@
 # against this list, M7 first, and the ratchet fires as each arc's
 # records name their rows.
 #
-VOX-API-012
-VOX-DOC-004
-VOX-DOC-012
-VOX-ERR-008
-VOX-ERR-009
-VOX-PER-010
-VOX-PER-011
-VOX-PER-012
-VOX-REL-003
-VOX-REL-004
-VOX-REL-006
-VOX-REL-007
-VOX-REL-008
-VOX-REL-009
-VOX-REL-010
-VOX-REP-007
-VOX-SEC-008
-VOX-SEC-009
