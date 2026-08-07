@@ -179,6 +179,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0354-convolve"
             ),
             try entry(
+                operation: GaussianFilterOperation.operationIdentifier,
+                implementation: GaussianFilterOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0355-gaussian-filter"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,

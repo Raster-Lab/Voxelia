@@ -5,58 +5,46 @@ import VoxeliaCore
 import VoxeliaSpatial
 import VoxeliaStorage
 
-/// An error raised by convolution admission.
-public enum ConvolveError: Error, Sendable, Equatable {
+/// An error raised by Gaussian-filter admission.
+public enum GaussianFilterError: Error, Sendable, Equatable {
     case unsupportedLayerFormat
-    case invalidKernel
+    case invalidSigma
     case invalidOutputAxis
 }
 
-/// The explicit boundary vocabulary of `VOXELIA-ALG-0059`: a closed,
-/// defaultless choice, because a defaulted boundary is an implicit one
-/// and `VOX-IMG-011` forbids exactly that.
-public enum ConvolutionBoundary: String, Sendable, Hashable {
-    /// An out-of-image tap reads the nearest edge sample per axis.
-    case replicate
-    /// An out-of-image tap contributes exactly zero.
-    case zero
-}
-
-/// The convolution operation registered by `ADR-0354` under the
-/// `convolution/binary64-v1` model of `VOXELIA-ALG-0059`.
+/// The separable Gaussian filter registered by `ADR-0355` under the
+/// `gaussian/binary64-v1` model of `VOXELIA-ALG-0060`.
 ///
-/// The kernel applies in stated correlation orientation; offsets are
-/// visited in ascending lexicographic order (axis zero fastest) with
-/// left-associative binary64 accumulation from zero; the output
-/// composes `VOXELIA-ALG-0058`'s result rule with this operation's own
-/// warning codes. The operation mints no identifiers and acquires no
-/// clock.
-public enum ConvolveOperation {
+/// Sampled weights over the frozen `ceil(3 sigma)` radius, normalised
+/// in left-to-right order, applied in axis-ascending separable passes
+/// through the one `VOXELIA-ALG-0059` accumulation core — with the
+/// intermediates carried in binary64 and the stored-type conversion
+/// happening exactly once, after the final pass. The operation mints
+/// no identifiers and acquires no clock.
+public enum GaussianFilterOperation {
     /// The registered operation token spelling.
-    public static let operationIdentifier = "org.voxelia.op.convolve"
+    public static let operationIdentifier = "org.voxelia.op.gaussian-filter"
     /// The registered implementation token spelling.
-    public static let implementationIdentifier = "org.voxelia.impl.convolve.cpu"
+    public static let implementationIdentifier = "org.voxelia.impl.gaussian-filter.cpu"
 
-    /// The inclusive per-axis kernel extent ceiling.
-    public static let maximumKernelExtent = 31
-
-    /// The aggregated warning code counting integer saturations.
-    public static let saturationWarningCode = "org.voxelia.warn.convolution-saturated"
+    /// The aggregated warning code counting integer saturations —
+    /// unreachable for finite inputs by the normalised kernel's
+    /// convexity, kept because the shared store rule carries it.
+    public static let saturationWarningCode = "org.voxelia.warn.gaussian-saturated"
     /// The aggregated warning code counting float32 non-finite results.
-    public static let nonFiniteWarningCode = "org.voxelia.warn.convolution-non-finite"
+    public static let nonFiniteWarningCode = "org.voxelia.warn.gaussian-non-finite"
 
-    private static let parameterDocumentByteCeiling: UInt64 = 262_144
+    private static let parameterDocumentByteCeiling: UInt64 = 65_536
 
-    /// Executes one convolution through the budgeted coordinated read
-    /// boundary.
+    /// Executes one separable Gaussian pass sequence through the
+    /// budgeted coordinated read boundary.
     ///
-    /// - Throws: ``ConvolveError``, or the audited typed errors of the
-    ///   storage, metadata, identity, provenance and aggregate
+    /// - Throws: ``GaussianFilterError``, or the audited typed errors
+    ///   of the storage, metadata, identity, provenance and aggregate
     ///   contracts.
     public static func execute(
         input: ImageData,
-        kernel: [Double],
-        kernelExtents: [Int],
+        sigmas: [Double],
         boundary: ConvolutionBoundary,
         outputObjectID: DataObjectID,
         outputProvenanceID: ProvenanceID,
@@ -76,17 +64,19 @@ public enum ConvolveOperation {
                 || input.descriptor.semantic == .parametric,
             input.descriptor.valueTransform == nil
         else {
-            throw ConvolveError.unsupportedLayerFormat
+            throw GaussianFilterError.unsupportedLayerFormat
         }
         guard
-            kernelExtents.count == extents.count,
-            kernelExtents.allSatisfy({
-                $0 >= 1 && $0 <= Self.maximumKernelExtent && $0 % 2 == 1
-            }),
-            kernel.count == kernelExtents.reduce(1, *),
-            kernel.allSatisfy(\.isFinite)
+            sigmas.count == extents.count,
+            sigmas.allSatisfy({ $0.isFinite && $0 > 0 })
         else {
-            throw ConvolveError.invalidKernel
+            throw GaussianFilterError.invalidSigma
+        }
+        let radii = sigmas.map { Int((3.0 * $0).rounded(.up)) }
+        guard
+            radii.allSatisfy({ 2 * $0 + 1 <= ConvolveOperation.maximumKernelExtent })
+        else {
+            throw GaussianFilterError.invalidSigma
         }
 
         let fullRegion = try ImageRegion(
@@ -96,25 +86,33 @@ public enum ConvolveOperation {
         let read = try await coordinator.read(from: input.storage, region: fullRegion)
         let storedBytes = read.result.bytes
         try await coordinator.release(read.retention)
-        let samples = ArithmeticOperation.widen(
+
+        // Axis-ascending separable passes, binary64 throughout; the
+        // stored-type conversion happens exactly once at the end.
+        var current = ArithmeticOperation.widen(
             storedBytes,
             scalarType: scalarType,
             byteOrder: input.descriptor.scalarFormat.byteOrder
         )
-
         let rank = extents.count
-        let convolved = Self.convolvedValues(
-            samples: samples,
-            extents: extents,
-            kernel: kernel,
-            kernelExtents: kernelExtents,
-            boundary: boundary
-        )
+        for axis in 0..<rank {
+            let weights = Self.normalisedWeights(sigma: sigmas[axis], radius: radii[axis])
+            var kernelExtents = [Int](repeating: 1, count: rank)
+            kernelExtents[axis] = weights.count
+            current = ConvolveOperation.convolvedValues(
+                samples: current,
+                extents: extents,
+                kernel: weights,
+                kernelExtents: kernelExtents,
+                boundary: boundary
+            )
+        }
+
         var outputBytes = [UInt8]()
         var saturatedCount: UInt64 = 0
         var nonFiniteCount: UInt64 = 0
-        for value in convolved {
-            Self.store(
+        for value in current {
+            ConvolveOperation.store(
                 value,
                 scalarType: scalarType,
                 into: &outputBytes,
@@ -162,26 +160,14 @@ public enum ConvolveOperation {
                 privacyClass: .technical
             )
         ]
-        for (axis, extent) in kernelExtents.enumerated() {
+        for (axis, sigma) in sigmas.enumerated() {
             parameterEntries.append(
                 MetadataEntry(
                     key: try AnyMetadataKey(
                         namespace: Self.operationIdentifier,
-                        name: "kernel-extent-\(axis)"
+                        name: "sigma-\(axis)"
                     ),
-                    value: .signedInteger(Int64(extent)),
-                    privacyClass: .technical
-                )
-            )
-        }
-        for (position, weight) in kernel.enumerated() {
-            parameterEntries.append(
-                MetadataEntry(
-                    key: try AnyMetadataKey(
-                        namespace: Self.operationIdentifier,
-                        name: "kernel-\(position)"
-                    ),
-                    value: .floatingPoint(try MetadataFloatingPoint(value: weight)),
+                    value: .floatingPoint(try MetadataFloatingPoint(value: sigma)),
                     privacyClass: .technical
                 )
             )
@@ -283,118 +269,21 @@ public enum ConvolveOperation {
         )
     }
 
-    /// The one frozen VOXELIA-ALG-0059 accumulation core, shared with the
-    /// Gaussian's separable passes per `ADR-0355` decision 2: lexicographic
-    /// kernel visits, axis zero fastest, left-associative binary64
-    /// accumulation from exact zero.
-    static func convolvedValues(
-        samples: [Double],
-        extents: [Int],
-        kernel: [Double],
-        kernelExtents: [Int],
-        boundary: ConvolutionBoundary
-    ) -> [Double] {
-        let rank = extents.count
-        var strides = [Int](repeating: 1, count: rank)
-        for axis in 1..<rank {
-            strides[axis] = strides[axis - 1] * extents[axis - 1]
+    /// The frozen VOXELIA-ALG-0060 weights: sampled at integer offsets,
+    /// summed left-to-right in ascending offset order, each divided by
+    /// that binary64 sum.
+    static func normalisedWeights(sigma: Double, radius: Int) -> [Double] {
+        var raw = [Double]()
+        raw.reserveCapacity(2 * radius + 1)
+        for offset in -radius...radius {
+            let x = Double(offset)
+            raw.append(exp(-(x * x) / (2.0 * sigma * sigma)))
         }
-        let radii = kernelExtents.map { $0 / 2 }
-        let sampleCount = extents.reduce(1, *)
-        var output = [Double]()
-        output.reserveCapacity(sampleCount)
-        var index = [Int](repeating: 0, count: rank)
-        var offset = [Int](repeating: 0, count: rank)
-        for _ in 0..<sampleCount {
-            var accumulator = 0.0
-            for kernelIndex in 0..<kernel.count {
-                var remainder = kernelIndex
-                for axis in 0..<rank {
-                    offset[axis] = remainder % kernelExtents[axis] - radii[axis]
-                    remainder /= kernelExtents[axis]
-                }
-                var sourceLinear = 0
-                var contributes = true
-                for axis in 0..<rank {
-                    var source = index[axis] + offset[axis]
-                    if source < 0 || source >= extents[axis] {
-                        switch boundary {
-                        case .replicate:
-                            source = min(max(source, 0), extents[axis] - 1)
-                        case .zero:
-                            contributes = false
-                        }
-                    }
-                    sourceLinear += source * strides[axis]
-                }
-                if contributes {
-                    accumulator =
-                        accumulator + kernel[kernelIndex] * samples[sourceLinear]
-                }
-            }
-            output.append(accumulator)
-            var axis = 0
-            while axis < rank {
-                index[axis] += 1
-                if index[axis] < extents[axis] {
-                    break
-                }
-                index[axis] = 0
-                axis += 1
-            }
+        var total = 0.0
+        for weight in raw {
+            total = total + weight
         }
-        return output
-    }
-
-    /// Stores one binary64 result under the composed ALG-0058 rule.
-    static func store(
-        _ result: Double,
-        scalarType: ScalarType,
-        into bytes: inout [UInt8],
-        saturated: inout UInt64,
-        nonFinite: inout UInt64
-    ) {
-        switch scalarType {
-        case .uint8:
-            let rounded = result.rounded(.toNearestOrEven)
-            if rounded < 0 {
-                bytes.append(0)
-                saturated += 1
-            } else if rounded > 255 {
-                bytes.append(255)
-                saturated += 1
-            } else {
-                bytes.append(UInt8(rounded))
-            }
-        case .int16, .uint16:
-            let rounded = result.rounded(.toNearestOrEven)
-            let lower: Double = scalarType == .int16 ? -32768 : 0
-            let upper: Double = scalarType == .int16 ? 32767 : 65535
-            let stored: Int
-            if rounded < lower {
-                stored = Int(lower)
-                saturated += 1
-            } else if rounded > upper {
-                stored = Int(upper)
-                saturated += 1
-            } else {
-                stored = Int(rounded)
-            }
-            let bits =
-                scalarType == .int16 ? UInt16(bitPattern: Int16(stored)) : UInt16(stored)
-            bytes.append(UInt8(bits & 0xFF))
-            bytes.append(UInt8(bits >> 8))
-        default:
-            let narrowed = Float32(result)
-            if !narrowed.isFinite {
-                nonFinite += 1
-            }
-            let bits = narrowed.bitPattern
-            bytes.append(UInt8(bits & 0xFF))
-            bytes.append(UInt8((bits >> 8) & 0xFF))
-            bytes.append(UInt8((bits >> 16) & 0xFF))
-            bytes.append(UInt8(bits >> 24))
-        }
+        return raw.map { $0 / total }
     }
 
     private static func outputAxis(
@@ -402,7 +291,7 @@ public enum ConvolveOperation {
         semantic: AxisSemantic
     ) throws -> AxisDescriptor {
         guard let axisID = AxisID(rawValue: name) else {
-            throw ConvolveError.invalidOutputAxis
+            throw GaussianFilterError.invalidOutputAxis
         }
         return try AxisDescriptor(
             id: axisID,

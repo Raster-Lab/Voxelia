@@ -220,7 +220,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0352` is allocated to the processing foundations arc.
 `ADR-0353` is allocated to the mask and arithmetic foundations.
 `ADR-0354` is allocated to the explicit-boundary convolution.
-The next unallocated numeric identifier is `ADR-0355`.
+`ADR-0355` is allocated to the separable Gaussian filter.
+The next unallocated numeric identifier is `ADR-0356`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -558,3 +559,4 @@ The next unallocated numeric identifier is `ADR-0355`.
 | [ADR-0352](ADR-0352-open-the-processing-foundations-arc.md) | Accepted | Open the processing foundations arc |
 | [ADR-0353](ADR-0353-mask-application-and-arithmetic.md) | Accepted | Mask application and image arithmetic |
 | [ADR-0354](ADR-0354-explicit-boundary-convolution.md) | Accepted | Explicit-boundary convolution |
+| [ADR-0355](ADR-0355-separable-gaussian-filter.md) | Accepted | Separable Gaussian filter |

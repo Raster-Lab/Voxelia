@@ -7210,3 +7210,37 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    decisions deferred to their own record: sampled-vs-integrated
    discretisation, truncation radius, weight normalisation order, and the
    separable per-axis pass order (rounding makes it observable).
+
+   **Increment (vvvvv): `ADR-0355` + `VOXELIA-ALG-0060` — `VOX-IMG-011` IS
+   DISCHARGED; the Gaussian's four decisions are frozen.** 1310 tests / 230
+   suites.
+
+   **The decisions**: SAMPLED discretisation (integrated recorded as a possible
+   future record, never folded in silently); truncation radius `ceil(3 sigma)`
+   under the convolution ceiling (sigma <= 5 admits, 5.1 rejects — both edges
+   tested); normalisation summed left-to-right then divided (a convex
+   combination up to that order's rounding); axis-ascending separable passes
+   **carried in binary64 with the stored-type conversion happening EXACTLY
+   ONCE** — per-pass narrowing would round once per axis, the exact error this
+   design exists to avoid.
+
+   **The core was EXTRACTED, and the extraction is proven**: the frozen
+   `ALG-0059` accumulation loop moved into one internal `convolvedValues` both
+   operations call, and the convolution fixtures re-ran unchanged — the
+   `SurfaceCoverage` discipline, again. The Gaussian's per-axis pass is that
+   core with a kernel of extent one everywhere but its axis: no second loop
+   exists to drift.
+
+   **Integer saturation is UNREACHABLE for finite inputs** — the normalised
+   kernel makes every pass convex; the constant-image fixed point (200 stays
+   200 exactly) is the witness, and the shared store rule's counter stays
+   provably silent rather than deleted.
+
+   **`VOX-IMG-011` complete; `VOX-R2D-004` advances again** (CPU 23, combined
+   26). Four Gaussian fixtures exact on first run, including the 3x3 float32
+   separable product structure byte-for-byte.
+
+   **Next**: `VOX-IMG-012` morphology foundations — erosion and dilation; the
+   frozen decisions are the structuring-element vocabulary and the boundary
+   rule's interaction with min/max (a replicate boundary is the identity for
+   both; the record must say what zero means for erosion).
