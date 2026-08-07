@@ -262,7 +262,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0394` is allocated to side-by-side scene binding.
 `ADR-0395` is allocated to multi-dimensional transfer functions.
 `ADR-0396` is allocated to photorealistic validation witnesses.
-The next unallocated numeric identifier is `ADR-0397`.
+`ADR-0397` is allocated to the M9 queue.
+The next unallocated numeric identifier is `ADR-0398`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -642,3 +643,4 @@ The next unallocated numeric identifier is `ADR-0397`.
 | [ADR-0394](ADR-0394-side-by-side-scene-binding.md) | Accepted | Side-by-side scene binding |
 | [ADR-0395](ADR-0395-multidimensional-transfer-functions.md) | Accepted | Multi-dimensional transfer functions |
 | [ADR-0396](ADR-0396-photorealistic-validation-witnesses.md) | Accepted | Photorealistic validation witnesses |
+| [ADR-0397](ADR-0397-the-m9-queue.md) | Accepted | The M9 queue |

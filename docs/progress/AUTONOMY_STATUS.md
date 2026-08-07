@@ -8108,3 +8108,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    adapters VOX-ADP, camera serialisation VOX-INT-003, energy
    VOX-PER-013, PRR-016 partitioning) — a planning record first, per
    the ADR-0351/0384 pattern.
+
+1. **2026-08-07 — M9 OPENED: the M9 queue is derived (`ADR-0397`,
+   planning record).** Six arcs in dependency order: (1) headless
+   foundation — off-screen APIs, Apple Silicon headless rendering, one
+   scene description both modes, raw pixels; EXPECTED to be records and
+   witnesses over existing substance (the renderers already run
+   windowless under the suite), and where that is true the records must
+   SAY so rather than invent parallel code; (2) headless capabilities —
+   media-buffer adapter, SDR/HDR descriptors, depth/object-ID outputs,
+   progressive frames with generation+convergence metadata, cancellation
+   without stale publication, media-encoding isolation; (3) distributed
+   descriptions — transport-neutral job descriptions (identity,
+   versions, parameters, input identities), compatibility composing the
+   `ADR-0380` contract, tile/frame/brick/sample partitioning (+ the
+   photorealistic partitioning row), `VOXELIA-ALG-0079` seeds, camera
+   serialisation; (4) distributed integrity — checksummed partial
+   results, merge detection (missing/dup/incompatible), ORDER-
+   INDEPENDENT Welford merge with its analysis half, declared reduction
+   semantics, worker-side rejection, pre-emption; (5) runtime plug-ins —
+   the conditional rows resolve as a NOT-INTRODUCED decision record +
+   negotiation vocabulary + out-of-process documentation, `R` to the
+   owner batch; (6) Apple adapters (RealityKit/Core Image, capability
+   discipline, never defining canonical models) and the energy row
+   (whose measured half likely routes to the owner's hardware session).
+   Baseline shrinks by 28 traced rows; 18 remain — the M10 tail.
+   **Next**: arc 1, the headless foundation — witness what already runs
+   windowless and record it honestly.
