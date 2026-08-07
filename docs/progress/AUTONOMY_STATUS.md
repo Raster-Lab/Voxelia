@@ -7616,3 +7616,26 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    (`I,T`, composing the existing `LevelSelectOperation` substance per
    the `ADR-0351` note) or the failure-reporting row (`T`, composing the
    `ADR-0366` convergence vocabulary), whichever the queue reads first.
+
+1. **2026-08-07 — ~~`VOX-REG-006`~~ DISCHARGED: the registration pyramid
+   (`ADR-0371`, NO new ALG).** `RegistrationPyramid` in `VoxeliaExecution`
+   COMPOSES, it does not compute: per `ADR-0366` schedule level an
+   optional `VOXELIA-ALG-0060` Gaussian pass (isotropic sigma, boundary
+   `replicate` recorded once — zero padding would darken every border at
+   every level) then an optional `VOXELIA-ALG-0056` level selection
+   (isotropic shrink factor as a `BrickResolutionLevel`). Zero sigma
+   skips smoothing (the Gaussian's own admission refuses it); unit factor
+   skips selection (an identity copy under a new object identity would be
+   fabricated derivation — the input passes through, identity INTACT,
+   witnessed). Identity is supplied per level
+   (`RegistrationPyramidLevelIdentity`), never fabricated; count mismatch
+   refuses typed. Version-one bounds are the composed operations' own.
+   The witness drives both operations over a constant calibrated volume:
+   ceil-extents, index-step geometry scaling, constant preserved.
+   Baseline shrinks by one. Full suite: `✔ Test run with 1380 tests in
+   251 suites passed`. **Next**: the failure-reporting row (`T` —
+   registration failure/non-convergence reported explicitly, never
+   presented as a successful transform; compose the `ADR-0366`
+   convergence vocabulary into an explicit success/failure seam), then
+   the quality-metrics and reference-implementation rows to close the
+   arc's unblocked queue.

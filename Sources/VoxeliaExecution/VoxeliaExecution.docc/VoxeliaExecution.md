@@ -94,6 +94,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``SegmentStatisticsComputer``
 - ``SegmentStatistics``
 - ``SegmentStatisticsError``
+- ``RegistrationPyramid``
+- ``RegistrationPyramidLevelIdentity``
+- ``RegistrationPyramidError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

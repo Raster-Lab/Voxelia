@@ -202,6 +202,7 @@ Sources/VoxeliaExecution/Public/ProjectIntensityOperation.swift
 Sources/VoxeliaExecution/Public/PublicationCoordinator.swift
 Sources/VoxeliaExecution/Public/RegionExtractionOperation.swift
 Sources/VoxeliaExecution/Public/RegionGrowOperation.swift
+Sources/VoxeliaExecution/Public/RegistrationPyramid.swift
 Sources/VoxeliaExecution/Public/ResampleCubicOperation.swift
 Sources/VoxeliaExecution/Public/ResampleLinearOperation.swift
 Sources/VoxeliaExecution/Public/ResampleNearestOperation.swift
@@ -518,6 +519,7 @@ Tests/VoxeliaExecutionTests/PublicationCoordinatorTests.swift
 Tests/VoxeliaExecutionTests/RGBSourcePresentationTests.swift
 Tests/VoxeliaExecutionTests/RegionExtractionOperationTests.swift
 Tests/VoxeliaExecutionTests/RegionGrowOperationTests.swift
+Tests/VoxeliaExecutionTests/RegistrationPyramidTests.swift
 Tests/VoxeliaExecutionTests/ResampleCubicOperationTests.swift
 Tests/VoxeliaExecutionTests/ResampleLinearOperationTests.swift
 Tests/VoxeliaExecutionTests/ResampleNearestOperationTests.swift
@@ -1188,6 +1190,7 @@ docs/architecture/decisions/ADR-0367-registration-transform-composition.md
 docs/architecture/decisions/ADR-0368-landmark-affine-registration.md
 docs/architecture/decisions/ADR-0369-landmark-rigid-registration.md
 docs/architecture/decisions/ADR-0370-the-registration-metric-architecture.md
+docs/architecture/decisions/ADR-0371-the-registration-pyramid.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
