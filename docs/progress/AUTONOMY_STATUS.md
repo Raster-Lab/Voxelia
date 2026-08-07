@@ -7186,3 +7186,27 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: `VOX-IMG-011` — convolution and Gaussian foundations; the frozen
    decisions are the BOUNDARY CONDITIONS the row itself names, and the Gaussian
    kernel's discretisation rule (sampled vs integrated, truncation radius).
+
+   **Increment (uuuuu): `ADR-0354` + `VOXELIA-ALG-0059` — convolution with the
+   row's explicitness honoured STRUCTURALLY.** 1306 tests / 229 suites.
+
+   **The boundary is a closed, DEFAULTLESS choice** (`replicate` | `zero`) — a
+   defaulted boundary is an implicit one and `VOX-IMG-011` forbids exactly
+   that. Fixture 1 shows the choice changing both edges and nothing else;
+   fixture 2's central difference goes negative only under `zero`. Correlation
+   orientation is STATED so nobody flips it silently.
+
+   **`ConvolveOperation` (CPU 22, combined 25)**: caller-supplied binary64
+   kernel, odd per-axis extents ceilinged at 31, frozen lexicographic
+   left-associative accumulation from exact zero (the order IS the contract,
+   as `ALG-0052` froze for its sums), output composing `ALG-0058`'s rule with
+   this operation's OWN warning codes — provenance attributes the producing
+   stage, never pools observations. Four oracle fixtures exact on first run;
+   the all-saturating case counts 5.
+
+   **`VOX-IMG-011` is half-discharged**; `VOX-R2D-004` advances again.
+
+   **Next**: the Gaussian filter completing `VOX-IMG-011` — the frozen
+   decisions deferred to their own record: sampled-vs-integrated
+   discretisation, truncation radius, weight normalisation order, and the
+   separable per-axis pass order (rounding makes it observable).

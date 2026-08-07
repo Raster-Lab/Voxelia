@@ -71,6 +71,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``ArithmeticOperator``
 - ``ArithmeticOperand``
 - ``ArithmeticError``
+- ``ConvolveOperation``
+- ``ConvolutionBoundary``
+- ``ConvolveError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``
