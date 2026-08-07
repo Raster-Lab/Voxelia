@@ -8,7 +8,36 @@ The project uses Semantic Versioning. During the `0.x` series, breaking public A
 
 ### Added
 
-- None.
+- The complete M1-M3 foundations: canonical data model, spatial vocabulary
+  and affine machinery (composition, direction and normal transforms,
+  world-to-index mapping, sample-centre physical bounds), storage and
+  bricking vocabulary, CPU reference operations, and the Metal execution
+  surface with checked-safety boundaries.
+- The M4 first DICOM CT vertical slice: cancellable import session, series
+  grouping and geometry validation, CT volume construction, multiplanar and
+  arbitrary oblique reconstruction, windowed presentation, colour and
+  overlay pipelines, picking, annotation registration, and the surface
+  rendering stack through extraction, projection, visibility, compositing,
+  shading, clipping and picking — each stage under a frozen algorithm
+  specification with an independent oracle.
+- The M5 compression arc: the `VoxeliaCompression` module and codec
+  adapters over the approved Raster-Lab codecs, lossless equality and
+  random-access evidence, adversarial-codestream bounds, and the
+  compression benchmark (`VOXELIA-BEN-0002`).
+- The M6 interactive stack: the study-cache generation stage with
+  structurally propagated priority, the first-useful-image plan and
+  assembly, grid resampling between explicit geometries, level-selection
+  downsampling, the interactive level render path, refinement after
+  interaction stops, and the analytical phantom validation arc.
+- The frame-rate baseline on the named reference device
+  (`VOXELIA-BEN-0003`) — the `VOX-PER-004` target is measured and missed on
+  the CPU-exact path, with the gap attributed and reversal conditions
+  recorded.
+- The `VoxeliaCTReference` example application: the demonstration vehicle
+  owning lifecycle, controls and the host-side interaction clock.
+- Strict memory safety across all targets, the governed Metal byte-transfer
+  boundary (`ADR-0186`), the test-level taxonomy, and the requirement
+  traceability, decision-register and documentation gates now running in CI.
 
 ### Changed
 

@@ -7021,3 +7021,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    and assemble the owner's release packet (Demonstrations to witness, Reviews
    to approve including `VOX-PER-004`'s target standing, the two Raster-Lab
    LICENSE actions).
+
+   **Increment (ooooo): `ADR-0348` — RELEASE READINESS; the owner's session is
+   turnkey.** 1289/225 unchanged; documentation and release structure only.
+
+   **The release is `v0.2.0`, cut by the OWNER, after the session** — no tag
+   exists (`v0.1.1` was a documentation release), and `VERSION` stays `0.1.1`
+   until the witnessing concludes: a bumped version before it would claim a
+   release that has not happened.
+
+   **The changelog's five-hundred-commit "None" is replaced** with the compiled
+   content summary by area: M1-M3 foundations, the M4 vertical slice, the M5
+   compression arc, the M6 interactive stack, the frame-rate baseline with its
+   recorded miss, the reference application, and the safety/governance floor.
+
+   **`docs/releases/v0.2.0/README.md` is the owner's release packet**: eight
+   Demonstrations with run instructions and what to observe, six Reviews with
+   paths — `VOX-PER-004`'s 440x target standing surfaced as its OWN acceptance
+   item, never a default — the two Raster-Lab LICENSE actions, then the
+   mechanical tag steps in order.
+
+   **One engineering item remains, recorded not hidden**: wiring
+   `CTImportSession` directory import into the reference application so the
+   Demonstrations can run on a real study as well as the phantom.
+
+   **Next**: the DICOM import wiring — THE FINAL ENGINEERING INCREMENT. After
+   it, the queue is engineering-empty and the loop STOPS per `ADR-0338` d10,
+   surfacing the release packet to the owner.

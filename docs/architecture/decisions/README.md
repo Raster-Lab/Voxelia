@@ -213,7 +213,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0345` is allocated to the refinement trigger and obligation.
 `ADR-0346` is allocated to the frame rate measurement.
 `ADR-0347` is allocated to the reference application.
-The next unallocated numeric identifier is `ADR-0348`.
+`ADR-0348` is allocated to the release readiness.
+The next unallocated numeric identifier is `ADR-0349`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -544,3 +545,4 @@ The next unallocated numeric identifier is `ADR-0348`.
 | [ADR-0345](ADR-0345-refinement-after-interaction-stops.md) | Accepted | Refinement after interaction stops |
 | [ADR-0346](ADR-0346-frame-rate-measured.md) | Accepted | Frame rate measured |
 | [ADR-0347](ADR-0347-the-reference-application.md) | Accepted | The reference application |
+| [ADR-0348](ADR-0348-release-readiness.md) | Accepted | Release readiness |
