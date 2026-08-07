@@ -5423,6 +5423,45 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    an **oblique reconstruction**. Both small now the phantoms exist; both are what the row
    actually needs.
 
+   **Increment (ppp): `ADR-0297` — phantoms through the SHIPPED pipelines; `VOX-VAL-003`
+   DISCHARGED.** 1212 tests / 214 suites (was 1208/213). **No source changed** — this is the
+   `T` the row declares.
+
+   **Intensity**: §55.1 ramp → `WindowLevelOperation` twice with windows that disagree
+   everywhere (`[100,102,104,106,108,110]` vs `[0,27,54,81,107,134]`) → `CTSampleInspector`
+   returns the SAME CT values under both, equal to the phantom's closed form. That is plan
+   §46.2's first clause instantiated, not paraphrased.
+
+   **Spatial**: §55.2 ramp → `WindowLevelOperation` → `ObliqueSliceOperation` on a plane that
+   is **not axis-aligned**, and the expected result is available **in closed form**:
+   `value(u,v) = 10 + 2u − v`. Whole plane asserted with `==`, **no tolerance**.
+
+   **The identity window makes it possible.** The oblique op admits only `uint8`, so the
+   `int16` phantom must pass through window/level first — and a rescaling window would leave
+   the reconstruction validating a *copy* of the phantom. Under `ALG-0002`, **c=128 w=256
+   reduces exactly to the identity**, asserted over the ENTIRE `0...255` range (256 values,
+   all mapping to themselves), not inferred from a couple of rows.
+
+   **Why it is exact**: every odd output column lands at volume row `u/2` — **not** an integer
+   index, so a genuine trilinear blend with weights of exactly one half. Trilinear reproduces
+   an affine function exactly, and half-weights on small integers are exact in binary64.
+
+   **Falsified against the mistake it could hide**: a pipeline ignoring the in-plane `y` step
+   would publish `10 + u − v`, differing at every column past the first.
+
+   **FINDING — a planar request with a zero out-of-plane column is REFUSED.** Building the
+   request the obvious way (two in-plane directions in slots 0 and 1, zeros in slot 2 because
+   the sampling loop never reads it) throws `singularTransform`. `AffineGridGeometry` demands
+   an invertible matrix; the sampling loop's indifference to slot 2 does not extend to
+   admission. Fix: supply the plane normal `(1, −2, 0)`, which moves **not a single sample**.
+   Exactly the shape a caller assembling an MPR request from two direction cosines will hit.
+
+   **§55.3 fiducials and §55.5 padding are deliberately NOT built** — `ADR-0293` scheduled
+   them "as their consuming rows need them", and no row currently does. Building them now
+   would be manufacturing coverage.
+
+   **18 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

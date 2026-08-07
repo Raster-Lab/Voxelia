@@ -2960,6 +2960,11 @@
       "sha256": "038a2071c50eea19409eeeb230de92fc89b16ef3754010591c52d6d02a27fba6"
     },
     {
+      "path": "Tests/VoxeliaValidationTests/PhantomPipelineTests.swift",
+      "size": 13394,
+      "sha256": "2198772e5779f98f65d6fe260369328e1c29eea39057e75b0dfc853911f2307f"
+    },
+    {
       "path": "Tests/VoxeliaValidationTests/PhysicalRampPhantomTests.swift",
       "size": 14829,
       "sha256": "6ef5356060e6e3b39100c3a67cb4c50c063b8d45a959432f16bf8d243b8c865d"
@@ -5080,9 +5085,14 @@
       "sha256": "5dbbc10aebe122b5f1bf93c684cb4045131d4749abf46dbff52499c477fb57d2"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0297-phantoms-through-the-shipped-pipelines.md",
+      "size": 7121,
+      "sha256": "eb26f1a74a8b4772c3eebe6755c341b767a87b83cb9c9282ba1a1b8803d5e372"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 41190,
-      "sha256": "6869ed096bbf357d34df3b89ca44080eae208d3861b8e3c83080ea573b0e9331"
+      "size": 41309,
+      "sha256": "e64fd677a54cf951ae249abacc2e6f44b15644313e2323c6047e120087634d1b"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5176,8 +5186,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1218837,
-      "sha256": "bf7b0b5d07889fd6d8d1c796fd928fcb6bd54826d4d991241eef1bf1f9892e0e"
+      "size": 1221380,
+      "sha256": "e2218ec46cc7494922e55a2986ee9bb19527f24153502ed20b587519d223e2eb"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5686,8 +5696,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 64788,
-      "sha256": "0bc8ead08e1d51b05187b8de141467182233d740b9d2a9ddfd8df3c14b4446aa"
+      "size": 64923,
+      "sha256": "29dde28cf0d060cb704199b61417dc16a6b334b1f70324c8204ec2f8f9738ea3"
     }
   ]
 }
