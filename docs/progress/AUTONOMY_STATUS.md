@@ -5462,6 +5462,43 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **18 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (qqq): `ADR-0298` — DICOM-derived geometry validated WITH the phantoms;
+   `VOX-VAL-012` DISCHARGED.** 1218 tests / 215 suites (was 1212/214). **No source changed.**
+
+   **What was already covered vs what was not.** `CTAffineVolumeBuilder` has a twelve-test
+   suite against `ALG-0049`'s frozen fixtures — **that checks the matrix**. Nothing checked
+   the **consequence** of the matrix: that a phantom placed by the derived geometry lands
+   where its closed form says, and that the distances between its endpoints are the known
+   ones. A matrix can be right element by element and still be consumed by nothing.
+
+   **"Known dataset" means synthetic, and that is not a compromise.** A known dataset is one
+   whose correct answer is known *independently* — real acquisition data does not have that
+   property, since its true geometry is precisely what one would be establishing. Plus the
+   standing constraint: no repository test reads patient data. The row's word is **known**,
+   not clinical.
+
+   **The closed form is written from the DICOM INPUTS**, not read back from the builder's
+   matrix — comparing the matrix with itself would pass for any builder. Datasets run through
+   the real path: `CTSeriesAssembler` → `CTGeometryValidator` → `CTAffineVolumeBuilder`.
+
+   **The spacing choice is a deliberate trap-avoidance.** `ALG-0053` weights patient Y by
+   **2**, so `columnSpacing == 2 × rowSpacing` would make a transposed axis pairing produce
+   IDENTICAL samples — invisible. Equal spacings hide it too. Chose cs=1, rs=2 → derived
+   `10 + i + 4j − k`; a transposed builder gives `10 + 2i + 2j − k`. **Falsified with a second
+   dataset**: 11 vs 12 at (1,0,0), 14 vs 12 at (0,1,0).
+
+   **Physical distance validated from the DICOM side**: a 0.5 mm / 2 mm acquisition is exactly
+   `DistancePhantom`'s admitted configuration, so the phantom is built from spacings and
+   origin **read out of the derived matrix**, and its lengths 5/3/7/9 measured through the
+   shipped `MeasurementConstruction`. A coarser acquisition changes every index separation and
+   leaves the lengths identical.
+
+   **Verdict asserted, not assumed** — a phantom placed by a geometry the validator merely
+   *tolerated* would validate against a dataset the product would flag. `.exact` tolerance,
+   `representable`, zero findings.
+
+   **17 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

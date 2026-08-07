@@ -2950,6 +2950,11 @@
       "sha256": "18505d877a7225009378d28ef2b18c3fb982cbcb282309aa409bdcd0d52a90ee"
     },
     {
+      "path": "Tests/VoxeliaValidationTests/DICOMGeometryPhantomTests.swift",
+      "size": 14596,
+      "sha256": "b2fa38e383db3a69b34edc505d3e78c33fb4cc0e7aee3786da8480f2295dccf1"
+    },
+    {
       "path": "Tests/VoxeliaValidationTests/DistancePhantomTests.swift",
       "size": 14944,
       "sha256": "a460df09405cf39fad5fe8cd40f958e4e9f2231f1c782c7b59265895d578795c"
@@ -5090,9 +5095,14 @@
       "sha256": "eb26f1a74a8b4772c3eebe6755c341b767a87b83cb9c9282ba1a1b8803d5e372"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0298-dicom-geometry-validated-with-phantoms.md",
+      "size": 7881,
+      "sha256": "2c9bcb547cbe8dfc3a8aa520514715e80ec37bc061d4a663585544ee1a9524f1"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 41309,
-      "sha256": "e64fd677a54cf951ae249abacc2e6f44b15644313e2323c6047e120087634d1b"
+      "size": 41428,
+      "sha256": "bb6df1b7753e52308a829024558d586d628e08c8cc394ad43bf7086cfc6b3d37"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5186,8 +5196,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1221380,
-      "sha256": "e2218ec46cc7494922e55a2986ee9bb19527f24153502ed20b587519d223e2eb"
+      "size": 1223805,
+      "sha256": "84df0299422948b79e01ce2cb4eb0b9cf6f1f69f48c3ef0a2ac818b6c904e506"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5696,8 +5706,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 64923,
-      "sha256": "29dde28cf0d060cb704199b61417dc16a6b334b1f70324c8204ec2f8f9738ea3"
+      "size": 65063,
+      "sha256": "a28f6b2eb7470d8192311a0621ced393d7f686d7a77f2aa153d45b0c6cf91269"
     }
   ]
 }
