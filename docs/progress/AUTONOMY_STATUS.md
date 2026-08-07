@@ -7980,3 +7980,45 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    volumetric shadows row — an opacity-only transmittance walk toward a
    light composing this integrator's accumulation, design-first with
    its own oracle; then area/environment lighting.
+
+1. **2026-08-07 — ~~`VOX-PRR-005`~~ DISCHARGED: volumetric shadows
+   (`ADR-0387` + `VOXELIA-ALG-0077`).** A shadow is a TRANSMITTANCE
+   WALK: the multiplicative Beer-Lambert fold `T = T·(1-α)` toward the
+   light — the same absorption physics as the `ADR-0386` integrator,
+   restated for the light path, so the two compose without a seam.
+   Exact extinction is the only early exit; the empty ray transmits
+   exactly one (an unobstructed light is an answer, not a refusal).
+   Shadows ATTENUATE LIGHTS — they do not paint darkness: the walk's
+   output feeds the lighting accumulator as an admitted `[0,1]` value.
+
+1. **2026-08-07 — ~~`VOX-PRR-006`~~ + ~~`VOX-PRR-008`~~ DISCHARGED:
+   lighting and transillumination (`ADR-0388` + `VOXELIA-ALG-0078`).**
+   Lights are DECLARED SAMPLE SETS: an area light is the samples the
+   caller drew over its surface, an environment its directional
+   samples — ONE mechanism differing only in what the caller declares,
+   because a light is where radiance comes from, not a special case
+   per shape. The accumulator folds `w·T`-weighted radiance in
+   declared order and does not sample. Transillumination is radiance
+   over background: `1-A` admits the background exactly once per
+   channel; transparency and transillumination are one composition
+   read in two clinical directions; an exactly opaque foreground
+   admits exactly nothing.
+
+1. **2026-08-07 — ~~`VOX-PRR-007`~~ DISCHARGED: the documented
+   scattering approximation (`ADR-0389`, record + witness). THE
+   PHYSICS ARC'S ENGINEERING IS CLOSED.** The row's own text offers
+   the honest branch and it is taken: the v1 progressive/reference
+   optical model is SINGLE SCATTERING — light set attenuated by the
+   sample's shadow transmittance, modulated by albedo, carried to the
+   eye by the emission-absorption integral. The ANALYSIS is recorded:
+   captures direct illumination, hard volumetric shadows and
+   extinction on both path segments; OMITS higher-order scattering, so
+   thick interiors render darker — and NO ambient fudge term hides
+   that bias, because an undocumented correction would forfeit the
+   "physically based" claim the row turns on. The witness composes
+   only pinned pieces, so its expected values are exact by
+   construction. Full suite: `✔ Test run with 1420 tests in 266 suites
+   passed`. **Next**: M8 arc 3, determinism and progression —
+   deterministic reference-mode seeds first (a seeded deterministic
+   sample-sequence vocabulary), then convergence/variance exposure,
+   then safe temporal-accumulation reset.

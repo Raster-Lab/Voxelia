@@ -1580,6 +1580,11 @@
       "sha256": "f71b1b9804038dcc34c6a581e6e4bac906b72baac9eae4bb05bfb1cc03f197db"
     },
     {
+      "path": "Sources/VoxeliaPhotorealistic/Public/LightingTransillumination.swift",
+      "size": 3650,
+      "sha256": "62c4d5f7ede9ca5d27d1ea93ca985759ca134698c8c56bcfc37555917d9d5926"
+    },
+    {
       "path": "Sources/VoxeliaPhotorealistic/Public/PhotorealisticFoundation.swift",
       "size": 1871,
       "sha256": "f60a9943d97c4e98ef62254e59bd082ab790d26142dcc7daa1df5c8e4328a11d"
@@ -1588,6 +1593,11 @@
       "path": "Sources/VoxeliaPhotorealistic/Public/VolumetricIllumination.swift",
       "size": 3249,
       "sha256": "74508f212e8a5f36cd0ea372bc2daadb1678dc393cd884359550c7e0a9da79ee"
+    },
+    {
+      "path": "Sources/VoxeliaPhotorealistic/Public/VolumetricShadow.swift",
+      "size": 1265,
+      "sha256": "647e4e45ffbeebd549ef35fa35c7ca6c3c6cbc793681b6d0f0a73014f31283ae"
     },
     {
       "path": "Sources/VoxeliaRendering/ApplePlatformGate.swift",
@@ -3030,14 +3040,29 @@
       "sha256": "e9831cd898298a89bf5628b09c15c986fa10cc0e7e327e48da9911f729286e2f"
     },
     {
+      "path": "Tests/VoxeliaPhotorealisticTests/LightingTransilluminationTests.swift",
+      "size": 4175,
+      "sha256": "463c5532df3be9e33493d50edb3acf9fd07b7aa487be9b2e8198b2416573d882"
+    },
+    {
       "path": "Tests/VoxeliaPhotorealisticTests/PhotorealisticFoundationTests.swift",
       "size": 1397,
       "sha256": "44c268df55d37292e28213eec0885e183d6e56bb87c9153037e65d959464ac88"
     },
     {
+      "path": "Tests/VoxeliaPhotorealisticTests/ScatteringApproximationTests.swift",
+      "size": 2520,
+      "sha256": "2a05a0a7263a614ebf012009bad7dbf5330942d7bec0e84581c701e09fb6e561"
+    },
+    {
       "path": "Tests/VoxeliaPhotorealisticTests/VolumetricIlluminationTests.swift",
       "size": 3106,
       "sha256": "913bffcec5d2530f37f063330996f9f778968bd96118ba4d79ac0545cd7f2dfc"
+    },
+    {
+      "path": "Tests/VoxeliaPhotorealisticTests/VolumetricShadowTests.swift",
+      "size": 1227,
+      "sha256": "d191c93f05df553e45f00c98726f758a61feb9b6d295a558a97b0f7eb75d1d93"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift",
@@ -3811,8 +3836,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 9321,
-      "sha256": "85da446a1fb8abe072d3367fff778b220aaea1e95c0a76aeb6393b1e25747eaf"
+      "size": 9563,
+      "sha256": "675cda1859d1d21ac13bd6b757fadd06b7b8be62c661630640622562a09fbc1e"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -4193,6 +4218,16 @@
       "path": "docs/algorithms/VOXELIA-ALG-0076-emission-absorption.md",
       "size": 2694,
       "sha256": "c1b58fa3594254aa687e1564d647523a1333d60809dbc75c2c109900e1572aad"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0077-shadow-transmittance.md",
+      "size": 1951,
+      "sha256": "5ba754cc79444638eaead2efd3d34c3c8aefb06d5d0ba27a0220b65e2d62453e"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0078-lighting-transillumination.md",
+      "size": 2835,
+      "sha256": "4082d0739f9bd6b56e3f59b641ff78577bde1a8056d32268969aecfcbee022aa"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -6165,9 +6200,24 @@
       "sha256": "137d2a296d7e7a4aa8b91921fd78db49ba7c01810e0eaaf417af961d18b283be"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0387-volumetric-shadows.md",
+      "size": 2615,
+      "sha256": "54da8258c35917586f8b2b404a3837c46fbb394debf93bd7d997c6428ce56d4a"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0388-lighting-and-transillumination.md",
+      "size": 3292,
+      "sha256": "4c397be1148ae8cf1902c971a23d06c062d68516c6e2e959b3c480e5d94b06c2"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0389-the-documented-scattering-approximation.md",
+      "size": 3650,
+      "sha256": "a309c21aae5376316a030ff1b4bdee14598579519f2d5b60d8485454a1836a6c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 52895,
-      "sha256": "f224a9b49e8a8ebbe501845306f15d26200bbcf2b14155caca0a5f0351e48789"
+      "size": 53372,
+      "sha256": "72cafc5303f46b6f393a460f50a967ea7eedafd76383fe239d87d2c5b79c112d"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6276,8 +6326,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 512331,
-      "sha256": "e19a68535e50b5c44b8a954004d5e693621dede38b55903e740ff8299d393880"
+      "size": 514915,
+      "sha256": "c9e8303d911b4af0533a339b8c585acf35db5b87ddf187527f03d78f4d77ae21"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6588,6 +6638,16 @@
       "path": "docs/progress/evidence/ADR-0386-emission-absorption-oracle.py",
       "size": 1246,
       "sha256": "e1e65a8607ea3dac5582f2099a96f5edb36d84fb8c1a980c67d345b016b4a94c"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0387-shadow-transmittance-oracle.py",
+      "size": 647,
+      "sha256": "a2388042f812db5bf9b2e8b739810e101609904086d27f4d3f2738605de55e66"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0388-lighting-transillumination-oracle.py",
+      "size": 1744,
+      "sha256": "cdc1521ace63e4f43e170b26455849db9d4507835444ebd973765f47ba38e56e"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -6926,8 +6986,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 79830,
-      "sha256": "a8954fe395674c2e8dcd566d278ab35b0a9bb512a120aa6dc0404b581f94362e"
+      "size": 80620,
+      "sha256": "0c1c48498475a6dda10709e68f12da6d837731d864c6cfb2f25de902791f74bc"
     }
   ]
 }

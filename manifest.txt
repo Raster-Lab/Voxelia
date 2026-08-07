@@ -314,8 +314,10 @@ Sources/VoxeliaMetal/Resources/Shaders/VolumeRendering/.gitkeep
 Sources/VoxeliaMetal/VoxeliaMetal.docc/Architecture.md
 Sources/VoxeliaMetal/VoxeliaMetal.docc/Requirements.md
 Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md
+Sources/VoxeliaPhotorealistic/Public/LightingTransillumination.swift
 Sources/VoxeliaPhotorealistic/Public/PhotorealisticFoundation.swift
 Sources/VoxeliaPhotorealistic/Public/VolumetricIllumination.swift
+Sources/VoxeliaPhotorealistic/Public/VolumetricShadow.swift
 Sources/VoxeliaRendering/ApplePlatformGate.swift
 Sources/VoxeliaRendering/Internal/.gitkeep
 Sources/VoxeliaRendering/Internal/SurfaceAnnotationRegistrar.swift
@@ -604,8 +606,11 @@ Tests/VoxeliaMetalTests/PipelineArchivalTests.swift
 Tests/VoxeliaMetalTests/ResidencyDuplicationTests.swift
 Tests/VoxeliaMetalTests/ResidencyPolicyTests.swift
 Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
+Tests/VoxeliaPhotorealisticTests/LightingTransilluminationTests.swift
 Tests/VoxeliaPhotorealisticTests/PhotorealisticFoundationTests.swift
+Tests/VoxeliaPhotorealisticTests/ScatteringApproximationTests.swift
 Tests/VoxeliaPhotorealisticTests/VolumetricIlluminationTests.swift
+Tests/VoxeliaPhotorealisticTests/VolumetricShadowTests.swift
 Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift
 Tests/VoxeliaRenderingTests/DiagnosticFailClosedTests.swift
 Tests/VoxeliaRenderingTests/DisplayColourTests.swift
@@ -837,6 +842,8 @@ docs/algorithms/VOXELIA-ALG-0073-registration-quality.md
 docs/algorithms/VOXELIA-ALG-0074-curved-centreline.md
 docs/algorithms/VOXELIA-ALG-0075-curved-planar-mapping.md
 docs/algorithms/VOXELIA-ALG-0076-emission-absorption.md
+docs/algorithms/VOXELIA-ALG-0077-shadow-transmittance.md
+docs/algorithms/VOXELIA-ALG-0078-lighting-transillumination.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -1231,6 +1238,9 @@ docs/architecture/decisions/ADR-0383-the-initial-portfolio-is-complete.md
 docs/architecture/decisions/ADR-0384-the-m8-queue.md
 docs/architecture/decisions/ADR-0385-the-optional-photorealistic-module.md
 docs/architecture/decisions/ADR-0386-volumetric-illumination.md
+docs/architecture/decisions/ADR-0387-volumetric-shadows.md
+docs/architecture/decisions/ADR-0388-lighting-and-transillumination.md
+docs/architecture/decisions/ADR-0389-the-documented-scattering-approximation.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md
@@ -1316,6 +1326,8 @@ docs/progress/evidence/ADR-0373-registration-quality-oracle.py
 docs/progress/evidence/ADR-0375-curved-centreline-oracle.py
 docs/progress/evidence/ADR-0376-curved-planar-mapping-oracle.py
 docs/progress/evidence/ADR-0386-emission-absorption-oracle.py
+docs/progress/evidence/ADR-0387-shadow-transmittance-oracle.py
+docs/progress/evidence/ADR-0388-lighting-transillumination-oracle.py
 docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md
 docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md
 docs/progress/temporary-file-sites.txt

@@ -80,3 +80,5 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0074](VOXELIA-ALG-0074-curved-centreline.md) | Accepted | Curved centreline `binary64-v1` |
 | [VOXELIA-ALG-0075](VOXELIA-ALG-0075-curved-planar-mapping.md) | Accepted | Curved planar mapping `binary64-v1` |
 | [VOXELIA-ALG-0076](VOXELIA-ALG-0076-emission-absorption.md) | Accepted | Emission-absorption integration `binary64-v1` |
+| [VOXELIA-ALG-0077](VOXELIA-ALG-0077-shadow-transmittance.md) | Accepted | Shadow transmittance `binary64-v1` |
+| [VOXELIA-ALG-0078](VOXELIA-ALG-0078-lighting-transillumination.md) | Accepted | Lighting and transillumination `binary64-v1` |

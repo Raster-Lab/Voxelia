@@ -252,7 +252,10 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0384` is allocated to the M8 queue.
 `ADR-0385` is allocated to the optional photorealistic module.
 `ADR-0386` is allocated to volumetric illumination.
-The next unallocated numeric identifier is `ADR-0387`.
+`ADR-0387` is allocated to volumetric shadows.
+`ADR-0388` is allocated to lighting and transillumination.
+`ADR-0389` is allocated to the documented scattering approximation.
+The next unallocated numeric identifier is `ADR-0390`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -622,3 +625,6 @@ The next unallocated numeric identifier is `ADR-0387`.
 | [ADR-0384](ADR-0384-the-m8-queue.md) | Accepted | The M8 queue |
 | [ADR-0385](ADR-0385-the-optional-photorealistic-module.md) | Accepted | The optional photorealistic module |
 | [ADR-0386](ADR-0386-volumetric-illumination.md) | Accepted | Volumetric illumination |
+| [ADR-0387](ADR-0387-volumetric-shadows.md) | Accepted | Volumetric shadows |
+| [ADR-0388](ADR-0388-lighting-and-transillumination.md) | Accepted | Lighting and transillumination |
+| [ADR-0389](ADR-0389-the-documented-scattering-approximation.md) | Accepted | The documented scattering approximation |
