@@ -5205,9 +5205,14 @@
       "sha256": "0da2529f9681b67a51a46e4f09c42823a951aaeb144836e0f7310cb514a40912"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0312-canonical-two-dimensional-pipeline.md",
+      "size": 4887,
+      "sha256": "c01a800d8c699460047b909663b6cbfe0a090c2b2a4bae6009e3e8f7bbbef66c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 42797,
-      "sha256": "a802f8aa7a485db526e80da3788cecb08a5b48b7a108f2976739fe34cc23f140"
+      "size": 42908,
+      "sha256": "a73526534b09f1d762e4ad8655444e1a1a929eed93cf4242aff7113ad79c14a2"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5301,8 +5306,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1250963,
-      "sha256": "1fc8a66a51621e19baa32b5b0b0d4310d77c6ad338a7b4fcf3087ecf1c2f38a1"
+      "size": 1252436,
+      "sha256": "ae13fada1a6f864fc4f86eda8f693bb48f2c411ce71e8070a398b7f8b26dab3a"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5821,8 +5826,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66443,
-      "sha256": "b7ee4618b543b1acd417bb38eb85d4754586199e382ba4b6e59fb244485376ec"
+      "size": 66518,
+      "sha256": "30aaa22666b98d9091dc40b3063e9772215778bbd0a938b823c3720e3cd5a439"
     }
   ]
 }

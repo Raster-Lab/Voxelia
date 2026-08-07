@@ -5924,6 +5924,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **7 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (eeee): `ADR-0312` — `VOX-R2D-001` discharged (I+T).** 1235/218 unchanged.
+   **No code, no test, no gate.**
+
+   **NO RECORD IN THE REPOSITORY MENTIONED `VOX-R2D-001`** — only the baseline, the
+   traceability index and this ledger. Third row in the sweep (after `VOX-VAL-006`,
+   `VOX-ARC-009`) whose evidence existed while the record trail pointed elsewhere.
+
+   **Three things make it CANONICAL rather than merely present**: one protocol (`SliceRenderer`
+   with `ExactSliceRenderer` its only shipped conformance), one entry point
+   (`render(_:) async throws -> RenderResult`, no route that skips stages), and **named stages**
+   (`RenderPublicationStage`, so provenance says which ran rather than leaving it inferred).
+   `T` = the **13 `[Pipeline]` tests** in `ExactSliceRendererTests`, read for this row.
+
+   **"Canonical" read as ONE CONTRACT WITH ONE SHIPPED PATH, not one implementation forever.**
+   A second conformance is permitted by the protocol and would not breach the row; what would
+   breach it is a route that **bypassed the contract**. `ADR-0300` is the evidence the two
+   backends behind it do not diverge.
+
+   **Declined to retag the 13 tests** — they genuinely evidence the rows they name, and adding
+   this row's id to all of them would make a tag "everything a test touches" rather than what
+   it is for. **The record is the right place for the reading.**
+
+   **6 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 
