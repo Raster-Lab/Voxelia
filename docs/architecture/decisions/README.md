@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0326`.
+The next unallocated numeric identifier is `ADR-0327`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -512,3 +512,4 @@ The next unallocated numeric identifier is `ADR-0326`.
 | [ADR-0323](ADR-0323-spatial-bounds-half-built.md) | Accepted | Spatial bounds half built |
 | [ADR-0324](ADR-0324-interpolation-rows.md) | Accepted | Interpolation rows |
 | [ADR-0325](ADR-0325-grid-resampling-is-unbuilt.md) | Accepted | Grid resampling is unbuilt |
+| [ADR-0326](ADR-0326-draw-callbacks-launch-nothing.md) | Accepted | Draw callbacks launch nothing |

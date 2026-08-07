@@ -6299,3 +6299,31 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    remaining cost look smaller than it is.**
 
    **7 rows remain unclaimed** — unchanged.
+
+   **Increment (ssss): `ADR-0326` — `VOX-CON-005` discharged on a LOCATED measurement.**
+   1238/219 unchanged; no code.
+
+   **Every unstructured-concurrency site in `Sources/` located: FOUR** — `StorageReadCoordinator`
+   (`Task.detached` → `shared`), `MetadataIdentityCoordinator` (`Task.detached` → `started`),
+   `BrickRequestBroker` ×2 (`Task` → `computation`) — **all in `VoxeliaExecution`**. An apparent
+   fifth was **not concurrency at all**: `CanonicalMetadataJSON`'s private `EmissionTask` enum
+   matched the search by name.
+
+   **`VoxeliaInteraction` contains NONE** — the module a draw callback calls into launches no
+   unstructured work, so a callback cannot inherit any from it.
+
+   **And the four that exist are the OPPOSITE of what the row prohibits**: each binds its task
+   to a name and **shares** it — the coalescing pattern, where concurrent requests for the same
+   work **join one task rather than starting their own**. **A coordinator that deduplicates
+   overlap is not a source of it.**
+
+   **Refused to claim the row without locating the sites** — "the interaction module launches
+   nothing" is only meaningful once the sites that DO launch have been found and read;
+   otherwise it is **absence of evidence reported as evidence of absence**.
+
+   **Eleventh property found true and UNENFORCED** — nothing stops a future increment adding
+   `Task.detached` to `VoxeliaInteraction`. The prohibition (same shape as
+   `check_prohibited_imports.py`) is **named as the next increment rather than half-built at
+   the end of a session**, because every gate here needs its failure proof.
+
+   **6 rows remain unclaimed** — recomputed.

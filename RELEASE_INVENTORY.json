@@ -5285,9 +5285,14 @@
       "sha256": "597a07652bbe116707dc9a9972068326c391a9784277bb160475d7b7ade488e1"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0326-draw-callbacks-launch-nothing.md",
+      "size": 4450,
+      "sha256": "109e8277e5dde872b48b4d8411e69a9b75f481626aa5e467743433edc613d880"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 44149,
-      "sha256": "9a75749a43f200d1e3a21d1d81ea95fa838d33a8c6eadc548eeea0c38c3afc9f"
+      "size": 44250,
+      "sha256": "1e4093f92cbc22822c62f6717de329a8714970b22c703bcec8c991fb76285588"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5381,8 +5386,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 407266,
-      "sha256": "27419c5ea7f4c7cb6c2c8cf4e3692233d8cb34d8ce69e2433e65299ae1db6916"
+      "size": 408948,
+      "sha256": "b59b9867be38f88a481129f2ad28614bc27cc52895c231c42c3181a918d6667e"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5906,8 +5911,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67528,
-      "sha256": "309410fb1cacda8cea65608163e0fa2d948ac9ec248cba3a88c3280c96edeb17"
+      "size": 67598,
+      "sha256": "8cfde968c62a97c4f50c4d2e17188183da7666a009fb9950d81458733999f2e6"
     }
   ]
 }
