@@ -5134,6 +5134,45 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Next**: a re-derived queue.
 
+   **Increment (iii): `ADR-0290`, `VOX-ERR-004` discharged — queue re-derived first.** 1158
+   tests / 208 suites (was 1152/207); no source changed.
+
+   **Derivation**: 23 entered-milestone rows have **no record, no test, no source mention**.
+   Picked the oldest `P0` with `T` alone and no gate: `VOX-ERR-004` (M3) — *"Unsupported
+   diagnostic behaviour shall fail explicitly rather than silently select preview
+   behaviour."*
+
+   **Reading it precisely mattered.** "Preview behaviour" reads as a vague adjective until
+   the baseline is searched for the word: **`VOX-EXE-011`** names four execution policies —
+   *reference, diagnostic, interactive, preview* — and `ProvenanceValidationClaim` names
+   `preview` beside `diagnosticReady`. So the row is **specific**: a diagnostic request that
+   cannot be served gets a typed refusal, never a quieter substitute under the same name.
+
+   **The product already does it, systematically**: **38 typed `unsupported*` cases**, none
+   with a payload, none paired with a fallback. Two are the row's own subject —
+   `VolumeRaySampler` admits **exactly one** registered quality token and refuses rather
+   than sampling coarsely; and `ProvenanceValidationClaim` makes the second face
+   **structural**: `preview` carries no evidence, `diagnosticReady(ValidationEvidenceID)`
+   **cannot be constructed without it**, so a preview result cannot be relabelled — there is
+   nothing to change it to.
+
+   **Every refusal paired with the nearest SUPPORTED input** — a sampler rejecting every
+   string would satisfy the refusals and prove nothing. **Token asserted EXACT, not a prefix
+   or family**: suffixed, uppercased, truncated and space-prefixed near-misses all refused,
+   because a forgiving match would let a near-miss name select the diagnostic path by
+   accident. **Claim vocabulary asserted non-`Comparable` with a positive control on
+   `Int`** — if it were orderable a caller could write `max(preview, diagnosticReady)` and
+   promote arithmetically.
+
+   **Rejected**: enumerating all 38 cases (already tested where built; a suite needing an
+   edit per new case rots exactly as `ADR-0289`'s SBOM counts did); scanning source for
+   fallback patterns (a grep cannot tell a total function from a silent substitution);
+   reading "preview" as informal (would discharge a P0 on the wrong evidence).
+
+   **Next**: 22 entered-milestone rows remain. `VOX-R2D-003` (signed/unsigned integer input)
+   and `VOX-MPR-014` (measurements use authoritative physical geometry) are the next `P0`,
+   `T`-only rows with no gate.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

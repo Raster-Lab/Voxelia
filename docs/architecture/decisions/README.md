@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0290`.
+The next unallocated numeric identifier is `ADR-0291`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -476,3 +476,4 @@ The next unallocated numeric identifier is `ADR-0290`.
 | [ADR-0287](ADR-0287-strict-memory-safety-readiness.md) | Accepted | Strict memory safety readiness |
 | [ADR-0288](ADR-0288-enable-strict-memory-safety.md) | Accepted | Enable strict memory safety |
 | [ADR-0289](ADR-0289-repository-self-test-recovery.md) | Accepted | Repository self test recovery |
+| [ADR-0290](ADR-0290-diagnostic-fail-closed.md) | Accepted | Diagnostic fail closed |
