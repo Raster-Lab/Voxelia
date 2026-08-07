@@ -7271,3 +7271,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    the label-assignment determinism rule (labels must be reproducible, so
    first-encounter order in canonical scan), and the output's label-semantic
    descriptor.
+
+   **Increment (xxxxx): `ADR-0357` + `VOXELIA-ALG-0062` — `VOX-IMG-013` IS
+   DISCHARGED; labels are deterministic by construction.** 1318 tests / 232
+   suites (commit `ac93d4b`; this ledger bullet follows in its own commit
+   after an anchor mismatch — recorded, not hidden).
+
+   **The connectivity vocabulary is CLOSED and rank-honest**: `faces` (4/6),
+   `facesAndEdges` (18, three dimensions ONLY — it REJECTS in two rather than
+   silently aliasing the vertices case), `facesEdgesAndVertices` (8/26). The
+   diagonal pair witnesses the choice in 2-D; the edge-touching cube pair in
+   3-D.
+
+   **First-encounter labelling is STRUCTURAL determinism**: the canonical scan
+   founds components with labels from one; membership is order-independent, so
+   the only order-sensitive fact — which component gets which label — is fixed
+   by the scan, and the fill's internal order is deliberately NOT part of the
+   contract. Background stays exactly zero.
+
+   **The label space is sixteen bits, ceilinged and TYPED** — proven by a
+   generated 512x257 checkerboard whose 65,792 isolated pixels breach it.
+   Output is a `uint16` `label`-semantic image, geometry verbatim. CPU 25,
+   combined 28. Four oracle fixtures exact on first run.
+
+   **Next**: `VOX-IMG-014` distance transforms — the LAST foundations row;
+   frozen decisions: the metric (exact Euclidean squared via the parabola
+   method vs chamfer — the row is "should", P1), the output type and units,
+   and whether distance measures to background or to the foreground boundary.
