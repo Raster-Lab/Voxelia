@@ -5948,6 +5948,32 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **6 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (ffff): `ADR-0313` — `VOX-MPR-002` **T** discharged, **D** to the owner.**
+   1235/218 unchanged. **No code, no test.**
+
+   **`ObliqueSliceOperation`'s admission constrains STRUCTURE, not ORIENTATION** — volume maps
+   `{0,1,2}`, request presents `[0,1]`, spaces match, extents `1…16,384`. **Nothing constrains
+   the direction cosines**; any invertible affine is admitted, which is what *arbitrary* asks.
+
+   **`T` = `ADR-0297`'s oblique reconstruction, read for this row**: in-plane step `(1,0.5,0)`,
+   not axis-aligned, expected value **in closed form** `10 + 2u − v`, asserted with `==` over
+   the whole plane, **no tolerance** — and every odd column lands half way between two volume
+   rows, so it is a genuine trilinear blend, not a lookup. It also falsifies the failure this
+   row cares about: ignoring the in-plane `y` step publishes `10 + u − v`.
+
+   **THE CONSTRAINT ON "ARBITRARY" BELONGS HERE**: a planar request whose **out-of-plane column
+   is zero is refused as singular**. The sampling loop reads only slots 0 and 1, so a caller
+   assembling a request from two direction cosines — **the natural DICOM way** — leaves slot 2
+   empty and gets `singularTransform`. Every orientation remains reconstructable (the third
+   column is the cross product); it is a **calling convention, undocumented until now**.
+
+   **Declined to default that column inside the operation** — it would silently accept a
+   request the caller did not fully specify, and the singular refusal is
+   `AffineGridGeometry`'s own invariant, not the operation's. **Refuse an under-specified
+   input rather than complete it.**
+
+   **5 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

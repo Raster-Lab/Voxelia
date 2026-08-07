@@ -5210,9 +5210,14 @@
       "sha256": "c01a800d8c699460047b909663b6cbfe0a090c2b2a4bae6009e3e8f7bbbef66c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0313-arbitrary-oblique-reconstruction.md",
+      "size": 5306,
+      "sha256": "48ef7883c4b163c1cf9fe1095dc5854919661ee44b0184c682221b6e33ce9cae"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 42908,
-      "sha256": "a73526534b09f1d762e4ad8655444e1a1a929eed93cf4242aff7113ad79c14a2"
+      "size": 43015,
+      "sha256": "93b3f732149f9ddc18610120dd68c5cced6b17774b7d12d4175412a36a8ae197"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5306,8 +5311,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1252436,
-      "sha256": "ae13fada1a6f864fc4f86eda8f693bb48f2c411ce71e8070a398b7f8b26dab3a"
+      "size": 1254150,
+      "sha256": "05a178f6e31e10e73f9aa3eb9d60cfa4d1abdf05397cd1aea30150ca8bcd4b1b"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5826,8 +5831,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66518,
-      "sha256": "30aaa22666b98d9091dc40b3063e9772215778bbd0a938b823c3720e3cd5a439"
+      "size": 66591,
+      "sha256": "4567453169674513659ff8e648bd81a59c6763ab0f226bb85a3c8d02b7f4e200"
     }
   ]
 }
