@@ -5733,6 +5733,39 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **11 entered-milestone rows remain** — UNCHANGED, because this record discharges nothing.
 
+   **Increment (yyy): `ADR-0306` — `VOX-MTL-009`'s **A** and **T** supplied; **D** stays with
+   the owner.** 1235 tests / 218 suites (was 1229/217). **No source changed.**
+
+   **The analysis**: `makeBuffer` reaches exactly ONE allocation, and its storage mode is
+   decided by `selection(for:)` — `.automatic`/`.shared` → `storageModeShared`, which is **one
+   range of memory the CPU and GPU BOTH address**. No host copy, no device copy; there is the
+   buffer. So under the default a full-volume duplicate **does not exist at any point**.
+   `storageModePrivate` **is** a duplicate and is the correct answer to `.gpuOptimised` — the
+   row says *minimise*, not *forbid*, and that trade is the caller's to make.
+
+   **The analysis has a SECOND branch, not exercised on this host**: `.automatic`/`.shared`
+   require `supportsUnifiedMemory`; where false they throw `sharedStorageUnavailable`. So the
+   guarantee there is **a typed refusal rather than a silent copy** — the caller learns its
+   policy cannot be met instead of receiving a duplicate it never asked for.
+
+   **Evidence is the ALLOCATED BUFFER'S storage mode, not the selection enum** — asserting the
+   selection proves what the manager *intends*; `MTLBuffer.storageMode` proves what it
+   *allocates*, and only the second is about duplication.
+
+   **Each test earns its place**: the `.gpuOptimised` contrast exists because without it the
+   shared assertion would pass for a manager that ignored its input entirely; "a refused policy
+   allocates nothing" exists because a manager that refused the *selection* then allocated
+   anyway would pass the refusal test and still duplicate the volume.
+
+   **Three fabrications declined**: peak working set (a harness artefact per `ADR-0271`);
+   `contents()` nil-checks (Metal's Swift signature is non-optional, so it would assert runtime
+   behaviour the type system doesn't express); and a **stub context** for the non-unified
+   branch — that would assert a hand-written double throws, which is a fact about the double.
+   The branch is **named and left unexercised**, which is the honest record of what this host
+   can show.
+
+   **11 rows still remain** — the row isn't fully discharged, so the count is unchanged.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 
