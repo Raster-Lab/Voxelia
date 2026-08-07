@@ -5220,9 +5220,14 @@
       "sha256": "d07b560a18061922e5557bc2200ab17acb44057bfa8d46ef5293e7b6e7f83518"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0315-residency-response-is-unbuilt.md",
+      "size": 5110,
+      "sha256": "23c7fe5c121527a819dcaef2b66a9faec841a3470711193c152dd0f2e807602d"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 43120,
-      "sha256": "d8a3d22e5221c2896265ad849c2a14793dd3f4d6ec6c9c6ecf28da0a1ce2ce2c"
+      "size": 43221,
+      "sha256": "b1e14b87768e3f974b2386593dd8bcb6e14ce4717e684376a8168722caca6321"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5316,8 +5321,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1255642,
-      "sha256": "752cb289855fcb8e0fce833033e43c3fa2fcdf255e6c222f5849add9942c9937"
+      "size": 1257533,
+      "sha256": "f8e7619e03174d086cf087d245de6ae7ff9b7cd03a40861022e688b7fad01645"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5836,8 +5841,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66663,
-      "sha256": "3513a0443382f01378ffc7414aa677f74f660364ebff4d7828494c8b50e5d774"
+      "size": 66733,
+      "sha256": "d50022fe95359d5867b29cedba81a93be582ef0baeff6a178f753f783ad6a0d0"
     }
   ]
 }

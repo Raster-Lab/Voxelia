@@ -5999,6 +5999,37 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **5 rows remain — unchanged**, because this discharges nothing.
 
+   **Increment (hhhh): `ADR-0315` — `VOX-MTL-013` recorded UNBUILT on both halves.**
+   1235/218 unchanged; no code, no test. Measured **half by half** because the two halves are
+   in different states.
+
+   **Half one — workload priority**: blocked, already recorded by `ADR-0314` (zero priority
+   vocabulary in `Sources/`).
+
+   **Half two — memory pressure: NO response exists.** No `DISPATCH_SOURCE_TYPE_MEMORYPRESSURE`,
+   no `setPurgeableState`, no path releasing or downgrading a GPU allocation when memory
+   tightens. `MetalResidencyManager` allocates and returns; **nothing later reconsiders**.
+
+   **THE FINDING: the input the row needs is ALREADY IN HAND and consumed by NOTHING.**
+   `MetalExecutionContext` reads `device.recommendedMaxWorkingSetSize` and publishes it. Every
+   use: the declaration, the init parameter, the assignment, the capability read, and **two
+   test lines asserting it is `> 0` and printing it**. **No allocation path consults it.** The
+   budget exists as a number and nothing is bounded by it — a milder form of the pattern found
+   eight times this arc: not a rule with no enforcement, but a **capability captured with no
+   consumer**.
+
+   **Closed a FALSE TRAIL**: `BrickEvictionConsideration` (`ADR-0151`) is a **CPU-side cache**
+   eviction order and never touches an `MTLBuffer`. Reading it as this row's evidence would be
+   reading a neighbouring subsystem's work as this one's — named explicitly so a later
+   increment does not.
+
+   **Declined to bound allocations by the budget now** — that is a two-line change, and
+   choosing **what happens at the bound** is the whole requirement: refuse, downgrade
+   `.privateDevice`→`.shared`, or evict. **A refused allocation is a failed render and a
+   downgraded one is a slower render**, so it is a safety trade, not an engineering preference.
+
+   **5 rows remain — unchanged.**
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 
