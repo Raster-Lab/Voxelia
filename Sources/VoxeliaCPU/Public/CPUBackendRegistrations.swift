@@ -33,13 +33,40 @@ public enum CPUBackendRegistrations {
             rawValue: "org.voxelia.precision.binary64-strict"
         )
         let exact = try ExecutionClaimToken(rawValue: "org.voxelia.precision.exact")
+        let fullQuality = try ExecutionClaimToken(
+            rawValue: "org.voxelia.quality.full"
+        )
+        func image(
+            _ ranks: DeclaredRankSupport,
+            _ scalars: DeclaredScalarSupport,
+            _ geometry: DeclaredGeometrySupport
+        ) throws -> DeclaredImplementationContract {
+            try DeclaredImplementationContract(
+                domain: .image(ranks: ranks, scalars: scalars, geometry: geometry),
+                qualityProfiles: [fullQuality],
+                capabilityRequirements: []
+            )
+        }
+        let mesh = try DeclaredImplementationContract(
+            domain: .triangleMesh,
+            qualityProfiles: [fullQuality],
+            capabilityRequirements: []
+        )
+        let storedDomain = DeclaredScalarSupport.scalars([
+            .uint8, .int16, .uint16, .float32,
+        ])
+        let surfaceScalars = DeclaredScalarSupport.scalars([
+            .int8, .uint8, .int16, .uint16, .int32, .uint32,
+            .float16, .float32, .float64,
+        ])
         func entry(
             operation: String,
             implementation: String,
             major: Int,
             minor: Int,
             precision: ExecutionClaimToken,
-            evidence: String
+            evidence: String,
+            declared: DeclaredImplementationContract
         ) throws -> RegisteredImplementation {
             let version = try SemanticVersion(major: major, minor: minor, patch: 0)
             return RegisteredImplementation(
@@ -54,7 +81,8 @@ public enum CPUBackendRegistrations {
                 backend: backend,
                 precisionPolicy: precision,
                 approximationStatus: .exact,
-                evidence: try Self.evidenceID(evidence)
+                evidence: try Self.evidenceID(evidence),
+                declaredContract: declared
             )
         }
         return try ImplementationRegistry(implementations: [
@@ -64,7 +92,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 2,
                 precision: exact,
-                evidence: "adr-0064-region-extraction"
+                evidence: "adr-0064-region-extraction",
+                declared: try image(.any, .any, .any)
             ),
             try entry(
                 operation: WindowLevelOperation.operationIdentifier,
@@ -72,7 +101,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 5,
                 precision: binary64,
-                evidence: "adr-0065-window-level"
+                evidence: "adr-0065-window-level",
+                declared: try image(.any, .scalars([.uint8, .int16, .uint16]), .any)
             ),
             try entry(
                 operation: ResampleNearestOperation.operationIdentifier,
@@ -80,7 +110,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 1,
                 precision: binary64,
-                evidence: "adr-0088-resample-nearest"
+                evidence: "adr-0088-resample-nearest",
+                declared: try image(.range(2...2), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: CompositeLayersOperation.operationIdentifier,
@@ -88,7 +119,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 2,
                 precision: binary64,
-                evidence: "adr-0090-composite-layers"
+                evidence: "adr-0090-composite-layers",
+                declared: try image(.range(2...2), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: InvertDisplayOperation.operationIdentifier,
@@ -96,7 +128,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0112-invert-display"
+                evidence: "adr-0112-invert-display",
+                declared: try image(.any, .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: TransposeAxesOperation.operationIdentifier,
@@ -104,7 +137,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0115-transpose-axes"
+                evidence: "adr-0115-transpose-axes",
+                declared: try image(.any, .any, .any)
             ),
             try entry(
                 operation: SqueezeAxesOperation.operationIdentifier,
@@ -112,7 +146,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0116-squeeze-axes"
+                evidence: "adr-0116-squeeze-axes",
+                declared: try image(.any, .any, .any)
             ),
             try entry(
                 operation: ResampleLinearOperation.operationIdentifier,
@@ -120,7 +155,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 1,
                 precision: binary64,
-                evidence: "adr-0123-resample-linear"
+                evidence: "adr-0123-resample-linear",
+                declared: try image(.range(2...2), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: ObliqueSliceOperation.operationIdentifier,
@@ -128,7 +164,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0142-oblique-slice"
+                evidence: "adr-0142-oblique-slice",
+                declared: try image(.range(3...3), .scalars([.uint8]), .requiresAffine)
             ),
             try entry(
                 operation: GridResampleOperation.operationIdentifier,
@@ -136,7 +173,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0340-grid-resample"
+                evidence: "adr-0340-grid-resample",
+                declared: try image(.range(3...3), .scalars([.uint8]), .requiresAffine)
             ),
             try entry(
                 operation: LevelSelectOperation.operationIdentifier,
@@ -144,7 +182,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0343-level-select"
+                evidence: "adr-0343-level-select",
+                declared: try image(.range(3...3), .scalars([.uint8]), .requiresAffine)
             ),
             try entry(
                 operation: ThresholdOperation.operationIdentifier,
@@ -152,7 +191,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0352-threshold"
+                evidence: "adr-0352-threshold",
+                declared: try image(.range(2...3), storedDomain, .any)
             ),
             try entry(
                 operation: MaskApplyOperation.operationIdentifier,
@@ -160,7 +200,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0353-mask-apply"
+                evidence: "adr-0353-mask-apply",
+                declared: try image(.range(2...3), storedDomain, .any)
             ),
             try entry(
                 operation: ArithmeticOperation.operationIdentifier,
@@ -168,7 +209,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0353-image-arithmetic"
+                evidence: "adr-0353-image-arithmetic",
+                declared: try image(.range(2...3), storedDomain, .any)
             ),
             try entry(
                 operation: ConvolveOperation.operationIdentifier,
@@ -176,7 +218,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0354-convolve"
+                evidence: "adr-0354-convolve",
+                declared: try image(.range(2...3), storedDomain, .any)
             ),
             try entry(
                 operation: GaussianFilterOperation.operationIdentifier,
@@ -184,7 +227,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0355-gaussian-filter"
+                evidence: "adr-0355-gaussian-filter",
+                declared: try image(.range(2...3), storedDomain, .any)
             ),
             try entry(
                 operation: MorphologyOperation.operationIdentifier,
@@ -192,7 +236,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0356-morphology"
+                evidence: "adr-0356-morphology",
+                declared: try image(.range(2...3), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: ConnectedComponentsOperation.operationIdentifier,
@@ -200,7 +245,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0357-connected-components"
+                evidence: "adr-0357-connected-components",
+                declared: try image(.range(2...3), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: DistanceTransformOperation.operationIdentifier,
@@ -208,7 +254,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0358-distance-transform"
+                evidence: "adr-0358-distance-transform",
+                declared: try image(.range(2...3), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: LabelResampleOperation.operationIdentifier,
@@ -216,7 +263,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0360-label-resample"
+                evidence: "adr-0360-label-resample",
+                declared: try image(.range(3...3), .scalars([.uint8, .uint16]), .requiresAffine)
             ),
             try entry(
                 operation: RegionGrowOperation.operationIdentifier,
@@ -224,7 +272,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0361-region-grow"
+                evidence: "adr-0361-region-grow",
+                declared: try image(.range(2...3), storedDomain, .any)
             ),
             try entry(
                 operation: MaskEditOperation.operationIdentifier,
@@ -232,7 +281,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0362-mask-edit"
+                evidence: "adr-0362-mask-edit",
+                declared: try image(.range(2...3), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
@@ -240,7 +290,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: exact,
-                evidence: "adr-0160-project-intensity"
+                evidence: "adr-0160-project-intensity",
+                declared: try image(.range(3...3), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: ResampleCubicOperation.operationIdentifier,
@@ -248,7 +299,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0164-resample-cubic"
+                evidence: "adr-0164-resample-cubic",
+                declared: try image(.range(2...2), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: ScalarSurfaceExtractionRequest.operationIdentifier,
@@ -257,7 +309,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0191-scalar-surface-extraction"
+                evidence: "adr-0191-scalar-surface-extraction",
+                declared: try image(.range(3...3), surfaceScalars, .requiresAffine)
             ),
             try entry(
                 operation: LabelledSurfaceExtractionRequest.operationIdentifier,
@@ -266,7 +319,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0192-labelled-surface-extraction"
+                evidence: "adr-0192-labelled-surface-extraction",
+                declared: try image(.range(3...3), surfaceScalars, .requiresAffine)
             ),
             try entry(
                 operation:
@@ -278,7 +332,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0193-triangle-mesh-vertex-normals"
+                evidence: "adr-0193-triangle-mesh-vertex-normals",
+                declared: mesh
             ),
             try entry(
                 operation:
@@ -289,7 +344,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0194-triangle-mesh-total-facet-area"
+                evidence: "adr-0194-triangle-mesh-total-facet-area",
+                declared: mesh
             ),
             try entry(
                 operation:
@@ -300,7 +356,8 @@ public enum CPUBackendRegistrations {
                 major: 1,
                 minor: 0,
                 precision: binary64,
-                evidence: "adr-0195-triangle-mesh-enclosed-volume"
+                evidence: "adr-0195-triangle-mesh-enclosed-volume",
+                declared: mesh
             ),
         ])
     }

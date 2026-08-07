@@ -32,6 +32,17 @@ struct ExtensionMechanismTests {
             approximationStatus: .exact,
             evidence: try #require(
                 ValidationEvidenceID(rawValue: "com-example-vesselness-1")
+            ),
+            declaredContract: try DeclaredImplementationContract(
+                domain: .image(
+                    ranks: .range(3...3),
+                    scalars: .scalars([.float32]),
+                    geometry: .requiresAffine
+                ),
+                qualityProfiles: [
+                    try ExecutionClaimToken(rawValue: "org.voxelia.quality.full")
+                ],
+                capabilityRequirements: []
             )
         )
     }

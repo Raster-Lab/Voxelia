@@ -97,6 +97,12 @@ public API is introduced only by reviewed milestone specifications.
 - ``RegistrationPyramid``
 - ``RegistrationPyramidLevelIdentity``
 - ``RegistrationPyramidError``
+- ``DeclaredImplementationContract``
+- ``DeclaredSampleDomain``
+- ``DeclaredRankSupport``
+- ``DeclaredScalarSupport``
+- ``DeclaredGeometrySupport``
+- ``ImplementationContractError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

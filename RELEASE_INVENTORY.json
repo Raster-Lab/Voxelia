@@ -396,8 +396,8 @@
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPUBackendRegistrations.swift",
-      "size": 12511,
-      "sha256": "b98057019504bb3f4ee53265d603036c42082a8e0a1dc629bc4f56202aeb25d6"
+      "size": 15735,
+      "sha256": "648cf828b43c9c6d16c9bb699f686d88958b0efde6ae2debea170504b5722b94"
     },
     {
       "path": "Sources/VoxeliaCPU/Public/CPULabelledSurfaceExtractionOperation.swift",
@@ -966,8 +966,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/Public/ImplementationRegistry.swift",
-      "size": 3011,
-      "sha256": "2a452cf6d27b4771c4a4e3dc856aa4d9f855131463dae408cdebc5d8e27ebd5f"
+      "size": 6742,
+      "sha256": "3d3a7fbf18e354888e9d62442e4a864157097a6ae8c32bfc101463c402a61f52"
     },
     {
       "path": "Sources/VoxeliaExecution/Public/InvertDisplayOperation.swift",
@@ -1101,8 +1101,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/VoxeliaExecution.md",
-      "size": 2904,
-      "sha256": "8714965fb7eca189ae31cde77ee1969066fac02ecd5ce41e213d604c2e38bcda"
+      "size": 3086,
+      "sha256": "fa51b68da651ea7b6ef8bb079ce3ab85dc9755f5baed58137cb7720d3fcdeee0"
     },
     {
       "path": "Sources/VoxeliaGeometry/ApplePlatformGate.swift",
@@ -1446,8 +1446,8 @@
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalBackendRegistrations.swift",
-      "size": 3868,
-      "sha256": "c686f3003990a74177c4df08b02eea4260c2c8779880ab438ada6568889fbbfa"
+      "size": 4765,
+      "sha256": "85abf74de41c29ff2bb83c45d84df53a6e72733bf0f5b259f2aa433adc0387f5"
     },
     {
       "path": "Sources/VoxeliaMetal/Public/MetalCompositeKernel.swift",
@@ -2560,6 +2560,11 @@
       "sha256": "2813a80feaae96686c30160b11a2685e1261184ea5919dfbedcac9d858f8634c"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/ImplementationContractTests.swift",
+      "size": 3390,
+      "sha256": "8b6c16d1224d0f6672ce9a325a3159c2a7b8f4445163d53d64e270ef0b2e9acb"
+    },
+    {
       "path": "Tests/VoxeliaExecutionTests/InterpolationAnalyticalTests.swift",
       "size": 13188,
       "sha256": "77cdbf83a39560ed07882d91ff072614cf0caaa9d611cfbbb3277223ef3f8376"
@@ -3386,8 +3391,8 @@
     },
     {
       "path": "Tests/VoxeliaValidationTests/ExtensionMechanismTests.swift",
-      "size": 3001,
-      "sha256": "f1305cc5eb770ea1ddc69d9e994913055f3b6305d2c7be1c358420ca39881ede"
+      "size": 3451,
+      "sha256": "8bcfcd129f40d0d58d70e0bbc8252a834c6bd9d9df647986ecd89769801751e4"
     },
     {
       "path": "Tests/VoxeliaValidationTests/LinearRampPhantomTests.swift",
@@ -6090,9 +6095,14 @@
       "sha256": "41de2afd8c75a7b7f388581276f4d75ff31eb9f1f2216da63a7a79dbba2deff3"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0380-the-registration-declaration-contract.md",
+      "size": 4678,
+      "sha256": "c18686729e61ab58775d2d66dba0a8f4fe079b390164c07c495f925ed153f0e9"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 51810,
-      "sha256": "f838ddffe4f28042114ce3a93b9b0c278adc0a92ccf083b1ec9fac0cfb8f33a1"
+      "size": 51993,
+      "sha256": "4b4af079a1e5bf803dee180da7645e5014e9736f21a5ec730da2ee77376348b4"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6196,8 +6206,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 502308,
-      "sha256": "21dca4495e710fd24ee7f806ef6cfd62d0f95597445f20ee250ecaa50f0021f9"
+      "size": 504107,
+      "sha256": "7abf3908603408407c7cbe52f08bf3cbc80f2e4a4c08da0e983c058df68d27e6"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6526,8 +6536,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 1501,
-      "sha256": "f7e0c09d458cbcb60446c42c0f5a5c5574263e2976edcecffd15a663fd855af2"
+      "size": 1489,
+      "sha256": "9a22191bff4ce94d3bf777592481c13ae02d0c58556b34943a70edd22830e588"
     },
     {
       "path": "docs/project/README.md",
@@ -6841,8 +6851,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 78730,
-      "sha256": "1951b4d6558f5f9110a5bca5ee4670bd0698be7c3def5012a8017e5f92149e2b"
+      "size": 78870,
+      "sha256": "2cd2d4180a3be76441113643a34e9576e17bd1ebe2aa4ddbb6ae3080651854d1"
     }
   ]
 }

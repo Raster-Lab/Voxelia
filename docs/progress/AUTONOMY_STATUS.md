@@ -7825,3 +7825,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    widening `RegisteredImplementation` touches every backend
    registration, so design the contract shape first, then migrate the
    32 entries mechanically.
+
+1. **2026-08-07 — ~~`VOX-EXT-003`~~ DISCHARGED: the registration
+   declaration contract (`ADR-0380`).** `DeclaredImplementationContract`
+   is REQUIRED on every `RegisteredImplementation` — defaultless, no
+   optional declaration nobody makes. The survey of all 32 built-in
+   entries exposed the design constraint: they are HETEROGENEOUS (mesh
+   ops have no image rank/format at all), so the domain is a closed
+   two-case vocabulary — `image(ranks:scalars:geometry:)` with honest
+   `any` cases (`DeclaredRankSupport`/`DeclaredScalarSupport`/
+   `DeclaredGeometrySupport`) and `triangleMesh`. The declaration is
+   SELECTION METADATA; each operation's own typed admission stays
+   authoritative. All 32 entries migrated with envelopes DERIVED BY
+   READING each admission, not guessed (ADR-0352 family: rank 2...3 over
+   the four stored scalars; volume ops: 3...3 uint8 requiresAffine;
+   surface extractions: nine scalars + affine; axis/region ops: honest
+   any; three mesh ops: triangleMesh; quality `org.voxelia.quality.full`
+   everywhere; no capability requirements). Third-party witness updated
+   — extensions must now state their envelope. STALE-LAYOUT LESSON
+   CONFIRMED AS A RULE: widening `RegisteredImplementation` crashed the
+   incremental full suite signal-5 exactly as the enum widening did —
+   `rm -rf .build` before believing any crash after a public type's
+   layout changes. Baseline shrinks by one. Full suite (clean build):
+   `✔ Test run with 1403 tests in 260 suites passed`. **Next**: the
+   third-party provenance row (`T` — third-party implementations provide
+   provenance metadata; inspect what the evidence/identity fields
+   already carry and what the row still demands), then the diagnostic
+   guard row (`T,R`) to close the arc's engineering.

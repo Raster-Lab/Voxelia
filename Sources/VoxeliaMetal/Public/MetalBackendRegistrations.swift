@@ -25,6 +25,20 @@ public enum MetalBackendRegistrations {
             rawValue: "org.voxelia.precision.binary32-device"
         )
         let exact = try ExecutionClaimToken(rawValue: "org.voxelia.precision.exact")
+        let fullQuality = try ExecutionClaimToken(
+            rawValue: "org.voxelia.quality.full"
+        )
+        func image(
+            _ ranks: DeclaredRankSupport,
+            _ scalars: DeclaredScalarSupport,
+            _ geometry: DeclaredGeometrySupport
+        ) throws -> DeclaredImplementationContract {
+            try DeclaredImplementationContract(
+                domain: .image(ranks: ranks, scalars: scalars, geometry: geometry),
+                qualityProfiles: [fullQuality],
+                capabilityRequirements: []
+            )
+        }
         func entry(
             operation: String,
             implementation: String,
@@ -32,7 +46,8 @@ public enum MetalBackendRegistrations {
             implementationVersion: (Int, Int),
             precision: ExecutionClaimToken,
             status: ExecutionApproximationStatus,
-            evidence: String
+            evidence: String,
+            declared: DeclaredImplementationContract
         ) throws -> RegisteredImplementation {
             guard let evidenceID = ValidationEvidenceID(rawValue: evidence) else {
                 throw RegistrationError.invalidEvidenceIdentifier
@@ -57,7 +72,8 @@ public enum MetalBackendRegistrations {
                 backend: backend,
                 precisionPolicy: precision,
                 approximationStatus: status,
-                evidence: evidenceID
+                evidence: evidenceID,
+                declaredContract: declared
             )
         }
         return try ImplementationRegistry(implementations: [
@@ -68,7 +84,8 @@ public enum MetalBackendRegistrations {
                 implementationVersion: (1, 2),
                 precision: binary32,
                 status: .approximate,
-                evidence: "adr-0146-padded-device-window"
+                evidence: "adr-0146-padded-device-window",
+                declared: try image(.any, .scalars([.uint8, .int16, .uint16]), .any)
             ),
             try entry(
                 operation: CompositeLayersOperation.operationIdentifier,
@@ -77,7 +94,8 @@ public enum MetalBackendRegistrations {
                 implementationVersion: (1, 1),
                 precision: binary32,
                 status: .approximate,
-                evidence: "adr-0131-device-composite"
+                evidence: "adr-0131-device-composite",
+                declared: try image(.range(2...2), .scalars([.uint8]), .any)
             ),
             try entry(
                 operation: InvertDisplayOperation.operationIdentifier,
@@ -86,7 +104,8 @@ public enum MetalBackendRegistrations {
                 implementationVersion: (1, 0),
                 precision: exact,
                 status: .exact,
-                evidence: "adr-0133-device-invert"
+                evidence: "adr-0133-device-invert",
+                declared: try image(.any, .scalars([.uint8]), .any)
             ),
         ])
     }
