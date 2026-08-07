@@ -5173,6 +5173,40 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    and `VOX-MPR-014` (measurements use authoritative physical geometry) are the next `P0`,
    `T`-only rows with no gate.
 
+   **Increment (jjj): `ADR-0291`, `VOX-R2D-003` discharged.** 1164 tests / 209 suites (was
+   1158/208); no source changed.
+
+   **The row's sentence is generic; the plan is not** — "Source signedness — Signed and
+   unsigned", validation fixtures for "synthetic **signed** 16-bit CT" and "synthetic
+   **unsigned** 16-bit CT", and "correct signedness" among acceptance items. CT arrives both
+   ways.
+
+   **`WindowLevelOperation` admits exactly `uint8`/`int16`/`uint16`** and branches on
+   signedness: `Int64(Int16(bitPattern:))` **sign-extends** where `Int64(UInt16)`
+   **zero-extends**. Implemented, untested.
+
+   **The central test uses ONE bit pattern under BOTH declarations**: `0xFC18` is `-1000` as
+   `int16` and `64536` as `uint16`. Under a window centred on zero the signed reading is
+   **black** and the unsigned **clamps white** — both asserted exactly. A pipeline ignoring
+   signedness returns identical bytes. **Control**: below `0x8000` sign extension is a no-op,
+   so the two paths must agree **exactly** — without it the divergence is equally consistent
+   with two unrelated paths that happen to differ. Plus `Int16.min` (`0x8000`, where a naive
+   negation traps) and the unsigned maximum.
+
+   **TWO FIXTURE FAULTS OF MINE, both caught by running not reading:**
+   1. **Byte order must be declared `.native`.** Declaring `.littleEndian` — which is what
+      the layout *actually is* here — was refused `byteOrderMismatch`: the binding and
+      descriptor must agree on the **declaration**, not on the resulting bytes.
+   2. **The refusal test was asserting the WRONG GUARD.** Sizing every buffer at 2 bytes per
+      sample made `float32`/`int64` fail `incompatibleBinding` in the **storage contract**
+      before `WindowLevelOperation`'s scalar admission ever ran — **it passed for the wrong
+      reason**. Sizing from the binding is what makes it reach the guard it names. Same
+      lesson as `ADR-0290`'s exact-token assertions: **a refusal is only evidence when you
+      know which refusal fired.**
+
+   **Next**: 21 rows remain; `VOX-MPR-014` (measurements use authoritative physical geometry)
+   is the next `P0`, `T`-only, ungated.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 
