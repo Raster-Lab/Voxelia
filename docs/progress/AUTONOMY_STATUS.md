@@ -6030,6 +6030,38 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **5 rows remain — unchanged.**
 
+   **Increment (iiii): `ADR-0316` — `VOX-MTL-011` **A** discharged; **T** parked on a named
+   trigger.** 1235/218 unchanged; no code.
+
+   **THE ROW IS CONDITIONAL — "where they provide measurable benefit" — and that changes what
+   discharging means.** An analysis showing the condition is NOT met is a complete answer;
+   building heaps anyway would answer a requirement that says something else.
+
+   **Measured: ZERO heaps** (`MTLHeap`/`makeHeap`/`MTLHeapDescriptor`/`heapBufferSizeAndAlign`)
+   and **6 direct allocation sites**, every one scoped to a **single dispatch or request** —
+   `ADR-0081` states the rule outright: buffers "remain local to each request rather than
+   becoming shared manager state".
+
+   **The analysis**: a heap earns its cost by backing **many resources with OVERLAPPING
+   LIFETIMES** from one allocation — both halves of the benefit, allocation and residency,
+   depend on that overlap. **Voxelia has no such set**: each buffer serves one dispatch and is
+   released; a heap here would back one short-lived buffer at a time, which is direct
+   allocation **with an extra object in front of it**.
+
+   **Stated plainly as a STRUCTURAL argument, not a benchmark** — no heap-versus-direct
+   measurement was taken, because the precondition for benefit is absent and measuring would
+   produce a number about a configuration nobody would ship.
+
+   **`T` parked on a NAMED TRIGGER, not dismissed**: the first allocation site keeping several
+   buffers co-resident across dispatches — a brick pool, a persistent residency set, or the
+   working-set bounding `ADR-0315` leaves open.
+
+   **Distinguished from `VOX-CON-008`/`VOX-MTL-013`**: those name capabilities that do not
+   exist **and should**; this names a technique that is **correctly absent**. Filing it as
+   unbuilt would understate what is known.
+
+   **5 rows remain — unchanged**, since the row is not fully discharged.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

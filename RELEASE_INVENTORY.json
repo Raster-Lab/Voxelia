@@ -5225,9 +5225,14 @@
       "sha256": "23c7fe5c121527a819dcaef2b66a9faec841a3470711193c152dd0f2e807602d"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0316-metal-heaps-not-yet-warranted.md",
+      "size": 5461,
+      "sha256": "c92fe1bb120bdf5718a9bd88dd4cff118e671563ba1b86104e91ad3d5d38bef8"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 43221,
-      "sha256": "b1e14b87768e3f974b2386593dd8bcb6e14ce4717e684376a8168722caca6321"
+      "size": 43322,
+      "sha256": "231c1c355e428c8d791d60ae2a71a5d3494cf3cd2da35d56e9a0f525802dd716"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5321,8 +5326,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1257533,
-      "sha256": "f8e7619e03174d086cf087d245de6ae7ff9b7cd03a40861022e688b7fad01645"
+      "size": 1259459,
+      "sha256": "2cf70ff6369ba781875267ec61e32ff93cb7ee37d9269722ae1c6c1de3c0f354"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5841,8 +5846,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66733,
-      "sha256": "d50022fe95359d5867b29cedba81a93be582ef0baeff6a178f753f783ad6a0d0"
+      "size": 66803,
+      "sha256": "40ceca25a9ba2be196c3c3aa416a96e5e6a242d3d57815d3b54cee6a10f59e64"
     }
   ]
 }
