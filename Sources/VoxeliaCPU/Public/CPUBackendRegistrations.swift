@@ -227,6 +227,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0361-region-grow"
             ),
             try entry(
+                operation: MaskEditOperation.operationIdentifier,
+                implementation: MaskEditOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: exact,
+                evidence: "adr-0362-mask-edit"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,

@@ -88,6 +88,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``LabelResampleError``
 - ``RegionGrowOperation``
 - ``RegionGrowError``
+- ``MaskEditOperation``
+- ``MaskEditVerb``
+- ``MaskEditError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

@@ -7421,3 +7421,26 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    arithmetic (union/subtract via the existing operations?) or freezes a
    dedicated mask-edit vocabulary; CDMS 52.11's "segmentation editing shall
    create new provenance" binds.
+
+   **Increment (cccccc): `ADR-0362` + `VOXELIA-ALG-0066` — `VOX-SEG-008`
+   DISCHARGED; the row's three adjectives are STRUCTURE.** 1338 tests / 238
+   suites.
+
+   **Explicit** = the defaultless closed verb enum (`union`/`subtract`/
+   `intersect`). **Provenance-producing** = the operation pattern itself:
+   every edit publishes a new object whose derivation and provenance carry
+   BOTH input edges and the verb — CDMS 52.11's editing rule for free.
+   **Undoable-by-host** = immutability: editing cannot mutate the base (the
+   suite proves it byte-identical after an edit), so a host that retains
+   history undoes by re-referencing the retained prior object. NO undo stack
+   enters the library — a second history authority would drift from the
+   host's, the `ADR-0345` clock discipline applied to memory.
+
+   **`MaskEditOperation` (CPU 29, combined 32)**, pure boolean, three oracle
+   fixtures exact, corrupt masks fail-closed.
+
+   **Next**: `VOX-SEG-009` statistics — computed from AUTHORITATIVE image and
+   segment data (the row's own emphasis): volume/count/mean/min/max over a
+   mask against the stored volume, values from the stored domain widened
+   exactly, voxel volume from the geometry via the accepted `ALG-0019`
+   calibrated voxel volume; never from a presentation.
