@@ -7129,3 +7129,29 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: arc 1, increment one — the `VOX-IMG-010` threshold/mask/arithmetic
    design, design-first with an independent oracle, value domain decided
    against `VOX-R2D-004`'s floating-point row rather than assumed uint8.
+
+   **Increment (sssss): `ADR-0352` + `VOXELIA-ALG-0057` — the PROCESSING
+   FOUNDATIONS ARC IS OPEN with its value domain frozen; threshold is built.**
+   1294 tests / 226 suites.
+
+   **The arc's load-bearing decision is the DOMAIN, not the operation**: the
+   stored domain (`uint8`, `int16`, `uint16`, `float32`) rather than the
+   display-policy uint8 the M0-M6 samplers bound themselves to — processing
+   thresholds the STUDY, not a presentation, and `VOX-R2D-004` is ADVANCED by
+   the float32 admission (discharge when the arc admits it uniformly). Every
+   admitted type widens to binary64 exactly, so the arc's comparisons carry no
+   rounding anywhere.
+
+   **`ThresholdOperation` (CPU 19, combined 22)**: frozen order — padding
+   sentinel excludes BEFORE comparison (fixture 3 proves the sentinel inside
+   the range still excludes: padding is not data), NaN never included and
+   always counted (aggregated `threshold-non-finite` warning, absent at zero),
+   inclusive binary64 range third. Output is a `uint8` `mask`-semantic image of
+   exact 0/1 claiming input geometry verbatim — masks are LABELS
+   (`VOX-IMG-007`'s nearest-neighbour default binds their resampling, recorded
+   before the first consumer exists). Five oracle fixtures exact on first run,
+   including float32 non-finite handling and the inclusive upper edge.
+
+   **Next**: mask application and image arithmetic, completing `VOX-IMG-010` —
+   same domain, design-first; the arithmetic overflow rule per integer type is
+   the frozen decision to settle.

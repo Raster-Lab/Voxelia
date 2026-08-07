@@ -15,7 +15,7 @@ struct CPUBackendRegistrationsTests {
         // equal to the operations' own constants, the pinned current
         // contract versions, and the CPU backend claim.
         let registry = try CPUBackendRegistrations.standard()
-        #expect(registry.implementations.count == 18)
+        #expect(registry.implementations.count == 19)
         #expect(
             registry.implementations.allSatisfy {
                 $0.backend.rawValue == "org.voxelia.backend.cpu"
@@ -41,24 +41,25 @@ struct CPUBackendRegistrationsTests {
         )
         let operationTokens = Set(registry.implementations.map(\.operationID.rawValue))
         let expectedTokens: Set<String> = [
-                RegionExtractionOperation.operationIdentifier,
-                WindowLevelOperation.operationIdentifier,
-                ResampleNearestOperation.operationIdentifier,
-                CompositeLayersOperation.operationIdentifier,
-                InvertDisplayOperation.operationIdentifier,
-                TransposeAxesOperation.operationIdentifier,
-                SqueezeAxesOperation.operationIdentifier,
-                ResampleLinearOperation.operationIdentifier,
-                ObliqueSliceOperation.operationIdentifier,
-                GridResampleOperation.operationIdentifier,
-                LevelSelectOperation.operationIdentifier,
-                ProjectIntensityOperation.operationIdentifier,
-                ResampleCubicOperation.operationIdentifier,
-                ScalarSurfaceExtractionRequest.operationIdentifier,
-                LabelledSurfaceExtractionRequest.operationIdentifier,
-                TriangleMeshVertexNormalGenerationRequest.operationIdentifier,
-                TriangleMeshTotalFacetAreaRequest.operationIdentifier,
-                TriangleMeshEnclosedVolumeRequest.operationIdentifier,
+            RegionExtractionOperation.operationIdentifier,
+            WindowLevelOperation.operationIdentifier,
+            ResampleNearestOperation.operationIdentifier,
+            CompositeLayersOperation.operationIdentifier,
+            InvertDisplayOperation.operationIdentifier,
+            TransposeAxesOperation.operationIdentifier,
+            SqueezeAxesOperation.operationIdentifier,
+            ResampleLinearOperation.operationIdentifier,
+            ObliqueSliceOperation.operationIdentifier,
+            GridResampleOperation.operationIdentifier,
+            LevelSelectOperation.operationIdentifier,
+            ThresholdOperation.operationIdentifier,
+            ProjectIntensityOperation.operationIdentifier,
+            ResampleCubicOperation.operationIdentifier,
+            ScalarSurfaceExtractionRequest.operationIdentifier,
+            LabelledSurfaceExtractionRequest.operationIdentifier,
+            TriangleMeshVertexNormalGenerationRequest.operationIdentifier,
+            TriangleMeshTotalFacetAreaRequest.operationIdentifier,
+            TriangleMeshEnclosedVolumeRequest.operationIdentifier,
         ]
         #expect(operationTokens == expectedTokens)
         let surfaceEntries = registry.implementations(

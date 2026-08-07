@@ -63,6 +63,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``GridResampleError``
 - ``LevelSelectOperation``
 - ``LevelSelectError``
+- ``ThresholdOperation``
+- ``ThresholdError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

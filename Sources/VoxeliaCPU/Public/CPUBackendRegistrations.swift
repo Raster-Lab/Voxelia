@@ -147,6 +147,14 @@ public enum CPUBackendRegistrations {
                 evidence: "adr-0343-level-select"
             ),
             try entry(
+                operation: ThresholdOperation.operationIdentifier,
+                implementation: ThresholdOperation.implementationIdentifier,
+                major: 1,
+                minor: 0,
+                precision: binary64,
+                evidence: "adr-0352-threshold"
+            ),
+            try entry(
                 operation: ProjectIntensityOperation.operationIdentifier,
                 implementation: ProjectIntensityOperation.implementationIdentifier,
                 major: 1,
