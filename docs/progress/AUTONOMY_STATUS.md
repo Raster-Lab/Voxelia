@@ -6806,3 +6806,38 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    with `ADR-0338` d2's first-plane definition; `ADR-0307`'s checkpoint warning
    (decision 3: the import checkpoints are cancellation probes, NOT publication
    seams — build the progressive path as its own thing) binds that design.
+
+   **Increment (iiiii): `ADR-0342` — `VOX-PER-006` `T` DISCHARGED; the first useful
+   image is REAL and provably early.** 1276 tests / 223 suites.
+
+   **The composition `ADR-0307` demanded, built as its own thing**: nothing touches
+   `CTImportSession` or its checkpoints; the progressive path is a plan plus an
+   assembly over `ADR-0341`'s stage. `FirstUsefulImagePlan` nominates a plane at
+   full resolution, computes its brick layer, and emits the sweep order
+   plane-bricks-first — and because the generator's progress is sequential and
+   ordered, **the milestone is the existing progress callback reaching
+   `planeBrickCount`**: no second callback surface that could disagree with the
+   first. `FirstUsefulImageAssembly` publishes the plane by slicing decoded core
+   bytes — integer arithmetic only, oracle-computed
+   (`ADR-0342-first-useful-image-oracle.py`), edge bricks smaller than nominal
+   covered.
+
+   **The row's own property is the gate test**: with the sweep blocked on its first
+   post-plane brick, the nominated sagittal plane assembles EXACTLY (12 oracle
+   bytes, extents 4x3) while progress still equals the milestone — generation
+   provably incomplete, no wall-clock anywhere. The proper-subset condition that
+   makes "before completion" non-vacuous is exposed on the plan and asserted.
+
+   **Nothing fabricated, ever**: a missing plane brick rejects typed (this is
+   publication of decoded study data, not resampling — no padding rule applies);
+   a wrong-size decoded payload rejects typed against the core-extent product
+   instead of slicing garbage; plan admission rejects rank, axis and index typed.
+
+   **Every M4 row is now accounted for.** The `D` half — the owner watching a
+   first image appear during a real study's generation — joins the release
+   demonstrations per `ADR-0338` d11.
+
+   **Next**: the `VOX-BRK-009`/`VOX-DVR-013` progressive-refinement arc — the
+   superseding version `ADR-0103` named as future. Read `ADR-0329` d3 first: the
+   "both qualities execute identically" guard test must be CONSCIOUSLY REPLACED
+   by per-quality claims, never quietly deleted.

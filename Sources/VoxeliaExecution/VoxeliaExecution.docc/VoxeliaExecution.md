@@ -77,6 +77,10 @@ public API is introduced only by reviewed milestone specifications.
 - ``StudyCacheGenerator``
 - ``StudyCacheBrick``
 - ``StudyCacheProgress``
+- ``FirstUsefulImagePlan``
+- ``FirstUsefulImagePlane``
+- ``FirstUsefulImageAssembly``
+- ``FirstUsefulImageError``
 
 ### Publication
 

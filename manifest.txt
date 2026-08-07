@@ -165,6 +165,7 @@ Sources/VoxeliaExecution/Public/BrickRequestBroker.swift
 Sources/VoxeliaExecution/Public/BrickResultCache.swift
 Sources/VoxeliaExecution/Public/CompositeLayersOperation.swift
 Sources/VoxeliaExecution/Public/ContentResultCache.swift
+Sources/VoxeliaExecution/Public/FirstUsefulImage.swift
 Sources/VoxeliaExecution/Public/GridResampleOperation.swift
 Sources/VoxeliaExecution/Public/ImplementationRegistry.swift
 Sources/VoxeliaExecution/Public/InvertDisplayOperation.swift
@@ -454,6 +455,7 @@ Tests/VoxeliaExecutionTests/BrickedPipelineTests.swift
 Tests/VoxeliaExecutionTests/CompositeLayersOperationTests.swift
 Tests/VoxeliaExecutionTests/ConcurrencyStormTests.swift
 Tests/VoxeliaExecutionTests/ContentResultCacheTests.swift
+Tests/VoxeliaExecutionTests/FirstUsefulImageTests.swift
 Tests/VoxeliaExecutionTests/FusedReconstructionTests.swift
 Tests/VoxeliaExecutionTests/GridResampleOperationTests.swift
 Tests/VoxeliaExecutionTests/InterpolationAnalyticalTests.swift
@@ -1080,6 +1082,7 @@ docs/architecture/decisions/ADR-0338-the-owner-decision-batch.md
 docs/architecture/decisions/ADR-0339-sample-centre-physical-bounds.md
 docs/architecture/decisions/ADR-0340-grid-resample-operation.md
 docs/architecture/decisions/ADR-0341-study-cache-generation-and-priority.md
+docs/architecture/decisions/ADR-0342-first-useful-image.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md
@@ -1140,6 +1143,7 @@ docs/progress/evidence/ADR-0236-value-interpretation-oracle.py
 docs/progress/evidence/ADR-0239-sample-normalisation-exhaustive.py
 docs/progress/evidence/ADR-0339-sample-centre-bounds-oracle.py
 docs/progress/evidence/ADR-0340-grid-resample-oracle.py
+docs/progress/evidence/ADR-0342-first-useful-image-oracle.py
 docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md
 docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md
 docs/progress/temporary-file-sites.txt
