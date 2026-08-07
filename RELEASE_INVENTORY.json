@@ -3226,8 +3226,8 @@
     },
     {
       "path": "Tools/Scripts/check_requirement_traceability.py",
-      "size": 6310,
-      "sha256": "2531b9ade17cac1d5fb2be04ce4f25829d460fd6b7f720a3ebcbac18561f83cd"
+      "size": 6311,
+      "sha256": "2b8c1c42964e723e1ad2df019ffc680f17b26f419dde738910680fb5abd99b40"
     },
     {
       "path": "Tools/Scripts/check_rfc_register.py",
@@ -5535,9 +5535,14 @@
       "sha256": "74c505e5d1e3a83c16ca83220e5a00050e27c4708e220c733358e5a2f4704732"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0350-v020-released-and-m7-m10-entered.md",
+      "size": 5074,
+      "sha256": "b025049fd2756739addc9730351d882a94efef78a23f990592f67094f274c127"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 47171,
-      "sha256": "3aa51ca646c2da2369115667dd506d0a87e061f14b1eb5a6082ff736fe362416"
+      "size": 47347,
+      "sha256": "9a317725f0ec185b7de89bd6936593361af7efb1b0f00249aead9dad0abe3df2"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5636,8 +5641,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 455513,
-      "sha256": "ae10ff11f62e60977eee44bde4adec766320aea64c611a081ee0876decc2f9e4"
+      "size": 457434,
+      "sha256": "116c0dcf8acf7d586124a62d40dcef7fb52ef6817fa00e883cfc268aa66b7dde"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5871,8 +5876,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 1193,
-      "sha256": "2d945dd45688e7832a4945a049e9046d2e5eb3a95cb111bcc7f5fd852665a72c"
+      "size": 1921,
+      "sha256": "a21a5f58ba6eed8a26df5d6f86af7a6f4bb0351514f6ffd3c780c2f94987aae4"
     },
     {
       "path": "docs/project/README.md",
@@ -6186,8 +6191,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 70943,
-      "sha256": "9c008b22c4658e51831d7a4a04f755d2393d655b8fd632c30e68b9d232828855"
+      "size": 71016,
+      "sha256": "bbd7eb9137320bb25fc67ce571f0906dd5a78789422214b29f9bd6fdc63fcafe"
     }
   ]
 }

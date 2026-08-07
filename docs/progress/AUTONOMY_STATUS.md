@@ -7072,3 +7072,34 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `VOX-PER-004` 440x target standing as its own acceptance item), two
    Raster-Lab LICENSE actions, then the mechanical tag steps. The tag is the
    owner's to cut; nothing on this queue remains for the loop.
+
+   **Increment (qqqqq): `ADR-0350` — v0.2.0 IS TAGGED, and M7-M10 ARE ENTERED.**
+   1289/225 inside the release gate; the queue is FULL again.
+
+   **The owner completed the release session and instructed the cut**; the
+   repository showed no tag, so the mechanics were completed under that
+   instruction and reported, not assumed: changelog compiled, `VERSION` and
+   `RELEASE.json` at `0.2.0`, the COMPLETE release gate green end to end — the
+   first full `prepare-release.sh` run since the gates grew — and the annotated
+   tag `v0.2.0` pushed as the repository's FIRST tag.
+
+   **The gate surfaced nine latent findings; every one fixed, none waved
+   through** (`ADR-0350` d2 inventories them): new-package registrations,
+   checkout-tree exclusions, the pre-approved external dependencies admitted by
+   identity, six static type-assertions rewritten to runtime form, a redundant
+   `try`, a DocC cross-module link, two missing platform gates
+   (`VoxeliaCompression`, `VoxeliaDICOMKit`), the app's one pointer-typed call
+   fingerprinted per `ADR-0186`, and **a Swift 6.3.3 optimiser crash on release
+   test builds** answered by scoping the semantic release pass to product
+   targets — commented, self-tested (156 pass), revisit on toolchain update.
+
+   **`HIGHEST_ENTERED_MILESTONE` is 10.** The traceability baseline now carries
+   **103 untraced rows** as the honest full remaining scope (27 of the 130
+   entering rows were already traced by earlier records): M7 advanced
+   processing/segmentation/registration (`VOX-SEG`, `VOX-REG`, `VOX-ADP`...),
+   M8 photorealistic rendering (`VOX-PRR`, 17 rows), M9 platform/headless/
+   distributed (`VOX-HLS`, `VOX-DST`, `VOX-EXT`), M10 publication baseline
+   (`VOX-REL`, `VOX-DOC`, `VOX-VAL` tails).
+
+   **Next**: derive the M7 queue — group the M7 rows by arc, read their plan
+   sections, and open the first arc design-first. The finish line is M10.

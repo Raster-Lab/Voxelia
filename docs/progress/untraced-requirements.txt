@@ -4,17 +4,113 @@
 # outside this list becomes untraced, so the debt can shrink but
 # never grow. Remove a line when its row is genuinely traced.
 #
-# EMPTY as of 2026-08-06. The final thirteen rows were the VOX-CMP
-# compression block; ADR-0255 opened that arc and names each one, so
-# every requirement in an entered milestone is now traced by a record.
+# ADR-0350: the owner entered milestones M7-M10 after the v0.2.0
+# release, so their rows join this baseline together as the honest
+# full remaining scope. TRACED IS NOT SATISFIED, and UNTRACED here
+# means only that no record names the row yet: the loop opens arcs
+# against this list, M7 first, and the ratchet fires as each arc's
+# records name their rows.
 #
-# TRACED IS NOT SATISFIED. ADR-0255 decision 1 split the block: seven
-# rows proceeded as Voxelia-boundary work, and six -- VOX-CMP-004, 005,
-# 006, 011, 012 and 014 -- were BLOCKED on an owner reconciliation,
-# because they require characterising, benchmarking or adversarially
-# testing the Raster-Lab codecs, which a standing owner instruction
-# excluded. The owner released that gate (recorded verbatim in
-# ADR-0266), and the six rows were then discharged through ADR-0269 to
-# ADR-0274, closing the M5 arc. This note is history, not debt;
-# ADR-0338 decision 9 records the owner's later re-approval of the
-# same items as confirmation with no new effect.
+VOX-ADP-001
+VOX-ADP-002
+VOX-ADP-004
+VOX-ADP-007
+VOX-ADP-008
+VOX-ADP-009
+VOX-ADP-010
+VOX-API-009
+VOX-API-012
+VOX-DOC-004
+VOX-DOC-012
+VOX-DST-001
+VOX-DST-002
+VOX-DST-003
+VOX-DST-004
+VOX-DST-005
+VOX-DST-006
+VOX-DST-007
+VOX-DST-008
+VOX-DST-009
+VOX-DST-011
+VOX-DST-012
+VOX-DVR-006
+VOX-ERR-008
+VOX-ERR-009
+VOX-EXT-001
+VOX-EXT-002
+VOX-EXT-003
+VOX-EXT-004
+VOX-EXT-005
+VOX-EXT-006
+VOX-EXT-007
+VOX-EXT-008
+VOX-EXT-009
+VOX-HLS-002
+VOX-HLS-003
+VOX-HLS-004
+VOX-HLS-005
+VOX-HLS-006
+VOX-HLS-007
+VOX-HLS-008
+VOX-HLS-009
+VOX-HLS-010
+VOX-IMG-007
+VOX-IMG-010
+VOX-IMG-011
+VOX-IMG-012
+VOX-IMG-013
+VOX-IMG-014
+VOX-INT-003
+VOX-MPR-012
+VOX-MPR-013
+VOX-PER-010
+VOX-PER-011
+VOX-PER-012
+VOX-PER-013
+VOX-PRR-001
+VOX-PRR-002
+VOX-PRR-003
+VOX-PRR-004
+VOX-PRR-005
+VOX-PRR-006
+VOX-PRR-007
+VOX-PRR-008
+VOX-PRR-009
+VOX-PRR-010
+VOX-PRR-011
+VOX-PRR-012
+VOX-PRR-013
+VOX-PRR-014
+VOX-PRR-015
+VOX-PRR-016
+VOX-PRR-017
+VOX-R2D-004
+VOX-REG-002
+VOX-REG-003
+VOX-REG-004
+VOX-REG-005
+VOX-REG-006
+VOX-REG-007
+VOX-REG-008
+VOX-REG-009
+VOX-REG-010
+VOX-REL-003
+VOX-REL-004
+VOX-REL-006
+VOX-REL-007
+VOX-REL-008
+VOX-REL-009
+VOX-REL-010
+VOX-REP-007
+VOX-SEC-008
+VOX-SEC-009
+VOX-SEG-002
+VOX-SEG-003
+VOX-SEG-005
+VOX-SEG-006
+VOX-SEG-007
+VOX-SEG-008
+VOX-SEG-009
+VOX-SEG-010
+VOX-VAL-014
+VOX-VAL-015

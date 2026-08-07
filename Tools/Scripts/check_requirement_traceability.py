@@ -35,7 +35,7 @@ ALLOWLIST = ROOT / "docs/progress/untraced-requirements.txt"
 
 # Milestones the project has entered. Raise this as a milestone opens; a row in
 # a future milestone is not yet due and is not a gap.
-HIGHEST_ENTERED_MILESTONE = 6
+HIGHEST_ENTERED_MILESTONE = 10
 
 # Directories searched for a mention. A requirement named in a decision record,
 # an algorithm specification, the ledger, a source comment or a test name is

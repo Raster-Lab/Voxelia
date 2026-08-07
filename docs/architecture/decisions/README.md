@@ -215,7 +215,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0347` is allocated to the reference application.
 `ADR-0348` is allocated to the release readiness.
 `ADR-0349` is allocated to the study import wiring.
-The next unallocated numeric identifier is `ADR-0350`.
+`ADR-0350` is allocated to the v0.2.0 release and milestone entry.
+The next unallocated numeric identifier is `ADR-0351`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -548,3 +549,4 @@ The next unallocated numeric identifier is `ADR-0350`.
 | [ADR-0347](ADR-0347-the-reference-application.md) | Accepted | The reference application |
 | [ADR-0348](ADR-0348-release-readiness.md) | Accepted | Release readiness |
 | [ADR-0349](ADR-0349-study-import-wiring.md) | Accepted | Study import wiring |
+| [ADR-0350](ADR-0350-v020-released-and-m7-m10-entered.md) | Accepted | v0.2.0 released and M7-M10 entered |
