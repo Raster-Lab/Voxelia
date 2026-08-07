@@ -606,6 +606,7 @@ Tools/Scripts/benchmark-smoke.sh
 Tools/Scripts/bootstrap.sh
 Tools/Scripts/build-docc.sh
 Tools/Scripts/build.sh
+Tools/Scripts/check_adr_links.py
 Tools/Scripts/check_adr_register.py
 Tools/Scripts/check_apple_platform_policy.py
 Tools/Scripts/check_docc_archives.py
@@ -1034,6 +1035,7 @@ docs/architecture/decisions/ADR-0305-open-the-residency-duplication-row.md
 docs/architecture/decisions/ADR-0306-residency-duplication-analysis.md
 docs/architecture/decisions/ADR-0307-first-useful-image-is-unbuilt.md
 docs/architecture/decisions/ADR-0308-public-api-needs-no-window.md
+docs/architecture/decisions/ADR-0309-resolve-decision-cross-references.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

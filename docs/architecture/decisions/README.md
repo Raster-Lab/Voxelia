@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0309`.
+The next unallocated numeric identifier is `ADR-0310`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -495,3 +495,4 @@ The next unallocated numeric identifier is `ADR-0309`.
 | [ADR-0306](ADR-0306-residency-duplication-analysis.md) | Accepted | Residency duplication analysis |
 | [ADR-0307](ADR-0307-first-useful-image-is-unbuilt.md) | Accepted | First useful image is unbuilt |
 | [ADR-0308](ADR-0308-public-api-needs-no-window.md) | Accepted | Public API needs no window |
+| [ADR-0309](ADR-0309-resolve-decision-cross-references.md) | Accepted | Resolve decision cross references |

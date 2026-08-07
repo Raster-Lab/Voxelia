@@ -3040,6 +3040,11 @@
       "sha256": "9b7f344e6a691c1d84590187cd318fc0b26b9412da82f33ab2f3bc50920c01fa"
     },
     {
+      "path": "Tools/Scripts/check_adr_links.py",
+      "size": 3162,
+      "sha256": "91bb5f7fe73ce89b8f09a895a3900a5c069922cb7929667efdb4bca7659c2ead"
+    },
+    {
       "path": "Tools/Scripts/check_adr_register.py",
       "size": 13189,
       "sha256": "8d1642b7d7d23b2de410d9f4979f9b4ae82559745acd806b88d1abdf2eb9f505"
@@ -3161,8 +3166,8 @@
     },
     {
       "path": "Tools/Scripts/validate-docs.sh",
-      "size": 559,
-      "sha256": "ebaa22d70df62f2e25d67006e49be320c8f6ae06c7fe6413a8670696d0d5186f"
+      "size": 600,
+      "sha256": "667a3aa0e519e44bdbf1a10197f2e2093df0b48739da056d0d92a5a0f8d7b259"
     },
     {
       "path": "Tools/Scripts/validate-scaffold.sh",
@@ -4552,7 +4557,7 @@
     {
       "path": "docs/architecture/decisions/ADR-0183-geometry-arc.md",
       "size": 7943,
-      "sha256": "dbf8f77c3c182533f5d5712541275dc433bb01fe9c4f9c676f2e21635f1391a6"
+      "sha256": "1b7bc22335f25488bf8bae39cdc76eefa11a627351598de58eb735af5ee387e9"
     },
     {
       "path": "docs/architecture/decisions/ADR-0184-triangle-mesh-topology-design.md",
@@ -5180,9 +5185,14 @@
       "sha256": "7374021ffb7c37d704b3881fdfd517aebb349a56e8b3e5aa15c48375cde21c5b"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0309-resolve-decision-cross-references.md",
+      "size": 6018,
+      "sha256": "06bfdbcc47a74cbc235b88589bfaf2424ce343279322ba85a4fd6d8f5abaea5a"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 42484,
-      "sha256": "1758df0766a9a47ab71c8a28178cacec00cc05128e461be86d9fc447d5f261e4"
+      "size": 42593,
+      "sha256": "56bb672ab6501d4851065f95c918cb0666f9b2351480d10c45230b5f923fdc00"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5276,8 +5286,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1245044,
-      "sha256": "1cc1c674db12cca2831a8a1c672fbe0ee0685a9b3271138dbe1175a9284230fc"
+      "size": 1247510,
+      "sha256": "4483fe7754254f8f87fa1321ac00a90a21e984f1e7697038dc2c6ff2262fa282"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5796,8 +5806,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66157,
-      "sha256": "782431ef0770a4d70f11052e1beac177873a1187ff18d016c86b9393e8ec7264"
+      "size": 66264,
+      "sha256": "d05ab6bf1b4dd9581774b5fa41a3a399c9e3657cdf102ccc6066d55a56d965ea"
     }
   ]
 }

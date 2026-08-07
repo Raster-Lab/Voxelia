@@ -5829,6 +5829,45 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **10 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (bbbb): `ADR-0309` — decision cross-references RESOLVED; `VOX-DOC-009` **I**
+   discharged, **R** to the owner.** 1235/218 unchanged. **No source changed.**
+
+   **The linkage SHAPE was enforced; its TARGETS were not.** All 288 records carry
+   `## Supersession` and `check_adr_register.py` requires it — but across **850** ADR-to-ADR
+   cross-references **nothing resolved a single one**, and nothing checked a cited record was
+   *approved* rather than merely written.
+
+   **SEVENTH instance of the pattern — and the first where the omission had ALREADY DONE
+   DAMAGE, not just risked it.** Two links in `ADR-0183` did not resolve, and the failure is
+   instructive: **the link TEXT was right and the NUMBERS were wrong, by one in each case.**
+   `ADR-0058` is "Provenance record aggregate" and `ADR-0063` is "Image data aggregate"; the
+   cited `ADR-0059`/`ADR-0064` are "Complete graph admission" and "Exact region extraction".
+   So `ADR-0183` **named the two records it meant and pointed at two others** — for the life of
+   the record.
+
+   **Repairing them is NOT editing an accepted record's decisions**, and the record says so
+   explicitly: the frozen-ADR rule exists so a decision cannot be rewritten after acceptance. A
+   hyperlink contradicting the sentence beside it is not a decision — fixing it makes
+   `ADR-0183` say what it always said. No decision, boundary or claim altered.
+
+   **Status checked, not just existence.** Every ADR is `Accepted` today so that rule catches
+   nothing now — **and it is the rule that matters when the first `Proposed` record appears,
+   which is exactly when nobody will remember to look.**
+
+   **Not made a ratchet**: two is not a backlog. A ratchet is for debt too large to clear in
+   the increment that finds it; using one here would preserve a defect for no reason.
+
+   **THE GATE REJECTED MY OWN RECORD on its first live run** — `ADR-0309` quotes the two
+   broken links verbatim as evidence, and the checker read the illustration as a citation. Real
+   false positive, fixed properly: fenced blocks are blanked **with offsets preserved** so
+   reported line numbers stay true. A checker that cannot tell a citation from an illustration
+   would push authors to stop showing what they found.
+
+   **Proven able to fail** (re-proven after the fence change): `ADR-9999` link → reported by
+   file and line, exit 1.
+
+   **9 entered-milestone rows remain** from `ADR-0290`'s sweep.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 
