@@ -39,12 +39,16 @@ build.
 
 ## Runtime binary plug-ins
 
-Deliberately absent from M7. If they are introduced (the baseline's M9
-runtime plug-in rows), they require a versioned stable boundary
-rather than assumed Swift ABI compatibility, explicit capability
-negotiation, and out-of-process execution for untrusted plug-ins where
-the platform permits. Nothing in the source-level mechanism presumes
-that decision.
+Deliberately absent, and **resolved at M9 as not introduced**
+(`ADR-0403`): whether runtime binary plug-ins ever exist is an owner
+decision, and this document binds any future introduction to a
+versioned stable boundary (a C-compatible or serialised-IPC surface
+with its own semantic version, never assumed Swift compiler ABI
+compatibility), to the explicit `CapabilityNegotiation` seam that
+source-package extensions already route through, and to out-of-process
+execution for untrusted plug-ins where the host platform permits it
+(XPC on Apple platforms) — in-process loading stays reserved for
+distribution-trusted code.
 
 ## References
 

@@ -117,6 +117,8 @@ public API is introduced only by reviewed milestone specifications.
 - ``WorkerCompatibility``
 - ``WorkerPreemption``
 - ``DistributedIntegrityError``
+- ``CapabilityNegotiation``
+- ``CapabilityNegotiationError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``

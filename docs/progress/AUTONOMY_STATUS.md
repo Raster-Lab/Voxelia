@@ -8262,3 +8262,28 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    source-package mechanism and the out-of-process question documented;
    `R` to the owner batch. Then arc 6 (Apple adapters + energy) ends
    M9's queue.
+
+1. **2026-08-07 — ~~`VOX-EXT-007`~~ (`I` half; `R` to the owner batch) +
+   ~~`VOX-EXT-008`~~ + ~~`VOX-EXT-009`~~ DISCHARGED: runtime plug-ins
+   not introduced (`ADR-0403`). M9 ARC 5 IS CLOSED.** The rows'
+   condition is UNMET and the record binds the future rather than
+   building it: if runtime binary plug-ins are ever introduced, the
+   boundary is a VERSIONED STABLE interface (C-compatible or
+   serialised-IPC with its own semantic version), never assumed Swift
+   compiler ABI compatibility; untrusted plug-ins execute OUT OF
+   PROCESS where the platform permits (XPC on Apple platforms), with
+   in-process loading reserved for distribution-trusted code — all
+   recorded in the extension-mechanism document. Capability negotiation
+   is EXPLICIT and has one seam now: `CapabilityNegotiation.negotiate`
+   intersects declared token sets and refuses typed on any missing
+   token — the vocabulary the `ADR-0380` contract and `ADR-0402` worker
+   admission already speak, serving source-package extensions today and
+   any future runtime boundary tomorrow. An unexercised ABI boundary
+   would be untested surface area pretending to be safety; the gate on
+   introduction is the record, and WHETHER to introduce is the owner's
+   (batched). Full suite: `✔ Test run with 1455 tests in 281 suites
+   passed`. **Next**: M9 arc 6, the queue's last — the optional
+   RealityKit adapter rows (never defining canonical models,
+   platform-gated) and the optional Core Image row under the `ADR-0378`
+   capability discipline, plus the energy row whose measured half
+   likely routes to the owner's hardware session.

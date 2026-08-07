@@ -184,6 +184,7 @@ Sources/VoxeliaExecution/Public/.gitkeep
 Sources/VoxeliaExecution/Public/ArithmeticOperation.swift
 Sources/VoxeliaExecution/Public/BrickRequestBroker.swift
 Sources/VoxeliaExecution/Public/BrickResultCache.swift
+Sources/VoxeliaExecution/Public/CapabilityNegotiation.swift
 Sources/VoxeliaExecution/Public/CompositeLayersOperation.swift
 Sources/VoxeliaExecution/Public/ConnectedComponentsOperation.swift
 Sources/VoxeliaExecution/Public/ContentResultCache.swift
@@ -517,6 +518,7 @@ Tests/VoxeliaExecutionTests/BrickRequestBrokerTests.swift
 Tests/VoxeliaExecutionTests/BrickResultCacheTests.swift
 Tests/VoxeliaExecutionTests/BrickWorkingSetBoundTests.swift
 Tests/VoxeliaExecutionTests/BrickedPipelineTests.swift
+Tests/VoxeliaExecutionTests/CapabilityNegotiationTests.swift
 Tests/VoxeliaExecutionTests/CompositeLayersOperationTests.swift
 Tests/VoxeliaExecutionTests/ConcurrencyStormTests.swift
 Tests/VoxeliaExecutionTests/ConnectedComponentsOperationTests.swift
@@ -1283,6 +1285,7 @@ docs/architecture/decisions/ADR-0399-progressive-frames-and-cancellation.md
 docs/architecture/decisions/ADR-0400-headless-output-capabilities.md
 docs/architecture/decisions/ADR-0401-distributed-job-descriptions.md
 docs/architecture/decisions/ADR-0402-distributed-integrity.md
+docs/architecture/decisions/ADR-0403-runtime-plug-ins-not-introduced.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md
