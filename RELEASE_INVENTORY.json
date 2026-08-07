@@ -3130,6 +3130,11 @@
       "sha256": "5c7571ca3824f2822ba1937b4de4c111d7a5c4fb60bafe4eeb1bc15acec79aef"
     },
     {
+      "path": "Tests/VoxeliaRenderingTests/HeadlessFoundationTests.swift",
+      "size": 7780,
+      "sha256": "25778753659b7e5e4a107331470410f6e37c1c99f0c81dcf657869fd34737b37"
+    },
+    {
       "path": "Tests/VoxeliaRenderingTests/MultiDimensionalTransferTests.swift",
       "size": 3937,
       "sha256": "f08379ce94bb3199289ce58e75fd2134048bc27e441e5adc197b90a7dbb2f2e2"
@@ -3636,8 +3641,8 @@
     },
     {
       "path": "Tools/Scripts/check_prohibited_imports.py",
-      "size": 4974,
-      "sha256": "c7f1a02dcc2fac492c614f37a805b737f1ae66387a114bd9f649b75c5c58601a"
+      "size": 5371,
+      "sha256": "7fc67d8452e3b811fb56c032a5b4060ec85ba500c3db98dccd09a21a8ab4cdde"
     },
     {
       "path": "Tools/Scripts/check_release_integrity.py",
@@ -6330,9 +6335,14 @@
       "sha256": "39f751579f7b8ffe30e23e1581bd77f7054ace9aabe1dec3413b60127a9c4c07"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0398-the-headless-foundation.md",
+      "size": 3550,
+      "sha256": "1460e17e6d063edd842d4e6631f6819787e27c553e3470086b4d7aac68c5a579"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 54622,
-      "sha256": "cd1e5af3dab1ce5e14d01ea375afbd81d87dc8ef6c7b26b0ab3f245e2d95de15"
+      "size": 54763,
+      "sha256": "7bde034cc86e02f81199b411e9e4f33bb2d3053084342a9e8885ada435be41ac"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6441,8 +6451,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 522174,
-      "sha256": "d92bb3ae42e2c09b9265fa2b53609fcd528434b221507728983d99ab9a3a3ad3"
+      "size": 523802,
+      "sha256": "8673db9c57c71ef63e420f83c138a3823d4ff636ff492e23d9d2500612411d53"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7121,8 +7131,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 82393,
-      "sha256": "337b927c4d6e5bae833ecdf316cbf5abff5a76f1916a557dff28035c5b6f0749"
+      "size": 82515,
+      "sha256": "4f0f5ac88bf00f3942df17443953f4c8519429574950365981193b7f85d1d586"
     }
   ]
 }

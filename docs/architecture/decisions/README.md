@@ -263,7 +263,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0395` is allocated to multi-dimensional transfer functions.
 `ADR-0396` is allocated to photorealistic validation witnesses.
 `ADR-0397` is allocated to the M9 queue.
-The next unallocated numeric identifier is `ADR-0398`.
+`ADR-0398` is allocated to the headless foundation.
+The next unallocated numeric identifier is `ADR-0399`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -644,3 +645,4 @@ The next unallocated numeric identifier is `ADR-0398`.
 | [ADR-0395](ADR-0395-multidimensional-transfer-functions.md) | Accepted | Multi-dimensional transfer functions |
 | [ADR-0396](ADR-0396-photorealistic-validation-witnesses.md) | Accepted | Photorealistic validation witnesses |
 | [ADR-0397](ADR-0397-the-m9-queue.md) | Accepted | The M9 queue |
+| [ADR-0398](ADR-0398-the-headless-foundation.md) | Accepted | The headless foundation |

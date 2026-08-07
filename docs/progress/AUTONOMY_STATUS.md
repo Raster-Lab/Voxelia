@@ -8135,3 +8135,28 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    Baseline shrinks by 28 traced rows; 18 remain — the M10 tail.
    **Next**: arc 1, the headless foundation — witness what already runs
    windowless and record it honestly.
+
+1. **2026-08-07 — ~~`VOX-API-009`~~ + ~~`VOX-HLS-002`~~ + ~~`VOX-HLS-003`~~
+   + ~~`VOX-HLS-004`~~ DISCHARGED: the headless foundation (`ADR-0398`,
+   gate + witnesses). M9 ARC 1 IS CLOSED.** The survey confirmed the
+   queue's prediction — NO rendering module imports a window system and
+   the `SliceRenderer` contract is pure data — so the record SAYS so
+   instead of inventing parallel code. Headlessness is now ENFORCED:
+   SwiftUI/AppKit/UIKit joined the prohibited imports for
+   `VoxeliaRendering` and `VoxeliaMetal` (matching Interaction), and
+   `VoxeliaPhotorealistic` — absent from the gate since its creation —
+   gained its full entry (an honest catch-up); negative-tested both
+   ways. One description by construction: `RenderRequest` over
+   `SceneSnapshot` is the ONLY scene description, witnessed driving the
+   render contract. Raw pixels: a real int16 window-level mapping
+   through the public operation surface, bytes read back through the
+   storage contract — no view, no layer, no surface (one repair during
+   the increment: the fixture declared `.littleEndian` where the binding
+   demands `.native`). The suite itself is `VOX-HLS-002`'s `T` — every
+   render and pixel test executes headless on Apple Silicon macOS. Full
+   suite: `✔ Test run with 1437 tests in 274 suites passed`. **Next**:
+   M9 arc 2, headless capabilities — the progressive-frames row
+   composes render generations with the `ADR-0391` accumulator; the
+   cancellation row composes generations; SDR/HDR descriptors,
+   depth/object-ID outputs, the media-buffer adapter and
+   media-encoding isolation follow.
