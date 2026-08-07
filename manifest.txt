@@ -1062,6 +1062,7 @@ docs/architecture/decisions/ADR-0328-model-io-is-optional.md
 docs/architecture/decisions/ADR-0329-interactive-refinement-is-deferred.md
 docs/architecture/decisions/ADR-0330-frame-rate-target-needs-its-hardware.md
 docs/architecture/decisions/ADR-0331-shrink-the-untagged-test-backlog.md
+docs/architecture/decisions/ADR-0332-the-test-level-ratchet-is-clean.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

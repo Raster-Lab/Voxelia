@@ -98,7 +98,7 @@ struct CTVolumeLayoutTests {
     }
 
     @Test(
-        "A non-positive extent is refused by its own case",
+        "[Unit] A non-positive extent is refused by its own case",
         arguments: [
             (0, 5, 2, CTVolumeLayoutError.nonPositiveRowCount),
             (-1, 5, 2, CTVolumeLayoutError.nonPositiveRowCount),
@@ -193,7 +193,7 @@ struct CTVolumeLayoutTests {
     // MARK: - L8: index admission
 
     @Test(
-        "L8 an index at or beyond its extent is refused",
+        "[Unit] L8 an index at or beyond its extent is refused",
         arguments: [
             (1, 2, 4, true),
             (2, 0, 0, false),

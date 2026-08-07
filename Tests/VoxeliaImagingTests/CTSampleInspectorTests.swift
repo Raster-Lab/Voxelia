@@ -153,7 +153,7 @@ struct CTSampleInspectorTests {
     }
 
     @Test(
-        "An identity or absent transform reports the stored value unchanged",
+        "[Unit] An identity or absent transform reports the stored value unchanged",
         arguments: [ValueTransform.identity, nil]
     )
     func identityTransform(_ transform: ValueTransform?) throws {

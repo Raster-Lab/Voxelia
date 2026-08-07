@@ -2221,8 +2221,8 @@
     },
     {
       "path": "Tests/VoxeliaDICOMKitTests/DICOMFrameAdapterTests.swift",
-      "size": 14516,
-      "sha256": "e884d8f2cb8460310d6b7179ecb3cd863e2a1c3bc929cf4009def14b88601cf5"
+      "size": 14530,
+      "sha256": "04470be7a24bf6bb67937eb593ac26a2df603eb926bd86716369ff494f298492"
     },
     {
       "path": "Tests/VoxeliaDICOMKitTests/DICOMFrameTransferTests.swift",
@@ -2441,13 +2441,13 @@
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTFrameDescriptionTests.swift",
-      "size": 15049,
-      "sha256": "9fb8606b4759bca8aab4d96cd66a2b48ca7ed1d7f00f0389d2c6a55325db7f44"
+      "size": 15098,
+      "sha256": "aad68ca3fe73e5aeeda3385e9c6b2d3852ffcacaae08db136f9f77dad068e84d"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTGeometryValidatorTests.swift",
-      "size": 16223,
-      "sha256": "8a542f0d9e86aa4a0677798c141bfe13a15232eb378a05952274266a2a06ad9d"
+      "size": 16230,
+      "sha256": "ebc99d2a550ff83f58ae13bff755b93e86924607ab75fc7e2dc1edede194d4c5"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTImportSessionTests.swift",
@@ -2456,13 +2456,13 @@
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTSampleInspectorTests.swift",
-      "size": 9550,
-      "sha256": "67f91c2c148271063856a2643f2ceaf68ceea51e6902a66dec8439253ce60b62"
+      "size": 9557,
+      "sha256": "ee8b1f9e0a3a92b1aabd37378020ab5241f2052678e9e72079714f2798d711dd"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTSampleNormalisationTests.swift",
-      "size": 8010,
-      "sha256": "20ee0c33ec2375180db0f22f6abfeab3a715db1132e726e692ac7da2c7ba7f66"
+      "size": 8017,
+      "sha256": "3db49f3dc70e6f348747cd3fb2a605b3c42e63f4233af45f1b9569298ccae239"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTSeriesAssemblerTests.swift",
@@ -2476,8 +2476,8 @@
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTVolumeBridgeCompositionTests.swift",
-      "size": 18130,
-      "sha256": "24fb5a390ff95b4c5d518d0131afcc1a2f6c67a7de4a0861135cf06dc3ae3c3a"
+      "size": 18228,
+      "sha256": "00c59376b50ef0ab5952235a17d971f1d94497a9c96a75379d97ba33db0fe615"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTVolumeByteBufferTests.swift",
@@ -2491,8 +2491,8 @@
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTVolumeLayoutTests.swift",
-      "size": 11441,
-      "sha256": "61c0a1307e7bd1300274a3110650b74849cfc4467ae7a198640d7233b8cc1c11"
+      "size": 11455,
+      "sha256": "da8f289450aaf86ed81ee33df2757f8e56a928c0bd8b395ef26ea8ba2de35aa4"
     },
     {
       "path": "Tests/VoxeliaImagingTests/CTVolumePublicationBuilderTests.swift",
@@ -5320,9 +5320,14 @@
       "sha256": "39cce1289733acaa76d339357bc6b63754c38eb8bc2e30c5481d8f6847272661"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0332-the-test-level-ratchet-is-clean.md",
+      "size": 4946,
+      "sha256": "41c12ff322470e850da70e8680d926be42d340472b7d9f2f5b8e3c023bdc247c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 44766,
-      "sha256": "db9ecc812827333c2253d9f7cdd0dbf085d18a3ec36556b1bd7fc433bdcc0884"
+      "size": 44871,
+      "sha256": "a7696b0d3c9ce50c17b0dc471aa32c33b072bea5362b990a4c2e28a180063068"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5416,8 +5421,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 417435,
-      "sha256": "25a6b7ae4726338c490eedc8aeb333fbab64f3c15f3c7624961b53451835c673"
+      "size": 419136,
+      "sha256": "caeffd1ab8473077b03962842ab0e960fcd066d381c84fbd29ae89eb6d36a4de"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5626,8 +5631,8 @@
     },
     {
       "path": "docs/progress/untagged-tests.txt",
-      "size": 627,
-      "sha256": "762d3cec71da8bac53029239eea15291f62f1fe4125310ab8110696177691b74"
+      "size": 215,
+      "sha256": "2c15c4578ac40b0129d2f951da180706c096d854fc8a2a647cdf5adc0b052f20"
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
@@ -5941,8 +5946,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 68001,
-      "sha256": "6a6a72c9275c6b6ba41aaf15fc47cbf461526ea49b81d284308c77e66be8563d"
+      "size": 68073,
+      "sha256": "4b032665ff22d88d53d94fe6b7edb23b1fee7683838e0a080a45c4756e12662f"
     }
   ]
 }

@@ -174,7 +174,7 @@ struct CTVolumeBridgeCompositionTests {
 
     // MARK: - Publication
 
-    @Test("An ingested volume publishes through the coordinated pipeline")
+    @Test("[Integration] An ingested volume publishes through the coordinated pipeline")
     func publishes() async throws {
         let coordinator = try publisher()
         let volume = try ingestedVolume(objectName: "ct.volume.1")
@@ -188,7 +188,7 @@ struct CTVolumeBridgeCompositionTests {
         #expect(published.provenance.activity == .origin)
     }
 
-    @Test("The published volume keeps its patient-space affine and rescale")
+    @Test("[Integration] The published volume keeps its patient-space affine and rescale")
     func publishedVolumeKeepsGeometryAndTransform() async throws {
         let coordinator = try publisher()
         _ = try await coordinator.publish(
@@ -250,7 +250,7 @@ struct CTVolumeBridgeCompositionTests {
         )
     }
 
-    @Test("A slab extraction preserves and translates the affine geometry")
+    @Test("[Integration] A slab extraction preserves and translates the affine geometry")
     func slabExtractionPreservesGeometry() async throws {
         // Establishes precisely which stage blocks: region extraction handles
         // affine geometry, translating the origin by the region's lower bounds.
@@ -287,7 +287,7 @@ struct CTVolumeBridgeCompositionTests {
 
     // MARK: - ADR-0244: the blocker is resolved
 
-    @Test("Squeeze now drops a singleton axis and keeps the geometry")
+    @Test("[Integration] Squeeze now drops a singleton axis and keeps the geometry")
     func squeezeKeepsGeometry() async throws {
         // This test previously pinned the refusal ADR-0243 recorded. ADR-0244
         // decided the axis-drop rule, so it now asserts the new behaviour rather
@@ -339,7 +339,7 @@ struct CTVolumeBridgeCompositionTests {
         #expect(elements[11] == 2.5)
     }
 
-    @Test("All three planes reconstruct from a geometry-bearing ingested volume")
+    @Test("[Integration] All three planes reconstruct from a geometry-bearing ingested volume")
     func allThreePlanesReconstruct() async throws {
         // VOX-VS1-009 on a volume that carries patient-space geometry, which is
         // what ADR-0243 could not do and ADR-0244 unblocked.
@@ -383,7 +383,7 @@ struct CTVolumeBridgeCompositionTests {
         }
     }
 
-    @Test("An extracted slice carries operation provenance over the volume")
+    @Test("[Integration] An extracted slice carries operation provenance over the volume")
     func extractedSliceHasOperationProvenance() async throws {
         let coordinator = try publisher()
         let volumeID = try #require(DataObjectID(rawValue: "ct.volume.4"))
@@ -408,7 +408,7 @@ struct CTVolumeBridgeCompositionTests {
         #expect(!axial.provenance.inputs.isEmpty)
     }
 
-    @Test("A geometry-free volume still reconstructs and acquires no geometry")
+    @Test("[Integration] A geometry-free volume still reconstructs and acquires no geometry")
     func geometryFreeVolumeReconstructs() async throws {
         let coordinator = try publisher()
         let volumeID = try #require(DataObjectID(rawValue: "ct.volume.flat"))

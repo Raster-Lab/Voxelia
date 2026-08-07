@@ -6461,3 +6461,30 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Next**: the 21 remaining (7 judgement, 14 mechanical) and the **121-spelling ratchet** —
    same shape of debt.
+
+   **Increment (yyyy): `ADR-0332` — untagged backlog 21 → **ZERO**; the ratchet is now a CLEAN
+   GATE.** 1238/219 unchanged; **no source changed**.
+
+   **All 1,238 tests carry a level**: Unit 1055, Integration 23, Operation 58, Kernel 37,
+   Oracle 22, Pipeline 21, Concurrency 12, SystemReference 10.
+
+   **`CTVolumeBridgeCompositionTests` → `[Integration]`, READ not inferred.** `ADR-0331` skipped
+   it because its *name* suggested integration and a disambiguating pass **should not guess**.
+   Its own doc settles it: *"an ingested CT volume is published through `PublicationCoordinator`
+   and reconstructed in all three planes … the first time the ingest arc's output meets code
+   written in earlier milestones … the proof that the two halves compose."* **The filename was a
+   correct hint and a bad reason; the doc comment is the reason.**
+
+   **Clean WITHOUT a rule change**: the gate already fails when a file absent from the baseline
+   adds an untagged test — with an empty baseline that is **every** file. **The ratchet did its
+   job and dissolved.**
+
+   **Cleanliness PROVEN, not assumed**: untagged probe added to `VoxeliaCoreTests` → rejected;
+   restored. **A ratchet that silently stopped ratcheting would look identical from outside.**
+
+   **13 `swift format` findings recorded as PRE-EXISTING and untouched** — `OrderedImports` in
+   the 12 linkage files, one `Indentation` in `Tests/Support`. **None is `LineLength`**, so this
+   pass introduced none, and they are **not quietly fixed inside a retagging commit**.
+
+   **First of this arc's three ratchets to reach zero.** `ADR-0321`'s 121 spellings and
+   `ADR-0302`'s empty temp-file list stand as they were.

@@ -330,7 +330,7 @@ struct CTGeometryValidatorTests {
     }
 
     @Test(
-        "Each assembly observation maps to its own inherited finding",
+        "[Unit] Each assembly observation maps to its own inherited finding",
         arguments: [
             (
                 CTSeriesObservation.degenerateReferenceNormal,

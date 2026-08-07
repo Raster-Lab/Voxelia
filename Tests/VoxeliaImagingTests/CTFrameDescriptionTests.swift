@@ -172,7 +172,7 @@ struct CTFrameDescriptionTests {
     // MARK: - Extent admission
 
     @Test(
-        "A non-positive extent is rejected by its own case",
+        "[Unit] A non-positive extent is rejected by its own case",
         arguments: [
             (0, 512, CTFrameDescriptionError.nonPositiveRowCount),
             (-1, 512, CTFrameDescriptionError.nonPositiveRowCount),
@@ -206,7 +206,7 @@ struct CTFrameDescriptionTests {
     // MARK: - Spacing admission
 
     @Test(
-        "A row spacing that is not positive and finite is rejected",
+        "[Unit] A row spacing that is not positive and finite is rejected",
         arguments: [0.0, -0.7, Double.infinity, -Double.infinity, Double.nan]
     )
     func rejectsRowSpacing(_ spacing: Double) throws {
@@ -216,7 +216,7 @@ struct CTFrameDescriptionTests {
     }
 
     @Test(
-        "A column spacing that is not positive and finite is rejected",
+        "[Unit] A column spacing that is not positive and finite is rejected",
         arguments: [0.0, -0.7, Double.infinity, -Double.infinity, Double.nan]
     )
     func rejectsColumnSpacing(_ spacing: Double) throws {
@@ -291,7 +291,7 @@ struct CTFrameDescriptionTests {
     // MARK: - Rescale admission
 
     @Test(
-        "A non-finite rescale slope is rejected",
+        "[Unit] A non-finite rescale slope is rejected",
         arguments: [Double.infinity, -Double.infinity, Double.nan]
     )
     func rejectsNonFiniteSlope(_ slope: Double) throws {
@@ -301,7 +301,7 @@ struct CTFrameDescriptionTests {
     }
 
     @Test(
-        "A non-finite rescale intercept is rejected",
+        "[Unit] A non-finite rescale intercept is rejected",
         arguments: [Double.infinity, -Double.infinity, Double.nan]
     )
     func rejectsNonFiniteIntercept(_ intercept: Double) throws {
@@ -313,7 +313,7 @@ struct CTFrameDescriptionTests {
     // MARK: - Pixel padding admission
 
     @Test(
-        "A padding value outside the declared container is rejected",
+        "[Unit] A padding value outside the declared container is rejected",
         arguments: [
             (ScalarType.int16, Int64(32_768)),
             (ScalarType.int16, Int64(-32_769)),
@@ -329,7 +329,7 @@ struct CTFrameDescriptionTests {
     }
 
     @Test(
-        "A padding value at a container boundary is admitted",
+        "[Unit] A padding value at a container boundary is admitted",
         arguments: [
             (ScalarType.int16, Int64(32_767)),
             (ScalarType.int16, Int64(-32_768)),

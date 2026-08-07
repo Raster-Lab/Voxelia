@@ -181,7 +181,7 @@ struct DICOMFrameAdapterTests {
     // MARK: - Photometric interpretation
 
     @Test(
-        "Both monochrome interpretations translate, and trailing padding is trimmed",
+        "[Unit] Both monochrome interpretations translate, and trailing padding is trimmed",
         arguments: [
             ("MONOCHROME1", MonochromeInterpretation.monochrome1),
             ("MONOCHROME2", MonochromeInterpretation.monochrome2),
@@ -206,7 +206,7 @@ struct DICOMFrameAdapterTests {
     // MARK: - Sample format
 
     @Test(
-        "Bits allocated and pixel representation select the scalar type",
+        "[Unit] Bits allocated and pixel representation select the scalar type",
         arguments: [
             (UInt16(16), UInt16(1), ScalarType.int16),
             (UInt16(16), UInt16(0), ScalarType.uint16),

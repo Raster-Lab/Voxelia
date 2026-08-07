@@ -1,10 +1,3 @@
 # Tests carrying no level tag, per `ADR-0301`.
 # A count may shrink but never grow, and a file absent here may not add any.
 # Regenerate deliberately with `check_test_levels.py --write`, never to silence a failure.
-2 Tests/VoxeliaDICOMKitTests/DICOMFrameAdapterTests.swift
-7 Tests/VoxeliaImagingTests/CTFrameDescriptionTests.swift
-1 Tests/VoxeliaImagingTests/CTGeometryValidatorTests.swift
-1 Tests/VoxeliaImagingTests/CTSampleInspectorTests.swift
-1 Tests/VoxeliaImagingTests/CTSampleNormalisationTests.swift
-7 Tests/VoxeliaImagingTests/CTVolumeBridgeCompositionTests.swift
-2 Tests/VoxeliaImagingTests/CTVolumeLayoutTests.swift

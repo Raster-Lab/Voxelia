@@ -132,7 +132,7 @@ struct CTSampleNormalisationTests {
     // MARK: - Worked examples from the record
 
     @Test(
-        "The record's worked examples",
+        "[Unit] The record's worked examples",
         arguments: [
             // raw, storedBits, signed, expected container
             (UInt64(0x0FFF), 12, true, UInt64(0xFFFF)),
