@@ -6987,3 +6987,37 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: the `Examples` reference application — read the application-location
    decision (`ADR-0338` d5) and `VOX-REP-003`'s `Examples` directory row; the
    draw-loop demonstrations run there at release.
+
+   **Increment (nnnnn): `ADR-0347` — THE REFERENCE APPLICATION EXISTS.** 1289/225
+   unchanged; no library source changed — the `Examples/VoxeliaCTReference`
+   package is new.
+
+   **The scaffold that stood empty since M0 is filled under its own contract**:
+   a SwiftPM SwiftUI executable (`swift run`, the `Benchmarks` dependency
+   pattern), owning lifecycle, controls, layout and the host-side clock —
+   windowing frameworks live ONLY here, which is exactly what makes the app the
+   right home for the draw loop the library refused to own. Every rendered pixel
+   comes from the accepted coordinators: publication, `LevelSelectOperation`,
+   `StudyCacheGenerator` at `.utility` with visible progress,
+   `InteractiveLevelRenderCoordinator` with the `MetalSliceRenderer` backend,
+   and the `ADR-0345` debounce-to-idle refinement — demonstration pacing in the
+   brick compute is the application's and is labelled as such.
+
+   **NO `T` and NO `D` is discharged** — building the stage is not witnessing
+   the play. The vehicle serves the release Demonstrations: the interactive
+   plane halves (`VOX-VS1-010/012/013`, `VOX-MPR-011`), level-while-loading
+   (`VOX-BRK-009`), refinement (`VOX-DVR-013`), priority (`VOX-CON-008`) and
+   first useful image (`VOX-PER-006`). Recorded v0.x bounds: synthetic banded
+   radial phantom (DICOM import wires in at release assembly), session-lifetime
+   publication growth sized generously for a demo vehicle.
+
+   **Build evidence**: the app package builds clean against the parent by path;
+   its behaviour is the coordinators', already under suite evidence — the app
+   adds composition, not logic.
+
+   **Next: RELEASE ASSEMBLY — the last engineering increment.** Wire
+   `CTImportSession` directory import into the reference app, then the release
+   process: version, changelog, `prepare-release.sh`, integrity, tag readiness —
+   and assemble the owner's release packet (Demonstrations to witness, Reviews
+   to approve including `VOX-PER-004`'s target standing, the two Raster-Lab
+   LICENSE actions).

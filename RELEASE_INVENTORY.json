@@ -235,9 +235,24 @@
       "sha256": "6655d133325005eb0256053a8dc255be323bca82ca4d6797b4db09078d78c05e"
     },
     {
+      "path": "Examples/VoxeliaCTReference/Package.resolved",
+      "size": 2023,
+      "sha256": "4f0197790f38843c564765a3a0b617fb8ee4f47c6aeee948db5c30b683586f27"
+    },
+    {
+      "path": "Examples/VoxeliaCTReference/Package.swift",
+      "size": 508,
+      "sha256": "787ee5ef7cd73e7ba8610fea9f8d7dd4a7d7d4dbdb5e6f749feadf887f3216bc"
+    },
+    {
       "path": "Examples/VoxeliaCTReference/README.md",
-      "size": 325,
-      "sha256": "7eed9c064a03771595e1adc87a188a90b0a2942523a4ca404503a51b0c0e5014"
+      "size": 1308,
+      "sha256": "761476aeb4b359b61c03bbea313ef8acc2b2c81441a5bc7f512516023dbaac8b"
+    },
+    {
+      "path": "Examples/VoxeliaCTReference/Sources/VoxeliaCTReference/VoxeliaCTReferenceApp.swift",
+      "size": 22088,
+      "sha256": "36024ab8660f7f97e8dad131e62b17123ece2f15a07ccbb55ce42f351458cf6d"
     },
     {
       "path": "GOVERNANCE.md",
@@ -5485,9 +5500,14 @@
       "sha256": "301f2a2e04c278b3479acd8dbc99ea0ff8f8ffca87aaaf152b7ac346fa9d0c43"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0347-the-reference-application.md",
+      "size": 4737,
+      "sha256": "826835e25328a923c9e7dc1425829acc4894d974004d35d58cca0a193b70fda5"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 46764,
-      "sha256": "c26fbc2548d053f73808ab801e119fe171ac782e3b31b294136a17fd13fcab4e"
+      "size": 46911,
+      "sha256": "ec3628f9b1304ca1dd14971fcfbaeeb55e40521d82d4d17c1bf2bcb5de455074"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5586,8 +5606,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 450517,
-      "sha256": "fa0eacd9ef0a1d7438be601e30582d75935aa5606be030684c0995ffd1f0baef"
+      "size": 452584,
+      "sha256": "ede315788c24cab3b0ae81457d24f946aa9dd362fde03c86cc0a43caf84eaed0"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6131,8 +6151,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 70354,
-      "sha256": "bc2492126923c73931e941ad16e290f00a149ba0d42833925821279ffc6e2b8c"
+      "size": 70590,
+      "sha256": "61ba1cb0cd97e91b838f296c3653bb5b5dde82f2f1e37b7be2cee007ca0a87d9"
     }
   ]
 }
