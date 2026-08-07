@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0329`.
+The next unallocated numeric identifier is `ADR-0330`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -515,3 +515,4 @@ The next unallocated numeric identifier is `ADR-0329`.
 | [ADR-0326](ADR-0326-draw-callbacks-launch-nothing.md) | Accepted | Draw callbacks launch nothing |
 | [ADR-0327](ADR-0327-interaction-launches-nothing.md) | Accepted | Interaction launches nothing |
 | [ADR-0328](ADR-0328-model-io-is-optional.md) | Accepted | Model I/O is optional |
+| [ADR-0329](ADR-0329-interactive-refinement-is-deferred.md) | Accepted | Interactive refinement is deferred |

@@ -6376,3 +6376,26 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **3 rows remain unclaimed**, all M6 and all `T,D` — `VOX-BRK-009`, `VOX-DVR-013`,
    `VOX-PER-004`. **Each carries a Demonstration, so none can be fully discharged without the
    owner.**
+
+   **Increment (vvvv): `ADR-0329` — `VOX-BRK-009` and `VOX-DVR-013` characterised; neither
+   discharged.** 1238/219 unchanged; no code.
+
+   **THESE TWO ARE NOT UNBUILT BY OVERSIGHT — THEY ARE UNBUILT BY AN ACCEPTED DECISION.**
+   `RenderQuality` has `interactive` and `full`, and `SceneSnapshot`'s own documentation states
+   the position: *"version-one renderers are deterministic single-pass, and per `ADR-0103` the
+   two requests execute identically: the request is a hint … a **future** degraded interactive
+   path will claim its own quality tokens"*. A `[Pipeline]` test asserts it: **"both qualities
+   execute identically"**.
+
+   **The distinction is recorded** because it matters when the work is scheduled:
+   `VOX-PER-006`, `VOX-CON-008`, `VOX-IMG-008` are unbuilt with **nothing having decided they
+   should be**; these two are unbuilt **because a record said so**. Filing them together would
+   **invite a future increment to "fix" a deliberate design as though it were an omission**.
+
+   **The existing test is the GUARD, not a gap** — "both qualities execute identically" will
+   **fail the day a degraded path lands**, which is correct. It keeps `ADR-0103` honest while
+   it holds, and is **the first thing a superseding increment must consciously replace rather
+   than quietly delete**. **Refused to weaken it in advance.**
+
+   **`VOX-PER-004` is now the only row unaccounted for** — 512³ at 30–60 fps, a measurement on
+   **reference hardware the owner has yet to name**, which is already on the owner list.

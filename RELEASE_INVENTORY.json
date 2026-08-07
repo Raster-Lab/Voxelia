@@ -5305,9 +5305,14 @@
       "sha256": "c509731210a631e9038463a6c5d54f666f0776811567f71ad226def74ae27e2b"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0329-interactive-refinement-is-deferred.md",
+      "size": 4415,
+      "sha256": "4c1d888c4d7f986b2fba14d8a9e77b6d8d6ff53e822edcc0a05ce59a5ab2443c"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 44433,
-      "sha256": "5d7f89a8a92226b70f11295c8d854acb4dcb35d6e8b962303dedc539891bac3a"
+      "size": 44544,
+      "sha256": "6d9e3ed43cc8ac6d5389e2a9609d9d5ae39e74716832e7c8aa1af0f32c977942"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5401,8 +5406,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 411923,
-      "sha256": "1eef0ba8496537485708d6dc7bf00475d291a298a95dc3f3b35f69acd6ca641d"
+      "size": 413468,
+      "sha256": "41de785b68ed773aee156decae1fb5f5c097f48b88b647089786404e19197ef5"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5926,8 +5931,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67776,
-      "sha256": "ef901447738409accd3a91174b711539244da6d0ce7f108cd4140120e64c86ae"
+      "size": 67851,
+      "sha256": "5cfa56f6753b8b268ef29178b1cb3b78fd81d07f89dbfad5acee239c2f60abf6"
     }
   ]
 }
