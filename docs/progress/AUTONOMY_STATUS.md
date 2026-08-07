@@ -8085,3 +8085,26 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    halves join the owner batch), witnessed over the seeded sequence,
    the accumulator and the single-scattering composition; then M8's
    engineering closes and M9 opens.
+
+1. **2026-08-07 — `VOX-VAL-015` + `VOX-PRR-017` `T`-halves DISCHARGED
+   (`R` halves to the owner batch): photorealistic validation witnesses
+   (`ADR-0396`, tests only). M8'S ENGINEERING IS COMPLETE.**
+   Convergence is a DETERMINISTIC FACT OF THE SEED: the variance of the
+   mean strictly decreases across order-of-magnitude checkpoints for a
+   declared seed — no tolerance band, because a tolerance band would
+   reintroduce the flakiness the determinism arc exists to prevent.
+   Reproducibility is BIT-EQUALITY of accumulator state (count, mean,
+   variance) between same-seed runs; a different seed diverges. Feature
+   preservation is CONTRAST THROUGH THE COMPOSITION: a one-sample-thin
+   bright structure retains strictly positive contrast, and high-value
+   emission carries monotonically — a future preset change that washes
+   the structure out fails the suite. Both acceptance sessions
+   (validation evidence + clinical preset review) are the owner's. M8
+   summary: `ADR-0384..0396`, `ALG-0076..0082`, sixteen rows discharged
+   or advanced to owner halves, all five arcs closed. Full suite:
+   `✔ Test run with 1435 tests in 273 suites passed`. **Next**: derive
+   and open the M9 queue (headless/platform VOX-HLS rows, distributed
+   VOX-DST rows, runtime plug-in VOX-EXT tails, RealityKit/Core Image
+   adapters VOX-ADP, camera serialisation VOX-INT-003, energy
+   VOX-PER-013, PRR-016 partitioning) — a planning record first, per
+   the ADR-0351/0384 pattern.

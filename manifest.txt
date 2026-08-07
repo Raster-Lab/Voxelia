@@ -615,6 +615,7 @@ Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
 Tests/VoxeliaPhotorealisticTests/DeterministicSequenceTests.swift
 Tests/VoxeliaPhotorealisticTests/LightingTransilluminationTests.swift
 Tests/VoxeliaPhotorealisticTests/PhotorealisticFoundationTests.swift
+Tests/VoxeliaPhotorealisticTests/PhotorealisticValidationTests.swift
 Tests/VoxeliaPhotorealisticTests/PresentationIntegrityTests.swift
 Tests/VoxeliaPhotorealisticTests/ProgressiveAccumulationTests.swift
 Tests/VoxeliaPhotorealisticTests/ScatteringApproximationTests.swift
@@ -1261,6 +1262,7 @@ docs/architecture/decisions/ADR-0392-material-separated-presentation.md
 docs/architecture/decisions/ADR-0393-declared-post-processing.md
 docs/architecture/decisions/ADR-0394-side-by-side-scene-binding.md
 docs/architecture/decisions/ADR-0395-multidimensional-transfer-functions.md
+docs/architecture/decisions/ADR-0396-photorealistic-validation-witnesses.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md

@@ -3085,6 +3085,11 @@
       "sha256": "44c268df55d37292e28213eec0885e183d6e56bb87c9153037e65d959464ac88"
     },
     {
+      "path": "Tests/VoxeliaPhotorealisticTests/PhotorealisticValidationTests.swift",
+      "size": 4458,
+      "sha256": "93bbe67b3862f3db38a881260e6b70771a87a9cbba82b4bab01af5a65d8dc9d2"
+    },
+    {
       "path": "Tests/VoxeliaPhotorealisticTests/PresentationIntegrityTests.swift",
       "size": 5151,
       "sha256": "ad61e40aa86bbe8d9e157e66c7c7b3e13940240d0ac419b0282d521a4268ced2"
@@ -6315,9 +6320,14 @@
       "sha256": "484e2e483a4ea74e69347f6a93853bb7ec2538486cff00f2a372db26a4781b24"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0396-photorealistic-validation-witnesses.md",
+      "size": 3180,
+      "sha256": "e83e2f3a0cfff00332ecb636b7356e3cb009d545b2c8e2afe876dd18aa59dd5d"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 54337,
-      "sha256": "0d8810910bf1d5fba15deeb77f37ceecb4931d0f8bd9fad22407cb87db9b9aa2"
+      "size": 54514,
+      "sha256": "3f6ec31415203c0f3723e53abac7a923a3911ce6dce67d4ebc9a57e331db6e67"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6426,8 +6436,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 518895,
-      "sha256": "a14fff360b88e60ff75d9f62be9aaca21e67bf966a809519c49740911057de20"
+      "size": 520387,
+      "sha256": "561abf88fb12eefb20bb72432ed7059b6150815555499ecad20d99e8e9d8442c"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7106,8 +7116,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 82195,
-      "sha256": "8e350dd730e613acf133bdfab8a6e51cc4b6590b8ad3068e660c1c28da936292"
+      "size": 82340,
+      "sha256": "49e41c8ca1be40e9a69d1835d0a9f32b1b72d86263ac8cff8e9f761d0b288dda"
     }
   ]
 }
