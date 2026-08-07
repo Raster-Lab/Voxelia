@@ -51,6 +51,10 @@ public API is introduced only by reviewed milestone specifications.
 - ``SliceRenderer``
 - ``MultiplanarRenderCoordinator``
 - ``InteractiveLevelRenderCoordinator``
+- ``MultiDimensionalTransferFunction``
+- ``MaterialConditionedTransfer``
+- ``TransferTableEntry``
+- ``MultiDimensionalTransferError``
 - ``InteractiveSourceSelection``
 - ``InteractiveLevelError``
 - ``InteractionPhase``

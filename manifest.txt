@@ -316,8 +316,11 @@ Sources/VoxeliaMetal/VoxeliaMetal.docc/Requirements.md
 Sources/VoxeliaMetal/VoxeliaMetal.docc/VoxeliaMetal.md
 Sources/VoxeliaPhotorealistic/Public/DeterministicSequence.swift
 Sources/VoxeliaPhotorealistic/Public/LightingTransillumination.swift
+Sources/VoxeliaPhotorealistic/Public/MaterialSeparation.swift
 Sources/VoxeliaPhotorealistic/Public/PhotorealisticFoundation.swift
+Sources/VoxeliaPhotorealistic/Public/PostProcessDeclarations.swift
 Sources/VoxeliaPhotorealistic/Public/ProgressiveAccumulation.swift
+Sources/VoxeliaPhotorealistic/Public/SideBySideComparison.swift
 Sources/VoxeliaPhotorealistic/Public/VolumetricIllumination.swift
 Sources/VoxeliaPhotorealistic/Public/VolumetricShadow.swift
 Sources/VoxeliaRendering/ApplePlatformGate.swift
@@ -338,6 +341,7 @@ Sources/VoxeliaRendering/Public/CameraRelativeFloatTransform.swift
 Sources/VoxeliaRendering/Public/DisplayColour.swift
 Sources/VoxeliaRendering/Public/InteractiveLevelRenderCoordinator.swift
 Sources/VoxeliaRendering/Public/InteractiveRefinement.swift
+Sources/VoxeliaRendering/Public/MultiDimensionalTransferFunction.swift
 Sources/VoxeliaRendering/Public/MultiplanarRenderCoordinator.swift
 Sources/VoxeliaRendering/Public/OrthographicRayGenerator.swift
 Sources/VoxeliaRendering/Public/RenderCamera.swift
@@ -611,6 +615,7 @@ Tests/VoxeliaMetalTests/VoxeliaMetalTests.swift
 Tests/VoxeliaPhotorealisticTests/DeterministicSequenceTests.swift
 Tests/VoxeliaPhotorealisticTests/LightingTransilluminationTests.swift
 Tests/VoxeliaPhotorealisticTests/PhotorealisticFoundationTests.swift
+Tests/VoxeliaPhotorealisticTests/PresentationIntegrityTests.swift
 Tests/VoxeliaPhotorealisticTests/ProgressiveAccumulationTests.swift
 Tests/VoxeliaPhotorealisticTests/ScatteringApproximationTests.swift
 Tests/VoxeliaPhotorealisticTests/VolumetricIlluminationTests.swift
@@ -618,6 +623,7 @@ Tests/VoxeliaPhotorealisticTests/VolumetricShadowTests.swift
 Tests/VoxeliaRenderingTests/CameraRelativeFloatTransformTests.swift
 Tests/VoxeliaRenderingTests/DiagnosticFailClosedTests.swift
 Tests/VoxeliaRenderingTests/DisplayColourTests.swift
+Tests/VoxeliaRenderingTests/MultiDimensionalTransferTests.swift
 Tests/VoxeliaRenderingTests/OrthographicRayGeneratorTests.swift
 Tests/VoxeliaRenderingTests/RenderCameraTests.swift
 Tests/VoxeliaRenderingTests/RenderRequestTests.swift
@@ -850,6 +856,8 @@ docs/algorithms/VOXELIA-ALG-0077-shadow-transmittance.md
 docs/algorithms/VOXELIA-ALG-0078-lighting-transillumination.md
 docs/algorithms/VOXELIA-ALG-0079-deterministic-sequence.md
 docs/algorithms/VOXELIA-ALG-0080-progressive-variance.md
+docs/algorithms/VOXELIA-ALG-0081-material-separation.md
+docs/algorithms/VOXELIA-ALG-0082-multidimensional-transfer.md
 docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md
 docs/architecture/corrections/CCR-0002-adr-0022-coordinate-convention-shape.md
 docs/architecture/corrections/CCR-0003-adr-0023-value-transform-shape.md
@@ -1249,6 +1257,10 @@ docs/architecture/decisions/ADR-0388-lighting-and-transillumination.md
 docs/architecture/decisions/ADR-0389-the-documented-scattering-approximation.md
 docs/architecture/decisions/ADR-0390-deterministic-reference-seeds.md
 docs/architecture/decisions/ADR-0391-progressive-convergence-exposure.md
+docs/architecture/decisions/ADR-0392-material-separated-presentation.md
+docs/architecture/decisions/ADR-0393-declared-post-processing.md
+docs/architecture/decisions/ADR-0394-side-by-side-scene-binding.md
+docs/architecture/decisions/ADR-0395-multidimensional-transfer-functions.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/extension-mechanism.md
@@ -1338,6 +1350,8 @@ docs/progress/evidence/ADR-0387-shadow-transmittance-oracle.py
 docs/progress/evidence/ADR-0388-lighting-transillumination-oracle.py
 docs/progress/evidence/ADR-0390-deterministic-sequence-oracle.py
 docs/progress/evidence/ADR-0391-progressive-variance-oracle.py
+docs/progress/evidence/ADR-0392-material-separation-oracle.py
+docs/progress/evidence/ADR-0395-multidimensional-transfer-oracle.py
 docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md
 docs/progress/evidence/VOX-VS1-001-real-ct-demonstration-2026-08-06.md
 docs/progress/temporary-file-sites.txt

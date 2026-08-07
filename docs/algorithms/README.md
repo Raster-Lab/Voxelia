@@ -84,3 +84,5 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0078](VOXELIA-ALG-0078-lighting-transillumination.md) | Accepted | Lighting and transillumination `binary64-v1` |
 | [VOXELIA-ALG-0079](VOXELIA-ALG-0079-deterministic-sequence.md) | Accepted | Deterministic sample sequence `v1` |
 | [VOXELIA-ALG-0080](VOXELIA-ALG-0080-progressive-variance.md) | Accepted | Progressive variance `binary64-v1` |
+| [VOXELIA-ALG-0081](VOXELIA-ALG-0081-material-separation.md) | Accepted | Material separation `binary64-v1` |
+| [VOXELIA-ALG-0082](VOXELIA-ALG-0082-multidimensional-transfer.md) | Accepted | Multi-dimensional transfer function `v1` |

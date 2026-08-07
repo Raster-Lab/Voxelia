@@ -1590,14 +1590,29 @@
       "sha256": "62c4d5f7ede9ca5d27d1ea93ca985759ca134698c8c56bcfc37555917d9d5926"
     },
     {
+      "path": "Sources/VoxeliaPhotorealistic/Public/MaterialSeparation.swift",
+      "size": 2982,
+      "sha256": "dfa178943b995405df6cb0ed1e835834b88c3b1471048d088c2272fb0c4489fb"
+    },
+    {
       "path": "Sources/VoxeliaPhotorealistic/Public/PhotorealisticFoundation.swift",
       "size": 1871,
       "sha256": "f60a9943d97c4e98ef62254e59bd082ab790d26142dcc7daa1df5c8e4328a11d"
     },
     {
+      "path": "Sources/VoxeliaPhotorealistic/Public/PostProcessDeclarations.swift",
+      "size": 2470,
+      "sha256": "ec817647e58dc75d27977ad24a989ef9c644ac3a7ebf579aa3184a39399fcfd3"
+    },
+    {
       "path": "Sources/VoxeliaPhotorealistic/Public/ProgressiveAccumulation.swift",
       "size": 4131,
       "sha256": "977110118d006003b1b431746f79e41a1951426ccb803baee2a258d6715014b2"
+    },
+    {
+      "path": "Sources/VoxeliaPhotorealistic/Public/SideBySideComparison.swift",
+      "size": 1277,
+      "sha256": "38bba61ee3e74131dc7c0c284375e3232e9449021bd0c1f918b9cccb230f44eb"
     },
     {
       "path": "Sources/VoxeliaPhotorealistic/Public/VolumetricIllumination.swift",
@@ -1700,6 +1715,11 @@
       "sha256": "8060514170f6676638907b2e6366617136018928e13abcce923db16dff3edb47"
     },
     {
+      "path": "Sources/VoxeliaRendering/Public/MultiDimensionalTransferFunction.swift",
+      "size": 6384,
+      "sha256": "21127223b34d88e7850ba33ad0bfac6828b1ff0e8d0433a27b9e236c1448a984"
+    },
+    {
       "path": "Sources/VoxeliaRendering/Public/MultiplanarRenderCoordinator.swift",
       "size": 3811,
       "sha256": "065bc8072fbc91cf0a8c863622dde628f37926e47fab762f7573f16321d58396"
@@ -1771,8 +1791,8 @@
     },
     {
       "path": "Sources/VoxeliaRendering/VoxeliaRendering.docc/VoxeliaRendering.md",
-      "size": 1619,
-      "sha256": "726e62e4e8b7a8295fb67bb166fe2eacb1d05974bfa629f9bf623b2078aa6564"
+      "size": 1753,
+      "sha256": "4bc098744f74ee44fcf5dccd2d47ad9838b523aecbb52ea611151f08d51d7b41"
     },
     {
       "path": "Sources/VoxeliaSpatial/ApplePlatformGate.swift",
@@ -3065,6 +3085,11 @@
       "sha256": "44c268df55d37292e28213eec0885e183d6e56bb87c9153037e65d959464ac88"
     },
     {
+      "path": "Tests/VoxeliaPhotorealisticTests/PresentationIntegrityTests.swift",
+      "size": 5151,
+      "sha256": "ad61e40aa86bbe8d9e157e66c7c7b3e13940240d0ac419b0282d521a4268ced2"
+    },
+    {
       "path": "Tests/VoxeliaPhotorealisticTests/ProgressiveAccumulationTests.swift",
       "size": 2969,
       "sha256": "e2c5e7928160a8df175005cd2887391c2ef3daf4e705b50a6d4573656b9cff5c"
@@ -3098,6 +3123,11 @@
       "path": "Tests/VoxeliaRenderingTests/DisplayColourTests.swift",
       "size": 4347,
       "sha256": "5c7571ca3824f2822ba1937b4de4c111d7a5c4fb60bafe4eeb1bc15acec79aef"
+    },
+    {
+      "path": "Tests/VoxeliaRenderingTests/MultiDimensionalTransferTests.swift",
+      "size": 3937,
+      "sha256": "f08379ce94bb3199289ce58e75fd2134048bc27e441e5adc197b90a7dbb2f2e2"
     },
     {
       "path": "Tests/VoxeliaRenderingTests/OrthographicRayGeneratorTests.swift",
@@ -3856,8 +3886,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 9791,
-      "sha256": "0a1e286dc8b51303c7c256c9bed81d8bb0a143702b203099ec30dc964fcf546d"
+      "size": 10026,
+      "sha256": "02f571be0727ebb5597f4d125954476bff147239d101bd7d281eb4a349b4c3de"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -4258,6 +4288,16 @@
       "path": "docs/algorithms/VOXELIA-ALG-0080-progressive-variance.md",
       "size": 1988,
       "sha256": "c9a413134c7ad822f262499c997f178294d5cff8a880c3fc8951f6836b3edf7a"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0081-material-separation.md",
+      "size": 2503,
+      "sha256": "2e2d3082817759698d8ace07112f05aa8a655312c8282a32b3a180834e706c75"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0082-multidimensional-transfer.md",
+      "size": 2454,
+      "sha256": "b07ea44056cc4b3bf32c4e88facac68da48b281b33b0f0d831c2f95bd717e020"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -6255,9 +6295,29 @@
       "sha256": "06e652c248645b6ca1ee1c9097aecff6cf4d5f82ba4f89bb0297b1368101e1d0"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0392-material-separated-presentation.md",
+      "size": 2486,
+      "sha256": "b9e21f79d86f4722bf50bac8eafd29891bab12f70631ea8cc9bdd1270856c7bd"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0393-declared-post-processing.md",
+      "size": 2924,
+      "sha256": "873b14e4a4794eaf089be7779648115fe72694e7ccfcfdd45c40f4117ce149fa"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0394-side-by-side-scene-binding.md",
+      "size": 2393,
+      "sha256": "c86dfe9b8563057ea4678fffc1a000c9bed795ffe94532453264e621c5107503"
+    },
+    {
+      "path": "docs/architecture/decisions/ADR-0395-multidimensional-transfer-functions.md",
+      "size": 2967,
+      "sha256": "484e2e483a4ea74e69347f6a93853bb7ec2538486cff00f2a372db26a4781b24"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 53699,
-      "sha256": "7b940f0c5f261f641cd1a72858a798a18847b97647d3035ff1f93c9da9b6ccfa"
+      "size": 54337,
+      "sha256": "0d8810910bf1d5fba15deeb77f37ceecb4931d0f8bd9fad22407cb87db9b9aa2"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6700,6 +6760,16 @@
       "sha256": "7451ffb64b8f61d9ad94a694a64cdfffc793a9e5c8392c9342e36ef2a6006f10"
     },
     {
+      "path": "docs/progress/evidence/ADR-0392-material-separation-oracle.py",
+      "size": 1483,
+      "sha256": "2ab2d7c4d17c5c27a26f87a921a66c50d70e507b83fd6c3eaec9301703f5602f"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0395-multidimensional-transfer-oracle.py",
+      "size": 1369,
+      "sha256": "a6d37c1b5097fca2b41b51ded042953f75466bc8f35f5d75fec4b45b0fa54f75"
+    },
+    {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
       "size": 6675,
       "sha256": "9d877102af34ae69ca3861dd75b1f2f55f5544453d3ea63d172469ad70a1c47c"
@@ -7036,8 +7106,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 81273,
-      "sha256": "016cf19c7531ad80b398ee81393636f0e3ab8703246a28f1c72b2aa8c6f5bf6a"
+      "size": 82195,
+      "sha256": "8e350dd730e613acf133bdfab8a6e51cc4b6590b8ad3068e660c1c28da936292"
     }
   ]
 }
