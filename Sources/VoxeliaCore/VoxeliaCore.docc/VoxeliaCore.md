@@ -234,6 +234,9 @@ storage semantics.
 - ``RegistrationOutcome``
 - ``RegistrationFailureReport``
 - ``RegistrationOutcomeError``
+- ``RegistrationQuality``
+- ``RegistrationQualityReport``
+- ``RegistrationQualityError``
 
 ### Common errors
 

@@ -7661,3 +7661,24 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    host-facing quality surface), then the reference-implementation row
    (`T,R` — its `R` half may join the owner batch) to close the arc's
    unblocked queue before the curved-planar/DICOM-tails arc.
+
+1. **2026-08-07 — ~~`VOX-REG-009`~~ DISCHARGED: registration quality for
+   the host (`ADR-0373` + `VOXELIA-ALG-0073`).** `RegistrationQuality`
+   in `VoxeliaCore`: landmark residuals under an admitted rigid/affine
+   transform — frozen row folds, one square root per residual, RMS and
+   exact-selection maximum, bit-pinned (exact correspondences report zero
+   EVERYWHERE; the perturbed fixture pins `(0, 0.5, 0.25)` / RMS
+   `0x1.4a7e9cb8a3491p-2`). WHICH landmarks measure quality is the
+   CALLER'S declaration — fitting set measures fit, held-out set measures
+   TRE; the report records numbers, not the claim, because pretending to
+   know would fabricate a validation the library did not perform. Spaces
+   validate at the face; deformable refuses typed (no matrix to measure
+   by). Similarity quality is already served by `ADR-0370` evaluations —
+   not wrapped again. Baseline shrinks by one. Full suite: `✔ Test run
+   with 1386 tests in 253 suites passed`. **Next**: the arc's LAST
+   unblocked row — reference implementations before Metal acceleration
+   is accepted into a diagnostic profile (`T,R`): the `T` half inspects
+   that every registration path built this arc is a CPU reference
+   implementation (no Metal path exists to gate); the `R` half joins the
+   owner batch. Then the registration arc closes its engineering and the
+   curved-planar/DICOM-tails arc opens.
