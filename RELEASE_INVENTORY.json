@@ -3360,6 +3360,11 @@
       "sha256": "6ef5356060e6e3b39100c3a67cb4c50c063b8d45a959432f16bf8d243b8c865d"
     },
     {
+      "path": "Tests/VoxeliaValidationTests/RegistrationReferenceTests.swift",
+      "size": 5976,
+      "sha256": "051b5afa9456341a958caae86b72d366d0816dd3371334ed84928490f3cff71e"
+    },
+    {
       "path": "Tests/VoxeliaValidationTests/VoxeliaValidationTests.swift",
       "size": 332,
       "sha256": "695b554ec10eefc7d750c706af479de5a7342a658503094c4efbfa344c26d81a"
@@ -6000,9 +6005,14 @@
       "sha256": "2707ff9f78ec2f317d7f1b0408425694bd17c7b5e77936b51ede49005ed6fb18"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0374-registration-references-before-metal.md",
+      "size": 3718,
+      "sha256": "8f8f3070f14648b75fe0b5903841fa5179fb742d0d3ff98d6ab45a93cba23a83"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 50841,
-      "sha256": "0ac6663c04d3dfaccc3a4234c6e598acf561edd3e57fe00954b6c53a6dc65bb7"
+      "size": 51021,
+      "sha256": "34b62dfd01718c96519ce3d421580fc3ca837399dee1d3eaf86844bf3789a7ec"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6101,8 +6111,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 492971,
-      "sha256": "655a5a052ca198feae0ac8c8e5ce79ce998b9469e213d2c91ede105063132ace"
+      "size": 494356,
+      "sha256": "0a5aa437cd63e1525afeef51b806b08912b8748adbb1b61a3947bf380b1f7295"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6736,8 +6746,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 77461,
-      "sha256": "dbdea9974ed4843c1819a917f789b420342fbe01bcb47c07c0f04163acc14247"
+      "size": 77600,
+      "sha256": "9f47d8106e9b6ee1bc9890a8a54eb2b251edccf5c8f732f25eb71c56e471ff7c"
     }
   ]
 }

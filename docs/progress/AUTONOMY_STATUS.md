@@ -7682,3 +7682,24 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    implementation (no Metal path exists to gate); the `R` half joins the
    owner batch. Then the registration arc closes its engineering and the
    curved-planar/DICOM-tails arc opens.
+
+1. **2026-08-07 — `VOX-REG-010` `T`-half DISCHARGED (`R` joins the owner
+   batch): registration references before Metal (`ADR-0374`, tests only).
+   THE REGISTRATION ARC'S ENGINEERING IS CLOSED.** Two witnesses in
+   `VoxeliaValidation`: (1) the END-TO-END reference chain — landmark
+   rigid + affine registration, composition across the space seam, a
+   result record, outcome classification, residual quality — runs on CPU
+   and reproduces the pinned bits (the estimated quaternion's one-ulp
+   rounding propagates to residuals `~5e-16`, pinned EXACTLY, not
+   rounded to a romantic zero); (2) a registry TRIPWIRE — no
+   Metal-backend entry names a registration operation, so the day one
+   registers, the test fails until the reference-first ordering is
+   re-confirmed. A second Metal-prohibition gate was NOT added
+   (`ADR-0338` d10: Core/Spatial already prohibit Metal per target). Arc
+   summary: `ADR-0365..0374`, `ALG-0068..0073`, six oracles, rows
+   REG-001..004/006..009 discharged, REG-005 open for intensity members
+   (needs the optimiser design), REG-010 `R` + Metal acceptance
+   owner-reserved. Full suite: `✔ Test run with 1388 tests in 254 suites
+   passed`. **Next**: open the CURVED-PLANAR/DICOM-TAILS arc per
+   `ADR-0351` — first row from that arc's queue (curved-planar
+   reformation rows, then the DICOM tail rows), design-first as always.
