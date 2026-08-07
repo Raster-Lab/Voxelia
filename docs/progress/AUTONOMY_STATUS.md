@@ -5285,6 +5285,39 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **Next**: §55.1's linear ramp volume — `VoxeliaValidation`'s first public surface.
 
+   **Increment (mmm): `ADR-0294` — §55.1's linear ramp built; `VoxeliaValidation` has its
+   FIRST PUBLIC SURFACE.** 1180 tests / 211 suites (was 1172/210).
+
+   **The test is written TWICE, on purpose.** The suite transcribes the plan's formula
+   **independently** rather than calling into the type — a test that asked the phantom what
+   it contains and compared the answer with itself **would pass for any formula at all**,
+   including a wrong one.
+
+   **Range CHECKED, not bounded by a derived constant**: the ramp rises in `i`,`j` and falls
+   in `k`, so its extremes sit at **opposite corners**; both computed in `Int` and refused if
+   either escapes `Int16`. A constant like "at most 6,574 slices" is correct only for these
+   coefficients and would silently go wrong if they changed.
+
+   **Non-cubic fixture `7×5×3` on purpose**: `ALG-0050` says outright that `row * columns`
+   and `row * rows` **agree for every square frame** — so a cubic phantom is blind to exactly
+   the addressing mistake that spec exists to catch.
+
+   **Negatives exercised deliberately**: `−5k` takes the ramp below zero past slice 20, and a
+   **zero-extending encoder would turn those into large positives**. A shallow phantom would
+   never detect it — so 40 slices, asserting `−95` and `−90` exactly.
+
+   **Refusals carry a positive control**: the largest extents that DO fit are admitted —
+   **16,334 columns → exactly 32,766**, **6,574 slices → exactly −32,765** — so the overflow
+   refusals discriminate on **range**, not size. Both hand-computed and passing first run.
+
+   **No tolerance anywhere in the suite**, because nothing in it is inexact.
+
+   **`VOX-VAL-003` NOT discharged** — this supplies the **intensity** kind only; spatial and
+   measurement remain, and the row needs all three *with tests that consume them*.
+
+   **Next**: §55.4's distance phantom — placed second by `ADR-0293` because `ADR-0292` has
+   just verified the measurement chain it feeds, so it arrives with a tested consumer.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

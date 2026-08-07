@@ -13,6 +13,11 @@ public API is introduced only by reviewed milestone specifications.
 
 ## Topics
 
+### Analytical phantoms
+
+- ``LinearRampPhantom``
+- ``LinearRampPhantomError``
+
 ### Project documents
 
 - <doc:Architecture>

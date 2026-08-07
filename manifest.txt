@@ -355,6 +355,7 @@ Sources/VoxeliaValidation/ApplePlatformGate.swift
 Sources/VoxeliaValidation/Internal/.gitkeep
 Sources/VoxeliaValidation/Module.swift
 Sources/VoxeliaValidation/Public/.gitkeep
+Sources/VoxeliaValidation/Public/LinearRampPhantom.swift
 Sources/VoxeliaValidation/VoxeliaValidation.docc/Architecture.md
 Sources/VoxeliaValidation/VoxeliaValidation.docc/Requirements.md
 Sources/VoxeliaValidation/VoxeliaValidation.docc/VoxeliaValidation.md
@@ -585,6 +586,7 @@ Tests/VoxeliaStorageTests/StorageTaxonomyTests.swift
 Tests/VoxeliaStorageTests/VoxeliaStorageTests.swift
 Tests/VoxeliaTests/VoxeliaTests.swift
 Tests/VoxeliaValidationTests/CombinedRegistryTests.swift
+Tests/VoxeliaValidationTests/LinearRampPhantomTests.swift
 Tests/VoxeliaValidationTests/VoxeliaValidationTests.swift
 Tools/Package.swift
 Tools/Plugins/README.md
@@ -1004,6 +1006,7 @@ docs/architecture/decisions/ADR-0290-diagnostic-fail-closed.md
 docs/architecture/decisions/ADR-0291-stored-signedness.md
 docs/architecture/decisions/ADR-0292-reconstructed-measurement-geometry.md
 docs/architecture/decisions/ADR-0293-open-the-analytical-phantom-arc.md
+docs/architecture/decisions/ADR-0294-linear-ramp-phantom.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

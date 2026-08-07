@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0294`.
+The next unallocated numeric identifier is `ADR-0295`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -480,3 +480,4 @@ The next unallocated numeric identifier is `ADR-0294`.
 | [ADR-0291](ADR-0291-stored-signedness.md) | Accepted | Stored signedness |
 | [ADR-0292](ADR-0292-reconstructed-measurement-geometry.md) | Accepted | Reconstructed measurement geometry |
 | [ADR-0293](ADR-0293-open-the-analytical-phantom-arc.md) | Accepted | Open the analytical phantom arc |
+| [ADR-0294](ADR-0294-linear-ramp-phantom.md) | Accepted | Linear ramp phantom |
