@@ -1044,6 +1044,7 @@ docs/architecture/decisions/ADR-0313-arbitrary-oblique-reconstruction.md
 docs/architecture/decisions/ADR-0314-priority-propagation-is-unbuilt.md
 docs/architecture/decisions/ADR-0315-residency-response-is-unbuilt.md
 docs/architecture/decisions/ADR-0316-metal-heaps-not-yet-warranted.md
+docs/architecture/decisions/ADR-0317-bounded-working-sets-half-built.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

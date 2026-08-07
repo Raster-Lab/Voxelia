@@ -6062,6 +6062,31 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **5 rows remain — unchanged**, since the row is not fully discharged.
 
+   **Increment (jjjj): `ADR-0317` — `VOX-PER-009` SPLIT; nothing discharged.** 1235/218
+   unchanged; no code. **Two working sets in OPPOSITE states.**
+
+   **Decoded-brick: BOUNDED BY CONSTRUCTION.** `BrickResultCache` takes `maximumEntryCount`
+   and `maximumTotalByteCount` as **required initialiser parameters — neither has a default**,
+   so an unbounded brick cache is **not constructible**, with `ADR-0151`'s frozen eviction
+   order behind it. **That is STRONGER than a demonstration**: a test shows the bound held
+   once; a required parameter means it cannot be absent. What's missing is the row's literal
+   wording — no *large-volume* test drives it past both ceilings and observes eviction holding
+   the line.
+
+   **GPU-residency: UNBOUNDED**, per `ADR-0315` — the device budget is read and **never
+   consulted**, so there is no ceiling for a test to observe.
+
+   **NOT discharged on the brick half** — the row names both sets in one sentence, and **a
+   partial discharge on a P0 row is how a gap becomes invisible**. The halves are also kept
+   unmerged in evidence: one test named for this row that only exercised bricks would read as
+   covering both.
+
+   **The brick `T` is a real, small, UNBLOCKED increment** and is named as the next step —
+   recording the split first means the increment that writes it **cannot quietly widen into
+   claiming the GPU half**.
+
+   **5 rows remain — unchanged.**
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

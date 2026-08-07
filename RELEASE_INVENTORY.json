@@ -5230,9 +5230,14 @@
       "sha256": "c92fe1bb120bdf5718a9bd88dd4cff118e671563ba1b86104e91ad3d5d38bef8"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0317-bounded-working-sets-half-built.md",
+      "size": 4731,
+      "sha256": "1da3cf61333e1ed824f199e95a2bf1666c0feaaee99850aac9a8e44b4450a8eb"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 43322,
-      "sha256": "231c1c355e428c8d791d60ae2a71a5d3494cf3cd2da35d56e9a0f525802dd716"
+      "size": 43427,
+      "sha256": "b6b249527b52f9d0d3b467647c1f56d95f3586a9662bf29e2308eb8ca7bb1046"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5326,8 +5331,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1259459,
-      "sha256": "2cf70ff6369ba781875267ec61e32ff93cb7ee37d9269722ae1c6c1de3c0f354"
+      "size": 1260891,
+      "sha256": "63e80df51add6dfb56689b2c8345fbf0d9e1f701d6a9b78236dc3547952c27a9"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5846,8 +5851,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66803,
-      "sha256": "40ceca25a9ba2be196c3c3aa416a96e5e6a242d3d57815d3b54cee6a10f59e64"
+      "size": 66875,
+      "sha256": "4b0ae3022b438f03ecb54b268172542530b6943fb6251587e2470f641b5b3641"
     }
   ]
 }
