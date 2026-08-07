@@ -228,7 +228,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0360` is allocated to the nearest label resampling.
 `ADR-0361` is allocated to the region growing.
 `ADR-0362` is allocated to the mask editing.
-The next unallocated numeric identifier is `ADR-0363`.
+`ADR-0363` is allocated to the segment statistics.
+The next unallocated numeric identifier is `ADR-0364`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -574,3 +575,4 @@ The next unallocated numeric identifier is `ADR-0363`.
 | [ADR-0360](ADR-0360-nearest-label-resampling.md) | Accepted | Nearest label resampling and the operation set |
 | [ADR-0361](ADR-0361-region-growing.md) | Accepted | Region growing |
 | [ADR-0362](ADR-0362-mask-editing.md) | Accepted | Mask editing |
+| [ADR-0363](ADR-0363-segment-statistics.md) | Accepted | Segment statistics |

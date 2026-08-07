@@ -1000,6 +1000,11 @@
       "sha256": "436a407b6b1ac1ff259882f81a98daebcbec516330dd58d68143193cc38a5378"
     },
     {
+      "path": "Sources/VoxeliaExecution/Public/SegmentStatistics.swift",
+      "size": 6274,
+      "sha256": "12534714c635ed2ddbb532a69e7eb9c9c60d5e4438142fec9339c8989e1cb65c"
+    },
+    {
       "path": "Sources/VoxeliaExecution/Public/SqueezeAxesOperation.swift",
       "size": 11524,
       "sha256": "87ca385adc1d9b5d9c11a32dc8675d1d36470225746d3f29c36cb2288b747ba0"
@@ -1041,8 +1046,8 @@
     },
     {
       "path": "Sources/VoxeliaExecution/VoxeliaExecution.docc/VoxeliaExecution.md",
-      "size": 2723,
-      "sha256": "2ce0c61fde901df70c2d9e452a766ed39afa089ab66915d385067d37bce8a184"
+      "size": 2808,
+      "sha256": "ea3078ef5c3341698908de6365cadef5df83443904c769b4e5001214855abdf8"
     },
     {
       "path": "Sources/VoxeliaGeometry/ApplePlatformGate.swift",
@@ -2540,6 +2545,11 @@
       "sha256": "573bcfa33a5ee770da0477a42c75dc7692d8f2da8a6d61a8d5d886b16aa969ac"
     },
     {
+      "path": "Tests/VoxeliaExecutionTests/SegmentStatisticsTests.swift",
+      "size": 8999,
+      "sha256": "3e738067344180b1daf2e048ff17af42f876fc7b8d2d1fc4f454c5c183890b55"
+    },
+    {
       "path": "Tests/VoxeliaExecutionTests/SqueezeAxesOperationTests.swift",
       "size": 6892,
       "sha256": "4cd596ec10a600de0242fecf6cdcc464a43b574896269e552a11ddc437188a10"
@@ -3581,8 +3591,8 @@
     },
     {
       "path": "docs/algorithms/README.md",
-      "size": 8211,
-      "sha256": "42bf78b37cf7f1b91b597aea1872d5c3afe3cae75e179ff6ed1767f6ac2592e5"
+      "size": 8320,
+      "sha256": "6f81be9cac49a5b7f415927f759e8163d71541c0c78616ad794bcc196070e2e1"
     },
     {
       "path": "docs/algorithms/VOXELIA-ALG-0001-ray-axis-aligned-bounds-intersection.md",
@@ -3913,6 +3923,11 @@
       "path": "docs/algorithms/VOXELIA-ALG-0066-mask-editing.md",
       "size": 2386,
       "sha256": "5d031c81146d1735c57cb194a73697cf6e6f6f58c105b375f66e2b1841810ed7"
+    },
+    {
+      "path": "docs/algorithms/VOXELIA-ALG-0067-segment-statistics.md",
+      "size": 3002,
+      "sha256": "7c997718dd3e4aa86515903a05023adad96aa671733975cfb7f439e925b892d6"
     },
     {
       "path": "docs/architecture/corrections/CCR-0001-adr-0021-axis-model-ownership.md",
@@ -5765,9 +5780,14 @@
       "sha256": "7bda5baaa339abf307523fc4b24ae10166682b621eefdd838af69a414498b8d6"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0363-segment-statistics.md",
+      "size": 3176,
+      "sha256": "3bfd6230b3eca2ec9d963bf5c40a56f89ad33e112721f4754907b900d6e5c092"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 49088,
-      "sha256": "0bdce4e47dc5bf06956220d6d3928e370e8d2dcd56e53d2e1a4cc8a21a155d06"
+      "size": 49218,
+      "sha256": "b865e827a1aba17e801369a8cca3f12af9b7203d817ccc2ca37cb3f09e25b42d"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5866,8 +5886,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 477252,
-      "sha256": "69a04110b7c002822657b9853e9b6f5883cfdc3dd7b349a0b824bc1f7f5cb7c2"
+      "size": 478968,
+      "sha256": "415911b399f54795152d1573b78699092a9e0b586aa2145fac7215c4f41827da"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6128,6 +6148,11 @@
       "path": "docs/progress/evidence/ADR-0362-mask-edit-oracle.py",
       "size": 428,
       "sha256": "a8bdc21716815296f8fc528762372451a026e72bf6503fde0fbf7d6eaff7e1ee"
+    },
+    {
+      "path": "docs/progress/evidence/ADR-0363-segment-statistics-oracle.py",
+      "size": 1191,
+      "sha256": "a5f15f86fd6329305d2bd134fbb347a0d6fb1e052b9d50a3773307a224fba320"
     },
     {
       "path": "docs/progress/evidence/SWIFT_STRICT_MEMORY_METAL_TRANSFER_AUDIT_2026-08-05.md",
@@ -6466,8 +6491,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 74278,
-      "sha256": "709293fd940c7b7dc5129532d708e16c50fc5e2fe9de6e5de8320e1a4cfa3cd3"
+      "size": 74566,
+      "sha256": "1e6bbae6021266b0b72331af91c6fac262d8bfe155784c3b893c30004cc270f9"
     }
   ]
 }

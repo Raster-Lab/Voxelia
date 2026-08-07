@@ -7444,3 +7444,31 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    mask against the stored volume, values from the stored domain widened
    exactly, voxel volume from the geometry via the accepted `ALG-0019`
    calibrated voxel volume; never from a presentation.
+
+   **Increment (dddddd): `ADR-0363` + `VOXELIA-ALG-0067` — `VOX-SEG-009`
+   DISCHARGED; exclusions are VISIBLE NUMBERS, never buried.** 1341 tests /
+   239 suites.
+
+   **`SegmentStatisticsComputer`** reads the stored volume and the mask
+   through the coordinated boundary and returns counts (mask, included,
+   padded, non-finite — all published, because a statistic whose denominator
+   quietly shrank is the dishonesty the row exists to prevent), the frozen
+   left-to-right sum with mean/min/max (ABSENT, never zero, when nothing
+   contributed), and the calibrated volumes composing the `ALG-0016`
+   determinant authority directly — the same value `ALG-0019`'s measurement
+   wraps, reached from below because the layering runs the other way.
+
+   **Two boundary decisions recorded**: padding excludes a voxel's INTENSITY,
+   not its claimed EXTENT (the mask is the authority on extent, padding on
+   intensity validity — physical volume counts all mask samples); and NO
+   registry entry or published object exists — the computer publishes
+   nothing, so minting a derivation would fabricate provenance; persistence
+   composes the measurement-publication pattern when a consumer asks.
+
+   **Next**: `VOX-SEG-010` — the AI-adapter boundary, the arc's LAST row:
+   inference integrates through optional adapters, never embedded in the
+   foundational model (I,R — the `R` sits in the owner's ADR-0351 batch). The
+   design is an adapter PROTOCOL over the accepted model (in → ImageData,
+   out → SegmentCollectionSegmentation with algorithm descriptors carrying
+   type/.automatic/model identity), inspected for the I half; no runtime
+   enters the tree without the owner's supply-chain say.

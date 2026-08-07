@@ -70,3 +70,4 @@ Use `docs/templates/Algorithm-Specification-Template.md`.
 | [VOXELIA-ALG-0064](VOXELIA-ALG-0064-nearest-label-resampling.md) | Accepted | Nearest label resampling `exact-v1` |
 | [VOXELIA-ALG-0065](VOXELIA-ALG-0065-region-growing.md) | Accepted | Region growing `exact-v1` |
 | [VOXELIA-ALG-0066](VOXELIA-ALG-0066-mask-editing.md) | Accepted | Mask editing `exact-v1` |
+| [VOXELIA-ALG-0067](VOXELIA-ALG-0067-segment-statistics.md) | Accepted | Segment statistics `binary64-v1` |

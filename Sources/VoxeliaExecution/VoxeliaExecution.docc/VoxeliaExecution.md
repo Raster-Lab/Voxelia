@@ -91,6 +91,9 @@ public API is introduced only by reviewed milestone specifications.
 - ``MaskEditOperation``
 - ``MaskEditVerb``
 - ``MaskEditError``
+- ``SegmentStatisticsComputer``
+- ``SegmentStatistics``
+- ``SegmentStatisticsError``
 - ``ProjectIntensityOperation``
 - ``ProjectionMode``
 - ``ProjectIntensityError``
