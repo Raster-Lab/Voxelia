@@ -66,6 +66,47 @@ public struct RigidMotion: Sendable, Hashable {
         self.translation = ContiguousArray(shift.map { $0 == 0 ? 0 : $0 })
     }
 
+    /// Composes `outer` applied after `inner` without leaving the rigid
+    /// category, per `VOXELIA-ALG-0069`: the Hamilton product with frozen
+    /// folds re-admits through ordinary admission (so the stored form
+    /// stays canonical), and the translation is the outer rotation
+    /// applied to the inner translation plus the outer translation.
+    public static func composed(
+        _ outer: RigidMotion,
+        after inner: RigidMotion
+    ) throws -> RigidMotion {
+        let w1 = outer.quaternion[0]
+        let x1 = outer.quaternion[1]
+        let y1 = outer.quaternion[2]
+        let z1 = outer.quaternion[3]
+        let w2 = inner.quaternion[0]
+        let x2 = inner.quaternion[1]
+        let y2 = inner.quaternion[2]
+        let z2 = inner.quaternion[3]
+        let productW = ((w1 * w2 - x1 * x2) - y1 * y2) - z1 * z2
+        let productX = ((w1 * x2 + x1 * w2) + y1 * z2) - z1 * y2
+        let productY = ((w1 * y2 - x1 * z2) + y1 * w2) + z1 * x2
+        let productZ = ((w1 * z2 + x1 * y2) - y1 * x2) + z1 * w2
+        let r = try outer.matrix().elements
+        var shifted = [Double](repeating: 0, count: 3)
+        for row in 0..<3 {
+            shifted[row] =
+                ((r[4 * row + 0] * inner.translation[0]
+                    + r[4 * row + 1] * inner.translation[1])
+                    + r[4 * row + 2] * inner.translation[2])
+                + outer.translation[row]
+        }
+        return try RigidMotion(
+            quaternionW: productW,
+            quaternionX: productX,
+            quaternionY: productY,
+            quaternionZ: productZ,
+            translationX: shifted[0],
+            translationY: shifted[1],
+            translationZ: shifted[2]
+        )
+    }
+
     /// The derived homogeneous matrix: the `VOXELIA-ALG-0068` rotation in
     /// the upper-left block, the translation at indices 3, 7 and 11 and
     /// the exact affine bottom row. Repeated derivation is bit-identical.

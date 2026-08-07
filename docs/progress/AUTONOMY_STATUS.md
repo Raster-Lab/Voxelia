@@ -7529,3 +7529,23 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    `ADR-0351` order — the initialisation row (centred/geometry-based
    initial transforms) or the next unblocked registration row from the
    baseline table, composing the categories and this record.
+
+1. **2026-08-07 — ~~`VOX-REG-004`~~ DISCHARGED: registration transform
+   composition (`ADR-0367` + `VOXELIA-ALG-0069`).** One seam:
+   `RegistrationTransformComposition.compose(outer, after: inner)` in
+   `VoxeliaCore` requires `inner.destinationSpace == outer.sourceSpace` as
+   FULL `CoordinateSpaceDescriptor` equality — a shared identifier over a
+   disagreeing convention refuses typed (witnessed in the fixtures). The
+   result spans the chain. Rigid stays rigid: the frozen Hamilton product
+   re-admits through `VOXELIA-ALG-0068` admission so the stored form stays
+   canonical (oracle fixtures bit-exact, including the sign-flip
+   re-admission witness); mixed rigid/affine pairs lower to the existing
+   `VOXELIA-ALG-0052` compose and honestly widen to affine; deformable
+   operands refuse — a composed field without evaluation would be
+   fabrication, and evaluation belongs to a later row. Baseline shrinks by
+   one. Full suite: `✔ Test run with 1361 tests in 245 suites passed`.
+   **Next**: the arc's remaining rows in baseline-table order — the next
+   is the initial registration portfolio row (landmark + rigid + affine
+   registration, `T`), which needs its metric/optimisation design; expect
+   it to span more than one increment (landmark first: exact
+   correspondence-based rigid/affine estimation with an oracle).

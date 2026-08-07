@@ -232,7 +232,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0364` is allocated to the AI adapter boundary.
 `ADR-0365` is allocated to the registration transform categories.
 `ADR-0366` is allocated to the registration result record.
-The next unallocated numeric identifier is `ADR-0367`.
+`ADR-0367` is allocated to registration transform composition.
+The next unallocated numeric identifier is `ADR-0368`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -582,3 +583,4 @@ The next unallocated numeric identifier is `ADR-0367`.
 | [ADR-0364](ADR-0364-the-ai-adapter-boundary.md) | Accepted | The AI adapter boundary |
 | [ADR-0365](ADR-0365-the-registration-transform-categories.md) | Accepted | The registration transform categories |
 | [ADR-0366](ADR-0366-the-registration-result-record.md) | Accepted | The registration result record |
+| [ADR-0367](ADR-0367-registration-transform-composition.md) | Accepted | Registration transform composition |

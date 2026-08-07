@@ -220,6 +220,8 @@ storage semantics.
 - ``RegistrationMetricID``
 - ``RegistrationOptimiserID``
 - ``RegistrationResultError``
+- ``RegistrationTransformComposition``
+- ``RegistrationCompositionError``
 
 ### Common errors
 
