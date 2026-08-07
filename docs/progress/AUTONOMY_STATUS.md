@@ -8452,3 +8452,19 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    plug-in introduction; photorealistic validation + preset review;
    measurement campaigns; regression thresholds; the 1.0 release
    session.
+
+1. **2026-08-08 — OWNER BATCH ITEM RESOLVED: DICOMKit fix-what-surfaces
+   CONFIRMED (`ADR-0411`).** The `ADR-0351` batch's third question is
+   closed: DICOMKit's segmentation/parametric/surface/registration
+   reading is addressed AS REAL USAGE SURFACES THE NEED — no proactive
+   reader construction against unexercised object types; the first real
+   consumer defines a reader's requirements instead of a guess defining
+   them. The `ADR-0378` capability protocols remain the integration
+   points, conforming readers enter as ordinary ledger increments when
+   needed, and the approved-identity exact-version pin is unchanged.
+   Confirmation of a maintenance posture is NOT a work order — nothing
+   is scheduled. EIGHT owner-batch items remain: SEG reference AI
+   adapter; validated-distribution + diagnostic-policy acceptance;
+   generative-output acceptance; runtime plug-in introduction;
+   photorealistic validation + preset review; measurement campaigns;
+   regression thresholds; the 1.0 release session.

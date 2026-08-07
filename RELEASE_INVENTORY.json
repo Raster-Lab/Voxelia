@@ -6500,9 +6500,14 @@
       "sha256": "b77f2267d4a3ad47b407d1c79a98d090b2da98ad43b364f158c04d072fe8ee7c"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0411-dicomkit-fix-what-surfaces.md",
+      "size": 2700,
+      "sha256": "09c3078344e3ef64b15b42be02127810193ec8796193d68e5a0148dd79f422da"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 56628,
-      "sha256": "d2f37a61ba7d0c9865ec813e81f91abf010f822f954f3f9367a8b1a14cee3411"
+      "size": 56805,
+      "sha256": "c91f77327def6c518fa40fab838b335872e75a36dd5e6a9349a99a381812d012"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -6621,8 +6626,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 542436,
-      "sha256": "b639e74e8e0be646784e1b6798b77a7a524848cb3868c4e7a0766851d59bc011"
+      "size": 543462,
+      "sha256": "a53c78fa4ec6e74895d6132fae5e822eaf3e5be8708bb2cac3ada5e161734cf5"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7316,8 +7321,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 84683,
-      "sha256": "166a0c9f92454eeb5565654d8a2d1e0614d18743127c8aadd686cedd77879459"
+      "size": 84750,
+      "sha256": "395aee18d24bbd1fe74e262595971d9bc503766a35d3956cde551779a5245235"
     }
   ]
 }

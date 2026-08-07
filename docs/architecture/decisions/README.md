@@ -276,7 +276,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0408` is allocated to the release policy.
 `ADR-0409` is allocated to VTK/ITK interop out of scope.
 `ADR-0410` is allocated to registration Metal acceptance resolution.
-The next unallocated numeric identifier is `ADR-0411`.
+`ADR-0411` is allocated to the DICOMKit fix-what-surfaces confirmation.
+The next unallocated numeric identifier is `ADR-0412`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -670,3 +671,4 @@ The next unallocated numeric identifier is `ADR-0411`.
 | [ADR-0408](ADR-0408-the-release-policy.md) | Accepted | The release policy |
 | [ADR-0409](ADR-0409-vtk-itk-out-of-scope.md) | Accepted | VTK/ITK interop out of scope |
 | [ADR-0410](ADR-0410-registration-metal-acceptance.md) | Accepted | Registration Metal acceptance resolution |
+| [ADR-0411](ADR-0411-dicomkit-fix-what-surfaces.md) | Accepted | DICOMKit fix-what-surfaces confirmed |
