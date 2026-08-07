@@ -5280,9 +5280,14 @@
       "sha256": "8fa4e36e01aaeff3057706270e20bdf1970a1d6dd915dcaa03819c09b1e20172"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0325-grid-resampling-is-unbuilt.md",
+      "size": 5076,
+      "sha256": "597a07652bbe116707dc9a9972068326c391a9784277bb160475d7b7ade488e1"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 44054,
-      "sha256": "184e6ca0da7a98ad6b8c451024d57a238c73239ae468cfcd91949c76c2bf44c5"
+      "size": 44149,
+      "sha256": "9a75749a43f200d1e3a21d1d81ea95fa838d33a8c6eadc548eeea0c38c3afc9f"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5376,8 +5381,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 405655,
-      "sha256": "e8be75a9aaa45a6dc872c8f7583a2ba1beb7cf9b8995d5f2f91f690b34d9f9ed"
+      "size": 407266,
+      "sha256": "27419c5ea7f4c7cb6c2c8cf4e3692233d8cb34d8ce69e2433e65299ae1db6916"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5901,8 +5906,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 67461,
-      "sha256": "3775b0919cbc07f9da045582cec66833814bad5b6d8982460e1837192cafb0d2"
+      "size": 67528,
+      "sha256": "309410fb1cacda8cea65608163e0fa2d948ac9ec248cba3a88c3280c96edeb17"
     }
   ]
 }

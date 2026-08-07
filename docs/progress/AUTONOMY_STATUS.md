@@ -6273,3 +6273,29 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    as a standing hazard rather than a coincidence.**
 
    **7 rows remain unclaimed** — recomputed.
+
+   **Increment (rrrr): `ADR-0325` — `VOX-IMG-008` is UNBUILT; hypothesis closed.**
+   1238/219 unchanged; no code, no test.
+
+   **THE TARGET IS EXTENTS, NOT A GRID.** `ResampleLinearOperation.execute` and its nearest
+   sibling take `outputWidth`/`outputHeight` — **two integers**. The *source* is `ImageData`
+   carrying a `spatialGeometry`, so a source grid exists; **no target grid is expressible at
+   all**. They resample from a grid to a **pixel rectangle**; the row's target has **no
+   parameter to receive it**.
+
+   **`ADR-0324`'s hypothesis SETTLED and CLOSED**: `ObliqueSliceOperation` does take a target
+   `AffineGridGeometry` — but it produces a **plane from a volume**, a **rank reduction**,
+   where this row asks for resampling that preserves what is resampled. **Recording the
+   negative stops the next increment re-opening the same guess.**
+
+   **Two frozen boundaries named before anyone builds it**: (1) the **sample-mapping order** —
+   the inverse of the target geometry composed with the source's forward map, which
+   `ALG-0052`/`ADR-0138` freeze in *their own* directions, so the order **here is a NEW frozen
+   decision**; (2) whether the result is defined where the target grid falls **outside** the
+   source — the padding question **`ADR-0293` §55.5 was written to supply a phantom for**.
+
+   **Recorded as UNBUILT, not merely unclaimed** — three rows in this queue were delivered and
+   unclaimed; **this one is not delivered, and conflating the two would make the queue's
+   remaining cost look smaller than it is.**
+
+   **7 rows remain unclaimed** — unchanged.
