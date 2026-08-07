@@ -4,6 +4,7 @@ import AppKit
 import SwiftUI
 import Synchronization
 import VoxeliaCore
+import VoxeliaDICOMKit
 import VoxeliaExecution
 import VoxeliaImaging
 import VoxeliaMetal
@@ -37,6 +38,8 @@ final class ViewerState: ObservableObject {
     @Published var loadedBricks = 0
     @Published var totalBricks = 1
     @Published var statusLine = "starting..."
+    @Published var maxSlice = 255.0
+    @Published var studyMode = false
 
     private var engine: ViewerEngine?
     private var debounce: Task<Void, Never>?
@@ -46,8 +49,18 @@ final class ViewerState: ObservableObject {
 
     func start() async {
         do {
-            let engine = try await ViewerEngine()
+            let directory = CommandLine.arguments.dropFirst().first.map {
+                URL(fileURLWithPath: $0, isDirectory: true)
+            }
+            let engine = try await ViewerEngine(studyDirectory: directory)
             self.engine = engine
+            studyMode = await engine.studyMode
+            maxSlice = Double(max(await engine.sliceCount(for: plane) - 1, 1))
+            if studyMode {
+                statusLine = "study imported (full resolution)"
+                interactionChanged()
+                return
+            }
             totalBricks = await engine.totalBricks
             statusLine = "generating study cache (interactive uses the level)..."
             await engine.startGeneration { [weak self] completed, total in
@@ -70,6 +83,15 @@ final class ViewerState: ObservableObject {
     /// active phase, then debounce into idle — the host-side clock
     /// `ADR-0345` assigns to the application.
     func interactionChanged() {
+        Task { [weak self] in
+            guard let self, let engine = self.engine else { return }
+            let plane = self.plane
+            let ceiling = Double(max(await engine.sliceCount(for: plane) - 1, 1))
+            await MainActor.run {
+                self.maxSlice = ceiling
+                if self.sliceIndex > ceiling { self.sliceIndex = ceiling }
+            }
+        }
         render(phase: .active)
         debounce?.cancel()
         debounce = Task { [weak self] in
@@ -87,7 +109,7 @@ final class ViewerState: ObservableObject {
         let index = Int(sliceIndex)
         let complete = generationComplete
         let quality: RenderQuality =
-            phase == .idle && complete ? .full : .interactive
+            studyMode || (phase == .idle && complete) ? .full : .interactive
         Task {
             do {
                 let rendered = try await engine.renderPlane(
@@ -100,6 +122,12 @@ final class ViewerState: ObservableObject {
                     // Stale results are dropped, never presented.
                     guard ticket == self.renderTicket else { return }
                     self.image = rendered
+                    if self.studyMode {
+                        self.statusLine =
+                            "study | full resolution | phase "
+                            + (phase == .active ? "active" : "idle")
+                        return
+                    }
                     let source = InteractiveLevelRenderCoordinator.selectSource(
                         quality: quality,
                         studyCacheGenerationComplete: complete
@@ -144,17 +172,19 @@ struct ViewerView: View {
             }
             .pickerStyle(.segmented)
             .onChange(of: state.plane) { state.interactionChanged() }
-            Slider(value: $state.sliceIndex, in: 0...255, step: 1) {
+            Slider(value: $state.sliceIndex, in: 0...max(state.maxSlice, 1), step: 1) {
                 Text("Slice")
             }
             .onChange(of: state.sliceIndex) { state.interactionChanged() }
-            ProgressView(
-                value: Double(state.loadedBricks),
-                total: Double(max(state.totalBricks, 1))
-            ) {
-                Text(
-                    "Study cache: \(state.loadedBricks)/\(state.totalBricks) bricks"
-                )
+            if !state.studyMode {
+                ProgressView(
+                    value: Double(state.loadedBricks),
+                    total: Double(max(state.totalBricks, 1))
+                ) {
+                    Text(
+                        "Study cache: \(state.loadedBricks)/\(state.totalBricks) bricks"
+                    )
+                }
             }
             Text(state.statusLine)
                 .font(.system(.caption, design: .monospaced))
@@ -183,10 +213,16 @@ actor ViewerEngine {
     private let broker: BrickRequestBroker
     private var renderOrdinal = 0
     private var generationCompleteFlag = false
+    let studyMode: Bool
 
     var totalBricks: Int { bricks.count }
 
-    init() async throws {
+    /// The slice count of the viewed volume along one plane's fixed axis.
+    func sliceCount(for plane: MPRPlane) -> Int {
+        fullVolume.descriptor.shape.extents[plane.fixedAxis]
+    }
+
+    init(studyDirectory: URL?) async throws {
         software = try SoftwareIdentity(
             name: "VoxeliaCTReference",
             version: try SemanticVersion(major: 0, minor: 1, patch: 0),
@@ -217,25 +253,72 @@ actor ViewerEngine {
         }
         fullVolumeID = fullID
         levelVolumeID = levelID
-
-        fullVolume = try Self.makePhantomVolume(software: software, objectID: fullID)
-        _ = try await publisher.publish(fullVolume, mode: .complete)
-
+        studyMode = studyDirectory != nil
         level = try BrickResolutionLevel(index: 1, downsamplingFactors: [2, 2, 2])
-        guard let levelRecord = ProvenanceID(rawValue: "record-reference-level-1")
-        else {
-            throw ViewerError.invalidIdentifier
+
+        if let studyDirectory {
+            // Study mode per ADR-0349: the accepted import session with
+            // the DICOM source's closures, under the exact geometry
+            // tolerance the owner's own series is proven to pass.
+            guard let space = CoordinateSpaceID(rawValue: "patient") else {
+                throw ViewerError.invalidIdentifier
+            }
+            let urls = try FileManager.default.contentsOfDirectory(
+                at: studyDirectory,
+                includingPropertiesForKeys: nil
+            ).sorted { $0.lastPathComponent < $1.lastPathComponent }
+            let source = DICOMFrameSource(coordinateSpace: space)
+            guard let record = ProvenanceID(rawValue: "record-reference-volume")
+            else {
+                throw ViewerError.invalidIdentifier
+            }
+            let imported = try CTImportSession.importVolume(
+                sources: urls,
+                describe: { source.describe($0) },
+                readFrameBytes: { try source.frameBytes(for: $0) },
+                tolerance: .exact,
+                coordinateSpaceID: space,
+                convention: .dicomPatientLPS,
+                handedness: .unspecified,
+                unit: try MeasurementUnit(
+                    namespace: "UCUM",
+                    code: "mm",
+                    dimension: .length
+                ),
+                objectID: fullID,
+                provenanceID: record,
+                software: software,
+                ingestedAt: try CanonicalInstant(
+                    utcString: "2026-08-07T12:00:00Z"
+                ),
+                validationClaim: .unknown,
+                metadata: try MetadataCollection(entries: []),
+                cancellation: { _ in false }
+            )
+            fullVolume = imported.image
+            _ = try await publisher.publish(fullVolume, mode: .complete)
+        } else {
+            fullVolume = try Self.makePhantomVolume(
+                software: software,
+                objectID: fullID
+            )
+            _ = try await publisher.publish(fullVolume, mode: .complete)
+
+            guard let levelRecord = ProvenanceID(rawValue: "record-reference-level-1")
+            else {
+                throw ViewerError.invalidIdentifier
+            }
+            let levelImage = try await LevelSelectOperation.execute(
+                input: fullVolume,
+                level: level,
+                outputObjectID: levelID,
+                outputProvenanceID: levelRecord,
+                createdAt: try CanonicalInstant(utcString: "2026-08-07T12:00:00Z"),
+                software: software,
+                coordinator: readCoordinator
+            )
+            _ = try await publisher.publish(levelImage, mode: .complete)
         }
-        let levelImage = try await LevelSelectOperation.execute(
-            input: fullVolume,
-            level: level,
-            outputObjectID: levelID,
-            outputProvenanceID: levelRecord,
-            createdAt: try CanonicalInstant(utcString: "2026-08-07T12:00:00Z"),
-            software: software,
-            coordinator: readCoordinator
-        )
-        _ = try await publisher.publish(levelImage, mode: .complete)
 
         let context = try MetalExecutionContext()
         let counter = RenderNamingCounter()
@@ -382,6 +465,39 @@ actor ViewerEngine {
         guard let space = CoordinateSpaceID(rawValue: "patient") else {
             throw ViewerError.invalidIdentifier
         }
+        // The demonstration windows are the application's fixed demo
+        // defaults per ADR-0349; window controls are host UI the
+        // demonstrations do not require.
+        let window =
+            studyMode
+            ? try GreyscaleWindowFunction(center: 1024, width: 4096, polarity: .standard)
+            : try GreyscaleWindowFunction(center: 128, width: 256, polarity: .standard)
+        if studyMode {
+            let result = try await MultiplanarRenderCoordinator.renderPlane(
+                volumeID: fullVolumeID,
+                plane: plane,
+                sliceIndex: sliceIndex,
+                transferFunction: .greyscaleWindow(window),
+                viewport: try ViewportSize(width: 512, height: 512),
+                camera: try RenderCamera(
+                    position: try Point3D(x: 0, y: 0, z: -100, coordinateSpace: space),
+                    target: try Point3D(x: 0, y: 0, z: 0, coordinateSpace: space),
+                    up: try Vector3D(x: 0, y: 1, z: 0, coordinateSpace: space),
+                    projection: .orthographic(planeHeight: 250)
+                ),
+                interpolation: .nearestNeighbour,
+                quality: .full,
+                colourOutput: .greyscale8,
+                colourTransform: .none,
+                outputColourSpace: nil,
+                naming: naming,
+                publisher: publisher,
+                readCoordinator: readCoordinator,
+                software: software,
+                renderer: renderer
+            )
+            return try await presentedImage(for: result)
+        }
         let result = try await InteractiveLevelRenderCoordinator.renderPlane(
             quality: quality,
             studyCacheGenerationComplete: generationComplete,
@@ -390,9 +506,7 @@ actor ViewerEngine {
             level: level,
             plane: plane,
             sliceIndex: sliceIndex,
-            transferFunction: .greyscaleWindow(
-                try GreyscaleWindowFunction(center: 128, width: 256, polarity: .standard)
-            ),
+            transferFunction: .greyscaleWindow(window),
             viewport: try ViewportSize(width: 512, height: 512),
             camera: try RenderCamera(
                 position: try Point3D(x: 0, y: 0, z: -100, coordinateSpace: space),
@@ -410,6 +524,10 @@ actor ViewerEngine {
             software: software,
             renderer: renderer
         )
+        return try await presentedImage(for: result)
+    }
+
+    private func presentedImage(for result: RenderResult) async throws -> NSImage {
         guard
             let published = await publisher.publishedImage(for: result.outputObjectID)
         else {

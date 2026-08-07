@@ -7048,3 +7048,27 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: the DICOM import wiring — THE FINAL ENGINEERING INCREMENT. After
    it, the queue is engineering-empty and the loop STOPS per `ADR-0338` d10,
    surfacing the release packet to the owner.
+
+   **Increment (ppppp): `ADR-0349` — STUDY IMPORT WIRED. THE ENGINEERING QUEUE
+   IS EMPTY.** 1289/225 unchanged; the example application only.
+
+   **The reference application gains study mode**: launched with a series
+   directory, it imports through `CTImportSession` with `DICOMFrameSource`'s
+   closures under the **exact** geometry tolerance — the accepted conservative
+   posture the owner's own 899-frame series is proven to pass — publishes the
+   imported volume, and views it through the multiplanar path at full quality
+   with an adaptive slice range. Phantom mode is unchanged.
+
+   **The value-domain bound is recorded, not worked around**: the level and
+   refinement demonstrations stay phantom-only because `LevelSelectOperation`
+   admits the sampler's `uint8` domain and CT carries wider stored values;
+   widening is that operation family's own future decision, never an
+   example-app patch.
+
+   **Per `ADR-0338` d10 the loop now STOPS**: every M0-M6 row is discharged,
+   characterised or measured; the demonstration vehicle serves phantom and
+   study; the release packet at `docs/releases/v0.2.0/README.md` is the
+   owner's next action — eight Demonstrations, six Reviews (including the
+   `VOX-PER-004` 440x target standing as its own acceptance item), two
+   Raster-Lab LICENSE actions, then the mechanical tag steps. The tag is the
+   owner's to cut; nothing on this queue remains for the loop.

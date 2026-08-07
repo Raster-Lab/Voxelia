@@ -52,8 +52,11 @@ a `## 0.2.0` heading with the date, commit, and tag `v0.2.0`.
 
 ## Standing notes
 
-- The reference application demonstrates on a synthetic phantom; DICOM
-  directory import wiring is the one remaining engineering increment and does
-  not block items 1-3 unless you want the demonstrations on a real study.
+- The reference application demonstrates on the phantom (interactive level,
+  refinement, priority, first-useful-image) and, launched with a series
+  directory, on a real study through the accepted import session
+  (`swift run VoxeliaCTReference /path/to/series`) for the multiplanar
+  demonstrations. The level path stays phantom-only in this version
+  (`ADR-0349` decision 2).
 - This packet is an agenda, not evidence; the evidence is in the referenced
   reports and the suite.

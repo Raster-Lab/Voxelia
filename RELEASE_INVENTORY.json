@@ -241,18 +241,18 @@
     },
     {
       "path": "Examples/VoxeliaCTReference/Package.swift",
-      "size": 508,
-      "sha256": "787ee5ef7cd73e7ba8610fea9f8d7dd4a7d7d4dbdb5e6f749feadf887f3216bc"
+      "size": 579,
+      "sha256": "d998700cd2e8fcffe2b055b465bd9bc9f56131cc75b02e7575dba9ab8c4b10a1"
     },
     {
       "path": "Examples/VoxeliaCTReference/README.md",
-      "size": 1308,
-      "sha256": "761476aeb4b359b61c03bbea313ef8acc2b2c81441a5bc7f512516023dbaac8b"
+      "size": 1636,
+      "sha256": "45649c693a151b9cdd7c3e61010eb2ddbba19ffa8b6cb3bc9ba530fb88087485"
     },
     {
       "path": "Examples/VoxeliaCTReference/Sources/VoxeliaCTReference/VoxeliaCTReferenceApp.swift",
-      "size": 22088,
-      "sha256": "36024ab8660f7f97e8dad131e62b17123ece2f15a07ccbb55ce42f351458cf6d"
+      "size": 27365,
+      "sha256": "f31b19f6e9defbccc9a2f25b9bff1555bd2914546d99ef0c39febae17a4359a2"
     },
     {
       "path": "GOVERNANCE.md",
@@ -5510,9 +5510,14 @@
       "sha256": "b21fbc9396edf5b13c31a1198e0c2d623f08bf4a49d02280247c956bfc884137"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0349-study-import-wiring.md",
+      "size": 3673,
+      "sha256": "74c505e5d1e3a83c16ca83220e5a00050e27c4708e220c733358e5a2f4704732"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 47038,
-      "sha256": "d8a575425aeb27b8e8c892da62c1f3301664410f869f850d5acaa5b2bb7f2993"
+      "size": 47171,
+      "sha256": "3aa51ca646c2da2369115667dd506d0a87e061f14b1eb5a6082ff736fe362416"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5611,8 +5616,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 454082,
-      "sha256": "46c7e085d98bd6f91ae3626b1d20f17b7e2c10aa5e79e0360e3f057fc601d040"
+      "size": 455513,
+      "sha256": "ae10ff11f62e60977eee44bde4adec766320aea64c611a081ee0876decc2f9e4"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -6076,8 +6081,8 @@
     },
     {
       "path": "docs/releases/v0.2.0/README.md",
-      "size": 3281,
-      "sha256": "4856e15d1c7fa3d555af31bcb56a6e121d0ebd656f6128407b39323024615c61"
+      "size": 3437,
+      "sha256": "e847da1e55d4b8779934d352f43b0a9e0fc5d9bbc0ed69c67be5f18ee57eaf95"
     },
     {
       "path": "docs/requirements/README.md",
@@ -6161,8 +6166,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 70679,
-      "sha256": "52303c894f0f15a6c245f6fe5bb3c936da09d231088bc7345402ccf43955d15b"
+      "size": 70739,
+      "sha256": "3b4540ba9bf97fd69bd784ed26b135dfc55c5ac3c0303a0518f1e4a091ed597a"
     }
   ]
 }

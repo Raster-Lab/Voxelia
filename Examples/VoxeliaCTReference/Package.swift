@@ -12,6 +12,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Voxelia", package: "Voxelia"),
                 .product(name: "VoxeliaMetal", package: "Voxelia"),
+                .product(name: "VoxeliaDICOMKit", package: "Voxelia"),
             ]
         )
     ],

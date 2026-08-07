@@ -25,6 +25,15 @@ What it shows, live:
   the cache is complete;
 - the status line reporting the selected source, phase and pending refinement.
 
-DICOM directory import through `CTImportSession` arrives with release
-assembly. This application is not a production application and is not
-regulatory evidence.
+Launch with a DICOM series directory to view a real study through the
+accepted import session under the exact geometry tolerance
+(`ADR-0349`):
+
+```bash
+cd Examples/VoxeliaCTReference && swift run VoxeliaCTReference /path/to/series
+```
+
+Study mode is full-resolution multiplanar viewing; the level and
+refinement demonstrations run in phantom mode, because the level path
+admits the sampler's `uint8` domain. This application is not a
+production application and is not regulatory evidence.
