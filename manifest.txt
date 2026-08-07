@@ -1041,6 +1041,7 @@ docs/architecture/decisions/ADR-0310-documented-example-safety.md
 docs/architecture/decisions/ADR-0311-metal-performance-shaders-boundary.md
 docs/architecture/decisions/ADR-0312-canonical-two-dimensional-pipeline.md
 docs/architecture/decisions/ADR-0313-arbitrary-oblique-reconstruction.md
+docs/architecture/decisions/ADR-0314-priority-propagation-is-unbuilt.md
 docs/architecture/decisions/README.md
 docs/architecture/diagrams/README.md
 docs/architecture/index.md

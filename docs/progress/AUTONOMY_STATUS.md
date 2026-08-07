@@ -5974,6 +5974,31 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **5 entered-milestone rows remain** from `ADR-0290`'s sweep.
 
+   **Increment (gggg): `ADR-0314` — `VOX-CON-008` recorded UNBUILT.** 1235/218 unchanged; no
+   code, **no test written on purpose**.
+
+   **The words `priority`/`Priority` do NOT appear in `Sources/` AT ALL** — not once, any
+   spelling, any module. No `TaskPriority`, no scheduling vocabulary that could carry one.
+   Nothing to propagate.
+
+   **THE FINDING THAT MATTERS MORE THAN THIS ROW: `VOX-CON-008` and `VOX-PER-006` are blocked
+   on the SAME missing artefact.** `ADR-0307` found there is no study cache. `VOX-PER-006`
+   needs that stage **to have a completion**; `VOX-CON-008` needs it **to be something
+   interactive work can outrank**. **One owner decision — "what is a study cache" — gates TWO
+   rows**, which is worth knowing before anyone sizes it.
+
+   **Declined to invent a priority vocabulary now**: "propagated" means carried from an
+   interactive caller through to the work competing with it, and with no competing work a
+   `TaskPriority` parameter would be **carried from nowhere to nowhere while looking like
+   progress**.
+
+   **Declined to claim Swift's cooperative-pool priority satisfies it** — structured
+   concurrency does propagate priority through child tasks, but that is a property of **the
+   language**, not of Voxelia. The row asks Voxelia to propagate it *so that* interactive work
+   outranks background cache generation, and no code here creates that background work.
+
+   **5 rows remain — unchanged**, because this discharges nothing.
+
    **EIGHT owner decisions now outstanding** — the six from `ADR-0254` plus the two
    above.
 

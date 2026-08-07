@@ -203,7 +203,7 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0314`.
+The next unallocated numeric identifier is `ADR-0315`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -500,3 +500,4 @@ The next unallocated numeric identifier is `ADR-0314`.
 | [ADR-0311](ADR-0311-metal-performance-shaders-boundary.md) | Accepted | Metal performance shaders boundary |
 | [ADR-0312](ADR-0312-canonical-two-dimensional-pipeline.md) | Accepted | Canonical two dimensional pipeline |
 | [ADR-0313](ADR-0313-arbitrary-oblique-reconstruction.md) | Accepted | Arbitrary oblique reconstruction |
+| [ADR-0314](ADR-0314-priority-propagation-is-unbuilt.md) | Accepted | Priority propagation is unbuilt |

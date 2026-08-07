@@ -5215,9 +5215,14 @@
       "sha256": "48ef7883c4b163c1cf9fe1095dc5854919661ee44b0184c682221b6e33ce9cae"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0314-priority-propagation-is-unbuilt.md",
+      "size": 4645,
+      "sha256": "d07b560a18061922e5557bc2200ab17acb44057bfa8d46ef5293e7b6e7f83518"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 43015,
-      "sha256": "93b3f732149f9ddc18610120dd68c5cced6b17774b7d12d4175412a36a8ae197"
+      "size": 43120,
+      "sha256": "d8a3d22e5221c2896265ad849c2a14793dd3f4d6ec6c9c6ecf28da0a1ce2ce2c"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5311,8 +5316,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 1254150,
-      "sha256": "05a178f6e31e10e73f9aa3eb9d60cfa4d1abdf05397cd1aea30150ca8bcd4b1b"
+      "size": 1255642,
+      "sha256": "752cb289855fcb8e0fce833033e43c3fa2fcdf255e6c222f5849add9942c9937"
     },
     {
       "path": "docs/progress/evidence/ADR-0031-bounded-recursive-metadata-probe.swift",
@@ -5831,8 +5836,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 66591,
-      "sha256": "4567453169674513659ff8e648bd81a59c6763ab0f226bb85a3c8d02b7f4e200"
+      "size": 66663,
+      "sha256": "3513a0443382f01378ffc7414aa677f74f660364ebff4d7828494c8b50e5d774"
     }
   ]
 }
