@@ -23,6 +23,16 @@ public enum InteractionError: Error, Sendable, Equatable {
     case pickOutsideViewport
     case presentationNotCalibrated
     case viewportAxisNotMapped
+    /// The presented geometry's axis mapping references an image axis that a
+    /// two-dimensional viewport index cannot supply.
+    ///
+    /// `PickResolver` maps a viewport target through the presented geometry, and a
+    /// viewport supplies exactly two indices. `SpatialAxisMapping` admits one to three
+    /// axes, so a claim naming a third — or naming axis two directly — has no index to
+    /// read. Before `ADR-0292` that combination **trapped** on an out-of-range read
+    /// rather than being refused, which is the one outcome this project's typed-refusal
+    /// discipline exists to prevent.
+    case presentationGeometryNotPlanar
     case crosshairOutsideViewport
     case presentationMembershipMismatch
     case insufficientVertices

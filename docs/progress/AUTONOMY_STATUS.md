@@ -5207,6 +5207,44 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    **Next**: 21 rows remain; `VOX-MPR-014` (measurements use authoritative physical geometry)
    is the next `P0`, `T`-only, ungated.
 
+   **Increment (kkk): `ADR-0292`, `VOX-MPR-014` discharged — AND THE SUITE CRASHED THE TEST
+   PROCESS, EXPOSING A REACHABLE TRAP IN VOXELIA'S OWN CODE.** 1172 tests / 210 suites (was
+   1164/209).
+
+   **The chain**: pixel → `PickResolver` → `Point3D` → `MeasurementConstruction`. The
+   resolver maps a viewport index through the **presented geometry's own** `indexToWorld`,
+   and `MeasurementConstruction` takes `Point3D` and **never sees a viewport** — so
+   screen-pixel measurement is not discouraged, it is **unconstructible**.
+
+   **THE DEFECT.** Writing the suite produced `Fatal error: Index out of range`.
+   `PickResolver` builds its index array from **exactly two** values (viewport x, y) then
+   reads `indices[imageAxis]` for every axis in the claim — but `SpatialAxisMapping` admits
+   **one to three**. A claim naming a third axis, or naming axis 2 directly as `[2, 0]`,
+   **read out of range and TRAPPED**. Every value is constructible through public API:
+   `SpatialAxisMapping(imageAxes: [0,1,2])` is admitted, `AffineGridGeometry` accepts it,
+   `PresentationProvenance` carries it, `PickResolver.resolve` is public. **Reachable, not
+   theoretical** — and a trap is the one outcome the typed-refusal discipline exists to
+   prevent. Same shape as `ADR-0273`'s dependency finding, except **this one is ours**.
+
+   **Fixed** with `InteractionError.presentationGeometryNotPlanar` — a **distinct case, not
+   a reuse** of `presentationNotCalibrated` (that means *no* claim; this means a claim a 2D
+   pick cannot consume, and collapsing them loses the difference — the conflation `ADR-0272`
+   refused when it chose a three-way verdict over a `Bool`). **Not `nil` either**: that
+   would quietly treat a malformed claim as an absent one. **Positive control**: single- and
+   two-axis claims including transposed `[1,0]` still resolve, so the guard discriminates on
+   whether an index exists rather than rejecting every mapping.
+
+   **The tests falsify §33.5 directly**: identical pixels under spacings differing 4×, giving
+   **40.0 mm vs 10.0 mm** — a screen-distance pipeline returns the same number for both.
+   Length asserted **exactly** at four spacings incl. a 3-4-5 diagonal so the root is exact
+   and **no tolerance appears anywhere**. Uncalibrated view → **no physical position** while
+   the pick still succeeds and reports its source index. **View independence** (§33.3): pixel
+   8 at 2 mm and pixel 32 at 0.5 mm produce the **same `Point3D`**.
+
+   **`ADR-0125`/`ADR-0129` NOT edited** — correction recorded here, in the commit and here.
+
+   **Next**: 20 rows remain from the sweep.
+
    **Five owner decisions still open**: report approval, reference hardware, tolerance
    profile, geometry tolerance rule, and the two `LICENSE` files.
 

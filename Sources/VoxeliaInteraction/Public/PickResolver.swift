@@ -97,6 +97,14 @@ public enum PickResolver {
         if case .affine(let affine)? = presentation.geometry {
             let elements = affine.indexToWorld.elements
             let indices = [Double(target.viewportX), Double(target.viewportY)]
+            // A viewport supplies exactly two indices, and `SpatialAxisMapping` admits up
+            // to three axes, so a claim naming a third has no index to read. This refuses
+            // that rather than reading out of range, which is what it did before
+            // `ADR-0292`.
+            guard affine.spatialAxes.imageAxes.allSatisfy({ $0 < indices.count })
+            else {
+                throw InteractionError.presentationGeometryNotPlanar
+            }
             var world = [0.0, 0.0, 0.0]
             for row in 0..<3 {
                 var component = elements[4 * row + 3]
