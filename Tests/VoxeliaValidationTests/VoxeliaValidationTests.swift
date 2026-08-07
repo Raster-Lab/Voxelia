@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 
 import Testing
-@testable import VoxeliaValidation
 import VoxeliaTestSupport
+
+@testable import VoxeliaValidation
 
 @Test("[Unit] VoxeliaValidation M0 target is linked")
 func targetIsLinked() {

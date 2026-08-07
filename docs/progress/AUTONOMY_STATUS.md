@@ -6488,3 +6488,26 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **First of this arc's three ratchets to reach zero.** `ADR-0321`'s 121 spellings and
    `ADR-0302`'s empty temp-file list stand as they were.
+
+   **Increment (zzzz): `ADR-0333` — `Tests/` is now FORMAT-CLEAN (13 → 0).** 1238/219 unchanged;
+   **no source changed**.
+
+   **THE FORMATTER DOES NOT FIX WHAT ITS OWN LINTER REPORTS.** Ran `swift format --in-place`
+   over all 13 files: **it changed NOTHING**, lint stayed at 13. `OrderedImports` and
+   `Indentation` are, for these shapes, **lint-only** — reported and not corrected. **Worth
+   knowing before anyone assumes a formatter pass clears a lint backlog**, and why this
+   increment **edits rather than formats**.
+
+   Fixed by hand: 11 linkage files (`@testable import` moved after plain imports, scripted
+   three-line transformation, not a judgement) and `ApplePlatformGate.swift` (two `#error`
+   bodies indented inside their `#if`).
+
+   **A BACKLOG THIS UNCOVERED**: checking `Sources/` — which **no increment in this arc had
+   done** — reports **29 findings** (Indentation 24, OrderedImports 4, RemoveLine 1). The arc's
+   format checks have all been **per-file on changed sources**, so a whole-tree `Sources/` lint
+   had never run. **Recording the number is the point of noticing it.**
+
+   **NOT fixed here, and not for want of effort**: `Sources/` is product code under Swift 6 +
+   `StrictMemorySafety`, and **24 indentation edits across it is a diff that must be read
+   against the compiler**, not waved through at the end of a session that has already touched
+   219 test display strings. Next increment, **one rule class at a time**.
