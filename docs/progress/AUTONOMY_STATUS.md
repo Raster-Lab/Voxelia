@@ -1,6 +1,6 @@
 # Voxelia autonomous progress ledger
 
-Last updated: 2026-08-06 (Asia/Kolkata)
+Last updated: 2026-08-07 (Asia/Kolkata)
 
 ## Goal
 
@@ -6631,3 +6631,50 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
 
    **The thread closes at the meta level**: eleven real defects found; turned on the enforcement
    layer itself, **none**.
+
+   **Increment (eeeee): `ADR-0338` — THE OWNER DECISION BATCH IS ANSWERED.** 1238/219
+   unchanged; the only non-record change is the `CODEOWNERS` move and its gate.
+
+   The consolidated decision list was put to the owner with a recommendation per item;
+   the owner approved all of them on 2026-08-07: *"Approve all your recommendations,
+   ship at M6, restart the loop."* Recorded verbatim with each decision in `ADR-0338`.
+
+   **What is NEWLY settled**: the reference device is named (`Mac17,4`, Apple M5,
+   24 GiB, macOS 26.5.1 — `VOX-PER-004` is measurable under `ADR-0330`'s four
+   constraints); study cache and first useful image are defined (`VOX-PER-006` and
+   `VOX-CON-008` are now decided-to-build); **interactive refinement shall be built**
+   — the owner's approval decides the question `ADR-0329` left open, so `VOX-BRK-009`
+   and `VOX-DVR-013` proceed as the superseding version `ADR-0103` named as future,
+   and the *"both qualities execute identically"* guard is consciously replaced, not
+   quietly deleted; `voxelia.m4.ct.diagnostic 1.0.0` is approved with reformats
+   required (exact-where-exact stands); the reference application lives under
+   `Examples`; `VOX-SPA-010` completes on sample centres; `VOX-IMG-008` zero-pads
+   with provenance; `CODEOWNERS` is at the root; the Raster-Lab `LICENSE` files are
+   an owner action on the owner's repositories.
+
+   **Two items were CONFIRMATIONS, caught before they became re-derivation**: the
+   first draft of the record treated the compression measurements and the direct
+   codec declaration as newly authorised. They were `ADR-0266`'s gates, executed by
+   `ADR-0267`-`ADR-0273` and closed by `ADR-0274` — `VOX-CMP-011` was DISCHARGED by
+   adversarial testing, not waived. `ADR-0338` d9 records both as confirmations with
+   no new effect, and the stale present-tense "six are BLOCKED" note in
+   `untraced-requirements.txt` is corrected to history in the same increment.
+
+   **`CODEOWNERS` moved and the gate follows the row**: `check_required_files.py` now
+   requires the root path, proven able to fail (file moved away → exit 1; restored →
+   pass), closing the discrepancy `ADR-0320` recorded. `manifest.txt` updated.
+
+   **THE FINISH LINE IS M6.** M7-M10 stay unentered; `HIGHEST_ENTERED_MILESTONE`
+   remains 6 until the owner raises it. What remains to the line is engineering, not
+   governance: spatial bounds' physical half, grid resampling, first useful image,
+   priority propagation, the progressive-refinement arc, the frame-rate measurement
+   on the named device, the reference application, then release assembly with the
+   owner-witnessed Demonstrations and pending Reviews.
+
+   **The restarted loop carries `ADR-0338` d10's bounds**: no new gate, ratchet or
+   register without a requirement row demanding it; an increment must advance a row
+   while any is unblocked; an empty queue stops the loop and surfaces owner questions.
+
+   **Next**: `VOX-SPA-010`'s physical half on the sample-centre convention — the
+   smallest newly unblocked row, and a design-first increment (ADR + oracle) per the
+   standing recipe.

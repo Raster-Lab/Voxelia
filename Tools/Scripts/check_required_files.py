@@ -8,7 +8,7 @@ REQUIRED = [
     "Package.swift", "README.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md",
     "CODE_OF_CONDUCT.md", "GOVERNANCE.md", "SECURITY.md", "SUPPORT.md",
     "THIRD_PARTY_NOTICES.md", "PLATFORM_SUPPORT.md", "VERSION", "RELEASE.json", "manifest.txt", ".editorconfig", ".gitattributes", ".gitignore",
-    ".swift-format", ".github/CODEOWNERS", "Sources", "Tests", "Examples", "Validation/Package.swift",
+    ".swift-format", "CODEOWNERS", "Sources", "Tests", "Examples", "Validation/Package.swift",
     "Benchmarks/Package.swift", "Tools/Package.swift", "Tools/Schemas/VoxeliaSBOM.schema.json", "Tools/Scripts/assert-apple-platform.sh", "Tools/Scripts/build-docc.sh", "Tools/Scripts/check_adr_register.py", "Tools/Scripts/check_rfc_register.py", "Tools/Scripts/check_docc_archives.py", "Tools/Scripts/check_manifest_paths.py", "Tools/Scripts/check_release_integrity.py", "Tools/Scripts/check_swift_safety.py", "Tools/Scripts/generate-sbom.sh", "Tools/Scripts/generate_sbom.py", "Tools/Scripts/generate_requirement_index.py", "Tools/Scripts/test-repository-scripts.sh", "docs/project", "docs/security/SWIFT_SAFETY_POLICY.md", "docs/architecture/decisions/ADR-0025-apple-ecosystem-only.md", ".github/workflows",
 ]
 missing = [item for item in REQUIRED if not (ROOT / item).exists()]

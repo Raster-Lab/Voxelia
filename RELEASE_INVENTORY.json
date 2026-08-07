@@ -15,11 +15,6 @@
       "sha256": "15de8e2389be6b1b7597807084ebd9fe3dfc1c5a8760864b4660696458fc807a"
     },
     {
-      "path": ".github/CODEOWNERS",
-      "size": 1576,
-      "sha256": "0b5f9caec75e33be666c3dff496c46b3aeb46e450e08a1131bc8c9d292e797d2"
-    },
-    {
       "path": ".github/DISCUSSION_TEMPLATE/design.yml",
       "size": 280,
       "sha256": "cff66936ca1aec6144174d49611c8a280a816b965fd51049e60e66afc5ec8c55"
@@ -198,6 +193,11 @@
       "path": "CHANGELOG.md",
       "size": 2284,
       "sha256": "1f2d2068706036b17cbc628de4e56859a3300bd20cc3ad3b6473ce9999a80cdd"
+    },
+    {
+      "path": "CODEOWNERS",
+      "size": 1576,
+      "sha256": "0b5f9caec75e33be666c3dff496c46b3aeb46e450e08a1131bc8c9d292e797d2"
     },
     {
       "path": "CODE_OF_CONDUCT.md",
@@ -3116,8 +3116,8 @@
     },
     {
       "path": "Tools/Scripts/check_required_files.py",
-      "size": 1518,
-      "sha256": "0882f9c461ec6220f09422d71da174f4878096f5beec5a8465a9b210dc76686d"
+      "size": 1510,
+      "sha256": "7f52bc2f7c3a7d253eca46b35be57eaa718fce6db2ce1f5c360a1dc3b6b7f10d"
     },
     {
       "path": "Tools/Scripts/check_requirement_traceability.py",
@@ -5350,9 +5350,14 @@
       "sha256": "fd28237a043b4acbb635288b254ec86e7cb5ca9610098cf4b39036742fe3a07d"
     },
     {
+      "path": "docs/architecture/decisions/ADR-0338-the-owner-decision-batch.md",
+      "size": 10439,
+      "sha256": "a644aa958ca74cb8651d3a37a4040abd69d2149cb05ad5dbf163f7c1cf168046"
+    },
+    {
       "path": "docs/architecture/decisions/README.md",
-      "size": 45360,
-      "sha256": "63f1344c37428c33105825c61f1d14ec05fc0e011cb1a3fb3bcfc6ce6896499f"
+      "size": 45504,
+      "sha256": "a8457328f568ff417611b3a71c3028d957d66594c782155d7962830e10c691b0"
     },
     {
       "path": "docs/architecture/diagrams/README.md",
@@ -5446,8 +5451,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 428194,
-      "sha256": "e8366bc4f9c00d123cf09cb02086bde43e2ce6ab564f1e5c1ecfdcb750faeb14"
+      "size": 431323,
+      "sha256": "760faef96762a38897c7c42e0fb894736ac9b60b82bdbf96a744231e8f24ce69"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -5661,8 +5666,8 @@
     },
     {
       "path": "docs/progress/untraced-requirements.txt",
-      "size": 987,
-      "sha256": "f4c25804d45dd52289af414458bd455863c942d623dd7effbdb02516e0111af5"
+      "size": 1193,
+      "sha256": "2d945dd45688e7832a4945a049e9046d2e5eb3a95cb111bcc7f5fd852665a72c"
     },
     {
       "path": "docs/project/README.md",
@@ -5971,8 +5976,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 68415,
-      "sha256": "bdcb9a19701531f73e23417ddad38a6ebebac8aea62758bd7c1b4ac8babcf6a2"
+      "size": 68472,
+      "sha256": "296f4def2c058c509dbdff9c70cb1fb586287e49226f5cb9fe18d1a8ab060639"
     }
   ]
 }

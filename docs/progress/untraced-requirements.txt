@@ -8,10 +8,13 @@
 # compression block; ADR-0255 opened that arc and names each one, so
 # every requirement in an entered milestone is now traced by a record.
 #
-# TRACED IS NOT SATISFIED. ADR-0255 decision 1 splits the block: seven
-# rows proceed as Voxelia-boundary work, and six -- VOX-CMP-004, 005,
-# 006, 011, 012 and 014 -- are BLOCKED on an owner reconciliation,
+# TRACED IS NOT SATISFIED. ADR-0255 decision 1 split the block: seven
+# rows proceeded as Voxelia-boundary work, and six -- VOX-CMP-004, 005,
+# 006, 011, 012 and 014 -- were BLOCKED on an owner reconciliation,
 # because they require characterising, benchmarking or adversarially
 # testing the Raster-Lab codecs, which a standing owner instruction
-# excludes. Being named in a record is what "traced" means here; it is
-# not a claim that any of them is met.
+# excluded. The owner released that gate (recorded verbatim in
+# ADR-0266), and the six rows were then discharged through ADR-0269 to
+# ADR-0274, closing the M5 arc. This note is history, not debt;
+# ADR-0338 decision 9 records the owner's later re-approval of the
+# same items as confirmation with no new effect.

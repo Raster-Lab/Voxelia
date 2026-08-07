@@ -203,7 +203,8 @@ vocabulary. `ADR-0210` is allocated to the VOI lookup design.
 `ADR-0224` is allocated to the scaffold gate findings.
 `ADR-0225` is allocated to the unrun pipeline sweep conclusion.
 `ADR-0226` is allocated to the DICOM ingest arc.
-The next unallocated numeric identifier is `ADR-0338`.
+`ADR-0338` is allocated to the owner decision batch.
+The next unallocated numeric identifier is `ADR-0339`.
 
 | ID | Status | Decision |
 |---|---|---|
@@ -524,3 +525,4 @@ The next unallocated numeric identifier is `ADR-0338`.
 | [ADR-0335](ADR-0335-correct-the-documentation-spelling.md) | Accepted | Correct the documentation spelling |
 | [ADR-0336](ADR-0336-the-spelling-floor-is-exempt.md) | Accepted | The spelling floor is exempt |
 | [ADR-0337](ADR-0337-every-gate-is-reachable.md) | Accepted | Every gate is reachable |
+| [ADR-0338](ADR-0338-the-owner-decision-batch.md) | Accepted | The owner decision batch |
