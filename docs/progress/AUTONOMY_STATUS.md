@@ -8548,3 +8548,20 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    removal. THE FINISH LINE IS CROSSED: M0-M10 complete, traceability
    debt zero, 1,461 tests in 285 suites. The queue is EMPTY — further
    work is new scope the owner directs.
+
+1. **2026-08-08 — POST-1.0, OWNER-DIRECTED: example-app demo plan,
+   phase 1.** The owner asked for a demonstration plan for the 1.0
+   features and directed phase 1: window/level controls in
+   `Examples/VoxeliaCTReference`. The two hardcoded demo windows are
+   replaced by centre/width sliders and four conventional CT presets
+   (lung, bone, soft tissue, brain) declared in Hounsfield units; the
+   engine converts display units to the stored domain through the
+   volume's declared linear value transform (zero scale falls back to
+   identity — presentation must not divide by zero over an admitted
+   declaration), and the admitted window's `width >= 1` floor is
+   respected at the conversion. Everything lands in the application —
+   window controls remain host UI per `ADR-0347`/`ADR-0349`; the
+   library saw no change. Verified: example builds clean, app runs
+   against the owner's venous series, full suite unaffected and green.
+   Phases 2-5 (segmentation, registration, processing gallery,
+   photorealistic preview) remain owner-directed future scope.

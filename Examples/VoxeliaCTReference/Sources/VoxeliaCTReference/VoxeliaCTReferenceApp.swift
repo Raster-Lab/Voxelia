@@ -29,6 +29,22 @@ struct VoxeliaCTReferenceApp: App {
     }
 }
 
+/// A named window/level preset in Hounsfield units — host UI per
+/// `ADR-0347`/`ADR-0349`; the library never owns presentation presets.
+struct WindowPreset: Identifiable {
+    let id: String
+    let centre: Double
+    let width: Double
+
+    /// The conventional CT display presets, in Hounsfield units.
+    static let standard: [WindowPreset] = [
+        WindowPreset(id: "Lung", centre: -600, width: 1500),
+        WindowPreset(id: "Bone", centre: 300, width: 1500),
+        WindowPreset(id: "Soft tissue", centre: 50, width: 400),
+        WindowPreset(id: "Brain", centre: 40, width: 80),
+    ]
+}
+
 /// Main-actor presentation state; the engine actor does the work.
 @MainActor
 final class ViewerState: ObservableObject {
@@ -40,6 +56,10 @@ final class ViewerState: ObservableObject {
     @Published var statusLine = "starting..."
     @Published var maxSlice = 255.0
     @Published var studyMode = false
+    @Published var windowCentre = 128.0
+    @Published var windowWidth = 256.0
+    @Published var centreRange = 0.0...255.0
+    @Published var widthRange = 1.0...512.0
 
     private var engine: ViewerEngine?
     private var debounce: Task<Void, Never>?
@@ -56,6 +76,15 @@ final class ViewerState: ObservableObject {
             self.engine = engine
             studyMode = engine.studyMode
             maxSlice = Double(max(await engine.sliceCount(for: plane) - 1, 1))
+            if studyMode {
+                // Hounsfield-unit controls: the engine converts through
+                // the imported rescale transform. Soft tissue first —
+                // the natural window for an abdominal series.
+                centreRange = -1024.0...3071.0
+                widthRange = 1.0...4096.0
+                windowCentre = 50
+                windowWidth = 400
+            }
             if studyMode {
                 statusLine = "study imported (full resolution)"
                 interactionChanged()
@@ -77,6 +106,13 @@ final class ViewerState: ObservableObject {
         } catch {
             statusLine = "failed to start: \(error)"
         }
+    }
+
+    /// Applies a named preset: one control change, same clock path.
+    func applyPreset(_ preset: WindowPreset) {
+        windowCentre = preset.centre
+        windowWidth = preset.width
+        interactionChanged()
     }
 
     /// Every control change lands here: render immediately as the
@@ -108,6 +144,8 @@ final class ViewerState: ObservableObject {
         let plane = plane
         let index = Int(sliceIndex)
         let complete = generationComplete
+        let centre = windowCentre
+        let width = windowWidth
         let quality: RenderQuality =
             studyMode || (phase == .idle && complete) ? .full : .interactive
         Task {
@@ -116,7 +154,9 @@ final class ViewerState: ObservableObject {
                     plane: plane,
                     sliceIndex: index,
                     quality: quality,
-                    generationComplete: complete
+                    generationComplete: complete,
+                    windowCentre: centre,
+                    windowWidth: width
                 )
                 await MainActor.run {
                     // Stale results are dropped, never presented.
@@ -126,6 +166,7 @@ final class ViewerState: ObservableObject {
                         self.statusLine =
                             "study | full resolution | phase "
                             + (phase == .active ? "active" : "idle")
+                            + " | C \(Int(centre)) W \(Int(width)) HU"
                         return
                     }
                     let source = InteractiveLevelRenderCoordinator.selectSource(
@@ -176,6 +217,27 @@ struct ViewerView: View {
                 Text("Slice")
             }
             .onChange(of: state.sliceIndex) { state.interactionChanged() }
+            if state.studyMode {
+                HStack(spacing: 8) {
+                    ForEach(WindowPreset.standard) { preset in
+                        Button(preset.id) { state.applyPreset(preset) }
+                    }
+                }
+            }
+            HStack {
+                Text("Centre \(Int(state.windowCentre))")
+                    .font(.system(.caption, design: .monospaced))
+                    .frame(width: 110, alignment: .leading)
+                Slider(value: $state.windowCentre, in: state.centreRange, step: 1)
+                    .onChange(of: state.windowCentre) { state.interactionChanged() }
+            }
+            HStack {
+                Text("Width \(Int(state.windowWidth))")
+                    .font(.system(.caption, design: .monospaced))
+                    .frame(width: 110, alignment: .leading)
+                Slider(value: $state.windowWidth, in: state.widthRange, step: 1)
+                    .onChange(of: state.windowWidth) { state.interactionChanged() }
+            }
             if !state.studyMode {
                 ProgressView(
                     value: Double(state.loadedBricks),
@@ -436,11 +498,39 @@ actor ViewerEngine {
         generationCompleteFlag = true
     }
 
+    /// Converts a display-domain window (Hounsfield units in study
+    /// mode) into the stored-value domain the transfer function's
+    /// `VOXELIA-ALG-0002` model is expressed in, through the volume's
+    /// declared value transform. A zero-scale declaration falls back
+    /// to identity: presentation must not divide by zero over it.
+    private func storedWindow(
+        centre: Double,
+        width: Double
+    ) throws -> GreyscaleWindowFunction {
+        let scale: Double
+        let offset: Double
+        switch fullVolume.descriptor.valueTransform {
+        case .linear(let linear) where linear.scale != 0:
+            scale = linear.scale
+            offset = linear.offset
+        default:
+            scale = 1
+            offset = 0
+        }
+        return try GreyscaleWindowFunction(
+            center: (centre - offset) / scale,
+            width: max(width / abs(scale), 1),
+            polarity: .standard
+        )
+    }
+
     func renderPlane(
         plane: MPRPlane,
         sliceIndex: Int,
         quality: RenderQuality,
-        generationComplete: Bool
+        generationComplete: Bool,
+        windowCentre: Double,
+        windowWidth: Double
     ) async throws -> NSImage {
         renderOrdinal += 1
         let ordinal = renderOrdinal
@@ -465,13 +555,10 @@ actor ViewerEngine {
         guard let space = CoordinateSpaceID(rawValue: "patient") else {
             throw ViewerError.invalidIdentifier
         }
-        // The demonstration windows are the application's fixed demo
-        // defaults per ADR-0349; window controls are host UI the
-        // demonstrations do not require.
-        let window =
-            studyMode
-            ? try GreyscaleWindowFunction(center: 1024, width: 4096, polarity: .standard)
-            : try GreyscaleWindowFunction(center: 128, width: 256, polarity: .standard)
+        // Window controls are host UI per ADR-0349: the application
+        // owns centre/width and presets; the library only ever sees
+        // the admitted stored-domain window.
+        let window = try storedWindow(centre: windowCentre, width: windowWidth)
         if studyMode {
             let result = try await MultiplanarRenderCoordinator.renderPlane(
                 volumeID: fullVolumeID,
