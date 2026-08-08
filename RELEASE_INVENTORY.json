@@ -6646,8 +6646,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 552662,
-      "sha256": "bab0c2afa49a79da8cfe11b47e9a7fda5dc84afe18cf902cea6b9b5c510fdf1c"
+      "size": 553967,
+      "sha256": "770d614070581fe7a32c26c0590c069d142da947cbaf4ee976f107a25f850ec5"
     },
     {
       "path": "docs/progress/american-spellings.txt",
@@ -7285,6 +7285,11 @@
       "sha256": "c9a801e921479e07e5b3d67da1f0f7daec06e686ce43cca3779172a9c33b584f"
     },
     {
+      "path": "docs/requirements/Voxelia_CT_Viewer_POC_Software_Requirements_Specification_v0.1.md",
+      "size": 33350,
+      "sha256": "31bdec7c58122617c4907e40d124b46f9d87553cf312b6b0581768f9bac3f309"
+    },
+    {
       "path": "docs/rfcs/README.md",
       "size": 1325,
       "sha256": "b499876c61ea598080c02dfc50c2fc97f9c8b5c1dd24bdedb359375b54b59223"
@@ -7361,8 +7366,8 @@
     },
     {
       "path": "manifest.txt",
-      "size": 85177,
-      "sha256": "63291b021a078dec02d24d14469a63d6d7dc8381f8fba63152a6c108b8c5c955"
+      "size": 85261,
+      "sha256": "edf9342bd007c74514da1c945cdbe1dd029eb24bc4b00fbd00a644e648f12a67"
     }
   ]
 }

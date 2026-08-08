@@ -1,6 +1,6 @@
 # Voxelia autonomous progress ledger
 
-Last updated: 2026-08-07 (Asia/Kolkata)
+Last updated: 2026-08-08 (Asia/Kolkata)
 
 ## Goal
 
@@ -8614,3 +8614,24 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    (`1461 tests in 285 suites passed`), app up and stable with the
    owner's venous (fixed, 550 slices) and arterial (moving, 406
    slices) phases. The library saw no change.
+
+1. **2026-08-08 — POST-1.0, OWNER-DIRECTED: CT viewer POC SRS.** The
+   owner requested the software requirements specification only; no
+   application or library source changed and the external corpus
+   remained read-only. The new draft
+   `docs/requirements/Voxelia_CT_Viewer_POC_Software_Requirements_Specification_v0.1.md`
+   defines a bounded macOS/Apple-Silicon example over the existing
+   reference-application vehicle: direct DICOMKit catalogue reads,
+   conventional single-frame 16-bit MONOCHROME2 CT with no declared
+   padding, uniform non-zero HU rescale terms, `.exact` geometry,
+   complete-frame publication, synchronised full-resolution
+   three-plane MPR, privacy-safe diagnostics, cancellation/stale-work
+   refusal and explicit non-diagnostic status. The owner-supplied
+   corpus is recorded only by PHI-safe aggregates; the proven witness
+   is 899 slices at 512 x 512, unsigned 16-bit. Independent baseline,
+   documentation and corpus reviews found no remaining blocker after
+   correcting discovery ownership, renderer padding/polarity limits,
+   append-only publication lifetime, value-domain admission and exact
+   validation oracles. `Tools/Scripts/validate-docs.sh` passes. **Next**:
+   owner review/approval of the draft; implementation remains separate
+   future scope.
