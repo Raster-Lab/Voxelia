@@ -60,6 +60,12 @@ final class ViewerState: ObservableObject {
     @Published var windowWidth = 256.0
     @Published var centreRange = 0.0...255.0
     @Published var widthRange = 1.0...512.0
+    @Published var overlay: NSImage?
+    @Published var segmentLower = 100.0
+    @Published var segmentUpper = 255.0
+    @Published var segmentRange = 0.0...255.0
+    @Published var clickGrows = true
+    @Published var statsLine = "no segment"
 
     private var engine: ViewerEngine?
     private var debounce: Task<Void, Never>?
@@ -84,6 +90,10 @@ final class ViewerState: ObservableObject {
                 widthRange = 1.0...4096.0
                 windowCentre = 50
                 windowWidth = 400
+                // Bone is the natural first threshold on a CT study.
+                segmentRange = -1024.0...3071.0
+                segmentLower = 250
+                segmentUpper = 3071
             }
             if studyMode {
                 statusLine = "study imported (full resolution)"
@@ -113,6 +123,92 @@ final class ViewerState: ObservableObject {
         windowCentre = preset.centre
         windowWidth = preset.width
         interactionChanged()
+    }
+
+    /// Thresholds the whole volume at the current range.
+    func runThreshold() {
+        runSegmentation { engine, lower, upper in
+            try await engine.segmentByThreshold(
+                lowerDisplay: lower,
+                upperDisplay: upper
+            )
+        }
+    }
+
+    /// Grows a region from one tapped point on the displayed slice.
+    func imageTapped(location: CGPoint, viewSize: CGSize) {
+        guard clickGrows, image != nil, viewSize.width > 0, viewSize.height > 0
+        else { return }
+        let px = min(max(Int(location.x / viewSize.width * 512), 0), 511)
+        let py = min(max(Int(location.y / viewSize.height * 512), 0), 511)
+        let plane = plane
+        let slice = Int(sliceIndex)
+        runSegmentation { engine, lower, upper in
+            try await engine.segmentByGrowth(
+                displayX: px,
+                displayY: py,
+                plane: plane,
+                sliceIndex: slice,
+                lowerDisplay: lower,
+                upperDisplay: upper
+            )
+        }
+    }
+
+    /// Drops the segment and its overlay.
+    func clearSegmentation() {
+        Task { [weak self] in
+            guard let self, let engine = self.engine else { return }
+            await engine.clearMask()
+            await MainActor.run {
+                self.overlay = nil
+                self.statsLine = "no segment"
+            }
+            self.interactionChanged()
+        }
+    }
+
+    private func runSegmentation(
+        _ work:
+            @escaping @Sendable (ViewerEngine, Double, Double)
+            async throws
+            -> SegmentSummary
+    ) {
+        guard let engine else { return }
+        let lower = min(segmentLower, segmentUpper)
+        let upper = max(segmentLower, segmentUpper)
+        statsLine = "segmenting..."
+        Task { [weak self] in
+            do {
+                let summary = try await work(engine, lower, upper)
+                await MainActor.run {
+                    self?.statsLine = Self.format(summary)
+                }
+                await MainActor.run { self?.interactionChanged() }
+            } catch {
+                await MainActor.run {
+                    self?.statsLine = "segmentation failed: \(error)"
+                }
+            }
+        }
+    }
+
+    private static func format(_ summary: SegmentSummary) -> String {
+        var parts = ["\(summary.voxelCount) voxels"]
+        if let millilitres = summary.millilitres {
+            parts.append(String(format: "%.1f ml", millilitres))
+        }
+        if let mean = summary.mean, let minimum = summary.minimum,
+            let maximum = summary.maximum
+        {
+            parts.append(
+                String(
+                    format: "mean %.0f | min %.0f | max %.0f",
+                    mean, minimum, maximum
+                )
+            )
+        }
+        return parts.joined(separator: " | ")
     }
 
     /// Every control change lands here: render immediately as the
@@ -158,10 +254,20 @@ final class ViewerState: ObservableObject {
                     windowCentre: centre,
                     windowWidth: width
                 )
+                let raster = try await engine.maskRaster(
+                    plane: plane,
+                    sliceIndex: index,
+                    width: 512,
+                    height: 512
+                )
+                let overlayImage = raster.flatMap {
+                    GreyImageBridge.makeImage(bytes: $0, width: 512, height: 512)
+                }
                 await MainActor.run {
                     // Stale results are dropped, never presented.
                     guard ticket == self.renderTicket else { return }
                     self.image = rendered
+                    self.overlay = overlayImage
                     if self.studyMode {
                         self.statusLine =
                             "study | full resolution | phase "
@@ -198,11 +304,34 @@ struct ViewerView: View {
     var body: some View {
         VStack(spacing: 8) {
             if let image = state.image {
-                Image(nsImage: image)
-                    .resizable()
-                    .interpolation(.none)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(minWidth: 512, minHeight: 512)
+                GeometryReader { proxy in
+                    ZStack {
+                        Image(nsImage: image)
+                            .resizable()
+                            .interpolation(.none)
+                        if let overlay = state.overlay {
+                            // Host presentation of the segment: the
+                            // mask raster's luminance becomes alpha,
+                            // tinted red over the accepted render.
+                            Image(nsImage: overlay)
+                                .resizable()
+                                .interpolation(.none)
+                                .luminanceToAlpha()
+                                .colorMultiply(.red)
+                                .opacity(0.45)
+                        }
+                    }
+                    .gesture(
+                        SpatialTapGesture().onEnded { value in
+                            state.imageTapped(
+                                location: value.location,
+                                viewSize: proxy.size
+                            )
+                        }
+                    )
+                }
+                .aspectRatio(1, contentMode: .fit)
+                .frame(minWidth: 512, minHeight: 512)
             } else {
                 ProgressView().frame(minWidth: 512, minHeight: 512)
             }
@@ -238,6 +367,24 @@ struct ViewerView: View {
                 Slider(value: $state.windowWidth, in: state.widthRange, step: 1)
                     .onChange(of: state.windowWidth) { state.interactionChanged() }
             }
+            Divider()
+            HStack {
+                Text("Segment \(Int(state.segmentLower))...\(Int(state.segmentUpper))")
+                    .font(.system(.caption, design: .monospaced))
+                    .frame(width: 170, alignment: .leading)
+                Slider(value: $state.segmentLower, in: state.segmentRange, step: 1)
+                Slider(value: $state.segmentUpper, in: state.segmentRange, step: 1)
+            }
+            HStack(spacing: 8) {
+                Button("Threshold volume") { state.runThreshold() }
+                Button("Clear") { state.clearSegmentation() }
+                Toggle("Click grows a region", isOn: $state.clickGrows)
+                    .toggleStyle(.checkbox)
+                Spacer()
+            }
+            Text(state.statsLine)
+                .font(.system(.caption, design: .monospaced))
+                .frame(maxWidth: .infinity, alignment: .leading)
             if !state.studyMode {
                 ProgressView(
                     value: Double(state.loadedBricks),
@@ -254,6 +401,16 @@ struct ViewerView: View {
         }
         .padding(12)
     }
+}
+
+/// One segment's summary in display units (Hounsfield units when the
+/// study declares a rescale), for the host's statistics line.
+struct SegmentSummary: Sendable {
+    let voxelCount: Int
+    let millilitres: Double?
+    let mean: Double?
+    let minimum: Double?
+    let maximum: Double?
 }
 
 /// The engine: publication, level derivation, study-cache generation
@@ -291,8 +448,11 @@ actor ViewerEngine {
             commit: nil,
             buildIdentifier: nil
         )
+        // Sized for the segmentation operations' budgeted full-volume
+        // reads: a 1,500-slice int16 CT series stages ~780 MB, and the
+        // coordinator rightly refuses a read above this ceiling.
         readCoordinator = StorageReadCoordinator(
-            maximumRetainedResultByteCount: 128_000_000
+            maximumRetainedResultByteCount: 1_600_000_000
         )
         publisher = PublicationCoordinator(
             maximumPublishedObjectCount: 1_000_000,
@@ -498,29 +658,286 @@ actor ViewerEngine {
         generationCompleteFlag = true
     }
 
+    /// The volume's declared linear rescale, or identity when none is
+    /// declared. A zero-scale declaration falls back to identity: the
+    /// host must not divide by zero over an admitted declaration.
+    private var valueScaleOffset: (scale: Double, offset: Double) {
+        switch fullVolume.descriptor.valueTransform {
+        case .linear(let linear) where linear.scale != 0:
+            (linear.scale, linear.offset)
+        default:
+            (1, 0)
+        }
+    }
+
     /// Converts a display-domain window (Hounsfield units in study
     /// mode) into the stored-value domain the transfer function's
     /// `VOXELIA-ALG-0002` model is expressed in, through the volume's
-    /// declared value transform. A zero-scale declaration falls back
-    /// to identity: presentation must not divide by zero over it.
+    /// declared value transform.
     private func storedWindow(
         centre: Double,
         width: Double
     ) throws -> GreyscaleWindowFunction {
-        let scale: Double
-        let offset: Double
-        switch fullVolume.descriptor.valueTransform {
-        case .linear(let linear) where linear.scale != 0:
-            scale = linear.scale
-            offset = linear.offset
-        default:
-            scale = 1
-            offset = 0
-        }
+        let (scale, offset) = valueScaleOffset
         return try GreyscaleWindowFunction(
             center: (centre - offset) / scale,
             width: max(width / abs(scale), 1),
             polarity: .standard
+        )
+    }
+
+    // MARK: - Segmentation (demo phase 2)
+
+    private var maskVolume: ImageData?
+    private var storedTwinCache: ImageData?
+    private var maskOrdinal = 0
+
+    /// The stored-domain twin of the viewed volume: the same admitted
+    /// bytes and geometry with no declared value transform, which is
+    /// the `ADR-0352` domain the processing arc operates in. The host
+    /// declares the twin explicitly — the operations rightly refuse a
+    /// transform-declaring input rather than silently processing
+    /// stored values behind its declaration.
+    private func storedTwin() throws -> ImageData {
+        if let storedTwinCache { return storedTwinCache }
+        if fullVolume.descriptor.valueTransform == nil {
+            storedTwinCache = fullVolume
+            return fullVolume
+        }
+        guard
+            let twinID = DataObjectID(rawValue: "reference-volume-stored"),
+            let twinRecord = ProvenanceID(
+                rawValue: "record-reference-volume-stored"
+            )
+        else {
+            throw ViewerError.invalidIdentifier
+        }
+        let descriptor = fullVolume.descriptor
+        let twin = try ImageData(
+            descriptor: try ImageDescriptor(
+                shape: descriptor.shape,
+                scalarFormat: descriptor.scalarFormat,
+                components: descriptor.components,
+                semantic: descriptor.semantic,
+                axes: descriptor.axes,
+                spatialGeometry: descriptor.spatialGeometry,
+                valueTransform: nil,
+                units: descriptor.units
+            ),
+            storage: fullVolume.storage,
+            metadata: fullVolume.metadata,
+            provenance: try ProvenanceRecord(
+                id: twinRecord,
+                kind: .source,
+                createdAt: try CanonicalInstant(
+                    utcString: "2026-08-07T12:00:00Z"
+                ),
+                subject: .object(twinID),
+                software: software,
+                activity: .origin,
+                inputs: [],
+                warnings: [],
+                validationClaim: .unknown,
+                declaresZeroInputGenerator: false
+            ),
+            identity: try DataIdentity(
+                objectID: twinID,
+                contentID: fullVolume.identity.contentID,
+                sourceIdentities: fullVolume.identity.sourceIdentities,
+                derivation: nil
+            )
+        )
+        storedTwinCache = twin
+        return twin
+    }
+
+    /// Thresholds the whole volume; bounds arrive in display units.
+    func segmentByThreshold(
+        lowerDisplay: Double,
+        upperDisplay: Double
+    ) async throws -> SegmentSummary {
+        let twin = try storedTwin()
+        let (lower, upper) = storedBounds(
+            lowerDisplay: lowerDisplay,
+            upperDisplay: upperDisplay
+        )
+        let names = try nextMaskNames()
+        let mask = try await ThresholdOperation.execute(
+            input: twin,
+            lowerBound: lower,
+            upperBound: upper,
+            paddingValue: nil,
+            outputObjectID: names.objectID,
+            outputProvenanceID: names.recordID,
+            createdAt: try CanonicalInstant(utcString: "2026-08-07T12:00:00Z"),
+            software: software,
+            coordinator: readCoordinator
+        )
+        maskVolume = mask
+        return try await summarise(twin: twin, mask: mask)
+    }
+
+    /// Grows a region from one displayed point; bounds in display units.
+    func segmentByGrowth(
+        displayX: Int,
+        displayY: Int,
+        plane: MPRPlane,
+        sliceIndex: Int,
+        lowerDisplay: Double,
+        upperDisplay: Double
+    ) async throws -> SegmentSummary {
+        let twin = try storedTwin()
+        let (lower, upper) = storedBounds(
+            lowerDisplay: lowerDisplay,
+            upperDisplay: upperDisplay
+        )
+        let extents = twin.descriptor.shape.extents
+        let axes = planeAxes(for: plane)
+        var seed = [0, 0, 0]
+        seed[axes.column] = sourceIndex(
+            displayX, sourceExtent: extents[axes.column], displayExtent: 512
+        )
+        seed[axes.row] = sourceIndex(
+            displayY, sourceExtent: extents[axes.row], displayExtent: 512
+        )
+        seed[plane.fixedAxis] = min(
+            max(sliceIndex, 0), extents[plane.fixedAxis] - 1
+        )
+        let names = try nextMaskNames()
+        let mask = try await RegionGrowOperation.execute(
+            input: twin,
+            seeds: [seed],
+            lowerBound: lower,
+            upperBound: upper,
+            paddingValue: nil,
+            connectivity: .faces,
+            outputObjectID: names.objectID,
+            outputProvenanceID: names.recordID,
+            createdAt: try CanonicalInstant(utcString: "2026-08-07T12:00:00Z"),
+            software: software,
+            coordinator: readCoordinator
+        )
+        maskVolume = mask
+        return try await summarise(twin: twin, mask: mask)
+    }
+
+    /// Drops the current segment.
+    func clearMask() {
+        maskVolume = nil
+    }
+
+    /// The current segment's plane raster, scaled to the display
+    /// extents with the `VOXELIA-ALG-0008` mapping — the same model
+    /// the presentation path applies to the rendered slice, so the
+    /// overlay lands on the same pixels. Returns `nil` with no mask.
+    func maskRaster(
+        plane: MPRPlane,
+        sliceIndex: Int,
+        width: Int,
+        height: Int
+    ) throws -> [UInt8]? {
+        guard let maskVolume else { return nil }
+        let extents = maskVolume.descriptor.shape.extents
+        let fixed = plane.fixedAxis
+        let slice = min(max(sliceIndex, 0), extents[fixed] - 1)
+        var lower = [0, 0, 0]
+        var upper = Array(extents)
+        lower[fixed] = slice
+        upper[fixed] = slice + 1
+        let bytes = try maskVolume.storage.read(
+            region: try ImageRegion(
+                lowerBounds: ContiguousArray(lower),
+                upperBounds: ContiguousArray(upper)
+            )
+        ).bytes
+        let axes = planeAxes(for: plane)
+        let columns = extents[axes.column]
+        let rows = extents[axes.row]
+        var raster = [UInt8](repeating: 0, count: width * height)
+        for y in 0..<height {
+            let row = sourceIndex(y, sourceExtent: rows, displayExtent: height)
+            for x in 0..<width {
+                let column = sourceIndex(
+                    x, sourceExtent: columns, displayExtent: width
+                )
+                raster[y * width + x] =
+                    bytes[row * columns + column] == 1 ? 255 : 0
+            }
+        }
+        return raster
+    }
+
+    /// The free axes of one plane's raster: the region read orders the
+    /// lower axis fastest, so it is the raster column axis.
+    private func planeAxes(for plane: MPRPlane) -> (column: Int, row: Int) {
+        switch plane {
+        case .axial: (0, 1)
+        case .coronal: (0, 2)
+        case .sagittal: (1, 2)
+        }
+    }
+
+    /// The frozen `VOXELIA-ALG-0008` nearest mapping for one axis.
+    private func sourceIndex(
+        _ position: Int,
+        sourceExtent: Int,
+        displayExtent: Int
+    ) -> Int {
+        let scale = Double(sourceExtent) / Double(displayExtent)
+        let mapped = Int(((Double(position) + 0.5) * scale).rounded(.down))
+        return min(max(mapped, 0), sourceExtent - 1)
+    }
+
+    private func storedBounds(
+        lowerDisplay: Double,
+        upperDisplay: Double
+    ) -> (Double, Double) {
+        let (scale, offset) = valueScaleOffset
+        let first = (lowerDisplay - offset) / scale
+        let second = (upperDisplay - offset) / scale
+        return first <= second ? (first, second) : (second, first)
+    }
+
+    private func nextMaskNames() throws -> (
+        objectID: DataObjectID, recordID: ProvenanceID
+    ) {
+        maskOrdinal += 1
+        guard
+            let objectID = DataObjectID(
+                rawValue: "reference-mask-\(maskOrdinal)"
+            ),
+            let recordID = ProvenanceID(
+                rawValue: "record-reference-mask-\(maskOrdinal)"
+            )
+        else {
+            throw ViewerError.invalidIdentifier
+        }
+        return (objectID, recordID)
+    }
+
+    /// Statistics through the accepted computer, converted back into
+    /// display units for the host's line; physical volume converts
+    /// cubic millimetres to millilitres.
+    private func summarise(
+        twin: ImageData,
+        mask: ImageData
+    ) async throws -> SegmentSummary {
+        let statistics = try await SegmentStatisticsComputer.compute(
+            image: twin,
+            mask: mask,
+            paddingValue: nil,
+            coordinator: readCoordinator
+        )
+        let (scale, offset) = valueScaleOffset
+        func display(_ stored: Double?) -> Double? {
+            stored.map { $0 * scale + offset }
+        }
+        return SegmentSummary(
+            voxelCount: statistics.maskSampleCount,
+            millilitres: statistics.physicalVolume.map { $0 / 1000 },
+            mean: display(statistics.mean),
+            minimum: display(statistics.minimum),
+            maximum: display(statistics.maximum)
         )
     }
 

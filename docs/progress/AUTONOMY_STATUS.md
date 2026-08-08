@@ -8565,3 +8565,29 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    against the owner's venous series, full suite unaffected and green.
    Phases 2-5 (segmentation, registration, processing gallery,
    photorealistic preview) remain owner-directed future scope.
+
+1. **2026-08-08 — POST-1.0, OWNER-DIRECTED: demo phase 2,
+   segmentation.** The reference application gains a segmentation
+   demonstration over the accepted M7 operations: a display-unit
+   threshold range with "Threshold volume", click-to-seed region
+   growth (`.faces` connectivity) on the displayed slice, a red
+   segment overlay, "Clear", and a statistics line
+   (`SegmentStatisticsComputer` — voxels, millilitres from
+   `physicalVolume`, mean/min/max converted back to display units).
+   THREE library contracts shaped the host design, none was bent:
+   (1) the processing arc rightly refuses a transform-declaring input
+   (`ADR-0352` stored domain), so the app declares an explicit
+   stored-domain twin — same admitted bytes, geometry and content
+   identity, no value transform — and converts its Hounsfield bounds
+   itself; (2) the window stage rightly refuses `.mask` semantic, so
+   the overlay is host presentation: the mask's plane raster is read
+   through the accepted storage API, scaled with the frozen
+   `VOXELIA-ALG-0008` mapping (the same model the presentation path
+   applies, so overlay and render land on the same pixels — and the
+   same mapping inverts the click into a seed), and tinted at the
+   SwiftUI layer like any host annotation; (3) the read coordinator
+   rightly refuses a full-volume read above its retention ceiling, so
+   the demo application sizes its budget for its own studies
+   (1.6 GB). Verified: builds clean, format clean, full suite
+   unaffected (`1461 tests in 285 suites passed`), app running
+   against the owner's venous series. The library saw no change.
