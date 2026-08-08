@@ -8591,3 +8591,26 @@ completing Voxelia. Upstream defects already found (DocC errors in `JXLSwift` an
    (1.6 GB). Verified: builds clean, format clean, full suite
    unaffected (`1461 tests in 285 suites passed`), app running
    against the owner's venous series. The library saw no change.
+
+1. **2026-08-08 — POST-1.0, OWNER-DIRECTED: demo phase 3, landmark
+   registration; the loop is RE-ARMED for phases 4-5.** The owner
+   directed a continuous loop over the remaining demo phases. The
+   reference application now takes a SECOND series argument as the
+   moving volume: dual panes (fixed left, moving right) with shared
+   plane and window controls and independent slice sliders; clicks
+   mark landmark pairs (yellow fixed, green moving, dots on the
+   current slice); "Register" maps marked voxels to sample-centre
+   world points through each volume's declared `indexToWorld`,
+   registers via `LandmarkRigidRegistration` (Horn,
+   `VOXELIA-ALG-0071`) between the volumes' declared spaces, and
+   reports `RegistrationQuality` residuals (RMS and maximum in
+   millimetres) with the rigid parameters (rotation angle from the
+   canonical w-first quaternion, translation vector). SCOPE HONESTY:
+   fused/resampled display is NOT in this phase —
+   `GridResampleOperation`'s version-one domain admits `uint8` only,
+   so resampling the int16 study through it is unavailable; widening
+   that domain is library scope only the owner can direct. Verified:
+   builds and format clean, full suite unaffected
+   (`1461 tests in 285 suites passed`), app up and stable with the
+   owner's venous (fixed, 550 slices) and arterial (moving, 406
+   slices) phases. The library saw no change.

@@ -256,8 +256,8 @@
     },
     {
       "path": "Examples/VoxeliaCTReference/Sources/VoxeliaCTReference/VoxeliaCTReferenceApp.swift",
-      "size": 45674,
-      "sha256": "755f6ae2cbff17711562a863a25a1c1131a8d856a084abcca30235839ab5d950"
+      "size": 59354,
+      "sha256": "ba29b86a3360bbe1c9d21a2f674c1078ed14e46c38f4c6280dffa9a0bb4567f3"
     },
     {
       "path": "GOVERNANCE.md",
@@ -6646,8 +6646,8 @@
     },
     {
       "path": "docs/progress/AUTONOMY_STATUS.md",
-      "size": 551263,
-      "sha256": "824452debcb9741196900c3b8ad3ffb3826ff676fce9660906840e454d5a3f09"
+      "size": 552662,
+      "sha256": "bab0c2afa49a79da8cfe11b47e9a7fda5dc84afe18cf902cea6b9b5c510fdf1c"
     },
     {
       "path": "docs/progress/american-spellings.txt",

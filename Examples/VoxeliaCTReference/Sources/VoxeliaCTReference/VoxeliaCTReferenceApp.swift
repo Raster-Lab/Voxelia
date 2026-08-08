@@ -66,22 +66,51 @@ final class ViewerState: ObservableObject {
     @Published var segmentRange = 0.0...255.0
     @Published var clickGrows = true
     @Published var statsLine = "no segment"
+    @Published var registrationMode = false
+    @Published var movingImage: NSImage?
+    @Published var movingSliceIndex = 128.0
+    @Published var movingMaxSlice = 255.0
+    @Published var fixedMarks: [[Int]] = []
+    @Published var movingMarks: [[Int]] = []
+    @Published var fixedExtents = [1, 1, 1]
+    @Published var movingExtents = [1, 1, 1]
+    @Published var registrationLine = "mark three or more pairs, then register"
 
     private var engine: ViewerEngine?
+    private var movingEngine: ViewerEngine?
     private var debounce: Task<Void, Never>?
     private var renderTicket = 0
+    private var movingRenderTicket = 0
 
     var generationComplete: Bool { loadedBricks >= totalBricks }
 
     func start() async {
         do {
-            let directory = CommandLine.arguments.dropFirst().first.map {
+            let arguments = CommandLine.arguments.dropFirst()
+            let directory = arguments.first.map {
+                URL(fileURLWithPath: $0, isDirectory: true)
+            }
+            let movingDirectory = arguments.dropFirst().first.map {
                 URL(fileURLWithPath: $0, isDirectory: true)
             }
             let engine = try await ViewerEngine(studyDirectory: directory)
             self.engine = engine
             studyMode = engine.studyMode
             maxSlice = Double(max(await engine.sliceCount(for: plane) - 1, 1))
+            fixedExtents = await engine.volumeExtents()
+            if let movingDirectory {
+                // Registration mode: a second series is the moving
+                // volume, and clicks mark landmark pairs instead of
+                // growing regions.
+                let moving = try await ViewerEngine(studyDirectory: movingDirectory)
+                movingEngine = moving
+                registrationMode = true
+                clickGrows = false
+                movingExtents = await moving.volumeExtents()
+                movingMaxSlice = Double(
+                    max(await moving.sliceCount(for: plane) - 1, 1)
+                )
+            }
             if studyMode {
                 // Hounsfield-unit controls: the engine converts through
                 // the imported rescale transform. Soft tissue first —
@@ -224,12 +253,177 @@ final class ViewerState: ObservableObject {
                 if self.sliceIndex > ceiling { self.sliceIndex = ceiling }
             }
         }
+        if let movingEngine {
+            Task { [weak self] in
+                guard let self else { return }
+                let plane = self.plane
+                let ceiling = Double(
+                    max(await movingEngine.sliceCount(for: plane) - 1, 1)
+                )
+                await MainActor.run {
+                    self.movingMaxSlice = ceiling
+                    if self.movingSliceIndex > ceiling {
+                        self.movingSliceIndex = ceiling
+                    }
+                }
+            }
+        }
         render(phase: .active)
+        renderMoving()
         debounce?.cancel()
         debounce = Task { [weak self] in
             try? await Task.sleep(for: .milliseconds(450))
             guard !Task.isCancelled else { return }
             await MainActor.run { self?.render(phase: .idle) }
+        }
+    }
+
+    /// Renders the moving pane; study volumes are always full quality.
+    private func renderMoving() {
+        guard let movingEngine else { return }
+        movingRenderTicket += 1
+        let ticket = movingRenderTicket
+        let plane = plane
+        let index = Int(movingSliceIndex)
+        let centre = windowCentre
+        let width = windowWidth
+        Task {
+            do {
+                let rendered = try await movingEngine.renderPlane(
+                    plane: plane,
+                    sliceIndex: index,
+                    quality: .full,
+                    generationComplete: true,
+                    windowCentre: centre,
+                    windowWidth: width
+                )
+                await MainActor.run {
+                    guard ticket == self.movingRenderTicket else { return }
+                    self.movingImage = rendered
+                }
+            } catch {
+                await MainActor.run {
+                    self.statusLine = "moving render failed: \(error)"
+                }
+            }
+        }
+    }
+
+    /// A tap on one pane in registration mode marks a landmark at the
+    /// tapped voxel; pairs are matched by order.
+    func markLandmark(
+        onMoving: Bool,
+        location: CGPoint,
+        viewSize: CGSize
+    ) {
+        guard registrationMode, viewSize.width > 0, viewSize.height > 0
+        else { return }
+        guard let engine = onMoving ? movingEngine : engine else { return }
+        let px = min(max(Int(location.x / viewSize.width * 512), 0), 511)
+        let py = min(max(Int(location.y / viewSize.height * 512), 0), 511)
+        let plane = plane
+        let slice = Int(onMoving ? movingSliceIndex : sliceIndex)
+        Task { [weak self] in
+            let voxel = await engine.displayVoxel(
+                displayX: px,
+                displayY: py,
+                plane: plane,
+                sliceIndex: slice
+            )
+            await MainActor.run {
+                guard let self else { return }
+                if onMoving {
+                    self.movingMarks.append(voxel)
+                } else {
+                    self.fixedMarks.append(voxel)
+                }
+                self.registrationLine =
+                    "\(self.fixedMarks.count) fixed / "
+                    + "\(self.movingMarks.count) moving marks"
+            }
+        }
+    }
+
+    /// Removes the most recent mark on each side that exceeds the pair
+    /// count, or the last pair when the counts are equal.
+    func undoMark() {
+        if fixedMarks.count > movingMarks.count {
+            _ = fixedMarks.popLast()
+        } else if movingMarks.count > fixedMarks.count {
+            _ = movingMarks.popLast()
+        } else {
+            _ = fixedMarks.popLast()
+            _ = movingMarks.popLast()
+        }
+        registrationLine =
+            "\(fixedMarks.count) fixed / \(movingMarks.count) moving marks"
+    }
+
+    func clearMarks() {
+        fixedMarks = []
+        movingMarks = []
+        registrationLine = "mark three or more pairs, then register"
+    }
+
+    /// Runs landmark rigid registration over the marked pairs and
+    /// reports the transform and its residuals.
+    func runRegistration() {
+        guard let engine, let movingEngine else { return }
+        guard fixedMarks.count == movingMarks.count, fixedMarks.count >= 3
+        else {
+            registrationLine = "need equal pair counts, at least three"
+            return
+        }
+        let fixedVoxels = fixedMarks
+        let movingVoxels = movingMarks
+        Task { [weak self] in
+            do {
+                let fixedPoints = try await engine.worldPoints(
+                    voxels: fixedVoxels
+                )
+                let movingPoints = try await movingEngine.worldPoints(
+                    voxels: movingVoxels
+                )
+                let fixedSpace = try await engine.spaceDescriptor()
+                let movingSpace = try await movingEngine.spaceDescriptor()
+                let transform = try LandmarkRigidRegistration.register(
+                    moving: ContiguousArray(movingPoints),
+                    fixed: ContiguousArray(fixedPoints),
+                    sourceSpace: movingSpace,
+                    destinationSpace: fixedSpace
+                )
+                let report = try RegistrationQuality.evaluate(
+                    transform: transform,
+                    moving: ContiguousArray(movingPoints),
+                    fixed: ContiguousArray(fixedPoints)
+                )
+                guard case .rigid(let motion) = transform.category else {
+                    await MainActor.run {
+                        self?.registrationLine = "unexpected transform category"
+                    }
+                    return
+                }
+                // The canonical quaternion is stored w, x, y, z; the
+                // rotation angle presentation is host arithmetic.
+                let w = min(max(abs(motion.quaternion[0]), -1), 1)
+                let degrees = 2 * Foundation.acos(w) * 180 / Double.pi
+                let line = String(
+                    format: "rigid | RMS %.2f mm | max %.2f mm | "
+                        + "rotation %.2f deg | translation "
+                        + "(%.1f, %.1f, %.1f) mm",
+                    report.rootMeanSquare,
+                    report.maximum,
+                    degrees,
+                    motion.translation[0],
+                    motion.translation[1],
+                    motion.translation[2]
+                )
+                await MainActor.run { self?.registrationLine = line }
+            } catch {
+                await MainActor.run {
+                    self?.registrationLine = "registration failed: \(error)"
+                }
+            }
         }
     }
 
@@ -303,37 +497,27 @@ struct ViewerView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            if let image = state.image {
-                GeometryReader { proxy in
-                    ZStack {
-                        Image(nsImage: image)
-                            .resizable()
-                            .interpolation(.none)
-                        if let overlay = state.overlay {
-                            // Host presentation of the segment: the
-                            // mask raster's luminance becomes alpha,
-                            // tinted red over the accepted render.
-                            Image(nsImage: overlay)
-                                .resizable()
-                                .interpolation(.none)
-                                .luminanceToAlpha()
-                                .colorMultiply(.red)
-                                .opacity(0.45)
-                        }
-                    }
-                    .gesture(
-                        SpatialTapGesture().onEnded { value in
-                            state.imageTapped(
-                                location: value.location,
-                                viewSize: proxy.size
-                            )
-                        }
+            HStack(spacing: 8) {
+                pane(
+                    image: state.image,
+                    overlay: state.overlay,
+                    marks: state.fixedMarks,
+                    extents: state.fixedExtents,
+                    slice: Int(state.sliceIndex),
+                    isMoving: false,
+                    markColour: .yellow
+                )
+                if state.registrationMode {
+                    pane(
+                        image: state.movingImage,
+                        overlay: nil,
+                        marks: state.movingMarks,
+                        extents: state.movingExtents,
+                        slice: Int(state.movingSliceIndex),
+                        isMoving: true,
+                        markColour: .green
                     )
                 }
-                .aspectRatio(1, contentMode: .fit)
-                .frame(minWidth: 512, minHeight: 512)
-            } else {
-                ProgressView().frame(minWidth: 512, minHeight: 512)
             }
             Picker("Plane", selection: $state.plane) {
                 Text("Axial").tag(MPRPlane.axial)
@@ -343,9 +527,30 @@ struct ViewerView: View {
             .pickerStyle(.segmented)
             .onChange(of: state.plane) { state.interactionChanged() }
             Slider(value: $state.sliceIndex, in: 0...max(state.maxSlice, 1), step: 1) {
-                Text("Slice")
+                Text(state.registrationMode ? "Fixed slice" : "Slice")
             }
             .onChange(of: state.sliceIndex) { state.interactionChanged() }
+            if state.registrationMode {
+                Slider(
+                    value: $state.movingSliceIndex,
+                    in: 0...max(state.movingMaxSlice, 1),
+                    step: 1
+                ) {
+                    Text("Moving slice")
+                }
+                .onChange(of: state.movingSliceIndex) {
+                    state.interactionChanged()
+                }
+                HStack(spacing: 8) {
+                    Button("Register") { state.runRegistration() }
+                    Button("Undo mark") { state.undoMark() }
+                    Button("Clear marks") { state.clearMarks() }
+                    Spacer()
+                }
+                Text(state.registrationLine)
+                    .font(.system(.caption, design: .monospaced))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             if state.studyMode {
                 HStack(spacing: 8) {
                     ForEach(WindowPreset.standard) { preset in
@@ -367,24 +572,28 @@ struct ViewerView: View {
                 Slider(value: $state.windowWidth, in: state.widthRange, step: 1)
                     .onChange(of: state.windowWidth) { state.interactionChanged() }
             }
-            Divider()
-            HStack {
-                Text("Segment \(Int(state.segmentLower))...\(Int(state.segmentUpper))")
+            if !state.registrationMode {
+                Divider()
+                HStack {
+                    Text(
+                        "Segment \(Int(state.segmentLower))...\(Int(state.segmentUpper))"
+                    )
                     .font(.system(.caption, design: .monospaced))
                     .frame(width: 170, alignment: .leading)
-                Slider(value: $state.segmentLower, in: state.segmentRange, step: 1)
-                Slider(value: $state.segmentUpper, in: state.segmentRange, step: 1)
+                    Slider(value: $state.segmentLower, in: state.segmentRange, step: 1)
+                    Slider(value: $state.segmentUpper, in: state.segmentRange, step: 1)
+                }
+                HStack(spacing: 8) {
+                    Button("Threshold volume") { state.runThreshold() }
+                    Button("Clear") { state.clearSegmentation() }
+                    Toggle("Click grows a region", isOn: $state.clickGrows)
+                        .toggleStyle(.checkbox)
+                    Spacer()
+                }
+                Text(state.statsLine)
+                    .font(.system(.caption, design: .monospaced))
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-            HStack(spacing: 8) {
-                Button("Threshold volume") { state.runThreshold() }
-                Button("Clear") { state.clearSegmentation() }
-                Toggle("Click grows a region", isOn: $state.clickGrows)
-                    .toggleStyle(.checkbox)
-                Spacer()
-            }
-            Text(state.statsLine)
-                .font(.system(.caption, design: .monospaced))
-                .frame(maxWidth: .infinity, alignment: .leading)
             if !state.studyMode {
                 ProgressView(
                     value: Double(state.loadedBricks),
@@ -400,6 +609,100 @@ struct ViewerView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(12)
+    }
+
+    /// One viewer pane: the accepted render, the optional segment
+    /// overlay, and the landmark dots on the current slice.
+    @ViewBuilder
+    private func pane(
+        image: NSImage?,
+        overlay: NSImage?,
+        marks: [[Int]],
+        extents: [Int],
+        slice: Int,
+        isMoving: Bool,
+        markColour: Color
+    ) -> some View {
+        if let image {
+            GeometryReader { proxy in
+                ZStack(alignment: .topLeading) {
+                    Image(nsImage: image)
+                        .resizable()
+                        .interpolation(.none)
+                    if let overlay {
+                        // Host presentation of the segment: the mask
+                        // raster's luminance becomes alpha, tinted red
+                        // over the accepted render.
+                        Image(nsImage: overlay)
+                            .resizable()
+                            .interpolation(.none)
+                            .luminanceToAlpha()
+                            .colorMultiply(.red)
+                            .opacity(0.45)
+                    }
+                    ForEach(Array(marks.enumerated()), id: \.offset) { entry in
+                        if let position = markPosition(
+                            entry.element,
+                            extents: extents,
+                            slice: slice,
+                            paneSize: proxy.size
+                        ) {
+                            Circle()
+                                .strokeBorder(markColour, lineWidth: 2)
+                                .frame(width: 10, height: 10)
+                                .position(position)
+                        }
+                    }
+                }
+                .gesture(
+                    SpatialTapGesture().onEnded { value in
+                        if state.registrationMode {
+                            state.markLandmark(
+                                onMoving: isMoving,
+                                location: value.location,
+                                viewSize: proxy.size
+                            )
+                        } else {
+                            state.imageTapped(
+                                location: value.location,
+                                viewSize: proxy.size
+                            )
+                        }
+                    }
+                )
+            }
+            .aspectRatio(1, contentMode: .fit)
+            .frame(minWidth: 512, minHeight: 512)
+        } else {
+            ProgressView().frame(minWidth: 512, minHeight: 512)
+        }
+    }
+
+    /// The displayed position of one marked voxel, or `nil` when the
+    /// mark is not on the current slice of the current plane.
+    private func markPosition(
+        _ voxel: [Int],
+        extents: [Int],
+        slice: Int,
+        paneSize: CGSize
+    ) -> CGPoint? {
+        let plane = state.plane
+        guard voxel.count == 3, extents.count == 3,
+            voxel[plane.fixedAxis] == slice
+        else { return nil }
+        let axes: (column: Int, row: Int) =
+            switch plane {
+            case .axial: (0, 1)
+            case .coronal: (0, 2)
+            case .sagittal: (1, 2)
+            }
+        let x =
+            (Double(voxel[axes.column]) + 0.5) / Double(extents[axes.column])
+            * paneSize.width
+        let y =
+            (Double(voxel[axes.row]) + 0.5) / Double(extents[axes.row])
+            * paneSize.height
+        return CGPoint(x: x, y: y)
     }
 }
 
@@ -791,17 +1094,11 @@ actor ViewerEngine {
             lowerDisplay: lowerDisplay,
             upperDisplay: upperDisplay
         )
-        let extents = twin.descriptor.shape.extents
-        let axes = planeAxes(for: plane)
-        var seed = [0, 0, 0]
-        seed[axes.column] = sourceIndex(
-            displayX, sourceExtent: extents[axes.column], displayExtent: 512
-        )
-        seed[axes.row] = sourceIndex(
-            displayY, sourceExtent: extents[axes.row], displayExtent: 512
-        )
-        seed[plane.fixedAxis] = min(
-            max(sliceIndex, 0), extents[plane.fixedAxis] - 1
+        let seed = displayVoxel(
+            displayX: displayX,
+            displayY: displayY,
+            plane: plane,
+            sliceIndex: sliceIndex
         )
         let names = try nextMaskNames()
         let mask = try await RegionGrowOperation.execute(
@@ -865,6 +1162,67 @@ actor ViewerEngine {
             }
         }
         return raster
+    }
+
+    /// The viewed volume's extents, for the host's mark presentation.
+    func volumeExtents() -> [Int] {
+        Array(fullVolume.descriptor.shape.extents)
+    }
+
+    /// Maps one displayed point to the voxel it presents, inverting
+    /// the presentation's `VOXELIA-ALG-0008` mapping per axis.
+    func displayVoxel(
+        displayX: Int,
+        displayY: Int,
+        plane: MPRPlane,
+        sliceIndex: Int
+    ) -> [Int] {
+        let extents = fullVolume.descriptor.shape.extents
+        let axes = planeAxes(for: plane)
+        var voxel = [0, 0, 0]
+        voxel[axes.column] = sourceIndex(
+            displayX, sourceExtent: extents[axes.column], displayExtent: 512
+        )
+        voxel[axes.row] = sourceIndex(
+            displayY, sourceExtent: extents[axes.row], displayExtent: 512
+        )
+        voxel[plane.fixedAxis] = min(
+            max(sliceIndex, 0), extents[plane.fixedAxis] - 1
+        )
+        return voxel
+    }
+
+    /// The volume's declared coordinate space, from its affine
+    /// geometry; landmark registration validates points against it.
+    func spaceDescriptor() throws -> CoordinateSpaceDescriptor {
+        guard
+            case .affine(let geometry)? = fullVolume.descriptor.spatialGeometry
+        else {
+            throw ViewerError.unsupportedGeometry
+        }
+        return geometry.coordinateSpace
+    }
+
+    /// Sample-centre world positions of the given voxels through the
+    /// declared `indexToWorld` mapping.
+    func worldPoints(voxels: [[Int]]) throws -> [Point3D] {
+        guard
+            case .affine(let geometry)? = fullVolume.descriptor.spatialGeometry
+        else {
+            throw ViewerError.unsupportedGeometry
+        }
+        let m = geometry.indexToWorld.elements
+        return try voxels.map { voxel in
+            let i = Double(voxel[0])
+            let j = Double(voxel[1])
+            let k = Double(voxel[2])
+            return try Point3D(
+                x: ((m[0] * i + m[1] * j) + m[2] * k) + m[3],
+                y: ((m[4] * i + m[5] * j) + m[6] * k) + m[7],
+                z: ((m[8] * i + m[9] * j) + m[10] * k) + m[11],
+                coordinateSpace: geometry.coordinateSpace.id
+            )
+        }
     }
 
     /// The free axes of one plane's raster: the region read orders the
@@ -1188,6 +1546,7 @@ enum ViewerError: Error {
     case invalidIdentifier
     case renderNotPublished
     case imageConversionFailed
+    case unsupportedGeometry
 }
 
 /// Checked monotonic naming for renderer publications.
